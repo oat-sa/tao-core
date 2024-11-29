@@ -276,3 +276,298 @@
 body.oversized-nav:not(.delivery-scope) {
     @include mobile-search();
 }
+
+
+body.qc-wins {
+    .section-container {
+        --action-bar-background: #ffffff;
+        --action-bar-active-color: #121212;
+        --action-bar-hover-color: #121212;
+
+        .content-wrapper.content-panel,
+        .context-structure-items {
+            flex-wrap: wrap;
+
+            .horizontal-action-bar {
+                padding: 0 5px;
+                border-bottom: 1px solid #919191;
+            }
+        }
+        .main-menu {
+            &__submenu {
+                width: 100%;
+                font-weight: 600;
+
+                li.action {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: relative;
+                    border: none;
+                    color: #919191;
+                    font-weight: 600;
+                    text-shadow: none;
+                    border-radius: 0;
+                    height: 100%;
+
+                    &:hover {
+                        background-color: #F6F2E7;
+                    }
+                    &.active {
+                        &:before {
+                            content: "";
+                            display: block;
+                            height: 4px;
+                            width: 100%;
+                            background: #bb2225;
+                            position: absolute;
+                            bottom: 0;
+                        }
+                    }
+                    &.disabled {
+                        .li-inner {
+                            color: #919191 !important;
+                        }
+                    }
+                }
+
+                .search-area {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 0;
+                    height: 100%;
+
+                    .search-area-buttons-container {
+                        transform: translateY(-50%);
+                        top: 50%;
+                    }
+                }
+
+                .tab-container {
+
+                    .small, .btn-info {
+                        border: none !important;
+                        background: #ffffff !important;
+                        font-weight: 600;
+
+                        a, .li-inner {
+                            text-shadow: none;
+                            color: #919191 !important;
+                        }
+
+
+                        &.active {
+                            a {
+                                color: #121212 !important;
+                            }
+                        }
+
+                        &:hover {
+                            background: #F6F2E7 !important;
+
+                            a, .li-inner {
+                                color: #121212 !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #panel-authoring .horizontal-action-bar {
+            .item-editor-menu {
+                padding: 0 5px;
+
+                .small.btn-info {
+                    border: none !important;
+                    padding: 0 1.6rem;
+                    margin: 0;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .li-inner {
+                        font-weight: 600;
+                        text-shadow: none;
+                        color: #919191 !important;
+                    }
+
+                    &:hover {
+                        background: #F6F2E7 !important;
+
+                        .li-inner {
+                            color: #121212 !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .navi-container {
+        position: relative;
+        h3.navi-heading {
+            display: inline-block;
+            margin: 0;
+            width: 100%;
+            padding: 4rem .5rem 0;
+            background: #ffffff;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        .taotree.tree {
+            ul.ltr, ul.rtl {
+                margin: 0;
+            }
+            li {
+                &.open, &.closed {
+                    background-image: none;
+                    position: relative;
+                    padding: 0;
+                    margin-left: 13px;
+                }
+                &.open {
+                    &:before {
+                        content: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.395 5.63a.273.273 0 0 1-.069.179l-3.65 3.636a.22.22 0 0 1-.178.082.248.248 0 0 1-.178-.082L2.684 5.81a.248.248 0 0 1-.082-.178c0-.073.027-.137.082-.192l.382-.382a.248.248 0 0 1 .178-.082c.073 0 .137.027.192.082l3.062 3.062 3.076-3.062a.22.22 0 0 1 .178-.082c.064 0 .123.027.178.082l.396.382a.29.29 0 0 1 .069.192Z'/%3E%3C/svg%3E");
+                        display: inline-block;
+                        width: 1.4rem;
+                        height: 1.4rem;
+                        position: absolute;
+                        left: -12px;
+                    }
+                }
+                &.closed {
+                    &:before {
+                        content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.648 7.38a.248.248 0 0 1-.082.179L5.93 11.195a.248.248 0 0 1-.178.082.22.22 0 0 1-.178-.082l-.396-.396a.22.22 0 0 1-.082-.178c0-.064.027-.123.082-.178l3.076-3.062-3.076-3.076a.248.248 0 0 1-.082-.178.22.22 0 0 1 .082-.178l.396-.396a.22.22 0 0 1 .178-.082c.064 0 .123.027.178.082l3.636 3.636a.262.262 0 0 1 .082.192Z'/%3E%3C/svg%3E");
+                        display: inline-block;
+                        width: 1.4rem;
+                        height: 1.4rem;
+                        position: absolute;
+                        left: -12px;
+                    }
+                }
+            }
+            .node-class {
+                &>a>ins:before,
+                .open>a>ins:before {
+                    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.6 1.4H6.3L4.9 0H1.4C.63 0 0 .63 0 1.4v2.8h14V2.8c0-.77-.63-1.4-1.4-1.4Z' fill='%233581C4' /%3E%3Cpath d='M12.6 1.4H1.4C.63 1.4 0 2.03 0 2.8v7c0 .77.63 1.4 1.4 1.4h11.2c.77 0 1.4-.63 1.4-1.4v-7c0-.77-.63-1.4-1.4-1.4Z' fill='%2386CEF7'/%3E%3C/svg%3E");
+                    display: inline-block;
+                    position: absolute;
+                    width: 15px;
+                    height: 15px;
+                }
+
+                &.permissions-none,
+                &.permissions-partial {
+                    .close>a>ins:before {
+                        content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 12'%3E%3Cpath d='M12.6 1.4H6.3L4.9 0H1.4C.63 0 0 .63 0 1.4v2.8h14V2.8c0-.77-.63-1.4-1.4-1.4Z' fill='%233581C4'/%3E%3Cpath d='M12.6 1.4H1.4C.63 1.4 0 2.03 0 2.8v7c0 .77.63 1.4 1.4 1.4h11.2c.77 0 1.4-.63 1.4-1.4v-7c0-.77-.63-1.4-1.4-1.4Z' fill='%2386CEF7'/%3E%3Cpath d='M12.429 7.786H7.286V4.57a2.571 2.571 0 0 1 5.143 0v3.215ZM8.572 6.5h2.571V4.571a1.286 1.286 0 0 0-2.571 0V6.5Z' fill='%233581C4'/%3E%3Cpath d='M13.714 5.857H6V11h7.714V5.857Z' fill='%233581C4'/%3E%3Cpath d='M10.5 7.143H9.214v2.571H10.5v-2.57Z' fill='%23fff'/%3E%3C/svg%3E");
+                        position: absolute;
+                    }
+
+                    ins:after {
+                        display: none;
+                    }
+                }
+
+                a {
+                    &:hover {
+                        ins:before {
+                            //content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 12'%3E%3Cpath d='M12.6 1.4H6.3L4.9 0H1.4C.63 0 0 .63 0 1.4v2.8h14V2.8c0-.77-.63-1.4-1.4-1.4Z' fill='%233581C4'/%3E%3Cpath d='M12.6 1.4H1.4C.63 1.4 0 2.03 0 2.8v7c0 .77.63 1.4 1.4 1.4h11.2c.77 0 1.4-.63 1.4-1.4v-7c0-.77-.63-1.4-1.4-1.4Z' fill='%2386CEF7'/%3E%3Cpath d='M12.429 7.786H7.286V4.57a2.571 2.571 0 0 1 5.143 0v3.215ZM8.572 6.5h2.571V4.571a1.286 1.286 0 0 0-2.571 0V6.5Z' fill='%233581C4'/%3E%3Cpath d='M13.714 5.857H6V11h7.714V5.857Z' fill='%233581C4'/%3E%3Cpath d='M10.5 7.143H9.214v2.571H10.5v-2.57Z' fill='%23fff'/%3E%3C/svg%3E");
+                            //fill="#3581C4"
+                            //color: #176998;
+                        }
+                    }
+                }
+            }
+
+            &.taotree-item {
+                .node-instance {
+                    ins {
+                        &:before {
+                            content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.84 2.908a11.535 11.535 0 0 0-1.107-1.266A11.45 11.45 0 0 0 8.467.536C7.812.056 7.494 0 7.312 0H1.016C.456 0 0 .455 0 1.016v10.968C0 12.544.456 13 1.016 13h9.343c.56 0 1.016-.456 1.016-1.016V4.063c0-.182-.056-.5-.536-1.155Zm-1.682-.691c.39.39.696.741.921 1.033H8.125V1.296c.292.225.643.531 1.033.92Zm1.405 9.767c0 .11-.094.204-.204.204H1.016a.206.206 0 0 1-.204-.204V1.016c0-.11.094-.204.204-.204h6.296v2.844c0 .224.183.406.407.406h2.843v7.922Z'/%3E%3Cpath d='M8.531 10.563H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813ZM8.531 8.938H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813ZM8.531 7.313H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813Z'/%3E%3C/svg%3E");
+                            display: inline-block;
+                            position: absolute;
+                            width: 15px;
+                            height: 15px;
+                        }
+                    }
+
+                    a {
+                        &:hover {
+                            ins:before {
+                                content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none'%3E%3Cpath d='M10.84 2.908a11.535 11.535 0 0 0-1.107-1.266A11.45 11.45 0 0 0 8.467.536C7.812.056 7.494 0 7.312 0H1.016C.456 0 0 .455 0 1.016v10.968C0 12.544.456 13 1.016 13h9.343c.56 0 1.016-.456 1.016-1.016V4.063c0-.182-.056-.5-.536-1.155Zm-1.682-.691c.39.39.696.741.921 1.033H8.125V1.296c.292.225.643.531 1.033.92Zm1.405 9.767c0 .11-.094.204-.204.204H1.016a.206.206 0 0 1-.204-.204V1.016c0-.11.094-.204.204-.204h6.296v2.844c0 .224.183.406.407.406h2.843v7.922Z' fill='%233581C4'/%3E%3Cpath d='M8.531 10.563H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813ZM8.531 8.938H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813ZM8.531 7.313H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813Z' fill='%233581C4'/%3E%3C/svg%3E");
+                            }
+                        }
+                    }
+
+                    &.permissions-none,
+                    &.permissions-partial {
+                        a>ins:before {
+                            content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none'%3E%3Cpath d='M10.84 2.908a11.535 11.535 0 0 0-1.107-1.266A11.45 11.45 0 0 0 8.467.536C7.812.056 7.494 0 7.312 0H1.016C.456 0 0 .455 0 1.016v10.968C0 12.544.456 13 1.016 13h9.343c.56 0 1.016-.456 1.016-1.016V4.063c0-.182-.056-.5-.536-1.155Zm-1.682-.691c.39.39.696.741.921 1.033H8.125V1.296c.292.225.643.531 1.033.92Zm1.405 9.767c0 .11-.094.204-.204.204H1.016a.206.206 0 0 1-.204-.204V1.016c0-.11.094-.204.204-.204h6.296v2.844c0 .224.183.406.407.406h2.843v7.922Z' fill='%23121212'/%3E%3Cpath d='M8.531 10.563H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813ZM8.531 8.938H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813ZM8.531 7.313H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813Z' fill='%23121212'/%3E%3Cpath d='M6.656 7.083v.25h3.404V4.905a1.702 1.702 0 0 0-3.404 0v2.178Zm-.953 1.203V4.905a2.655 2.655 0 0 1 5.31 0v3.38h-5.31Z' fill='%23fff' stroke='%23000' stroke-width='.5'/%3E%3Cpath d='M4.25 11.916v-5.31h8.214v5.31H4.25Z' fill='%23fff' stroke='%23000' stroke-width='.5'/%3E%3Cpath d='M7.88 10.464V8.06h.953v2.404h-.952Z' stroke='%23000' stroke-width='.5'/%3E%3C/svg%3E");
+                        }
+
+                        ins:after {
+                            display: none;
+                        }
+
+                        a {
+                            &:hover {
+                                ins:before {
+                                    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none'%3E%3Cpath d='M10.84 2.908a11.535 11.535 0 0 0-1.107-1.266A11.45 11.45 0 0 0 8.467.536C7.812.056 7.494 0 7.312 0H1.016C.456 0 0 .455 0 1.016v10.968C0 12.544.456 13 1.016 13h9.343c.56 0 1.016-.456 1.016-1.016V4.063c0-.182-.056-.5-.536-1.155Zm-1.682-.691c.39.39.696.741.921 1.033H8.125V1.296c.292.225.643.531 1.033.92Zm1.405 9.767c0 .11-.094.204-.204.204H1.016a.206.206 0 0 1-.204-.204V1.016c0-.11.094-.204.204-.204h6.296v2.844c0 .224.183.406.407.406h2.843v7.922Z' fill='%233581C4'/%3E%3Cpath d='M8.531 10.563H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813ZM8.531 8.938H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813ZM8.531 7.313H2.844a.406.406 0 0 1 0-.813H8.53a.406.406 0 0 1 0 .813Z' fill='%233581C4'/%3E%3Cpath d='M6.656 7.083v.25h3.404V4.905a1.702 1.702 0 0 0-3.404 0v2.178Zm-.953 1.203V4.905a2.655 2.655 0 0 1 5.31 0v3.38h-5.31Z' fill='%23fff' stroke='%233581C4' stroke-width='.5'/%3E%3Cpath d='M4.25 11.916v-5.31h8.214v5.31H4.25Z' fill='%23fff' stroke='%233581C4' stroke-width='.5'/%3E%3Cpath d='M7.88 10.464V8.06h.953v2.404h-.952Z' fill='%23fff' stroke='%233581C4' stroke-width='.5'/%3E%3C/svg%3E");
+                                }
+                            }
+                        }
+                    }
+                }
+                .node-class,
+                .node-instance {
+                    a.clicked {
+                        //TODO: need to be discussed
+                        //background: #176998;
+                        //border: none;
+                    }
+                }
+            }
+        }
+        .tree-action-bar-box {
+            position: absolute;
+            top: 0;
+
+            .tree-action-bar {
+                background: #fff;
+                border-radius: 3px;
+                border: 1px solid #195171;
+                box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+
+                li.action {
+                    width: auto;
+                    height: auto;
+                    border: none;
+                    padding: .6rem;
+
+                    .li-inner {
+                        height: 1.7rem;
+                        width: 1.7rem;
+                        padding: 0;
+
+                        .glyph {
+                            margin: 0 !important;
+                            width: 1.4rem;
+                            height: 1.4rem;
+                            color: #808080DD;
+                        }
+
+                        .action-name {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
