@@ -8,29 +8,73 @@ $sections = get_data('sections');
 
 <?php if ($sections): ?>
     <div class="section-container">
+    <?php if(Layout::isQuickWinsDesignEnabled()): ?>
+        <div class="main-menu__submenu">
+            <ul class="tab-container clearfix">
+                <?php foreach ($sections as $section): ?>
+                    <li class="small <?php if($section->getDisabled()):?>disabled<?php endif?> action">
+                        <a href="#panel-<?= $section->getId() ?>"
+                           data-url="<?= $section->getUrl() ?>"
+                           title="<?= $section->getName(); ?>"><?= __($section->getName()) ?></a>
+                    </li>
+                <?php endforeach ?>
+            </ul>
+        </div>
+        <?php else: ?>
+            <ul class="tab-container clearfix">
+                <?php foreach ($sections as $section): ?>
 
-        <ul class="tab-container clearfix">
-            <?php foreach ($sections as $section): ?>
+                    <li class="small <?php if($section->getDisabled()):?>disabled<?php endif?>">
+                        <a href="#panel-<?= $section->getId() ?>"
+                           data-url="<?= $section->getUrl() ?>"
+                           title="<?= $section->getName(); ?>"><?= __($section->getName()) ?></a>
+                    </li>
 
-                <li class="small <?php if($section->getDisabled()):?>disabled<?php endif?>">
-                    <a href="#panel-<?= $section->getId() ?>"
-                       data-url="<?= $section->getUrl() ?>"
-                       title="<?= $section->getName(); ?>"><?= __($section->getName()) ?></a>
-                </li>
-
-            <?php endforeach ?>
-        </ul>
+                <?php endforeach ?>
+            </ul>
+        <?php endif; ?>
 
         <?php foreach ($sections as $section): ?>
             <div class="hidden clear content-wrapper content-panel" id="panel-<?= $section->getId() ?>">
                 <?php if(count($section->getTrees()) > 0): ?>
+                <?php if(Layout::isQuickWinsDesignEnabled()): ?>
+                    <div class="main-menu__submenu">
+                        <ul class="plain action-bar content-action-bar horizontal-action-bar">
+                        <?php
+                            Template::inc('blocks/actions.tpl', 'tao', array(
+                                'action_classes' => 'btn-info small',
+                                'actions' => $section->getActionsByGroup('content')
+                            ));
+                        ?>
+                        <?php
+                            foreach ($section->getTrees() as $i => $tree) {
+                                $node = null;
+                                if (!is_null($tree->get('searchNode'))) {
+                                    $node = $tree->get('searchNode');
+                                } else if (!is_null($tree->get('rootNode'))) {
+                                    $node = $tree->get('rootNode');
+                                }
+                                if ($node) {
+                                    Template::inc('blocks/search.tpl', 'tao', array(
+                                    'rootNode' => $node,
+                                    'searchLabel' => __('Search %s', $tree->get('className'))
+                                    ));
+                                }
+                            }
+                        ?>
+                        </ul>
+                    </div>
+                    <?php endif; ?>
                 <section class="navi-container">
+                    <?= Layout::isQuickWinsDesignEnabled() ? "<h3 class='navi-heading'>" . $tree->get('className') . "s bank</h3>" : '' ?> <!-- TODO: i18n -->
                     <div class="section-trees">
                         <?php foreach ($section->getTrees() as $tree): ?>
+                            <?php if(!Layout::isQuickWinsDesignEnabled()): ?>
                             <div class="tree-block">
                                 <div class="plain action-bar horizontal-action-bar">
                                 </div>
                             </div>
+                            <?php endif; ?>
 
                             <div id="tree-<?= $section->getId() ?>"
                                  class="taotree taotree-<?= is_null($tree->get('className'))
@@ -65,6 +109,7 @@ $sections = get_data('sections');
                 </section>
 
                 <section class="content-container">
+                <?php if(!Layout::isQuickWinsDesignEnabled()): ?>
                     <ul class="plain action-bar content-action-bar horizontal-action-bar">
                         <?php
                             Template::inc('blocks/actions.tpl', 'tao', array(
@@ -89,7 +134,7 @@ $sections = get_data('sections');
                             }
                         ?>
                     </ul>
-
+                <?php endif; ?>
                     <div class="content-block"></div>
 
                 </section>

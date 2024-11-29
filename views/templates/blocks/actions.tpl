@@ -11,7 +11,12 @@ use oat\tao\helpers\Layout;
         data-multiple="<?= $action->isMultiple() ? 'true' : 'false' ?>"
         data-rights='<?= json_encode($action->getRequiredRights()) ?>' >
         <a class="li-inner" href="<?= $action->getUrl(); ?>">
-            <?= Layout::renderIcon( $action->getIcon(), ' icon-magicwand'); ?> <?= __($action->getName()) ?>
+            <?= Layout::renderIcon( $action->getIcon(), ' icon-magicwand'); ?>
+            <?php if(Layout::isQuickWinsDesignEnabled()): ?>
+                <span class="action-name"><?= __($action->getName()) ?></span>
+            <?php else: ?>
+                <?= __($action->getName()) ?>
+            <?php endif; ?>
         </a>
     </li>
     <?php endforeach; ?>

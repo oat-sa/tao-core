@@ -283,6 +283,15 @@ class Layout
         return false;
     }
 
+    public static function isQuickWinsDesignEnabled(): bool
+    {
+        // if FEATURE_FLAG_QUICK_WINS_ENABLED is active, the feature is always on
+        if (self::getThemeService()->isQuickWinsDesignEnabled()) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Retrieve the template with the actual content
      *
