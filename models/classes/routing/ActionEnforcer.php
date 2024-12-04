@@ -159,12 +159,14 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
                 $func->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters()) &&
                 !$data->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())
             ) {
-                throw new PermissionException(
-                    $user->getIdentifier(),
-                    $this->getAction(),
-                    $this->getControllerClass(),
-                    $this->getExtensionId()
-                );
+                if ($user->getIdentifier()) {
+                    throw new PermissionException(
+                        $user->getIdentifier(),
+                        $this->getAction(),
+                        $this->getControllerClass(),
+                        $this->getExtensionId()
+                    );
+                }
             }
 
             throw new tao_models_classes_AccessDeniedException(
@@ -198,12 +200,11 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         } catch (PermissionException $pe) {
             // forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch
             // error).
-            if (common_session_SessionManager::getSession()->getUser()->getIdentifier()) {
-                Context::getInstance()->setExtensionName('tao');
-                $this->action       = 'denied';
-                $this->controllerClass   = 'tao_actions_Permission';
-                $this->extension    = 'tao';
-            }
+
+            Context::getInstance()->setExtensionName('tao');
+            $this->action       = 'denied';
+            $this->controllerClass   = 'tao_actions_Permission';
+            $this->extension    = 'tao';
         }
 
         $response = $this->resolve($this->getRequest());
