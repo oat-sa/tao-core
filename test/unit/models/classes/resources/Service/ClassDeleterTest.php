@@ -143,6 +143,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $classProperty = $this->createMock(core_kernel_classes_Property::class);
         $classProperty
@@ -300,6 +304,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -382,6 +390,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -475,6 +487,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -565,6 +581,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -662,6 +682,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -752,6 +776,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -779,6 +807,56 @@ class ClassDeleterTest extends TestCase
             ->method('getResource');
 
         $this->expectException(PartialClassDeletionException::class);
+
+        $this->sut->delete($class);
+    }
+
+    public function testDeleteSkipsNonExistentInstances(): void
+    {
+        $this->rootClassSpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
+        $this->permissionChecker
+            ->expects($this->exactly(2))
+            ->method('hasReadAccess')
+            ->willReturn(true);
+
+        $this->permissionChecker
+            ->expects($this->exactly(1))
+            ->method('hasWriteAccess')
+            ->willReturn(true);
+
+        $this->resourceRepository
+            ->expects($this->never())
+            ->method('delete');
+
+        $existentInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $existentInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('existentInstanceUri');
+        $existentInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
+
+        $nonExistentInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $nonExistentInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(false);
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classUri');
+        $class
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$existentInstance, $nonExistentInstance]);
 
         $this->sut->delete($class);
     }
