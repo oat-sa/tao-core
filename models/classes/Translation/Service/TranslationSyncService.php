@@ -63,6 +63,11 @@ class TranslationSyncService
         $requestParams = $request->getParsedBody();
         $id = $requestParams['id'] ?? null;
 
+        return $this->syncById($id);
+    }
+
+    public function syncById(string $id): core_kernel_classes_Resource
+    {
         if (empty($id)) {
             throw new ResourceTranslationException('Resource id is required');
         }
