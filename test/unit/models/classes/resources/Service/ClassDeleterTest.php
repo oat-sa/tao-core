@@ -109,6 +109,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
+        $subClassInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $subClassProperty = $this->createMock(core_kernel_classes_Property::class);
         $subClassProperty
@@ -367,6 +371,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
+        $subClassInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $subClass = $this->createMock(core_kernel_classes_Class::class);
         $subClass
@@ -453,6 +461,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
+        $subClassInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $subClassProperty = $this->createMock(core_kernel_classes_Property::class);
         $subClassProperty
@@ -558,6 +570,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
+        $subClassInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $subClass = $this->createMock(core_kernel_classes_Class::class);
         $subClass
@@ -648,6 +664,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
+        $subClassInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $subClassProperty = $this->createMock(core_kernel_classes_Property::class);
         $subClassProperty
@@ -753,6 +773,10 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
+        $subClassInstance
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
 
         $subClass = $this->createMock(core_kernel_classes_Class::class);
         $subClass
@@ -824,12 +848,12 @@ class ClassDeleterTest extends TestCase
             ->willReturn(true);
 
         $this->permissionChecker
-            ->expects($this->exactly(1))
+            ->expects($this->once())
             ->method('hasWriteAccess')
             ->willReturn(true);
 
         $this->resourceRepository
-            ->expects($this->never())
+            ->expects($this->once())
             ->method('delete');
 
         $existentInstance = $this->createMock(core_kernel_classes_Resource::class);
