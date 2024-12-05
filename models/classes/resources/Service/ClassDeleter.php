@@ -167,6 +167,10 @@ class ClassDeleter implements ClassDeleterInterface
                 continue;
             }
 
+            if (!$instance->exists()) {
+                continue;
+            }
+
             try {
                 $this->resourceRepository->delete(
                     new ResourceRepositoryContext(
