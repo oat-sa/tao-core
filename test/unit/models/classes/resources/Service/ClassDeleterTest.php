@@ -846,7 +846,6 @@ class ClassDeleterTest extends TestCase
             ->expects($this->exactly(2))
             ->method('hasReadAccess')
             ->willReturn(true);
-
         $this->permissionChecker
             ->expects($this->once())
             ->method('hasWriteAccess')
@@ -856,39 +855,40 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('delete');
 
-        $existentInstance = $this->createMock(core_kernel_classes_Resource::class);
-        $existentInstance
+        $existingInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $existingInstance
             ->expects($this->once())
             ->method('getUri')
-            ->willReturn('existentInstanceUri');
-        $existentInstance
+            ->willReturn('existingInstanceUri');
+        $existingInstance
             ->expects($this->once())
             ->method('exists')
             ->willReturn(true);
 
-        $nonExistentInstance = $this->createMock(core_kernel_classes_Resource::class);
-        $nonExistentInstance
+        $nonExistingInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $nonExistingInstance
             ->expects($this->once())
             ->method('exists')
             ->willReturn(false);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('getUri')
             ->willReturn('classUri');
         $class
             ->expects($this->once())
             ->method('getInstances')
-            ->willReturn([$existentInstance, $nonExistentInstance]);
+            ->willReturn([$nonExistingInstance, $existingInstance]);
+        $class
+            ->expects($this->never())
+            ->method('getProperties');
         $class
             ->expects($this->once())
-            ->method('getSubClasses')
-            ->willReturn([]);
-        $class
-            ->expects($this->once())
-            ->method('getProperties')
-            ->willReturn([]);
+            ->method('exists')
+            ->willReturn(true);
+
+        $this->expectException(PartialClassDeletionException::class);
 
         $this->sut->delete($class);
     }
