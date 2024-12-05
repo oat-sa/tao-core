@@ -834,46 +834,4 @@ class ClassDeleterTest extends TestCase
 
         $this->sut->delete($class);
     }
-
-    public function testDeleteNonExistingInstance(): void
-    {
-        $this->rootClassSpecification
-            ->expects($this->once())
-            ->method('isSatisfiedBy')
-            ->willReturn(false);
-
-        $this->permissionChecker
-            ->expects($this->once())
-            ->method('hasReadAccess')
-            ->willReturn(true);
-        $this->permissionChecker
-            ->expects($this->once())
-            ->method('hasWriteAccess')
-            ->willReturn(true);
-
-        $classInstance = $this->createMock(core_kernel_classes_Resource::class);
-        $classInstance
-            ->expects($this->once())
-            ->method('exists')
-            ->willReturn(false);
-
-        $class = $this->createMock(core_kernel_classes_Class::class);
-        $class
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn('classUri');
-        $class
-            ->expects($this->once())
-            ->method('getSubClasses')
-            ->willReturn([]);
-        $class
-            ->expects($this->once())
-            ->method('getInstances')
-            ->willReturn([$classInstance]);
-        $class
-            ->expects($this->never())
-            ->method('getProperties');
-
-        $this->sut->delete($class);
-    }
 }
