@@ -161,13 +161,13 @@ class ClassDeleter implements ClassDeleterInterface
         $status = true;
 
         foreach ($class->getInstances() as $instance) {
-            if (!$this->permissionChecker->hasWriteAccess($instance->getUri())) {
-                $status = false;
-
+            if (!$instance->exists()) {
                 continue;
             }
 
-            if (!$instance->exists()) {
+            if (!$this->permissionChecker->hasWriteAccess($instance->getUri())) {
+                $status = false;
+
                 continue;
             }
 

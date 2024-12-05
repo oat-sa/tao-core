@@ -461,10 +461,6 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
-        $subClassInstance
-            ->expects($this->once())
-            ->method('exists')
-            ->willReturn(true);
 
         $subClassProperty = $this->createMock(core_kernel_classes_Property::class);
         $subClassProperty
