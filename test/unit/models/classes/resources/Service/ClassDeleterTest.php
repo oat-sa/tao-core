@@ -881,6 +881,14 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getInstances')
             ->willReturn([$existentInstance, $nonExistentInstance]);
+        $class
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([]);
+        $class
+            ->expects($this->once())
+            ->method('getProperties')
+            ->willReturn([]);
 
         $this->sut->delete($class);
     }
