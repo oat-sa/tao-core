@@ -1,8 +1,10 @@
 <?php
 use oat\tao\helpers\Layout;
+
+$actions_list = Layout::isQuickWinsDesignEnabled() ? get_data_with_weight('actions') : get_data('actions');
 ?>
 
-    <?php foreach (get_data('actions') as $action): ?>
+    <?php foreach ($actions_list as $action): ?>
     <li class="action <?= get_data('action_classes')?>"
         id="<?=$action->getId()?>"
         title="<?= __($action->getName()) ?>"
