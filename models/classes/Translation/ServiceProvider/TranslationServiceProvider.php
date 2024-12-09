@@ -29,7 +29,9 @@ use oat\generis\model\resource\Service\ResourceDeleter;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\Service\FeatureFlagPropertiesMapping;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Form\Modifier\TranslationFormModifier;
@@ -38,7 +40,9 @@ use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use oat\tao\model\Translation\Service\ResourceLanguageRetriever;
 use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
+use oat\tao\model\Translation\Service\ResourceTranslatableStatusRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
+use oat\tao\model\Translation\Service\TranslatedIntoLanguagesSynchronizer;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Service\TranslationDeletionService;
 use oat\tao\model\Translation\Service\TranslationSyncService;
@@ -115,7 +119,15 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ->set(TranslationFormModifier::class, TranslationFormModifier::class)
             ->args([
                 service(FeatureFlagChecker::class),
+                service(FeatureFlagPropertiesMapping::class),
                 service(Ontology::SERVICE_ID),
+            ]);
+
+        $services
+            ->set(TranslatedIntoLanguagesSynchronizer::class, TranslatedIntoLanguagesSynchronizer::class)
+            ->args([
+                service(Ontology::SERVICE_ID),
+                service(ResourceTranslationRepository::class),
             ]);
 
         $services
@@ -127,6 +139,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(ResourceTranslationRepository::class),
                     service(LanguageRepositoryInterface::class),
                     service(LoggerService::SERVICE_ID),
+                    service(TranslatedIntoLanguagesSynchronizer::class),
                 ]
             )
             ->public();
@@ -139,6 +152,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(ResourceDeleter::class),
                     service(ResourceTranslationRepository::class),
                     service(LoggerService::SERVICE_ID),
+                    service(TranslatedIntoLanguagesSynchronizer::class),
                 ]
             )
             ->public();
@@ -149,6 +163,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 [
                     service(Ontology::SERVICE_ID),
                     service(LoggerService::SERVICE_ID),
+                    service(TranslatedIntoLanguagesSynchronizer::class),
                 ]
             )
             ->public();
@@ -159,6 +174,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 service(Ontology::SERVICE_ID),
                 service(ResourceTranslationRepository::class),
                 service(LoggerService::SERVICE_ID),
+                service(TranslatedIntoLanguagesSynchronizer::class),
             ])
             ->public();
 
@@ -175,5 +191,30 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 service(FeatureFlagChecker::class),
                 service(Ontology::SERVICE_ID),
             ]);
+
+        $services
+            ->set(ResourceTranslatableStatusRetriever::class, ResourceTranslatableStatusRetriever::class)
+            ->args([
+                service(Ontology::SERVICE_ID),
+                service(LoggerService::SERVICE_ID),
+            ])
+            ->public();
+
+        $services
+            ->get(FeatureFlagPropertiesMapping::class)
+            ->call(
+                'addFeatureProperties',
+                [
+                    'FEATURE_FLAG_TRANSLATION_ENABLED',
+                    [
+                        TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
+                        TaoOntology::PROPERTY_LANGUAGE,
+                        TaoOntology::PROPERTY_TRANSLATION_STATUS,
+                        TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
+                        TaoOntology::PROPERTY_TRANSLATION_TYPE,
+                        TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES,
+                    ],
+                ]
+            );
     }
 }

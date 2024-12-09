@@ -346,6 +346,7 @@ return [
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'WebService']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Security']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'WebHooks']],
+        [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, ['ext' => 'tao', 'mod' => 'Translation']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ClassMetadata']],
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'get']],
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'getStatus']],
@@ -362,9 +363,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2024.12',
+        'TAO_VERSION' => '2025.01',
         #TAO version label
-        'TAO_VERSION_NAME' => '2024.12',
+        'TAO_VERSION_NAME' => '2025.01',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

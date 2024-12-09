@@ -124,6 +124,21 @@ class ValueCollectionTest extends TestCase
         $this->assertSame(0, $sut->getDuplicatedValues()->count());
     }
 
+    public function testRemoveValueByUri(): void
+    {
+        $sut = new ValueCollection(
+            null,
+            ...[
+                new Value(null, 'http://example.com#1', '1'),
+                new Value(null, 'http://example.com#2', '2')
+            ]
+        );
+
+        $sut->removeValueByUri('http://example.com#1');
+
+        $this->assertSame(['http://example.com#2'], $sut->getUris());
+    }
+
     /**
      * @param Value ...$values
      *

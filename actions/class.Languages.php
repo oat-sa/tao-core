@@ -25,29 +25,28 @@ use oat\tao\model\http\formatter\ResponseFormatter;
 use oat\tao\model\http\response\ErrorJsonResponse;
 use oat\tao\model\http\response\SuccessJsonResponse;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
+use oat\tao\model\Language\Filter\LanguageAllowedFilter;
 use oat\tao\model\routing\Contract\ActionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class tao_actions_Languages implements ActionInterface
 {
-    /** @var ResponseFormatter */
-    private $responseFormatter;
-
-    /** @var LanguageRepositoryInterface */
-    private $languageRepository;
-
-    /** @var Ontology */
-    private $ontology;
+    private ResponseFormatter $responseFormatter;
+    private LanguageRepositoryInterface $languageRepository;
+    private Ontology $ontology;
+    private LanguageAllowedFilter $languageAllowedFilter;
 
     public function __construct(
         ResponseFormatter $responseFormatter,
         LanguageRepositoryInterface $languageRepository,
-        Ontology $ontology
+        Ontology $ontology,
+        LanguageAllowedFilter $languageAllowedFilter
     ) {
         $this->responseFormatter = $responseFormatter;
         $this->languageRepository = $languageRepository;
         $this->ontology = $ontology;
+        $this->languageAllowedFilter = $languageAllowedFilter;
     }
 
     public function index(ResponseInterface $response, ServerRequestInterface $request): ResponseInterface
@@ -75,7 +74,9 @@ class tao_actions_Languages implements ActionInterface
         $version = $request->getHeader('Accept-version')[0] ?? 'v1';
 
         if ($version === 'v2') {
-            return $this->languageRepository->findAvailableLanguagesByUsage()->jsonSerialize();
+            return $this->languageAllowedFilter
+                ->filterByLanguageCollection($this->languageRepository->findAvailableLanguagesByUsage())
+                ->jsonSerialize();
         }
 
         return tao_helpers_I18n::getAvailableLangsByUsage(

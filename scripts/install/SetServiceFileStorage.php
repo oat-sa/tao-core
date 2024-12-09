@@ -25,7 +25,6 @@ use oat\tao\model\websource\TokenWebSource;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\websource\TokenWebSourceService;
 use tao_models_classes_service_FileStorage;
-use League\Flysystem\Adapter\Local;
 use oat\tao\model\websource\FlyTokenWebSource;
 
 /**

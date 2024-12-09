@@ -6,8 +6,10 @@
             <label>{{__ 'Language'}}
                 <select name="language" data-control="select"></select>
             </label>
-            <button class="btn-info small" data-control="create"><span class="icon-replace"></span> {{__ 'Create
-                translation'}}</button>
+            <button class="btn-info small" data-control="create">
+                <span class="icon-replace"></span>
+                {{__ 'Create translation'}}
+            </button>
         </div>
 {{/if}}
     </header>
@@ -15,7 +17,12 @@
     <div class="translations-list"></div>
 {{else}}
     <div class="translations-not-ready">
-        <p>{{__ 'This resource is not ready for translation.'}}</p>
+        {{#if isEmpty}}
+            <p>{{__ 'Empty resources cannot be translated.'}}</p>
+        {{/if}}
+        {{#unless isReadyForTranslation}}
+            <p>{{__ 'This resource is not ready for translation.'}}</p>
+        {{/unless}}
     </div>
 {{/if}}
 </div>

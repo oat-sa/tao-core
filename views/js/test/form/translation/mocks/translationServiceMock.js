@@ -26,10 +26,10 @@ define(function () {
                 resourcesLanguages: [],
                 availableLanguages: [],
                 translatedLanguages: [],
-                resourcesLanguages: [],
                 languages: [],
                 translatable: [],
                 translations: [],
+                status: {},
                 createTranslation: { resourceUri: 'i12345' }
             },
             data
@@ -38,9 +38,6 @@ define(function () {
 
     function getMockDefault() {
         return {
-            isReadyForTranslation() {
-                return this.data.ready;
-            },
             listAvailableLanguages() {
                 return this.data.availableLanguages;
             },
@@ -55,6 +52,9 @@ define(function () {
             },
             getTranslatable() {
                 return Promise.resolve({ resources: this.data.translatable });
+            },
+            getTranslatableStatus() {
+                return Promise.resolve(this.data.status);
             },
             getTranslations() {
                 return Promise.resolve({ resources: this.data.translations });

@@ -47,6 +47,8 @@ class TranslationCreationService
     private ResourceTranslationRepository $resourceTranslationRepository;
     private LanguageRepositoryInterface $languageRepository;
     private LoggerInterface $logger;
+    private TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer;
+
     private array $resourceTransferServices;
     private array $callables;
 
@@ -55,13 +57,15 @@ class TranslationCreationService
         ResourceTranslatableRepository $resourceTranslatableRepository,
         ResourceTranslationRepository $resourceTranslationRepository,
         LanguageRepositoryInterface $languageRepository,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer
     ) {
         $this->ontology = $ontology;
         $this->resourceTranslatableRepository = $resourceTranslatableRepository;
         $this->resourceTranslationRepository = $resourceTranslationRepository;
         $this->languageRepository = $languageRepository;
         $this->logger = $logger;
+        $this->translatedIntoLanguagesSynchronizer = $translatedIntoLanguagesSynchronizer;
     }
 
     public function setResourceTransfer(string $resourceType, ResourceTransferInterface $resourceTransfer): void
@@ -187,6 +191,8 @@ class TranslationCreationService
             foreach ($this->callables[$rootId] ?? [] as $callable) {
                 $callable($clonedInstance);
             }
+
+            $this->translatedIntoLanguagesSynchronizer->sync($instance);
 
             return $clonedInstance;
         } catch (Throwable $exception) {

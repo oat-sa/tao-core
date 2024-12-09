@@ -31,6 +31,7 @@ use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use oat\tao\model\Translation\Entity\ResourceCollection;
 use oat\generis\model\data\Ontology;
+use oat\tao\model\Translation\Service\TranslatedIntoLanguagesSynchronizer;
 use oat\tao\model\Translation\Service\TranslationDeletionService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -53,18 +54,23 @@ class TranslationDeletionServiceTest extends TestCase
     /** @var MockObject|LoggerInterface */
     private $logger;
 
+    /** @var TranslatedIntoLanguagesSynchronizer|MockObject  */
+    private $translatedIntoLanguagesSynchronizer;
+
     protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->resourceDeleter = $this->createMock(ResourceDeleterInterface::class);
         $this->resourceTranslationRepository = $this->createMock(ResourceTranslationRepository::class);
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->translatedIntoLanguagesSynchronizer = $this->createMock(TranslatedIntoLanguagesSynchronizer::class);
 
         $this->service = new TranslationDeletionService(
             $this->ontology,
             $this->resourceDeleter,
             $this->resourceTranslationRepository,
             $this->logger,
+            $this->translatedIntoLanguagesSynchronizer,
         );
     }
 
@@ -87,7 +93,8 @@ class TranslationDeletionServiceTest extends TestCase
         $translation = new ResourceTranslation($translationResourceId, 'something');
         $resourceCollection = new ResourceCollection($translation);
 
-        $resource = $this->createMock(core_kernel_classes_Resource::class);
+        $translationResource = $this->createMock(core_kernel_classes_Resource::class);
+        $originalResource = $this->createMock(core_kernel_classes_Resource::class);
 
         $this->resourceTranslationRepository
             ->expects($this->once())
@@ -95,12 +102,17 @@ class TranslationDeletionServiceTest extends TestCase
             ->willReturn($resourceCollection);
 
         $this->ontology
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getResource')
-            ->with($translationResourceId)
-            ->willReturn($resource);
+            ->withConsecutive([$translationResourceId], ['id1'])
+            ->willReturnOnConsecutiveCalls($translationResource, $originalResource);
 
-        $this->assertSame($resource, $this->service->deleteByRequest($request));
+        $this->translatedIntoLanguagesSynchronizer
+            ->expects($this->once())
+            ->method('sync')
+            ->with($originalResource);
+
+        $this->assertSame($translationResource, $this->service->deleteByRequest($request));
     }
 
 

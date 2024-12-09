@@ -93,8 +93,7 @@ class StateMigration extends ConfigurableService
 
     public function removeBackup($userId, $callId)
     {
-
-        return $this->getFileSystem()->delete($this->generateSerial($userId, $callId));
+        $this->getFileSystem()->delete($this->generateSerial($userId, $callId));
     }
 
     private function generateSerial($userId, $callId)
