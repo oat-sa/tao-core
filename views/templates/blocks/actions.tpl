@@ -1,7 +1,7 @@
 <?php
 use oat\tao\helpers\Layout;
 
-$actions_list = Layout::isQuickWinsDesignEnabled() ? get_data_with_weight('actions') : get_data('actions');
+$actions_list = Layout::isQuickWinsDesignEnabled() ? Layout::getSortedActionsByWeight('actions') : get_data('actions');
 ?>
 
     <?php foreach ($actions_list as $action): ?>
