@@ -651,11 +651,11 @@ class Layout
     public static function getSortedActionsByWeight($key)
     {
         $data = get_data($key);
-    
+
         usort($data, function ($a, $b) {
             return $a->getWeight() < $b->getWeight();
         });
-    
+
         return $data;
     }
 }
