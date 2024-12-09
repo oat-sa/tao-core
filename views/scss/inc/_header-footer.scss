@@ -473,3 +473,78 @@ body {
     }
 }
 
+body.qc-wins {
+    header {
+        &.red-bar {
+            @extend .dark-bar;
+            --header-bar-background: #BB2225;
+            --header-bar-active-color: #121212;
+            --header-bar-active-background: #FFFFFF;
+            --header-bar-hover-background: #F6F2E7;
+            --action-bar-hover-color: #121212;
+            --header-bar-hover-color: #121212;
+
+            border: none;
+
+            .main-menu {
+                font-weight: 600;
+
+                &__item {
+                    &.active {
+                        font-weight: 600;
+                    }
+                    a {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.6rem;
+
+                        &:hover {
+                            color: #121212;
+                        }
+                    }
+                }
+            }
+
+            .setting-menu {
+                &__item {
+                    &:before {
+                        display: none;
+                    }
+
+                    a {
+                        font-weight: 600;
+                        font-size: 1.2rem;
+                        &:hover {
+                            color: #121212;
+                        }
+                    }
+
+                    .menu-dropdown {
+                        background-color: #FFFFFF;
+                        border: 1px solid #919191;
+
+                        li {
+                            a {
+                                background-color: #FFFFFF;
+                                color: #505050;
+
+                                &:hover {
+                                    font-weight: 600;
+                                    color: #121212;
+                                    background-color: #F6F2E7;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #item-editor-panel .item-editor-bar,
+    .item-editor-sidebar ._accordion {
+        border-top: none;
+    }
+}
+
