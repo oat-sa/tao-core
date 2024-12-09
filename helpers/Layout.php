@@ -657,10 +657,11 @@ class Layout
      * @return mixed The data bound to the key. If no data is bound to the provided key, null is return.
      */
 
-    public static function getSortedActionsByWeight($key) {
+    public static function getSortedActionsByWeight($key)
+    {
         $data = get_data($key);
     
-        usort($data, function($a,$b){
+        usort($data, function ($a, $b) {
             return $a->getWeight() < $b->getWeight();
         });
     
