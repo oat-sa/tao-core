@@ -16,7 +16,7 @@ $taoAsATool   = get_data('taoAsATool');
                 <li class="main-menu__item <?php if (get_data('shownExtension') === $entry->getExtension()
                 && get_data('shownStructure') === $entry->getId()): ?>active<?php endif ?>">
                     <a href="<?= $entry->getUrl() ?>" title="<?= __($entry->getDescription()) ?>">
-                        <?= !Layout::isQuickWinsDesignEnabled() ? Layout::renderIcon($entry->getIcon(), 'icon-extension') : ''?>
+                        <?= Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
                         <?= __($entry->getName()) ?></a>
                     <?php if (count($item['children']) > 1): ?>
                         <ul class="plain menu-dropdown">
