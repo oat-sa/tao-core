@@ -364,7 +364,7 @@ class GenerisTreeFactory
         $mainClass = array_pop($parentClassIds);
 
         return in_array(
-            $mainClass,
+            $mainClass ?? $class->getUri(),
             [
                 TaoOntology::CLASS_URI_ITEM,
                 TaoOntology::CLASS_URI_TEST
