@@ -360,11 +360,8 @@ class GenerisTreeFactory
             return false;
         }
 
-        $parentClassIds = $class->getParentClassesIds();
-        $mainClass = array_pop($parentClassIds);
-
         return in_array(
-            $mainClass ?? $class->getUri(),
+            $class->getRootId() ?? $class->getUri(),
             [
                 TaoOntology::CLASS_URI_ITEM,
                 TaoOntology::CLASS_URI_TEST
