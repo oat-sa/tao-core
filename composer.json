@@ -61,7 +61,7 @@
         "doctrine/dbal": "^2.10",
         "ezyang/htmlpurifier": "^4.9",
         "guzzlehttp/guzzle": "^7.0",
-        "guzzlehttp/psr7": "^1.8.4",
+        "guzzlehttp/psr7": "^2.0",
         "oat-sa/imsglobal-lti": "^4.0.1",
         "justinrainbow/json-schema": "^5.2.1",
         "oat-sa/jig": "~0.2",
