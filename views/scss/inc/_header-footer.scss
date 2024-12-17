@@ -544,6 +544,15 @@ body.qc-wins {
                     }
                 }
             }
+            .persistent-menu {
+                .task-manager-container {
+                    .task-list {
+                        position: relative;
+                        top: 0;
+                        opacity: 1;
+                    }
+                }
+            }
         }
     }
 
