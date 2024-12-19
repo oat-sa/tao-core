@@ -317,6 +317,9 @@ class Layout
      */
     public static function getLogoUrl()
     {
+        if (self::getThemeService()->isQuickWinsDesignEnabled()) {
+            return $logoFile = Template::img('logo.svg', 'tao');
+        }
         $theme = self::getCurrentTheme();
         if (
             $theme instanceof ConfigurableTheme ||
