@@ -31,6 +31,7 @@ interface FeatureFlagCheckerInterface
     public const FEATURE_FLAG_PASSWORD_CHANGE_DISABLED = 'FEATURE_FLAG_PASSWORD_CHANGE_DISABLED';
     public const FEATURE_FLAG_TAO_AS_A_TOOL = 'FEATURE_FLAG_TAO_AS_A_TOOL';
     public const FEATURE_FLAG_SOLAR_DESIGN_ENABLED = 'FEATURE_FLAG_SOLAR_DESIGN_ENABLED';
+    public const FEATURE_FLAG_QUICK_WINS_ENABLED = 'FEATURE_FLAG_QUICK_WINS_ENABLED';
 
     public function isEnabled(string $feature): bool;
 }

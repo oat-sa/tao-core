@@ -168,7 +168,7 @@ define([
                                 .catch(handleError);
                         });
 
-                        $('.navi-container', section.panel).show();
+                        $('.navi-container', section.panel).addClass('loaded').show();
                         break;
                     case 'content':
 
