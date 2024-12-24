@@ -192,6 +192,10 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
             return false;
         }
 
+        if ($property->getWidget()->getUri() === tao_helpers_form_elements_Readonly::WIDGET_ID) {
+            return true;
+        }
+
         if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_STATISTIC_METADATA_IMPORT')) {
             return $property->isStatistical();
         }
