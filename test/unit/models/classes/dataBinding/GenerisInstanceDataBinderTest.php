@@ -71,9 +71,13 @@ class GenerisInstanceDataBinderTest extends TestCase
     /** @var Ontology|MockObject */
     private $ontology;
 
+    /** @var core_kernel_classes_Property|MockObject */
+    private $widget;
+
     public function setUp(): void
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);
+        $this->widget = $this->createMock(core_kernel_classes_Property::class);
 
         $this->classType1 = $this->createMock(core_kernel_classes_Class::class);
         $this->classType1
@@ -105,6 +109,14 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->property2
             ->method('getUri')
             ->willReturn(self::URI_PROPERTY_2);
+
+        $this->property1
+            ->method('getWidget')
+            ->willReturn($this->widget);
+
+        $this->property2
+            ->method('getWidget')
+            ->willReturn($this->widget);
 
         $this->target
             ->method('getUri')

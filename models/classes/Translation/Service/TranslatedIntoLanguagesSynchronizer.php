@@ -33,11 +33,18 @@ class TranslatedIntoLanguagesSynchronizer
 {
     private Ontology $ontology;
     private ResourceTranslationRepository $resourceTranslationRepository;
+    private array $callbacks;
 
     public function __construct(Ontology $ontology, ResourceTranslationRepository $resourceTranslationRepository)
     {
         $this->ontology = $ontology;
         $this->resourceTranslationRepository = $resourceTranslationRepository;
+    }
+
+    public function addCallback(string $type, callable $callback): void
+    {
+        $this->callbacks[$type] = $this->callbacks[$type] ?? [];
+        $this->callbacks[$type][] = $callback;
     }
 
     public function sync(core_kernel_classes_Resource $resource): void
@@ -57,6 +64,10 @@ class TranslatedIntoLanguagesSynchronizer
                 $property,
                 TaoOntology::LANGUAGE_PREFIX . $translation->getLanguageCode()
             );
+        }
+
+        foreach (($this->callbacks[$originalResource->getRootId()] ?? []) as $callback) {
+            $callback($originalResource);
         }
     }
 
