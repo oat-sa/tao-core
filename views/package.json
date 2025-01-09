@@ -12,7 +12,7 @@
         "@babel/polyfill": "^7.4.4",
         "@oat-sa/tao-core-libs": "^1.0.0",
         "@oat-sa/tao-core-sdk": "^3.2.1",
-        "@oat-sa/tao-core-shared-libs": "^1.6.1",
+        "@oat-sa/tao-core-shared-libs": "git://github.com/oat-sa/tao-core-shared-libs-fe#fix/INF-279/ruby-tags-focus-and-navigation",
         "@oat-sa/tao-core-ui": "^3.9.2",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
