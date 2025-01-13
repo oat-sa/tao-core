@@ -67,7 +67,8 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
             'group' => isset($node['group']) ? (string) $node['group'] : self::GROUP_DEFAULT,
             'extension' => $extension,
             'controller' => $controller,
-            'action' => $action
+            'action' => $action,
+            'weight' => isset($node['weight']) ? (int) $node['weight'] : self::WEIGHT_DEFAULT
         ];
 
         if (isset($node->icon)) {
@@ -231,5 +232,10 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
             . \common_Utils::toPHPVariableString($this->data) . ','
             . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
         . ")";
+    }
+
+    public function getWeight()
+    {
+        return $this->data['weight'];
     }
 }
