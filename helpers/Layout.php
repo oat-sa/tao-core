@@ -640,4 +640,22 @@ class Layout
     {
         return ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
     }
+
+    /**
+     * Get data from the request context with sorting by weight.
+     *
+     * @param string $key A key to identify the data.
+     * @return mixed The data bound to the key. If no data is bound to the provided key, null is return.
+     */
+
+    public static function getSortedActionsByWeight($key)
+    {
+        $data = get_data($key);
+
+        usort($data, function ($a, $b) {
+            return $a->getWeight() < $b->getWeight();
+        });
+
+        return $data;
+    }
 }
