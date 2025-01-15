@@ -59,18 +59,29 @@ class LanguageRepository implements LanguageRepositoryInterface
             $values = $language->getPropertiesValues(
                 [
                     OntologyRdf::RDF_VALUE,
-                    tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION
+                    tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION,
+                    tao_models_classes_LanguageService::PROPERTY_LANGUAGE_VERTICAL_WRITING_MODE
                 ]
             );
 
             $orientationUri = $values[tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION][0]->getUri();
+
+            $verticalWritingMode = null;
+            $verticalWritingModePropVal = $values[tao_models_classes_LanguageService::PROPERTY_LANGUAGE_VERTICAL_WRITING_MODE];
+            if ($verticalWritingModePropVal) {
+                $verticalWritingModeUri = $verticalWritingModePropVal[0]->getUri();
+                $verticalWritingMode = $verticalWritingModeUri === tao_models_classes_LanguageService::INSTANCE_VERTICAL_WRITING_MODE_RL
+                    ? 'vertical-rl'
+                    : 'vertical-lr';
+            }
 
             $output->add(
                 new Language(
                     $language->getUri(),
                     $values[OntologyRdf::RDF_VALUE][0]->__toString(),
                     $language->getLabel(),
-                    $orientationUri === tao_models_classes_LanguageService::INSTANCE_ORIENTATION_RTL ? 'rtl' : 'ltr'
+                    $orientationUri === tao_models_classes_LanguageService::INSTANCE_ORIENTATION_RTL ? 'rtl' : 'ltr',
+                    $verticalWritingMode
                 )
             );
         }
