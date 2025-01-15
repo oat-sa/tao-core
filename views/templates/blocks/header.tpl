@@ -4,7 +4,7 @@ use oat\tao\helpers\Layout;
 use oat\tao\model\theme\Theme;
 ?>
 <?php Template::inc('blocks/careers.tpl', 'tao'); ?>
-<header aria-label="<?=__('Main Menu')?>" class="dark-bar clearfix">
+<header aria-label="<?=__('Main Menu')?>" class="<?= Layout::isQuickWinsDesignEnabled() ? 'red-bar' : 'dark-bar' ?> clearfix">
 
     <?php if ((bool) get_data('hideLogo') === false): ?>
         <?=Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'header-logo', ['userLabel' => get_data('userLabel'), 'portalUrl' => get_data('portalUrl')])?>

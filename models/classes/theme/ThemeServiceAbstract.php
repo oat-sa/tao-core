@@ -121,6 +121,13 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
         );
     }
 
+    public function isQuickWinsDesignEnabled(): bool
+    {
+        return $this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagCheckerInterface::FEATURE_FLAG_QUICK_WINS_ENABLED
+        );
+    }
+
     /**
      * Returns the theme id provided by the themeDetailsProviders.
      *

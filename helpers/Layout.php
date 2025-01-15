@@ -283,6 +283,15 @@ class Layout
         return false;
     }
 
+    public static function isQuickWinsDesignEnabled(): bool
+    {
+        // if FEATURE_FLAG_QUICK_WINS_ENABLED is active, the feature is always on
+        if (self::getThemeService()->isQuickWinsDesignEnabled()) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Retrieve the template with the actual content
      *
@@ -308,6 +317,9 @@ class Layout
      */
     public static function getLogoUrl()
     {
+        if (self::getThemeService()->isQuickWinsDesignEnabled()) {
+            return $logoFile = Template::img('logo.svg', 'tao');
+        }
         $theme = self::getCurrentTheme();
         if (
             $theme instanceof ConfigurableTheme ||
@@ -639,5 +651,23 @@ class Layout
     private static function getThemeService(): ThemeServiceAbstract
     {
         return ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
+    }
+
+    /**
+     * Get data from the request context with sorting by weight.
+     *
+     * @param string $key A key to identify the data.
+     * @return mixed The data bound to the key. If no data is bound to the provided key, null is return.
+     */
+
+    public static function getSortedActionsByWeight($key)
+    {
+        $data = get_data($key);
+
+        usort($data, function ($a, $b) {
+            return $a->getWeight() < $b->getWeight();
+        });
+
+        return $data;
     }
 }
