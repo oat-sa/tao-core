@@ -12,5 +12,6 @@
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI"/>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>
     <tao:LanguageOrientation rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight"/>
+    <tao:LanguageVerticalWritingMode rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WritingModeVerticalRl"/>
   </rdf:Description>
 </rdf:RDF>

@@ -151,6 +151,22 @@
   	<rdfs:comment xml:lang="en-US"><![CDATA[Right-to-left language orientation]]></rdfs:comment>
   </rdf:Description>
 
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageVerticalWritingModes">
+  	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Vertical writing mode, for languages which support vertical writing]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Vertical writing mode class, for languages which support vertical writing]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WritingModeVerticalRl">
+  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageVerticalWritingModes"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Vertical-right-to-left writing mode]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Vertical-right-to-left language writing mode]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WritingModeVerticalLr">
+  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageVerticalWritingModes"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Vertical-left-to-right writing mode]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Vertical-left-to-right language writing mode]]></rdfs:comment>
+  </rdf:Description>
+
   <!-- Users -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#User">
   	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#User"/>
