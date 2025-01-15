@@ -54,18 +54,28 @@ class LanguageRepositoryTest extends TestCase
     public function testFindAvailableLanguagesByUsage(): void
     {
         $usageResource = $this->createMock(core_kernel_classes_Resource::class);
-        $languageResource = $this->createMock(core_kernel_classes_Resource::class);
+        $languageResource1 = $this->createMock(core_kernel_classes_Resource::class);
+        $languageResource2 = $this->createMock(core_kernel_classes_Resource::class);
 
-        $languageCode = $this->createMock(core_kernel_classes_Resource::class);
+        $languageCode1 = $this->createMock(core_kernel_classes_Resource::class);
+        $languageCode2 = $this->createMock(core_kernel_classes_Resource::class);
         $orientation = $this->createMock(core_kernel_classes_Resource::class);
+        $verticalWritingMode2 = $this->createMock(core_kernel_classes_Resource::class);
 
         $orientation
             ->method('getUri')
             ->willReturn(tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR);
 
-        $languageCode
+        $verticalWritingMode2
+            ->method('getUri')
+            ->willReturn(tao_models_classes_LanguageService::INSTANCE_VERTICAL_WRITING_MODE_RL);
+
+        $languageCode1
             ->method('__toString')
-            ->willReturn('code');
+            ->willReturn('code1');
+        $languageCode2
+            ->method('__toString')
+            ->willReturn('code2');
 
         $this->ontology
             ->method('getResource')
@@ -75,41 +85,72 @@ class LanguageRepositoryTest extends TestCase
             ->method('getAvailableLanguagesByUsage')
             ->willReturn(
                 [
-                    $languageResource
+                    $languageResource1,
+                    $languageResource2
                 ]
             );
 
-        $languageResource
+        $languageResource1
             ->method('getPropertiesValues')
             ->willReturn(
                 [
                     OntologyRdf::RDF_VALUE => [
-                        0 => $languageCode
+                        0 => $languageCode1
                     ],
                     tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION => [
                         0 => $orientation
                     ],
+                    tao_models_classes_LanguageService::PROPERTY_LANGUAGE_VERTICAL_WRITING_MODE => null,
                 ]
             );
 
-        $languageResource
-            ->method('getUri')
-            ->willReturn('uri');
+        $languageResource2
+            ->method('getPropertiesValues')
+            ->willReturn(
+                [
+                    OntologyRdf::RDF_VALUE => [
+                        0 => $languageCode2
+                    ],
+                    tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION => [
+                        0 => $orientation
+                    ],
+                    tao_models_classes_LanguageService::PROPERTY_LANGUAGE_VERTICAL_WRITING_MODE => [
+                        0 => $verticalWritingMode2
+                    ],
+                ]
+            );
 
-        $languageResource
+        $languageResource1
+            ->method('getUri')
+            ->willReturn('uri1');
+        $languageResource2
+            ->method('getUri')
+            ->willReturn('uri2');
+
+        $languageResource1
             ->method('getLabel')
-            ->willReturn('label');
+            ->willReturn('label1');
+        $languageResource2
+            ->method('getLabel')
+            ->willReturn('label2');
 
         $collection = $this->sut->findAvailableLanguagesByUsage();
 
-        $this->assertCount(1, $collection);
+        $this->assertCount(2, $collection);
         $this->assertSame(
             [
                 [
-                    'uri' => 'uri',
-                    'code' => 'code',
-                    'label' => 'label',
+                    'uri' => 'uri1',
+                    'code' => 'code1',
+                    'label' => 'label1',
+                    'orientation' => 'ltr'
+                ],
+                [
+                    'uri' => 'uri2',
+                    'code' => 'code2',
+                    'label' => 'label2',
                     'orientation' => 'ltr',
+                    'verticalWritingMode' => 'vertical-rl'
                 ]
             ],
             json_decode(json_encode($collection->jsonSerialize()), true)

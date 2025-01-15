@@ -126,13 +126,15 @@ class LanguageAllowedFilterTest extends TestCase
                 'uri',
                 'en-US',
                 'label',
-                'ltr'
+                'ltr',
+                null
             ),
             new Language(
                 'uri',
                 'pt-BR',
                 'label',
-                'ltr'
+                'ltr',
+                null
             ),
         ]);
     }

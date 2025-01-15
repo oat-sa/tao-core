@@ -36,13 +36,23 @@ class LanguageTest extends TestCase
             'uri',
             'pt-BR',
             'Portuguese',
-            tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR
+            tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR,
+            null
         );
-
         $this->assertSame('uri', $language->getUri());
         $this->assertSame('pt-BR', $language->getCode());
         $this->assertSame('Portuguese', $language->getLabel());
         $this->assertSame(tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR, $language->getOrientation());
+        $this->assertSame(null, $language->getVerticalWritingMode());
+
+        $language = new Language(
+            'uri',
+            'ja-JP',
+            'Japanese',
+            'ltr',
+            'vertical-rl'
+        );
+        $this->assertSame('vertical-rl', $language->getVerticalWritingMode());
     }
 
     public function testJsonSerialize(): void
@@ -51,15 +61,33 @@ class LanguageTest extends TestCase
             'uri',
             'pt-BR',
             'Portuguese',
-            tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR
+            tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR,
+            null
         );
-
         $this->assertSame(
             [
                 'uri' => $language->getUri(),
                 'code' => $language->getCode(),
                 'label' => $language->getLabel(),
                 'orientation' => $language->getOrientation(),
+            ],
+            $language->jsonSerialize()
+        );
+
+        $language = new Language(
+            'uri',
+            'ja-JP',
+            'Japanese',
+            'ltr',
+            'vertical-rl'
+        );
+        $this->assertSame(
+            [
+                'uri' => $language->getUri(),
+                'code' => $language->getCode(),
+                'label' => $language->getLabel(),
+                'orientation' => $language->getOrientation(),
+                'verticalWritingMode' => $language->getVerticalWritingMode()
             ],
             $language->jsonSerialize()
         );
