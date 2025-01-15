@@ -43,8 +43,13 @@ class Language implements JsonSerializable
     /** @var ?string */
     private $verticalWritingMode;
 
-    public function __construct(string $uri, string $code, string $label, string $orientation, ?string $verticalWritingMode)
-    {
+    public function __construct(
+        string $uri,
+        string $code,
+        string $label,
+        string $orientation,
+        ?string $verticalWritingMode
+    ) {
         $this->uri = $uri;
         $this->code = $code;
         $this->orientation = $orientation;
@@ -72,7 +77,7 @@ class Language implements JsonSerializable
         return $this->orientation;
     }
 
-    public function getVerticalWritingMode(): string
+    public function getVerticalWritingMode(): ?string
     {
         return $this->verticalWritingMode;
     }

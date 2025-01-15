@@ -49,7 +49,8 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     public const CLASS_URI_LANGUAGES_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages';
     public const PROPERTY_LANGUAGE_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages';
     public const PROPERTY_LANGUAGE_ORIENTATION = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation';
-    public const PROPERTY_LANGUAGE_VERTICAL_WRITING_MODE = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageVerticalWritingMode';
+    public const PROPERTY_LANGUAGE_VERTICAL_WRITING_MODE =
+        'http://www.tao.lu/Ontologies/TAO.rdf#LanguageVerticalWritingMode';
     public const INSTANCE_LANGUAGE_USAGE_GUI = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI';
     public const INSTANCE_LANGUAGE_USAGE_DATA = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData';
     public const INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
