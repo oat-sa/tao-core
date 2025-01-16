@@ -13,7 +13,7 @@
         "@oat-sa/tao-core-libs": "^1.0.0",
         "@oat-sa/tao-core-sdk": "^3.2.1",
         "@oat-sa/tao-core-shared-libs": "^1.6.1",
-        "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#fix/ADF-1833/level-2-class-issues",
+        "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#integration/ADF-1743-1860-1840/ui-fixes",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
         "gamp": "0.2.1",
