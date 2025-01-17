@@ -195,7 +195,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         if (
             $property->getWidget()
             && $property->getWidget()->getUri() === tao_helpers_form_elements_Readonly::WIDGET_ID
-            ) {
+        ) {
             return true;
         }
 
