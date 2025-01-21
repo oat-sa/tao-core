@@ -59,9 +59,12 @@ $taoAsATool   = get_data('taoAsATool');
                                 <?php if(!Layout::isQuickWinsDesignEnabled()): ?>
                                     <?= is_null($entry->getIcon()) ? '' : Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
                                 <?php endif; ?>
-                                <?php if ($entry->getId() !== 'user_settings'): ?>
-                                    <span> <?= $entry->getName() ?> </span>
-                                <?php endif ?>
+                                <?php if(Layout::isQuickWinsDesignEnabled()): ?>
+                                    <?php if ($entry->getId() !== 'user_settings'): ?>
+                                        <span> <?= $entry->getName() ?> </span>
+                                    <?php endif ?>
+                                <?php endif; ?>
+
                                 <?php $description = $entry->getDescription();
                                 if ($description): ?>
                                     <?= __($description) ?>
