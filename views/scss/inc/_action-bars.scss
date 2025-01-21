@@ -281,8 +281,10 @@ body.oversized-nav:not(.delivery-scope) {
 body.qc-wins {
     .section-container {
         --action-bar-background: #ffffff;
-        --action-bar-active-color: #121212;
-        --action-bar-hover-color: #121212;
+        --action-bar-color: #222222;
+        --action-bar-active-color: #000000;
+        --action-bar-disabled-color: #888888;
+        --action-bar-hover-color: #000000;
 
         .content-wrapper.content-panel,
         .context-structure-items {
@@ -304,7 +306,7 @@ body.qc-wins {
                     align-items: center;
                     position: relative;
                     border: none;
-                    color: #919191;
+                    color: var(--action-bar-color);
                     font-weight: 600;
                     text-shadow: none;
                     border-radius: 0;
@@ -326,7 +328,7 @@ body.qc-wins {
                     }
                     &.disabled {
                         .li-inner {
-                            color: #919191 !important;
+                            color: var(--action-bar-disabled-color);
                         }
                     }
 
