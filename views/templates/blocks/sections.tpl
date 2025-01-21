@@ -87,7 +87,6 @@ $sections = get_data('sections');
                             </div>
                         <?php endforeach; ?>
                     </div>
-                    <?= Layout::isQuickWinsDesignEnabled() ? "<h3 class='navi-heading'>" . $tree->get('className') . "s bank</h3>" : '' ?> <!-- TODO: i18n -->
                     <div class="tree-action-bar-box">
                         <ul class="plain action-bar tree-action-bar vertical-action-bar">
                         <?php
