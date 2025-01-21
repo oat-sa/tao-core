@@ -319,7 +319,7 @@ body.qc-wins {
                             display: block;
                             height: 4px;
                             width: 100%;
-                            background: #bb2225;
+                            background: #335A7D;
                             position: absolute;
                             bottom: 0;
                         }
@@ -599,8 +599,6 @@ body.qc-wins {
 
                         .glyph {
                             margin: 0 !important;
-                            //width: 1.4rem;
-                            //height: 1.4rem;
                             color: #808080DD;
 
                             &:before {
@@ -617,5 +615,3 @@ body.qc-wins {
         }
     }
 }
-
-//body.qc-wins .navi-container .taotree.tree.taotree-item .node-instance a.clicked ins:before
