@@ -277,7 +277,6 @@ body.oversized-nav:not(.delivery-scope) {
     @include mobile-search();
 }
 
-
 body.qc-wins {
     .section-container {
         --action-bar-background: #ffffff;
@@ -341,10 +340,12 @@ body.qc-wins {
 
                 .search-area {
                     display: flex;
-                    justify-content: center;
+                    justify-content: flex-end;
                     align-items: center;
-                    margin: 0;
+                    margin: 0 0 0 auto;
                     height: 100%;
+                    float: none !important;
+                    position: relative !important;
 
                     .search-area-buttons-container {
                         transform: translateY(-50%);
