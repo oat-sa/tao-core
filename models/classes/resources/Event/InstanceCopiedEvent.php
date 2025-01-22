@@ -7,7 +7,7 @@ use oat\oatbox\event\Event;
 class InstanceCopiedEvent implements Event
 {
     private string $instanceUri;
-    private string $originInstanceUri;
+    private ?string $originInstanceUri;
 
     public function __construct(string $instanceUri, ?string $originInstanceUri = null)
     {
