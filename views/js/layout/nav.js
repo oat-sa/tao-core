@@ -27,7 +27,7 @@ define(['jquery', 'lodash'], function ($, _) {
     'use strict';
 
     var $body = $('body'),
-        $navContainer = $('header.dark-bar'),
+        $navContainer = $('header.main-header'),
         $nav = $navContainer.find($('nav')),
         $mainMenu = $nav.find('.main-menu'),
         $settingsMenu = $nav.find('.settings-menu'),
