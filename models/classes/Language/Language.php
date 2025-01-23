@@ -48,7 +48,7 @@ class Language implements JsonSerializable
         string $code,
         string $label,
         string $orientation,
-        ?string $verticalWritingMode
+        ?string $verticalWritingMode = null
     ) {
         $this->uri = $uri;
         $this->code = $code;
