@@ -1,6 +1,6 @@
 <?php
 use oat\tao\helpers\Template;
-if (get_data('userLabel')): ?>
+if (get_data('portalUrl')): ?>
     <a href="<?= get_data('portalUrl'); ?>" title="<?= __("Back to Portal"); ?>" class="lft portal-back">
         <span class="icon-back-button glyph"></span>
     </a>
