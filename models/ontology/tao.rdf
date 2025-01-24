@@ -153,8 +153,16 @@
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageVerticalWritingModes">
   	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
-  	<rdfs:label xml:lang="en-US"><![CDATA[Vertical writing mode, for languages which support vertical writing]]></rdfs:label>
-  	<rdfs:comment xml:lang="en-US"><![CDATA[Vertical writing mode class, for languages which support vertical writing]]></rdfs:comment>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Vertical writing mode enum]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Vertical writing mode enum, for languages which support vertical writing]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageVerticalWritingMode">
+  	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  	<rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
+  	<rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageVerticalWritingModes"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Vertical writing mode property]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Vertical writing mode property of a language]]></rdfs:comment>
+    <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WritingModeVerticalRl">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageVerticalWritingModes"/>
