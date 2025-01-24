@@ -13,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-copy { content: "\e92b"; }
+@mixin icon-blocked { content: "\e92c"; }
+@mixin icon-restricted { content: "\e92d"; }
 @mixin icon-align-center { content: "\e92a"; }
 @mixin icon-multiple-magicwand { content: "\e929"; }
 @mixin icon-sd-import { content: "\e91f"; }
@@ -147,7 +150,7 @@
 @mixin icon-templates { content: "\e656"; }
 @mixin icon-cut { content: "\e657"; }
 @mixin icon-replace { content: "\e658"; }
-@mixin icon-copy { content: "\e659"; }
+@mixin icon-duplicate { content: "\e659"; }
 @mixin icon-paste { content: "\e65a"; }
 @mixin icon-select-all { content: "\e65b"; }
 @mixin icon-paste-text { content: "\e65c"; }
