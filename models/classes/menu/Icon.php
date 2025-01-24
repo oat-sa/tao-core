@@ -41,6 +41,7 @@ class Icon implements PhpSerializable
 
         return new static([
             'id' =>  !empty($node['id']) ? (string)$node['id'] : null,
+            'alt' =>  !empty($node['alt']) ? (string)$node['alt'] : null,
             'src' => !empty($node['src']) ? (string)$node['src'] : null,
             'ext' => !empty($node['ext']) ? (string)$node['ext'] : $structureExtensionId
         ]);
@@ -78,6 +79,11 @@ class Icon implements PhpSerializable
     public function getId()
     {
         return $this->data['id'];
+    }
+
+    public function getAltId()
+    {
+        return $this->data['alt'];
     }
 
     public function getSource()
