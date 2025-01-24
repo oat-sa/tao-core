@@ -565,26 +565,21 @@ body.qc-wins {
                         top: 2.5px;
                         transform: scale(0.8);
                     }
+                    &>a.clicked{
+                        &>ins::after {
+                            color: #FFFFFF;
+                        }
+                    }
                 }
 
                 &.permissions-none {
                     ins:after {
-                        content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='13' fill='none'%3E%3Cpath fill='red' d='M9.287 8.357H1.858V3.714a3.714 3.714 0 1 1 7.429 0zM3.715 6.5H7.43V3.714a1.857 1.857 0 1 0-3.715 0z'/%3E%3Cpath fill='red' d='M10.143 5.571H1a1 1 0 0 0-1 1V12a1 1 0 0 0 1 1h9.143a1 1 0 0 0 1-1V6.57a1 1 0 0 0-1-1'/%3E%3C/svg%3E");
-                    }
-                    &>a.clicked{
-                        &>ins::after {
-                            content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='13' fill='none'%3E%3Cpath fill='%23fff' d='M9.287 8.357H1.858V3.714a3.714 3.714 0 1 1 7.429 0zM3.715 6.5H7.43V3.714a1.857 1.857 0 1 0-3.715 0z'/%3E%3Cpath fill='%23fff' d='M10.143 5.571H1a1 1 0 0 0-1 1V12a1 1 0 0 0 1 1h9.143a1 1 0 0 0 1-1V6.57a1 1 0 0 0-1-1'/%3E%3C/svg%3E");
-                        }
+                        @include icon-blocked();
                     }
                 }
                 &.permissions-partial {
                     ins:after {
-                        content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='none'%3E%3Cpath fill='%23FE7B00' d='m6.5 1.178 5.448 10.857H1.052zM6.5 0c-.28 0-.56.189-.773.567L.178 11.626C-.247 12.38.115 13 .982 13h11.036c.867 0 1.229-.618.803-1.374L7.274.566C7.06.19 6.78 0 6.499 0z'/%3E%3Cpath fill='%23FE7B00' fill-rule='evenodd' d='M.723 12.278 6.5.723l5.778 11.555zm6.59-1.716a.812.812 0 1 1-1.625 0 .812.812 0 0 1 1.625 0M5.688 8.126a.812.812 0 1 0 1.625 0V5.688a.812.812 0 1 0-1.625 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
-                    }
-                    &>a.clicked{
-                        &>ins::after {
-                            content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='none'%3E%3Cpath fill='%23fff' d='m6.5 1.178 5.448 10.857H1.052zM6.5 0c-.28 0-.56.189-.773.567L.178 11.626C-.247 12.38.115 13 .982 13h11.036c.867 0 1.229-.618.803-1.374L7.274.566C7.06.19 6.78 0 6.499 0z'/%3E%3Cpath fill='%23fff' fill-rule='evenodd' d='M.723 12.278 6.5.723l5.778 11.555zm6.59-1.716a.812.812 0 1 1-1.625 0 .812.812 0 0 1 1.625 0M5.688 8.126a.812.812 0 1 0 1.625 0V5.688a.812.812 0 1 0-1.625 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
-                        }
+                        @include icon-restricted();
                     }
                 }
             }
