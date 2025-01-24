@@ -342,7 +342,7 @@ body[dir="rtl"] {
 
 // everything required for mobile navi
 @mixin mobile-navi () {
-    .dark-bar {
+    .dark-bar, .red-bar {
         .nav,
         nav {
 
@@ -444,7 +444,6 @@ body[dir="rtl"] {
                         }
                     }
                 }
-
             }
 
             .persistent-menu {
@@ -455,29 +454,11 @@ body[dir="rtl"] {
     }
 }
 
-
-@media (max-width: 1024px) {
-    body {
-        &:not(.delivery-scope):not(.small-navi) {
-            @include mobile-navi();
-        }
-    }
-}
-
-// works in conjunction with layout/nav.js
-body {
-    &.oversized-nav {
-        &:not(.delivery-scope):not(.small-navi) {
-            @include mobile-navi();
-        }
-    }
-}
-
 body.qc-wins {
     header {
         &.red-bar {
             @extend .dark-bar;
-            --header-bar-background: #BB2225;
+            --header-bar-background: #335A7D;
             --header-bar-active-color: #121212;
             --header-bar-active-background: #FFFFFF;
             --header-bar-hover-background: #F6F2E7;
@@ -556,9 +537,39 @@ body.qc-wins {
         }
     }
 
+    &.oversized-nav {
+        .setting-menu {
+            &__item {
+                a {
+                    span {
+                        display: none !important;
+                    }
+                }
+            }
+        }
+    }
+
     #item-editor-panel .item-editor-bar,
     .item-editor-sidebar ._accordion {
         border-top: none;
+    }
+}
+
+
+@media (max-width: 1024px) {
+    body {
+        &:not(.delivery-scope):not(.small-navi) {
+            @include mobile-navi();
+        }
+    }
+}
+
+// works in conjunction with layout/nav.js
+body {
+    &.oversized-nav {
+        &:not(.delivery-scope):not(.small-navi) {
+            @include mobile-navi();
+        }
     }
 }
 
