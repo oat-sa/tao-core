@@ -13,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-blocked { content: "\e92c"; }
+@mixin icon-restricted { content: "\e92d"; }
+@mixin icon-copy-to { content: "\e92b"; }
 @mixin icon-align-center { content: "\e92a"; }
 @mixin icon-multiple-magicwand { content: "\e929"; }
 @mixin icon-sd-import { content: "\e91f"; }

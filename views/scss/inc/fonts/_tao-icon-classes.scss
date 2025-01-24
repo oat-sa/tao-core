@@ -1,4 +1,7 @@
 /* Do not edit */[class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+%icon-blocked-before, .icon-blocked:before { @include icon-blocked; }
+%icon-restricted-before, .icon-restricted:before { @include icon-restricted; }
+%icon-copy-to-before, .icon-copy-to:before { @include icon-copy-to; }
 %icon-align-center-before, .icon-align-center:before { @include icon-align-center; }
 %icon-multiple-magicwand-before, .icon-multiple-magicwand:before { @include icon-multiple-magicwand; }
 %icon-sd-import-before, .icon-sd-import:before { @include icon-sd-import; }
