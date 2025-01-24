@@ -399,14 +399,14 @@ body.qc-wins {
                     .li-inner {
                         font-weight: 600;
                         text-shadow: none;
-                        color: #919191 !important;
+                        color: var(--action-bar-color) !important;
                     }
 
                     &:hover {
                         background: #F6F2E7 !important;
 
                         .li-inner {
-                            color: #121212 !important;
+                            color: var(--action-bar-active-color) !important;
                         }
                     }
                 }
