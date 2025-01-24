@@ -361,13 +361,13 @@ body.qc-wins {
 
                         a, .li-inner {
                             text-shadow: none;
-                            color: #919191 !important;
+                            color: var(--action-bar-color) !important;
                         }
 
 
                         &.active {
                             a {
-                                color: #121212 !important;
+                                color: var(--action-bar-active-color) !important;
                             }
                         }
 
@@ -375,7 +375,7 @@ body.qc-wins {
                             background: #F6F2E7 !important;
 
                             a, .li-inner {
-                                color: #121212 !important;
+                                color: var(--action-bar-active-color) !important;
                             }
                         }
                     }
