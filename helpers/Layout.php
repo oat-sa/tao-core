@@ -124,9 +124,7 @@ class Layout
                 $isBase64 = 0 === strpos($icon->getSource(), 'data:image');
             }
 
-            $iconClass = self::getThemeService()->isQuickWinsDesignEnabled() && $icon->getAltId()
-                ? $icon->getAltId()
-                : ($icon->getId() ? $icon->getId() : $defaultIcon);
+            $iconClass = $icon->getId();
         }
         // clarification icon vs. glyph: same thing but due to certain CSS rules a second class is required
         switch ($srcExt) {

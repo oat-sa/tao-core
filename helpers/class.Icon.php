@@ -25,18 +25,18 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * PLEASE, DO NOT EDIT THIS CLASS. IT GENERATED AUTOMATICALLY
  *
- * @access      public
- * @author      Dieter Raber, <dieter@taotesting.com>
- * @date        2025-01-24 09:37:02
- * @package     tao
+ * @access		public
+ * @author		Dieter Raber, <dieter@taotesting.com>
+ * @date		2025-01-24 15:09:31
+ * @package		tao
  */
 class tao_helpers_Icon
 {
     use IconBuilderTrait;
 
+    public const CLASS_COPY = 'icon-copy';
     public const CLASS_BLOCKED = 'icon-blocked';
     public const CLASS_RESTRICTED = 'icon-restricted';
-    public const CLASS_COPY_TO = 'icon-copy-to';
     public const CLASS_ALIGN_CENTER = 'icon-align-center';
     public const CLASS_MULTIPLE_MAGICWAND = 'icon-multiple-magicwand';
     public const CLASS_SD_IMPORT = 'icon-sd-import';
@@ -171,7 +171,7 @@ class tao_helpers_Icon
     public const CLASS_TEMPLATES = 'icon-templates';
     public const CLASS_CUT = 'icon-cut';
     public const CLASS_REPLACE = 'icon-replace';
-    public const CLASS_COPY = 'icon-copy';
+    public const CLASS_DUPLICATE = 'icon-duplicate';
     public const CLASS_PASTE = 'icon-paste';
     public const CLASS_SELECT_ALL = 'icon-select-all';
     public const CLASS_PASTE_TEXT = 'icon-paste-text';
@@ -277,6 +277,11 @@ class tao_helpers_Icon
     public const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
     public const CLASS_PLAY_FROM_HERE = 'icon-play-from-here';
 
+    public static function iconCopy(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_COPY, $options);
+    }
+
     public static function iconBlocked(array $options = [])
     {
         return self::buildIcon(self::CLASS_BLOCKED, $options);
@@ -285,11 +290,6 @@ class tao_helpers_Icon
     public static function iconRestricted(array $options = [])
     {
         return self::buildIcon(self::CLASS_RESTRICTED, $options);
-    }
-
-    public static function iconCopyTo(array $options = [])
-    {
-        return self::buildIcon(self::CLASS_COPY_TO, $options);
     }
 
     public static function iconAlignCenter(array $options = [])
@@ -962,9 +962,9 @@ class tao_helpers_Icon
         return self::buildIcon(self::CLASS_REPLACE, $options);
     }
 
-    public static function iconCopy(array $options = [])
+    public static function iconDuplicate(array $options = [])
     {
-        return self::buildIcon(self::CLASS_COPY, $options);
+        return self::buildIcon(self::CLASS_DUPLICATE, $options);
     }
 
     public static function iconPaste(array $options = [])
