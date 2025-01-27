@@ -27,16 +27,16 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date 2025-01-24 15:09:31
+ * @date 2025-01-27 11:25:22
  * @package tao
  */
 class tao_helpers_Icon
 {
     use IconBuilderTrait;
 
-    public const CLASS_COPY = 'icon-copy';
-    public const CLASS_BLOCKED = 'icon-blocked';
     public const CLASS_RESTRICTED = 'icon-restricted';
+    public const CLASS_BLOCKED = 'icon-blocked';
+    public const CLASS_COPY = 'icon-copy';
     public const CLASS_ALIGN_CENTER = 'icon-align-center';
     public const CLASS_MULTIPLE_MAGICWAND = 'icon-multiple-magicwand';
     public const CLASS_SD_IMPORT = 'icon-sd-import';
@@ -277,9 +277,9 @@ class tao_helpers_Icon
     public const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
     public const CLASS_PLAY_FROM_HERE = 'icon-play-from-here';
 
-    public static function iconCopy(array $options = [])
+    public static function iconRestricted(array $options = [])
     {
-        return self::buildIcon(self::CLASS_COPY, $options);
+        return self::buildIcon(self::CLASS_RESTRICTED, $options);
     }
 
     public static function iconBlocked(array $options = [])
@@ -287,9 +287,9 @@ class tao_helpers_Icon
         return self::buildIcon(self::CLASS_BLOCKED, $options);
     }
 
-    public static function iconRestricted(array $options = [])
+    public static function iconCopy(array $options = [])
     {
-        return self::buildIcon(self::CLASS_RESTRICTED, $options);
+        return self::buildIcon(self::CLASS_COPY, $options);
     }
 
     public static function iconAlignCenter(array $options = [])
