@@ -495,8 +495,6 @@ body.qc-wins {
             }
             .node-instance {
                 ins {
-                    min-width: 16px;
-
                     &:before {
                         color: #222;
                         display: inline-block;
@@ -537,6 +535,9 @@ body.qc-wins {
             }
             .node-class,
             .node-instance {
+                ins {
+                    min-width: 16px;
+                }
                 a {
                     display: flex;
                     overflow: hidden;
@@ -593,11 +594,25 @@ body.qc-wins {
                 justify-content: start;
                 flex-wrap: wrap;
 
+                li.dummy {
+                    height: 2.5rem;
+                    width: 2.5rem;
+                    border: none;
+                    margin: 0;
+                }
+
                 li.action {
                     width: auto;
                     height: auto;
                     border: none;
                     padding: .6rem;
+
+                    &:hover {
+                        background: none;
+                        .li-inner .glyph {
+                            color: #176998;
+                        }
+                    }
 
                     .li-inner {
                         height: 2.5rem;
