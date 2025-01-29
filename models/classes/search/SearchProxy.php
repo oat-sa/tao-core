@@ -91,15 +91,18 @@ class SearchProxy extends ConfigurableService implements Search
         return $this;
     }
 
+    /**
+     * @param string[] $values
+     */
     public function searchBoolQuery(string $field, array $values, ?int $size = null): ResultSet
     {
+        //For search engines that does not support custom index we will return an empty result set
+        // to allow user blindly delete resources
         if ($this->supportCustomIndex() === false) {
-            throw new Exception('Custom index is not supported');
+            return new ResultSet([], 0);
         }
 
-        $result = $this->getAdvancedSearch()->boolQuery($field, $values, $size);
-
-        return $result;
+        return $this->getAdvancedSearch()->boolQuery($field, $values, $size);
     }
 
     /**
