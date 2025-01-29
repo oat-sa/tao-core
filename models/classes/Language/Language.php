@@ -40,12 +40,21 @@ class Language implements JsonSerializable
     /** @var string */
     private $orientation;
 
-    public function __construct(string $uri, string $code, string $label, string $orientation)
-    {
+    /** @var ?string */
+    private $verticalWritingMode;
+
+    public function __construct(
+        string $uri,
+        string $code,
+        string $label,
+        string $orientation,
+        ?string $verticalWritingMode = null
+    ) {
         $this->uri = $uri;
         $this->code = $code;
         $this->orientation = $orientation;
         $this->label = $label;
+        $this->verticalWritingMode = $verticalWritingMode;
     }
 
     public function getUri(): string
@@ -68,13 +77,22 @@ class Language implements JsonSerializable
         return $this->orientation;
     }
 
+    public function getVerticalWritingMode(): ?string
+    {
+        return $this->verticalWritingMode;
+    }
+
     public function jsonSerialize(): array
     {
-        return [
+        $properties = [
             'uri' => $this->uri,
             'code' => $this->code,
             'label' => $this->label,
-            'orientation' => $this->orientation,
+            'orientation' => $this->orientation
         ];
+        if ($this->verticalWritingMode) {
+            $properties['verticalWritingMode'] = $this->verticalWritingMode;
+        }
+        return $properties;
     }
 }
