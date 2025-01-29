@@ -243,7 +243,6 @@ class SearchProxy extends ConfigurableService implements Search
             $query->getRows(),
             $query->getSortBy(),
             $query->getSortOrder(),
-            $query->getQueryType()
         );
     }
 
