@@ -91,6 +91,17 @@ class SearchProxy extends ConfigurableService implements Search
         return $this;
     }
 
+    public function searchBoolQuery(string $field, array $values, ?int $size = null): ResultSet
+    {
+        if ($this->supportCustomIndex() === false) {
+            throw new Exception('Custom index is not supported');
+        }
+
+        $result = $this->getAdvancedSearch()->boolQuery($field, $values, $size);
+
+        return $result;
+    }
+
     /**
      * @throws Exception
      */
@@ -231,7 +242,8 @@ class SearchProxy extends ConfigurableService implements Search
             $query->getStartRow(),
             $query->getRows(),
             $query->getSortBy(),
-            $query->getSortOrder()
+            $query->getSortOrder(),
+            $query->getQueryType()
         );
     }
 
