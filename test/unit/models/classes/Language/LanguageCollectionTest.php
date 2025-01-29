@@ -40,7 +40,8 @@ class LanguageCollectionTest extends TestCase
             'uri',
             'pt-BR',
             'Portuguese',
-            tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR
+            tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR,
+            null
         );
     }
 
