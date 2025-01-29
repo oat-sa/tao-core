@@ -94,7 +94,7 @@ class SearchProxy extends ConfigurableService implements Search
     /**
      * @param string[] $values
      */
-    public function searchBoolQuery(string $field, array $values, ?int $size = null): ResultSet
+    public function searchBoolQuery(string $field, array $values, string $index, ?int $size = null): ResultSet
     {
         //For search engines that does not support custom index we will return an empty result set
         // to allow user blindly delete resources
@@ -102,7 +102,7 @@ class SearchProxy extends ConfigurableService implements Search
             return new ResultSet([], 0);
         }
 
-        return $this->getAdvancedSearch()->boolQuery($field, $values, $size);
+        return $this->getAdvancedSearch()->boolQuery($field, $values, $index, $size);
     }
 
     /**
