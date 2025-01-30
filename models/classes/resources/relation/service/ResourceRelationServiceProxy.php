@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\relation\service;
 
+use common_Logger;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\resources\relation\FindAllQuery;
 use oat\tao\model\resources\relation\ResourceRelationCollection;
 
@@ -65,6 +67,11 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
             }
 
             foreach ($services as $serviceId) {
+                // Instead of throwing error when service does not exist, we just skip it
+                if (!$this->serviceExist($serviceId, $type)) {
+                    continue;
+                }
+
                 $relations = array_merge(
                     $relations,
                     $this->getResourceRelationService($serviceId)
@@ -80,7 +87,27 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
 
     private function getResourceRelationService(string $serviceId): ResourceRelationServiceInterface
     {
-        return $this->getServiceLocator()->get($serviceId);
+        try {
+            return $this->getServiceManager()->get($serviceId);
+        } catch (ServiceNotFoundException $exception) {
+            return $this->getServiceManager()->getContainer()->get($serviceId);
+        }
+    }
+
+    private function serviceExist(string $serviceId, string $type): bool
+    {
+        if ($this->getServiceManager()->has($serviceId)
+            || $this->getServiceManager()->getContainer()->has($serviceId)) {
+            return true;
+        }
+
+        common_Logger::w(
+            sprintf(
+                'Service %s configured as relation service for %s does not exist', $serviceId, $type
+            )
+        );
+
+        return false;
     }
 
     private function getServices(string $type): array
