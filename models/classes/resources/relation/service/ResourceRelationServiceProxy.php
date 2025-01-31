@@ -96,14 +96,18 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
 
     private function serviceExist(string $serviceId, string $type): bool
     {
-        if ($this->getServiceManager()->has($serviceId)
-            || $this->getServiceManager()->getContainer()->has($serviceId)) {
+        if (
+            $this->getServiceManager()->has($serviceId)
+            || $this->getServiceManager()->getContainer()->has($serviceId)
+        ) {
             return true;
         }
 
         common_Logger::w(
             sprintf(
-                'Service %s configured as relation service for %s does not exist', $serviceId, $type
+                'Service %s configured as relation service for %s does not exist',
+                $serviceId,
+                $type
             )
         );
 
