@@ -25,7 +25,9 @@ namespace oat\tao\model\Translation\Service;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\resource\Contract\ResourceDeleterInterface;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\Translation\Entity\AbstractResource;
+use oat\tao\model\Translation\Event\TranslationActionEvent;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
@@ -40,19 +42,22 @@ class TranslationDeletionService
     private ResourceTranslationRepository $resourceTranslationRepository;
     private LoggerInterface $logger;
     private TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer;
+    private EventManager $eventManager;
 
     public function __construct(
         Ontology $ontology,
         ResourceDeleterInterface $resourceDeleter,
         ResourceTranslationRepository $resourceTranslationRepository,
         LoggerInterface $logger,
-        TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer
+        TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer,
+        EventManager $eventManager
     ) {
         $this->ontology = $ontology;
         $this->resourceDeleter = $resourceDeleter;
         $this->resourceTranslationRepository = $resourceTranslationRepository;
         $this->logger = $logger;
         $this->translatedIntoLanguagesSynchronizer = $translatedIntoLanguagesSynchronizer;
+        $this->eventManager = $eventManager;
     }
 
     public function deleteByRequest(ServerRequestInterface $request): core_kernel_classes_Resource
@@ -88,6 +93,13 @@ class TranslationDeletionService
                 $resource = $this->ontology->getResource($translation->getResourceUri());
 
                 $this->resourceDeleter->delete($resource);
+
+                $this->eventManager->trigger(new TranslationActionEvent(
+                    TranslationActionEvent::ACTION_DELETED,
+                    $resourceUri,
+                    $translation->getResourceUri(),
+                    $translation->getLanguageCode()
+                ));
             }
 
             $this->translatedIntoLanguagesSynchronizer->sync($this->ontology->getResource($resourceUri));
