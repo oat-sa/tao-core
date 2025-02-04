@@ -27,6 +27,7 @@ namespace oat\tao\test\unit\models\classes\Translation\Service;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Language\Language;
 use oat\tao\model\Language\LanguageCollection;
@@ -90,6 +91,7 @@ class TranslationCreationServiceTest extends TestCase
             $this->languageRepository,
             $this->logger,
             $this->translatedIntoLanguagesSynchronizer,
+            $this->createMock(EventManager::class)
         );
 
         $this->service->setResourceTransfer(TaoOntology::CLASS_URI_ITEM, $this->resourceTransfer);
@@ -122,7 +124,7 @@ class TranslationCreationServiceTest extends TestCase
             ->method('getUri')
             ->willReturn($languageUri);
         $language
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getCode')
             ->willReturn('pt-BR');
 
