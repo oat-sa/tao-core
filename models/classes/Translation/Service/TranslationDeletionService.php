@@ -75,6 +75,9 @@ class TranslationDeletionService
         }
 
         try {
+            $resource = $this->ontology->getResource($resourceUri);
+            $rootId = $resource->getRootId();
+
             $translations = $this->resourceTranslationRepository
                 ->find(new ResourceTranslationQuery([$resourceUri], $languageUri));
 
@@ -96,6 +99,7 @@ class TranslationDeletionService
 
                 $this->eventManager->trigger(new TranslationActionEvent(
                     TranslationActionEvent::ACTION_DELETED,
+                    $rootId,
                     $resourceUri,
                     $translation->getResourceUri(),
                     $translation->getLanguageCode()

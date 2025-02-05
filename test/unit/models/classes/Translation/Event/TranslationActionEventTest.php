@@ -33,6 +33,7 @@ class TranslationActionEventTest extends TestCase
     {
         $sut = new TranslationActionEvent(
             'someAction',
+            'item',
             'originalResourceId',
             'translationResourceId',
             'locale'
@@ -43,6 +44,7 @@ class TranslationActionEventTest extends TestCase
         $this->assertEquals(
             [
                 'action' => 'someAction',
+                'type' => 'item',
                 'originalResourceId' => 'originalResourceId',
                 'translationResourceId' => 'translationResourceId',
                 'locale' => 'locale',

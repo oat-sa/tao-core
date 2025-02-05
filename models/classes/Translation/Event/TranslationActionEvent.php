@@ -32,6 +32,7 @@ class TranslationActionEvent implements Event, JsonSerializable
     public const ACTION_DELETED = 'translation.deleted';
 
     private string $action;
+    private string $type;
     private string $originalResourceId;
     private string $translationResourceId;
     private string $locale;
@@ -39,12 +40,14 @@ class TranslationActionEvent implements Event, JsonSerializable
 
     public function __construct(
         string $action,
+        string $type,
         string $originalResourceId,
         string $translationResourceId,
         string $locale,
         array $data = []
     ) {
         $this->action = $action;
+        $this->type = $type;
         $this->originalResourceId = $originalResourceId;
         $this->translationResourceId = $translationResourceId;
         $this->locale = $locale;
@@ -60,6 +63,7 @@ class TranslationActionEvent implements Event, JsonSerializable
     {
         return [
             'action' => $this->action,
+            'type' => $this->type,
             'originalResourceId' => $this->originalResourceId,
             'translationResourceId' => $this->translationResourceId,
             'locale' => $this->locale,

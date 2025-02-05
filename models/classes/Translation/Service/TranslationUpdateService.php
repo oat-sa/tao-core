@@ -91,6 +91,7 @@ class TranslationUpdateService
 
             $this->eventManager->trigger(new TranslationActionEvent(
                 TranslationActionEvent::ACTION_UPDATED,
+                $instance->getRootId(),
                 $this->getOriginalResourceUri($instance),
                 $instance->getUri(),
                 $this->getLocaleCode($instance),

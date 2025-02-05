@@ -201,6 +201,7 @@ class TranslationCreationService
 
             $this->eventManager->trigger(new TranslationActionEvent(
                 TranslationActionEvent::ACTION_CREATED,
+                $rootId,
                 $resourceUri,
                 $clonedInstanceUri,
                 $language->getCode()
