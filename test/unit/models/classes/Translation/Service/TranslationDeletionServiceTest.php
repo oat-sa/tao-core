@@ -88,7 +88,7 @@ class TranslationDeletionServiceTest extends TestCase
             ->method('getParsedBody')
             ->willReturn(
                 [
-                    'id' => $resourceUri,
+                    'id' => $translationResourceId,
                     'languageUri' => $languageUri,
                 ]
             );
@@ -108,7 +108,7 @@ class TranslationDeletionServiceTest extends TestCase
         $this->ontology
             ->expects($this->exactly(2))
             ->method('getResource')
-            ->withConsecutive([$translationResourceId], ['id1'])
+            ->withConsecutive([$translationResourceId], [$translationResourceId])
             ->willReturnOnConsecutiveCalls($translationResource, $originalResource);
 
         $this->translatedIntoLanguagesSynchronizer

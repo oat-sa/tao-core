@@ -93,9 +93,9 @@ class TranslationDeletionService
 
             /** @var AbstractResource $translation */
             foreach ($translations as $translation) {
-                $resource = $this->ontology->getResource($translation->getResourceUri());
+                $translationResource = $this->ontology->getResource($translation->getResourceUri());
 
-                $this->resourceDeleter->delete($resource);
+                $this->resourceDeleter->delete($translationResource);
 
                 $this->eventManager->trigger(new TranslationActionEvent(
                     TranslationActionEvent::ACTION_DELETED,
@@ -106,7 +106,7 @@ class TranslationDeletionService
                 ));
             }
 
-            $this->translatedIntoLanguagesSynchronizer->sync($this->ontology->getResource($resourceUri));
+            $this->translatedIntoLanguagesSynchronizer->sync($resource);
 
             return $resource;
         } catch (Throwable $exception) {
