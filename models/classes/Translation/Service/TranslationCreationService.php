@@ -24,6 +24,7 @@ namespace oat\tao\model\Translation\Service;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Language\Language;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
@@ -31,6 +32,7 @@ use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Command\CreateTranslationCommand;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
+use oat\tao\model\Translation\Event\TranslationActionEvent;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslatableQuery;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
@@ -48,6 +50,7 @@ class TranslationCreationService
     private LanguageRepositoryInterface $languageRepository;
     private LoggerInterface $logger;
     private TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer;
+    private EventManager $eventManager;
 
     private array $resourceTransferServices;
     private array $callables;
@@ -58,7 +61,8 @@ class TranslationCreationService
         ResourceTranslationRepository $resourceTranslationRepository,
         LanguageRepositoryInterface $languageRepository,
         LoggerInterface $logger,
-        TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer
+        TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer,
+        EventManager $eventManager
     ) {
         $this->ontology = $ontology;
         $this->resourceTranslatableRepository = $resourceTranslatableRepository;
@@ -66,6 +70,7 @@ class TranslationCreationService
         $this->languageRepository = $languageRepository;
         $this->logger = $logger;
         $this->translatedIntoLanguagesSynchronizer = $translatedIntoLanguagesSynchronizer;
+        $this->eventManager = $eventManager;
     }
 
     public function setResourceTransfer(string $resourceType, ResourceTransferInterface $resourceTransfer): void
@@ -193,6 +198,14 @@ class TranslationCreationService
             }
 
             $this->translatedIntoLanguagesSynchronizer->sync($instance);
+
+            $this->eventManager->trigger(new TranslationActionEvent(
+                TranslationActionEvent::ACTION_CREATED,
+                $rootId,
+                $resourceUri,
+                $clonedInstanceUri,
+                $language->getCode()
+            ));
 
             return $clonedInstance;
         } catch (Throwable $exception) {

@@ -27,6 +27,7 @@ namespace oat\tao\test\unit\models\classes\Translation\Service;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Command\UpdateTranslationCommand;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
@@ -58,7 +59,8 @@ class TranslationUpdateServiceTest extends TestCase
         $this->service = new TranslationUpdateService(
             $this->ontology,
             $this->logger,
-            $this->translatedIntoLanguagesSynchronizer
+            $this->translatedIntoLanguagesSynchronizer,
+            $this->createMock(EventManager::class)
         );
     }
 
@@ -66,16 +68,44 @@ class TranslationUpdateServiceTest extends TestCase
     {
         $typeProperty = $this->createMock(core_kernel_classes_Property::class);
         $progressProperty = $this->createMock(core_kernel_classes_Property::class);
+        $originalResourceUriProperty = $this->createMock(core_kernel_classes_Property::class);
+        $languageProperty = $this->createMock(core_kernel_classes_Property::class);
 
         $translationType = $this->createMock(core_kernel_classes_Resource::class);
         $translationType
             ->method('getUri')
             ->willReturn(TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION);
 
+        $translationProgress = $this->createMock(core_kernel_classes_Resource::class);
+        $translationProgress
+            ->method('getUri')
+            ->willReturn(TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATING);
+
+        $originalResourceUri = $this->createMock(core_kernel_classes_Resource::class);
+        $originalResourceUri
+            ->method('getUri')
+            ->willReturn('originalResourceUri');
+
+        $translationLanguage = $this->createMock(core_kernel_classes_Resource::class);
+        $translationLanguage
+            ->method('getUri')
+            ->willReturn(TaoOntology::LANGUAGE_PREFIX . 'en-US');
+
         $resource = $this->createMock(core_kernel_classes_Resource::class);
         $resource
             ->method('getOnePropertyValue')
-            ->willReturn($translationType);
+            ->withConsecutive(
+                [$typeProperty],
+                [$progressProperty],
+                [$originalResourceUriProperty],
+                [$languageProperty]
+            )
+            ->willReturnOnConsecutiveCalls(
+                $translationType,
+                $translationProgress,
+                $originalResourceUri,
+                $translationLanguage
+            );
 
         $resource
             ->method('exists')
@@ -104,6 +134,14 @@ class TranslationUpdateServiceTest extends TestCase
                     [
                         TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
                         $progressProperty
+                    ],
+                    [
+                        TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
+                        $originalResourceUriProperty
+                    ],
+                    [
+                        TaoOntology::PROPERTY_LANGUAGE,
+                        $languageProperty
                     ],
                 ]
             );
