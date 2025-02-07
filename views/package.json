@@ -10,7 +10,7 @@
     "scripts": {},
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
-        "@oat-sa/tao-core-libs": "https://github.com/oat-sa/tao-core-libs-fe#feature/TR-6448/vertical-inlinechoice",
+        "@oat-sa/tao-core-libs": "^1.1.0",
         "@oat-sa/tao-core-sdk": "^3.2.1",
         "@oat-sa/tao-core-shared-libs": "^1.7.0",
         "@oat-sa/tao-core-ui": "^3.9.7",
