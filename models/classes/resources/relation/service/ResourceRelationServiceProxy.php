@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\relation\service;
 
-use common_Logger;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\resources\relation\FindAllQuery;
 use oat\tao\model\resources\relation\ResourceRelationCollection;
