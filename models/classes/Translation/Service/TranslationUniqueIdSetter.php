@@ -71,12 +71,10 @@ class TranslationUniqueIdSetter
             AbstractQtiIdentifierSetter::OPTION_IDENTIFIER => $uniqueIdentifier,
         ]);
 
-        if ($this->featureFlagChecker->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
-            $resource->editPropertyValues(
-                $this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER),
-                $uniqueIdentifier
-            );
-        }
+        $resource->editPropertyValues(
+            $this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER),
+            $uniqueIdentifier
+        );
     }
 
     private function getOriginalResource(core_kernel_classes_Resource $resource): core_kernel_classes_Resource

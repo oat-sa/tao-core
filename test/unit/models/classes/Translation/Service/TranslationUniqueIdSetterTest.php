@@ -62,75 +62,6 @@ class TranslationUniqueIdSetterTest extends TestCase
         $this->sut->addQtiIdentifierSetter($this->qtiIdentifierSetter, 'resourceType');
     }
 
-    public function testUniqueIdFeatureDisabled(): void
-    {
-        $this->featureFlagChecker
-            ->expects($this->exactly(2))
-            ->method('isEnabled')
-            ->withConsecutive(
-                ['FEATURE_FLAG_TRANSLATION_ENABLED'],
-                ['FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER']
-            )
-            ->willReturnOnConsecutiveCalls(true, false);
-
-        $originalResourceUriProperty = $this->createPropertyMock();
-        $uniqueIdProperty = $this->createPropertyMock();
-
-        $this->ontology
-            ->expects($this->exactly(2))
-            ->method('getProperty')
-            ->withConsecutive(
-                [TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI],
-                [TaoOntology::PROPERTY_UNIQUE_IDENTIFIER]
-            )
-            ->willReturnOnConsecutiveCalls(
-                $originalResourceUriProperty,
-                $uniqueIdProperty
-            );
-
-        $this->resource
-            ->expects($this->once())
-            ->method('getOnePropertyValue')
-            ->with($originalResourceUriProperty)
-            ->willReturn('originalResourceUri');
-
-        $originalResource = $this->createResourceMock();
-
-        $this->ontology
-            ->expects($this->once())
-            ->method('getResource')
-            ->with('originalResourceUri')
-            ->willReturn($originalResource);
-
-        $identifier = $this->createMock(core_kernel_classes_Literal::class);
-        $identifier->literal = 'identifier';
-
-        $originalResource
-            ->expects($this->once())
-            ->method('getOnePropertyValue')
-            ->with($uniqueIdProperty)
-            ->willReturn($identifier);
-
-        $this->resource
-            ->expects($this->never())
-            ->method('editPropertyValues');
-
-        $this->resource
-            ->expects($this->once())
-            ->method('getRootId')
-            ->willReturn('resourceType');
-
-        $this->qtiIdentifierSetter
-            ->expects($this->once())
-            ->method('set')
-            ->with([
-                AbstractQtiIdentifierSetter::OPTION_RESOURCE => $this->resource,
-                AbstractQtiIdentifierSetter::OPTION_IDENTIFIER => 'identifier',
-            ]);
-
-        $this->sut->__invoke($this->resource);
-    }
-
     public function testTranslationFeatureDisabled(): void
     {
         $this->featureFlagChecker
@@ -306,13 +237,10 @@ class TranslationUniqueIdSetterTest extends TestCase
     public function testSuccess(): void
     {
         $this->featureFlagChecker
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('isEnabled')
-            ->withConsecutive(
-                ['FEATURE_FLAG_TRANSLATION_ENABLED'],
-                ['FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER']
-            )
-            ->willReturnOnConsecutiveCalls(true, true);
+            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->willReturn(true);
 
         $originalResourceUriProperty = $this->createPropertyMock();
         $uniqueIdProperty = $this->createPropertyMock();
