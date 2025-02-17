@@ -93,7 +93,7 @@ class InstanceCopierTest extends TestCase
         $this->eventManager
             ->expects($this->once())
             ->method('trigger')
-            ->with(new InstanceCopiedEvent('newInstanceUri'));
+            ->with(new InstanceCopiedEvent('newInstanceUri', 'instanceUri'));
 
         $this->assertEquals(
             new ResourceTransferResult(
