@@ -27,9 +27,13 @@ use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\ElementMapFactory;
 use oat\tao\helpers\form\elements\ElementValue;
+use oat\tao\model\ClassProperty\PropertyRestrictionGuard;
 use oat\tao\model\form\DataProvider\FormDataProviderInterface;
 use oat\tao\model\form\DataProvider\ProxyFormDataProvider;
+use core_kernel_classes_Property as Property;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use core_kernel_classes_Resource as Resource;
+
 
 /**
  * Create a form from a  resource of your ontology.
@@ -44,6 +48,8 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
     use OntologyAwareTrait;
 
     public const EXCLUDED_PROPERTIES = 'excludedProperties';
+    public const RESTRICTED_PROPERTIES = 'restrictedProperties';
+
     /**
      * Initialize the form
      *
@@ -122,6 +128,13 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                 : [];
         $editedProperties = [];
         foreach ($propertyCandidates as $property) {
+            // Using restricted properties passed when creating editInstanceForm
+            // we can hide properties base on other resource properties
+            $restrictedProperties = $this->options[self::RESTRICTED_PROPERTIES] ?? [];
+            if ($this->isPropertyRestricted($instance, $property, $restrictedProperties)) {
+                continue;
+            }
+
             if (!isset($editedProperties[$property->getUri()]) && !in_array($property->getUri(), $excludedProperties)) {
                 $editedProperties[$property->getUri()] = $property;
             }
@@ -139,7 +152,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             //map properties widgets to form elements
             $elementFactory = $this->getElementFactory();
 
-            if ($instance instanceof core_kernel_classes_Resource) {
+            if ($instance instanceof Resource) {
                 $elementFactory->withInstance($instance);
             }
 
@@ -231,5 +244,15 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
     {
         return $element instanceof tao_helpers_form_elements_Label
             && empty($element->getRawValue());
+    }
+
+    private function isPropertyRestricted(Resource $instance, Property $property, array $restrictedProperties): bool
+    {
+        return $this->getRestrictionPropertyGuard()->isPropertyRestricted($instance, $property, $restrictedProperties);
+    }
+
+    private function getRestrictionPropertyGuard(): PropertyRestrictionGuard
+    {
+        return $this->getServiceLocator()->getContainer()->get(PropertyRestrictionGuard::class);
     }
 }
