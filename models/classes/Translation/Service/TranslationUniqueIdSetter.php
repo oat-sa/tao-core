@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2024 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2024-2025 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -59,24 +59,22 @@ class TranslationUniqueIdSetter
 
     public function __invoke(core_kernel_classes_Resource $resource): void
     {
-        if (
-            !$this->featureFlagChecker->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
-            || !$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')
-        ) {
+        if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')) {
             return;
         }
 
         $originalResource = $this->getOriginalResource($resource);
         $uniqueIdentifier = $this->getUniqueId($originalResource);
 
-        $resource->editPropertyValues(
-            $this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER),
-            $uniqueIdentifier
-        );
         $this->getQtiIdentifierSetter($resource)->set([
             AbstractQtiIdentifierSetter::OPTION_RESOURCE => $resource,
             AbstractQtiIdentifierSetter::OPTION_IDENTIFIER => $uniqueIdentifier,
         ]);
+
+        $resource->editPropertyValues(
+            $this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER),
+            $uniqueIdentifier
+        );
     }
 
     private function getOriginalResource(core_kernel_classes_Resource $resource): core_kernel_classes_Resource
