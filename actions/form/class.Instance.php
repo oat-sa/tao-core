@@ -34,7 +34,6 @@ use core_kernel_classes_Property as Property;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use core_kernel_classes_Resource as Resource;
 
-
 /**
  * Create a form from a  resource of your ontology.
  * Each property will be a field, regarding it's widget.

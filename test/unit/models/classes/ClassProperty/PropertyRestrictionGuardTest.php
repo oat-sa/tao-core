@@ -48,11 +48,10 @@ class PropertyRestrictionGuardTest extends TestCase
      */
     public function testIsPropertyRestrictedFalse(
         string $propertyUri,
-        int    $propertyGetUriCount,
-        int    $getPropertyCallCount = 0,
-        int    $getOnePropertyValueCallCount = 0
-    ): void
-    {
+        int $propertyGetUriCount,
+        int $getPropertyCallCount = 0,
+        int $getOnePropertyValueCallCount = 0
+    ): void {
         $this->property->expects(self::exactly($propertyGetUriCount))
             ->method('getUri')
             ->willReturn($propertyUri);
@@ -68,8 +67,10 @@ class PropertyRestrictionGuardTest extends TestCase
             ->willReturn('value');
 
         self::assertFalse($this->subject->isPropertyRestricted(
-            $this->instance, $this->property, $this->restrictedProperties)
-        );
+            $this->instance,
+            $this->property,
+            $this->restrictedProperties
+        ));
     }
 
     public function testIsPropertyRestrictedTrue(): void
@@ -89,8 +90,10 @@ class PropertyRestrictionGuardTest extends TestCase
             ->willReturn('diffValue');
 
         self::assertTrue($this->subject->isPropertyRestricted(
-            $this->instance, $this->property, $this->restrictedProperties)
-        );
+            $this->instance,
+            $this->property,
+            $this->restrictedProperties
+        ));
     }
 
     public function propertyNonRestrictedDataProvider(): array
