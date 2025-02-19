@@ -26,6 +26,8 @@ namespace oat\tao\test\unit\models\classes\Translation\Service;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\resource\Contract\ResourceDeleterInterface;
+use oat\oatbox\event\EventManager;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
@@ -71,6 +73,7 @@ class TranslationDeletionServiceTest extends TestCase
             $this->resourceTranslationRepository,
             $this->logger,
             $this->translatedIntoLanguagesSynchronizer,
+            $this->createMock(EventManager::class)
         );
     }
 
@@ -85,12 +88,13 @@ class TranslationDeletionServiceTest extends TestCase
             ->method('getParsedBody')
             ->willReturn(
                 [
-                    'id' => $resourceUri,
+                    'id' => $translationResourceId,
                     'languageUri' => $languageUri,
                 ]
             );
 
         $translation = new ResourceTranslation($translationResourceId, 'something');
+        $translation->addMetadata(TaoOntology::PROPERTY_LANGUAGE, $languageUri, 'pt-BR');
         $resourceCollection = new ResourceCollection($translation);
 
         $translationResource = $this->createMock(core_kernel_classes_Resource::class);
@@ -104,7 +108,7 @@ class TranslationDeletionServiceTest extends TestCase
         $this->ontology
             ->expects($this->exactly(2))
             ->method('getResource')
-            ->withConsecutive([$translationResourceId], ['id1'])
+            ->withConsecutive([$translationResourceId], [$translationResourceId])
             ->willReturnOnConsecutiveCalls($translationResource, $originalResource);
 
         $this->translatedIntoLanguagesSynchronizer
