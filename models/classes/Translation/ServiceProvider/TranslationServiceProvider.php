@@ -26,6 +26,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\resource\Service\ResourceDeleter;
+use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
@@ -140,6 +141,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(LanguageRepositoryInterface::class),
                     service(LoggerService::SERVICE_ID),
                     service(TranslatedIntoLanguagesSynchronizer::class),
+                    service(EventManager::SERVICE_ID),
                 ]
             )
             ->public();
@@ -153,6 +155,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(ResourceTranslationRepository::class),
                     service(LoggerService::SERVICE_ID),
                     service(TranslatedIntoLanguagesSynchronizer::class),
+                    service(EventManager::SERVICE_ID),
                 ]
             )
             ->public();
@@ -164,6 +167,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(Ontology::SERVICE_ID),
                     service(LoggerService::SERVICE_ID),
                     service(TranslatedIntoLanguagesSynchronizer::class),
+                    service(EventManager::SERVICE_ID),
                 ]
             )
             ->public();
