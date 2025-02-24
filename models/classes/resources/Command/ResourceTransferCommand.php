@@ -46,7 +46,7 @@ class ResourceTransferCommand
 
     public function __construct(string $from, string $to, ?string $aclMode, ?string $transferMode)
     {
-        $aclMode = $aclMode ?? self::ACL_KEEP_ORIGINAL;
+        $aclMode = $aclMode ?? self::ACL_USE_DESTINATION;
         $transferMode = $transferMode ?? self::TRANSFER_MODE_COPY;
 
         if (!in_array($aclMode, self::ACL_OPTIONS, true)) {
