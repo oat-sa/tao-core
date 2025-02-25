@@ -52,6 +52,5 @@ class MetadataServiceProvider implements ContainerServiceProviderInterface
                 service(Ontology::SERVICE_ID)
             ])
             ->public();
-
     }
 }

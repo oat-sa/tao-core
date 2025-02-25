@@ -27,6 +27,7 @@ use oat\tao\model\metadata\reader\ResourceMetadataService;
 class tao_actions_ResourceMetadata extends tao_actions_CommonModule
 {
     use HttpJsonResponseTrait;
+
     public function get()
     {
         try {
