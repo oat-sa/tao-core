@@ -406,11 +406,11 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
 
         $language = $this->getModel()
             ->getResource(sprintf('http://www.tao.lu/Ontologies/TAO.rdf#Lang%s', $languageCode));
-        
+
         $orientationProperty = $this->getModel()
             ->getProperty(tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION);
         $orientationValue = $language->getOnePropertyValue($orientationProperty);
-        
+
         if ($orientationValue) {
             return $orientationValue->getUri() === tao_models_classes_LanguageService::INSTANCE_ORIENTATION_RTL;
         }
