@@ -31,6 +31,7 @@ use oat\tao\helpers\translation\rdf\RdfPack;
 use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\ClientLibRegistry;
+use oat\tao\model\TaoOntology;
 
 /**
  * Short description of class tao_models_classes_LanguageService
@@ -399,7 +400,22 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     {
         $config = $this->getClientLibConfigRegistry()->get('util/locale') ?? [];
 
-        return in_array($languageCode, $config['rtl'] ?? [], true);
+        if (in_array($languageCode, $config['rtl'] ?? [], true)) {
+            return true;
+        }
+
+        $language = $this->getModel()
+            ->getResource(sprintf('http://www.tao.lu/Ontologies/TAO.rdf#Lang%s', $languageCode));
+        
+        $orientationProperty = $this->getModel()
+            ->getProperty(tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION);
+        $orientationValue = $language->getOnePropertyValue($orientationProperty);
+        
+        if ($orientationValue) {
+            return $orientationValue->getUri() === tao_models_classes_LanguageService::INSTANCE_ORIENTATION_RTL;
+        }
+
+        return false;
     }
 
     private function getClientLibConfigRegistry(): ClientLibConfigRegistry
