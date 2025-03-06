@@ -6,6 +6,6 @@
     <rdf:value><![CDATA[ku-IQ]]></rdf:value>
     <tao:LanguageUsages xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#" rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI"/>
     <tao:LanguageUsages xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#" rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>
-    <tao:LanguageOrientation xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#" rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight"/>
+    <tao:LanguageOrientation xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#" rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft"/>
   </rdf:Description>
 </rdf:RDF>
