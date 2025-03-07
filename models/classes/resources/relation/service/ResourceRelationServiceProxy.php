@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -64,10 +64,12 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
                 continue;
             }
 
+            $container = $this->getServiceManager()->getContainer();
+
             foreach ($services as $serviceId) {
                 $relations = array_merge(
                     $relations,
-                    $this->getResourceRelationService($serviceId)
+                    $container->get($serviceId)
                         ->findRelations($query)
                         ->getIterator()
                         ->getArrayCopy()
@@ -76,11 +78,6 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
         }
 
         return new ResourceRelationCollection(...$relations);
-    }
-
-    private function getResourceRelationService(string $serviceId): ResourceRelationServiceInterface
-    {
-        return $this->getServiceLocator()->get($serviceId);
     }
 
     private function getServices(string $type): array
