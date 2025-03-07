@@ -34,6 +34,6 @@ class NumericIdentifierGeneratorTest extends TestCase
 
         $this->assertIsString($identifier);
         $this->assertEquals(9, strlen($identifier));
-        $this->assertIsNumeric($identifier);
+        $this->assertIsNotNumeric($identifier);
     }
 }

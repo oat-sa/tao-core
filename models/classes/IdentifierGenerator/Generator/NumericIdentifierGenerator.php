@@ -26,11 +26,16 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
 {
     /**
      * This will return 9 digits numeric identifier base on time and random number
-     * i.e: 123456789
+     * i.e: ABCDEFGHI
      */
     public function generate(array $options = []): string
     {
-        return substr((string) floor(time() / 1000), 0, 7)
-            . substr((string) floor(mt_rand(10, 100)), 0, 2);
+        $letters = '';
+
+        for ($i = 0; $i < 9; $i++) {
+            $letters .= chr(rand(65, 90));
+        }
+
+        return $letters;
     }
 }
