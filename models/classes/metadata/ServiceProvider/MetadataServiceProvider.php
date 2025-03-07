@@ -22,10 +22,12 @@ declare(strict_types=1);
 
 namespace oat\tao\model\metadata\ServiceProvider;
 
+use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\export\JsonLdExport;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdTripleEncoderProxy;
 use oat\tao\model\metadata\compiler\AdvancedJsonResourceMetadataCompiler;
+use oat\tao\model\metadata\reader\ResourceMetadataService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -44,5 +46,11 @@ class MetadataServiceProvider implements ContainerServiceProviderInterface
                     service(JsonLdExport::class),
                 ]
             );
+
+        $services->set(ResourceMetadataService::class)
+            ->args([
+                service(Ontology::SERVICE_ID)
+            ])
+            ->public();
     }
 }

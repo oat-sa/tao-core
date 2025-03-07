@@ -22,14 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\listener;
 
-use common_ext_ExtensionsManager;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\oatbox\cache\SimpleCache;
-use oat\tao\model\ClientLibConfigRegistry;
-use oat\tao\model\featureFlag\Listener\FeatureFlagCacheWarmupListener;
-use oat\tao\model\featureFlag\Repository\FeatureFlagRepository;
-use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
+use oat\tao\model\ClassProperty\PropertyRestrictionGuard;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -51,5 +46,13 @@ class PropertyServiceProvider implements ContainerServiceProviderInterface
                     service(Ontology::SERVICE_ID)
                 ]
             );
+
+        $services->set(PropertyRestrictionGuard::class, PropertyRestrictionGuard::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID)
+                ]
+            )
+            ->public();
     }
 }
