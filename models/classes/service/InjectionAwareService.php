@@ -117,9 +117,11 @@ FACTORY;
 
             $value = $classProperty->getValue($service);
 
-            $parameter->isVariadic()
-                ? yield from $value
-                : yield $value;
+            if ($parameter->isVariadic()) {
+                yield from $value;
+            } else {
+                yield $value;
+            }
         }
     }
 
