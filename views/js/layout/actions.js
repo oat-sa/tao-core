@@ -257,9 +257,8 @@ define([
                 }
             }
             if(_.isPlainObject(action)){
-                console.log(action.id)
                 if (!action.id.match(/item-preview|test-preview/)) {
-                    //make the executed action active
+                    // make the executed action active
                     _.forEach(actions, function(otherAction){
                         otherAction.state.active = false;
                     });
