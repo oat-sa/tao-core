@@ -252,17 +252,18 @@ define([
                     //try to find by id
                     action = actions[action];
                 } else {
-                    //or by by name
+                    //or by name
                     action = _.find(actions, {name : action});
                 }
             }
             if(_.isPlainObject(action)){
-
-                //make the executed action active
-                _.forEach(actions, function(otherAction){
-                    otherAction.state.active = false;
-                });
-                action.state.active = true;
+                if (!action.id.match(/item-preview|test-preview/)) {
+                    // make the executed action active
+                    _.forEach(actions, function(otherAction){
+                        otherAction.state.active = false;
+                    });
+                    action.state.active = true;
+                }
                 this.updateState();
 
                 return Promise
