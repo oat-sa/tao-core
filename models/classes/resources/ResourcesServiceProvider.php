@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\resources;
 
 use oat\generis\model\data\Ontology;
+use oat\tao\model\resources\relation\service\ResourceRelationServiceProxy;
 use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
 use oat\generis\model\resource\Repository\ClassRepository;
@@ -66,6 +67,7 @@ class ResourcesServiceProvider implements ContainerServiceProviderInterface
                     service(Ontology::SERVICE_ID),
                     service(ResourceRepository::class),
                     service(ClassRepository::class),
+                    service(ResourceRelationServiceProxy::SERVICE_ID)
                 ]
             );
     }
