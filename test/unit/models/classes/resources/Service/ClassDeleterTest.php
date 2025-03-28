@@ -22,11 +22,16 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\resources\Service;
 
+use ArrayIterator;
 use core_kernel_classes_Class;
 use oat\generis\test\TestCase;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
+use oat\tao\model\resources\relation\ResourceRelation;
+use oat\tao\model\resources\relation\ResourceRelationCollection;
+use oat\tao\model\resources\relation\service\ResourceRelationServiceProxy;
+use oat\tao\model\TaoOntology;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionCheckerInterface;
@@ -71,13 +76,17 @@ class ClassDeleterTest extends TestCase
 
         $this->resourceRepository = $this->createMock(ResourceRepositoryInterface::class);
         $this->classRepository = $this->createMock(ResourceRepositoryInterface::class);
+        $this->resourceRelationServiceProxyMock = $this->createMock(
+            ResourceRelationServiceProxy::class
+        );
 
         $this->sut = new ClassDeleter(
             $this->rootClassSpecification,
             $this->permissionChecker,
             $this->ontology,
             $this->resourceRepository,
-            $this->classRepository
+            $this->classRepository,
+            $this->resourceRelationServiceProxyMock
         );
     }
 
@@ -832,6 +841,78 @@ class ClassDeleterTest extends TestCase
 
         $this->expectException(PartialClassDeletionException::class);
 
+        $this->sut->delete($class);
+    }
+
+    public function testDeleteClassWithResourceWithRelations(): void
+    {
+        $class = $this->createMock(core_kernel_classes_Class::class);
+
+        $this->rootClassSpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
+        $this->permissionChecker
+            ->method('hasReadAccess')
+            ->willReturn(true);
+
+        $class->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([]);
+
+        $classResource = $this->createMock(core_kernel_classes_Resource::class);
+        $class->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([
+                'resourceRelationId' => $classResource,
+                'not-used-id' => $classResource
+            ]);
+
+        $class->method('getRootId')
+            ->willReturn(TaoOntology::CLASS_URI_ITEM);
+
+        $resourceRelationCollectionMock = $this->createMock(ResourceRelationCollection::class);
+
+        $this->resourceRelationServiceProxyMock->expects($this->once())
+            ->method('findRelations')
+            ->willReturn($resourceRelationCollectionMock);
+
+        $resourceRelationMock = $this->createMock(ResourceRelation::class);
+
+        $resourceRelationCollectionMock->expects($this->once())
+            ->method('getIterator')
+            ->willReturn(new ArrayIterator([
+                $resourceRelationMock,
+                $resourceRelationMock
+            ]));
+
+        $resourceRelationMock->expects($this->exactly(2))
+            ->method('getId')
+            ->willReturnOnConsecutiveCalls(
+                'resourceRelationId',
+                'some-mistake'
+            );
+
+        $classResource
+            ->method('exists')
+            ->willReturn(true);
+
+        $this->permissionChecker->expects($this->once())
+            ->method('hasWriteAccess')
+            ->willReturn(true);
+
+        $this->resourceRepository
+            ->expects($this->once())
+            ->method('delete');
+
+        $this->classRepository->expects($this->never())
+            ->method('delete');
+
+        $class->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
+
+        $this->expectException(PartialClassDeletionException::class);
         $this->sut->delete($class);
     }
 }
