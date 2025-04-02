@@ -402,7 +402,10 @@ define([
          * @param {String} [actionContext.classUri]
          */
         binder.register('moveNode', function remove(actionContext) {
-            const data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed', 'signature']);
+            const data = _.assign(
+                _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed', 'signature']), 
+                { aclMode: module.config().aclTransferMode }
+            );
 
             //wrap into a private function for recusion calls
             function _moveNode(url) {

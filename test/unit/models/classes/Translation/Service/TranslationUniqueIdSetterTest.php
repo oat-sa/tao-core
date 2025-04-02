@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2024 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2024-2025 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -62,35 +62,13 @@ class TranslationUniqueIdSetterTest extends TestCase
         $this->sut->addQtiIdentifierSetter($this->qtiIdentifierSetter, 'resourceType');
     }
 
-    public function testUniqueIdFeatureDisabled(): void
+    public function testTranslationFeatureDisabled(): void
     {
         $this->featureFlagChecker
             ->expects($this->once())
             ->method('isEnabled')
-            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
+            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
             ->willReturn(false);
-
-        $this->resource
-            ->expects($this->never())
-            ->method($this->anything());
-
-        $this->qtiIdentifierSetter
-            ->expects($this->never())
-            ->method('set');
-
-        $this->sut->__invoke($this->resource);
-    }
-
-    public function testTranslationFeatureDisabled(): void
-    {
-        $this->featureFlagChecker
-            ->expects($this->exactly(2))
-            ->method('isEnabled')
-            ->withConsecutive(
-                ['FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER'],
-                ['FEATURE_FLAG_TRANSLATION_ENABLED']
-            )
-            ->willReturnOnConsecutiveCalls(true, false);
 
         $this->resource
             ->expects($this->never())
@@ -106,13 +84,10 @@ class TranslationUniqueIdSetterTest extends TestCase
     public function testNoOriginalResourceUri(): void
     {
         $this->featureFlagChecker
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('isEnabled')
-            ->withConsecutive(
-                ['FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER'],
-                ['FEATURE_FLAG_TRANSLATION_ENABLED']
-            )
-            ->willReturnOnConsecutiveCalls(true, true);
+            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->willReturn(true);
 
         $originalResourceUriProperty = $this->createPropertyMock();
 
@@ -142,13 +117,10 @@ class TranslationUniqueIdSetterTest extends TestCase
     public function testNoUniqueId(): void
     {
         $this->featureFlagChecker
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('isEnabled')
-            ->withConsecutive(
-                ['FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER'],
-                ['FEATURE_FLAG_TRANSLATION_ENABLED']
-            )
-            ->willReturnOnConsecutiveCalls(true, true);
+            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->willReturn(true);
 
         $originalResourceUriProperty = $this->createPropertyMock();
         $uniqueIdProperty = $this->createPropertyMock();
@@ -199,13 +171,10 @@ class TranslationUniqueIdSetterTest extends TestCase
     public function testNoQtiIdentifierSetterForSpecifiedType(): void
     {
         $this->featureFlagChecker
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('isEnabled')
-            ->withConsecutive(
-                ['FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER'],
-                ['FEATURE_FLAG_TRANSLATION_ENABLED']
-            )
-            ->willReturnOnConsecutiveCalls(true, true);
+            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->willReturn(true);
 
         $originalResourceUriProperty = $this->createPropertyMock();
         $uniqueIdProperty = $this->createPropertyMock();
@@ -246,7 +215,7 @@ class TranslationUniqueIdSetterTest extends TestCase
             ->willReturn($identifier);
 
         $this->resource
-            ->expects($this->once())
+            ->expects($this->never())
             ->method('editPropertyValues')
             ->with($uniqueIdProperty, 'identifier');
 
@@ -268,13 +237,10 @@ class TranslationUniqueIdSetterTest extends TestCase
     public function testSuccess(): void
     {
         $this->featureFlagChecker
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('isEnabled')
-            ->withConsecutive(
-                ['FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER'],
-                ['FEATURE_FLAG_TRANSLATION_ENABLED']
-            )
-            ->willReturnOnConsecutiveCalls(true, true);
+            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->willReturn(true);
 
         $originalResourceUriProperty = $this->createPropertyMock();
         $uniqueIdProperty = $this->createPropertyMock();
