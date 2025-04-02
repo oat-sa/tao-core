@@ -64,10 +64,12 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
                 continue;
             }
 
+            $container = $this->getServiceManager()->getContainer();
+
             foreach ($services as $serviceId) {
                 $relations = array_merge(
                     $relations,
-                    $this->getResourceRelationService($serviceId)
+                    $container->get($serviceId)
                         ->findRelations($query)
                         ->getIterator()
                         ->getArrayCopy()
@@ -76,11 +78,6 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
         }
 
         return new ResourceRelationCollection(...$relations);
-    }
-
-    private function getResourceRelationService(string $serviceId): ResourceRelationServiceInterface
-    {
-        return $this->getServiceLocator()->get($serviceId);
     }
 
     private function getServices(string $type): array
