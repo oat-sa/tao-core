@@ -357,6 +357,8 @@ return [
         [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, Users::class],
         [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, ['ext' => 'tao', 'mod' => 'MetadataImport']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ResourceRelations']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ResourceMetadata']],
+
     ],
     'routes' => [
         '/tao/api' => ['class' => ApiRoute::class],
