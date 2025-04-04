@@ -22,6 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
+use oat\tao\model\resources\relation\FindAllQuery;
+use oat\tao\model\resources\relation\ResourceRelationCollection;
+use oat\tao\model\resources\relation\service\ResourceRelationServiceProxy;
+use oat\tao\model\TaoOntology;
 use Throwable;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
@@ -37,6 +41,9 @@ use oat\tao\model\resources\Exception\PartialClassDeletionException;
 
 class ClassDeleter implements ClassDeleterInterface
 {
+    private const RELATION_RESOURCE_MAP = [
+        TaoOntology::CLASS_URI_ITEM => 'itemClass'
+    ];
     private const PROPERTY_INDEX = OntologyIndex::PROPERTY_INDEX;
 
     /** @var ClassSpecificationInterface */
@@ -59,19 +66,22 @@ class ClassDeleter implements ClassDeleterInterface
 
     /** @var core_kernel_classes_Class|null */
     private $selectedClass;
+    private ResourceRelationServiceProxy $resourceRelationServiceProxy;
 
     public function __construct(
         ClassSpecificationInterface $rootClassSpecification,
         PermissionCheckerInterface $permissionChecker,
         Ontology $ontology,
         ResourceRepositoryInterface $resourceRepository,
-        ResourceRepositoryInterface $classRepository
+        ResourceRepositoryInterface $classRepository,
+        ResourceRelationServiceProxy $resourceRelationServiceProxy
     ) {
         $this->rootClassSpecification = $rootClassSpecification;
         $this->permissionChecker = $permissionChecker;
         $this->ontology = $ontology;
         $this->resourceRepository = $resourceRepository;
         $this->classRepository = $classRepository;
+        $this->resourceRelationServiceProxy = $resourceRelationServiceProxy;
 
         $this->propertyIndex = $ontology->getProperty(self::PROPERTY_INDEX);
     }
@@ -102,11 +112,8 @@ class ClassDeleter implements ClassDeleterInterface
 
         if ($class->exists()) {
             throw new PartialClassDeletionException(
-                'Unable to delete the selected resource because you do not have the required rights to delete '
-                    . 'part of its content.',
-                // phpcs:disable Generic.Files.LineLength
-                __('Unable to delete the selected resource because you do not have the required rights to delete part of its content.')
-                // phpcs:enable Generic.Files.LineLength
+                'Some of resources has not be deleted',
+                __('Some of resources has not be deleted')
             );
         }
     }
@@ -159,8 +166,14 @@ class ClassDeleter implements ClassDeleterInterface
     private function deleteInstances(core_kernel_classes_Class $class): bool
     {
         $status = true;
+        $resources = $class->getInstances();
+        if ($query = $this->createQuery($class)) {
+            $itemsInUse = $this->resourceRelationServiceProxy->findRelations($query);
+            $resources = $this->filterInstances($resources, $itemsInUse);
+            $status = false;
+        }
 
-        foreach ($class->getInstances() as $instance) {
+        foreach ($resources as $instance) {
             if (!$instance->exists()) {
                 continue;
             }
@@ -223,5 +236,32 @@ class ClassDeleter implements ClassDeleterInterface
         }
 
         return true;
+    }
+
+    private function defineResourceType(core_kernel_classes_Class $class): ?string
+    {
+        if (isset(self::RELATION_RESOURCE_MAP[$class->getRootId()])) {
+            return self::RELATION_RESOURCE_MAP[$class->getRootId()];
+        }
+
+        return null;
+    }
+
+    private function createQuery($class): ?FindAllQuery
+    {
+        if ($this->defineResourceType($class)) {
+            return new FindAllQuery(null, $class->getUri(), $this->defineResourceType($class));
+        }
+
+        return null;
+    }
+
+    private function filterInstances(array $resourceCollection, ResourceRelationCollection $itemsInUse): iterable
+    {
+        foreach ($itemsInUse->getIterator() as $item) {
+            unset($resourceCollection[$item->getId()]);
+        }
+
+        return $resourceCollection;
     }
 }

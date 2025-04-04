@@ -78,27 +78,19 @@ class ResourceWatcher extends ConfigurableService
     public function catchUpdatedResourceEvent(ResourceUpdated $event): void
     {
         $resource = $event->getResource();
-        $updatedAt = $this->getUpdatedAt($resource);
-
-        if ($updatedAt instanceof core_kernel_classes_Literal) {
-            $updatedAt = (int) $updatedAt->literal;
-        }
 
         $now = microtime(true);
-        $threshold = $this->getOption(self::OPTION_THRESHOLD);
 
-        if ($updatedAt === null || ($now - $updatedAt) > $threshold) {
-            $this->getLogger()->debug(
-                'triggering index update on resourceUpdated event'
-            );
+        $this->getLogger()->debug(
+            'triggering index update on resourceUpdated event'
+        );
 
-            $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
-            $this->updatedAtCache[$resource->getUri()] = $now;
-            $resource->editPropertyValues($property, $now);
+        $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
+        $this->updatedAtCache[$resource->getUri()] = $now;
+        $resource->editPropertyValues($property, $now);
 
-            $taskMessage = __('Adding/updating search index for updated resource');
-            $this->createResourceIndexingTask($resource, $taskMessage);
-        }
+        $taskMessage = __('Adding/updating search index for updated resource');
+        $this->createResourceIndexingTask($resource, $taskMessage);
     }
 
     public function catchDeletedResourceEvent(ResourceDeleted $event): void
@@ -117,7 +109,7 @@ class ResourceWatcher extends ConfigurableService
         }
     }
 
-     /**
+    /**
      * @return \core_kernel_classes_Container
      * @throws \core_kernel_persistence_Exception
      */
@@ -129,7 +121,7 @@ class ResourceWatcher extends ConfigurableService
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $updatedAt = $resource->getOnePropertyValue($property);
             if ($updatedAt && $updatedAt instanceof core_kernel_classes_Literal) {
-                $updatedAt = (int) $updatedAt->literal;
+                $updatedAt = (int)$updatedAt->literal;
             }
             $this->updatedAtCache[$resource->getUri()] = $updatedAt;
         }
