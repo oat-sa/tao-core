@@ -242,7 +242,7 @@ class ResourceWatcherTest extends TestCase
             new UpdateResourceInIndex()
         );
 
-        $this->mockGetPropertyOntology($this->atLeast(2));
+        $this->mockGetPropertyOntology($this->atLeast(1));
 
         $this->mockGetUriResource($resourceUri);
 
@@ -271,7 +271,7 @@ class ResourceWatcherTest extends TestCase
             $advancedSearchEnabled
         );
 
-        $this->mockGetPropertyOntology($this->atLeast(2));
+        $this->mockGetPropertyOntology($this->atLeast(1));
 
         $this->mockGetUriResource($resourceUri);
 
@@ -295,7 +295,7 @@ class ResourceWatcherTest extends TestCase
             new UpdateClassInIndex()
         );
 
-        $this->mockGetPropertyOntology($this->atLeast(2));
+        $this->mockGetPropertyOntology($this->atLeast(1));
 
         $this->resource = $this->createMock(core_kernel_classes_Class::class);
         $this->resource->expects($this->any())
