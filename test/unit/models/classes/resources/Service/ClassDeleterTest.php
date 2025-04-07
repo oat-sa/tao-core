@@ -873,6 +873,12 @@ class ClassDeleterTest extends TestCase
 
         $resourceRelationCollectionMock = $this->createMock(ResourceRelationCollection::class);
 
+        $resourceRelationCollectionMock->expects($this->once())
+            ->method('jsonSerialize')
+            ->willReturn([
+                $resourceRelationCollectionMock
+            ]);
+
         $this->resourceRelationServiceProxyMock->expects($this->once())
             ->method('findRelations')
             ->willReturn($resourceRelationCollectionMock);
