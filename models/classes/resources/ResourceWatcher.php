@@ -78,19 +78,26 @@ class ResourceWatcher extends ConfigurableService
     public function catchUpdatedResourceEvent(ResourceUpdated $event): void
     {
         $resource = $event->getResource();
+        $updatedAt = $this->getUpdatedAt($resource);
+
+        if ($updatedAt instanceof core_kernel_classes_Literal) {
+            $updatedAt = (int) $updatedAt->literal;
+        }
 
         $now = microtime(true);
+        
+        if ($updatedAt === null || ((int) $now - (int) $updatedAt) > 0) {
+            $this->getLogger()->debug(
+                'triggering index update on resourceUpdated event'
+            );
 
-        $this->getLogger()->debug(
-            'triggering index update on resourceUpdated event'
-        );
+            $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
+            $this->updatedAtCache[$resource->getUri()] = $now;
+            $resource->editPropertyValues($property, $now);
 
-        $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
-        $this->updatedAtCache[$resource->getUri()] = $now;
-        $resource->editPropertyValues($property, $now);
-
-        $taskMessage = __('Adding/updating search index for updated resource');
-        $this->createResourceIndexingTask($resource, $taskMessage);
+            $taskMessage = __('Adding/updating search index for updated resource');
+            $this->createResourceIndexingTask($resource, $taskMessage);
+        }
     }
 
     public function catchDeletedResourceEvent(ResourceDeleted $event): void
