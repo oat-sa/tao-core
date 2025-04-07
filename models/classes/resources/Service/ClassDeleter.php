@@ -169,8 +169,10 @@ class ClassDeleter implements ClassDeleterInterface
         $resources = $class->getInstances();
         if ($query = $this->createQuery($class)) {
             $itemsInUse = $this->resourceRelationServiceProxy->findRelations($query);
-            $resources = $this->filterInstances($resources, $itemsInUse);
-            $status = false;
+            if ($itemsInUse->jsonSerialize()) {
+                $resources = $this->filterInstances($resources, $itemsInUse);
+                $status = false;
+            }
         }
 
         foreach ($resources as $instance) {
