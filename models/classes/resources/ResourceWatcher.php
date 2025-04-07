@@ -85,7 +85,7 @@ class ResourceWatcher extends ConfigurableService
         }
 
         $now = microtime(true);
-        
+
         if ($updatedAt === null || ((int) $now - (int) $updatedAt) > 0) {
             $this->getLogger()->debug(
                 'triggering index update on resourceUpdated event'
