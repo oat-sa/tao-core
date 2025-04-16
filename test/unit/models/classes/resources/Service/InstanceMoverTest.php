@@ -32,6 +32,7 @@ use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 use oat\tao\model\resources\ResourceTransferResult;
 use oat\tao\model\resources\Service\InstanceMover;
+use oat\tao\model\Translation\Service\TranslationMoveService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -47,14 +48,16 @@ class InstanceMoverTest extends TestCase
 
     /** @var MockObject|PermissionCopierInterface */
     private PermissionCopierInterface $permissionCopier;
+    private TranslationMoveService $translationMoveService;
 
     protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->rootClassesListService = $this->createMock(RootClassesListServiceInterface::class);
         $this->permissionCopier = $this->createMock(PermissionCopierInterface::class);
+        $this->translationMoveService = $this->createMock(TranslationMoveService::class);
 
-        $this->sut = new InstanceMover($this->ontology, $this->rootClassesListService);
+        $this->sut = new InstanceMover($this->ontology, $this->rootClassesListService, $this->translationMoveService);
     }
 
     /**
@@ -149,6 +152,9 @@ class InstanceMoverTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('fromInstanceUri');
+
+        $this->translationMoveService->expects($this->once())
+            ->method('moveTranslations');
 
         $this->assertEquals(
             new ResourceTransferResult('fromInstanceUri'),

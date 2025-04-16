@@ -31,17 +31,22 @@ use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 use oat\tao\model\resources\ResourceTransferResult;
+use oat\tao\model\Translation\Service\TranslationMoveService;
 
 class InstanceMover implements ResourceTransferInterface
 {
     private Ontology $ontology;
     private RootClassesListServiceInterface $rootClassesListService;
-    private PermissionCopierInterface $permissionCopier;
+    private TranslationMoveService $translationMoveService;
 
-    public function __construct(Ontology $ontology, RootClassesListServiceInterface $rootClassesListService)
-    {
+    public function __construct(
+        Ontology $ontology,
+        RootClassesListServiceInterface $rootClassesListService,
+        TranslationMoveService $translationMoveService
+    ) {
         $this->ontology = $ontology;
         $this->rootClassesListService = $rootClassesListService;
+        $this->translationMoveService = $translationMoveService;
     }
 
     public function withPermissionCopier(PermissionCopierInterface $permissionCopier): void
@@ -78,6 +83,8 @@ class InstanceMover implements ResourceTransferInterface
         if (isset($this->permissionCopier) && $command->useDestinationAcl()) {
             $this->permissionCopier->copy($to, $from);
         }
+
+        $this->translationMoveService->moveTranslations($command);
 
         return new ResourceTransferResult($from->getUri());
     }
