@@ -41,6 +41,7 @@ use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\tao\model\resources\Specification\RootClassSpecification;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\Translation\Service\TranslationMoveService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -148,6 +149,7 @@ class CopierServiceProvider implements ContainerServiceProviderInterface
                 [
                     service(Ontology::SERVICE_ID),
                     service(RootClassesListService::class),
+                    service(TranslationMoveService::class),
                 ]
             )
             ->call(
