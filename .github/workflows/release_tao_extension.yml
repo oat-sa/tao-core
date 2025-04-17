@@ -11,7 +11,7 @@ jobs:
   auto-release:
     if: github.event.pull_request.merged == true
     name: Automated Tao extension release
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
