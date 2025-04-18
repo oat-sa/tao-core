@@ -12,7 +12,7 @@
         "@babel/polyfill": "^7.4.4",
         "@oat-sa/tao-core-libs": "^1.1.0",
         "@oat-sa/tao-core-sdk": "^3.3.1",
-        "@oat-sa/tao-core-shared-libs": "^1.7.1",
+        "@oat-sa/tao-core-shared-libs": "github:oat-sa/tao-core-shared-libs-fe#feature/AUT-4159-add-interaction-source-plugin",
         "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#feature/AUT-4159-add-interaction-source-plugin",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
