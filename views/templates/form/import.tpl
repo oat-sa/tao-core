@@ -33,6 +33,7 @@ $msg .= '<ul>';
         'ui/taskQueueButton/standardButton'
     ], function($, __, feedback, urlHelper, actionManager, taskQueue, taskCreationButtonFactory) {
 
+        console.log('Import form loaded');
         var $container = $('.content-block:visible'),
             $form = $('#import'),
             $oldSubmitter = $form.find('.form-submitter'),
@@ -66,7 +67,10 @@ $msg .= '<ul>';
                 return $form.serializeArray();
             },
             taskReportContainer : $container
-        }).on('finished', function(result){
+        }).on('enqueued', function(){
+            $uploader.uploader('reset')
+        }).on('finished', function(result){ 
+            console.log('task finished', result);
             if (result.task
                 && result.task.report
                 && _.isArray(result.task.report.children)
