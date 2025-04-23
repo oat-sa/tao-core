@@ -66,7 +66,9 @@ $msg .= '<ul>';
                 return $form.serializeArray();
             },
             taskReportContainer : $container
-        }).on('finished', function(result){
+        }).on('enqueued', function(){
+            $uploader.uploader('reset')
+        }).on('finished', function(result){ 
             if (result.task
                 && result.task.report
                 && _.isArray(result.task.report.children)
