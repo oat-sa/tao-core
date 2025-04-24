@@ -46,6 +46,7 @@ use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\TranslatedIntoLanguagesSynchronizer;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Service\TranslationDeletionService;
+use oat\tao\model\Translation\Service\TranslationMoveService;
 use oat\tao\model\Translation\Service\TranslationSyncService;
 use oat\tao\model\Translation\Service\TranslationUniqueIdSetter;
 use oat\tao\model\Translation\Service\TranslationUpdateService;
@@ -180,6 +181,17 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 service(LoggerService::SERVICE_ID),
                 service(TranslatedIntoLanguagesSynchronizer::class),
             ])
+            ->public();
+
+        $services
+            ->set(TranslationMoveService::class, TranslationMoveService::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                    service(ResourceTranslationRepository::class),
+                    service(LoggerService::SERVICE_ID),
+                ]
+            )
             ->public();
 
         $services

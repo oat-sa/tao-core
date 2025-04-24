@@ -7,8 +7,7 @@ on:
 
   push:
     branches:
-      - master
-      - main
+      - develop
       - release-*
 
 jobs:
