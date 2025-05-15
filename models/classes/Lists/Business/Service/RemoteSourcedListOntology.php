@@ -35,4 +35,5 @@ class RemoteSourcedListOntology
     public const PROPERTY_DEPENDS_ON_PROPERTY = GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY;
 
     public const LIST_TYPE_REMOTE = 'http://www.tao.lu/Ontologies/TAO.rdf#ListRemote';
+    public const LOCKED = 'http://www.tao.lu/Ontologies/TAO.rdf#Locked';
 }
