@@ -76,5 +76,3 @@ node_modules
 vendor/
 
 composer.lock
-
-build-win/
