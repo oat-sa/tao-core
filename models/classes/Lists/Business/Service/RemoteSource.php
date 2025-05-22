@@ -95,4 +95,14 @@ class RemoteSource extends InjectionAwareService
             ? $this->propagate($this->parsers[$key])
             : $this->parsers[$key];
     }
+
+    public function addParser(string $key, RemoteSourceParserInterface $parser): void
+    {
+        if (isset($this->parsers[$key])) {
+            throw new RuntimeException(
+                sprintf('Parser %s is already registered', $key)
+            );
+        }
+        $this->parsers[$key] = $parser;
+    }
 }
