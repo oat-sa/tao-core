@@ -41,6 +41,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 <?php Template::inc('blocks/requirement-check.tpl', 'tao'); ?>
 
 <div class="content-wrap">
+    <?php Template::inc('blocks/cookies-banner.tpl', 'tao'); ?>
 
     <?php /* alpha|beta|sandbox message */
     if($hasVersionWarning) {
@@ -60,7 +61,9 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 <?=Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'footer')?>
 
 <div class="loading-bar"></div>
-<?php Layout::printAnalyticsCode(); ?>
-<?php UserPilotTemplateHelper::userPilotCode(new UserPilotDto(common_session_SessionManager::getSession())); ?>
+<?php if (!empty($GLOBALS['enableAnalytics'])): ?>
+    <?php Layout::printAnalyticsCode(); ?>
+    <?php UserPilotTemplateHelper::userPilotCode( new UserPilotDto(common_session_SessionManager::getSession())); ?>
+<?php endif; ?>
 </body>
 </html>
