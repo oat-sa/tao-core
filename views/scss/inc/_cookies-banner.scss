@@ -1,0 +1,45 @@
+.cookies-banner {
+  background-color: #eaf4ff;
+  padding: 16px;
+  display: flex;
+  gap: 8px;
+  border-bottom: 4px solid #0078d4;
+  position: relative;
+  z-index: 1000;
+
+  &-icon {
+    font-size: 20px;
+  }
+
+  &-content {
+    flex: 1;
+  }
+
+  &-heading {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+  }
+
+  &-text {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+  }
+
+  &-preferences-link {
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  &-preferences-title {
+    font-weight: 600;
+  }
+
+  &-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+}
