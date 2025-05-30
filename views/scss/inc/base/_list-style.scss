@@ -1,6 +1,8 @@
-ul, ol {
-    padding-left: 40px;
-    &.plain, &.none {
+ul,
+ol {
+    padding-inline-start: 40px;
+    &.plain,
+    &.none {
         padding: 0;
         margin: 0;
         list-style: none;
@@ -21,11 +23,12 @@ nav {
 
 // according to https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type these styles are the most compatible ones
 // disc|circle|square|decimal|decimal-leading-zero|lower-roman|upper-roman|lower-greek|lower-latin|upper-latin|armenian|georgian|lower-alpha|upper-alpha|none. lower|upper-latin are aliases of lower|upper-roman
-$list_styles: disc,circle,square,decimal,decimal-leading-zero,lower-roman,upper-roman,lower-greek,lower-latin,upper-latin,armenian,georgian,lower-alpha,upper-alpha,none;
-
+$list_styles: disc, circle, square, decimal, decimal-leading-zero, lower-roman, upper-roman, lower-greek, lower-latin,
+    upper-latin, armenian, georgian, lower-alpha, upper-alpha, none;
 
 @for $i from 1 through length($list_styles) {
-    ul.#{nth($list_styles, $i)}, ol.#{nth($list_styles, $i)} {
+    ul.#{nth($list_styles, $i)},
+    ol.#{nth($list_styles, $i)} {
         list-style-type: #{nth($list_styles, $i)};
     }
 }
@@ -35,11 +38,13 @@ $list_styles: disc,circle,square,decimal,decimal-leading-zero,lower-roman,upper-
 // <parent class="list-style-disc">
 //    <child> -> parent > p | parent > div | parent > li has a bullet
 
-[class^="list-style-"], [class*=" list-style-"] {
-
+[class^='list-style-'],
+[class*=' list-style-'] {
     counter-reset: custom-counter;
 
-    &>p, &>div, &>li {
+    & > p,
+    & > div,
+    & > li {
         &::before {
             counter-increment: custom-counter;
             width: 20px;
@@ -50,7 +55,9 @@ $list_styles: disc,circle,square,decimal,decimal-leading-zero,lower-roman,upper-
 
     @for $i from 1 through length($list_styles) {
         &.list-style-#{nth($list_styles, $i)} {
-            &>p, &>div, &>li {
+            & > p,
+            & > div,
+            & > li {
                 &::before {
                     content: counter(custom-counter, #{nth($list_styles, $i)});
                 }
