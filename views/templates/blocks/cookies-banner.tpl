@@ -1,42 +1,26 @@
-<?php
-$authCookie = json_decode($_COOKIE['tao_backoffice'] ?? null, true);
-$GLOBALS['enableAnalytics'] = false;
-$cookiePolicy = null;
-
-if ($authCookie) {
-  $cookiePolicy = 'CookiePolicy-' . hash('sha256', $authCookie['tenantId'] . '-' . $authCookie['userLogin']);
-  if (!empty($_COOKIE[$cookiePolicy])) {
-      $cookieValue = json_decode($_COOKIE[$cookiePolicy], true);
-      if (is_array($cookieValue) && !empty($cookieValue['analytics'])) {
-          $GLOBALS['enableAnalytics'] = true;
-      }
-  }
-}
-
-if (!isset($_COOKIE[$cookiePolicy])): ?>
-<div id="cookies-banner" class="cookies-banner xhtml_form" data-cookie-name="<?= $cookiePolicy ?>">
+<div id="cookies-banner" class="cookies-banner xhtml_form">
   <div class="cookies-banner-icon">
     <span class="icon-info" aria-hidden="true"></span>
   </div>
-  <div class="cookies-banner-content">
-    <h3 class="cookies-banner-heading"><strong><?= __('Cookie Policy') ?></strong></h3>
+  <div>
+    <h3><strong><?= __('Cookie Policy') ?></strong></h3>
     <div id="cookies-message">
-      <p class="cookies-banner-text">
+      <p>
       <?= __('This site uses cookies to improve your browsing experience and to perform analytics and research.') ?>
         <?= __('You can update your choice clicking on') ?>
         <a href="#" id="cookies-preferences-link" class="cookies-banner-preferences-link"><?= __('Cookies Preferences') ?></a>.
         <?= __('Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device.') ?>
       </p>
-      <p class="cookies-banner-text">
-            <?= __('You can read more about this in our') ?>
-        <a href="https://www.taotesting.com/about/privacy/" target="_blank"><?= __('Privacy Policy') ?></a>
+      <p>
+        <?= __('You can read more about this in our') ?>
+        <a href="<?= get_data('privacyPolicyLink') ?: 'https://www.taotesting.com/about/privacy/' ?>" target="_blank"><?= __('Privacy Policy') ?></a>
         <?= __('and') ?>
-        <a href="https://www.taotesting.com/about/privacy/" target="_blank"><?= __('Cookie Policy') ?></a>
+        <a href="<?= get_data('cookiePolicyLink') ?: 'https://www.taotesting.com/about/privacy/' ?>" target="_blank"><?= __('Cookie Policy') ?></a>
       </p>
     </div>
 
     <div id="cookies-preferences" style="display: none;">
-      <div class="cookies-banner-preferences-title"><?= __('Manage Preferences') ?></div>
+      <h4><strong><?= __('Manage Preferences') ?></strong></h4>
       <div>
         <p><?= __('You can choose which types of cookies you want to allow to improve your experience.') ?></p>
         <form id="cookies-preferences-form">
@@ -60,9 +44,11 @@ if (!isset($_COOKIE[$cookiePolicy])): ?>
       </div>
     </div>
     <div class="cookies-banner-actions">
-      <button id="decline-cookies" class="small"><?= __('Reject all') ?></button>
-      <button id="accept-cookies" class="btn-success small xhtml_form"><?= __('Accept all') ?></button>
+      <button id="decline-cookies" class="btn-secondary btn-info small"><?= __('Reject all') ?></button>
+      <button id="accept-cookies" class="btn-success small"><?= __('Accept all') ?></button>
     </div>
   </div>
 </div>
-<?php endif; ?>
+<script>
+  window.userCookies = <?= json_encode(\oat\tao\helpers\Layout::getUserCookiesName() ?? '') ?>;
+</script>

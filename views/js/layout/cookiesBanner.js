@@ -1,8 +1,7 @@
 define(["jquery"], function ($) {
-  "use strict";
 
   /**
-   * Returns the base domain for setting cookies
+   * Returns the base domain for setting the cookie.
    * @returns {String}
    */
   function getBaseDomain() {
@@ -11,54 +10,48 @@ define(["jquery"], function ($) {
       ? "." + parts.slice(-2).join(".")
       : window.location.hostname;
   }
+
   /**
-   * Sets the cookie consent preferences as a cookie.
-   * @param {boolean} analytics Whether analytics cookies are allowed.
-   * @param {String} cookieName Name of the cookie to set.
+   * Sets the cookie consent preferences as cookie.
+   * @param {boolean} isAnalyticsEnabled
    */
-  function setCookie(analytics, cookieName) {
+  function setCookie(isAnalyticsEnabled) {
     const value = {
       essentials: true,
-      analytics,
+      analytics: isAnalyticsEnabled,
     };
-    document.cookie = `${cookieName}=${JSON.stringify(
-      value
-    )}; path=/; max-age=${60 * 60 * 24 * 365}; domain=${getBaseDomain()};`;
+
+    const maxAge = 60 * 60 * 24 * 365; // 1 year
+    document.cookie = `${window.userCookies}=${JSON.stringify(value)};path=/; max-age=${
+      maxAge}; domain=${getBaseDomain()};`;
+    $("#cookies-banner").hide();
+    // Reload the page to apply the new cookie settings
     window.location.reload();
   }
 
   return {
     init: function () {
-      const $cookieBanner = $("#cookies-banner");
-      const $cookiesMessage = $("#cookies-message");
       const $acceptButton = $("#accept-cookies");
       const $declineButton = $("#decline-cookies");
-      const $cookiesPreferencesLink = $("#cookies-preferences-link");
-      const $cookiesPreferences = $("#cookies-preferences");
-      const $analyticsToggle = $("#analytics-toggle");
-      const cookieName = $cookieBanner.data("cookie-name");
+      const $cookiesPreferencesBlock = $("#cookies-preferences");
+      const $cookiesMessageBlock = $("#cookies-message");
 
       $acceptButton.on("click", function () {
-        const isPrefsVisible = $cookiesPreferences.is(":visible");
-        const analyticsAllowed = isPrefsVisible
-          ? $analyticsToggle.prop("checked")
+        const isAnalyticsEnabled = $cookiesPreferencesBlock.is(":visible")
+          ? $("#analytics-toggle").prop("checked")
           : true;
-        setCookie(analyticsAllowed, cookieName);
+        setCookie(isAnalyticsEnabled);
       });
 
-      $declineButton.on("click", function () {
-        setCookie(false, cookieName);
+     $declineButton.on("click", function () {
+        setCookie(false);
       });
 
-      $cookiesPreferencesLink.on("click", function (e) {
+      $("#cookies-preferences-link").on("click", function (e) {
         e.preventDefault();
-        const isVisible = $cookiesPreferences.is(":visible");
-        $cookiesPreferences.toggle();
-        $cookiesMessage.toggle();
-
-        if ($acceptButton.length) {
-          $acceptButton.text(isVisible ? "Accept all" : "Confirm choices");
-        }
+        $cookiesPreferencesBlock.toggle();
+        $cookiesMessageBlock.toggle();
+        $acceptButton.text($acceptButton.data('confirm-text') || 'Confirm choices');
       });
     },
   };

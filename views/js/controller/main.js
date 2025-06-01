@@ -180,7 +180,11 @@ define([
             })
             .init();
             
-            cookiesBanner.init();
+            try {
+               cookiesBanner.init();
+            } catch (err) {
+               logger.error('Failed to initialize cookies banner:', err);
+            }
 
             //initialize legacy components
             helpers.init();

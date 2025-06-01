@@ -639,6 +639,47 @@ class Layout
     }
 
     /**
+     * Get cookie name for storing user's cookies preferences.
+     *
+     * @return string|null
+     */
+    public static function getUserCookiesName(): ?string
+    {
+        $cookieName = json_decode($_COOKIE['tao_backoffice'] ?? null, true);
+        // need to validate the cookie content? 
+        if (!is_array($cookieName)) {
+            return null;
+        }
+        return 'CookiePolicy-' . hash('sha256', $cookieName['tenantId'] . '-' . $cookieName['userLogin']);
+    }
+
+    /**
+     * Determines if user has accepted analytics.
+     * 
+     * @return bool
+     */
+    public static function isAnalyticsEnabled(): bool
+    {
+        $cookieName = self::getUserCookiesName();
+        if (!$cookieName || empty($_COOKIE[$cookieName])) {
+            return false;
+        }
+        $cookieValue = json_decode($_COOKIE[$cookieName], true);
+        return is_array($cookieValue) && ($cookieValue['analytics'] === true);
+    }
+
+    /**
+     * Renders the banner if the user hasn't set the cookies preferences
+     * 
+     * @return bool
+     */
+    public static function renderCookiesBanner(): bool
+    {
+        $cookieName = self::getUserCookiesName();
+        return $cookieName !== null && !isset($_COOKIE[$cookieName]);
+    }
+
+    /**
      * Get the current theme configured into tao/theming config
      *
      * @return Theme

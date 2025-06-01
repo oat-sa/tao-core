@@ -1,38 +1,26 @@
+$info: rgb(14, 93, 145);
+$infoBgColor: whiten($info, 0.8);
+$infoBorderColor: whiten($info, 0.1);
+
 .cookies-banner {
-  background-color: #eaf4ff;
-  padding: 16px;
   display: flex;
   gap: 8px;
-  border-bottom: 4px solid #0078d4;
-  position: relative;
-  z-index: 1000;
-
-  &-icon {
-    font-size: 20px;
-  }
-
-  &-content {
-    flex: 1;
-  }
-
-  &-heading {
+  padding: 16px;
+  background-color: $infoBgColor;
+  border: 2px solid $infoBorderColor;
+  
+  h3 {
     margin: 0 0 8px 0;
-    font-size: 18px;
   }
-
-  &-text {
-    margin: 0 0 16px 0;
-    font-size: 14px;
+  
+  &-icon {
+    font-size: 18px;
+    padding-top: 2px;
   }
 
   &-preferences-link {
-    color: black;
+    color: var(--color-text-link);
     text-decoration: underline;
-    cursor: pointer;
-    font-weight: 600;
-  }
-
-  &-preferences-title {
     font-weight: 600;
   }
 
@@ -40,6 +28,6 @@
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
-    margin-top: 12px;
+    margin-top: 16px;
   }
 }
