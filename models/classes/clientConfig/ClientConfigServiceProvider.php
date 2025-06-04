@@ -32,6 +32,7 @@ use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;
+use oat\tao\model\CookiePolicy\Service\CookiePolicyConfigurationRetriever;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
@@ -67,6 +68,7 @@ class ClientConfigServiceProvider implements ContainerServiceProviderInterface
                     service(tao_helpers_Mode::class),
                     service(DateFormatterFactory::class),
                     service(MenuService::class),
+                    service(CookiePolicyConfigurationRetriever::class),
                 ]
             );
     }
