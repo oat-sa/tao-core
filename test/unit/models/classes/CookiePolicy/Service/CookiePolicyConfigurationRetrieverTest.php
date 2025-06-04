@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\CookiePolicy\Service;
 
+use InvalidArgumentException;
 use oat\tao\model\CookiePolicy\Entity\CookiePolicyConfiguration;
 use oat\tao\model\CookiePolicy\Service\CookiePolicyConfigurationRetriever;
 use PHPUnit\Framework\TestCase;
@@ -51,5 +52,14 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
 
         $this->assertSame('https://custom.com/privacy', $configuration->getPrivacyPolicyUrl());
         $this->assertSame('https://custom.com/cookies', $configuration->getCookiePolicyUrl());
+    }
+
+    public function testCannotRetrieveWithInvalidCustomConfiguration(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid CookiePolicy JSON configuration: Syntax error');
+        
+        $retriever = new CookiePolicyConfigurationRetriever('{invalid}');
+        $configuration = $retriever->retrieve();
     }
 }
