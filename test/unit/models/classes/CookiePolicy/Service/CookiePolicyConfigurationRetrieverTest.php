@@ -57,7 +57,7 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid CookiePolicy JSON configuration: Syntax error');
-        
+
         $retriever = new CookiePolicyConfigurationRetriever('{invalid}');
 
         $retriever->retrieve();
