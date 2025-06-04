@@ -27,7 +27,9 @@ namespace oat\tao\test\unit\models\classes\clientConfig;
 use common_ext_Extension;
 use common_ext_ExtensionsManager;
 use common_session_Session;
+use oat\generis\model\user\UserRdf;
 use oat\oatbox\session\SessionService;
+use oat\oatbox\user\User;
 use oat\oatbox\user\UserLanguageService;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\helpers\dateFormatter\DateFormatterInterface;
@@ -185,6 +187,13 @@ class ClientConfigStorageTest extends TestCase
             ->with('tao')
             ->willReturn('JsBaseWww');
 
+        $user = $this->createMock(User::class);
+        $user
+            ->expects($this->once())
+            ->method('getPropertyValues')
+            ->with(UserRdf::PROPERTY_LOGIN)
+            ->willReturn(['myAdminLogin']);
+
         $session = $this->createMock(common_session_Session::class);
         $session
             ->expects($this->once())
@@ -192,8 +201,8 @@ class ClientConfigStorageTest extends TestCase
             ->willReturn('en-US');
         $session
             ->expects($this->once())
-            ->method('getUserLabel')
-            ->willReturn('admin');
+            ->method('getUser')
+            ->willReturn($user);
         $session
             ->expects($this->once())
             ->method('getUserUri')

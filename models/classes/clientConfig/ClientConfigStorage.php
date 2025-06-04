@@ -29,6 +29,7 @@ use common_ext_ExtensionException;
 use common_ext_ExtensionsManager;
 use common_session_Session;
 use Exception;
+use oat\generis\model\user\UserRdf;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
@@ -198,6 +199,12 @@ class ClientConfigStorage
         $uri = $currentSession->getUserUri();
         $id = $uri;
         $login = $currentSession->getUserLabel();
+
+        foreach ($currentSession->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN) as $rdfLogin) {
+            if (!empty($rdfLogin)) {
+                $login = $rdfLogin;
+            }
+        }
 
         /** @var UserDataSessionContext $context */
         foreach ($currentSession->getContexts(UserDataSessionContext::class) as $context) {
