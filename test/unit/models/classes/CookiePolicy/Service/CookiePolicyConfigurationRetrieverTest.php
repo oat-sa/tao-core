@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\CookiePolicy\Service;
 
 use InvalidArgumentException;
-use oat\tao\model\CookiePolicy\Entity\CookiePolicyConfiguration;
 use oat\tao\model\CookiePolicy\Service\CookiePolicyConfigurationRetriever;
 use PHPUnit\Framework\TestCase;
 
@@ -60,6 +59,7 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
         $this->expectExceptionMessage('Invalid CookiePolicy JSON configuration: Syntax error');
         
         $retriever = new CookiePolicyConfigurationRetriever('{invalid}');
-        $configuration = $retriever->retrieve();
+
+        $retriever->retrieve();
     }
 }
