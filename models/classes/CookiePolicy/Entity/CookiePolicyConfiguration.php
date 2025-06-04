@@ -26,7 +26,7 @@ use JsonSerializable;
 
 class CookiePolicyConfiguration implements JsonSerializable
 {
-    public function __construct(public string $privacyPolicyUrl, public string $cookiePolicyUrl) {}
+    public function __construct(public readonly string $privacyPolicyUrl, public readonly string $cookiePolicyUrl) {}
 
     public function jsonSerialize(): array
     {
