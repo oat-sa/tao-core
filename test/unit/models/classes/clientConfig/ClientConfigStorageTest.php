@@ -36,6 +36,8 @@ use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\ClientConfigStorage;
 use oat\tao\model\clientConfig\GetConfigQuery;
 use oat\tao\model\ClientLibRegistry;
+use oat\tao\model\CookiePolicy\Entity\CookiePolicyConfiguration;
+use oat\tao\model\CookiePolicy\Service\CookiePolicyConfigurationRetriever;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
@@ -93,6 +95,9 @@ class ClientConfigStorageTest extends TestCase
     /** @var MenuService|MockObject */
     private MenuService $menuService;
 
+    /** @var CookiePolicyConfigurationRetriever|MockObject */
+    private CookiePolicyConfigurationRetriever $cookiePolicyConfigurationRetriever;
+
     private ClientConfigStorage $sut;
 
     protected function setUp(): void
@@ -111,6 +116,7 @@ class ClientConfigStorageTest extends TestCase
         $this->modeHelper = $this->createMock(tao_helpers_Mode::class);
         $this->dateFormatterFactory = $this->createMock(DateFormatterFactory::class);
         $this->menuService = $this->createMock(MenuService::class);
+        $this->cookiePolicyConfigurationRetriever = $this->createMock(CookiePolicyConfigurationRetriever::class);
 
         $this->sut = new ClientConfigStorage(
             $this->tokenService,
@@ -126,7 +132,8 @@ class ClientConfigStorageTest extends TestCase
             $this->sessionService,
             $this->modeHelper,
             $this->dateFormatterFactory,
-            $this->menuService
+            $this->menuService,
+            $this->cookiePolicyConfigurationRetriever
         );
     }
 
@@ -182,11 +189,34 @@ class ClientConfigStorageTest extends TestCase
             ->expects($this->once())
             ->method('getInterfaceLanguage')
             ->willReturn('en-US');
+        $session
+            ->expects($this->once())
+            ->method('getUserLabel')
+            ->willReturn('admin');
+        $session
+            ->expects($this->once())
+            ->method('getUserUri')
+            ->willReturn('https://user.taotesting.com');
 
         $this->sessionService
             ->expects($this->once())
             ->method('getCurrentSession')
             ->willReturn($session);
+
+        $this->sessionService
+            ->expects($this->once())
+            ->method('getTenantId')
+            ->willReturn('777');
+
+        $this->cookiePolicyConfigurationRetriever
+            ->expects($this->once())
+            ->method('retrieve')
+            ->willReturn(
+                new CookiePolicyConfiguration(
+                    'https://privacyPolicyUrl.taotesting.com',
+                    'https://cookiePolicyUrl.taotesting.com'
+                )
+            );
 
         $taoExtension = $this->createMock(common_ext_Extension::class);
         $taoExtension
@@ -286,7 +316,6 @@ class ClientConfigStorageTest extends TestCase
             ->willReturn([
                 'extendedConfigKey' => ['extendedConfigValue'],
             ]);
-
         $this->assertEquals(
             [
                 'tokenHandler' => json_encode(['clientConfigKey' => 'clientConfigValue'], JSON_THROW_ON_ERROR),
@@ -306,6 +335,7 @@ class ClientConfigStorageTest extends TestCase
                 'tao_base_www' => 'JsBaseWww',
                 'context' => json_encode(
                     [
+                        'tenantId' => '777',
                         'root_url' => 'http://demo.taotesting.com/',
                         'base_url' => 'baseUrl',
                         'taobase_www' => 'JsBaseWww',
@@ -323,6 +353,14 @@ class ClientConfigStorageTest extends TestCase
                         'featureFlags' => [
                             'FEATURE_FLAG' => false,
                         ],
+                        'cookiePolicy' => [
+                            'privacyPolicyUrl' => 'https://privacyPolicyUrl.taotesting.com',
+                            'cookiePolicyUrl' => 'https://cookiePolicyUrl.taotesting.com'
+                        ],
+                        'currentUser' => [
+                            'uri' => 'https://user.taotesting.com',
+                            'login' => 'admin'
+                        ]
                     ],
                     JSON_THROW_ON_ERROR
                 ),

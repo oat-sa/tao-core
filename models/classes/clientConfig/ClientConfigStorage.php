@@ -33,6 +33,7 @@ use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;
+use oat\tao\model\CookiePolicy\Service\CookiePolicyConfigurationRetriever;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
@@ -61,6 +62,7 @@ class ClientConfigStorage
     private MenuService $menuService;
 
     private array $config = [];
+    private CookiePolicyConfigurationRetriever $cookiePolicyConfigurationRetriever;
 
     public function __construct(
         TokenService $tokenService,
@@ -76,7 +78,8 @@ class ClientConfigStorage
         SessionService $sessionService,
         tao_helpers_Mode $modeHelper,
         DateFormatterFactory $dateFormatterFactory,
-        MenuService $menuService
+        MenuService $menuService,
+        CookiePolicyConfigurationRetriever $cookiePolicyConfigurationRetriever
     ) {
         $this->tokenService = $tokenService;
         $this->clientLibRegistry = $clientLibRegistry;
@@ -92,6 +95,7 @@ class ClientConfigStorage
         $this->modeHelper = $modeHelper;
         $this->dateFormatterFactory = $dateFormatterFactory;
         $this->menuService = $menuService;
+        $this->cookiePolicyConfigurationRetriever = $cookiePolicyConfigurationRetriever;
     }
 
     /**
@@ -138,8 +142,9 @@ class ClientConfigStorage
             'module' => $query->getModule(),
         ]);
 
+        $currentSession = $this->sessionService->getCurrentSession();
         $taoBaseWww = $this->assetService->getJsBaseWww('tao');
-        $langCode = $this->sessionService->getCurrentSession()->getInterfaceLanguage();
+        $langCode = $currentSession->getInterfaceLanguage();
         $timeout = $this->getClientTimeout();
         $extensionId = $resolver->getExtensionId();
 
@@ -155,6 +160,7 @@ class ClientConfigStorage
                 'tao_base_www' => $taoBaseWww,
                 'context' => $this->getEncodedValue(
                     [
+                        'tenantId' => $this->sessionService->getTenantId(),
                         'root_url' => ROOT_URL,
                         'base_url' => $this->getExtension($extensionId)->getConstant('BASE_URL'),
                         'taobase_www' => $taoBaseWww,
@@ -170,6 +176,11 @@ class ClientConfigStorage
                         'shownStructure' => $this->getShownStructure($query),
                         'bundle' => $this->modeHelper->isMode(tao_helpers_Mode::PRODUCTION),
                         'featureFlags' => $this->featureFlagRepository->list(),
+                        'cookiePolicy' => $this->cookiePolicyConfigurationRetriever->retrieve()->jsonSerialize(),
+                        'currentUser' => [
+                            'uri' => $currentSession->getUserUri(),
+                            'login' => $currentSession->getUserLabel(),
+                        ],
                     ]
                 ),
             ],
