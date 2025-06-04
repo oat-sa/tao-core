@@ -26,30 +26,13 @@ use JsonSerializable;
 
 class CookiePolicyConfiguration implements JsonSerializable
 {
-    private string $privacyPolicyUrl;
-    private string $cookiePolicyUrl;
-
-    public function __construct(string $privacyPolicyUrl, string $cookiePolicyUrl)
-    {
-        $this->privacyPolicyUrl = $privacyPolicyUrl;
-        $this->cookiePolicyUrl = $cookiePolicyUrl;
-    }
-
-    public function getPrivacyPolicyUrl(): string
-    {
-        return $this->privacyPolicyUrl;
-    }
-
-    public function getCookiePolicyUrl(): string
-    {
-        return $this->cookiePolicyUrl;
-    }
+    public function __construct(public string $privacyPolicyUrl, public string $cookiePolicyUrl) {}
 
     public function jsonSerialize(): array
     {
         return [
-            'privacyPolicyUrl' => $this->getPrivacyPolicyUrl(),
-            'cookiePolicyUrl' => $this->getCookiePolicyUrl(),
+            'privacyPolicyUrl' => $this->privacyPolicyUrl,
+            'cookiePolicyUrl' => $this->cookiePolicyUrl,
         ];
     }
 }

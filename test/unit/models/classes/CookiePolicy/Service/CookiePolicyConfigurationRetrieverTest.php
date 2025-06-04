@@ -33,8 +33,8 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
         $retriever = new CookiePolicyConfigurationRetriever();
         $configuration = $retriever->retrieve();
 
-        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->getPrivacyPolicyUrl());
-        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->getCookiePolicyUrl());
+        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->privacyPolicyUrl);
+        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->cookiePolicyUrl);
     }
 
     public function testRetrieveWithCustomConfiguration(): void
@@ -49,8 +49,8 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
         );
         $configuration = $retriever->retrieve();
 
-        $this->assertSame('https://custom.com/privacy', $configuration->getPrivacyPolicyUrl());
-        $this->assertSame('https://custom.com/cookies', $configuration->getCookiePolicyUrl());
+        $this->assertSame('https://custom.com/privacy', $configuration->privacyPolicyUrl);
+        $this->assertSame('https://custom.com/cookies', $configuration->cookiePolicyUrl);
     }
 
     public function testCannotRetrieveWithInvalidCustomConfiguration(): void

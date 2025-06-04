@@ -34,8 +34,8 @@ class CookiePolicyConfigurationTest extends TestCase
 
         $configuration = new CookiePolicyConfiguration($privacyPolicyUrl, $cookiePolicyUrl);
 
-        $this->assertSame($privacyPolicyUrl, $configuration->getPrivacyPolicyUrl());
-        $this->assertSame($cookiePolicyUrl, $configuration->getCookiePolicyUrl());
+        $this->assertSame($privacyPolicyUrl, $configuration->privacyPolicyUrl);
+        $this->assertSame($cookiePolicyUrl, $configuration->cookiePolicyUrl);
         $this->assertSame(
             [
                 'privacyPolicyUrl' => $privacyPolicyUrl,
