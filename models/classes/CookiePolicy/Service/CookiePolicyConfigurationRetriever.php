@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\CookiePolicy\Service;
 
+use InvalidArgumentException;
 use oat\tao\model\CookiePolicy\Entity\CookiePolicyConfiguration;
 
 class CookiePolicyConfigurationRetriever
@@ -44,7 +45,15 @@ class CookiePolicyConfigurationRetriever
         $config = self::COOKIE_POLICY_CONFIG_DEFAULT;
 
         if (!empty($this->cookiePolicyJsonConfig)) {
-            $config = array_merge($config, json_decode($this->cookiePolicyJsonConfig, true));
+            $cookiePolicyJsonConfig = json_decode($this->cookiePolicyJsonConfig, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new InvalidArgumentException(
+                    sprintf('Invalid CookiePolicy JSON configuration: %s', json_last_error_msg())
+                );
+            }
+
+            $config = array_merge($config, $cookiePolicyJsonConfig);
         }
 
         return new CookiePolicyConfiguration($config['privacyPolicyUrl'], $config['cookiePolicyUrl']);
