@@ -45,6 +45,7 @@ use oat\tao\model\menu\Perspective;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\session\Context\UserDataSessionContext;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -197,6 +198,12 @@ class ClientConfigStorageTest extends TestCase
             ->expects($this->once())
             ->method('getUserUri')
             ->willReturn('https://user.taotesting.com');
+        $session
+            ->expects($this->once())
+            ->method('getContexts')
+            ->willReturn([
+                new UserDataSessionContext('myUserId', 'adminLogin')
+            ]);
 
         $this->sessionService
             ->expects($this->once())
@@ -358,8 +365,9 @@ class ClientConfigStorageTest extends TestCase
                             'cookiePolicyUrl' => 'https://cookiePolicyUrl.taotesting.com'
                         ],
                         'currentUser' => [
+                            'id' => 'myUserId',
                             'uri' => 'https://user.taotesting.com',
-                            'login' => 'admin'
+                            'login' => 'adminLogin'
                         ]
                     ],
                     JSON_THROW_ON_ERROR
