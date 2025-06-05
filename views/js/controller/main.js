@@ -42,7 +42,7 @@ define([
     'layout/search',
     'layout/tree/loader',
     'layout/section-height',
-], function(module, $, _, context, router, helpers, uiForm,urlUtil, loggerFactory, feedback,cookiesBanner, generisRouter, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
+], function(module, $, _, context, router, helpers, uiForm, urlUtil, loggerFactory, feedback, cookiesBanner, generisRouter, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
     'use strict';
 
     const logger = loggerFactory('controller/main');
