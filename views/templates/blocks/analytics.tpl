@@ -1,12 +1,19 @@
-<script async src="https://www.googletagmanager.com/gtag/js?id=<?= get_data('gaTag') ?>"></script>
 <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
+    window.initGoogleAnalytics = function() {
+        const gaTag = <?= json_encode(get_data('gaTag')) ?>;
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${gaTag}`;
+        document.head.appendChild(script);
+        script.onload = function() {
+            window.dataLayer = window.dataLayer || [];
 
-    gtag('config', '<?= get_data('gaTag') ?>', {
-        environment: '<?= get_data('environment') ?>'
-    });
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', gaTag, { environment: <?= json_encode(get_data('environment')) ?> });
+        };
+    };
 </script>

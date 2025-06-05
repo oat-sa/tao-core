@@ -179,7 +179,7 @@ define([
                 }
             })
             .init();
-            
+
             try {
                cookiesBanner.init();
             } catch (err) {

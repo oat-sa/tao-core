@@ -1,4 +1,4 @@
-<div id="cookies-banner" class="cookies-banner xhtml_form">
+<div id="cookies-banner" class="cookies-banner xhtml_form" style="display: none;">
   <div class="cookies-banner-icon">
     <span class="icon-info" aria-hidden="true"></span>
   </div>
@@ -49,6 +49,3 @@
     </div>
   </div>
 </div>
-<script>
-  window.userCookies = <?= json_encode(\oat\tao\helpers\Layout::getUserCookiesName() ?? '') ?>;
-</script>

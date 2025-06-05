@@ -1,57 +1,88 @@
-define(["jquery"], function ($) {
+define(["jquery", "context", "util/cookies", "util/encode"], function (
+  $,
+  context,
+  cookies,
+  encode
+) {
+  const cookieStorage = cookies.createCookieStorage({ domainLevel: 2 });
+
+/**
+ * Initializes analytics tools.
+ */
+function initAnalytics() {
+  if (window.initGoogleAnalytics) {
+    window.initGoogleAnalytics();
+  }
+  if (window.initUserpilot) {
+    window.initUserpilot();
+  }
+}
 
   /**
-   * Returns the base domain for setting the cookie.
-   * @returns {String}
+   * Returns the cookie name using SHA-256 of tenantId-userLogin.
+   * @returns {Promise<string|null>}
    */
-  function getBaseDomain() {
-    const parts = location.hostname.split(".");
-    return parts.length > 2
-      ? "." + parts.slice(-2).join(".")
-      : window.location.hostname;
+  async function getUserCookieName() {
+    const tenantId = context.tenantId;
+    const userLogin = context.currentUser.login;
+
+    if (!tenantId|| !userLogin) return null;
+    return `CookiePolicy-${await encode.stringToSha256(`${tenantId}-${userLogin}`)}`;
   }
 
   /**
-   * Sets the cookie consent preferences as cookie.
-   * @param {boolean} isAnalyticsEnabled
+   * Sets the cookie consent preferences.
+   * @param {object} value
    */
-  function setCookie(isAnalyticsEnabled) {
-    const value = {
-      essentials: true,
-      analytics: isAnalyticsEnabled,
-    };
-
-    const maxAge = 60 * 60 * 24 * 365; // 1 year
-    document.cookie = `${window.userCookies}=${JSON.stringify(value)};path=/; max-age=${
-      maxAge}; domain=${getBaseDomain()};`;
-    $("#cookies-banner").hide();
-    // Reload the page to apply the new cookie settings
-    window.location.reload();
+  async function setCookiesPolicy(value) {
+    const cookieKey = await getUserCookieName();
+    cookieStorage.setItem(cookieKey, value);
+    if (value.analytics) {
+      initAnalytics();
+    }
   }
 
   return {
-    init: function () {
+    init: async function () {
+      const $banner = $("#cookies-banner");
       const $acceptButton = $("#accept-cookies");
       const $declineButton = $("#decline-cookies");
       const $cookiesPreferencesBlock = $("#cookies-preferences");
       const $cookiesMessageBlock = $("#cookies-message");
+      const $toggleBannerMessage = $("#cookies-preferences-link");
+      const userCookieName = await getUserCookieName();
+
+      if (userCookieName) {
+        const cookieValue = cookieStorage.getItem(userCookieName);
+        if (cookieValue) {
+          const isAnalyticsEnabled = cookieValue.analytics;
+          if (isAnalyticsEnabled) {
+            initAnalytics();
+          }
+          return; // Don't show banner
+        }
+      }
+
+      $banner.show();
 
       $acceptButton.on("click", function () {
-        const isAnalyticsEnabled = $cookiesPreferencesBlock.is(":visible")
+        const isAnalyticsChecked = $cookiesPreferencesBlock.is(":visible")
           ? $("#analytics-toggle").prop("checked")
           : true;
-        setCookie(isAnalyticsEnabled);
+        setCookiesPolicy({ essentials: true, analytics: isAnalyticsChecked });
+        $banner.hide();
       });
 
-     $declineButton.on("click", function () {
-        setCookie(false);
+      $declineButton.on("click", function () {
+        setCookiesPolicy({ essentials: true, analytics: false });
+        $banner.hide();
       });
 
-      $("#cookies-preferences-link").on("click", function (e) {
+      $($toggleBannerMessage).on("click", function (e) {
         e.preventDefault();
         $cookiesPreferencesBlock.toggle();
         $cookiesMessageBlock.toggle();
-        $acceptButton.text($acceptButton.data('confirm-text') || 'Confirm choices');
+        $acceptButton.text($acceptButton.data("confirm-text") || "Confirm choices");
       });
     },
   };
