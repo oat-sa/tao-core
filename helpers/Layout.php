@@ -638,7 +638,6 @@ class Layout
         }
     }
 
-
     /**
      * Get the current theme configured into tao/theming config
      *
