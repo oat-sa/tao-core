@@ -14,7 +14,16 @@
 
       //load the config
       require(["/tao/ClientConfig/config"], function () {
-        //load the test
+        require.config({
+          config: {
+            context: {
+              tenantId: "mockTenant",
+              currentUser: {
+                login: "mockUser",
+              },
+            },
+          },
+        });
         require(["tao/test/layout/cookiesBanner/test"], function () {
           //Tests loaded, run tests
           QUnit.start();

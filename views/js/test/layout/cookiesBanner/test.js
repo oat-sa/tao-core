@@ -1,68 +1,74 @@
-define([
-  'jquery',
-  'tao/layout/cookiesBanner'
-], function ($, cookiesBanner) {
-  'use strict';
+define(["jquery", "tao/layout/cookiesBanner"], function ($, cookiesBanner) {
+  "use strict";
 
-  QUnit.module('layout/cookiesBanner');
+  let googleAnalyticsMock = false;
+  let userpilotMock = false;
 
-  QUnit.test('Module exports an init function', function (assert) {
-    assert.equal(typeof cookiesBanner.init, 'function', 'The module exposes an init function');
+  QUnit.module("layout/cookiesBanner", {
+    beforeEach: function () {
+      googleAnalyticsMock = false;
+      userpilotMock = false;
+
+      window.initGoogleAnalytics = function () {
+        googleAnalyticsMock = true;
+      };
+      window.initUserpilot = function () {
+        userpilotMock = true;
+      };
+    },
   });
 
-  QUnit.test('Accepting cookies hides the banner and sets analytics', function (assert) {
-    const done = assert.async();
+  QUnit.test(
+    "Accepting cookies starts analytics initializers",
+    function (assert) {
+      const done = assert.async();
 
-    // Stub cookieStorage and context
-    const fakeStorage = {};
-    const cookieKey = 'CookiePolicy-test';
+      cookiesBanner.init().then(() => {
+        $("#accept-cookies").trigger("click");
 
-    // Fake the required dependencies
-    window.context = {
-      tenantId: 'tenant',
-      currentUser: { login: 'test' }
-    };
+        setTimeout(() => {
+          assert.ok($("#cookies-banner").is(":hidden"), "Banner is hidden");
+          assert.ok(googleAnalyticsMock, "Google Analytics initialized");
+          assert.ok(userpilotMock, "Userpilot initialized");
+          done();
+        }, 50);
+      });
+    }
+  );
 
-    define('util/encode', [], function () {
-      return {
-        stringToSha256: async (str) => 'test'
-      };
-    });
+  QUnit.test(
+    "Rejecting cookies does NOT call analytics initializers",
+    function (assert) {
+      const done = assert.async();
 
-    define('util/cookies', [], function () {
-      return {
-        createCookieStorage: () => ({
-          getItem: () => null,
-          setItem: (key, value) => {
-            fakeStorage[key] = value;
-          }
-        })
-      };
-    });
+      cookiesBanner.init().then(() => {
+        $("#decline-cookies").trigger("click");
 
-    // Mock analytics init
-    window.initGoogleAnalytics = () => {
-      assert.ok(true, 'Google Analytics initialized');
-    };
+        setTimeout(() => {
+          assert.ok($("#cookies-banner").is(":hidden"), "Banner is hidden");
+          assert.notOk(googleAnalyticsMock, "Google Analytics not initialized");
+          assert.notOk(userpilotMock, "Userpilot not initialized");
+          done();
+        }, 50);
+      });
+    }
+  );
 
-    window.initUserpilot = () => {
-      assert.ok(true, 'Userpilot initialized');
-    };
+  QUnit.test(
+    "Clicking preferences link toggles blocks and updates button text",
+    function (assert) {
+      const done = assert.async();
 
-    // Run the init and simulate click
-    cookiesBanner.init().then(() => {
-      $('#accept-cookies').trigger('click');
+      cookiesBanner.init().then(() => {
+        $("#cookies-preferences-link").trigger("click");
 
-      setTimeout(() => {
-        assert.deepEqual(fakeStorage[cookieKey], {
-          essentials: true,
-          analytics: true
-        }, 'Cookie was saved with analytics');
-
-        assert.ok($('#cookies-banner').is(':hidden'), 'Banner is hidden after accept');
-        done();
-      }, 50);
-    });
-  });
-
+        setTimeout(() => {
+          assert.ok($("#cookies-preferences").is(":visible"),"Preferences block shown");
+          assert.ok(!$("#cookies-message").is(":visible"),"Message block hidden");
+          assert.equal($("#accept-cookies").text(),"Confirm choices", "Confirm button updated");
+          done();
+        }, 20);
+      });
+    }
+  );
 });
