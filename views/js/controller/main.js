@@ -32,6 +32,7 @@ define([
     'util/url',
     'core/logger',
     'ui/feedback',
+    'layout/cookiesBanner',
     'layout/generisRouter',
     'layout/section',
     'layout/actions',
@@ -41,7 +42,7 @@ define([
     'layout/search',
     'layout/tree/loader',
     'layout/section-height',
-], function(module, $, _, context, router, helpers, uiForm, urlUtil, loggerFactory, feedback, generisRouter, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
+], function(module, $, _, context, router, helpers, uiForm, urlUtil, loggerFactory, feedback, cookiesBanner, generisRouter, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
     'use strict';
 
     const logger = loggerFactory('controller/main');
@@ -178,6 +179,12 @@ define([
                 }
             })
             .init();
+
+            try {
+               cookiesBanner.init();
+            } catch (err) {
+               logger.error('Failed to initialize cookies banner:', err);
+            }
 
             //initialize legacy components
             helpers.init();

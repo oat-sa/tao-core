@@ -27,7 +27,9 @@ namespace oat\tao\test\unit\models\classes\clientConfig;
 use common_ext_Extension;
 use common_ext_ExtensionsManager;
 use common_session_Session;
+use oat\generis\model\user\UserRdf;
 use oat\oatbox\session\SessionService;
+use oat\oatbox\user\User;
 use oat\oatbox\user\UserLanguageService;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\helpers\dateFormatter\DateFormatterInterface;
@@ -45,6 +47,7 @@ use oat\tao\model\menu\Perspective;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\session\Context\UserDataSessionContext;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -184,6 +187,13 @@ class ClientConfigStorageTest extends TestCase
             ->with('tao')
             ->willReturn('JsBaseWww');
 
+        $user = $this->createMock(User::class);
+        $user
+            ->expects($this->once())
+            ->method('getPropertyValues')
+            ->with(UserRdf::PROPERTY_LOGIN)
+            ->willReturn(['myAdminLogin']);
+
         $session = $this->createMock(common_session_Session::class);
         $session
             ->expects($this->once())
@@ -191,12 +201,18 @@ class ClientConfigStorageTest extends TestCase
             ->willReturn('en-US');
         $session
             ->expects($this->once())
-            ->method('getUserLabel')
-            ->willReturn('admin');
+            ->method('getUser')
+            ->willReturn($user);
         $session
             ->expects($this->once())
             ->method('getUserUri')
             ->willReturn('https://user.taotesting.com');
+        $session
+            ->expects($this->once())
+            ->method('getContexts')
+            ->willReturn([
+                new UserDataSessionContext('myUserId', 'adminLogin')
+            ]);
 
         $this->sessionService
             ->expects($this->once())
@@ -358,8 +374,9 @@ class ClientConfigStorageTest extends TestCase
                             'cookiePolicyUrl' => 'https://cookiePolicyUrl.taotesting.com'
                         ],
                         'currentUser' => [
+                            'id' => 'myUserId',
                             'uri' => 'https://user.taotesting.com',
-                            'login' => 'admin'
+                            'login' => 'adminLogin'
                         ]
                     ],
                     JSON_THROW_ON_ERROR

@@ -1,0 +1,33 @@
+$info: rgb(14, 93, 145);
+$infoBgColor: whiten($info, 0.8);
+$infoBorderColor: whiten($info, 0.1);
+
+.cookies-banner {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+  background-color: $infoBgColor;
+  border: 2px solid $infoBorderColor;
+  
+  h3 {
+    margin: 0 0 8px 0;
+  }
+  
+  &-icon {
+    font-size: 18px;
+    padding-top: 2px;
+  }
+
+  &-preferences-link {
+    color: var(--color-text-link);
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  &-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+}
