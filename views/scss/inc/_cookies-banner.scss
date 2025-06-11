@@ -1,4 +1,5 @@
-$info: rgb(14, 93, 145);
+
+$info: hsl(208, 100%, 40%); // color brand
 $infoBgColor: whiten($info, 0.8);
 $infoBorderColor: whiten($info, 0.1);
 
@@ -7,26 +8,25 @@ $infoBorderColor: whiten($info, 0.1);
   gap: 8px;
   padding: 16px;
   background-color: $infoBgColor;
-  border: 2px solid $infoBorderColor;
+  border-bottom: 2px solid $infoBorderColor;
   
   h3 {
     margin: 0 0 8px 0;
   }
   
-  &-icon {
-    font-size: 18px;
+  .icon {
+    font-size: 16px;
     padding-top: 2px;
   }
 
-  &-preferences-link {
-    color: var(--color-text-link);
+  .preferences-link {
     text-decoration: underline;
     font-weight: 600;
   }
 
-  &-actions {
+  .actions {
     display: flex;
-    gap: 12px;
+    gap: 16px;
     flex-wrap: wrap;
     margin-top: 16px;
   }
