@@ -246,8 +246,6 @@ class ResourceWatcherTest extends TestCase
 
         $this->mockGetUriResource($resourceUri);
 
-        $this->mockDebugLogger('triggering index update on resourceUpdated event');
-
         $this->resource->expects($this->once())->method('editPropertyValues');
 
         $this->sut->catchUpdatedResourceEvent(
@@ -275,8 +273,6 @@ class ResourceWatcherTest extends TestCase
 
         $this->mockGetUriResource($resourceUri);
 
-        $this->mockDebugLogger('triggering index update on resourceUpdated event');
-
         $this->sut->catchUpdatedResourceEvent(
             new ResourceUpdated($this->resource)
         );
@@ -301,8 +297,6 @@ class ResourceWatcherTest extends TestCase
         $this->resource->expects($this->any())
             ->method('getUri')
             ->willReturn($resourceUri);
-
-        $this->mockDebugLogger('triggering index update on resourceUpdated event');
 
         $this->resource->expects($this->once())->method('editPropertyValues');
 
