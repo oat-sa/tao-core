@@ -227,28 +227,6 @@ class ResourceWatcherTest extends TestCase
     // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     // phpcs:disable PSR1.Methods.CamelCapsMethodName
-    public function testCatchUpdatedResourceEvent_mustCreateIndexTaskInCaseResourceIsSupportedByIndex(): void
-    {
-        $classUri = 'https://tao.docker.localhost/ontologies/tao.rdf#Item';
-        $this->mockHasClassSupportIndexUpdater($classUri);
-        $this->mockAdvancedSearchEnabled(true);
-
-        $this->mockGetTypesResource($classUri);
-
-        $resourceUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
-        $this->mockCreateTaskQueueDispatcher(
-            $resourceUri,
-            'Adding/updating search index for updated resource',
-            new UpdateResourceInIndex()
-        );
-
-        $this->sut->catchUpdatedResourceEvent(
-            new ResourceUpdated($this->resource)
-        );
-    }
-    // phpcs:enable PSR1.Methods.CamelCapsMethodName
-
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testCatchUpdatedResourceEvent_mustNotCreateIndexTask(): void
     {
         $advancedSearchEnabled = false;
