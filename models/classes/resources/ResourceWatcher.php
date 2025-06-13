@@ -78,6 +78,26 @@ class ResourceWatcher extends ConfigurableService
     public function catchUpdatedResourceEvent(ResourceUpdated $event): void
     {
         $resource = $event->getResource();
+        $updatedAt = $this->getUpdatedAt($resource);
+
+        if ($updatedAt instanceof core_kernel_classes_Literal) {
+            $updatedAt = (int) $updatedAt->literal;
+        }
+        $threshold = $this->getOption(self::OPTION_THRESHOLD, 1);
+
+        $now = microtime(true);
+        if ($updatedAt === null || ((int) $now - (int) $updatedAt) > $threshold) {
+            $this->getLogger()->debug(
+                'Updating updatedAt property for resource: ' . $resource->getUri()
+            );
+            $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
+            $this->updatedAtCache[$resource->getUri()] = $now;
+            $resource
+                ->getModel()
+                ->getRdfsInterface()
+                ->getResourceImplementation()
+                ->setPropertyValue($resource, $property, $now);
+        }
         $taskMessage = __('Adding/updating search index for updated resource');
         $this->createResourceIndexingTask($resource, $taskMessage);
     }
