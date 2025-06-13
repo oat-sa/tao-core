@@ -26,7 +26,6 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use core_kernel_persistence_ResourceInterface;
-use core_kernel_persistence_smoothsql_SmoothModel;
 use core_kernel_persistence_smoothsql_SmoothRdfs;
 use core_kernel_persistence_starsql_StarModel;
 use Exception;
@@ -250,7 +249,10 @@ class ResourceWatcherTest extends TestCase
 
         $this->mockGetUriResource($resourceUri);
 
-        $this->mockDebugLogger('Updating updatedAt property for resource: https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec');
+        $this->mockDebugLogger(
+            'Updating updatedAt property for resource: ' .
+            'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
+        );
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
@@ -294,7 +296,10 @@ class ResourceWatcherTest extends TestCase
 
         $this->mockGetUriResource($resourceUri);
 
-        $this->mockDebugLogger('Updating updatedAt property for resource: https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec');
+        $this->mockDebugLogger(
+            'Updating updatedAt property for resource: ' .
+            'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
+        );
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
@@ -338,7 +343,10 @@ class ResourceWatcherTest extends TestCase
             ->method('getUri')
             ->willReturn($resourceUri);
 
-        $this->mockDebugLogger('Updating updatedAt property for resource: https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec');
+        $this->mockDebugLogger(
+            'Updating updatedAt property for resource: ' .
+            'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
+        );
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
