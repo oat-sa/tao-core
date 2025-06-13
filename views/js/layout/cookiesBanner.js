@@ -82,6 +82,7 @@ function initAnalytics() {
         e.preventDefault();
         $cookiesPreferencesBlock.toggle();
         $cookiesMessageBlock.toggle();
+        $toggleBannerMessage.hide();
         $acceptButton.text($acceptButton.data("confirm-text") || "Confirm choices");
       });
     },

@@ -6,10 +6,9 @@
     <h3><strong><?= __('Cookie Policy') ?></strong></h3>
     <div id="cookies-message">
       <p>
-      <?= __('This site uses cookies to improve your browsing experience and to perform analytics and research.') ?>
-        <?= __('You can update your choice clicking on') ?>
-        <a href="#" id="cookies-preferences-link" class="preferences-link"><?= __('Cookies Preferences') ?></a>.
-        <?= __('Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device.') ?>
+      <?= __('This site uses cookies to improve your browsing experience and to 
+      perform analytics and research. To change your preferences, click Manage preferences. 
+      Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device.') ?>
       </p>
       <p>
         <?= __('You can read more about this in our') ?>
@@ -44,6 +43,7 @@
       </div>
     </div>
     <div class="actions">
+       <a href="#" id="cookies-preferences-link" class="preferences-link"><?= __('Manage Preferences') ?></a>
       <button id="decline-cookies" class="btn-secondary btn-info small"><?= __('Reject all') ?></button>
       <button id="accept-cookies" class="btn-success small"><?= __('Accept all') ?></button>
     </div>
