@@ -1,28 +1,20 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-09-19 08:35\n"
+"Project-Id-Version: TAO 2025.06\n"
+"PO-Revision-Date: 2025-06-13T16:15:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: no\n"
+"Language: no-NO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: no-NO\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: no\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
-"Language-Team: Norwegian\n"
 
 msgid ""
 msgstr ""
-""
 
 msgid " and "
 msgstr ""
@@ -85,6 +77,9 @@ msgid "%s Class saved"
 msgstr ""
 
 msgid "%s classes"
+msgstr ""
+
+msgid "%s completed"
 msgstr ""
 
 msgid "%s Confirmation"
@@ -177,6 +172,9 @@ msgstr ""
 msgid "AC"
 msgstr ""
 
+msgid "Accept all"
+msgstr ""
+
 msgid "Access Denied"
 msgstr ""
 
@@ -201,6 +199,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
+#, tao-public
 msgid "Add"
 msgstr ""
 
@@ -221,6 +220,9 @@ msgid "add criteria"
 msgstr ""
 
 msgid "Add file(s)"
+msgstr ""
+
+msgid "Add index"
 msgstr ""
 
 msgid "Add property"
@@ -295,6 +297,12 @@ msgstr ""
 msgid "an instance"
 msgstr ""
 
+msgid "Analytics cookies"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
 msgid "Ans"
 msgstr ""
 
@@ -323,6 +331,15 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
+msgid "Are you sure you want to delete the translation for this language?"
+msgstr ""
+
+msgid "Are you sure you want to start the translation for this language?"
+msgstr ""
+
+msgid "Are you sure you wish to delete it"
+msgstr ""
+
 msgid "Argument check failed: %s"
 msgstr ""
 
@@ -348,6 +365,9 @@ msgstr ""
 msgid "Audio Video Interleave"
 msgstr ""
 
+msgid "Auth type"
+msgstr ""
+
 msgid "Author"
 msgstr ""
 
@@ -370,6 +390,9 @@ msgid "Back"
 msgstr ""
 
 msgid "Back to listing"
+msgstr ""
+
+msgid "Back to Portal"
 msgstr ""
 
 msgid "Base-10 logarithm"
@@ -402,6 +425,9 @@ msgstr ""
 msgid "Browse folders:"
 msgstr ""
 
+msgid "Browse resources"
+msgstr ""
+
 msgid "Browse..."
 msgstr ""
 
@@ -409,6 +435,9 @@ msgid "C"
 msgstr ""
 
 msgid "C file"
+msgstr ""
+
+msgid "C++ file"
 msgstr ""
 
 msgid "C++ file (.cpp)"
@@ -450,6 +479,9 @@ msgstr ""
 msgid "ceil"
 msgstr ""
 
+msgid "Center"
+msgstr ""
+
 #, tao-public
 msgid "Change password"
 msgstr ""
@@ -470,6 +502,9 @@ msgid "Check-in"
 msgstr ""
 
 msgid "choices:"
+msgstr ""
+
+msgid "Choose a type for your property first"
 msgstr ""
 
 msgid "Choose a value..."
@@ -523,6 +558,9 @@ msgstr ""
 msgid "Click to reload."
 msgstr ""
 
+msgid "Click to start"
+msgstr ""
+
 msgid "Close"
 msgstr ""
 
@@ -574,6 +612,12 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
+msgid "Cookie Policy"
+msgstr ""
+
+msgid "Cookies Preferences"
+msgstr ""
+
 msgid "Copy"
 msgstr ""
 
@@ -598,7 +642,13 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
+msgid "Create instance"
+msgstr ""
+
 msgid "Create instance of "
+msgstr ""
+
+msgid "Create translation"
 msgstr ""
 
 msgid "Created"
@@ -626,6 +676,9 @@ msgid "Current language"
 msgstr ""
 
 msgid "Current playback position"
+msgstr ""
+
+msgid "currently has a dependency established with "
 msgstr ""
 
 msgid "Data imported"
@@ -698,7 +751,16 @@ msgstr ""
 msgid "Deleting search index for %s"
 msgstr ""
 
+msgid "Deleting this property will also remove the dependency"
+msgstr ""
+
 msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Dependency URI Path"
+msgstr ""
+
+msgid "Depends on property"
 msgstr ""
 
 msgid "Did you mean %s?"
@@ -735,6 +797,9 @@ msgid "Digit 9"
 msgstr ""
 
 msgid "Disabled %s"
+msgstr ""
+
+msgid "Do you want to override \"%s\"?"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -790,6 +855,9 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+msgid "Empty resources cannot be translated."
+msgstr ""
+
 msgid "enabled"
 msgstr ""
 
@@ -824,6 +892,9 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Essential cookies (required)"
 msgstr ""
 
 msgid "Examples:"
@@ -877,6 +948,9 @@ msgid "Factorial"
 msgstr ""
 
 msgid "Failed"
+msgstr ""
+
+msgid "Failed to copy class."
 msgstr ""
 
 msgid "Failed to delete index for %s"
@@ -1071,6 +1145,10 @@ msgstr ""
 msgid "Import Metadata from RDF file"
 msgstr ""
 
+#, tao-public
+msgid "Import statistical analysis metadata"
+msgstr ""
+
 msgid "Import succeeded."
 msgstr ""
 
@@ -1083,6 +1161,9 @@ msgstr ""
 msgid "Imported resource \"%s"
 msgstr ""
 
+msgid "Imported successfully finished!"
+msgstr ""
+
 msgid "impossible to update task status"
 msgstr ""
 
@@ -1092,13 +1173,29 @@ msgstr ""
 msgid "In progress"
 msgstr ""
 
+msgid "Include all"
+msgstr ""
+
+msgid "Include any"
+msgstr ""
+
+msgid "Include none"
+msgstr ""
+
 msgid "Inclusive (AND)"
+msgstr ""
+
+#, tao-public
+msgid "Index"
 msgstr ""
 
 msgid "Index has been deleted for %s"
 msgstr ""
 
 msgid "Infinity"
+msgstr ""
+
+msgid "Inherit the permission of the parent folder"
 msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
@@ -1131,10 +1228,13 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
+msgid "Interface language"
+msgstr ""
+
 msgid "Interface Language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Mode"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1185,10 +1285,19 @@ msgstr ""
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
 msgstr ""
 
+msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
+msgstr ""
+
 msgid "invalid regular expression"
 msgstr ""
 
+msgid "Invalid value"
+msgstr ""
+
 msgid "Invalid values:"
+msgstr ""
+
+msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
 msgstr ""
 
 msgid "items per page"
@@ -1198,6 +1307,9 @@ msgid "Javascript code"
 msgstr ""
 
 msgid "JPEG image"
+msgstr ""
+
+msgid "Keep the original permissions"
 msgstr ""
 
 msgid "Label"
@@ -1228,6 +1340,9 @@ msgid "less than a minute"
 msgstr ""
 
 msgid "List"
+msgstr ""
+
+msgid "List \"%s\" has duplicated values."
 msgstr ""
 
 msgid "List - Multiple choice - Check box"
@@ -1317,7 +1432,13 @@ msgstr ""
 msgid "Manage class schema"
 msgstr ""
 
+msgid "manage columns"
+msgstr ""
+
 msgid "Manage data list"
+msgstr ""
+
+msgid "Manage Preferences"
 msgstr ""
 
 #, tao-public
@@ -1335,6 +1456,9 @@ msgid "Manage Versioned File"
 msgstr ""
 
 msgid "Map the properties to the CSV columns"
+msgstr ""
+
+msgid "maximum %s"
 msgstr ""
 
 msgid "Maximum selection reached"
@@ -1389,6 +1513,9 @@ msgid "MIME encapsulation of aggregate HTML documents"
 msgstr ""
 
 msgid "Mind mapping software application (free mind open source)"
+msgstr ""
+
+msgid "minimum %s"
 msgstr ""
 
 msgid "minutes"
@@ -1447,6 +1574,21 @@ msgid "Multiple values delimiter"
 msgstr ""
 
 msgid "Multiply the value by 10^x"
+msgstr ""
+
+msgid "Must include at least one letter"
+msgstr ""
+
+msgid "Must include at least one number"
+msgstr ""
+
+msgid "Must include at least one special letter"
+msgstr ""
+
+msgid "Must include lower case letters"
+msgstr ""
+
+msgid "Must include upper case letters"
 msgstr ""
 
 msgid "Mute"
@@ -1517,13 +1659,22 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
+msgid "none"
+msgstr ""
+
 msgid "Not enough arguments following: %s"
 msgstr ""
 
 msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
+msgid "Not Ready for Translation"
+msgstr ""
+
 msgid "Not started"
+msgstr ""
+
+msgid "NotEmpty"
 msgstr ""
 
 msgid "Nothing imported"
@@ -1537,6 +1688,9 @@ msgstr ""
 
 #, tao-public
 msgid "Notifications"
+msgstr ""
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
@@ -1563,10 +1717,10 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1579,6 +1733,9 @@ msgid "Only allow for my own domain (%s)"
 msgstr ""
 
 msgid "Only one of the field must have value %s"
+msgstr ""
+
+msgid "Open the item for editing"
 msgstr ""
 
 msgid "OpenDocument Database"
@@ -1602,10 +1759,19 @@ msgstr ""
 msgid "or"
 msgstr ""
 
+msgid "Original"
+msgstr ""
+
+msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
+msgstr ""
+
 msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
+msgstr ""
+
+msgid "Pascal file"
 msgstr ""
 
 msgid "Pascal file (.pas)"
@@ -1635,7 +1801,13 @@ msgstr ""
 msgid "PDF file"
 msgstr ""
 
+msgid "Pending"
+msgstr ""
+
 msgid "Permission denied to write in the selected class"
+msgstr ""
+
+msgid "Permission settings"
 msgstr ""
 
 msgid "Plain text"
@@ -1692,6 +1864,18 @@ msgstr ""
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
+msgid "Please select a language."
+msgstr ""
+
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please set 'min' and/or 'max' options!"
+msgstr ""
+
+msgid "Please try in %s."
+msgstr ""
+
 msgid "Please wait"
 msgstr ""
 
@@ -1729,6 +1913,9 @@ msgid "Previous match"
 msgstr ""
 
 msgid "Previous page"
+msgstr ""
+
+msgid "Privacy Policy"
 msgstr ""
 
 msgid "Proceed"
@@ -1774,10 +1961,16 @@ msgstr ""
 msgid "RDF"
 msgstr ""
 
+msgid "Ready for Translation"
+msgstr ""
+
 msgid "RealMedia file"
 msgstr ""
 
 msgid "Refresh"
+msgstr ""
+
+msgid "Reject all"
 msgstr ""
 
 msgid "Release"
@@ -1813,7 +2006,13 @@ msgstr ""
 msgid "Remove criteria"
 msgstr ""
 
+msgid "remove index"
+msgstr ""
+
 msgid "Remove Message"
+msgstr ""
+
+msgid "Remove the translated item"
 msgstr ""
 
 msgid "Remove this file"
@@ -2053,6 +2252,9 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
+msgid "Some of resources has not be deleted"
+msgstr ""
+
 msgid "Some resources have not been moved: %s"
 msgstr ""
 
@@ -2065,7 +2267,13 @@ msgstr ""
 msgid "Square root"
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
 msgid "Start of document reached. Continuing from the end."
+msgstr ""
+
+msgid "Start translation"
 msgstr ""
 
 msgid "Status"
@@ -2081,6 +2289,9 @@ msgid "Store the value a variable"
 msgstr ""
 
 msgid "Storing digital video data on a computer game"
+msgstr ""
+
+msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
 msgstr ""
 
 msgid "string"
@@ -2158,6 +2369,9 @@ msgstr ""
 msgid "TAO platform is under maintenance since %s"
 msgstr ""
 
+msgid "Tao WebHooks"
+msgstr ""
+
 msgid "Task %s has been cancelled, message was not processed."
 msgstr ""
 
@@ -2194,6 +2408,9 @@ msgstr ""
 msgid "Text document file format (Staroffice)"
 msgstr ""
 
+msgid "Text to translate"
+msgstr ""
+
 msgid "The action will be applied to"
 msgstr ""
 
@@ -2206,7 +2423,13 @@ msgstr ""
 msgid "The action will not be applied to the following"
 msgstr ""
 
+msgid "The class has been copied."
+msgstr ""
+
 msgid "The column "
+msgstr ""
+
+msgid "The field \"List\" is disabled because the property is part of a dependency"
 msgstr ""
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
@@ -2225,6 +2448,9 @@ msgid "The lock has been released"
 msgstr ""
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
+msgstr ""
+
+msgid "The selected value(s) must be compatible with the primary property."
 msgstr ""
 
 msgid "The server has sent an empty response"
@@ -2246,6 +2472,9 @@ msgid "The value of this field must be numeric"
 msgstr ""
 
 msgid "There is nothing to list!"
+msgstr ""
+
+msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
 msgstr ""
 
 msgid "This %s is currently checked out"
@@ -2281,6 +2510,9 @@ msgstr ""
 msgid "This resource is locked"
 msgstr ""
 
+msgid "This resource is not ready for translation."
+msgstr ""
+
 msgid "This role is still given to one or more users. Please remove the role to these users first."
 msgstr ""
 
@@ -2288,6 +2520,9 @@ msgid "This should equal %s"
 msgstr ""
 
 msgid "This should not equal %s"
+msgstr ""
+
+msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
 msgstr ""
 
 msgid "time"
@@ -2300,6 +2535,9 @@ msgid "Title"
 msgstr ""
 
 msgid "to"
+msgstr ""
+
+msgid "To change your preferences, click Manage preferences."
 msgstr ""
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
@@ -2335,13 +2573,37 @@ msgstr ""
 msgid "Translate to"
 msgstr ""
 
+msgid "Translated"
+msgstr ""
+
+msgid "Translating"
+msgstr ""
+
+msgid "Translation"
+msgstr ""
+
 msgid "Translation parameters"
+msgstr ""
+
+msgid "Translation Progress"
 msgstr ""
 
 msgid "Translation saved"
 msgstr ""
 
+msgid "Translation Status"
+msgstr ""
+
+msgid "Translation Type"
+msgstr ""
+
+msgid "Translations"
+msgstr ""
+
 msgid "Transport Layer Security"
+msgstr ""
+
+msgid "Tree - Multiple node choice"
 msgstr ""
 
 msgid "Tree - Multiple node choice "
@@ -2377,6 +2639,9 @@ msgstr ""
 msgid "Unable to delete the selected resource"
 msgstr ""
 
+msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
+msgstr ""
+
 msgid "Unable to delete the selected resources"
 msgstr ""
 
@@ -2404,6 +2669,9 @@ msgstr ""
 msgid "Unable to send the password reset request"
 msgstr ""
 
+msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
+msgstr ""
+
 msgid "Unable to update the asset service"
 msgstr ""
 
@@ -2419,16 +2687,22 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Unauthorized files have been removed"
 msgstr ""
 
 msgid "Uncheck All"
+msgstr ""
+
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
 msgstr ""
 
 msgid "Undefined amount of the totalPages for pagination"
+msgstr ""
+
+msgid "Undefined Instance can not be saved"
 msgstr ""
 
 msgid "Undo"
@@ -2441,6 +2715,9 @@ msgid "Uninstall of %s failed"
 msgstr ""
 
 msgid "Uninstalled %s"
+msgstr ""
+
+msgid "Unique Identifier"
 msgstr ""
 
 msgid "UNIX Compressed Archive File"
@@ -2589,6 +2866,13 @@ msgstr ""
 msgid "WAV audio"
 msgstr ""
 
+msgid "WebHook auth configuration can not be loaded"
+msgstr ""
+
+#, tao-public
+msgid "WebHooks"
+msgstr ""
+
 msgid "WebM audio"
 msgstr ""
 
@@ -2611,6 +2895,9 @@ msgid "Windows Media file (metafile)"
 msgstr ""
 
 msgid "Windows Media video"
+msgstr ""
+
+msgid "with"
 msgstr ""
 
 msgid "Wrap image left"
@@ -2641,6 +2928,12 @@ msgid "You are not allowed to write in the class %s"
 msgstr ""
 
 msgid "You are not authorised to remove this lock"
+msgstr ""
+
+msgid "You can choose which types of cookies you want to allow to improve your experience."
+msgstr ""
+
+msgid "You can read more about this in our"
 msgstr ""
 
 msgid "You cannot delete the root node"
