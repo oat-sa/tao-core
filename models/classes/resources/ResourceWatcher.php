@@ -83,16 +83,20 @@ class ResourceWatcher extends ConfigurableService
         if ($updatedAt instanceof core_kernel_classes_Literal) {
             $updatedAt = (int) $updatedAt->literal;
         }
+        $threshold = $this->getOption(self::OPTION_THRESHOLD, 1);
 
         $now = microtime(true);
-        if ($updatedAt === null || ((int) $now - (int) $updatedAt) > 0) {
+        if ($updatedAt === null || ((int) $now - (int) $updatedAt) > $threshold) {
             $this->getLogger()->debug(
-                'triggering index update on resourceUpdated event'
+                'Updating updatedAt property for resource: ' . $resource->getUri()
             );
-
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $this->updatedAtCache[$resource->getUri()] = $now;
-            $resource->editPropertyValues($property, $now);
+            $resource
+                ->getModel()
+                ->getRdfsInterface()
+                ->getResourceImplementation()
+                ->setPropertyValue($resource, $property, $now);
         }
         $taskMessage = __('Adding/updating search index for updated resource');
         $this->createResourceIndexingTask($resource, $taskMessage);
