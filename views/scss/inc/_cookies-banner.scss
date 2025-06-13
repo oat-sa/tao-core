@@ -1,0 +1,33 @@
+
+$info: hsl(208, 100%, 40%); // color brand
+$infoBgColor: whiten($info, 0.8);
+$infoBorderColor: whiten($info, 0.1);
+
+.cookies-banner {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+  background-color: $infoBgColor;
+  border-bottom: 2px solid $infoBorderColor;
+  
+  h3 {
+    margin: 0 0 8px 0;
+  }
+  
+  .icon {
+    font-size: 16px;
+    padding-top: 2px;
+  }
+
+  .preferences-link {
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  .actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+}

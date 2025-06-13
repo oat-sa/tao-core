@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2024.12\n"
-"PO-Revision-Date: 2024-11-14T17:17:16\n"
+"Project-Id-Version: TAO 2025.06\n"
+"PO-Revision-Date: 2025-06-13T16:16:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sq-AL\n"
@@ -169,6 +169,9 @@ msgstr ""
 msgid "AC"
 msgstr ""
 
+msgid "Accept all"
+msgstr ""
+
 msgid "Access Denied"
 msgstr ""
 
@@ -285,6 +288,12 @@ msgstr ""
 msgid "an instance"
 msgstr ""
 
+msgid "Analytics cookies"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
 msgid "Ans"
 msgstr ""
 
@@ -372,6 +381,9 @@ msgid "C"
 msgstr ""
 
 msgid "C file"
+msgstr ""
+
+msgid "C++ file"
 msgstr ""
 
 msgid "C++ file (.cpp)"
@@ -513,6 +525,12 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
+msgid "Cookie Policy"
+msgstr ""
+
+msgid "Cookies Preferences"
+msgstr ""
+
 msgid "Copy"
 msgstr ""
 
@@ -535,6 +553,9 @@ msgid "Create instance"
 msgstr ""
 
 msgid "Create instance of "
+msgstr ""
+
+msgid "Create translation"
 msgstr ""
 
 msgid "Created"
@@ -684,6 +705,9 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+msgid "Empty resources cannot be translated."
+msgstr ""
+
 msgid "enabled"
 msgstr ""
 
@@ -709,6 +733,9 @@ msgid "Error during file import"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Essential cookies (required)"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -937,6 +964,15 @@ msgid "In Progress"
 msgstr ""
 
 msgid "In progress"
+msgstr ""
+
+msgid "Include all"
+msgstr ""
+
+msgid "Include any"
+msgstr ""
+
+msgid "Include none"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1172,6 +1208,9 @@ msgid "Manage class schema"
 msgstr ""
 
 msgid "manage columns"
+msgstr ""
+
+msgid "Manage Preferences"
 msgstr ""
 
 #, tao-public
@@ -1459,10 +1498,16 @@ msgstr ""
 msgid "Original"
 msgstr ""
 
+msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
+msgstr ""
+
 msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
+msgstr ""
+
+msgid "Pascal file"
 msgstr ""
 
 msgid "Pascal file (.pas)"
@@ -1597,6 +1642,9 @@ msgstr ""
 msgid "Previous page"
 msgstr ""
 
+msgid "Privacy Policy"
+msgstr ""
+
 msgid "Proceed"
 msgstr ""
 
@@ -1641,6 +1689,9 @@ msgid "RealMedia file"
 msgstr ""
 
 msgid "Refresh"
+msgstr ""
+
+msgid "Reject all"
 msgstr ""
 
 msgid "Release"
@@ -1865,6 +1916,9 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
+msgid "Some of resources has not be deleted"
+msgstr ""
+
 msgid "Some resources have not been moved: %s"
 msgstr ""
 
@@ -1890,6 +1944,9 @@ msgid "Status of"
 msgstr ""
 
 msgid "Storing digital video data on a computer game"
+msgstr ""
+
+msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
 msgstr ""
 
 msgid "Submit"
@@ -2063,6 +2120,9 @@ msgstr ""
 msgid "There is nothing to list!"
 msgstr ""
 
+msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
+msgstr ""
+
 msgid "This %s is currently checked out"
 msgstr ""
 
@@ -2108,6 +2168,9 @@ msgstr ""
 msgid "This should not equal %s"
 msgstr ""
 
+msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
+msgstr ""
+
 msgid "time"
 msgstr ""
 
@@ -2118,6 +2181,9 @@ msgid "Title"
 msgstr ""
 
 msgid "to"
+msgstr ""
+
+msgid "To change your preferences, click Manage preferences."
 msgstr ""
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
@@ -2466,6 +2532,12 @@ msgid "You are not allowed to write in the class %s"
 msgstr ""
 
 msgid "You are not authorised to remove this lock"
+msgstr ""
+
+msgid "You can choose which types of cookies you want to allow to improve your experience."
+msgstr ""
+
+msgid "You can read more about this in our"
 msgstr ""
 
 msgid "You cannot delete the root node"

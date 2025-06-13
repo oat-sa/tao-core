@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.01\n"
-"PO-Revision-Date: 2022-01-13T10:06:21\n"
+"Project-Id-Version: TAO 2025.06\n"
+"PO-Revision-Date: 2025-06-13T16:13:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-HS\n"
@@ -78,6 +78,9 @@ msgstr "%s を保存しました"
 
 msgid "%s classes"
 msgstr "%s "
+
+msgid "%s completed"
+msgstr ""
 
 msgid "%s Confirmation"
 msgstr "%s 確認"
@@ -169,6 +172,9 @@ msgstr "絶対値"
 msgid "AC"
 msgstr "AC"
 
+msgid "Accept all"
+msgstr ""
+
 msgid "Access Denied"
 msgstr "アクセスが拒否されました"
 
@@ -193,6 +199,7 @@ msgstr "操作はまだ実行されていません"
 msgid "Actions"
 msgstr "操作"
 
+#, tao-public
 msgid "Add"
 msgstr "追加"
 
@@ -284,6 +291,12 @@ msgstr "\"%s\" の実行中に例外が発生しました"
 msgid "an instance"
 msgstr "インスタンス"
 
+msgid "Analytics cookies"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
 msgid "Ans"
 msgstr "Ans"
 
@@ -313,6 +326,12 @@ msgstr "バージョン管理リソースを削除してもよろしいですか
 msgid "Are you sure you want to delete it?"
 msgstr "削除してよろしいですか？"
 
+msgid "Are you sure you want to delete the translation for this language?"
+msgstr ""
+
+msgid "Are you sure you want to start the translation for this language?"
+msgstr ""
+
 msgid "Are you sure you wish to delete it"
 msgstr ""
 
@@ -330,6 +349,9 @@ msgid "Assign Users"
 msgstr "ユーザ割当て"
 
 msgid "Audio Video Interleave"
+msgstr ""
+
+msgid "Auth type"
 msgstr ""
 
 msgid "Author"
@@ -355,6 +377,9 @@ msgstr "戻る"
 
 msgid "Back to listing"
 msgstr "リストへ戻る"
+
+msgid "Back to Portal"
+msgstr ""
 
 msgid "Base-10 logarithm"
 msgstr "常用対数"
@@ -383,6 +408,9 @@ msgstr ""
 msgid "Browse folders:"
 msgstr "フォルダを参照"
 
+msgid "Browse resources"
+msgstr ""
+
 msgid "Browse..."
 msgstr "参照..."
 
@@ -390,6 +418,9 @@ msgid "C"
 msgstr "C"
 
 msgid "C file"
+msgstr ""
+
+msgid "C++ file"
 msgstr ""
 
 msgid "C++ file (.cpp)"
@@ -430,6 +461,9 @@ msgstr "大/小文字を区別"
 
 msgid "ceil"
 msgstr "CEIL"
+
+msgid "Center"
+msgstr ""
 
 #, tao-public
 msgid "Change password"
@@ -552,6 +586,12 @@ msgstr "CBTプラットホームへ接続"
 msgid "Continue"
 msgstr "次へ"
 
+msgid "Cookie Policy"
+msgstr ""
+
+msgid "Cookies Preferences"
+msgstr ""
+
 msgid "Copy"
 msgstr "コピー"
 
@@ -573,8 +613,14 @@ msgstr "cos"
 msgid "Create"
 msgstr "作成"
 
+msgid "Create instance"
+msgstr ""
+
 msgid "Create instance of "
 msgstr "のインスタンスを作成します"
+
+msgid "Create translation"
+msgstr ""
 
 msgid "Created"
 msgstr "作成されました"
@@ -615,10 +661,10 @@ msgstr "インポートが完了しました"
 msgid "Data imported. Some records are invalid."
 msgstr "データをインポートしました。一部のレコードは無効です。"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "データ言語"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "データ言語"
 
 msgid "Data not imported. All records are invalid."
@@ -718,6 +764,9 @@ msgstr "Digit 9"
 msgid "Disabled %s"
 msgstr "%s　無効"
 
+msgid "Do you want to override \"%s\"?"
+msgstr ""
+
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr "この拡張機能をインストールしますか:\n"
@@ -772,6 +821,9 @@ msgstr "エレメントが削除されました"
 msgid "Email"
 msgstr "Eメール"
 
+msgid "Empty resources cannot be translated."
+msgstr ""
+
 msgid "enabled"
 msgstr "有効にしました"
 
@@ -807,6 +859,9 @@ msgstr "値のエラー"
 
 msgid "Error: %s"
 msgstr "%s エラー"
+
+msgid "Essential cookies (required)"
+msgstr ""
 
 msgid "Exclusive (OR)"
 msgstr "排他的(OR)"
@@ -857,6 +912,9 @@ msgstr "階乗"
 
 msgid "Failed"
 msgstr "失敗しました"
+
+msgid "Failed to copy class."
+msgstr ""
 
 msgid "Failed to delete index for %s"
 msgstr "%s のインデックスを削除できませんでした。"
@@ -1072,14 +1130,30 @@ msgstr "処理中"
 msgid "In progress"
 msgstr "処理中"
 
+msgid "Include all"
+msgstr ""
+
+msgid "Include any"
+msgstr ""
+
+msgid "Include none"
+msgstr ""
+
 msgid "Inclusive (AND)"
 msgstr "包括（AND)"
+
+#, tao-public
+msgid "Index"
+msgstr ""
 
 msgid "Index has been deleted for %s"
 msgstr "インデックスが %s で削除されました。"
 
 msgid "Infinity"
 msgstr "無限大"
+
+msgid "Inherit the permission of the parent folder"
+msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr "インジェクターには、有効な\"destination\"フィールドが含まれている必要があります。"
@@ -1111,11 +1185,14 @@ msgstr "%s拡張機能をインストールしています..."
 msgid "Instance saved"
 msgstr "インスタンスが保存されました"
 
+msgid "Interface language"
+msgstr "インタフェース言語"
+
 msgid "Interface Language"
 msgstr "インタフェース言語"
 
-msgid "Interface language"
-msgstr "インタフェース言語"
+msgid "Interface Mode"
+msgstr ""
 
 msgid "Invalid CSP header."
 msgstr "CSPヘッダーが無効です"
@@ -1181,6 +1258,9 @@ msgid "Javascript code"
 msgstr ""
 
 msgid "JPEG image"
+msgstr ""
+
+msgid "Keep the original permissions"
 msgstr ""
 
 msgid "Label"
@@ -1299,6 +1379,12 @@ msgstr "メンテナンス用ストレージドライバが設定されていま
 
 msgid "Manage class schema"
 msgstr "クラススキーマ管理"
+
+msgid "manage columns"
+msgstr ""
+
+msgid "Manage Preferences"
+msgstr ""
 
 #, tao-public
 msgid "Manage roles"
@@ -1435,6 +1521,21 @@ msgstr "複数の値の区切り文字"
 msgid "Multiply the value by 10^x"
 msgstr "値に10^xを乗算します。"
 
+msgid "Must include at least one letter"
+msgstr ""
+
+msgid "Must include at least one number"
+msgstr ""
+
+msgid "Must include at least one special letter"
+msgstr ""
+
+msgid "Must include lower case letters"
+msgstr ""
+
+msgid "Must include upper case letters"
+msgstr ""
+
 msgid "Mute"
 msgstr "ミュート"
 
@@ -1506,8 +1607,14 @@ msgstr "ノードのコピーに失敗しました"
 msgid "none"
 msgstr ""
 
+msgid "Not Ready for Translation"
+msgstr ""
+
 msgid "Not started"
 msgstr "開始していません"
+
+msgid "NotEmpty"
+msgstr ""
 
 msgid "Nothing imported"
 msgstr "何もインポートされていません"
@@ -1561,6 +1668,9 @@ msgstr "自分自身のドメインのみ許可 (%s)"
 msgid "Only one of the field must have value %s"
 msgstr ""
 
+msgid "Open the item for editing"
+msgstr ""
+
 msgid "OpenDocument Database"
 msgstr ""
 
@@ -1582,11 +1692,20 @@ msgstr "運営元"
 msgid "or"
 msgstr "または"
 
+msgid "Original"
+msgstr ""
+
+msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
+msgstr ""
+
 msgid "Outlook on the next Synchronization"
 msgstr "次の同期の見通し"
 
 msgid "Page"
 msgstr "ページ"
+
+msgid "Pascal file"
+msgstr ""
 
 msgid "Pascal file (.pas)"
 msgstr ""
@@ -1615,8 +1734,14 @@ msgstr "一時停止"
 msgid "PDF file"
 msgstr ""
 
+msgid "Pending"
+msgstr ""
+
 msgid "Permission denied to write in the selected class"
 msgstr "選択したクラスへの書き込みを拒否されました"
+
+msgid "Permission settings"
+msgstr ""
 
 msgid "Plain text"
 msgstr ""
@@ -1672,6 +1797,9 @@ msgstr "その理由を記入してください"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "バグの報告やアイデア，コメントなどTAOフォーラムにフィードバックしてください"
 
+msgid "Please select a language."
+msgstr ""
+
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
@@ -1717,6 +1845,9 @@ msgstr "前の検索結果"
 msgid "Previous page"
 msgstr "前のページ"
 
+msgid "Privacy Policy"
+msgstr ""
+
 msgid "Proceed"
 msgstr "続行"
 
@@ -1760,11 +1891,17 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
+msgid "Ready for Translation"
+msgstr ""
+
 msgid "RealMedia file"
 msgstr ""
 
 msgid "Refresh"
 msgstr "リフレッシュ"
+
+msgid "Reject all"
+msgstr ""
 
 msgid "Release"
 msgstr "リリース"
@@ -1804,6 +1941,9 @@ msgstr ""
 
 msgid "Remove Message"
 msgstr "メッセージ削除"
+
+msgid "Remove the translated item"
+msgstr ""
 
 msgid "Remove this file"
 msgstr "このファイルを削除"
@@ -2033,6 +2173,9 @@ msgstr "sinh"
 msgid "Size"
 msgstr "サイズ"
 
+msgid "Some of resources has not be deleted"
+msgstr ""
+
 msgid "Some resources have not been moved: %s"
 msgstr "一部のリソースが移動されていません: %s"
 
@@ -2051,6 +2194,9 @@ msgstr ""
 msgid "Start of document reached. Continuing from the end."
 msgstr "ドキュメントの開始点に到達しました。最後から続けます。"
 
+msgid "Start translation"
+msgstr ""
+
 msgid "Status"
 msgstr "ステータス"
 
@@ -2064,6 +2210,9 @@ msgid "Store the value a variable"
 msgstr "値を変数に格納する"
 
 msgid "Storing digital video data on a computer game"
+msgstr ""
+
+msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
 msgstr ""
 
 msgid "Submit"
@@ -2138,6 +2287,9 @@ msgstr "TAOプラットフォームは，%s以来，現在もメンテナンス�
 msgid "TAO platform is under maintenance since %s"
 msgstr "TAOプラットフォームは、%s以降メンテナンス中となっています。"
 
+msgid "Tao WebHooks"
+msgstr ""
+
 msgid "Task %s has been cancelled, message was not processed."
 msgstr "タスク %s はキャンセルされました。"
 
@@ -2174,6 +2326,9 @@ msgstr "テキスト-ショート-フィールド"
 msgid "Text document file format (Staroffice)"
 msgstr ""
 
+msgid "Text to translate"
+msgstr ""
+
 msgid "The action will be applied to"
 msgstr "操作が適用されます"
 
@@ -2185,6 +2340,9 @@ msgstr "操作は適用されません："
 
 msgid "The action will not be applied to the following"
 msgstr "操作は適用されません："
+
+msgid "The class has been copied."
+msgstr ""
 
 msgid "The column "
 msgstr "行"
@@ -2234,6 +2392,9 @@ msgstr "このフィールドの値は数値でなければなりません"
 msgid "There is nothing to list!"
 msgstr "リストがありません！"
 
+msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
+msgstr ""
+
 msgid "This %s is currently checked out"
 msgstr "この%sはチェックアウトされています"
 
@@ -2267,6 +2428,9 @@ msgstr "このパスワードのリセットリンクは、有効ではありま
 msgid "This resource is locked"
 msgstr "このリソースはロックされています"
 
+msgid "This resource is not ready for translation."
+msgstr ""
+
 msgid "This role is still given to one or more users. Please remove the role to these users first."
 msgstr "このロールは、1人または複数のユーザに与えられています。まず、これらのユーザのロールを削除してください。"
 
@@ -2275,6 +2439,9 @@ msgstr "これは、%sと等しくなければなりません"
 
 msgid "This should not equal %s"
 msgstr "これは、%sと等しくてはいけません"
+
+msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
+msgstr ""
 
 msgid "time"
 msgstr "時間"
@@ -2287,6 +2454,9 @@ msgstr "タイトル"
 
 msgid "to"
 msgstr "→"
+
+msgid "To change your preferences, click Manage preferences."
+msgstr ""
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr "パスワードをリセットするには、下記リンクをクリックしてください。またはリンクをブラウザにペーストしてください。新規パスワード作成のページが表示されます。"
@@ -2318,13 +2488,37 @@ msgstr "翻訳"
 msgid "Translate to"
 msgstr "翻訳先言語"
 
+msgid "Translated"
+msgstr ""
+
+msgid "Translating"
+msgstr ""
+
+msgid "Translation"
+msgstr ""
+
 msgid "Translation parameters"
 msgstr "翻訳パラメータ"
+
+msgid "Translation Progress"
+msgstr ""
 
 msgid "Translation saved"
 msgstr "翻訳は保存されました"
 
+msgid "Translation Status"
+msgstr ""
+
+msgid "Translation Type"
+msgstr ""
+
+msgid "Translations"
+msgstr ""
+
 msgid "Transport Layer Security"
+msgstr ""
+
+msgid "Tree - Multiple node choice"
 msgstr ""
 
 msgid "Tree - Multiple node choice "
@@ -2387,6 +2581,9 @@ msgstr "通知の検索ができません"
 msgid "Unable to send the password reset request"
 msgstr "パスワードのリセットをリクエストできません"
 
+msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
+msgstr ""
+
 msgid "Unable to update the asset service"
 msgstr "アセットサービスの更新ができません"
 
@@ -2417,6 +2614,9 @@ msgstr "ページネーションのための未定義のページ数"
 msgid "Undefined amount of the totalPages for pagination"
 msgstr "ページネーションのための総ページの未定義数"
 
+msgid "Undefined Instance can not be saved"
+msgstr ""
+
 msgid "Undo"
 msgstr "取り消し"
 
@@ -2428,6 +2628,9 @@ msgstr "アンインストールに失敗しました : %s"
 
 msgid "Uninstalled %s"
 msgstr "アンインストールが完了しました : %s"
+
+msgid "Unique Identifier"
+msgstr ""
 
 msgid "UNIX Compressed Archive File"
 msgstr ""
@@ -2575,6 +2778,13 @@ msgstr "待機中"
 msgid "WAV audio"
 msgstr ""
 
+msgid "WebHook auth configuration can not be loaded"
+msgstr ""
+
+#, tao-public
+msgid "WebHooks"
+msgstr ""
+
 msgid "WebM audio"
 msgstr ""
 
@@ -2597,6 +2807,9 @@ msgid "Windows Media file (metafile)"
 msgstr ""
 
 msgid "Windows Media video"
+msgstr ""
+
+msgid "with"
 msgstr ""
 
 msgid "Wrap image left"
@@ -2628,6 +2841,12 @@ msgstr "フォルダー ％s に書き込むことは許可されていません
 
 msgid "You are not authorised to remove this lock"
 msgstr "あなたはこのロックを解除する権限がありません"
+
+msgid "You can choose which types of cookies you want to allow to improve your experience."
+msgstr ""
+
+msgid "You can read more about this in our"
+msgstr ""
 
 msgid "You cannot delete the root node"
 msgstr "あなたは、ルートノードを削除することはできません"
