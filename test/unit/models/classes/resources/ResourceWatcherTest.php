@@ -25,6 +25,9 @@ namespace oat\tao\test\unit\models\classes\resources;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use core_kernel_persistence_ResourceInterface;
+use core_kernel_persistence_smoothsql_SmoothRdfs;
+use core_kernel_persistence_starsql_StarModel;
 use Exception;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceDeleted;
@@ -246,9 +249,27 @@ class ResourceWatcherTest extends TestCase
 
         $this->mockGetUriResource($resourceUri);
 
-        $this->mockDebugLogger('triggering index update on resourceUpdated event');
+        $this->mockDebugLogger(
+            'Updating updatedAt property for resource: ' .
+            'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
+        );
 
-        $this->resource->expects($this->once())->method('editPropertyValues');
+        $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
+        $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
+        $rdfsInterfaceMock->expects($this->once())
+            ->method('getResourceImplementation')
+            ->willReturn(
+                $this->createMock(core_kernel_persistence_ResourceInterface::class)
+            );
+        $ontologyMock->expects($this->once())
+            ->method('getRdfsInterface')
+            ->willReturn(
+                $rdfsInterfaceMock
+            );
+        $this->resource->expects($this->once())->method('getModel')
+            ->willReturn(
+                $ontologyMock
+            );
 
         $this->sut->catchUpdatedResourceEvent(
             new ResourceUpdated($this->resource)
@@ -275,7 +296,27 @@ class ResourceWatcherTest extends TestCase
 
         $this->mockGetUriResource($resourceUri);
 
-        $this->mockDebugLogger('triggering index update on resourceUpdated event');
+        $this->mockDebugLogger(
+            'Updating updatedAt property for resource: ' .
+            'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
+        );
+
+        $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
+        $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
+        $rdfsInterfaceMock->expects($this->once())
+            ->method('getResourceImplementation')
+            ->willReturn(
+                $this->createMock(core_kernel_persistence_ResourceInterface::class)
+            );
+        $ontologyMock->expects($this->once())
+            ->method('getRdfsInterface')
+            ->willReturn(
+                $rdfsInterfaceMock
+            );
+        $this->resource->expects($this->once())->method('getModel')
+            ->willReturn(
+                $ontologyMock
+            );
 
         $this->sut->catchUpdatedResourceEvent(
             new ResourceUpdated($this->resource)
@@ -302,9 +343,27 @@ class ResourceWatcherTest extends TestCase
             ->method('getUri')
             ->willReturn($resourceUri);
 
-        $this->mockDebugLogger('triggering index update on resourceUpdated event');
+        $this->mockDebugLogger(
+            'Updating updatedAt property for resource: ' .
+            'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
+        );
 
-        $this->resource->expects($this->once())->method('editPropertyValues');
+        $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
+        $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
+        $rdfsInterfaceMock->expects($this->once())
+            ->method('getResourceImplementation')
+            ->willReturn(
+                $this->createMock(core_kernel_persistence_ResourceInterface::class)
+            );
+        $ontologyMock->expects($this->once())
+            ->method('getRdfsInterface')
+            ->willReturn(
+                $rdfsInterfaceMock
+            );
+        $this->resource->expects($this->once())->method('getModel')
+            ->willReturn(
+                $ontologyMock
+            );
 
         $this->sut->catchUpdatedResourceEvent(
             new ResourceUpdated($this->resource)
