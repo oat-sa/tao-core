@@ -39,9 +39,8 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <?= Layout::isQuickWinsDesignEnabled() ? ' qc-wins' : '' ?>
 ">
 <?php Template::inc('blocks/requirement-check.tpl', 'tao'); ?>
-
 <div class="content-wrap">
-
+    <?php Template::inc('blocks/cookies-banner.tpl', 'tao'); ?>
     <?php /* alpha|beta|sandbox message */
     if($hasVersionWarning) {
         Template::inc('blocks/version-warning.tpl', 'tao');
@@ -61,6 +60,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 
 <div class="loading-bar"></div>
 <?php Layout::printAnalyticsCode(); ?>
-<?php UserPilotTemplateHelper::userPilotCode(new UserPilotDto(common_session_SessionManager::getSession())); ?>
+<?php UserPilotTemplateHelper::userPilotCode(new
+UserPilotDto(common_session_SessionManager::getSession())); ?>
 </body>
 </html>
