@@ -47,7 +47,7 @@ require(['config'], function() {
 
         $('form').bind('submit', function() {
                 var check = {
-                    password: install.getData('superuser_password1')
+                    password: install.getData('superuser_password')
                 };
 
                 install.сheckPasswordСonformity(check, function(status, data) {
@@ -58,7 +58,7 @@ require(['config'], function() {
                             install.setTemplate('step_licenses');
                         }
                     } else  {
-                        var msg = 'Check you password please';
+                        var msg = 'Check your password please';
                         if (data && data.value.message) {
                             msg += "\n\n" + data.value.message;
                         }
@@ -132,7 +132,7 @@ require(['config'], function() {
                     validify(this);
                     break;
 
-                case 'superuser_password1':
+                case 'superuser_password':
                     install.getValidator(this, {
                         dataType: 'string',
                         min: 4
@@ -144,7 +144,7 @@ require(['config'], function() {
                     install.getValidator(this, {
                         dataType: 'string',
                         min: 4,
-                        sameAs: 'superuser_password1'
+                        sameAs: 'superuser_password'
                     });
                     validify(this);
                     break;
