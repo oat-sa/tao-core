@@ -109,6 +109,7 @@ Here you can find the environment variables including feature flags
 | FEATURE_FLAG_TRANSLATION_ENABLED       | Enable access to items/tests translations feature                                                                                    | -             |
 | TAO_ALLOWED_TRANSLATION_LOCALES        | Comma separated List of locales available for translations / authoring in the UI. If none provided, all are allowed                  | -             |
 | COOKIE_POLICY_CONFIG                   | JSON with CookiePolicy config. Example: `{"privacyPolicyUrl":"https://...","cookiePolicyUrl":"https://..."}`                         | -             |
+| REMOTE_LIST_SCALE                      | Defeine and enable Remote List Scale feature                                                                                         | -             |
 
 
 # Routing
