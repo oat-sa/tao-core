@@ -52,6 +52,7 @@ class TranslatedIntoLanguagesSynchronizer
         $originalResource = $this->getOriginalResource($resource);
 
         $property = $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES);
+        $old = $originalResource->getPropertyValues($property); // FOR DEBUG
         $originalResource->removePropertyValues($property);
 
         /** @var AbstractResource[] $translations */
@@ -59,12 +60,17 @@ class TranslatedIntoLanguagesSynchronizer
             new ResourceTranslationQuery([$originalResource->getUri()])
         );
 
+        $langs = []; // FOR DEBUG
         foreach ($translations as $translation) {
             $originalResource->setPropertyValue(
                 $property,
                 TaoOntology::LANGUAGE_PREFIX . $translation->getLanguageCode()
             );
+            $langs[] = $translation->getLanguageCode(); // FOR DEBUG
         }
+
+        // FOR DEBUG
+        \common_Logger::i('Sync translation done: old:['. implode(',', $old) . '] new:['. implode(',', $langs) . ']');
 
         foreach (($this->callbacks[$originalResource->getRootId()] ?? []) as $callback) {
             $callback($originalResource);
