@@ -134,19 +134,16 @@ abstract class BaseWebsource extends Configurable implements Websource
             return $mimeType;
         }
 
-        //manage bugs in finfo
         switch ($pathParts['extension']) {
             case 'js':
-                if (
-                    in_array($mimeType, ['text/plain', 'text/html', 'text/x-asm', 'text/x-c', 'text/x-java'], true)
-                ) {
+                if (str_starts_with($mimeType, 'text/')) {
                     return 'text/javascript';
                 }
                 break;
             case 'css':
                 // for css files mime type can be 'text/plain' due to bug in finfo
                 // (see more: https://bugs.php.net/bug.php?id=53035)
-                if ($mimeType === 'text/plain' || $mimeType === 'text/x-asm') {
+                if (str_starts_with($mimeType, 'text/')) {
                     return 'text/css';
                 }
                 break;
