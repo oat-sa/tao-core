@@ -83,7 +83,7 @@ class ResourceWatcherTest extends TestCase
     private $featureFlagChecker;
 
     /** @var core_kernel_persistence_ResourceInterface|MockObject */
-    private $resourceImplementation;
+    private $resourceImpl;
 
     protected function setUp(): void
     {
@@ -97,7 +97,7 @@ class ResourceWatcherTest extends TestCase
         $this->search = $this->createMock(Search::class);
         $this->advancedSearchChecker = $this->createMock(AdvancedSearchChecker::class);
         $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
-        $this->resourceImplementation = $this->createMock(core_kernel_persistence_ResourceInterface::class);
+        $this->resourceImpl = $this->createMock(core_kernel_persistence_ResourceInterface::class);
 
         $serviceLocator = $this->getServiceManagerMock(
             [
@@ -257,15 +257,15 @@ class ResourceWatcherTest extends TestCase
             'Updating updatedAt property for resource: ' .
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
         );
-        $this->resourceImplementation->expects($this->atLeastOnce())->method('removePropertyValues');
-        $this->resourceImplementation->expects($this->atLeastOnce())->method('setPropertyValue');
+        $this->resourceImpl->expects($this->atLeastOnce())->method('removePropertyValues');
+        $this->resourceImpl->expects($this->atLeastOnce())->method('setPropertyValue');
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
-            ->method('getResourceImplementation')
+            ->method('getresourceImpl')
             ->willReturn(
-                $this->resourceImplementation
+                $this->resourceImpl
             );
         $ontologyMock->expects($this->once())
             ->method('getRdfsInterface')
@@ -306,15 +306,15 @@ class ResourceWatcherTest extends TestCase
             'Updating updatedAt property for resource: ' .
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
         );
-        $this->resourceImplementation->expects($this->atLeastOnce())->method('removePropertyValues');
-        $this->resourceImplementation->expects($this->atLeastOnce())->method('setPropertyValue');
+        $this->resourceImpl->expects($this->atLeastOnce())->method('removePropertyValues');
+        $this->resourceImpl->expects($this->atLeastOnce())->method('setPropertyValue');
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
-            ->method('getResourceImplementation')
+            ->method('getresourceImpl')
             ->willReturn(
-                $this->resourceImplementation
+                $this->resourceImpl
             );
         $ontologyMock->expects($this->once())
             ->method('getRdfsInterface')
@@ -355,15 +355,15 @@ class ResourceWatcherTest extends TestCase
             'Updating updatedAt property for resource: ' .
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
         );
-        $this->resourceImplementation->expects($this->atLeastOnce())->method('removePropertyValues');
-        $this->resourceImplementation->expects($this->atLeastOnce())->method('setPropertyValue');
+        $this->resourceImpl->expects($this->atLeastOnce())->method('removePropertyValues');
+        $this->resourceImpl->expects($this->atLeastOnce())->method('setPropertyValue');
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
-            ->method('getResourceImplementation')
+            ->method('getresourceImpl')
             ->willReturn(
-                $this->resourceImplementation
+                $this->resourceImpl
             );
         $ontologyMock->expects($this->once())
             ->method('getRdfsInterface')
