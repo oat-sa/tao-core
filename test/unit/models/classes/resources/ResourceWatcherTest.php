@@ -263,7 +263,7 @@ class ResourceWatcherTest extends TestCase
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
-            ->method('getresourceImpl')
+            ->method('getResourceImplementation')
             ->willReturn(
                 $this->resourceImpl
             );
@@ -312,7 +312,7 @@ class ResourceWatcherTest extends TestCase
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
-            ->method('getresourceImpl')
+            ->method('getResourceImplementation')
             ->willReturn(
                 $this->resourceImpl
             );
@@ -361,7 +361,7 @@ class ResourceWatcherTest extends TestCase
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
-            ->method('getresourceImpl')
+            ->method('getResourceImplementation')
             ->willReturn(
                 $this->resourceImpl
             );
