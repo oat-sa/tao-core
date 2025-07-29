@@ -92,11 +92,14 @@ class ResourceWatcher extends ConfigurableService
             );
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $this->updatedAtCache[$resource->getUri()] = $now;
-            $resource
+
+            $resourceImpl = $resource
                 ->getModel()
                 ->getRdfsInterface()
-                ->getResourceImplementation()
-                ->setPropertyValue($resource, $property, $now);
+                ->getResourceImplementation();
+
+            $resourceImpl->removePropertyValues($resource, $property);
+            $resourceImpl->setPropertyValue($resource, $property, $now);
         }
         $taskMessage = __('Adding/updating search index for updated resource');
         $this->createResourceIndexingTask($resource, $taskMessage);
