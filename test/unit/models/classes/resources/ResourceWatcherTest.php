@@ -257,8 +257,8 @@ class ResourceWatcherTest extends TestCase
             'Updating updatedAt property for resource: ' .
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
         );
-        $this->resourceImpl->expects($this->atLeastOnce())->method('removePropertyValues');
-        $this->resourceImpl->expects($this->atLeastOnce())->method('setPropertyValue');
+        $this->resourceImpl->expects($this->once())->method('removePropertyValues');
+        $this->resourceImpl->expects($this->once())->method('setPropertyValue');
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
@@ -306,8 +306,8 @@ class ResourceWatcherTest extends TestCase
             'Updating updatedAt property for resource: ' .
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
         );
-        $this->resourceImpl->expects($this->atLeastOnce())->method('removePropertyValues');
-        $this->resourceImpl->expects($this->atLeastOnce())->method('setPropertyValue');
+        $this->resourceImpl->expects($this->once())->method('removePropertyValues');
+        $this->resourceImpl->expects($this->once())->method('setPropertyValue');
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
@@ -355,8 +355,8 @@ class ResourceWatcherTest extends TestCase
             'Updating updatedAt property for resource: ' .
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
         );
-        $this->resourceImpl->expects($this->atLeastOnce())->method('removePropertyValues');
-        $this->resourceImpl->expects($this->atLeastOnce())->method('setPropertyValue');
+        $this->resourceImpl->expects($this->once())->method('removePropertyValues');
+        $this->resourceImpl->expects($this->once())->method('setPropertyValue');
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
