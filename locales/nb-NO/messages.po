@@ -1,28 +1,20 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-09-20 08:39\n"
+"Project-Id-Version: TAO 2025.06\n"
+"PO-Revision-Date: 2025-06-13T16:14:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nb_NO\n"
+"Language: nb-NO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: nb-NO\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: nb\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
-"Language-Team: Norwegian Bokmal\n"
 
 msgid ""
 msgstr ""
-""
 
 msgid " and "
 msgstr " og "
@@ -86,6 +78,9 @@ msgstr "%s Mappe lagret"
 
 msgid "%s classes"
 msgstr "%s mapper"
+
+msgid "%s completed"
+msgstr ""
 
 msgid "%s Confirmation"
 msgstr "%s Bekreftelse"
@@ -177,6 +172,9 @@ msgstr "Absolutt verdi"
 msgid "AC"
 msgstr ""
 
+msgid "Accept all"
+msgstr ""
+
 msgid "Access Denied"
 msgstr "Ingen Tilgang"
 
@@ -201,6 +199,7 @@ msgstr "Handlingen er ikke utført ennå"
 msgid "Actions"
 msgstr "Handlinger"
 
+#, tao-public
 msgid "Add"
 msgstr "Legg til"
 
@@ -222,6 +221,9 @@ msgstr "legg til kriterier"
 
 msgid "Add file(s)"
 msgstr "Legg til fil(er)"
+
+msgid "Add index"
+msgstr ""
 
 msgid "Add property"
 msgstr "Legg til egenskap"
@@ -295,6 +297,12 @@ msgstr "Det oppstod et avvik under kjøring av \"%s"
 msgid "an instance"
 msgstr "en forekomst"
 
+msgid "Analytics cookies"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
 msgid "Ans"
 msgstr "Svar"
 
@@ -323,6 +331,15 @@ msgstr "Er du sikker på å slette den versjonerte ressursen? Historikken vil og
 msgid "Are you sure you want to delete it?"
 msgstr "Er du sikker på at du ønsker slette?"
 
+msgid "Are you sure you want to delete the translation for this language?"
+msgstr ""
+
+msgid "Are you sure you want to start the translation for this language?"
+msgstr ""
+
+msgid "Are you sure you wish to delete it"
+msgstr ""
+
 msgid "Argument check failed: %s"
 msgstr ""
 
@@ -348,6 +365,9 @@ msgstr "Tilordne brukere"
 msgid "Audio Video Interleave"
 msgstr "Lyd og bilde sammensetning"
 
+msgid "Auth type"
+msgstr ""
+
 msgid "Author"
 msgstr "Forfatter"
 
@@ -371,6 +391,9 @@ msgstr "Tilbake"
 
 msgid "Back to listing"
 msgstr "Tilbake til oppføring"
+
+msgid "Back to Portal"
+msgstr ""
 
 msgid "Base-10 logarithm"
 msgstr "Base-10 logaritme"
@@ -402,6 +425,9 @@ msgstr ""
 msgid "Browse folders:"
 msgstr "Søk gjennom mapper:"
 
+msgid "Browse resources"
+msgstr ""
+
 msgid "Browse..."
 msgstr "Søk..."
 
@@ -410,6 +436,9 @@ msgstr ""
 
 msgid "C file"
 msgstr "C-fil"
+
+msgid "C++ file"
+msgstr ""
 
 msgid "C++ file (.cpp)"
 msgstr "C++ fil (.cpp)"
@@ -450,6 +479,9 @@ msgstr "Skille mellom store og små bokstaver"
 msgid "ceil"
 msgstr "tak"
 
+msgid "Center"
+msgstr ""
+
 #, tao-public
 msgid "Change password"
 msgstr "Endre passord"
@@ -470,6 +502,9 @@ msgid "Check-in"
 msgstr "Innsjekking"
 
 msgid "choices:"
+msgstr ""
+
+msgid "Choose a type for your property first"
 msgstr ""
 
 msgid "Choose a value..."
@@ -523,6 +558,9 @@ msgstr "Nullstill lagrede variabler"
 msgid "Click to reload."
 msgstr "Klikk for å laste siden på nytt."
 
+msgid "Click to start"
+msgstr ""
+
 msgid "Close"
 msgstr "Lukk"
 
@@ -574,6 +612,12 @@ msgstr "Koble til TAO-plattformen"
 msgid "Continue"
 msgstr "Fortsett"
 
+msgid "Cookie Policy"
+msgstr ""
+
+msgid "Cookies Preferences"
+msgstr ""
+
 msgid "Copy"
 msgstr "Kopier"
 
@@ -598,8 +642,14 @@ msgstr ""
 msgid "Create"
 msgstr "Opprett"
 
+msgid "Create instance"
+msgstr ""
+
 msgid "Create instance of "
 msgstr "Opprett en forekomst av "
+
+msgid "Create translation"
+msgstr ""
 
 msgid "Created"
 msgstr "Opprettet"
@@ -627,6 +677,9 @@ msgstr "Gjeldende språk"
 
 msgid "Current playback position"
 msgstr "Gjeldende avspillingsposisjon"
+
+msgid "currently has a dependency established with "
+msgstr ""
 
 msgid "Data imported"
 msgstr "Data importert"
@@ -698,7 +751,16 @@ msgstr "Slett ordet på høyre side av markøren"
 msgid "Deleting search index for %s"
 msgstr "Sletter søkeindeks for %s"
 
+msgid "Deleting this property will also remove the dependency"
+msgstr ""
+
 msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Dependency URI Path"
+msgstr ""
+
+msgid "Depends on property"
 msgstr ""
 
 msgid "Did you mean %s?"
@@ -736,6 +798,9 @@ msgstr "Siffer 9"
 
 msgid "Disabled %s"
 msgstr "Deaktivert %s"
+
+msgid "Do you want to override \"%s\"?"
+msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -790,6 +855,9 @@ msgstr "Element ble slettet."
 msgid "Email"
 msgstr "E-post"
 
+msgid "Empty resources cannot be translated."
+msgstr ""
+
 msgid "enabled"
 msgstr "aktivert"
 
@@ -825,6 +893,9 @@ msgstr "Feil i verdi"
 
 msgid "Error: %s"
 msgstr "Feil: %s"
+
+msgid "Essential cookies (required)"
+msgstr ""
 
 msgid "Examples:"
 msgstr ""
@@ -878,6 +949,9 @@ msgstr "Faktorisk"
 
 msgid "Failed"
 msgstr "Mislyktes"
+
+msgid "Failed to copy class."
+msgstr ""
 
 msgid "Failed to delete index for %s"
 msgstr "Kunne ikke slette indeksen for %s"
@@ -1071,6 +1145,10 @@ msgstr "Importer metadata fra CSV-fil"
 msgid "Import Metadata from RDF file"
 msgstr "Importer metadata fra RDF-fil"
 
+#, tao-public
+msgid "Import statistical analysis metadata"
+msgstr ""
+
 msgid "Import succeeded."
 msgstr "Importen var vellykket."
 
@@ -1083,6 +1161,9 @@ msgstr "Importerte %d ressurser"
 msgid "Imported resource \"%s"
 msgstr "Importerte ressurs \"%s"
 
+msgid "Imported successfully finished!"
+msgstr ""
+
 msgid "impossible to update task status"
 msgstr "umulig å oppdatere oppgavestatus"
 
@@ -1092,14 +1173,30 @@ msgstr "I Arbeid"
 msgid "In progress"
 msgstr "I arbeid"
 
+msgid "Include all"
+msgstr ""
+
+msgid "Include any"
+msgstr ""
+
+msgid "Include none"
+msgstr ""
+
 msgid "Inclusive (AND)"
 msgstr "Inkludert (AND)"
+
+#, tao-public
+msgid "Index"
+msgstr ""
 
 msgid "Index has been deleted for %s"
 msgstr "Indeksen er slettet for %s"
 
 msgid "Infinity"
 msgstr "Uendelig"
+
+msgid "Inherit the permission of the parent folder"
+msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr "Injektoren må inneholde et gyldig \"destinasjonsfelt\"."
@@ -1131,11 +1228,14 @@ msgstr "Installerer utvidelse %s..."
 msgid "Instance saved"
 msgstr "Forekomsten er lagret"
 
+msgid "Interface language"
+msgstr "Grensesnittspråk"
+
 msgid "Interface Language"
 msgstr "Grensesnittspråk"
 
-msgid "Interface language"
-msgstr "Grensesnittspråk"
+msgid "Interface Mode"
+msgstr ""
 
 msgid "Invalid CSP header."
 msgstr "Ugyldig CSP-topptekst."
@@ -1185,10 +1285,19 @@ msgstr "Ugyldig brukernavn eller passord. Prøv på nytt."
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
 msgstr "Ugyldig brukernavn eller passord. Kontoen din er låst. Ta kontakt med administrator."
 
+msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
+msgstr ""
+
 msgid "invalid regular expression"
 msgstr "ugyldig uttrykk"
 
+msgid "Invalid value"
+msgstr ""
+
 msgid "Invalid values:"
+msgstr ""
+
+msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
 msgstr ""
 
 msgid "items per page"
@@ -1199,6 +1308,9 @@ msgstr "Javascript-kode"
 
 msgid "JPEG image"
 msgstr "JPEG-bilde"
+
+msgid "Keep the original permissions"
+msgstr ""
 
 msgid "Label"
 msgstr "Navn"
@@ -1229,6 +1341,9 @@ msgstr "mindre enn ett minutt"
 
 msgid "List"
 msgstr "Liste"
+
+msgid "List \"%s\" has duplicated values."
+msgstr ""
 
 msgid "List - Multiple choice - Check box"
 msgstr "Liste - Flervalg - Avhukingsboks"
@@ -1317,8 +1432,14 @@ msgstr "Vedlikeholdslagringsdriver er ikke angitt"
 msgid "Manage class schema"
 msgstr "Administrer egenskaper for oppgavemappe"
 
+msgid "manage columns"
+msgstr ""
+
 msgid "Manage data list"
 msgstr "Administrer dataliste"
+
+msgid "Manage Preferences"
+msgstr ""
 
 #, tao-public
 msgid "Manage roles"
@@ -1336,6 +1457,9 @@ msgstr "Administrer versjonert fil"
 
 msgid "Map the properties to the CSV columns"
 msgstr "Gi egenskaper til CSV-kolonnene"
+
+msgid "maximum %s"
+msgstr ""
 
 msgid "Maximum selection reached"
 msgstr "Maksimalt valg er nådd"
@@ -1390,6 +1514,9 @@ msgstr "MIME-innkapsling av samlede HTML-dokumenter"
 
 msgid "Mind mapping software application (free mind open source)"
 msgstr "Mind mapping programvare (gratis åpen kildekode)"
+
+msgid "minimum %s"
+msgstr ""
 
 msgid "minutes"
 msgstr "minutter"
@@ -1448,6 +1575,21 @@ msgstr "Avgrensning av flere verdier"
 
 msgid "Multiply the value by 10^x"
 msgstr "Multipliser verdien med 10^x"
+
+msgid "Must include at least one letter"
+msgstr ""
+
+msgid "Must include at least one number"
+msgstr ""
+
+msgid "Must include at least one special letter"
+msgstr ""
+
+msgid "Must include lower case letters"
+msgstr ""
+
+msgid "Must include upper case letters"
+msgstr ""
 
 msgid "Mute"
 msgstr "Dempe"
@@ -1517,14 +1659,23 @@ msgstr "Ingen handling ennå"
 msgid "Node duplication has failed"
 msgstr "Nodeduplisering mislyktes"
 
+msgid "none"
+msgstr ""
+
 msgid "Not enough arguments following: %s"
 msgstr ""
 
 msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
+msgid "Not Ready for Translation"
+msgstr ""
+
 msgid "Not started"
 msgstr "Ikke startet"
+
+msgid "NotEmpty"
+msgstr ""
 
 msgid "Nothing imported"
 msgstr "Ingenting importert"
@@ -1538,6 +1689,9 @@ msgstr "Ingenting å liste!"
 #, tao-public
 msgid "Notifications"
 msgstr "Varsler"
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgstr ""
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
@@ -1563,10 +1717,10 @@ msgstr "Ogg Vorbis lyd"
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1580,6 +1734,9 @@ msgstr "Tillat bare for mitt eget domene (%s)"
 
 msgid "Only one of the field must have value %s"
 msgstr "Bare ett av feltene må ha verdien %s"
+
+msgid "Open the item for editing"
+msgstr ""
 
 msgid "OpenDocument Database"
 msgstr ""
@@ -1602,11 +1759,20 @@ msgstr "Styrt av "
 msgid "or"
 msgstr "eller"
 
+msgid "Original"
+msgstr ""
+
+msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
+msgstr ""
+
 msgid "Outlook on the next Synchronization"
 msgstr "Outlook på neste synkronisering"
 
 msgid "Page"
 msgstr "Side"
+
+msgid "Pascal file"
+msgstr ""
 
 msgid "Pascal file (.pas)"
 msgstr "Pascal fil (.pas)"
@@ -1635,8 +1801,14 @@ msgstr ""
 msgid "PDF file"
 msgstr "PDF-fil"
 
+msgid "Pending"
+msgstr ""
+
 msgid "Permission denied to write in the selected class"
 msgstr "Ikke tilgang til å skrive i den valgte mappen"
+
+msgid "Permission settings"
+msgstr ""
 
 msgid "Plain text"
 msgstr "Ren tekst"
@@ -1692,6 +1864,18 @@ msgstr "Oppgi en grunn"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Vennligst rapporter feil, ideer, kommentarer eller tilbakemeldinger på TAO Forum"
 
+msgid "Please select a language."
+msgstr ""
+
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please set 'min' and/or 'max' options!"
+msgstr ""
+
+msgid "Please try in %s."
+msgstr ""
+
 msgid "Please wait"
 msgstr "Vennligst vent"
 
@@ -1730,6 +1914,9 @@ msgstr "Forrige match"
 
 msgid "Previous page"
 msgstr "Forrige side"
+
+msgid "Privacy Policy"
+msgstr ""
 
 msgid "Proceed"
 msgstr "Fortsett"
@@ -1774,11 +1961,17 @@ msgstr "RAR arkiv"
 msgid "RDF"
 msgstr ""
 
+msgid "Ready for Translation"
+msgstr ""
+
 msgid "RealMedia file"
 msgstr "RealMedia-fil"
 
 msgid "Refresh"
 msgstr "Oppdater"
+
+msgid "Reject all"
+msgstr ""
 
 msgid "Release"
 msgstr "Utgivelse"
@@ -1813,8 +2006,14 @@ msgstr "Fjern"
 msgid "Remove criteria"
 msgstr "Fjern kriterier"
 
+msgid "remove index"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "Fjern melding"
+
+msgid "Remove the translated item"
+msgstr ""
 
 msgid "Remove this file"
 msgstr "Fjern denne filen"
@@ -2053,6 +2252,9 @@ msgstr ""
 msgid "Size"
 msgstr "Størrelse"
 
+msgid "Some of resources has not be deleted"
+msgstr ""
+
 msgid "Some resources have not been moved: %s"
 msgstr "Noen ressurser ble ikke flyttet: %s"
 
@@ -2065,8 +2267,14 @@ msgstr "Kilder som kan bygge inn denne plattformen i en iFrame"
 msgid "Square root"
 msgstr "Kvadratrot"
 
+msgid "Start"
+msgstr ""
+
 msgid "Start of document reached. Continuing from the end."
 msgstr "Starten på dokumentet er nådd. Fortsetter fra slutten."
+
+msgid "Start translation"
+msgstr ""
 
 msgid "Status"
 msgstr ""
@@ -2082,6 +2290,9 @@ msgstr "Lagre verdien som en variabel"
 
 msgid "Storing digital video data on a computer game"
 msgstr "Lagring av digitale videodata på et dataspill"
+
+msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
+msgstr ""
 
 msgid "string"
 msgstr ""
@@ -2158,6 +2369,9 @@ msgstr ""
 msgid "TAO platform is under maintenance since %s"
 msgstr ""
 
+msgid "Tao WebHooks"
+msgstr ""
+
 msgid "Task %s has been cancelled, message was not processed."
 msgstr "Oppgave %s er avbrutt, meldingen ble ikke behandlet."
 
@@ -2194,6 +2408,9 @@ msgstr "Tekst - kort - felt"
 msgid "Text document file format (Staroffice)"
 msgstr "Tekstdokument filformat (Staroffice)"
 
+msgid "Text to translate"
+msgstr ""
+
 msgid "The action will be applied to"
 msgstr "Handlingen vil bli brukt på"
 
@@ -2206,8 +2423,14 @@ msgstr "Handlingen vil ikke bli brukt på "
 msgid "The action will not be applied to the following"
 msgstr "Handlingen vil ikke bli brukt på følgende"
 
+msgid "The class has been copied."
+msgstr ""
+
 msgid "The column "
 msgstr "Kolonnen "
+
+msgid "The field \"List\" is disabled because the property is part of a dependency"
+msgstr ""
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
 msgstr "Følgende kriterier gjelder ikke for den valgte mappen og er fjernet fra søket"
@@ -2226,6 +2449,9 @@ msgstr "Låsen er åpnet"
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
 msgstr "Egenskapene til kildemappen vil bli erstattet av egenskapene til destinasjonsmappen. Dette kan føre til tap av metadata. Vil du fortsette?"
+
+msgid "The selected value(s) must be compatible with the primary property."
+msgstr ""
 
 msgid "The server has sent an empty response"
 msgstr "Serveren har sendt et tomt svar"
@@ -2247,6 +2473,9 @@ msgstr "Verdien av dette feltet må være numerisk"
 
 msgid "There is nothing to list!"
 msgstr "Det er ingenting å liste!"
+
+msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
+msgstr ""
 
 msgid "This %s is currently checked out"
 msgstr "Denne %s er sjekket ut"
@@ -2281,6 +2510,9 @@ msgstr "Denne koblingen for tilbakestilling av passord er ikke lenger gyldig. De
 msgid "This resource is locked"
 msgstr "Denne ressursen er låst"
 
+msgid "This resource is not ready for translation."
+msgstr ""
+
 msgid "This role is still given to one or more users. Please remove the role to these users first."
 msgstr "Denne rollen er fremdeles i bruk av en eller flere brukere. Fjern rollen til disse brukerne først."
 
@@ -2289,6 +2521,9 @@ msgstr "Dette skal være lik %s"
 
 msgid "This should not equal %s"
 msgstr "Dette skal ikke være lik %s"
+
+msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
+msgstr ""
 
 msgid "time"
 msgstr "tid"
@@ -2301,6 +2536,9 @@ msgstr "Tittel"
 
 msgid "to"
 msgstr "til"
+
+msgid "To change your preferences, click Manage preferences."
+msgstr ""
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr "For å tilbakestille passordet ditt, klikk på lenken nedenfor, eller lim det inn i nettleseren din. Du blir deretter bedt om å opprette et nytt passord."
@@ -2335,14 +2573,38 @@ msgstr "Oversett"
 msgid "Translate to"
 msgstr "Oversett til"
 
+msgid "Translated"
+msgstr ""
+
+msgid "Translating"
+msgstr ""
+
+msgid "Translation"
+msgstr ""
+
 msgid "Translation parameters"
 msgstr "Oversettelsesparametere"
+
+msgid "Translation Progress"
+msgstr ""
 
 msgid "Translation saved"
 msgstr "Oversettelsen ble lagret"
 
+msgid "Translation Status"
+msgstr ""
+
+msgid "Translation Type"
+msgstr ""
+
+msgid "Translations"
+msgstr ""
+
 msgid "Transport Layer Security"
 msgstr "Sikkerhet"
+
+msgid "Tree - Multiple node choice"
+msgstr ""
 
 msgid "Tree - Multiple node choice "
 msgstr "Treet - Valg av flere noder "
@@ -2377,6 +2639,9 @@ msgstr "Kan ikke slette %s"
 msgid "Unable to delete the selected resource"
 msgstr "Kan ikke slette den valgte ressursen"
 
+msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
+msgstr ""
+
 msgid "Unable to delete the selected resources"
 msgstr "Kan ikke slette de valgte ressursene"
 
@@ -2404,6 +2669,9 @@ msgstr "kunne ikke søke etter varsling."
 msgid "Unable to send the password reset request"
 msgstr "Kan ikke sende forespørselen om tilbakestilling av passord"
 
+msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
+msgstr ""
+
 msgid "Unable to update the asset service"
 msgstr "Kan ikke oppdatere medietjenesten"
 
@@ -2419,10 +2687,13 @@ msgstr "Unary operatør +"
 msgid "Unary operator -"
 msgstr "Unary operatør -"
 
-msgid "Uncheck all"
-msgstr "Fjern merket for alle"
+msgid "Unauthorized files have been removed"
+msgstr ""
 
 msgid "Uncheck All"
+msgstr "Fjern merket for alle"
+
+msgid "Uncheck all"
 msgstr "Fjern merket for alle"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2430,6 +2701,9 @@ msgstr "Udefinert antall sider for paginering"
 
 msgid "Undefined amount of the totalPages for pagination"
 msgstr "Udefinert antall av den totale siden for paginering"
+
+msgid "Undefined Instance can not be saved"
+msgstr ""
 
 msgid "Undo"
 msgstr "Angre"
@@ -2442,6 +2716,9 @@ msgstr "Avinstallering av %s mislyktes"
 
 msgid "Uninstalled %s"
 msgstr "Avinstallert %s"
+
+msgid "Unique Identifier"
+msgstr ""
 
 msgid "UNIX Compressed Archive File"
 msgstr "UNIX komprimert arkivfil"
@@ -2589,6 +2866,13 @@ msgstr "Venter"
 msgid "WAV audio"
 msgstr "WAV lyd"
 
+msgid "WebHook auth configuration can not be loaded"
+msgstr ""
+
+#, tao-public
+msgid "WebHooks"
+msgstr ""
+
 msgid "WebM audio"
 msgstr "WebM lyd"
 
@@ -2611,6 +2895,9 @@ msgid "Windows Media file (metafile)"
 msgstr "Windows Media fil (metafil)"
 
 msgid "Windows Media video"
+msgstr ""
+
+msgid "with"
 msgstr ""
 
 msgid "Wrap image left"
@@ -2642,6 +2929,12 @@ msgstr "Du har ikke skrivetilgang i mappen %s"
 
 msgid "You are not authorised to remove this lock"
 msgstr "Du er ikke atilgang til å fjerne denne låsen"
+
+msgid "You can choose which types of cookies you want to allow to improve your experience."
+msgstr ""
+
+msgid "You can read more about this in our"
+msgstr ""
 
 msgid "You cannot delete the root node"
 msgstr "Du kan ikke slette rotnoden"
