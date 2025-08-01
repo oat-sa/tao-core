@@ -27,27 +27,20 @@ use Exception;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyRdf;
 use oat\search\helper\SupportedOperatorHelper;
-use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\IdentifierGenerator\Repository\UniqueIdRepository;
 use oat\tao\model\TaoOntology;
 
 class NumericIdentifierGenerator implements IdentifierGeneratorInterface
 {
-    private const MAX_RETRIES = 200;
-    private const FEATURE_FLAG_CHECK_STATEMENTS = 'FEATURE_FLAG_CHECK_STATEMENTS';
-
     private UniqueIdRepository $uniqueIdRepository;
     private ComplexSearchService $complexSearch;
-    private FeatureFlagCheckerInterface $featureFlagChecker;
 
     public function __construct(
         UniqueIdRepository $uniqueIdRepository,
-        ComplexSearchService $complexSearch,
-        FeatureFlagCheckerInterface $featureFlagChecker
+        ComplexSearchService $complexSearch
     ) {
         $this->uniqueIdRepository = $uniqueIdRepository;
         $this->complexSearch = $complexSearch;
-        $this->featureFlagChecker = $featureFlagChecker;
     }
 
     /**
@@ -66,12 +59,10 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
         $candidateId = $lastId ? $lastId + 1 : $this->uniqueIdRepository->getStartId();
 
         $retries = 0;
-        while ($retries < self::MAX_RETRIES) {
+        while ($retries < $this->getMaxRetries()) {
             $candidateIdStr = str_pad((string)$candidateId, 9, '0', STR_PAD_LEFT);
 
-            $shouldCheckStatements = $this->featureFlagChecker->isEnabled(self::FEATURE_FLAG_CHECK_STATEMENTS);
-
-            if (!$shouldCheckStatements || !$this->checkIdExistsInStatements($resourceType, $candidateIdStr)) {
+            if (!$this->shouldCheckStatements() || !$this->checkIdExistsInStatements($resourceType, $candidateIdStr)) {
                 try {
                     $this->uniqueIdRepository->insertUniqueId($resourceType, $candidateIdStr, $resourceId);
                     return $candidateIdStr;
@@ -87,7 +78,8 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
         }
 
         throw new Exception(
-            "Failed to generate unique ID for resource type '{$resourceType}' after " . self::MAX_RETRIES . " retries"
+            "Failed to generate unique ID for resource type '{$resourceType}' after " . $this->getMaxRetries(
+            ) . " retries"
         );
     }
 
@@ -110,5 +102,15 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
         $resultsArray = iterator_to_array($results);
 
         return count($resultsArray) > 0;
+    }
+
+    private function getMaxRetries(): int
+    {
+        return (int)($_ENV['TAO_ID_GENERATOR_MAX_RETRIES'] ?? 200);
+    }
+
+    private function shouldCheckStatements(): bool
+    {
+        return filter_var($_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS'] ?? 'true', FILTER_VALIDATE_BOOLEAN);
     }
 }

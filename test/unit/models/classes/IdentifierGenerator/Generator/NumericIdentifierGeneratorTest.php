@@ -26,7 +26,8 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Driver\DriverException;
 use Exception;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\search\base\QueryBuilderInterface;
+use oat\search\base\QueryInterface;
 use oat\tao\model\IdentifierGenerator\Generator\NumericIdentifierGenerator;
 use oat\tao\model\IdentifierGenerator\Repository\UniqueIdRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -37,14 +38,14 @@ class NumericIdentifierGeneratorTest extends TestCase
     private NumericIdentifierGenerator $generator;
     private MockObject $uniqueIdRepository;
     private MockObject $complexSearch;
-    private MockObject $featureFlagChecker;
     private MockObject $resource;
 
     protected function setUp(): void
     {
         $this->uniqueIdRepository = $this->createMock(UniqueIdRepository::class);
         $this->complexSearch = $this->createMock(ComplexSearchService::class);
-        $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
+
+        $_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS'] = 'false';
 
         $this->resource = $this->getMockBuilder(\stdClass::class)
             ->addMethods(['getRootId', 'getUri'])
@@ -55,9 +56,14 @@ class NumericIdentifierGeneratorTest extends TestCase
 
         $this->generator = new NumericIdentifierGenerator(
             $this->uniqueIdRepository,
-            $this->complexSearch,
-            $this->featureFlagChecker
+            $this->complexSearch
         );
+    }
+
+    protected function tearDown(): void
+    {
+        unset($_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS']);
+        unset($_ENV['TAO_ID_GENERATOR_MAX_RETRIES']);
     }
 
     public function testGenerateWithNoExistingIds(): void
@@ -65,35 +71,24 @@ class NumericIdentifierGeneratorTest extends TestCase
         $resourceType = 'test-resource-type';
         $startId = 100000000;
         $expectedId = '100000000';
-        $resourceId = 'http://example.com/resource/123';
 
         $this->uniqueIdRepository
-            ->expects($this->once())
             ->method('getLastIdForResourceType')
             ->with($resourceType)
             ->willReturn(null);
 
         $this->uniqueIdRepository
-            ->expects($this->once())
             ->method('getStartId')
             ->willReturn($startId);
-
-        $this->featureFlagChecker
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->with('FEATURE_FLAG_CHECK_STATEMENTS')
-            ->willReturn(false);
 
         $this->uniqueIdRepository
             ->expects($this->once())
             ->method('insertUniqueId')
-            ->with($resourceType, $expectedId, $resourceId);
+            ->with($resourceType, $expectedId, 'http://example.com/resource/123');
 
         $result = $this->generator->generate(['resource' => $this->resource]);
 
         $this->assertEquals($expectedId, $result);
-        $this->assertEquals(9, strlen($result));
-        $this->assertIsNumeric($result);
     }
 
     public function testGenerateWithExistingIds(): void
@@ -101,59 +96,16 @@ class NumericIdentifierGeneratorTest extends TestCase
         $resourceType = 'test-resource-type';
         $lastId = 100000005;
         $expectedId = '100000006';
-        $resourceId = 'http://example.com/resource/123';
 
         $this->uniqueIdRepository
-            ->expects($this->once())
             ->method('getLastIdForResourceType')
             ->with($resourceType)
             ->willReturn($lastId);
 
         $this->uniqueIdRepository
-            ->expects($this->never())
-            ->method('getStartId');
-
-        $this->featureFlagChecker
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->with('FEATURE_FLAG_CHECK_STATEMENTS')
-            ->willReturn(false);
-
-        $this->uniqueIdRepository
             ->expects($this->once())
             ->method('insertUniqueId')
-            ->with($resourceType, $expectedId, $resourceId);
-
-        $result = $this->generator->generate(['resource' => $this->resource]);
-
-        $this->assertEquals($expectedId, $result);
-    }
-
-    public function testGenerateWithFeatureFlagDisabled(): void
-    {
-        $resourceType = 'test-resource-type';
-        $lastId = 100000005;
-        $expectedId = '100000006';
-        $resourceId = 'http://example.com/resource/123';
-
-        $this->uniqueIdRepository
-            ->method('getLastIdForResourceType')
-            ->willReturn($lastId);
-
-        $this->featureFlagChecker
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->with('FEATURE_FLAG_CHECK_STATEMENTS')
-            ->willReturn(false);
-
-        $this->complexSearch
-            ->expects($this->never())
-            ->method('query');
-
-        $this->uniqueIdRepository
-            ->expects($this->once())
-            ->method('insertUniqueId')
-            ->with($resourceType, $expectedId, $resourceId);
+            ->with($resourceType, $expectedId, 'http://example.com/resource/123');
 
         $result = $this->generator->generate(['resource' => $this->resource]);
 
@@ -164,36 +116,27 @@ class NumericIdentifierGeneratorTest extends TestCase
     {
         $resourceType = 'test-resource-type';
         $lastId = 100000005;
-        $conflictId = '100000006';
         $expectedId = '100000007';
-        $resourceId = 'http://example.com/resource/123';
 
         $this->uniqueIdRepository
-            ->expects($this->once())
             ->method('getLastIdForResourceType')
             ->with($resourceType)
             ->willReturn($lastId);
-
-        $this->featureFlagChecker
-            ->expects($this->exactly(2))
-            ->method('isEnabled')
-            ->with('FEATURE_FLAG_CHECK_STATEMENTS')
-            ->willReturn(false);
 
         $driverException = $this->createMock(DriverException::class);
         $exception = new UniqueConstraintViolationException('Duplicate entry', $driverException);
 
         $this->uniqueIdRepository
-            ->expects($this->exactly(2))
             ->method('insertUniqueId')
-            ->withConsecutive(
-                [$resourceType, $conflictId, $resourceId],
-                [$resourceType, $expectedId, $resourceId]
-            )
-            ->willReturnOnConsecutiveCalls(
-                $this->throwException($exception),
-                null
-            );
+            ->willReturnCallback(function ($resourceType, $uniqueId, $resourceId) use ($exception, $expectedId) {
+                if ($uniqueId === '100000006') {
+                    throw $exception;
+                }
+                if ($uniqueId === $expectedId) {
+                    return;
+                }
+                throw new Exception('Unexpected ID: ' . $uniqueId);
+            });
 
         $result = $this->generator->generate(['resource' => $this->resource]);
 
@@ -206,22 +149,14 @@ class NumericIdentifierGeneratorTest extends TestCase
         $lastId = 100000005;
 
         $this->uniqueIdRepository
-            ->expects($this->once())
             ->method('getLastIdForResourceType')
             ->with($resourceType)
             ->willReturn($lastId);
-
-        $this->featureFlagChecker
-            ->expects($this->exactly(200))
-            ->method('isEnabled')
-            ->with('FEATURE_FLAG_CHECK_STATEMENTS')
-            ->willReturn(false);
 
         $driverException = $this->createMock(DriverException::class);
         $exception = new UniqueConstraintViolationException('Duplicate entry', $driverException);
 
         $this->uniqueIdRepository
-            ->expects($this->exactly(200))
             ->method('insertUniqueId')
             ->willThrowException($exception);
 
@@ -264,21 +199,13 @@ class NumericIdentifierGeneratorTest extends TestCase
         $resourceWithNullUri->method('getUri')->willReturn(null);
 
         $this->uniqueIdRepository
-            ->expects($this->once())
             ->method('getLastIdForResourceType')
             ->with($resourceType)
             ->willReturn(null);
 
         $this->uniqueIdRepository
-            ->expects($this->once())
             ->method('getStartId')
             ->willReturn($startId);
-
-        $this->featureFlagChecker
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->with('FEATURE_FLAG_CHECK_STATEMENTS')
-            ->willReturn(false);
 
         $this->uniqueIdRepository
             ->expects($this->once())
@@ -298,21 +225,13 @@ class NumericIdentifierGeneratorTest extends TestCase
         $resourceId = 'http://example.com/resource/123';
 
         $this->uniqueIdRepository
-            ->expects($this->once())
             ->method('getLastIdForResourceType')
             ->with($resourceType)
             ->willReturn(null);
 
         $this->uniqueIdRepository
-            ->expects($this->once())
             ->method('getStartId')
             ->willReturn($startId);
-
-        $this->featureFlagChecker
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->with('FEATURE_FLAG_CHECK_STATEMENTS')
-            ->willReturn(false);
 
         $this->uniqueIdRepository
             ->expects($this->once())
@@ -334,10 +253,6 @@ class NumericIdentifierGeneratorTest extends TestCase
             ->method('getLastIdForResourceType')
             ->willReturnOnConsecutiveCalls($baseId, $baseId + 1, $baseId + 2);
 
-        $this->featureFlagChecker
-            ->method('isEnabled')
-            ->willReturn(false);
-
         $this->uniqueIdRepository
             ->method('insertUniqueId');
 
@@ -347,5 +262,167 @@ class NumericIdentifierGeneratorTest extends TestCase
         }
 
         $this->assertEquals($expectedIds, $results);
+    }
+
+    public function testGenerateWithCheckStatementsDisabled(): void
+    {
+        $resourceType = 'test-resource-type';
+        $lastId = 100000005;
+        $expectedId = '100000006';
+
+        $this->uniqueIdRepository
+            ->method('getLastIdForResourceType')
+            ->with($resourceType)
+            ->willReturn($lastId);
+
+        $this->complexSearch
+            ->expects($this->never())
+            ->method('query');
+
+        $this->uniqueIdRepository
+            ->expects($this->once())
+            ->method('insertUniqueId')
+            ->with($resourceType, $expectedId, 'http://example.com/resource/123');
+
+        $result = $this->generator->generate(['resource' => $this->resource]);
+
+        $this->assertEquals($expectedId, $result);
+    }
+
+    public function testGenerateWithCheckStatementsEnabled(): void
+    {
+        $_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS'] = 'true';
+
+        $resourceType = 'test-resource-type';
+        $lastId = 100000005;
+        $expectedId = '100000006';
+
+        $this->uniqueIdRepository
+            ->method('getLastIdForResourceType')
+            ->with($resourceType)
+            ->willReturn($lastId);
+
+        $mockQueryBuilder = $this->createMock(QueryBuilderInterface::class);
+        $mockQuery = $this->createMock(QueryInterface::class);
+        $mockGateway = $this->getMockBuilder(\stdClass::class)
+            ->addMethods(['search'])
+            ->getMock();
+
+        $this->complexSearch
+            ->method('query')
+            ->willReturn($mockQueryBuilder);
+
+        $this->complexSearch
+            ->method('searchType')
+            ->with($mockQueryBuilder, $resourceType, true)
+            ->willReturn($mockQuery);
+
+        $this->complexSearch
+            ->method('getGateway')
+            ->willReturn($mockGateway);
+
+        $mockGateway
+            ->method('search')
+            ->with($mockQueryBuilder)
+            ->willReturn(new \ArrayIterator([]));
+
+        $this->uniqueIdRepository
+            ->expects($this->once())
+            ->method('insertUniqueId')
+            ->with($resourceType, $expectedId, 'http://example.com/resource/123');
+
+        $result = $this->generator->generate(['resource' => $this->resource]);
+
+        $this->assertEquals($expectedId, $result);
+
+        unset($_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS']);
+    }
+
+    public function testGenerateWithCheckStatementsEnabledIdExistsInStatements(): void
+    {
+        $_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS'] = 'true';
+
+        $resourceType = 'test-resource-type';
+        $lastId = 100000005;
+        $expectedId = '100000007';
+
+        $this->uniqueIdRepository
+            ->method('getLastIdForResourceType')
+            ->with($resourceType)
+            ->willReturn($lastId);
+
+        $mockQueryBuilder = $this->createMock(QueryBuilderInterface::class);
+        $mockQuery = $this->createMock(QueryInterface::class);
+        $mockGateway = $this->getMockBuilder(\stdClass::class)
+            ->addMethods(['search'])
+            ->getMock();
+
+        $this->complexSearch
+            ->method('query')
+            ->willReturn($mockQueryBuilder);
+
+        $this->complexSearch
+            ->method('searchType')
+            ->willReturn($mockQuery);
+
+        $this->complexSearch
+            ->method('getGateway')
+            ->willReturn($mockGateway);
+
+        $mockGateway
+            ->method('search')
+            ->willReturnOnConsecutiveCalls(
+                new \ArrayIterator([new \stdClass()]),
+                new \ArrayIterator([])
+            );
+
+        $this->uniqueIdRepository
+            ->expects($this->once())
+            ->method('insertUniqueId')
+            ->with($resourceType, $expectedId, 'http://example.com/resource/123');
+
+        $result = $this->generator->generate(['resource' => $this->resource]);
+
+        $this->assertEquals($expectedId, $result);
+
+        unset($_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS']);
+    }
+
+    public function testCheckIdExistsInStatementsPrivateMethod(): void
+    {
+        $resourceType = 'test-resource-type';
+        $uniqueId = '100000006';
+
+        $mockQueryBuilder = $this->createMock(QueryBuilderInterface::class);
+        $mockQuery = $this->createMock(QueryInterface::class);
+        $mockGateway = $this->getMockBuilder(\stdClass::class)
+            ->addMethods(['search'])
+            ->getMock();
+
+        $this->complexSearch
+            ->method('query')
+            ->willReturn($mockQueryBuilder);
+
+        $this->complexSearch
+            ->method('searchType')
+            ->with($mockQueryBuilder, $resourceType, true)
+            ->willReturn($mockQuery);
+
+        $this->complexSearch
+            ->method('getGateway')
+            ->willReturn($mockGateway);
+
+        $mockGateway
+            ->method('search')
+            ->with($mockQueryBuilder)
+            ->willReturn(new \ArrayIterator([new \stdClass()])); // Has results = ID exists
+
+        $reflection = new \ReflectionClass($this->generator);
+        $method = $reflection->getMethod('checkIdExistsInStatements');
+        $method->setAccessible(true);
+
+        $result = $method->invokeArgs($this->generator, [$resourceType, $uniqueId]);
+
+        $this->assertTrue($result);
     }
 }

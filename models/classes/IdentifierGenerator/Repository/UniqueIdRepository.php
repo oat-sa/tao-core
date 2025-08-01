@@ -84,7 +84,7 @@ class UniqueIdRepository
 
     public function getStartId(): int
     {
-        return (int)($_ENV['TAO_UNIQUE_ID_START'] ?? 100000000);
+        return (int)($_ENV['TAO_ID_GENERATOR_ID_START'] ?? 100000000);
     }
 
     private function getPersistence(): common_persistence_Persistence

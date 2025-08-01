@@ -40,7 +40,7 @@ class UniqueIdRepositoryTest extends TestCase
 
     public function testGetStartIdDefaultValue(): void
     {
-        unset($_ENV['TAO_UNIQUE_ID_START']);
+        unset($_ENV['TAO_ID_GENERATOR_ID_START']);
 
         $result = $this->repository->getStartId();
 
@@ -57,13 +57,13 @@ class UniqueIdRepositoryTest extends TestCase
         ];
 
         foreach ($testValues as $envValue => $expectedResult) {
-            $_ENV['TAO_UNIQUE_ID_START'] = $envValue;
+            $_ENV['TAO_ID_GENERATOR_ID_START'] = $envValue;
 
             $result = $this->repository->getStartId();
 
             $this->assertEquals($expectedResult, $result);
 
-            unset($_ENV['TAO_UNIQUE_ID_START']);
+            unset($_ENV['TAO_ID_GENERATOR_ID_START']);
         }
     }
 

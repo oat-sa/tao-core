@@ -6,7 +6,6 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\persistence\PersistenceManager;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
 use oat\tao\model\IdentifierGenerator\Generator\NumericIdentifierGenerator;
 use oat\tao\model\IdentifierGenerator\Repository\UniqueIdRepository;
@@ -31,7 +30,6 @@ class IdentifierGeneratorServiceProvider implements ContainerServiceProviderInte
             ->args([
                 service(UniqueIdRepository::class),
                 service(ComplexSearchService::class),
-                service(FeatureFlagChecker::class),
             ]);
 
         $services
