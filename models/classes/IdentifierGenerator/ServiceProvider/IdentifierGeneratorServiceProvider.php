@@ -4,9 +4,12 @@ namespace oat\tao\model\IdentifierGenerator\ServiceProvider;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
+use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
 use oat\tao\model\IdentifierGenerator\Generator\NumericIdentifierGenerator;
+use oat\tao\model\IdentifierGenerator\Repository\UniqueIdRepository;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -17,7 +20,19 @@ class IdentifierGeneratorServiceProvider implements ContainerServiceProviderInte
     {
         $services = $configurator->services();
 
-        $services->set(NumericIdentifierGenerator::class, NumericIdentifierGenerator::class);
+        $services->set(UniqueIdRepository::class, UniqueIdRepository::class)
+            ->public()
+            ->args([
+                service(PersistenceManager::class),
+                'default'
+            ]);
+
+        $services->set(NumericIdentifierGenerator::class, NumericIdentifierGenerator::class)
+            ->args([
+                service(UniqueIdRepository::class),
+                service(ComplexSearchService::class),
+                service(FeatureFlagChecker::class),
+            ]);
 
         $services
             ->set(IdentifierGeneratorProxy::class, IdentifierGeneratorProxy::class)
