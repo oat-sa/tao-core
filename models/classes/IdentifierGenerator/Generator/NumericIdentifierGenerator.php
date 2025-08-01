@@ -35,11 +35,11 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
 {
     private const MAX_RETRIES = 200;
     private const FEATURE_FLAG_CHECK_STATEMENTS = 'FEATURE_FLAG_CHECK_STATEMENTS';
-    
+
     private UniqueIdRepository $uniqueIdRepository;
     private ComplexSearchService $complexSearch;
     private FeatureFlagCheckerInterface $featureFlagChecker;
-    
+
     public function __construct(
         UniqueIdRepository $uniqueIdRepository,
         ComplexSearchService $complexSearch,
@@ -49,7 +49,7 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
         $this->complexSearch = $complexSearch;
         $this->featureFlagChecker = $featureFlagChecker;
     }
-    
+
     /**
      * Generate a unique 9-digit numeric identifier that's guaranteed to be collision-free
      */
@@ -64,13 +64,13 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
 
         $lastId = $this->uniqueIdRepository->getLastIdForResourceType($resourceType);
         $candidateId = $lastId ? $lastId + 1 : $this->uniqueIdRepository->getStartId();
-        
+
         $retries = 0;
         while ($retries < self::MAX_RETRIES) {
             $candidateIdStr = str_pad((string)$candidateId, 9, '0', STR_PAD_LEFT);
-            
+
             $shouldCheckStatements = $this->featureFlagChecker->isEnabled(self::FEATURE_FLAG_CHECK_STATEMENTS);
-            
+
             if (!$shouldCheckStatements || !$this->checkIdExistsInStatements($resourceType, $candidateIdStr)) {
                 try {
                     $this->uniqueIdRepository->insertUniqueId($resourceType, $candidateIdStr, $resourceId);
@@ -81,32 +81,34 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
                     continue;
                 }
             }
-            
+
             $candidateId++;
             $retries++;
         }
-        
-        throw new Exception("Failed to generate unique ID for resource type '{$resourceType}' after " . self::MAX_RETRIES . " retries");
+
+        throw new Exception(
+            "Failed to generate unique ID for resource type '{$resourceType}' after " . self::MAX_RETRIES . " retries"
+        );
     }
 
     private function checkIdExistsInStatements(string $resourceType, string $uniqueId): bool
     {
         $queryBuilder = $this->complexSearch->query();
-        
+
         $query = $this->complexSearch->searchType($queryBuilder, $resourceType, true);
-        
+
         $query->addCriterion(
             TaoOntology::PROPERTY_UNIQUE_IDENTIFIER,
             SupportedOperatorHelper::EQUAL,
             $uniqueId
         );
-        
+
         $queryBuilder->setCriteria($query);
-        
+
         $results = $this->complexSearch->getGateway()->search($queryBuilder);
-        
+
         $resultsArray = iterator_to_array($results);
-        
+
         return count($resultsArray) > 0;
     }
 }
