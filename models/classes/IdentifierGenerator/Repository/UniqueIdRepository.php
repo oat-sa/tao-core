@@ -74,11 +74,6 @@ class UniqueIdRepository
             ]);
 
             $platform->commit();
-        } catch (UniqueConstraintViolationException $e) {
-            if ($platform->isTransactionActive()) {
-                $platform->rollBack();
-            }
-            throw $e;
         } catch (Exception $e) {
             if ($platform->isTransactionActive()) {
                 $platform->rollBack();

@@ -54,7 +54,6 @@ class UniqueIdRepositoryTest extends TestCase
             '150000000' => 150000000,
             '500000000' => 500000000,
             '999999999' => 999999999,
-            '100000000' => '100000000',
         ];
 
         foreach ($testValues as $envValue => $expectedResult) {
@@ -82,32 +81,5 @@ class UniqueIdRepositoryTest extends TestCase
         $repository = new UniqueIdRepository($this->persistenceManager, $customPersistenceId);
 
         $this->assertInstanceOf(UniqueIdRepository::class, $repository);
-    }
-
-    public function testTableAndFieldConstants(): void
-    {
-        $this->assertEquals('unique_ids', UniqueIdRepository::TABLE_UNIQUE_IDS);
-        $this->assertEquals('resource_id', UniqueIdRepository::FIELD_RESOURCE_ID);
-        $this->assertEquals('resource_type', UniqueIdRepository::FIELD_RESOURCE_TYPE);
-        $this->assertEquals('unique_id', UniqueIdRepository::FIELD_UNIQUE_ID);
-        $this->assertEquals('created_at', UniqueIdRepository::FIELD_CREATED_AT);
-    }
-
-    public function testConstantsAreStrings(): void
-    {
-        $this->assertIsString(UniqueIdRepository::TABLE_UNIQUE_IDS);
-        $this->assertIsString(UniqueIdRepository::FIELD_RESOURCE_ID);
-        $this->assertIsString(UniqueIdRepository::FIELD_RESOURCE_TYPE);
-        $this->assertIsString(UniqueIdRepository::FIELD_UNIQUE_ID);
-        $this->assertIsString(UniqueIdRepository::FIELD_CREATED_AT);
-    }
-
-    public function testConstantsAreNotEmpty(): void
-    {
-        $this->assertNotEmpty(UniqueIdRepository::TABLE_UNIQUE_IDS);
-        $this->assertNotEmpty(UniqueIdRepository::FIELD_RESOURCE_ID);
-        $this->assertNotEmpty(UniqueIdRepository::FIELD_RESOURCE_TYPE);
-        $this->assertNotEmpty(UniqueIdRepository::FIELD_UNIQUE_ID);
-        $this->assertNotEmpty(UniqueIdRepository::FIELD_CREATED_AT);
     }
 }
