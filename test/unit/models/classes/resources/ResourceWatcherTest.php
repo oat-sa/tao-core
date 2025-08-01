@@ -82,6 +82,9 @@ class ResourceWatcherTest extends TestCase
     /** @var FeatureFlagCheckerInterface|MockObject */
     private $featureFlagChecker;
 
+    /** @var core_kernel_persistence_ResourceInterface|MockObject */
+    private $resourceImplementation;
+
     protected function setUp(): void
     {
         $this->sut = new ResourceWatcher();
@@ -94,6 +97,7 @@ class ResourceWatcherTest extends TestCase
         $this->search = $this->createMock(Search::class);
         $this->advancedSearchChecker = $this->createMock(AdvancedSearchChecker::class);
         $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
+        $this->resourceImplementation = $this->createMock(core_kernel_persistence_ResourceInterface::class);
 
         $serviceLocator = $this->getServiceManagerMock(
             [
@@ -129,7 +133,7 @@ class ResourceWatcherTest extends TestCase
 
         $this->mockGetUriResource($resourceUri);
 
-        $this->mockDebugLogger('triggering index update on resourceCreated event');
+        $this->expectsDebugLogMessage('triggering index update on resourceCreated event');
 
         $this->sut->catchCreatedResourceEvent(
             new ResourceCreated($this->resource)
@@ -183,7 +187,7 @@ class ResourceWatcherTest extends TestCase
 
         $this->mockGetUriResource($resourceUri);
 
-        $this->mockDebugLogger('triggering index update on resourceCreated event');
+        $this->expectsDebugLogMessage('triggering index update on resourceCreated event');
 
         $this->sut->catchCreatedResourceEvent(
             new ResourceCreated($this->resource)
@@ -221,7 +225,7 @@ class ResourceWatcherTest extends TestCase
 
         $this->mockGetUriResource($resourceUri);
 
-        $this->mockDebugLogger('triggering index update on resourceCreated event');
+        $this->expectsDebugLogMessage('triggering index update on resourceCreated event');
 
         $this->sut->catchCreatedResourceEvent(
             new ResourceCreated($this->resource)
@@ -249,17 +253,19 @@ class ResourceWatcherTest extends TestCase
 
         $this->mockGetUriResource($resourceUri);
 
-        $this->mockDebugLogger(
+        $this->expectsDebugLogMessage(
             'Updating updatedAt property for resource: ' .
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
         );
+        $this->resourceImplementation->expects($this->atLeastOnce())->method('removePropertyValues');
+        $this->resourceImplementation->expects($this->atLeastOnce())->method('setPropertyValue');
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
             ->method('getResourceImplementation')
             ->willReturn(
-                $this->createMock(core_kernel_persistence_ResourceInterface::class)
+                $this->resourceImplementation
             );
         $ontologyMock->expects($this->once())
             ->method('getRdfsInterface')
@@ -296,17 +302,19 @@ class ResourceWatcherTest extends TestCase
 
         $this->mockGetUriResource($resourceUri);
 
-        $this->mockDebugLogger(
+        $this->expectsDebugLogMessage(
             'Updating updatedAt property for resource: ' .
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
         );
+        $this->resourceImplementation->expects($this->atLeastOnce())->method('removePropertyValues');
+        $this->resourceImplementation->expects($this->atLeastOnce())->method('setPropertyValue');
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
             ->method('getResourceImplementation')
             ->willReturn(
-                $this->createMock(core_kernel_persistence_ResourceInterface::class)
+                $this->resourceImplementation
             );
         $ontologyMock->expects($this->once())
             ->method('getRdfsInterface')
@@ -343,17 +351,19 @@ class ResourceWatcherTest extends TestCase
             ->method('getUri')
             ->willReturn($resourceUri);
 
-        $this->mockDebugLogger(
+        $this->expectsDebugLogMessage(
             'Updating updatedAt property for resource: ' .
             'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec'
         );
+        $this->resourceImplementation->expects($this->atLeastOnce())->method('removePropertyValues');
+        $this->resourceImplementation->expects($this->atLeastOnce())->method('setPropertyValue');
 
         $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
             ->method('getResourceImplementation')
             ->willReturn(
-                $this->createMock(core_kernel_persistence_ResourceInterface::class)
+                $this->resourceImplementation
             );
         $ontologyMock->expects($this->once())
             ->method('getRdfsInterface')
@@ -463,7 +473,7 @@ class ResourceWatcherTest extends TestCase
             ->willReturn($resourceUri);
     }
 
-    private function mockDebugLogger(string $message): void
+    private function expectsDebugLogMessage(string $message): void
     {
         $this->logger->expects($this->once())
             ->method('debug')
