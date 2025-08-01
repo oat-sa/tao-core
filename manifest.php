@@ -367,9 +367,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2025.08 LTS',
+        'TAO_VERSION' => '2025.09',
         #TAO version label
-        'TAO_VERSION_NAME' => '2025.08 LTS',
+        'TAO_VERSION_NAME' => '2025.09',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
