@@ -738,7 +738,6 @@ class NumericIdentifierGeneratorTest extends TestCase
             ->expects($this->once())
             ->method('findOneBy')
             ->with([
-                UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
                 UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
             ])
             ->willReturn([
