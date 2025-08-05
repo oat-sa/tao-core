@@ -47,7 +47,6 @@ class NumericIdentifierGeneratorTest extends TestCase
         $this->uniqueIdRepository = $this->createMock(UniqueIdRepository::class);
         $this->complexSearch = $this->createMock(ComplexSearchService::class);
 
-        // Disable check statements by default to simplify testing
         $_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS'] = 'false';
 
         $this->resource = $this->createMock(core_kernel_classes_Resource::class);
@@ -62,7 +61,6 @@ class NumericIdentifierGeneratorTest extends TestCase
 
     protected function tearDown(): void
     {
-        // Clean up environment variables after each test
         unset($_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS']);
         unset($_ENV['TAO_ID_GENERATOR_MAX_RETRIES']);
         unset($_ENV['TAO_ID_GENERATOR_ID_START']);
@@ -88,7 +86,6 @@ class NumericIdentifierGeneratorTest extends TestCase
     {
         unset($_ENV['TAO_ID_GENERATOR_ID_START']);
 
-        // Use reflection to test the private method
         $reflection = new \ReflectionClass($this->generator);
         $method = $reflection->getMethod('getStartId');
         $method->setAccessible(true);
@@ -125,12 +122,23 @@ class NumericIdentifierGeneratorTest extends TestCase
     public function testGenerateWithNoExistingIds(): void
     {
         $resourceType = 'test-resource-type';
+        $resourceId = 'http://example.com/resource/123';
         $expectedId = '100000000';
 
         $this->uniqueIdRepository
             ->method('findOneBy')
-            ->with([UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType], [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC'])
-            ->willReturn(null);
+            ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId) {
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+                    return null;
+                }
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
+                    isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                    return null;
+                }
+                return null;
+            });
 
         $this->uniqueIdRepository
             ->expects($this->once())
@@ -138,8 +146,16 @@ class NumericIdentifierGeneratorTest extends TestCase
             ->with([
                 UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
                 UniqueIdRepository::FIELD_UNIQUE_ID => $expectedId,
-                UniqueIdRepository::FIELD_RESOURCE_ID => 'http://example.com/resource/123'
+                UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
             ]);
+
+        $this->resource
+            ->method('getRootId')
+            ->willReturn($resourceType);
+
+        $this->resource
+            ->method('getUri')
+            ->willReturn($resourceId);
 
         $result = $this->generator->generate(['resource' => $this->resource]);
 
@@ -149,13 +165,24 @@ class NumericIdentifierGeneratorTest extends TestCase
     public function testGenerateWithExistingIds(): void
     {
         $resourceType = 'test-resource-type';
+        $resourceId = 'http://example.com/resource/123';
         $lastId = 100000005;
         $expectedId = '100000006';
 
         $this->uniqueIdRepository
             ->method('findOneBy')
-            ->with([UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType], [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC'])
-            ->willReturn([UniqueIdRepository::FIELD_UNIQUE_ID => $lastId]);
+            ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+                    return null;
+                }
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
+                    isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                    return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
+                }
+                return null;
+            });
 
         $this->uniqueIdRepository
             ->expects($this->once())
@@ -163,8 +190,16 @@ class NumericIdentifierGeneratorTest extends TestCase
             ->with([
                 UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
                 UniqueIdRepository::FIELD_UNIQUE_ID => $expectedId,
-                UniqueIdRepository::FIELD_RESOURCE_ID => 'http://example.com/resource/123'
+                UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
             ]);
+
+        $this->resource
+            ->method('getRootId')
+            ->willReturn($resourceType);
+
+        $this->resource
+            ->method('getUri')
+            ->willReturn($resourceId);
 
         $result = $this->generator->generate(['resource' => $this->resource]);
 
@@ -174,13 +209,24 @@ class NumericIdentifierGeneratorTest extends TestCase
     public function testGenerateWithUniqueConstraintViolationRetry(): void
     {
         $resourceType = 'test-resource-type';
+        $resourceId = 'http://example.com/resource/123';
         $lastId = 100000005;
         $expectedId = '100000007';
 
         $this->uniqueIdRepository
             ->method('findOneBy')
-            ->with([UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType], [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC'])
-            ->willReturn([UniqueIdRepository::FIELD_UNIQUE_ID => $lastId]);
+            ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+                    return null;
+                }
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
+                    isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                    return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
+                }
+                return null;
+            });
 
         $driverException = $this->createMock(DriverException::class);
         $exception = new UniqueConstraintViolationException('Duplicate entry', $driverException);
@@ -194,9 +240,15 @@ class NumericIdentifierGeneratorTest extends TestCase
                 if ($data[UniqueIdRepository::FIELD_UNIQUE_ID] === $expectedId) {
                     return;
                 }
-                // Allow any other ID to succeed (in case the generator tries more)
-                return;
             });
+
+        $this->resource
+            ->method('getRootId')
+            ->willReturn($resourceType);
+
+        $this->resource
+            ->method('getUri')
+            ->willReturn($resourceId);
 
         $result = $this->generator->generate(['resource' => $this->resource]);
 
@@ -206,12 +258,23 @@ class NumericIdentifierGeneratorTest extends TestCase
     public function testGenerateFailsAfterMaxRetries(): void
     {
         $resourceType = 'test-resource-type';
+        $resourceId = 'http://example.com/resource/123';
         $lastId = 100000005;
 
         $this->uniqueIdRepository
             ->method('findOneBy')
-            ->with([UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType], [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC'])
-            ->willReturn([UniqueIdRepository::FIELD_UNIQUE_ID => $lastId]);
+            ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+                    return null;
+                }
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
+                    isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                    return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
+                }
+                return null;
+            });
 
         $driverException = $this->createMock(DriverException::class);
         $exception = new UniqueConstraintViolationException('Duplicate entry', $driverException);
@@ -219,6 +282,14 @@ class NumericIdentifierGeneratorTest extends TestCase
         $this->uniqueIdRepository
             ->method('save')
             ->willThrowException($exception);
+
+        $this->resource
+            ->method('getRootId')
+            ->willReturn($resourceType);
+
+        $this->resource
+            ->method('getUri')
+            ->willReturn($resourceId);
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Max retries reached when trying to generate unique ID for resource type: test-resource-type');
@@ -236,7 +307,7 @@ class NumericIdentifierGeneratorTest extends TestCase
 
     public function testGenerateThrowsExceptionWhenResourceLacksGetRootIdMethod(): void
     {
-        $invalidResource = new \stdClass(); // Not a core_kernel_classes_Resource
+        $invalidResource = new \stdClass();
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing required "resource" option that must be an instance of core_kernel_classes_Resource');
@@ -247,16 +318,27 @@ class NumericIdentifierGeneratorTest extends TestCase
     public function testGenerateWithNullResourceId(): void
     {
         $resourceType = 'test-resource-type';
+        $resourceId = '';
         $expectedId = '100000000';
 
         $resourceWithNullUri = $this->createMock(core_kernel_classes_Resource::class);
         $resourceWithNullUri->method('getRootId')->willReturn($resourceType);
-        $resourceWithNullUri->method('getUri')->willReturn(''); // Empty string instead of null
+        $resourceWithNullUri->method('getUri')->willReturn($resourceId);
 
         $this->uniqueIdRepository
             ->method('findOneBy')
-            ->with([UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType], [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC'])
-            ->willReturn(null);
+            ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId) {
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+                    return null;
+                }
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
+                    isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                    return null;
+                }
+                return null;
+            });
 
         $this->uniqueIdRepository
             ->expects($this->once())
@@ -264,7 +346,7 @@ class NumericIdentifierGeneratorTest extends TestCase
             ->with([
                 UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
                 UniqueIdRepository::FIELD_UNIQUE_ID => $expectedId,
-                UniqueIdRepository::FIELD_RESOURCE_ID => ''
+                UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
             ]);
 
         $result = $this->generator->generate(['resource' => $resourceWithNullUri]);
@@ -275,15 +357,25 @@ class NumericIdentifierGeneratorTest extends TestCase
     public function testGenerateEnsuresNineDigitPadding(): void
     {
         $resourceType = 'test-resource-type';
+        $resourceId = 'http://example.com/resource/123';
         $startId = 1;
         $expectedId = '000000001';
 
         $this->uniqueIdRepository
             ->method('findOneBy')
-            ->with([UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType], [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC'])
-            ->willReturn(null);
+            ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId) {
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+                    return null;
+                }
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
+                    isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                    return null;
+                }
+                return null;
+            });
 
-        // Set environment variable to test with a small start ID
         $_ENV['TAO_ID_GENERATOR_ID_START'] = (string)$startId;
 
         $this->uniqueIdRepository
@@ -292,8 +384,16 @@ class NumericIdentifierGeneratorTest extends TestCase
             ->with([
                 UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
                 UniqueIdRepository::FIELD_UNIQUE_ID => $expectedId,
-                UniqueIdRepository::FIELD_RESOURCE_ID => 'http://example.com/resource/123'
+                UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
             ]);
+
+        $this->resource
+            ->method('getRootId')
+            ->willReturn($resourceType);
+
+        $this->resource
+            ->method('getUri')
+            ->willReturn($resourceId);
 
         $result = $this->generator->generate(['resource' => $this->resource]);
 
@@ -304,19 +404,39 @@ class NumericIdentifierGeneratorTest extends TestCase
 
     public function testGenerateIncrementalIds(): void
     {
+        $resourceType = 'test-resource-type';
+        $resourceId = 'http://example.com/resource/123';
         $baseId = 100000010;
         $expectedIds = ['100000011', '100000012', '100000013'];
 
+        $callCount = 0;
         $this->uniqueIdRepository
             ->method('findOneBy')
-            ->willReturnOnConsecutiveCalls(
-                [UniqueIdRepository::FIELD_UNIQUE_ID => $baseId],
-                [UniqueIdRepository::FIELD_UNIQUE_ID => $baseId + 1],
-                [UniqueIdRepository::FIELD_UNIQUE_ID => $baseId + 2]
-            );
+            ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $baseId, &$callCount) {
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+                    return null;
+                }
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
+                    isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                    $lastId = $baseId + $callCount;
+                    $callCount++;
+                    return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
+                }
+                return null;
+            });
 
         $this->uniqueIdRepository
             ->method('save');
+
+        $this->resource
+            ->method('getRootId')
+            ->willReturn($resourceType);
+
+        $this->resource
+            ->method('getUri')
+            ->willReturn($resourceId);
 
         $results = [];
         for ($i = 0; $i < 3; $i++) {
@@ -329,13 +449,24 @@ class NumericIdentifierGeneratorTest extends TestCase
     public function testGenerateWithCheckStatementsDisabled(): void
     {
         $resourceType = 'test-resource-type';
+        $resourceId = 'http://example.com/resource/123';
         $lastId = 100000005;
         $expectedId = '100000006';
 
         $this->uniqueIdRepository
             ->method('findOneBy')
-            ->with([UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType], [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC'])
-            ->willReturn([UniqueIdRepository::FIELD_UNIQUE_ID => $lastId]);
+            ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+                    return null;
+                }
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
+                    isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                    return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
+                }
+                return null;
+            });
 
         $this->complexSearch
             ->expects($this->never())
@@ -347,8 +478,16 @@ class NumericIdentifierGeneratorTest extends TestCase
             ->with([
                 UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
                 UniqueIdRepository::FIELD_UNIQUE_ID => $expectedId,
-                UniqueIdRepository::FIELD_RESOURCE_ID => 'http://example.com/resource/123'
+                UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
             ]);
+
+        $this->resource
+            ->method('getRootId')
+            ->willReturn($resourceType);
+
+        $this->resource
+            ->method('getUri')
+            ->willReturn($resourceId);
 
         $result = $this->generator->generate(['resource' => $this->resource]);
 
@@ -360,13 +499,24 @@ class NumericIdentifierGeneratorTest extends TestCase
         $_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS'] = 'true';
 
         $resourceType = 'test-resource-type';
+        $resourceId = 'http://example.com/resource/123';
         $lastId = 100000005;
         $expectedId = '100000006';
 
         $this->uniqueIdRepository
             ->method('findOneBy')
-            ->with([UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType], [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC'])
-            ->willReturn([UniqueIdRepository::FIELD_UNIQUE_ID => $lastId]);
+            ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+                    return null;
+                }
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
+                    isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                    return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
+                }
+                return null;
+            });
 
         $mockQueryBuilder = $this->createMock(QueryBuilderInterface::class);
         $mockQuery = $this->createMock(QueryInterface::class);
@@ -389,7 +539,6 @@ class NumericIdentifierGeneratorTest extends TestCase
 
         $mockGateway
             ->method('search')
-            ->with($mockQueryBuilder)
             ->willReturn(new \ArrayIterator([]));
 
         $this->uniqueIdRepository
@@ -398,8 +547,16 @@ class NumericIdentifierGeneratorTest extends TestCase
             ->with([
                 UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
                 UniqueIdRepository::FIELD_UNIQUE_ID => $expectedId,
-                UniqueIdRepository::FIELD_RESOURCE_ID => 'http://example.com/resource/123'
+                UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
             ]);
+
+        $this->resource
+            ->method('getRootId')
+            ->willReturn($resourceType);
+
+        $this->resource
+            ->method('getUri')
+            ->willReturn($resourceId);
 
         $result = $this->generator->generate(['resource' => $this->resource]);
 
@@ -413,13 +570,24 @@ class NumericIdentifierGeneratorTest extends TestCase
         $_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS'] = 'true';
 
         $resourceType = 'test-resource-type';
+        $resourceId = 'http://example.com/resource/123';
         $lastId = 100000005;
         $expectedId = '100000007';
 
         $this->uniqueIdRepository
             ->method('findOneBy')
-            ->with([UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType], [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC'])
-            ->willReturn([UniqueIdRepository::FIELD_UNIQUE_ID => $lastId]);
+            ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+                    return null;
+                }
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                    $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
+                    isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                    return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
+                }
+                return null;
+            });
 
         $mockQueryBuilder = $this->createMock(QueryBuilderInterface::class);
         $mockQuery = $this->createMock(QueryInterface::class);
@@ -433,6 +601,7 @@ class NumericIdentifierGeneratorTest extends TestCase
 
         $this->complexSearch
             ->method('searchType')
+            ->with($mockQueryBuilder, $resourceType, true)
             ->willReturn($mockQuery);
 
         $this->complexSearch
@@ -452,8 +621,16 @@ class NumericIdentifierGeneratorTest extends TestCase
             ->with([
                 UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
                 UniqueIdRepository::FIELD_UNIQUE_ID => $expectedId,
-                UniqueIdRepository::FIELD_RESOURCE_ID => 'http://example.com/resource/123'
+                UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
             ]);
+
+        $this->resource
+            ->method('getRootId')
+            ->willReturn($resourceType);
+
+        $this->resource
+            ->method('getUri')
+            ->willReturn($resourceId);
 
         $result = $this->generator->generate(['resource' => $this->resource]);
 
@@ -488,8 +665,7 @@ class NumericIdentifierGeneratorTest extends TestCase
 
         $mockGateway
             ->method('search')
-            ->with($mockQueryBuilder)
-            ->willReturn(new \ArrayIterator([new \stdClass()])); // Has results = ID exists
+            ->willReturn(new \ArrayIterator([new \stdClass()]));
 
         $reflection = new \ReflectionClass($this->generator);
         $method = $reflection->getMethod('checkIdExistsInStatements');
@@ -498,5 +674,39 @@ class NumericIdentifierGeneratorTest extends TestCase
         $result = $method->invokeArgs($this->generator, [$resourceType, $uniqueId]);
 
         $this->assertTrue($result);
+    }
+
+    public function testGenerateReturnsExistingIdWhenResourceAlreadyHasOne(): void
+    {
+        $resourceType = 'test-resource-type';
+        $resourceId = 'http://example.com/resource/123';
+        $existingId = '100000042';
+
+        $this->uniqueIdRepository
+            ->expects($this->once())
+            ->method('findOneBy')
+            ->with([
+                UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
+                UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
+            ])
+            ->willReturn([
+                UniqueIdRepository::FIELD_UNIQUE_ID => $existingId,
+                UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
+                UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
+            ]);
+
+        $this->resource
+            ->expects($this->once())
+            ->method('getRootId')
+            ->willReturn($resourceType);
+
+        $this->resource
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn($resourceId);
+
+        $result = $this->generator->generate(['resource' => $this->resource]);
+
+        $this->assertEquals($existingId, $result);
     }
 }

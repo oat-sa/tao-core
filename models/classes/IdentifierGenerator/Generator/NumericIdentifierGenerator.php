@@ -26,7 +26,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
 use InvalidArgumentException;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\generis\model\OntologyRdf;
 use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\IdentifierGenerator\Repository\UniqueIdRepository;
 use oat\tao\model\TaoOntology;
@@ -56,6 +55,15 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
 
         $resourceType = $options['resource']->getRootId();
         $resourceId = $options['resource']->getUri();
+
+        $existingRecord = $this->uniqueIdRepository->findOneBy([
+            UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
+            UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
+        ]);
+        
+        if ($existingRecord && isset($existingRecord[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+            return (string)$existingRecord[UniqueIdRepository::FIELD_UNIQUE_ID];
+        }
 
         $lastIdRecord = $this->uniqueIdRepository->findOneBy(
             [UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType],
