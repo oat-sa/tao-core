@@ -59,11 +59,10 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
         $resourceId = $options['resource']->getUri();
 
         $existingRecord = $this->uniqueIdRepository->findOneBy([
-            UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
             UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
         ]);
 
-        if ($existingRecord && isset($existingRecord[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+        if ($existingRecord) {
             return (string)$existingRecord[UniqueIdRepository::FIELD_UNIQUE_ID];
         }
 

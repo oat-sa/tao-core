@@ -24,7 +24,7 @@ final class Version202507300957562234_tao extends AbstractMigration
         $table = $schema->createTable('unique_ids');
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
-        $table->addColumn('resource_id', 'string', ['length' => 255, 'notnull' => false]);
+        $table->addColumn('resource_id', 'string', ['length' => 255, 'notnull' => true]);
         $table->addColumn('resource_type', 'string', ['length' => 255, 'notnull' => true]);
         $table->addColumn('unique_id', 'string', ['length' => 9, 'notnull' => true]);
         $table->addColumn('created_at', 'datetime', ['notnull' => true]);
