@@ -18,7 +18,8 @@ Webhooks allow you to send a request to remote server based on triggered event
 
 ### Register event webhook.
 
-use command `\oat\tao\scripts\tools\RegisterEventWebhook` to register events that are implementing `\oat\tao\model\webhooks\configEntity\WebhookInterface` interface.
+use command `\oat\tao\scripts\tools\RegisterEventWebhook` to register events that are implementing
+`\oat\tao\model\webhooks\configEntity\WebhookInterface` interface.
 
 i.e:
 
@@ -95,21 +96,23 @@ $ php index.php 'oat\tao\scripts\tools\accessControl\SetRolesAccess' \
 
 Here you can find the environment variables including feature flags
 
-| Variable                               | Description                                                                                                                          | Default value |
-|----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED  | Enable Remote Lists Dependency feature                                                                                               | -             |
-| FEATURE_FLAG_ADVANCED_SEARCH_DISABLED  | Disable advanced search feature, if set to 1                                                                                         | -             |
-| FEATURE_FLAG_STATISTIC_METADATA_IMPORT | Enable statistics metadata import                                                                                                    | -             |
-| FEATURE_FLAG_CKEDITOR_SOURCEDIALOG     | Enable source editing for ckeditor                                                                                                   | false         |
-| FEATURE_FLAG_SOLAR_DESIGN_ENABLED      | Activate the Solar Design mode                                                                                                       | -             |
-| GOOGLE_APPLICATION_CREDENTIALS         | Path to GCP credentials path                                                                                                         | -             |
-| DATA_STORE_STATISTIC_PUB_SUB_TOPIC     | Topic name for statistic metadata Pub/Sub                                                                                            | -             |
-| REDIRECT_AFTER_LOGOUT_URL              | Allows to configure the redirect after logout via environment variable. The fallback is the configured redirect on urlroute.conf.php | -             |
-| PORTAL_URL                             | The Portal url used on the back button of Portal theme                                                                               | -             |
-| FEATURE_FLAG_TRANSLATION_ENABLED       | Enable access to items/tests translations feature                                                                                    | -             |
-| TAO_ALLOWED_TRANSLATION_LOCALES        | Comma separated List of locales available for translations / authoring in the UI. If none provided, all are allowed                  | -             |
-| COOKIE_POLICY_CONFIG                   | JSON with CookiePolicy config. Example: `{"privacyPolicyUrl":"https://...","cookiePolicyUrl":"https://..."}`                         | -             |
-
+| Variable                                 | Description                                                                                                                          | Default value |
+|------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED    | Enable Remote Lists Dependency feature                                                                                               | -             |
+| FEATURE_FLAG_ADVANCED_SEARCH_DISABLED    | Disable advanced search feature, if set to 1                                                                                         | -             |
+| FEATURE_FLAG_STATISTIC_METADATA_IMPORT   | Enable statistics metadata import                                                                                                    | -             |
+| FEATURE_FLAG_CKEDITOR_SOURCEDIALOG       | Enable source editing for ckeditor                                                                                                   | false         |
+| FEATURE_FLAG_SOLAR_DESIGN_ENABLED        | Activate the Solar Design mode                                                                                                       | -             |
+| GOOGLE_APPLICATION_CREDENTIALS           | Path to GCP credentials path                                                                                                         | -             |
+| DATA_STORE_STATISTIC_PUB_SUB_TOPIC       | Topic name for statistic metadata Pub/Sub                                                                                            | -             |
+| REDIRECT_AFTER_LOGOUT_URL                | Allows to configure the redirect after logout via environment variable. The fallback is the configured redirect on urlroute.conf.php | -             |
+| PORTAL_URL                               | The Portal url used on the back button of Portal theme                                                                               | -             |
+| FEATURE_FLAG_TRANSLATION_ENABLED         | Enable access to items/tests translations feature                                                                                    | -             |
+| TAO_ALLOWED_TRANSLATION_LOCALES          | Comma separated List of locales available for translations / authoring in the UI. If none provided, all are allowed                  | -             |
+| COOKIE_POLICY_CONFIG                     | JSON with CookiePolicy config. Example: `{"privacyPolicyUrl":"https://...","cookiePolicyUrl":"https://..."}`                         | -             |
+| TAO_ID_GENERATOR_MAX_RETRIES             | JSON with CookiePolicy config. Example: `{"privacyPolicyUrl":"https://...","cookiePolicyUrl":"https://..."}`                         | -             |
+| TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS | JSON with CookiePolicy config. Example: `{"privacyPolicyUrl":"https://...","cookiePolicyUrl":"https://..."}`                         | -             |
+| TAO_ID_GENERATOR_ID_START                | JSON with CookiePolicy config. Example: `{"privacyPolicyUrl":"https://...","cookiePolicyUrl":"https://..."}`                         | -             |
 
 # Routing
 
