@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\IdentifierGenerator\Repository;
 
 use oat\generis\persistence\PersistenceManager;
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\IdentifierGenerator\Repository\UniqueIdRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -31,45 +32,19 @@ class UniqueIdRepositoryTest extends TestCase
 {
     private UniqueIdRepository $repository;
     private MockObject $persistenceManager;
+    private MockObject $logger;
 
     protected function setUp(): void
     {
         $this->persistenceManager = $this->createMock(PersistenceManager::class);
-        $this->repository = new UniqueIdRepository($this->persistenceManager);
-    }
+        $this->logger = $this->createMock(LoggerService::class);
 
-    public function testGetStartIdDefaultValue(): void
-    {
-        unset($_ENV['TAO_ID_GENERATOR_ID_START']);
-
-        $result = $this->repository->getStartId();
-
-        $this->assertEquals(100000000, $result);
-    }
-
-    public function testGetStartIdWithDifferentValues(): void
-    {
-        $testValues = [
-            '0' => 0,
-            '150000000' => 150000000,
-            '500000000' => 500000000,
-            '999999999' => 999999999,
-        ];
-
-        foreach ($testValues as $envValue => $expectedResult) {
-            $_ENV['TAO_ID_GENERATOR_ID_START'] = $envValue;
-
-            $result = $this->repository->getStartId();
-
-            $this->assertEquals($expectedResult, $result);
-
-            unset($_ENV['TAO_ID_GENERATOR_ID_START']);
-        }
+        $this->repository = new UniqueIdRepository($this->persistenceManager, $this->logger);
     }
 
     public function testConstructorWithDefaultPersistenceId(): void
     {
-        $repository = new UniqueIdRepository($this->persistenceManager);
+        $repository = new UniqueIdRepository($this->persistenceManager, $this->logger);
 
         $this->assertInstanceOf(UniqueIdRepository::class, $repository);
     }
@@ -78,8 +53,31 @@ class UniqueIdRepositoryTest extends TestCase
     {
         $customPersistenceId = 'custom-persistence';
 
-        $repository = new UniqueIdRepository($this->persistenceManager, $customPersistenceId);
+        $repository = new UniqueIdRepository($this->persistenceManager, $this->logger, $customPersistenceId);
 
         $this->assertInstanceOf(UniqueIdRepository::class, $repository);
+    }
+
+    public function testTableNameConstant(): void
+    {
+        $this->assertEquals('unique_ids', UniqueIdRepository::TABLE_NAME);
+    }
+
+    public function testFieldConstants(): void
+    {
+        $this->assertEquals('resource_id', UniqueIdRepository::FIELD_RESOURCE_ID);
+        $this->assertEquals('resource_type', UniqueIdRepository::FIELD_RESOURCE_TYPE);
+        $this->assertEquals('unique_id', UniqueIdRepository::FIELD_UNIQUE_ID);
+        $this->assertEquals('created_at', UniqueIdRepository::FIELD_CREATED_AT);
+
+        $this->assertIsString(UniqueIdRepository::FIELD_RESOURCE_ID);
+        $this->assertIsString(UniqueIdRepository::FIELD_RESOURCE_TYPE);
+        $this->assertIsString(UniqueIdRepository::FIELD_UNIQUE_ID);
+        $this->assertIsString(UniqueIdRepository::FIELD_CREATED_AT);
+
+        $this->assertNotEmpty(UniqueIdRepository::FIELD_RESOURCE_ID);
+        $this->assertNotEmpty(UniqueIdRepository::FIELD_RESOURCE_TYPE);
+        $this->assertNotEmpty(UniqueIdRepository::FIELD_UNIQUE_ID);
+        $this->assertNotEmpty(UniqueIdRepository::FIELD_CREATED_AT);
     }
 }

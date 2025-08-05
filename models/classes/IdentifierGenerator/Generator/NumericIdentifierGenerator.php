@@ -24,11 +24,13 @@ namespace oat\tao\model\IdentifierGenerator\Generator;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
+use InvalidArgumentException;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyRdf;
 use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\IdentifierGenerator\Repository\UniqueIdRepository;
 use oat\tao\model\TaoOntology;
+use core_kernel_classes_Resource;
 
 class NumericIdentifierGenerator implements IdentifierGeneratorInterface
 {
@@ -48,15 +50,21 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
      */
     public function generate(array $options = []): string
     {
-        if (!isset($options['resource']) || !method_exists($options['resource'], 'getRootId')) {
-            throw new Exception('Missing required "resource" option with getRootId() method');
+        if (!isset($options['resource']) || !($options['resource'] instanceof core_kernel_classes_Resource)) {
+            throw new InvalidArgumentException('Missing required "resource" option that must be an instance of core_kernel_classes_Resource');
         }
 
         $resourceType = $options['resource']->getRootId();
-        $resourceId = $options['resource']->getUri() ?? null;
+        $resourceId = $options['resource']->getUri();
 
-        $lastId = $this->uniqueIdRepository->getLastIdForResourceType($resourceType);
-        $candidateId = $lastId ? $lastId + 1 : $this->uniqueIdRepository->getStartId();
+        $lastIdRecord = $this->uniqueIdRepository->findOneBy(
+            [UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType],
+            [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC']
+        );
+        $lastId = $lastIdRecord && $lastIdRecord[UniqueIdRepository::FIELD_UNIQUE_ID] 
+            ? (int)$lastIdRecord[UniqueIdRepository::FIELD_UNIQUE_ID] 
+            : null;
+        $candidateId = $lastId ? $lastId + 1 : $this->getStartId();
 
         $retries = 0;
         while ($retries < $this->getMaxRetries()) {
@@ -64,17 +72,23 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
 
             if (!$this->shouldCheckStatements() || !$this->checkIdExistsInStatements($resourceType, $candidateIdStr)) {
                 try {
-                    $this->uniqueIdRepository->insertUniqueId($resourceType, $candidateIdStr, $resourceId);
+                    $this->uniqueIdRepository->save([
+                        UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
+                        UniqueIdRepository::FIELD_UNIQUE_ID => $candidateIdStr,
+                        UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
+                    ]);
                     return $candidateIdStr;
                 } catch (UniqueConstraintViolationException $e) {
-                    $candidateId++;
                     $retries++;
-                    continue;
+                    if ($retries >= $this->getMaxRetries()) {
+                        throw new Exception(
+                            'Max retries reached when trying to generate unique ID for resource type: ' . $resourceType
+                        );
+                    }
                 }
             }
 
             $candidateId++;
-            $retries++;
         }
 
         throw new Exception(
@@ -112,5 +126,10 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
     private function shouldCheckStatements(): bool
     {
         return filter_var($_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS'] ?? 'true', FILTER_VALIDATE_BOOLEAN);
+    }
+
+    private function getStartId(): int
+    {
+        return (int)($_ENV['TAO_ID_GENERATOR_ID_START'] ?? 100000000);
     }
 }

@@ -23,15 +23,15 @@ declare(strict_types=1);
 namespace oat\tao\model\IdentifierGenerator\Repository;
 
 use common_persistence_Persistence;
-use DateTime;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use InvalidArgumentException;
 use oat\generis\persistence\PersistenceManager;
+use oat\oatbox\log\LoggerService;
 
 class UniqueIdRepository
 {
-    public const TABLE_UNIQUE_IDS = 'unique_ids';
+    public const TABLE_NAME = 'unique_ids';
     public const FIELD_RESOURCE_ID = 'resource_id';
     public const FIELD_RESOURCE_TYPE = 'resource_type';
     public const FIELD_UNIQUE_ID = 'unique_id';
@@ -39,52 +39,76 @@ class UniqueIdRepository
 
     public function __construct(
         private readonly PersistenceManager $persistenceManager,
+        private readonly LoggerService $logger,
         private readonly string $persistenceId = 'default'
     ) {
     }
 
-    public function getLastIdForResourceType(string $resourceType): ?int
+    public function findOneBy(array $criteria, array $orderBy = []): ?array
     {
         $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->select('*')->from(self::TABLE_NAME);
 
-        $result = $queryBuilder
-            ->select('MAX(CAST(' . self::FIELD_UNIQUE_ID . ' AS BIGINT)) as last_id')
-            ->from(self::TABLE_UNIQUE_IDS)
-            ->where($queryBuilder->expr()->eq(self::FIELD_RESOURCE_TYPE, ':resourceType'))
-            ->setParameter('resourceType', $resourceType)
-            ->execute()
-            ->fetch();
+        foreach ($criteria as $field => $value) {
+            $queryBuilder->andWhere($queryBuilder->expr()->eq($field, ':' . $field))
+                ->setParameter($field, $value);
+        }
 
-        return $result && $result['last_id'] ? (int)$result['last_id'] : null;
-    }
+        foreach ($orderBy as $field => $direction) {
+            $queryBuilder->addOrderBy($field, $direction);
+        }
 
-    public function insertUniqueId(string $resourceType, string $uniqueId, string $resourceId = null): void
-    {
-        $persistence = $this->getPersistence();
-        $platform = $persistence->getPlatForm();
+        $queryBuilder->setMaxResults(1);
 
         try {
-            $platform->beginTransaction();
-
-            $persistence->insert(self::TABLE_UNIQUE_IDS, [
-                self::FIELD_RESOURCE_ID => $resourceId,
-                self::FIELD_RESOURCE_TYPE => $resourceType,
-                self::FIELD_UNIQUE_ID => $uniqueId,
-                self::FIELD_CREATED_AT => (new DateTime())->format('Y-m-d H:i:s'),
-            ]);
-
-            $platform->commit();
+            $result = $queryBuilder->execute()->fetchAssociative();
+            return $result ?: null;
         } catch (Exception $e) {
-            if ($platform->isTransactionActive()) {
-                $platform->rollBack();
-            }
+            $this->logger->warning('Failed to find unique ID record', [
+                'criteria' => $criteria,
+                'orderBy' => $orderBy,
+                'error' => $e->getMessage()
+            ]);
             throw $e;
         }
     }
 
-    public function getStartId(): int
+    public function save(array $data): void
     {
-        return (int)($_ENV['TAO_ID_GENERATOR_ID_START'] ?? 100000000);
+        if (!isset($data[self::FIELD_RESOURCE_TYPE], $data[self::FIELD_UNIQUE_ID], $data[self::FIELD_RESOURCE_ID])) {
+            throw new InvalidArgumentException('resourceType, uniqueId, and resourceId are all required');
+        }
+
+        $queryBuilder = $this->getQueryBuilder();
+        $platform = $this->getPersistence()->getPlatForm();
+
+        try {
+            $platform->beginTransaction();
+
+            $queryBuilder->insert(self::TABLE_NAME)
+                ->values([
+                    self::FIELD_RESOURCE_TYPE => ':resourceType',
+                    self::FIELD_UNIQUE_ID => ':uniqueId',
+                    self::FIELD_RESOURCE_ID => ':resourceId',
+                    self::FIELD_CREATED_AT => ':createdAt'
+                ])
+                ->setParameters([
+                    'resourceType' => $data[self::FIELD_RESOURCE_TYPE],
+                    'uniqueId' => $data[self::FIELD_UNIQUE_ID],
+                    'resourceId' => $data[self::FIELD_RESOURCE_ID],
+                    'createdAt' => date('Y-m-d H:i:s')
+                ]);
+
+            $queryBuilder->execute();
+            $platform->commit();
+        } catch (Exception $e) {
+            $platform->rollback();
+            $this->logger->warning('Failed to save unique ID record', [
+                'data' => $data,
+                'error' => $e->getMessage()
+            ]);
+            throw $e;
+        }
     }
 
     private function getPersistence(): common_persistence_Persistence

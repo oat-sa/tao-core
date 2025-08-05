@@ -6,6 +6,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\persistence\PersistenceManager;
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
 use oat\tao\model\IdentifierGenerator\Generator\NumericIdentifierGenerator;
 use oat\tao\model\IdentifierGenerator\Repository\UniqueIdRepository;
@@ -23,6 +24,7 @@ class IdentifierGeneratorServiceProvider implements ContainerServiceProviderInte
             ->public()
             ->args([
                 service(PersistenceManager::class),
+                service(LoggerService::SERVICE_ID),
                 'default'
             ]);
 
