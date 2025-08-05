@@ -69,7 +69,9 @@ class NumericIdentifierGeneratorTest extends TestCase
     public function testGenerateWithInvalidResource(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Missing required "resource" option that must be an instance of core_kernel_classes_Resource');
+        $this->expectExceptionMessage(
+            'Missing required "resource" option that must be an instance of core_kernel_classes_Resource'
+        );
 
         $this->generator->generate(['resource' => new \stdClass()]);
     }
@@ -77,7 +79,9 @@ class NumericIdentifierGeneratorTest extends TestCase
     public function testGenerateWithMissingResource(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Missing required "resource" option that must be an instance of core_kernel_classes_Resource');
+        $this->expectExceptionMessage(
+            'Missing required "resource" option that must be an instance of core_kernel_classes_Resource'
+        );
 
         $this->generator->generate([]);
     }
@@ -128,11 +132,11 @@ class NumericIdentifierGeneratorTest extends TestCase
         $this->uniqueIdRepository
             ->method('findOneBy')
             ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId) {
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
                     isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
                     return null;
@@ -172,11 +176,11 @@ class NumericIdentifierGeneratorTest extends TestCase
         $this->uniqueIdRepository
             ->method('findOneBy')
             ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
                     isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
                     return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
@@ -216,11 +220,11 @@ class NumericIdentifierGeneratorTest extends TestCase
         $this->uniqueIdRepository
             ->method('findOneBy')
             ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
                     isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
                     return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
@@ -264,11 +268,11 @@ class NumericIdentifierGeneratorTest extends TestCase
         $this->uniqueIdRepository
             ->method('findOneBy')
             ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
                     isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
                     return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
@@ -292,7 +296,9 @@ class NumericIdentifierGeneratorTest extends TestCase
             ->willReturn($resourceId);
 
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Max retries reached when trying to generate unique ID for resource type: test-resource-type');
+        $this->expectExceptionMessage(
+            'Max retries reached when trying to generate unique ID for resource type: test-resource-type'
+        );
 
         $this->generator->generate(['resource' => $this->resource]);
     }
@@ -300,7 +306,9 @@ class NumericIdentifierGeneratorTest extends TestCase
     public function testGenerateThrowsExceptionWhenResourceOptionMissing(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Missing required "resource" option that must be an instance of core_kernel_classes_Resource');
+        $this->expectExceptionMessage(
+            'Missing required "resource" option that must be an instance of core_kernel_classes_Resource'
+        );
 
         $this->generator->generate();
     }
@@ -310,7 +318,9 @@ class NumericIdentifierGeneratorTest extends TestCase
         $invalidResource = new \stdClass();
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Missing required "resource" option that must be an instance of core_kernel_classes_Resource');
+        $this->expectExceptionMessage(
+            'Missing required "resource" option that must be an instance of core_kernel_classes_Resource'
+        );
 
         $this->generator->generate(['resource' => $invalidResource]);
     }
@@ -328,11 +338,11 @@ class NumericIdentifierGeneratorTest extends TestCase
         $this->uniqueIdRepository
             ->method('findOneBy')
             ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId) {
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
                     isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
                     return null;
@@ -364,11 +374,11 @@ class NumericIdentifierGeneratorTest extends TestCase
         $this->uniqueIdRepository
             ->method('findOneBy')
             ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId) {
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
                     isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
                     return null;
@@ -412,20 +422,22 @@ class NumericIdentifierGeneratorTest extends TestCase
         $callCount = 0;
         $this->uniqueIdRepository
             ->method('findOneBy')
-            ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $baseId, &$callCount) {
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
-                    $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+            ->willReturnCallback(
+                function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $baseId, &$callCount) {
+                    if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
+                        $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
+                        return null;
+                    }
+                    if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
+                        $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
+                        isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                        $lastId = $baseId + $callCount;
+                        $callCount++;
+                        return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
+                    }
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
-                    $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
-                    isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
-                    $lastId = $baseId + $callCount;
-                    $callCount++;
-                    return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
-                }
-                return null;
-            });
+            );
 
         $this->uniqueIdRepository
             ->method('save');
@@ -456,11 +468,11 @@ class NumericIdentifierGeneratorTest extends TestCase
         $this->uniqueIdRepository
             ->method('findOneBy')
             ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
                     isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
                     return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
@@ -506,11 +518,11 @@ class NumericIdentifierGeneratorTest extends TestCase
         $this->uniqueIdRepository
             ->method('findOneBy')
             ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
                     isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
                     return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
@@ -577,11 +589,11 @@ class NumericIdentifierGeneratorTest extends TestCase
         $this->uniqueIdRepository
             ->method('findOneBy')
             ->willReturnCallback(function ($criteria, $orderBy = []) use ($resourceType, $resourceId, $lastId) {
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_ID] === $resourceId) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && 
+                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) &&
                     $criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE] === $resourceType &&
                     isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
                     return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];

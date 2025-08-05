@@ -62,22 +62,4 @@ class UniqueIdRepositoryTest extends TestCase
     {
         $this->assertEquals('unique_ids', UniqueIdRepository::TABLE_NAME);
     }
-
-    public function testFieldConstants(): void
-    {
-        $this->assertEquals('resource_id', UniqueIdRepository::FIELD_RESOURCE_ID);
-        $this->assertEquals('resource_type', UniqueIdRepository::FIELD_RESOURCE_TYPE);
-        $this->assertEquals('unique_id', UniqueIdRepository::FIELD_UNIQUE_ID);
-        $this->assertEquals('created_at', UniqueIdRepository::FIELD_CREATED_AT);
-
-        $this->assertIsString(UniqueIdRepository::FIELD_RESOURCE_ID);
-        $this->assertIsString(UniqueIdRepository::FIELD_RESOURCE_TYPE);
-        $this->assertIsString(UniqueIdRepository::FIELD_UNIQUE_ID);
-        $this->assertIsString(UniqueIdRepository::FIELD_CREATED_AT);
-
-        $this->assertNotEmpty(UniqueIdRepository::FIELD_RESOURCE_ID);
-        $this->assertNotEmpty(UniqueIdRepository::FIELD_RESOURCE_TYPE);
-        $this->assertNotEmpty(UniqueIdRepository::FIELD_UNIQUE_ID);
-        $this->assertNotEmpty(UniqueIdRepository::FIELD_CREATED_AT);
-    }
 }

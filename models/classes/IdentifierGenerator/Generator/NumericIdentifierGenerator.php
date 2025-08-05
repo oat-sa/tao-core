@@ -50,7 +50,9 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
     public function generate(array $options = []): string
     {
         if (!isset($options['resource']) || !($options['resource'] instanceof core_kernel_classes_Resource)) {
-            throw new InvalidArgumentException('Missing required "resource" option that must be an instance of core_kernel_classes_Resource');
+            throw new InvalidArgumentException(
+                'Missing required "resource" option that must be an instance of core_kernel_classes_Resource'
+            );
         }
 
         $resourceType = $options['resource']->getRootId();
@@ -60,7 +62,7 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
             UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
             UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
         ]);
-        
+
         if ($existingRecord && isset($existingRecord[UniqueIdRepository::FIELD_UNIQUE_ID])) {
             return (string)$existingRecord[UniqueIdRepository::FIELD_UNIQUE_ID];
         }
@@ -69,8 +71,8 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
             [UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType],
             [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC']
         );
-        $lastId = $lastIdRecord && $lastIdRecord[UniqueIdRepository::FIELD_UNIQUE_ID] 
-            ? (int)$lastIdRecord[UniqueIdRepository::FIELD_UNIQUE_ID] 
+        $lastId = $lastIdRecord && $lastIdRecord[UniqueIdRepository::FIELD_UNIQUE_ID]
+            ? (int)$lastIdRecord[UniqueIdRepository::FIELD_UNIQUE_ID]
             : null;
         $candidateId = $lastId ? $lastId + 1 : $this->getStartId();
 
