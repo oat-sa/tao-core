@@ -13,6 +13,7 @@ use oat\tao\model\IdentifierGenerator\Repository\UniqueIdRepository;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 class IdentifierGeneratorServiceProvider implements ContainerServiceProviderInterface
 {
@@ -32,6 +33,9 @@ class IdentifierGeneratorServiceProvider implements ContainerServiceProviderInte
             ->args([
                 service(UniqueIdRepository::class),
                 service(ComplexSearchService::class),
+                env('TAO_ID_GENERATOR_MAX_RETRIES')->default('')->int(),
+                env('TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS')->default('')->bool(),
+                env('TAO_ID_GENERATOR_ID_START')->default('')->int(),
             ]);
 
         $services

@@ -24,6 +24,7 @@ namespace oat\tao\model\IdentifierGenerator\Repository;
 
 use common_persistence_Persistence;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use InvalidArgumentException;
 use oat\generis\persistence\PersistenceManager;
@@ -60,17 +61,7 @@ class UniqueIdRepository
 
         $queryBuilder->setMaxResults(1);
 
-        try {
-            $result = $queryBuilder->execute()->fetchAssociative();
-            return $result ?: null;
-        } catch (Exception $e) {
-            $this->logger->warning('Failed to find unique ID record', [
-                'criteria' => $criteria,
-                'orderBy' => $orderBy,
-                'error' => $e->getMessage()
-            ]);
-            throw $e;
-        }
+        return $queryBuilder->execute()->fetchAssociative() ?: null;
     }
 
     public function save(array $data): void
@@ -101,6 +92,9 @@ class UniqueIdRepository
 
             $queryBuilder->execute();
             $platform->commit();
+        } catch (UniqueConstraintViolationException $e) {
+            $platform->rollback();
+            throw $e;
         } catch (Exception $e) {
             $platform->rollback();
             $this->logger->warning('Failed to save unique ID record', [

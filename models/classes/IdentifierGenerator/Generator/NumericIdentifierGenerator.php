@@ -33,15 +33,16 @@ use core_kernel_classes_Resource;
 
 class NumericIdentifierGenerator implements IdentifierGeneratorInterface
 {
-    private UniqueIdRepository $uniqueIdRepository;
-    private ComplexSearchService $complexSearch;
-
     public function __construct(
-        UniqueIdRepository $uniqueIdRepository,
-        ComplexSearchService $complexSearch
+        private readonly UniqueIdRepository $uniqueIdRepository,
+        private readonly ComplexSearchService $complexSearch,
+        private ?int $maxRetries,
+        private ?bool $shouldCheckStatements,
+        private ?int $startId,
     ) {
-        $this->uniqueIdRepository = $uniqueIdRepository;
-        $this->complexSearch = $complexSearch;
+        $this->maxRetries = $this->maxRetries ?? 100;
+        $this->shouldCheckStatements = $this->shouldCheckStatements ?? true;
+        $this->startId = $this->startId ?? 1;
     }
 
     /**
@@ -70,39 +71,47 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
             [UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType],
             [UniqueIdRepository::FIELD_UNIQUE_ID => 'DESC']
         );
-        $lastId = $lastIdRecord && $lastIdRecord[UniqueIdRepository::FIELD_UNIQUE_ID]
-            ? (int)$lastIdRecord[UniqueIdRepository::FIELD_UNIQUE_ID]
-            : null;
-        $candidateId = $lastId ? $lastId + 1 : $this->getStartId();
+        $candidateId = $lastIdRecord && $lastIdRecord[UniqueIdRepository::FIELD_UNIQUE_ID]
+            ? ((int)$lastIdRecord[UniqueIdRepository::FIELD_UNIQUE_ID] + 1)
+            : $this->startId;
 
         $retries = 0;
-        while ($retries < $this->getMaxRetries()) {
+        while ($retries < $this->maxRetries) {
             $candidateIdStr = str_pad((string)$candidateId, 9, '0', STR_PAD_LEFT);
 
-            if (!$this->shouldCheckStatements() || !$this->checkIdExistsInStatements($resourceType, $candidateIdStr)) {
-                try {
-                    $this->uniqueIdRepository->save([
-                        UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
-                        UniqueIdRepository::FIELD_UNIQUE_ID => $candidateIdStr,
-                        UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
-                    ]);
-                    return $candidateIdStr;
-                } catch (UniqueConstraintViolationException $e) {
-                    $retries++;
-                    if ($retries >= $this->getMaxRetries()) {
-                        throw new Exception(
-                            'Max retries reached when trying to generate unique ID for resource type: ' . $resourceType
-                        );
-                    }
-                }
+            if ($this->shouldCheckStatements && $this->checkIdExistsInStatements($resourceType, $candidateIdStr)) {
+                $candidateId++;
+                continue;
             }
 
-            $candidateId++;
+            try {
+                $this->uniqueIdRepository->save([
+                    UniqueIdRepository::FIELD_RESOURCE_TYPE => $resourceType,
+                    UniqueIdRepository::FIELD_UNIQUE_ID => $candidateIdStr,
+                    UniqueIdRepository::FIELD_RESOURCE_ID => $resourceId
+                ]);
+                return $candidateIdStr;
+            } catch (UniqueConstraintViolationException $e) {
+                $retries++;
+                $candidateId++;
+
+                if ($retries >= $this->maxRetries) {
+                    throw new Exception(
+                        sprintf(
+                            'Max retries reached when trying to generate unique ID for resource type: %s',
+                            $resourceType
+                        )
+                    );
+                }
+            }
         }
 
         throw new Exception(
-            "Failed to generate unique ID for resource type '{$resourceType}' after " . $this->getMaxRetries(
-            ) . " retries"
+            sprintf(
+                "Failed to generate unique ID for resource type '%s' after %s retries",
+                $resourceType,
+                $this->maxRetries
+            )
         );
     }
 
@@ -125,20 +134,5 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
         $resultsArray = iterator_to_array($results);
 
         return count($resultsArray) > 0;
-    }
-
-    private function getMaxRetries(): int
-    {
-        return (int)($_ENV['TAO_ID_GENERATOR_MAX_RETRIES'] ?? 200);
-    }
-
-    private function shouldCheckStatements(): bool
-    {
-        return filter_var($_ENV['TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS'] ?? 'true', FILTER_VALIDATE_BOOLEAN);
-    }
-
-    private function getStartId(): int
-    {
-        return (int)($_ENV['TAO_ID_GENERATOR_ID_START'] ?? 100000000);
     }
 }
