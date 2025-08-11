@@ -372,7 +372,7 @@ class NumericIdentifierGeneratorTest extends TestCase
 
         $mockGateway
             ->method('search')
-            ->willReturnCallback(function() use ($conflictingId) {
+            ->willReturnCallback(function () use ($conflictingId) {
                 static $callCount = 0;
                 $callCount++;
                 if ($callCount === 1) {
@@ -406,7 +406,7 @@ class NumericIdentifierGeneratorTest extends TestCase
         );
 
         $reflection = new \ReflectionClass($generator);
-        
+
         $maxRetriesProperty = $reflection->getProperty('maxRetries');
         $maxRetriesProperty->setAccessible(true);
         $this->assertEquals(100, $maxRetriesProperty->getValue($generator));
@@ -431,7 +431,7 @@ class NumericIdentifierGeneratorTest extends TestCase
         );
 
         $reflection = new \ReflectionClass($generator);
-        
+
         $maxRetriesProperty = $reflection->getProperty('maxRetries');
         $maxRetriesProperty->setAccessible(true);
         $this->assertEquals(50, $maxRetriesProperty->getValue($generator));
