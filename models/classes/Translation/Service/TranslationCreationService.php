@@ -167,7 +167,10 @@ class TranslationCreationService
                     $resourceUri,
                     $instance->getParentClassId(),
                     null,
-                    null
+                    null,
+                    [
+                        'isTranslation' => true,
+                    ]
                 )
             )->getDestination();
             $clonedInstance = $this->ontology->getResource($clonedInstanceUri);

@@ -82,7 +82,7 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
     {
         $instance = $this->ontology->getResource($command->getFrom());
         $destinationClass = $this->ontology->getClass($command->getTo());
-        $newInstance = $this->doCopy($instance, $destinationClass, $command->keepOriginalAcl());
+        $newInstance = $this->doCopy($instance, $destinationClass, $command->keepOriginalAcl(), $command->getOptions());
 
         return new ResourceTransferResult($newInstance->getUri());
     }
@@ -97,7 +97,8 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
     private function doCopy(
         core_kernel_classes_Resource $instance,
         core_kernel_classes_Class $destinationClass,
-        bool $keepOriginalPermissions = true
+        bool $keepOriginalPermissions = true,
+        array $options = []
     ): core_kernel_classes_Resource {
         $newInstance = $destinationClass->createInstance($instance->getLabel());
 
@@ -125,7 +126,9 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         }
 
         if (isset($this->eventManager)) {
-            $this->eventManager->trigger(new InstanceCopiedEvent($newInstance->getUri(), $instance->getUri()));
+            $this->eventManager->trigger(
+                new InstanceCopiedEvent($newInstance->getUri(), $instance->getUri(), $options)
+            );
         }
 
         return $newInstance;
