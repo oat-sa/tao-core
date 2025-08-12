@@ -94,15 +94,6 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
             } catch (UniqueConstraintViolationException $e) {
                 $retries++;
                 $candidateId++;
-
-                if ($retries >= $this->maxRetries) {
-                    throw new Exception(
-                        sprintf(
-                            'Max retries reached when trying to generate unique ID for resource type: %s',
-                            $resourceType
-                        )
-                    );
-                }
             }
         }
 
