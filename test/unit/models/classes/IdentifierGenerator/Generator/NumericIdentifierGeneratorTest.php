@@ -152,7 +152,10 @@ class NumericIdentifierGeneratorTest extends TestCase
                 if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID])) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                if (
+                    isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE])
+                    && isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])
+                ) {
                     return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
                 }
                 return null;
@@ -185,7 +188,10 @@ class NumericIdentifierGeneratorTest extends TestCase
                 if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID])) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                if (
+                    isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE])
+                    && isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])
+                ) {
                     return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
                 }
                 return null;
@@ -222,7 +228,10 @@ class NumericIdentifierGeneratorTest extends TestCase
                 if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_ID])) {
                     return null;
                 }
-                if (isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE]) && isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])) {
+                if (
+                    isset($criteria[UniqueIdRepository::FIELD_RESOURCE_TYPE])
+                    && isset($orderBy[UniqueIdRepository::FIELD_UNIQUE_ID])
+                ) {
                     return [UniqueIdRepository::FIELD_UNIQUE_ID => $lastId];
                 }
                 return null;
