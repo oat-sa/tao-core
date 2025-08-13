@@ -246,7 +246,7 @@ class NumericIdentifierGeneratorTest extends TestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            'Max retries reached when trying to generate unique ID for resource type: test-resource-type'
+            "Failed to generate unique ID for resource type 'test-resource-type' after 100 retries"
         );
 
         $this->generator->generate(['resource' => $this->resource]);
