@@ -91,6 +91,7 @@ use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
+use oat\tao\scripts\install\RegisterUniqueIdFeature;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\RegisterUserService;
 use oat\tao\scripts\install\RegisterValidationRules;
@@ -286,6 +287,7 @@ return [
             RegisterSearchServices::class,
             EnableFuriganaRubyPlugin::class,
             RegisterPortalTheme::class,
+            RegisterUniqueIdFeature::class
         ],
     ],
     'update' => Updater::class,

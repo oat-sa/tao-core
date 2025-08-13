@@ -39,7 +39,7 @@ class CookiePolicyServiceProvider implements ContainerServiceProviderInterface
         $services->set(CookiePolicyConfigurationRetriever::class, CookiePolicyConfigurationRetriever::class)
             ->args(
                 [
-                    (string)env(CookiePolicyConfigurationRetriever::COOKIE_POLICY_CONFIG)->default(''),
+                    env(CookiePolicyConfigurationRetriever::COOKIE_POLICY_CONFIG)->default('')->string(),
                 ]
             );
     }

@@ -222,7 +222,10 @@ class TranslationCreationServiceTest extends TestCase
                     'id1',
                     TaoOntology::CLASS_URI_ITEM,
                     null,
-                    null
+                    null,
+                    [
+                        'isTranslation' => true,
+                    ]
                 )
             )
             ->willReturn($resourceTransferResult);
