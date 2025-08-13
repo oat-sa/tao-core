@@ -43,8 +43,9 @@ class ResourceTransferCommand
     private string $to;
     private string $aclMode;
     private string $transferMode;
+    private array $options;
 
-    public function __construct(string $from, string $to, ?string $aclMode, ?string $transferMode)
+    public function __construct(string $from, string $to, ?string $aclMode, ?string $transferMode, array $options = [])
     {
         $aclMode = $aclMode ?? self::ACL_USE_DESTINATION;
         $transferMode = $transferMode ?? self::TRANSFER_MODE_COPY;
@@ -73,6 +74,7 @@ class ResourceTransferCommand
         $this->to = $to;
         $this->aclMode = $aclMode;
         $this->transferMode = $transferMode;
+        $this->options = $options;
     }
 
     public function getFrom(): string
@@ -103,5 +105,10 @@ class ResourceTransferCommand
     public function isMoveTo(): bool
     {
         return $this->transferMode === self::TRANSFER_MODE_MOVE;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }
