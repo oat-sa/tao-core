@@ -25,6 +25,7 @@ namespace oat\tao\scripts\install;
 use oat\oatbox\extension\InstallAction;
 use oat\oatbox\reporting\Report;
 use oat\generis\persistence\PersistenceManager;
+use common_persistence_SqlPersistence;
 
 class RegisterUniqueIdFeature extends InstallAction
 {
@@ -57,7 +58,7 @@ class RegisterUniqueIdFeature extends InstallAction
         return Report::createSuccess('Unique IDs table successfully created');
     }
 
-    private function getPersistence()
+    private function getPersistence(): common_persistence_SqlPersistence
     {
         $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
 
