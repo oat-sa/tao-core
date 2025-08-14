@@ -16,8 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 declare(strict_types=1);
@@ -26,25 +24,18 @@ namespace oat\tao\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
 use oat\oatbox\reporting\Report;
-use Doctrine\DBAL\Schema\Schema;
 use oat\generis\persistence\PersistenceManager;
-use common_persistence_SqlPersistence as SqlPersistence;
+use common_persistence_SqlPersistence;
 
 class RegisterUniqueIdFeature extends InstallAction
 {
-    private PersistenceManager $persistence;
-
     public function __invoke($params = []): Report
     {
-        [$fromSchema, $schema] = $this->getSchemas();
-        $this->createUniqueIdsTable($schema);
-        $this->migrate($fromSchema, $schema);
+        $persistence = $this->getPersistence();
 
-        return Report::createSuccess('Unique IDs table successfully created');
-    }
+        $schema = $persistence->getDriver()->getSchemaManager()->createSchema();
+        $fromSchema = clone $schema;
 
-    private function createUniqueIdsTable(Schema $schema): void
-    {
         $table = $schema->createTable('unique_ids');
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -57,33 +48,20 @@ class RegisterUniqueIdFeature extends InstallAction
         $table->addUniqueIndex(['resource_id'], 'idx_resource_id');
         $table->addUniqueIndex(['unique_id', 'resource_type'], 'uniq_unique_id_resource_type');
         $table->addIndex(['resource_type'], 'idx_unique_ids_resource_type');
-    }
 
-    private function getSchemas(): array
-    {
-        $schema = $this->getPersistence()->getDriver()->getSchemaManager()->createSchema();
-        $fromSchema = clone $schema;
-
-        return [$fromSchema, $schema];
-    }
-
-    private function migrate(Schema $fromSchema, Schema $schema): void
-    {
-        $queries = $this->getPersistence()->getPlatForm()->getMigrateSchemaSql($fromSchema, $schema);
+        $queries = $persistence->getPlatForm()->getMigrateSchemaSql($fromSchema, $schema);
 
         foreach ($queries as $query) {
-            $this->getPersistence()->exec($query);
+            $persistence->exec($query);
         }
+
+        return Report::createSuccess('Unique IDs table successfully created');
     }
 
-    private function getPersistence(): SqlPersistence
+    private function getPersistence(): common_persistence_SqlPersistence
     {
-        if (!isset($this->persistence)) {
-            $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
+        $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
 
-            $this->persistence = $persistenceManager->getPersistenceById('default');
-        }
-
-        return $this->persistence;
+        return $persistenceManager->getPersistenceById('default');
     }
 }
