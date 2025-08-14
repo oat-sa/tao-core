@@ -30,9 +30,7 @@ class RegisterUniqueIdFeature extends InstallAction
 {
     public function __invoke($params = []): Report
     {
-        $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
-
-        $persistence = $persistenceManager->getPersistenceById('default');
+        $persistence = $this->getPersistence();
 
         $schema = $persistence->getDriver()->getSchemaManager()->createSchema();
         $fromSchema = clone $schema;
@@ -57,5 +55,12 @@ class RegisterUniqueIdFeature extends InstallAction
         }
 
         return Report::createSuccess('Unique IDs table successfully created');
+    }
+
+    private function getPersistence()
+    {
+        $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
+
+        return $persistenceManager->getPersistenceById('default');
     }
 }
