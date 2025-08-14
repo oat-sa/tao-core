@@ -32,7 +32,7 @@ use common_persistence_SqlPersistence as SqlPersistence;
 
 class RegisterUniqueIdFeature extends InstallAction
 {
-    private PersistenceManager $persistence;
+    private SqlPersistence $persistence;
 
     public function __invoke($params = []): Report
     {
