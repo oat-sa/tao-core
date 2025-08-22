@@ -181,6 +181,7 @@ class ClientConfigStorage
                         'featureFlags' => $this->featureFlagRepository->list(),
                         'cookiePolicy' => $this->cookiePolicyConfigurationRetriever->retrieve()->jsonSerialize(),
                         'currentUser' => $this->getUserData($currentSession),
+                        'wirisMathLicenseKey' => getenv('WIRIS_LICENSE_KEY'),
                     ]
                 ),
             ],
