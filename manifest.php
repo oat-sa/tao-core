@@ -56,7 +56,7 @@ use oat\tao\model\Observer\ServiceProvider\ObserverServiceProvider;
 use oat\tao\model\resources\CopierServiceProvider;
 use oat\tao\model\resources\ResourcesServiceProvider;
 use oat\tao\model\routing\ApiRoute;
-use oat\tao\model\routing\LegacyRoute;
+use oat\tao\model\routing\TaoRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\search\ServiceProvider\SearchServiceProvider;
 use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
@@ -365,7 +365,7 @@ return [
     ],
     'routes' => [
         '/tao/api' => ['class' => ApiRoute::class],
-        '/tao' => ['class' => LegacyRoute::class],
+        '/tao' => ['class' => TaoRoute::class],
     ],
     'constants' => [
         #TAO version number
