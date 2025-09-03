@@ -360,7 +360,20 @@
                 }
 
                 var editor = ckeditor.replace(this);
-                editor.config = ckConfigurator.getConfig(editor, 'htmlField', {resize_enabled : false });
+                var configOptions = {
+                    resize_enabled: false,
+                    interactionsource: false,
+                    sourcedialog: false
+                };
+
+                var removePlugins = [];
+
+                removePlugins.push('interactionsource');
+                removePlugins.push('sourcedialog');
+
+                configOptions.removePlugins = removePlugins.join(',');
+
+                editor.config = ckConfigurator.getConfig(editor, 'htmlField', configOptions);
                 self.htmlEditors[propertyUri] = editor;
             });
 
