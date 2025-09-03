@@ -359,7 +359,6 @@ class tao_actions_Main extends tao_actions_CommonModule
                     $this->redirect($lastVisited);
                 }
             }
-            $this->redirect($this->getDefaultPageUrl());
         }
 
         $this->setData(
