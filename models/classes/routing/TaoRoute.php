@@ -23,6 +23,8 @@
 namespace oat\tao\model\routing;
 
 use Psr\Http\Message\ServerRequestInterface;
+use common_session_SessionManager;
+use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 
 class TaoRoute extends LegacyRoute
 {
@@ -33,7 +35,10 @@ class TaoRoute extends LegacyRoute
         $resolve = parent::resolve($request);
 
         if ($resolve === null && $relativeUrl === '') {
-            return 'tao_actions_Main@index';
+            $user = common_session_SessionManager::getSession()->getUser();
+            if (FuncProxy::accessPossible($user, 'tao_actions_Main', 'index')) {
+                return 'tao_actions_Main@index';
+            }
         }
 
         return $resolve;
