@@ -130,7 +130,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             // Using restricted properties passed when creating editInstanceForm
             // we can hide properties base on other resource properties
             $restrictedProperties = $this->options[self::RESTRICTED_PROPERTIES] ?? [];
-            if ($this->isPropertyRestricted($instance, $property, $restrictedProperties)) {
+            if ($instance && $this->isPropertyRestricted($instance, $property, $restrictedProperties)) {
                 continue;
             }
 
