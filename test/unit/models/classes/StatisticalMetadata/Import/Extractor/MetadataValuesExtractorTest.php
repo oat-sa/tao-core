@@ -133,15 +133,12 @@ class MetadataValuesExtractorTest extends TestCase
             ->method('getUri');
 
         $this->resourceMetadataRelationValidator
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('validate')
-            ->with($resource, $metadataProperty);
-
-        $this->resourceMetadataRelationValidator
-            ->expects($this->at(1))
-            ->method('validate')
-            ->with($resource, $invalidMetadataProperty)
-            ->willThrowException($this->createMock(ErrorValidationException::class));
+            ->willReturnCallback(fn ($key, $value) => match ([$key, $value]) {
+                [$resource, $invalidMetadataProperty] => throw $this->createMock(ErrorValidationException::class),
+                default => null,
+            });
 
         $this->expectException(AggregatedValidationException::class);
 
