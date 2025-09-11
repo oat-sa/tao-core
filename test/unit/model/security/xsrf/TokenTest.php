@@ -54,7 +54,11 @@ class TokenTest extends TestCase
         $token = new Token();
 
         $this->assertSame(40, strlen($token->getValue()), 'The token has the expected length');
-        $this->assertMatchesRegularExpression('/^[0-9a-f]{40}$/', $token->getValue(), 'The token is correctly formatted');
+        $this->assertMatchesRegularExpression(
+            '/^[0-9a-f]{40}$/',
+            $token->getValue(),
+            'The token is correctly formatted'
+        );
     }
 
     public function testIsExpired(): void
