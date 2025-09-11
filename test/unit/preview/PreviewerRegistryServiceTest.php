@@ -15,27 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\test\unit\preview;
 
-use Prophecy\Prophet;
-use Prophecy\Argument;
-use oat\generis\test\TestCase;
 use oat\tao\model\modules\DynamicModule;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\preview\PreviewerRegistryService;
 use common_exception_InconsistentData as InconsistentDataException;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Class PreviewerRegistryServiceTest
- *
- * @package oat\tao\test\unit\preview
- */
 class PreviewerRegistryServiceTest extends TestCase
 {
     private const ADAPTER_DATA = [
@@ -308,31 +301,30 @@ class PreviewerRegistryServiceTest extends TestCase
         $this->assertEquals(false, $this->sut->unregisterPlugin('stubTest/previewer/plugins/plugin2'));
     }
 
-    /**
-     * @return ClientLibConfigRegistry
-     */
     private function createAdapter(): ClientLibConfigRegistry
     {
-        $prophet = new Prophet();
-        $prophecy = $prophet->prophesize(ClientLibConfigRegistry::class);
         $data = self::ADAPTER_DATA;
 
-        $prophecy
-            ->isRegistered(Argument::type('string'))
-            ->will(function ($args) use (&$data) {
-                return isset($data[$args[0]]);
-            });
-        $prophecy
-            ->get(Argument::type('string'))
-            ->will(function ($args) use (&$data) {
-                return $data[$args[0]];
-            });
-        $prophecy
-            ->set(Argument::type('string'), Argument::type('array'))
-            ->will(function ($args) use (&$data) {
-                $data[$args[0]] = $args[1];
+        $clientLibConfigRegistryMock = $this->createMock(ClientLibConfigRegistry::class);
+
+        $clientLibConfigRegistryMock
+            ->method('isRegistered')
+            ->willReturnCallback(function (string $key) use (&$data) {
+                return isset($data[$key]);
             });
 
-        return $prophecy->reveal();
+        $clientLibConfigRegistryMock
+            ->method('get')
+            ->willReturnCallback(function (string $key) use (&$data) {
+                return $data[$key] ?? null;
+            });
+
+        $clientLibConfigRegistryMock
+            ->method('set')
+            ->willReturnCallback(function (string $key, array $value) use (&$data) {
+                $data[$key] = $value;
+            });
+
+        return $clientLibConfigRegistryMock;
     }
 }

@@ -21,7 +21,7 @@
  *                         (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor
  *                         (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2019 (update and modification) Open Assessment Technologies SA;
+ *               2013-2025 (update and modification) Open Assessment Technologies SA;
  */
 
 use oat\oatbox\user\User;
@@ -210,8 +210,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements
         } else {
             $this->setData('returnUrl', false);
         }
-        if ($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))) {
-            $this->setView("error/error${httpStatus}.tpl", 'tao');
+        if ($httpStatus !== null && file_exists(Template::getTemplate("error/error{$httpStatus}.tpl"))) {
+            $this->setView("error/error{$httpStatus}.tpl", 'tao');
         } else {
             $this->setView('error/user_error.tpl', 'tao');
         }
