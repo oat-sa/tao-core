@@ -33,7 +33,7 @@ class IntegerValidatorTest extends TestCase
      */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new tao_helpers_form_validators_Integer();
     }

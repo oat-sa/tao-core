@@ -42,7 +42,7 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
     private ParentPropertyListRepository|MockObject $parentPropertyListRepository;
     private DependsOnPropertyRepository|MockObject $dependencyRepository;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->simpleCache = $this->createMock(SimpleCache::class);
         $this->parentPropertyListRepository = $this->createMock(ParentPropertyListRepository::class);

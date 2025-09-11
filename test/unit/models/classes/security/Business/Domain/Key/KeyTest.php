@@ -30,7 +30,7 @@ class KeyTest extends TestCase
     /** @var Key */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new Key('123456', 'passphrase');
     }

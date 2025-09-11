@@ -35,7 +35,7 @@ class DefaultSearchSettingsServiceTest extends TestCase
     /** @var DefaultSearchSettingsService */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new DefaultSearchSettingsService();
     }

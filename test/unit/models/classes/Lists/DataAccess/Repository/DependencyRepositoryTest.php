@@ -44,7 +44,7 @@ class DependencyRepositoryTest extends TestCase
     /** @var QueryBuilder|MockObject */
     private $queryBuilder;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->queryBuilder = $this->createMock(QueryBuilder::class);
 

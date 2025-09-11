@@ -36,7 +36,7 @@ class ResultSetMapperTest extends TestCase
     private ResultSetMapper $subject;
     private AdvancedSearchChecker|MockObject $advancedSearchChecker;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new ResultSetMapper(
             [

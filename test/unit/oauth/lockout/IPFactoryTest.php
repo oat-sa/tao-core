@@ -12,7 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class IPFactoryTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         $_SERVER['HTTP_CLIENT_IP'] = '127.0.0.1';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '127.0.0.2';

@@ -43,7 +43,7 @@ class ResultAccessCheckerTest extends TestCase
     private PermissionHelper|MockObject $permissionHelperMock;
     private ResultAccessChecker $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->permissionHelperMock = $this->createMock(PermissionHelper::class);
         $modelMock = $this->createMock(Ontology::class);

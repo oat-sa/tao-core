@@ -69,7 +69,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
      */
     private $resourceMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $persistenceManagerMock = $this->mockPersistance();
         $complexSearchService = $this->mockComplexSearch();

@@ -56,7 +56,7 @@ class ElementDecoratorTest extends TestCase
     /** @var MockObject|tao_helpers_form_FormElement */
     private $element;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->form = $this->createMock(tao_helpers_form_Form::class);

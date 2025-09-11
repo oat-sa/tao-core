@@ -46,7 +46,7 @@ class MetadataImportFormTest extends TestCase
     /** @var MockObject|tao_helpers_form_FormElement */
     private $submitElement;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->fileUploadElement = $this->createMock(tao_helpers_form_FormElement::class);
         $this->hiddenImportElement = $this->createMock(tao_helpers_form_FormElement::class);

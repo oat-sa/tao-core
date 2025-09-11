@@ -54,7 +54,7 @@ class StatementLastIdRetrieverTest extends TestCase
     /** @var Statement|MockObject */
     private $statementMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new StatementLastIdRetriever();
         $this->ontologyMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothModel::class);

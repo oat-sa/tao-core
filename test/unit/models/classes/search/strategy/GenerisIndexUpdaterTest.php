@@ -32,7 +32,7 @@ class GenerisIndexUpdaterTest extends TestCase
 
     private GenerisIndexUpdater $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new GenerisIndexUpdater();
         $this->sut->setServiceLocator($this->getServiceManagerMock());

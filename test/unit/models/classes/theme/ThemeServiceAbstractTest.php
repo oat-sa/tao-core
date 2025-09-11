@@ -30,7 +30,7 @@ class ThemeServiceAbstractTest extends TestCase
     /** @var ThemeServiceAbstract|MockObject */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = $this->getMockForAbstractClass(
             ThemeServiceAbstract::class,

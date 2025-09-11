@@ -44,7 +44,7 @@ class XmlHelperTest extends TestCase
     {
         try {
             tao_helpers_Xml::to_array($data);
-            $this->assertFalse(true, 'Should not be here, exceptions only');
+            $this->fail('Should not be here, exceptions only');
         } catch (common_exception_Error $e) {
             $this->assertSame($expected['exception']['class'], get_class($e));
             $this->assertSame($expected['exception']['message'], $e->getMessage());

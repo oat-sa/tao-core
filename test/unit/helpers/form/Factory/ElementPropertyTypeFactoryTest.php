@@ -57,7 +57,7 @@ class ElementPropertyTypeFactoryTest extends TestCase
     /** @var DependencyPropertyWidgetSpecification|MockObject */
     private $dependencyPropertyWidgetSpecification;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->primaryPropertySpecification = $this->createMock(PropertySpecificationInterface::class);
         $this->secondaryPropertySpecification = $this->createMock(SecondaryPropertySpecification::class);

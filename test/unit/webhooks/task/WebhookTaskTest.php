@@ -71,7 +71,7 @@ class WebhookTaskTest extends TestCase
     private WebhookEventLogInterface|MockObject $webhookLogServiceMock;
     private WebhookTaskReports|MockObject $webhookTaskReports;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->webhookRegistryMock = $this->createMock(WebhookRegistryInterface::class);
         $this->webhookPayloadFactoryInterfaceMock = $this->createMock(WebhookPayloadFactoryInterface::class);

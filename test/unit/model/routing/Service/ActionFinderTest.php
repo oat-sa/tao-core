@@ -56,7 +56,7 @@ class ActionFinderTest extends TestCase
     /** @var MockObject|ContainerInterface */
     private $container;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

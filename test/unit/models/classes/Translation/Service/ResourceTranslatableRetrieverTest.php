@@ -43,7 +43,7 @@ class ResourceTranslatableRetrieverTest extends TestCase
     /** @var MockObject|ServerRequestInterface */
     private $request;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->resourceTranslatableRepository = $this->createMock(ResourceTranslatableRepository::class);
         $this->request = $this->createMock(ServerRequestInterface::class);

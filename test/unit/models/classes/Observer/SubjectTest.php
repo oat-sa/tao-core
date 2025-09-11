@@ -32,7 +32,7 @@ class SubjectTest extends TestCase
     /** @var Subject */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new Subject(['data' => 'value']);
     }

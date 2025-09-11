@@ -51,7 +51,7 @@ class ElementPropertyEmptyListValuesFactoryTest extends TestCase
     /** @var tao_helpers_form_elements_xhtml_Combobox|MockObject */
     private $element;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->primaryPropertySpecification = $this->createMock(PropertySpecificationInterface::class);
         $this->secondaryPropertySpecification = $this->createMock(SecondaryPropertySpecification::class);

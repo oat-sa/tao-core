@@ -39,7 +39,7 @@ class ResultFilterFactoryTest extends TestCase
     private ResultFilterFactory $subject;
     private StatementLastIdRetriever|MockObject $statementLastIdRetriever;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new ResultFilterFactory();
         $this->statementLastIdRetriever = $this->createMock(StatementLastIdRetriever::class);

@@ -30,7 +30,7 @@ class KeyChainQueryTest extends TestCase
     /** @var KeyChainQuery */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new KeyChainQuery('123456');
     }

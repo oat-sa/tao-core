@@ -48,7 +48,7 @@ class ParentPropertyListRepositoryTest extends TestCase
     private valueCollection|MockObject $valueCollection;
     private ComplexSearchService|MockObject $complexSearchService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->rdsCollectionRepository = $this->createMock(RdsValueCollectionRepository::class);
         $this->valueCollection = $this->createMock(ValueCollection::class);

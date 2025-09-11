@@ -49,7 +49,7 @@ class QueueMigrationServiceTest extends TestCase
     private ResultFilter|MockObject $resultFilterMock;
     private SpawnMigrationConfigServiceInterface|MockObject $spawnMigrationConfigServiceMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->resultSearcherMock = $this->createMock(ResultSearcherInterface::class);
         $this->resultUnitProcessorMock = $this->createMock(ResultUnitProcessorInterface::class);

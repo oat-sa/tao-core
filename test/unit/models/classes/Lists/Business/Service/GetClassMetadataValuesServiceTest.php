@@ -47,7 +47,7 @@ class GetClassMetadataValuesServiceTest extends TestCase
     private ValueCollectionService|MockObject $valueCollectionServiceMock;
     private Value|MockObject $valueMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new GetClassMetadataValuesService();
         $this->valueCollectionServiceMock = $this->createMock(ValueCollectionService::class);

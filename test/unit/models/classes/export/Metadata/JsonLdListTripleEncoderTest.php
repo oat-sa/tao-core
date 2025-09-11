@@ -59,7 +59,7 @@ class JsonLdListTripleEncoderTest extends TestCase
     /** @var JsonLdListTripleEncoder */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->valueCollectionService = $this->createMock(ValueCollectionService::class);
         $this->remoteListClassSpecification = $this->createMock(RemoteListClassSpecification::class);

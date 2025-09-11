@@ -39,7 +39,7 @@ class ResourceMovedEventTest extends TestCase
     /** @var ResourceMovedEvent */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->resourceMock  = $this->createMock(core_kernel_classes_Resource::class);
         $this->classMock = $this->createMock(core_kernel_classes_Class::class);

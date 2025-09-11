@@ -44,7 +44,7 @@ class ClassMetadataServiceTest extends TestCase
     private ClassMetadataSearchInput|MockObject $classMetadataSearchInputMock;
     private core_kernel_classes_Property|MockObject $property;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->repositoryMock = $this->createMock(ValueCollectionRepositoryInterface::class);
         $valueCollectionServiceMock = $this->createMock(GetClassMetadataValuesService::class);

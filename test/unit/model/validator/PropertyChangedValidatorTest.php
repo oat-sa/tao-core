@@ -34,7 +34,7 @@ class PropertyChangedValidatorTest extends TestCase
     /** @var PropertyChangedValidator  */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new PropertyChangedValidator();
     }

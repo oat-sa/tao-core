@@ -57,7 +57,7 @@ class ControllerServiceTest extends TestCase
 
     private ControllerService $service;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

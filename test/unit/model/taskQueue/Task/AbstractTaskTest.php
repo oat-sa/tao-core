@@ -35,7 +35,7 @@ class AbstractTaskTest extends TestCase
     private $fakeId = 'ADFA23234sdfsdf';
     private $fakeOwner = 'FakeOwner';
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->abstractTaskMock = $this->getMockBuilder(AbstractTask::class)
             ->setConstructorArgs([$this->fakeId, $this->fakeOwner])

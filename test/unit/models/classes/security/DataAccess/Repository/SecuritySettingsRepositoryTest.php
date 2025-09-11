@@ -40,7 +40,7 @@ class SecuritySettingsRepositoryTest extends TestCase
     /** @var SecuritySettingsRepository */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->storage = $this->createMock(SettingsStorage::class);
 

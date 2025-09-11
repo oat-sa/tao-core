@@ -32,7 +32,7 @@ class ResourceTranslatableTest extends TestCase
 {
     private ResourceTranslatable $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new ResourceTranslatable('resourceUri', 'resourceLabel');
         $this->sut->addMetadata(TaoOntology::PROPERTY_LANGUAGE, 'languageUri', 'en-US');

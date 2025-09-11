@@ -42,7 +42,7 @@ class ClassMetadataSearcherProxyTest extends TestCase
     private ClassMetadataSearcherInterface|MockObject $searcher;
     private LoggerService|MockObject $logger;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new ClassMetadataSearcherProxy(
             [

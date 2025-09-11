@@ -36,7 +36,7 @@ class CallbackTaskTest extends TestCase
     private $fakeId = 'WCDWW544eefdtyh';
     private $fakeOwner = 'FakeOwner2';
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->task = new CallbackTask($this->fakeId, $this->fakeOwner);
     }

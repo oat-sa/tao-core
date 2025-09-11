@@ -36,7 +36,7 @@ class ItemResourceRelationServiceTest extends TestCase
     private ItemResourceRelationService $subject;
     private Ontology|MockObject $ontology;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->subject = new ItemResourceRelationService(

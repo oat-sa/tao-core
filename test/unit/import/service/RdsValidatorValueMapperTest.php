@@ -66,7 +66,7 @@ class RdsValidatorValueMapperTest extends TestCase
     protected function getService($retProperty, $resource, $searchInstances = [])
     {
         $service = $this->getMockBuilder(RdsValidatorValueMapper::class)->disableOriginalConstructor()
-            ->setMethods(['getOption','getClass'])->getMockForAbstractClass();
+            ->onlyMethods(['getOption','getClass'])->getMockForAbstractClass();
 
         $classMock = $this->getMockBuilder(core_kernel_classes_Class::class)->disableOriginalConstructor()->getMock();
         $classMock
@@ -100,7 +100,7 @@ class RdsValidatorValueMapperTest extends TestCase
     protected function mockResource($instanceOf)
     {
         $mock = $this->getMockBuilder(core_kernel_classes_Resource::class)
-            ->setMethods(['isInstanceOf'])
+            ->onlyMethods(['isInstanceOf'])
             ->disableOriginalConstructor()->getMock();
 
         $mock->method('isInstanceOf')->willReturn($instanceOf);

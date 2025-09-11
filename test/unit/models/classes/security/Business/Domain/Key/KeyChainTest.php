@@ -40,7 +40,7 @@ class KeyChainTest extends TestCase
     /** @var Key */
     private $privateKey;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->privateKey = new Key('123456');
         $this->publicKey = new Key('654321');

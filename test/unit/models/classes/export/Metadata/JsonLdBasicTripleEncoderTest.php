@@ -43,7 +43,7 @@ class JsonLdBasicTripleEncoderTest extends TestCase
     /** @var JsonLdBasicTripleEncoder */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new JsonLdBasicTripleEncoder();
     }

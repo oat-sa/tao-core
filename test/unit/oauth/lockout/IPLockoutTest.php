@@ -38,7 +38,7 @@ class IPLockoutTest extends TestCase
     private LockoutStorageInterface|MockObject $lockStorageMock;
     private IPLockout $lockoutService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->lockStorageMock = $this->createMock(RdsLockoutStorage::class);
 

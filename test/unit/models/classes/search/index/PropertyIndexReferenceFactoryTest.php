@@ -42,7 +42,7 @@ class PropertyIndexReferenceFactoryTest extends TestCase
     /** @var PropertyIndexReferenceFactory */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new PropertyIndexReferenceFactory();
     }

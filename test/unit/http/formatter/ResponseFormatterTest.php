@@ -33,7 +33,7 @@ class ResponseFormatterTest extends TestCase
      */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new ResponseFormatter();
     }

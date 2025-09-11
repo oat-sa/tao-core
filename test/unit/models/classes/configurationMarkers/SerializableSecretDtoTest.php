@@ -31,7 +31,7 @@ class SerializableSecretDtoTest extends TestCase
     private ?string $envUser;
     private ?string $envPassword;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->envHost = $_ENV['PERSISTENCES_PGSQL_HOST'] ?? null;
         $this->envUser = $_ENV['PERSISTENCES_PGSQL_USER'] ?? null;

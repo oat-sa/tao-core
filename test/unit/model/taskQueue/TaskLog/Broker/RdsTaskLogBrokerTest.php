@@ -40,7 +40,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
     private RdsTaskLogBroker $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $persistenceId = 'rds_task_log_test';
         $databaseMock = $this->getPersistenceManagerMock($persistenceId);
@@ -48,7 +48,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
         $persistenceManager = $this->getMockBuilder(PersistenceManager::class)
         ->disableOriginalConstructor()
-        ->setMethods(['getPersistenceById'])
+        ->onlyMethods(['getPersistenceById'])
         ->getMock();
         $persistenceManager
             ->method('getPersistenceById')
@@ -79,7 +79,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
         $serviceManagerMock = $this->getMockBuilder(ServiceManager::class)
             ->disableOriginalConstructor()
-            ->setMethods(['get'])
+            ->onlyMethods(['get'])
             ->getMock();
 
         $serviceManagerMock->expects($this->once())
@@ -88,7 +88,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
         $rdsLogBrokerMock = $this->getMockBuilder(RdsTaskLogBroker::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getServiceLocator'])
+            ->onlyMethods(['getServiceLocator'])
             ->getMock();
 
         $rdsLogBrokerMock->expects($this->once())

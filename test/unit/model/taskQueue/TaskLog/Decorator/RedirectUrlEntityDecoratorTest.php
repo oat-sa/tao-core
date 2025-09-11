@@ -78,7 +78,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
         $redirectUrlEntityDecoratorMock = $this->getMockBuilder(RedirectUrlEntityDecorator::class)
             ->setConstructorArgs([$entity, $taskLog, new AnonymousUser()])
-            ->setMethods(['hasAccess'])
+            ->onlyMethods(['hasAccess'])
             ->getMock();
         $redirectUrlEntityDecoratorMock->expects($this->once())->method('hasAccess')->willReturn(false);
 
@@ -105,7 +105,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
         $redirectUrlEntityDecoratorMock = $this->getMockBuilder(RedirectUrlEntityDecorator::class)
             ->setConstructorArgs([$entity, $taskLog, new AnonymousUser()])
-            ->setMethods(['hasAccess'])
+            ->onlyMethods(['hasAccess'])
             ->getMock();
         $redirectUrlEntityDecoratorMock->expects($this->once())->method('hasAccess')->willReturn(true);
 

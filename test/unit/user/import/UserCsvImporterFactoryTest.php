@@ -30,7 +30,7 @@ class UserCsvImporterFactoryTest extends TestCase
     {
         /** @var UserCsvImporterFactory $factory */
         $factory = $this->getMockBuilder(UserCsvImporterFactory::class)->disableOriginalConstructor()
-            ->setMethods(['buildService','getOption', 'propagate'])->getMock();
+            ->onlyMethods(['buildService','getOption', 'propagate'])->getMock();
 
         $factory
             ->method('buildService')

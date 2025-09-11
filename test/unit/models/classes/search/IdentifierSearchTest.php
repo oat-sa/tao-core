@@ -41,7 +41,7 @@ class IdentifierSearchTest extends TestCase
     private IdentifierSearcher $subject;
     private Ontology|MockObject $ontology;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
 

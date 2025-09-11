@@ -39,7 +39,7 @@ class SectionVisibilityFilterTest extends TestCase
     private SectionVisibilityFilter $subject;
     private FeatureFlagChecker|MockObject $featureFlagChecker;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
         $userSettingsService = $this->createMock(UserSettingsService::class);

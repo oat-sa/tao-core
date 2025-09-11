@@ -48,7 +48,7 @@ class AgnosticImportHandlerTest extends TestCase
     /** @var ImportFileProcessorInterface|MockObject */
     private $processor;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->errorHandler = $this->createMock(ImportFileErrorHandlerInterface::class);
         $this->processor = $this->createMock(ImportFileProcessorInterface::class);

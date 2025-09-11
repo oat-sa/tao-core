@@ -38,7 +38,7 @@ class PropertySpecificationContextTest extends TestCase
     /** @var array */
     private $data;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->property = $this->createMock(core_kernel_classes_Property::class);
         $this->data = [];

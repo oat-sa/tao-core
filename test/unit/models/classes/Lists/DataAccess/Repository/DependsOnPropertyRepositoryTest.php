@@ -59,7 +59,7 @@ class DependsOnPropertyRepositoryTest extends TestCase
     /** @var ParentPropertyListRepositoryInterface|MockObject */
     private $parentPropertyListRepository;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
         $this->primaryPropertySpecification = $this->createMock(PrimaryPropertySpecification::class);

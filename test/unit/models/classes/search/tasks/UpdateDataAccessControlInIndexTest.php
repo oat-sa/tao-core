@@ -47,7 +47,7 @@ class UpdateDataAccessControlInIndexTest extends TestCase
     private LoggerInterface $logger;
     private Ontology|MockObject $ontology;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new UpdateDataAccessControlInIndex();
         $this->indexUpdater = $this->createMock(IndexUpdaterInterface::class);

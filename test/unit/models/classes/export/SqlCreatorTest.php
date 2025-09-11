@@ -15,10 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\test\unit\model\export;
+declare(strict_types=1);
+
+namespace oat\tao\test\unit\models\classes\export;
 
 use PHPUnit\Framework\TestCase;
 use oat\tao\model\export\implementation\sql\ExportedColumn;

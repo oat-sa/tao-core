@@ -40,7 +40,7 @@ class UploadServiceTest extends TestCase
     private FileSystemService|MockObject $fileSystemService;
     private Directory|MockObject $directory;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->fileSystemService = $this->createMock(FileSystemService::class);
         $this->directory = $this->createMock(Directory::class);

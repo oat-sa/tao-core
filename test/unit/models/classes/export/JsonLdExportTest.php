@@ -41,7 +41,7 @@ class JsonLdExportTest extends TestCase
     /** @var JsonLdTripleEncoderInterface|MockObject */
     private $tripleEncoder;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->tripleEncoder = $this->createMock(JsonLdTripleEncoderInterface::class);

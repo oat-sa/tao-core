@@ -32,7 +32,7 @@ class SpawnMigrationConfigServiceTest extends TestCase
     /** @var SpawnMigrationConfigService */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new SpawnMigrationConfigService();
     }

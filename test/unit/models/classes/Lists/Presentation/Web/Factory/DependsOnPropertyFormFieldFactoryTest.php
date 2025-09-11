@@ -50,7 +50,7 @@ class DependsOnPropertyFormFieldFactoryTest extends TestCase
     /** @var tao_helpers_form_elements_xhtml_Combobox|MockObject */
     private $element;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
         $this->dependsOnPropertyRepository = $this->createMock(DependsOnPropertyRepository::class);

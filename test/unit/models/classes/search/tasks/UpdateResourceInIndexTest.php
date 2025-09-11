@@ -49,8 +49,9 @@ class UpdateResourceInIndexTest extends TestCase
     private core_kernel_classes_Resource|MockObject $resource2;
     private IndexDocument|MockObject $document1;
     private IndexDocument|MockObject $document2;
+    private AdvancedSearchChecker|MockObject $checker;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->documentBuilder = $this->createMock(
             IndexDocumentBuilderInterface::class
@@ -76,8 +77,8 @@ class UpdateResourceInIndexTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $this->checker = $this->createMock(AdvancedSearchChecker::class);
 
-        $this->ontology = $this->createMock(Ontology::class);
-        $this->ontology
+        $ontology = $this->createMock(Ontology::class);
+        $ontology
             ->method('getResource')
             ->willReturnCallback(function (string $uri) {
                 switch ($uri) {
@@ -94,7 +95,7 @@ class UpdateResourceInIndexTest extends TestCase
             [
                 Search::SERVICE_ID => $this->search,
                 LoggerService::SERVICE_ID => $logger,
-                Ontology::SERVICE_ID => $this->ontology,
+                Ontology::SERVICE_ID => $ontology,
                 AdvancedSearchChecker::class => $this->checker,
                 AdvancedSearchIndexDocumentBuilder::class => $this->documentBuilder
             ]

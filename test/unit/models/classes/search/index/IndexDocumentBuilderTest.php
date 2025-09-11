@@ -75,7 +75,7 @@ class IndexDocumentBuilderTest extends TestCase
     /** @var PermissionInterface|MockObject */
     private $permissionProvider;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontologyMock = $this->createMock(Ontology::class);
         $this->resourceMock = $this->createMock(

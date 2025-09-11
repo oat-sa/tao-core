@@ -31,7 +31,7 @@ class ReaderFactoryTest extends TestCase
     /** @var ReaderFactory */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new ReaderFactory();
     }

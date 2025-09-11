@@ -36,7 +36,7 @@ class PositionTrackerTest extends TestCase
     private PositionTracker $subject;
     private common_persistence_KeyValuePersistence|MockObject $persistenceMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new PositionTracker();
         $persistenceManagerMock = $this->createMock(PersistenceManager::class);

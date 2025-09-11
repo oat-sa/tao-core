@@ -45,7 +45,7 @@ class UpdateClassInIndexTest extends TestCase
     private Search|MockObject $search;
     private LoggerInterface|MockObject $logger;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->indexIterator = $this->createMock(IndexIteratorFactory::class);
 

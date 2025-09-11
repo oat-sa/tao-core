@@ -48,7 +48,7 @@ class UserSettingsServiceTest extends TestCase
     private tao_models_classes_UserService|MockObject $userService;
     private FeatureFlagCheckerInterface|MockObject $featureFlagChecker;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $userTimezoneService = $this->getUserTimezoneServiceMock();
         $this->userSettings = $this->createMock(UserSettings::class);

@@ -30,7 +30,7 @@ class JwkTest extends TestCase
     /** @var Jwk */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new Jwk('kty', 'e', 'n', 'kid', 'alg', 'use');
     }

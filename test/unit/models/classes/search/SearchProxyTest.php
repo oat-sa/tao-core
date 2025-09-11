@@ -52,7 +52,7 @@ class SearchProxyTest extends TestCase
     private SearchInterface|MockObject $advancedSearch;
     private FeatureFlagChecker|MockObject $featureFlagChecker;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->advancedSearchCheckerMock = $this->createMock(AdvancedSearchChecker::class);
         $this->identifierSearcher = $this->createMock(IdentifierSearcher::class);

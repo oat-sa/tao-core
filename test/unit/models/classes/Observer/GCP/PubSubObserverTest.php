@@ -45,7 +45,7 @@ class PubSubObserverTest extends TestCase
     /** @var Topic|MockObject */
     private $pubSubTopic;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         if (!class_exists(PubSubClient::class)) {
             return;

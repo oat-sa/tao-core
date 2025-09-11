@@ -51,7 +51,7 @@ class JsonLdTripleEncoderProxyTest extends TestCase
     /** @var JsonLdTripleEncoderProxy */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->jsonLdTripleEncoder = $this->createMock(JsonLdTripleEncoderInterface::class);

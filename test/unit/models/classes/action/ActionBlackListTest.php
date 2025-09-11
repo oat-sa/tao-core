@@ -35,7 +35,7 @@ class ActionBlackListTest extends TestCase
     private ActionBlackList $subject;
     private FeatureFlagChecker|MockObject $featureFlagChecker;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
         $this->subject = new ActionBlackList();

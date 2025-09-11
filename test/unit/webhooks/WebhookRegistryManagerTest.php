@@ -39,7 +39,7 @@ class WebhookRegistryManagerTest extends TestCase
     private WebhookFileRegistry|MockObject $webhookFileRegistryMock;
     private Webhook|MockObject $webhookMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->webhookMock = $this->createMock(Webhook::class);
         $this->webhookFileRegistryMock = $this->createMock(WebhookFileRegistry::class);

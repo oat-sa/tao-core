@@ -47,7 +47,7 @@ class ElementPropertyListValuesFactoryTest extends TestCase
     /** @var MockObject|tao_helpers_form_elements_xhtml_Combobox */
     private $element;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->remoteListClassSpecification = $this->createMock(ClassSpecificationInterface::class);
         $this->listService = $this->createMock(tao_models_classes_ListService::class);

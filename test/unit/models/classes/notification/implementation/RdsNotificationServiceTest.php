@@ -77,7 +77,7 @@ class RdsNotificationServiceTest extends TestCase
     private Persistence|MockObject $persistenceMock;
     private AbstractPlatform|MockObject $platformMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->persistenceMock = $this->createMock(common_persistence_SqlPersistence::class);
         $this->notificationMock = $this->createMock(Notification::class);

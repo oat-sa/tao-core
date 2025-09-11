@@ -49,7 +49,7 @@ class UpdateExtensionsTest extends TestCase
 {
     use PersistenceManagerMockTrait;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         defined('TAO_VERSION') ?: define('TAO_VERSION', 'TAO_VERSION');
     }

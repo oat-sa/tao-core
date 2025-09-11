@@ -43,7 +43,7 @@ class GenerisSearchBridgeTest extends TestCase
     private Ontology|MockObject $ontology;
     private Search|MockObject $searchEngineMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->searchEngineMock = $this->createMock(Search::class);
         $this->ontology = $this->createMock(Ontology::class);

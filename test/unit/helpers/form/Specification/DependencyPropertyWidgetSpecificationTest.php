@@ -32,7 +32,7 @@ class DependencyPropertyWidgetSpecificationTest extends TestCase
     /** @var DependencyPropertyWidgetSpecification */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new DependencyPropertyWidgetSpecification();
     }

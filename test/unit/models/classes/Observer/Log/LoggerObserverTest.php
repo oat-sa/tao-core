@@ -36,7 +36,7 @@ class LoggerObserverTest extends TestCase
     /** @var LoggerObserver */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->subject = new LoggerObserver($this->logger);

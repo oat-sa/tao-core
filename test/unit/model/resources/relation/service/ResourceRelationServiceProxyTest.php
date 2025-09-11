@@ -36,7 +36,7 @@ class ResourceRelationServiceProxyTest extends TestCase
     private ResourceRelationServiceProxy $subject;
     private ResourceRelationServiceInterface|MockObject $resourceRelationService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->resourceRelationService = $this->createMock(ResourceRelationServiceInterface::class);
         $this->subject = new ResourceRelationServiceProxy();

@@ -42,7 +42,7 @@ class ActionAccessControlTest extends TestCase
     private TestUser $user;
     private ContextInterface|MockObject $context;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new ActionAccessControl();
         $this->sut->setServiceLocator(

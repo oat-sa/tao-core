@@ -31,7 +31,7 @@ class ReportBuilderTest extends TestCase
     /** @var ReportBuilder */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new ReportBuilder();
     }

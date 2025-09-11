@@ -56,7 +56,7 @@ class GenerisInstanceDataBinderTest extends TestCase
     private core_kernel_classes_ContainerCollection|MockObject $emptyCollectionMock;
     private core_kernel_classes_ContainerCollection|MockObject $nonEmptyCollectionMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);
         $widget = $this->createMock(core_kernel_classes_Property::class);

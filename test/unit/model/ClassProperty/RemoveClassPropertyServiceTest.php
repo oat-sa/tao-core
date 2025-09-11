@@ -30,7 +30,7 @@ class RemoveClassPropertyServiceTest extends TestCase
     /** @var RemoveClassPropertyService */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new RemoveClassPropertyService();
     }

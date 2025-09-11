@@ -31,7 +31,7 @@ class ResourceCollectionTest extends TestCase
 {
     private ResourceCollection $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new ResourceCollection(...[]);
     }

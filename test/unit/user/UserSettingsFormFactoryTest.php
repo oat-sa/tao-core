@@ -54,7 +54,7 @@ class UserSettingsFormFactoryTest extends TestCase
      */
     private $languageService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontologyMock = $this->getOntologyMock();
         $this->languageService = $this->getLanguageServiceMock();

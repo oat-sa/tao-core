@@ -37,7 +37,7 @@ class ElasticSearchBridgeTest extends TestCase
     private ElasticSearchBridge $subject;
     private Search|MockObject $searchEngineMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->searchEngineMock = $this->createMock(Search::class);
 

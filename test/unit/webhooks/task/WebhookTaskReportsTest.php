@@ -47,7 +47,7 @@ class WebhookTaskReportsTest extends TestCase
     private ServiceManager|MockObject $serviceLocatorMock;
     private WebhookTaskContext|MockObject $taskContextMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->webhookEventLogMock = $this->createMock(WebhookEventLogInterface::class);
         $this->loggerMock = $this->createMock(LoggerInterface::class);

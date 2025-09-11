@@ -15,14 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2022-2025 (original work) Open Assessment Technologies SA;
  *
  * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\unit\test\model\featureFlag\Repository;
+namespace oat\tao\test\unit\models\classes\featureFlag\Repository;
 
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
@@ -44,7 +44,7 @@ class FeatureFlagRepositoryTest extends TestCase
     /** @var Ontology|MockObject */
     private $ontology;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->cache = $this->createMock(CacheInterface::class);

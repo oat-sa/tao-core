@@ -35,7 +35,7 @@ class FeatureFlagCheckerTest extends TestCase
     private FeatureFlagChecker $subject;
     private FeatureFlagRepositoryInterface|MockObject $featureFlagRepository;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->featureFlagRepository = $this->createMock(FeatureFlagRepositoryInterface::class);
         $this->subject = new FeatureFlagChecker();
