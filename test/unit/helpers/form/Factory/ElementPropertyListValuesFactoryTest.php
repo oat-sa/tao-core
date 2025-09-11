@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\helpers\test\unit\helpers\form\Factory;
 
 use core_kernel_classes_Class;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\form\Factory\AbstractElementPropertyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementFactoryContext;
 use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;

@@ -29,7 +29,7 @@ use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use tao_helpers_form_elements_Combobox;
 
 class PropertyListValidatorTest extends TestCase

@@ -24,7 +24,7 @@ namespace oat\tao\helpers\test\unit\helpers\form\Decorator;
 
 use tao_helpers_form_Form;
 use core_kernel_classes_Class;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use tao_helpers_form_FormElement;

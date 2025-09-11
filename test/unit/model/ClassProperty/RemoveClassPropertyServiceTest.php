@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\ClassProperty;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 
 class RemoveClassPropertyServiceTest extends TestCase

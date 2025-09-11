@@ -15,19 +15,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\resources;
+namespace oat\tao\test\unit\models\classes\resources;
 
 use common_cache_Cache;
 use common_cache_NotFoundException;
 use common_exception_Error;
 use core_kernel_classes_Class;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
 use oat\tao\model\resources\GetAllChildrenCacheKeyFactory;
@@ -40,18 +40,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class SecureResourceCachedServiceTest extends TestCase
 {
-    /**
-     * @var SecureResourceService|MockObject
-     */
-    private $service;
-    /**
-     * @var SecureResourceCachedService
-     */
-    private $cachedService;
-    /**
-     * @var common_cache_Cache|MockObject
-     */
-    private $cache;
+    use ServiceManagerMockTrait;
+
+    private SecureResourceService|MockObject $service;
+    private SecureResourceCachedService $cachedService;
+    private common_cache_Cache|MockObject $cache;
 
     protected function setUp(): void
     {
@@ -64,7 +57,7 @@ class SecureResourceCachedServiceTest extends TestCase
         $this->service = $this->createMock(SecureResourceService::class);
         $this->cache = $this->createMock(common_cache_Cache::class);
 
-        $sl = $this->getServiceLocatorMock(
+        $sl = $this->getServiceManagerMock(
             [
                 SessionService::SERVICE_ID => $sessionService,
                 common_cache_Cache::SERVICE_ID => $this->cache,

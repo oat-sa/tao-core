@@ -22,7 +22,7 @@
 namespace oat\tao\test\unit\model\textConverter;
 
 use oat\tao\model\textConverter\NullTextConverter;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class nullTextConverterTest extends TestCase
 {

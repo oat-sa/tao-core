@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\models\classes\actionQueue\implementation;
 
 use oat\tao\model\actionQueue\ActionQueueException;
 use oat\tao\model\actionQueue\implementation\InstantActionQueue;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\actionQueue\QueuedAction;
 
 class InstantActionQueueTest extends TestCase

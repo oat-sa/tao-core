@@ -21,7 +21,7 @@
 
 namespace oat\tao\test\unit\datatable;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\datatable\implementation\DatatableRequest;
 use Slim\Http\Environment;
 use Slim\Http\Request;

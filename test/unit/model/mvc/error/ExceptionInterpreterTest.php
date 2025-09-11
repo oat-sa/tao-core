@@ -24,7 +24,7 @@ use ActionEnforcingException;
 use Exception;
 use oat\oatbox\user\LoginFailedException;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use ResolverException;
 use tao_models_classes_FileNotFoundException;
 use tao_models_classes_UserException;

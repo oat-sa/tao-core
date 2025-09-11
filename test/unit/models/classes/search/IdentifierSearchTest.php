@@ -15,30 +15,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\search;
+namespace oat\tao\test\unit\models\classes\search;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\search\IdentifierSearcher;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\SearchQuery;
 
 class IdentifierSearchTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private const LOCAL_NAMESPACE = 'http://something';
 
-    /** @var IdentifierSearcher */
-    private $subject;
-
-    /** @var Ontology */
-    private $ontology;
+    private IdentifierSearcher $subject;
+    private Ontology|MockObject $ontology;
 
     public function setUp(): void
     {
@@ -47,7 +48,7 @@ class IdentifierSearchTest extends TestCase
         $this->subject = new IdentifierSearcher();
         $this->subject->withLocalNamespace(self::LOCAL_NAMESPACE);
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     Ontology::SERVICE_ID => $this->ontology,
                 ]

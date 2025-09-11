@@ -27,7 +27,7 @@ use DateTimeZone;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class TaskLogEntityTest extends TestCase
 {

@@ -24,7 +24,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\tao\model\import\service\RdsResourceNotFoundException;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\generis\test\MockObject;
 
 class RdsValidatorValueMapperTest extends TestCase

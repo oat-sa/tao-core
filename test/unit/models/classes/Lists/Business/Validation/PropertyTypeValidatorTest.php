@@ -31,7 +31,7 @@ use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class PropertyTypeValidatorTest extends TestCase
 {

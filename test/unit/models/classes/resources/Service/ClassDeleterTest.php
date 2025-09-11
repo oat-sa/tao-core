@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\model\resources\Service;
 
 use ArrayIterator;
 use core_kernel_classes_Class;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;

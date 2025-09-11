@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\Observer\Log;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Observer\Log\LoggerObserver;
 use oat\tao\model\Observer\SubjectInterface;
 use PHPUnit\Framework\MockObject\MockObject;

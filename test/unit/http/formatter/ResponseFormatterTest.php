@@ -22,7 +22,7 @@ namespace oat\tao\test\unit\http;
 
 use DateTime;
 use GuzzleHttp\Psr7\Response;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\http\formatter\ResponseFormatter;
 use oat\tao\model\http\response\SuccessJsonResponse;
 

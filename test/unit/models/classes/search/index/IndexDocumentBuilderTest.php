@@ -30,7 +30,7 @@ use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\data\permission\ReverseRightLookupInterface;
 use oat\generis\test\OntologyMockTrait;
 use oat\generis\test\ServiceManagerMockTrait;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;

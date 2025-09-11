@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\security\Business\Domain\Key;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\security\Business\Domain\Key\Key;
 use oat\tao\model\security\Business\Domain\Key\KeyChain;
 

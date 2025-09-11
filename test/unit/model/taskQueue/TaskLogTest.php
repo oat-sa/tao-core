@@ -25,7 +25,7 @@ use common_exception_NotFound;
 use Exception;
 use InvalidArgumentException;
 use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;

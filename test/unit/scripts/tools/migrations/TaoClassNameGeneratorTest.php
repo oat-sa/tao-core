@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\scripts\tools\migrations;
 
 use common_ext_Extension as Extension;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\scripts\tools\migrations\TaoClassNameGenerator;
 
 class TaoClassNameGeneratorTest extends TestCase

@@ -20,7 +20,7 @@
 
 namespace oat\tao\test\model\websource;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\filesystem\FileSystem;
 use oat\tao\model\websource\BaseWebsource;
 use oat\generis\test\MockObject;

@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\StatisticalMetadata\Import\Extractor;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataAliasesExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataHeadersExtractor;

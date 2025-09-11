@@ -32,7 +32,7 @@ use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\MockObject;
 use oat\generis\test\ServiceManagerMockTrait;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\event\EventAggregator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;

@@ -4,7 +4,7 @@ namespace oat\test\model\Tree;
 
 use oat\tao\model\Tree\GetTreeRequest;
 use Request;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class GetTreeRequestTest extends TestCase
 {

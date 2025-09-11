@@ -20,7 +20,7 @@
 
 namespace oat\tao\test\unit\model\notification;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\notification\Notification;
 
 class NotificationTest extends TestCase

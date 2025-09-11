@@ -21,7 +21,8 @@
 
 namespace oat\tao\test\unit\model\taskQueue\Task;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\action\ActionService;
 use oat\tao\model\taskQueue\Task\CallbackTask;
 use oat\tao\model\taskQueue\Task\TaskInterface;
@@ -29,15 +30,14 @@ use oat\tao\model\taskQueue\Task\TaskSerializerService;
 
 class TaskSerializerServiceTest extends TestCase
 {
-    /**
-     * @throws \Exception
-     */
+    use ServiceManagerMockTrait;
+
     public function testDeserialize()
     {
         $service = new TaskSerializerService();
 
         $service->setServiceLocator(
-            $this->getServiceLocatorMock([
+            $this->getServiceManagerMock([
                 ActionService::SERVICE_ID => $this->mockActionService()
             ])
         );

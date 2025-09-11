@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018-2025 (original work) Open Assessment Technologies SA;
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
@@ -24,15 +24,17 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\routing;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\log\logger\AdvancedLogger;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\routing\AnnotationReaderService;
 
 class RouteAnnotationServiceTest extends TestCase
 {
-    /** @var RouteAnnotationService */
-    private $sut;
+    use ServiceManagerMockTrait;
+
+    private RouteAnnotationService $sut;
 
     protected function setUp(): void
     {
@@ -76,7 +78,7 @@ class RouteAnnotationServiceTest extends TestCase
 
         $this->sut = new RouteAnnotationService();
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock([
+            $this->getServiceManagerMock([
                 AdvancedLogger::ACL_SERVICE_ID => $this->createMock(AdvancedLogger::class),
                 AnnotationReaderService::SERVICE_ID => $annotationReaderService,
             ])

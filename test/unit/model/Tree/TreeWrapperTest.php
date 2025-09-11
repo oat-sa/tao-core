@@ -3,7 +3,7 @@
 namespace oat\test\model\Tree;
 
 use oat\tao\model\Tree\TreeWrapper;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class TreeWrapperTest extends TestCase
 {

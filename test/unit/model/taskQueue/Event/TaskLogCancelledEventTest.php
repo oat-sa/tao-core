@@ -21,7 +21,7 @@
 
 namespace oat\tao\test\unit\model\taskQueue\Event;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\taskQueue\Event\TaskLogCancelledEvent;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 

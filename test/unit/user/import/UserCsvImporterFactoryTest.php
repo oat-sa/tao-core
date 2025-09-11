@@ -22,7 +22,7 @@ namespace oat\tao\test\unit\user\import;
 
 use oat\tao\model\import\service\ImportServiceInterface;
 use oat\tao\model\user\import\UserCsvImporterFactory;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class UserCsvImporterFactoryTest extends TestCase
 {

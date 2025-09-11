@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Business\Domain;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Lists\Business\Domain\ClassMetadataSearchRequest;
 
 class ClassMetadataSearchRequestTest extends TestCase

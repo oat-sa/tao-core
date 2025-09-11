@@ -15,69 +15,53 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2025 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
+namespace oat\tao\test\unit\models\classes\dataBinding;
+
+use core_kernel_classes_Class;
+use core_kernel_classes_ContainerCollection;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\event\EventManager;
-use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
 use oat\tao\model\event\MetadataModified;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
+use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
+use tao_models_classes_dataBinding_GenerisInstanceDataBindingException;
 
 class GenerisInstanceDataBinderTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private const URI_CLASS_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
     private const URI_PROPERTY_1 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1';
     private const URI_PROPERTY_2 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2';
     private const URI_TYPE_1 = 'http://example.com/Type1';
     private const URI_TYPE_2 = 'http://example.com/Type2';
 
-    /** @var tao_models_classes_dataBinding_GenerisInstanceDataBinder */
-    private $sut;
-
-    /** @var core_kernel_classes_Resource|MockObject */
-    private $target;
-
-    /** @var core_kernel_classes_Class|MockObject */
-    private $classType1;
-
-    /** @var core_kernel_classes_Class|MockObject */
-    private $classType2;
-
-    /** @var core_kernel_classes_Property|MockObject */
-    private $property1;
-
-    /** @var core_kernel_classes_Property|MockObject */
-    private $property2;
-
-    /** @var EventManager|MockObject */
-    private $eventManagerMock;
-
-    /** @var core_kernel_classes_ContainerCollection|MockObject */
-    private $emptyCollectionMock;
-
-    /** @var core_kernel_classes_ContainerCollection|MockObject */
-    private $nonEmptyCollectionMock;
-
-    /** @var FeatureFlagCheckerInterface|MockObject */
-    private $featureFlagChecker;
-
-    /** @var Ontology|MockObject */
-    private $ontology;
-
-    /** @var core_kernel_classes_Property|MockObject */
-    private $widget;
+    private tao_models_classes_dataBinding_GenerisInstanceDataBinder $sut;
+    private core_kernel_classes_Resource|MockObject $target;
+    private core_kernel_classes_Class|MockObject $classType1;
+    private core_kernel_classes_Class|MockObject $classType2;
+    private core_kernel_classes_Property|MockObject $property1;
+    private core_kernel_classes_Property|MockObject $property2;
+    private EventManager|MockObject $eventManagerMock;
+    private core_kernel_classes_ContainerCollection|MockObject $emptyCollectionMock;
+    private core_kernel_classes_ContainerCollection|MockObject $nonEmptyCollectionMock;
 
     public function setUp(): void
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);
-        $this->widget = $this->createMock(core_kernel_classes_Property::class);
+        $widget = $this->createMock(core_kernel_classes_Property::class);
 
         $this->classType1 = $this->createMock(core_kernel_classes_Class::class);
         $this->classType1
@@ -112,11 +96,11 @@ class GenerisInstanceDataBinderTest extends TestCase
 
         $this->property1
             ->method('getWidget')
-            ->willReturn($this->widget);
+            ->willReturn($widget);
 
         $this->property2
             ->method('getWidget')
-            ->willReturn($this->widget);
+            ->willReturn($widget);
 
         $this->target
             ->method('getUri')
@@ -142,19 +126,19 @@ class GenerisInstanceDataBinderTest extends TestCase
             $this->target
         );
 
-        $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
-        $this->featureFlagChecker
+        $featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
+        $featureFlagChecker
             ->method('isEnabled')
             ->willReturn(false);
 
-        $this->ontology = $this->createMock(Ontology::class);
-        $this->ontology
+        $ontology = $this->createMock(Ontology::class);
+        $ontology
             ->method('getClass')
             ->willReturnMap([
                 [self::URI_TYPE_1, $this->classType1],
                 [self::URI_TYPE_2, $this->classType2],
             ]);
-        $this->ontology
+        $ontology
             ->method('getProperty')
             ->willReturnMap([
                 [self::URI_PROPERTY_1, $this->property1],
@@ -163,10 +147,10 @@ class GenerisInstanceDataBinderTest extends TestCase
 
         $this->sut->withEventManager($this->eventManagerMock);
         $this->sut->withServiceManager(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
-                    FeatureFlagChecker::class => $this->featureFlagChecker,
-                    Ontology::SERVICE_ID => $this->ontology
+                    FeatureFlagChecker::class => $featureFlagChecker,
+                    Ontology::SERVICE_ID => $ontology
                 ]
             )
         );

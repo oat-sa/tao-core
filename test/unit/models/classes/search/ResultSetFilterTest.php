@@ -15,23 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\test\unit\model\search;
+declare(strict_types=1);
 
-use oat\generis\test\TestCase;
+namespace oat\tao\test\unit\models\classes\search;
+
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\search\ResultSetFilter;
 use oat\tao\model\search\ResultSetMapper;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ResultSetFilterTest extends TestCase
 {
-    /** @var ResultSetFilter */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /** @var ResultSetMapper|MockObject */
-    private $resultSetMapperMock;
+    private ResultSetFilter $subject;
+    private ResultSetMapper|MockObject $resultSetMapperMock;
 
     protected function setUp(): void
     {
@@ -39,7 +41,7 @@ class ResultSetFilterTest extends TestCase
 
         $this->subject = new ResultSetFilter();
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     ResultSetMapper::SERVICE_ID => $this->resultSetMapperMock
                 ]

@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -27,7 +27,8 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\data\RdfsInterface;
 use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use oat\generis\test\PersistenceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ServiceManager;
@@ -46,6 +47,8 @@ use core_kernel_persistence_ClassInterface as ClassImplementation;
  */
 class UpdateExtensionsTest extends TestCase
 {
+    use PersistenceManagerMockTrait;
+
     public function setUp(): void
     {
         defined('TAO_VERSION') ?: define('TAO_VERSION', 'TAO_VERSION');
@@ -58,7 +61,7 @@ class UpdateExtensionsTest extends TestCase
         ServiceManager::setServiceManager(new ServiceManager($config));
         $config->set(ExtensionsManager::SERVICE_ID, $this->getExtensionManagerMock());
         $config->set(MigrationsService::SERVICE_ID, $this->getMigrationsServiceMock());
-        $config->set(PersistenceManager::SERVICE_ID, $this->getSqlMock('unittest'));
+        $config->set(PersistenceManager::SERVICE_ID, $this->getPersistenceManagerMock('unittest'));
         $config->set(Ontology::SERVICE_ID, $this->getOntologyMock());
         $config->set(AssetService::SERVICE_ID, new AssetService());
         $config->set('generis/log', new LoggerService([]));

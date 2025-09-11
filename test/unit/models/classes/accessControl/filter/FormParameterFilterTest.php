@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\accessControl\filter;
 
 use oat\tao\model\accessControl\filter\FormParameterFilter;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class FormParameterFilterTest extends TestCase
 {

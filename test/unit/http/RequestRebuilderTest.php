@@ -21,7 +21,7 @@
 namespace oat\tao\test\unit\http;
 
 use GuzzleHttp\Psr7\Request;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\http\RequestRebuilder;
 
 class RequestRebuilderTest extends TestCase

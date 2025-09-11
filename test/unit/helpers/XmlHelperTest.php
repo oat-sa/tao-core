@@ -23,7 +23,7 @@
 namespace oat\tao\test\unit\helpers;
 
 use common_exception_Error;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use tao_helpers_Xml;
 
 class XmlHelperTest extends TestCase

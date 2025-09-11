@@ -22,7 +22,7 @@ namespace oat\tao\test\unit\plugins;
 
 use common_exception_InconsistentData;
 use oat\tao\model\plugins\PluginModule;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test the PluginModule pojo

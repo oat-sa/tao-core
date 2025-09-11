@@ -22,7 +22,7 @@
 
 namespace oat\tao\test\unit\service;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\entryPoint\EntryPointService;
 
 class EntryPointServiceTest extends TestCase

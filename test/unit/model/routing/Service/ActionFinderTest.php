@@ -26,7 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use stdClass;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class DummyDependencyClass
 {

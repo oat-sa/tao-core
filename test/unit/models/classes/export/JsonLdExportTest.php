@@ -24,7 +24,7 @@ use core_kernel_classes_ContainerCollection;
 use core_kernel_classes_Property;
 use core_kernel_classes_Triple;
 use oat\generis\model\data\Ontology;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\export\JsonLdExport;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdTripleEncoderInterface;
 use PHPUnit\Framework\MockObject\MockObject;

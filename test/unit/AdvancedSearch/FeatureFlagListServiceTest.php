@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\AdvancedSearch;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\featureFlag\FeatureFlagChecker;

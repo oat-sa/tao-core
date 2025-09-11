@@ -29,7 +29,7 @@ use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\test\MockObject;
 use oat\generis\test\OntologyMockTrait;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\task\migration\service\StatementLastIdRetriever;
 
 class StatementLastIdRetrieverTest extends TestCase

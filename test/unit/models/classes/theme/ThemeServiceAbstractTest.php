@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\theme;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ThemeServiceAbstractTest extends TestCase

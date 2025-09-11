@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\helpers\test\unit\helpers\form\Factory;
 
 use core_kernel_classes_Property;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\form\Factory\ElementFactoryContext;
 use PHPUnit\Framework\MockObject\MockObject;
 

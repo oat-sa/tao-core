@@ -28,7 +28,7 @@
 
  */
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class UriHelperTest extends TestCase
 {

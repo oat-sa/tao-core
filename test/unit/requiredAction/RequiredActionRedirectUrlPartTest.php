@@ -15,16 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2015-2025 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\requiredAction;
 
-use oat\generis\test\TestCase;
 use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
-use Prophecy\Argument;
+use PHPUnit\Framework\MockObject\MockObject;
+use oat\tao\model\requiredAction\implementation\TimeRule;
+use oat\tao\model\requiredAction\RequiredActionInterface;
+use PHPUnit\Framework\TestCase;
 
 class RequiredActionRedirectUrlPartTest extends TestCase
 {
@@ -69,25 +71,33 @@ class RequiredActionRedirectUrlPartTest extends TestCase
         ];
     }
 
-    private function getPositiveRule()
+    private function getPositiveRule(): TimeRule|MockObject
     {
-        $ruleMock = $this->prophesize('oat\tao\model\requiredAction\implementation\TimeRule');
+        $ruleMock = $this->createMock(TimeRule::class);
         $ruleMock
-            ->setRequiredAction(Argument::type('oat\tao\model\requiredAction\RequiredActionInterface'))
+            ->method('setRequiredAction')
+            ->with($this->isInstanceOf(RequiredActionInterface::class))
             ->willReturn(null);
-        $ruleMock->check(null)->willReturn(true);
+        $ruleMock
+            ->method('check')
+            ->with(null)
+            ->willReturn(true);
 
-        return $ruleMock->reveal();
+        return $ruleMock;
     }
 
-    private function getNegativeRule()
+    private function getNegativeRule(): TimeRule|MockObject
     {
-        $ruleMock = $this->prophesize('oat\tao\model\requiredAction\implementation\TimeRule');
+        $ruleMock = $this->createMock(TimeRule::class);
         $ruleMock
-            ->setRequiredAction(Argument::type('oat\tao\model\requiredAction\RequiredActionInterface'))
+            ->method('setRequiredAction')
+            ->with($this->isInstanceOf(RequiredActionInterface::class))
             ->willReturn(null);
-        $ruleMock->check(null)->willReturn(false);
+        $ruleMock
+            ->method('check')
+            ->with(null)
+            ->willReturn(false);
 
-        return $ruleMock->reveal();
+        return $ruleMock;
     }
 }

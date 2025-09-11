@@ -22,7 +22,7 @@
 namespace oat\tao\test\unit\model\taskQueue;
 
 use InvalidArgumentException;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
 use oat\tao\model\taskQueue\Task\AbstractTask;

@@ -21,7 +21,7 @@
 namespace oat\tao\test\unit\webhooks\task;
 
 use JsonSchema\Validator;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\task\JsonWebhookPayloadFactory;
 
 class JsonWebhookPayloadFactoryTest extends TestCase

@@ -2,7 +2,7 @@
 
 namespace oat\tao\test\unit\oauth\lockout;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\oauth\lockout\IPFactory;
 use oat\tao\model\oauth\lockout\IPLockout;
