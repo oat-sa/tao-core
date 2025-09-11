@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\task\WebhookSender;
 use Psr\Http\Message\RequestInterface;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class WebhookSenderTest extends TestCase
 {

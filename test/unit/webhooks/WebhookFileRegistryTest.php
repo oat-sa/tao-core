@@ -26,7 +26,7 @@ use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookAuth;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\WebhookFileRegistry;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class WebhookFileRegistryTest extends TestCase
 {

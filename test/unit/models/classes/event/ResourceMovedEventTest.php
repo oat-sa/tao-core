@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\model\event;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use oat\tao\model\event\ResourceMovedEvent;
 

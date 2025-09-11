@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\model\taskQueue;
 use common_exception_NotFound;
 use Exception;
 use InvalidArgumentException;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLog;

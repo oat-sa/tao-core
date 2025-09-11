@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\task\migration\service;
 
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\OntologyMockTrait;
 use oat\generis\test\ServiceManagerMockTrait;
 use PHPUnit\Framework\TestCase;

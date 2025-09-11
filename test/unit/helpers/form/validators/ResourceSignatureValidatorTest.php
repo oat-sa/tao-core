@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\form\validators\ResourceSignatureValidator;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureValidator;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ResourceSignatureValidatorTest extends TestCase
 {

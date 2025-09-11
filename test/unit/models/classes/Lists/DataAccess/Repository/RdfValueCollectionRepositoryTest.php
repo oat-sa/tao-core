@@ -30,7 +30,7 @@ use oat\generis\model\data\RdfsInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\ServiceManagerMockTrait;
 use PHPUnit\Framework\TestCase;
 use oat\oatbox\event\EventAggregator;

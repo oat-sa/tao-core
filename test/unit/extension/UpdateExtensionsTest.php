@@ -26,7 +26,7 @@ namespace oat\tao\test\unit\extension;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\data\RdfsInterface;
 use oat\generis\persistence\PersistenceManager;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\PersistenceManagerMockTrait;
 use PHPUnit\Framework\TestCase;
 use oat\oatbox\event\EventManager;

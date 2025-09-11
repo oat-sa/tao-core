@@ -23,7 +23,7 @@ namespace oat\tao\test\model\websource;
 use PHPUnit\Framework\TestCase;
 use oat\oatbox\filesystem\FileSystem;
 use oat\tao\model\websource\BaseWebsource;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class BaseWebsourceTest extends TestCase
 {

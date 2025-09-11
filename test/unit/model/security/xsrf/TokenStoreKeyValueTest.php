@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\model\security\xsrf;
 
 use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\user\User;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\oatbox\session\SessionService;
 use oat\tao\model\security\xsrf\Token;
 use common_persistence_AdvKeyValuePersistence;

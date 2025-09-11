@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
 use oat\tao\model\notification\implementation\AbstractSqlNotificationService;
 use oat\tao\model\notification\implementation\RdsNotificationService;
 use oat\tao\model\notification\Notification;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class RdsNotificationServiceTest extends TestCase
 {

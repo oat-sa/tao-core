@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\models\classes\task\migration\service;
 
 use common_report_Report;
 use core_kernel_classes_Resource;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\ServiceManagerMockTrait;
 use PHPUnit\Framework\TestCase;
 use oat\tao\model\task\migration\MigrationConfig;

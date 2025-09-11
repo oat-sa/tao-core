@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\media\mediaSource;
 
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use oat\tao\model\media\MediaAsset;
 

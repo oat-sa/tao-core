@@ -35,7 +35,7 @@ use oat\tao\model\webhooks\task\WebhookResponse;
 use oat\tao\model\webhooks\task\WebhookTaskContext;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class WebhookTaskReportsTest extends TestCase

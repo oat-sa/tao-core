@@ -48,7 +48,7 @@ use oat\tao\model\webhooks\task\WebhookTaskParamsFactory;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

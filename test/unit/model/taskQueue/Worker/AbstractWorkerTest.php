@@ -45,7 +45,7 @@ use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\taskQueue\Worker\AbstractWorker;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AbstractWorkerTest extends TestCase
 {

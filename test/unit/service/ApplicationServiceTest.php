@@ -29,7 +29,7 @@ use common_ext_Extension;
 use common_ext_ExtensionsManager;
 use PHPUnit\Framework\TestCase;
 use common_exception_Error;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ApplicationServiceTest extends TestCase
 {

@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\security\DataAccess\Repository;
 
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use oat\tao\model\security\Business\Domain\Setting;
 use oat\tao\model\security\Business\Domain\SettingsCollection;

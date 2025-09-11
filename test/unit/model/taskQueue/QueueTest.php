@@ -29,7 +29,7 @@ use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Lock\LockInterface;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class QueueTest extends TestCase
 {

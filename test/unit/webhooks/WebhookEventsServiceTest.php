@@ -32,7 +32,7 @@ use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookSerializableEventInterface;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 

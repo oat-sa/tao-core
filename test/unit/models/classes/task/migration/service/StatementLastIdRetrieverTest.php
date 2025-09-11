@@ -27,7 +27,7 @@ use common_persistence_SqlPersistence;
 use core_kernel_persistence_smoothsql_SmoothModel;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Query\QueryBuilder;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\OntologyMockTrait;
 use PHPUnit\Framework\TestCase;
 use oat\tao\model\task\migration\service\StatementLastIdRetriever;

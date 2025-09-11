@@ -21,7 +21,7 @@
 declare(strict_types=1);
 
 use oat\generis\model\data\Ontology;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;

@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\models\classes\task\migration;
 
 use common_persistence_KeyValuePersistence;
 use oat\generis\persistence\PersistenceManager;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\ServiceManagerMockTrait;
 use PHPUnit\Framework\TestCase;
 use oat\tao\model\task\migration\service\PositionTracker;
