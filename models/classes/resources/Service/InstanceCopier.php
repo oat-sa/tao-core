@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2025 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -82,7 +82,13 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
     {
         $instance = $this->ontology->getResource($command->getFrom());
         $destinationClass = $this->ontology->getClass($command->getTo());
-        $newInstance = $this->doCopy($instance, $destinationClass, $command->keepOriginalAcl(), $command->getOptions(), $command->isCloneTo());
+        $newInstance = $this->doCopy(
+            $instance,
+            $destinationClass,
+            $command->keepOriginalAcl(),
+            $command->getOptions(),
+            $command->isCloneTo()
+        );
 
         return new ResourceTransferResult($newInstance->getUri());
     }
