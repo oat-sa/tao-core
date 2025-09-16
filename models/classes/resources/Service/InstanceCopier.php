@@ -82,13 +82,7 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
     {
         $instance = $this->ontology->getResource($command->getFrom());
         $destinationClass = $this->ontology->getClass($command->getTo());
-        $newInstance = $this->doCopy(
-            $instance,
-            $destinationClass,
-            $command->keepOriginalAcl(),
-            $command->getOptions(),
-            $command->isCloneTo()
-        );
+        $newInstance = $this->doCopy($instance, $destinationClass, $command->keepOriginalAcl(), $command->getOptions());
 
         return new ResourceTransferResult($newInstance->getUri());
     }
@@ -104,10 +98,9 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         core_kernel_classes_Resource $instance,
         core_kernel_classes_Class $destinationClass,
         bool $keepOriginalPermissions = true,
-        array $options = [],
-        bool $isCloneTo = false
+        array $options = []
     ): core_kernel_classes_Resource {
-        $newInstance = $destinationClass->createInstance($this->getNewLabel($instance, $isCloneTo));
+        $newInstance = $destinationClass->createInstance($this->getNewLabel($instance, $options));
 
         if ($newInstance === null) {
             throw new RuntimeException(
@@ -141,11 +134,12 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         return $newInstance;
     }
 
-    private function getNewLabel(core_kernel_classes_Resource $instance, bool $isCloneTo): string
+    private function getNewLabel(core_kernel_classes_Resource $instance, array $options): string
     {
         $label = $instance->getLabel();
+        $incrementLabel = $options[ResourceTransferCommand::OPTION_INCREMENT_LABEL] ?? false;
 
-        if (!$isCloneTo) {
+        if (!$incrementLabel) {
             return $label;
         }
 

@@ -78,7 +78,7 @@ class ResourceTransferProxy implements ResourceTransferInterface
             return $this->classMover;
         }
 
-        if ($command->isCopyTo() || $command->isCloneTo()) {
+        if ($command->isCopyTo()) {
             return $this->instanceCopier;
         }
 

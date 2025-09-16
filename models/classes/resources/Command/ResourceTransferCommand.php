@@ -30,7 +30,7 @@ class ResourceTransferCommand
     public const ACL_USE_DESTINATION = 'acl.use.destination';
     public const TRANSFER_MODE_COPY = 'copy';
     public const TRANSFER_MODE_MOVE = 'move';
-    public const TRANSFER_MODE_CLONE = 'clone';
+    public const OPTION_INCREMENT_LABEL = 'option.incrementLabel';
     private const ACL_OPTIONS = [
         self::ACL_KEEP_ORIGINAL,
         self::ACL_USE_DESTINATION,
@@ -38,7 +38,6 @@ class ResourceTransferCommand
     private const TRANSFER_MODE_OPTIONS = [
         self::TRANSFER_MODE_COPY,
         self::TRANSFER_MODE_MOVE,
-        self::TRANSFER_MODE_CLONE,
     ];
 
     private string $from;
@@ -107,11 +106,6 @@ class ResourceTransferCommand
     public function isMoveTo(): bool
     {
         return $this->transferMode === self::TRANSFER_MODE_MOVE;
-    }
-
-    public function isCloneTo(): bool
-    {
-        return $this->transferMode === self::TRANSFER_MODE_CLONE;
     }
 
     public function getOptions(): array
