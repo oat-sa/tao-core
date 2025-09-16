@@ -82,7 +82,7 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
     {
         $instance = $this->ontology->getResource($command->getFrom());
         $destinationClass = $this->ontology->getClass($command->getTo());
-        $newInstance = $this->doCopy($instance, $destinationClass, $command->keepOriginalAcl(), $command->getOptions());
+        $newInstance = $this->doCopy($instance, $destinationClass, $command->keepOriginalAcl(), $command->getOptions(), $command->isCloneTo());
 
         return new ResourceTransferResult($newInstance->getUri());
     }
@@ -98,9 +98,10 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         core_kernel_classes_Resource $instance,
         core_kernel_classes_Class $destinationClass,
         bool $keepOriginalPermissions = true,
-        array $options = []
+        array $options = [],
+        bool $isCloneTo = false
     ): core_kernel_classes_Resource {
-        $newInstance = $destinationClass->createInstance($instance->getLabel());
+        $newInstance = $destinationClass->createInstance($this->getNewLabel($instance, $isCloneTo));
 
         if ($newInstance === null) {
             throw new RuntimeException(
@@ -132,5 +133,22 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         }
 
         return $newInstance;
+    }
+
+    private function getNewLabel(core_kernel_classes_Resource $instance, bool $isCloneTo): string
+    {
+        $label = $instance->getLabel();
+
+        if (!$isCloneTo) {
+            return $label;
+        }
+
+        if (preg_match('/\bbis(?:\s+(\d+))?$/i', $label, $matches)) {
+            $next = (int) ($matches[1] ?? 0) + 1;
+
+            return preg_replace('/\bbis(?:\s+\d+)?$/i', 'bis ' . $next, $label);
+        }
+
+        return $label . ' bis';
     }
 }

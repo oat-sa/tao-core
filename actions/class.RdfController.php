@@ -684,7 +684,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
         $this->validateInstanceRoot($uri);
 
-        $clone = $this->getClassService()->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
+        $result = $this->getResourceTransfer()->transfer(
+            new ResourceTransferCommand(
+                $this->getCurrentInstance()->getUri(),
+                $this->getCurrentClass()->getUri(),
+                ResourceTransferCommand::ACL_KEEP_ORIGINAL,
+                ResourceTransferCommand::TRANSFER_MODE_CLONE
+            )
+        );
+        $clone = $this->getResource($result->getDestination());
+
         if ($clone !== null) {
             $this->returnJson([
                 'success' => true,
