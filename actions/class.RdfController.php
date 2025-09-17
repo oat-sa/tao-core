@@ -703,7 +703,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 'success' => true,
                 'message' => __('Successfully cloned instance as %s', $clone->getLabel()),
                 'label' => $clone->getLabel(),
-                'uri' => $clone->getUri(),
+                'uri' => tao_helpers_Uri::encode($clone->getUri()),
             ]);
         } catch (Throwable $exception) {
             $this->logError(
@@ -717,7 +717,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             return $this->returnJson([
                 'success' => false,
-                'message' => __("Unable to clone the resource"),
+                'message' => __('Unable to clone the resource'),
             ]);
         }
     }

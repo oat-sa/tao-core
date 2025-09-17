@@ -57,11 +57,14 @@ class InstanceCopierTest extends TestCase
         $this->sut->withEventManager($this->eventManager);
     }
 
-    public function testTransfer(): void
+    /**
+     * @dataProvider transferDataProvider
+     */
+    public function testTransfer(string $originalLabel, string $newLabel, array $transferOptions): void
     {
-        $instance = $this->createInstance('instanceLabel', 'instanceUri');
-        $newInstance = $this->createInstance('instanceLabel', 'newInstanceUri');
-        $destinationClass = $this->createClass($newInstance);
+        $instance = $this->createInstance($originalLabel, 'instanceUri');
+        $newInstance = $this->createInstance($newLabel, 'newInstanceUri');
+        $destinationClass = $this->createClass($newInstance, $newLabel);
 
         $this->ontology
             ->expects($this->once())
@@ -85,58 +88,7 @@ class InstanceCopierTest extends TestCase
         $this->eventManager
             ->expects($this->once())
             ->method('trigger')
-            ->with(new InstanceCopiedEvent('newInstanceUri', 'instanceUri'));
-
-        $this->assertEquals(
-            new ResourceTransferResult(
-                'newInstanceUri'
-            ),
-            $this->sut->transfer(
-                new ResourceTransferCommand(
-                    'instanceUri',
-                    'destinationClassUri',
-                    ResourceTransferCommand::ACL_KEEP_ORIGINAL,
-                    ResourceTransferCommand::TRANSFER_MODE_COPY
-                )
-            )
-        );
-    }
-
-    public function testTransferWithIncrementLabelOption(): void
-    {
-        $instance = $this->createInstance('instanceLabel bis', 'instanceUri');
-        $newInstance = $this->createInstance('instanceLabel bis 1', 'newInstanceUri');
-        $destinationClass = $this->createClass($newInstance, 'instanceLabel bis 1');
-
-        $this->ontology
-            ->expects($this->once())
-            ->method('getResource')
-            ->willReturn($instance);
-
-        $this->ontology
-            ->expects($this->once())
-            ->method('getClass')
-            ->willReturn($destinationClass);
-
-        $this->instanceMetadataCopier
-            ->expects($this->once())
-            ->method('copy')
-            ->with($instance, $newInstance);
-
-        $this->instanceContentCopier
-            ->expects($this->never())
-            ->method('copy');
-
-        $this->eventManager
-            ->expects($this->once())
-            ->method('trigger')
-            ->with(
-                new InstanceCopiedEvent(
-                    'newInstanceUri',
-                    'instanceUri',
-                    [ResourceTransferCommand::OPTION_INCREMENT_LABEL => true]
-                )
-            );
+            ->with(new InstanceCopiedEvent('newInstanceUri', 'instanceUri', $transferOptions));
 
         $this->assertEquals(
             new ResourceTransferResult(
@@ -148,9 +100,7 @@ class InstanceCopierTest extends TestCase
                     'destinationClassUri',
                     ResourceTransferCommand::ACL_KEEP_ORIGINAL,
                     ResourceTransferCommand::TRANSFER_MODE_COPY,
-                    [
-                        ResourceTransferCommand::OPTION_INCREMENT_LABEL => true
-                    ]
+                    $transferOptions
                 )
             )
         );
@@ -215,6 +165,37 @@ class InstanceCopierTest extends TestCase
         $this->sut->withInstanceContentCopier($this->instanceContentCopier);
 
         $this->assertEquals($newInstance, $this->sut->copy($instance, $destinationClass));
+    }
+
+    public function transferDataProvider(): array
+    {
+        return [
+            'Test copy' => [
+                'instanceLabel',
+                'instanceLabel',
+                []
+            ],
+            'Test copy with increment label option' => [
+                'instanceLabel',
+                'instanceLabel bis',
+                [ResourceTransferCommand::OPTION_INCREMENT_LABEL => true]
+            ],
+            'Test copy with increment label option (bis)' => [
+                'instanceLabel bis',
+                'instanceLabel bis 1',
+                [ResourceTransferCommand::OPTION_INCREMENT_LABEL => true]
+            ],
+            'Test copy with increment label option (bis N)' => [
+                'instanceLabel bis 1',
+                'instanceLabel bis 2',
+                [ResourceTransferCommand::OPTION_INCREMENT_LABEL => true]
+            ],
+            'Test copy with increment label option (multiple bis)' => [
+                'instanceLabel bis bis',
+                'instanceLabel bis bis 1',
+                [ResourceTransferCommand::OPTION_INCREMENT_LABEL => true]
+            ],
+        ];
     }
 
     private function createClass(
