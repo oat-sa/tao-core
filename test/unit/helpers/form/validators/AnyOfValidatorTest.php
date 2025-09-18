@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\helpers\form\validators;
 
 use common_Exception;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use tao_helpers_form_elements_xhtml_Textbox;
 use tao_helpers_form_Form;
 use tao_helpers_form_validators_AnyOf;

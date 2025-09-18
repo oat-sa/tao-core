@@ -30,7 +30,7 @@
 
  */
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class IconsTest extends TestCase
 {

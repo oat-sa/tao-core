@@ -17,11 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\search\tasks;
+namespace oat\tao\test\unit\models\classes\search\tasks;
 
 use common_exception_MissingParameter;
 use common_report_Report as Report;
@@ -29,7 +30,8 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use Exception;
 use oat\generis\model\data\Ontology;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\tasks\UpdateDataAccessControlInIndex;
@@ -38,26 +40,21 @@ use Psr\Log\LoggerInterface;
 
 class UpdateDataAccessControlInIndexTest extends TestCase
 {
-    /** @var UpdateDataAccessControlInIndex */
-    private $sut;
+    use ServiceManagerMockTrait;
 
-    /** @var IndexUpdaterInterface|MockObject */
-    private $indexUpdater;
+    private UpdateDataAccessControlInIndex $sut;
+    private IndexUpdaterInterface|MockObject $indexUpdater;
+    private LoggerInterface $logger;
+    private Ontology|MockObject $ontology;
 
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var Ontology|MockObject */
-    private $ontology;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new UpdateDataAccessControlInIndex();
         $this->indexUpdater = $this->createMock(IndexUpdaterInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->ontology = $this->createMock(Ontology::class);
 
-        $serviceLocator = $this->getServiceLocatorMock(
+        $serviceLocator = $this->getServiceManagerMock(
             [
                 IndexUpdaterInterface::SERVICE_ID => $this->indexUpdater,
                 LoggerService::SERVICE_ID => $this->logger,

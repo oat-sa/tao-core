@@ -26,7 +26,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\accessControl\Service\DeleteRoleService;
 use oat\tao\model\accessControl\Service\InternalRoleSpecification;
 use oat\tao\model\exceptions\UserErrorException;

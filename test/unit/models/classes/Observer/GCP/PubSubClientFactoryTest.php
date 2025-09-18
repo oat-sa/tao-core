@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\models\classes\Observer\GCP;
 
 use ErrorException;
 use Google\Cloud\PubSub\PubSubClient;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Observer\GCP\PubSubClientFactory;
 
 class PubSubClientFactoryTest extends TestCase

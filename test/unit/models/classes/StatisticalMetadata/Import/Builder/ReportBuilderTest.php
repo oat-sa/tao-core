@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\StatisticalMetadata\Import\Builder;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\StatisticalMetadata\Import\Builder\ReportBuilder;
 
 // @TODO Test class in the next iteration
@@ -31,7 +31,7 @@ class ReportBuilderTest extends TestCase
     /** @var ReportBuilder */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new ReportBuilder();
     }

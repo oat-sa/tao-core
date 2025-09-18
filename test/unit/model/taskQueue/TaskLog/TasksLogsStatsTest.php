@@ -22,7 +22,7 @@
 namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class TasksLogsStatsTest extends TestCase
 {

@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\event;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\event\UserRemovedEvent;
 
 class UserRemovedEventTest extends TestCase

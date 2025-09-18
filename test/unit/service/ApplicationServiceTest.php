@@ -15,35 +15,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018-2025 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\service;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\service\ApplicationService;
 use common_ext_Extension;
 use common_ext_ExtensionsManager;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use PHPUnit\Framework\TestCase;
 use common_exception_Error;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
-/**
- * Class ApplicationServiceTest
- * @package oat\tao\test\unit\service
- */
 class ApplicationServiceTest extends TestCase
 {
-    /**
-     * @var ApplicationService
-     */
-    private $instance;
+    use ServiceManagerMockTrait;
 
-    /**
-     * @var common_ext_Extension|MockObject
-     */
-    private $extensionMock;
+    private ApplicationService $instance;
+
+    private common_ext_Extension|MockObject $extensionMock;
 
     protected function setUp(): void
     {
@@ -59,60 +53,64 @@ class ApplicationServiceTest extends TestCase
         unset($this->instance, $this->extensionMock);
     }
 
-    private function mockServiceLocator()
+    private function mockServiceManager(): void
     {
-        $extensionManagerProphecy = $this->prophesize(common_ext_ExtensionsManager::class);
-        $extensionManagerProphecy->getExtensionById('tao')->willReturn($this->extensionMock);
-        $extensionManagerMock = $extensionManagerProphecy->reveal();
+        $extensionManagerMock = $this->createMock(common_ext_ExtensionsManager::class);
+        $extensionManagerMock
+            ->method('getExtensionById')
+            ->with('tao')
+            ->willReturn($this->extensionMock);
 
-        $serviceLocatorMock = $this->getServiceLocatorMock([
+        $serviceManagerMock = $this->getServiceManagerMock([
             common_ext_ExtensionsManager::SERVICE_ID => $extensionManagerMock,
         ]);
-        $this->instance->setServiceLocator($serviceLocatorMock);
+        $this->instance->setServiceManager($serviceManagerMock);
     }
 
-    public function testGetConstantValueServiceLocatorEmpty()
+    public function testGetConstantValueServiceLocatorEmpty(): void
     {
         $this->expectException(common_exception_Error::class);
 
         $this->instance->getProductName();
     }
 
-    public function testGetConstantValueExtensionManagerNotRegistered()
+    public function testGetConstantValueExtensionManagerNotRegistered(): void
     {
         $this->expectException(ServiceNotFoundException::class);
 
-        $serviceLocatorProphecy = $this->prophesize(ServiceLocatorInterface::class);
-        $serviceLocatorProphecy
-            ->get(common_ext_ExtensionsManager::SERVICE_ID)
-            ->willThrow(ServiceNotFoundException::class);
-        $serviceLocatorMock = $serviceLocatorProphecy->reveal();
+        $serviceManagerMock = $this->getServiceManagerMock();
+        $serviceManagerMock
+            ->method('get')
+            ->with(common_ext_ExtensionsManager::SERVICE_ID)
+            ->willThrowException(new ServiceNotFoundException(common_ext_ExtensionsManager::SERVICE_ID));
 
-        $this->instance->setServiceLocator($serviceLocatorMock);
+        $this->instance->setServiceManager($serviceManagerMock);
 
         $this->instance->getProductName();
     }
 
-    public function testGetConstantValueNotExistingConstant()
+    public function testGetConstantValueNotExistingConstant(): void
     {
         $this->expectException(common_exception_Error::class);
 
-        $this->extensionMock->expects($this->once())
+        $this->extensionMock
+            ->expects($this->once())
             ->method('getConstant')
             ->willThrowException(new common_exception_Error());
-        $this->mockServiceLocator();
+        $this->mockServiceManager();
 
         $this->instance->getProductName();
     }
 
-    public function testGetPlatformVersion()
+    public function testGetPlatformVersion(): void
     {
         $expectedVersion = 'TEST_TAO_VERSION';
-        $this->extensionMock->expects($this->once())
+        $this->extensionMock
+            ->expects($this->once())
             ->method('getConstant')
             ->with('TAO_VERSION')
             ->willReturn($expectedVersion);
-        $this->mockServiceLocator();
+        $this->mockServiceManager();
 
         $version = $this->instance->getPlatformVersion();
 
@@ -122,43 +120,46 @@ class ApplicationServiceTest extends TestCase
     /**
      * @dataProvider isDemoProvider
      */
-    public function testIsDemo($releaseStatus, $expectedResult)
+    public function testIsDemo(string $releaseStatus, bool $expectedResult): void
     {
-        $this->extensionMock->expects($this->once())
+        $this->extensionMock
+            ->expects($this->once())
             ->method('getConstant')
             ->with('TAO_RELEASE_STATUS')
             ->willReturn($releaseStatus);
-        $this->mockServiceLocator();
+        $this->mockServiceManager();
 
         $releaseStatus = $this->instance->isDemo();
 
         $this->assertEquals($expectedResult, $releaseStatus, 'Release statusmust be as expected.');
     }
 
-    public function testGetDefaultEncoding()
+    public function testGetDefaultEncoding(): void
     {
         $expectedEncoding = 'TEST_ENCODING';
 
-        $this->extensionMock->expects($this->once())
+        $this->extensionMock
+            ->expects($this->once())
             ->method('getConstant')
             ->with('TAO_DEFAULT_ENCODING')
             ->willReturn($expectedEncoding);
-        $this->mockServiceLocator();
+        $this->mockServiceManager();
 
         $encoding = $this->instance->getDefaultEncoding();
 
         $this->assertEquals($expectedEncoding, $encoding, 'Product name must be as expected.');
     }
 
-    public function testGetProductName()
+    public function testGetProductName(): void
     {
         $expectedProductName = 'TEST_PROSUCT_NAME';
 
-        $this->extensionMock->expects($this->once())
+        $this->extensionMock
+            ->expects($this->once())
             ->method('getConstant')
             ->with('PRODUCT_NAME')
             ->willReturn($expectedProductName);
-        $this->mockServiceLocator();
+        $this->mockServiceManager();
 
         $productName = $this->instance->getProductName();
 
@@ -166,23 +167,16 @@ class ApplicationServiceTest extends TestCase
     }
 
     /**
-     * Test for getVersionName method
-     *
      * @dataProvider providerGetVersionName
-     *
-     * @param $buildNumber
-     * @param $taoVersion
-     * @param $expected
-     * @throws \common_ext_ExtensionException
-     * @throws common_exception_Error
      */
-    public function testGetVersionName($buildNumber, $taoVersion, $expected)
+    public function testGetVersionName(?string $buildNumber, string $taoVersion, string $expected): void
     {
-        $this->extensionMock->expects($this->once())
+        $this->extensionMock
+            ->expects($this->once())
             ->method('getConstant')
             ->with('TAO_VERSION')
             ->willReturn($taoVersion);
-        $this->mockServiceLocator();
+        $this->mockServiceManager();
 
         if (!is_null($buildNumber)) {
             $this->instance->setOption(ApplicationService::OPTION_BUILD_NUMBER, $buildNumber);
@@ -193,7 +187,7 @@ class ApplicationServiceTest extends TestCase
         $this->assertEquals($expected, $versionName, 'Version name must be as expected.');
     }
 
-    public function isDemoProvider()
+    public function isDemoProvider(): array
     {
         return [
             [
@@ -219,12 +213,7 @@ class ApplicationServiceTest extends TestCase
         ];
     }
 
-    /**
-     * Data provider for testGetVersionName
-     *
-     * @return array
-     */
-    public function providerGetVersionName()
+    public function providerGetVersionName(): array
     {
         return [
             'Without build number' => [

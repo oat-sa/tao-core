@@ -23,7 +23,7 @@ namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 
 use Exception;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class CategorizedStatusTest extends TestCase
 {

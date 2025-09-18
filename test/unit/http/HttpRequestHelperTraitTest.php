@@ -22,7 +22,7 @@
 namespace oat\tao\test\unit\http;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\http\Controller;
 
 class HttpRequestHelperTraitTest extends TestCase

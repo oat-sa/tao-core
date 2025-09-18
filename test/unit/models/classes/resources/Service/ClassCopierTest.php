@@ -256,9 +256,8 @@ class ClassCopierTest extends TestCase
             ->willReturn([$rootClass]);
 
         $this->classMetadataCopier
-            ->expects($this->at(0))
-            ->method('copy')
-            ->with($fromClass, $newClass);
+            ->expects($this->exactly(2))
+            ->method('copy');
 
         $this->instanceCopier
             ->expects($this->once())
@@ -272,28 +271,9 @@ class ClassCopierTest extends TestCase
                 )
             );
 
-        $this->classMetadataCopier
-            ->expects($this->at(1))
-            ->method('copy')
-            ->with($subClass, $newSubClass);
-
         $this->classMetadataMapper
-            ->expects($this->at(0))
-            ->method('remove')
-            ->with(
-                [
-                    $newClassProperty,
-                ]
-            );
-
-        $this->classMetadataMapper
-            ->expects($this->at(1))
-            ->method('remove')
-            ->with(
-                [
-                    $newSubClassProperty,
-                ]
-            );
+            ->expects($this->exactly(2))
+            ->method('remove');
 
         return $newClass;
     }

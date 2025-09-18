@@ -28,11 +28,11 @@
 
  */
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class UriHelperTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
     }

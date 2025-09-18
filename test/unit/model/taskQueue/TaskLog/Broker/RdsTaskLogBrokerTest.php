@@ -15,14 +15,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2017-2025 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Broker;
 
-use InvalidArgumentException;
-use oat\generis\test\TestCase;
+use oat\generis\test\PersistenceManagerMockTrait;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\taskQueue\Task\CallbackTask;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
@@ -33,27 +35,27 @@ use oat\tao\model\taskQueue\TaskLogInterface;
 
 class RdsTaskLogBrokerTest extends TestCase
 {
-    /**
-     * @var RdsTaskLogBroker
-     */
-    protected $subject;
+    use ServiceManagerMockTrait;
+    use PersistenceManagerMockTrait;
 
-    public function setUp(): void
+    private RdsTaskLogBroker $subject;
+
+    protected function setUp(): void
     {
         $persistenceId = 'rds_task_log_test';
-        $databaseMock = $this->getSqlMock($persistenceId);
+        $databaseMock = $this->getPersistenceManagerMock($persistenceId);
         $persistence = $databaseMock->getPersistenceById($persistenceId);
 
         $persistenceManager = $this->getMockBuilder(PersistenceManager::class)
         ->disableOriginalConstructor()
-        ->setMethods(['getPersistenceById'])
+        ->onlyMethods(['getPersistenceById'])
         ->getMock();
         $persistenceManager
             ->method('getPersistenceById')
             ->with($persistenceId)
             ->willReturn($persistence);
 
-        $serviceManagerMock = $this->getServiceLocatorMock([
+        $serviceManagerMock = $this->getServiceManagerMock([
             PersistenceManager::SERVICE_ID => $persistenceManager,
         ]);
 
@@ -77,7 +79,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
         $serviceManagerMock = $this->getMockBuilder(ServiceManager::class)
             ->disableOriginalConstructor()
-            ->setMethods(['get'])
+            ->onlyMethods(['get'])
             ->getMock();
 
         $serviceManagerMock->expects($this->once())
@@ -86,7 +88,7 @@ class RdsTaskLogBrokerTest extends TestCase
 
         $rdsLogBrokerMock = $this->getMockBuilder(RdsTaskLogBroker::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getServiceLocator'])
+            ->onlyMethods(['getServiceLocator'])
             ->getMock();
 
         $rdsLogBrokerMock->expects($this->once())

@@ -50,7 +50,7 @@ class FormContainerTest extends GenerisTestCase
     /**
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         $config = new common_persistence_KeyValuePersistence([], new common_persistence_InMemoryKvDriver());
         $config->set(ApplicationService::SERVICE_ID, $this->createApplicationServiceTestDouble());

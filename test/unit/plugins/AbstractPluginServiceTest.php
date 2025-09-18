@@ -15,62 +15,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2025 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\plugins;
 
+use common_ext_Extension;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\plugins\AbstractPluginRegistry;
+use oat\tao\model\modules\AbstractModuleRegistry;
 use oat\tao\model\plugins\AbstractPluginService;
 use oat\tao\model\plugins\PluginModule;
-use Prophecy\Prophet;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Concrete class PluginRegistry
- * @package oat\tao\test\unit\plugins
- */
-class PluginRegistry extends AbstractPluginRegistry
+class PluginRegistry extends AbstractModuleRegistry
 {
-    /**
-     * @see \oat\oatbox\AbstractRegistry::getExtension()
-     */
-    protected function getExtension()
+    protected function getExtension(): common_ext_Extension
     {
-        $prophet = new Prophet();
-        $prophecy = $prophet->prophesize();
-        $prophecy->willExtend(\common_ext_Extension::class);
-
-        return $prophecy->reveal();
+        return new class extends common_ext_Extension {
+        };
     }
 
-    /**
-     * @see \oat\oatbox\AbstractRegistry::getConfigId()
-     */
-    protected function getConfigId()
+    protected function getConfigId(): string
     {
         return 'plugin_registry';
     }
 }
 
-/**
- * Concrete class PluginService
- * @package oat\tao\test\unit\plugins
- */
 class PluginService extends AbstractPluginService
 {
 }
 
-/**
- * Test the AbstractPluginService
- *
- * @author Bertrand Chevrier <bertrand@taotesting.com>
- * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
- */
 class AbstractPluginServiceTest extends TestCase
 {
-    //data to stub the registry content
     private static $pluginData = [
         'my/wonderful/plugin/title' => [
             'id' => 'title',
@@ -96,44 +74,38 @@ class AbstractPluginServiceTest extends TestCase
         ]
     ];
 
-
-    /**
-     * Get the service with the stubbed registry
-     * @return AbstractPluginService
-     */
-    protected function getPluginService()
+    protected function getPluginService(): AbstractPluginService
     {
-        $prophet = new Prophet();
-        $prophecy = $prophet->prophesize();
-        $prophecy->willExtend(PluginRegistry::class);
-        $prophecy->getMap()->willReturn(self::$pluginData);
+        // partial mock: переопределяем только getMap()
+        $registry = $this
+            ->getMockBuilder(PluginRegistry::class)
+            ->onlyMethods(['getMap'])
+            ->getMock();
+
+        $registry
+            ->method('getMap')
+            ->willReturn(self::$pluginData);
 
         $pluginService = new PluginService();
-        $pluginService->setRegistry($prophecy->reveal());
+        $pluginService->setRegistry($registry);
 
         return $pluginService;
     }
 
-    /**
-     * Check the service is a service
-     */
-    public function testApi()
+    public function testApi(): void
     {
         $pluginService = $this->getPluginService();
         $this->assertInstanceOf(AbstractPluginService::class, $pluginService);
         $this->assertInstanceOf(ConfigurableService::class, $pluginService);
     }
 
-    /**
-     * Test the method AbstractPluginService::getAllPlugins
-     */
-    public function testGetAllPlugins()
+    public function testGetAllPlugins(): void
     {
         $pluginService = $this->getPluginService();
 
         $plugins = $pluginService->getAllPlugins();
 
-        $this->assertEquals(2, count($plugins));
+        $this->assertCount(2, $plugins);
 
         $plugin0 = $plugins['my/wonderful/plugin/title'];
         $plugin1 = $plugins['my/wonderful/plugin/text'];
@@ -154,10 +126,7 @@ class AbstractPluginServiceTest extends TestCase
         $this->assertTrue($plugin1->isActive());
     }
 
-    /**
-     * Test the method AbstractPluginService::getPlugin
-     */
-    public function testGetOnePlugin()
+    public function testGetOnePlugin(): void
     {
         $pluginService = $this->getPluginService();
 

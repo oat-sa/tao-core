@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\theme;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ThemeServiceAbstractTest extends TestCase
@@ -30,7 +30,7 @@ class ThemeServiceAbstractTest extends TestCase
     /** @var ThemeServiceAbstract|MockObject */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = $this->getMockForAbstractClass(
             ThemeServiceAbstract::class,

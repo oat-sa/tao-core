@@ -29,7 +29,7 @@ use oat\oatbox\reporting\Report;
 use oat\tao\model\import\Processor\ImportFileErrorHandlerInterface;
 use oat\tao\model\import\Processor\ImportFileProcessorInterface;
 use oat\tao\model\import\service\AgnosticImportHandler;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\upload\UploadService;
 use PHPUnit\Framework\MockObject\MockObject;
 use tao_helpers_form_Form;
@@ -48,7 +48,7 @@ class AgnosticImportHandlerTest extends TestCase
     /** @var ImportFileProcessorInterface|MockObject */
     private $processor;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->errorHandler = $this->createMock(ImportFileErrorHandlerInterface::class);
         $this->processor = $this->createMock(ImportFileProcessorInterface::class);

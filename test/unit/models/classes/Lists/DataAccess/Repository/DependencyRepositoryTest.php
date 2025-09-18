@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\DataAccess\Repository;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use Doctrine\DBAL\Driver\Statement;
 use common_persistence_sql_Platform;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -44,7 +44,7 @@ class DependencyRepositoryTest extends TestCase
     /** @var QueryBuilder|MockObject */
     private $queryBuilder;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->queryBuilder = $this->createMock(QueryBuilder::class);
 

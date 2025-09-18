@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\StatisticalMetadata\Import\Processor;
 
 use Google\Cloud\PubSub\PubSubClient;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Observer\GCP\PubSubClientFactory;
 use oat\tao\model\Observer\GCP\PubSubObserver;
 use oat\tao\model\Observer\Log\LoggerObserver;

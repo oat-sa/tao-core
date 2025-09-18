@@ -21,7 +21,7 @@
 
 namespace oat\tao\test\unit\datatable;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\datatable\implementation\DatatableRequest;
 use Slim\Http\Environment;
 use Slim\Http\Request;
@@ -33,7 +33,7 @@ use Slim\Http\Request;
  */
 class DatatableRequestTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
     }

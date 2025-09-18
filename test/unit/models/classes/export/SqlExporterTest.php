@@ -20,7 +20,7 @@
 
 namespace oat\tao\test\unit\model\export;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\export\implementation\sql\ExportedColumn;
 use oat\tao\model\export\implementation\sql\ExportedTable;
 use oat\tao\model\export\implementation\sql\SqlCreator;

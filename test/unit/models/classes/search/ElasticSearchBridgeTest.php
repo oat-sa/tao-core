@@ -15,14 +15,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\search;
+namespace oat\tao\test\unit\models\classes\search;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\search\ElasticSearchBridge;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
@@ -30,18 +32,18 @@ use oat\tao\model\search\SearchQuery;
 
 class ElasticSearchBridgeTest extends TestCase
 {
-    /** @var ElasticSearchBridge */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    private $searchEngineMock;
+    private ElasticSearchBridge $subject;
+    private Search|MockObject $searchEngineMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->searchEngineMock = $this->createMock(Search::class);
 
         $this->subject = new ElasticSearchBridge();
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     Search::SERVICE_ID => $this->searchEngineMock,
                 ]

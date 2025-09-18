@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\http;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\http\ContentDetector;
 use Psr\Http\Message\StreamInterface;
 use tao_helpers_File;
