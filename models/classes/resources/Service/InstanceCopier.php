@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2025 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -100,7 +100,7 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         bool $keepOriginalPermissions = true,
         array $options = []
     ): core_kernel_classes_Resource {
-        $newInstance = $destinationClass->createInstance($instance->getLabel());
+        $newInstance = $destinationClass->createInstance($this->getNewLabel($instance, $options));
 
         if ($newInstance === null) {
             throw new RuntimeException(
@@ -132,5 +132,23 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         }
 
         return $newInstance;
+    }
+
+    private function getNewLabel(core_kernel_classes_Resource $instance, array $options): string
+    {
+        $label = $instance->getLabel();
+        $incrementLabel = $options[ResourceTransferCommand::OPTION_INCREMENT_LABEL] ?? false;
+
+        if (!$incrementLabel) {
+            return $label;
+        }
+
+        if (preg_match('/\bbis(?:\s+(\d+))?$/i', $label, $matches)) {
+            $next = (int) ($matches[1] ?? 0) + 1;
+
+            return preg_replace('/\bbis(?:\s+\d+)?$/i', 'bis ' . $next, $label);
+        }
+
+        return $label . ' bis';
     }
 }

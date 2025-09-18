@@ -30,6 +30,7 @@ class ResourceTransferCommand
     public const ACL_USE_DESTINATION = 'acl.use.destination';
     public const TRANSFER_MODE_COPY = 'copy';
     public const TRANSFER_MODE_MOVE = 'move';
+    public const OPTION_INCREMENT_LABEL = 'option.incrementLabel';
     private const ACL_OPTIONS = [
         self::ACL_KEEP_ORIGINAL,
         self::ACL_USE_DESTINATION,
