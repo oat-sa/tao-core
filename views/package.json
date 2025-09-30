@@ -12,7 +12,7 @@
         "@babel/polyfill": "^7.4.4",
         "@oat-sa/tao-core-libs": "^1.1.0",
         "@oat-sa/tao-core-sdk": "^3.5.0",
-        "@oat-sa/tao-core-shared-libs": "oat-sa/tao-core-shared-libs#feature/INF-283-ckeditor-TAO-3-2",
+        "@oat-sa/tao-core-shared-libs": "oat-sa/tao-core-shared-libs-fe#feature/INF-283-ckeditor-TAO-3-2",
         "@oat-sa/tao-core-ui": "^3.13.4",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
