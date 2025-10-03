@@ -12,7 +12,7 @@
         "@babel/polyfill": "^7.4.4",
         "@oat-sa/tao-core-libs": "^1.1.0",
         "@oat-sa/tao-core-sdk": "^3.5.0",
-        "@oat-sa/tao-core-shared-libs": "^1.8.1",
+        "@oat-sa/tao-core-shared-libs": "^1.9.0",
         "@oat-sa/tao-core-ui": "^3.13.4",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
