@@ -82,25 +82,11 @@ module.exports = function(grunt) {
             //global options
             options : {
                 inject: './config/chrome-bridge.js',
-                timeout: 60000,
+                timeout: 30000,
                 puppeteer : {
                     ignoreHTTPSErrors: true,
-                    timeout: 60000,
-                    args: [ 
-                        '--no-sandbox', 
-                        '--disable-gpu', 
-                        '--disable-popup-blocking',
-                        '--autoplay-policy=no-user-gesture-required',
-                        '--disable-dev-shm-usage',
-                        '--disable-setuid-sandbox',
-                        '--disable-web-security',
-                        '--disable-features=IsolateOrigins,site-per-process',
-                        '--no-first-run',
-                        '--disable-extensions',
-                        '--disable-background-timer-throttling',
-                        '--disable-backgrounding-occluded-windows',
-                        '--disable-renderer-backgrounding'
-                    ],
+                    timeout: 30000,
+                    args: [ '--no-sandbox', '--disable-gpu', '--disable-popup-blocking' , '--autoplay-policy=no-user-gesture-required'],
                     defaultViewport:  {
                         width: 1280,
                         height: 720,

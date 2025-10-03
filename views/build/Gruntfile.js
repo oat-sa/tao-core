@@ -52,7 +52,8 @@ module.exports = function(grunt) {
     grunt.option('requirejsModule', require('requirejs'));
     grunt.option('babelModule', require('@babel/core'));
 
-    //track build time - removed time-grunt dependency as it's deprecated
+    //track build time
+    require('time-grunt')(grunt);
 
     // load all grunt tasks matching the `grunt-*` pattern
     require('load-grunt-tasks')(grunt);

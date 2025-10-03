@@ -19,12 +19,12 @@
     /**
      * Max time to wait for a test before it is considered as timed out.
      */
-    const testTimeoutMs = 60 * 1000;
+    const testTimeoutMs = 30 * 1000;
 
     /**
      * Max time to wait between the page loads and the first test to run
      */
-    const pageLoadTimeoutMs = 10 * 1000;
+    const pageLoadTimeoutMs = 5 * 1000;
 
     /**
      * Emit an event to the grunt task (report and control)
