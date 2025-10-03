@@ -43,7 +43,8 @@
         "load-grunt-tasks": "^5.1.0",
         "lodash": "^4.17.21",
         "prettier": "^2.8.8",
-        "sass": "^1.62.1"
+        "sass": "^1.62.1",
+        "time-grunt": "^2.0.0"
     },
     "prettier": "@oat-sa/prettier-config",
     "browserslist": [

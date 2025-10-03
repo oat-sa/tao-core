@@ -86,9 +86,9 @@ module.exports = function(grunt) {
                 puppeteer : {
                     ignoreHTTPSErrors: true,
                     timeout: 60000,
-                    args: [ 
-                        '--no-sandbox', 
-                        '--disable-gpu', 
+                    args: [
+                        '--no-sandbox',
+                        '--disable-gpu',
                         '--disable-popup-blocking',
                         '--autoplay-policy=no-user-gesture-required',
                         '--disable-dev-shm-usage',
