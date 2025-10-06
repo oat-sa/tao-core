@@ -15,25 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\test\unit\webhooks;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookAuth;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\WebhookFileRegistry;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class WebhookFileRegistryTest extends TestCase
 {
-    /** @var WebhookFileRegistry */
-    private $registry;
+    use ServiceManagerMockTrait;
 
-    /** @var WebhookEntryFactory|MockObject */
-    private $webhookEntryFactoryMock;
+    private WebhookFileRegistry $registry;
+    private WebhookEntryFactory|MockObject $webhookEntryFactoryMock;
 
     protected function setUp(): void
     {
@@ -61,7 +61,7 @@ class WebhookFileRegistryTest extends TestCase
             ]
         ]);
 
-        $serviceLocator = $this->getServiceLocatorMock([
+        $serviceLocator = $this->getServiceManagerMock([
             WebhookEntryFactory::class => $this->webhookEntryFactoryMock
         ]);
 

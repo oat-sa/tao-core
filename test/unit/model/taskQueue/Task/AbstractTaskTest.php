@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\model\taskQueue\Task;
 use InvalidArgumentException;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\Task\TaskInterface;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class AbstractTaskTest extends TestCase
 {
@@ -35,7 +35,7 @@ class AbstractTaskTest extends TestCase
     private $fakeId = 'ADFA23234sdfsdf';
     private $fakeOwner = 'FakeOwner';
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->abstractTaskMock = $this->getMockBuilder(AbstractTask::class)
             ->setConstructorArgs([$this->fakeId, $this->fakeOwner])

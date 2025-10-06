@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\accessControl\filter;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\accessControl\filter\ParameterFilterInterface;
 use oat\tao\model\accessControl\filter\ParameterFilterProxy;
 

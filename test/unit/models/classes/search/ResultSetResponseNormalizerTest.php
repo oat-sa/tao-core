@@ -58,7 +58,7 @@ class ResultSetResponseNormalizerTest extends TestCase
     /** @var ResultAccessChecker|MockObject */
     private $resultAccessChecker;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->permissionHelperMock = $this->createMock(PermissionHelper::class);
         $this->searchQueryMock = $this->createMock(SearchQuery::class);

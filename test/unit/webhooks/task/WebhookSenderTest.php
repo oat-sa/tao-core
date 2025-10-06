@@ -15,23 +15,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\webhooks\task;
 
+use common_exception_InvalidArgumentType;
 use GuzzleHttp\Exception\GuzzleException;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\task\WebhookSender;
 use Psr\Http\Message\RequestInterface;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class WebhookSenderTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     /**
      * @throws GuzzleException
-     * @throws \common_exception_InvalidArgumentType
+     * @throws common_exception_InvalidArgumentType
      */
     public function testPerformRequestWithAuth()
     {
@@ -44,7 +50,7 @@ class WebhookSenderTest extends TestCase
         $authConfig->method('getCredentials')->willReturn(['c' => 'v']);
 
         $sender = new WebhookSender();
-        $sender->setServiceLocator($this->getServiceLocatorMock());
+        $sender->setServiceLocator($this->getServiceManagerMock());
         /** @var \stdClass $response */
         $response = $sender->performRequest($request, $authConfig);
 

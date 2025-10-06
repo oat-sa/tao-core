@@ -15,14 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\menu;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\menu\SectionVisibilityFilter;
 use oat\tao\model\user\implementation\UserSettingsService;
@@ -30,21 +31,18 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class SectionVisibilityFilterTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private const SECTION_VISIBLE_BY_DEFAULT = 'section_visible_by_default';
     private const FEATURE_FLAG_SECTION_VISIBLE_BY_DEFAULT_DISABLED = 'FEATURE_FLAG_SECTION_VISIBLE_BY_DEFAULT_DISABLED';
-    /** @var SectionVisibilityFilter */
-    private $subject;
 
-    /** @var FeatureFlagChecker|MockObject  */
-    private $featureFlagChecker;
+    private SectionVisibilityFilter $subject;
+    private FeatureFlagChecker|MockObject $featureFlagChecker;
 
-    /** @var UserSettingsService|MockObject  */
-    private $userSettingsService;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
-        $this->userSettingsService = $this->createMock(UserSettingsService::class);
+        $userSettingsService = $this->createMock(UserSettingsService::class);
 
         $this->subject = new SectionVisibilityFilter(
             [
@@ -62,9 +60,9 @@ class SectionVisibilityFilterTest extends TestCase
         );
 
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock([
+            $this->getServiceManagerMock([
                 FeatureFlagChecker::class => $this->featureFlagChecker,
-                UserSettingsService::class => $this->userSettingsService,
+                UserSettingsService::class => $userSettingsService,
             ])
         );
     }

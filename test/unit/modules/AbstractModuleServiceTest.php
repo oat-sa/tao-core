@@ -15,62 +15,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2025 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\modules;
 
+use common_ext_Extension;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\modules\AbstractModuleRegistry;
 use oat\tao\model\modules\AbstractModuleService;
 use oat\tao\model\modules\DynamicModule;
-use Prophecy\Prophet;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Concrete class ModuleRegistry
- * @package oat\tao\test\unit\modules
- */
 class ModuleRegistry extends AbstractModuleRegistry
 {
-    /**
-     * @see \oat\oatbox\AbstractRegistry::getExtension()
-     */
-    protected function getExtension()
+    protected function getExtension(): common_ext_Extension
     {
-        $prophet = new Prophet();
-        $prophecy = $prophet->prophesize();
-        $prophecy->willExtend(\common_ext_Extension::class);
-
-        return $prophecy->reveal();
+        return new class extends common_ext_Extension {
+        };
     }
 
-    /**
-     * @see \oat\oatbox\AbstractRegistry::getConfigId()
-     */
-    protected function getConfigId()
+    protected function getConfigId(): string
     {
         return 'module_registry';
     }
 }
 
-/**
- * Concrete class ModuleService
- * @package oat\tao\test\unit\modules
- */
 class ModuleService extends AbstractModuleService
 {
 }
 
-/**
- * Test the AbstractModuleService
- *
- * @author Bertrand Chevrier <bertrand@taotesting.com>
- * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
- */
 class AbstractModuleServiceTest extends TestCase
 {
-    //data to stub the registry content
+    // data to stub the registry content
     private static $moduleData = [
         'my/wonderful/module/title' => [
             'id' => 'title',
@@ -96,44 +75,37 @@ class AbstractModuleServiceTest extends TestCase
         ]
     ];
 
-
-    /**
-     * Get the service with the stubbed registry
-     * @return AbstractModuleService
-     */
-    protected function getModuleService()
+    protected function getModuleService(): ModuleService
     {
-        $prophet = new Prophet();
-        $prophecy = $prophet->prophesize();
-        $prophecy->willExtend(ModuleRegistry::class);
-        $prophecy->getMap()->willReturn(self::$moduleData);
+        // Partial mock ModuleRegistry: подменяем только getMap()
+        $registry = $this->getMockBuilder(ModuleRegistry::class)
+            ->onlyMethods(['getMap'])
+            ->getMock();
+
+        $registry
+            ->method('getMap')
+            ->willReturn(self::$moduleData);
 
         $moduleService = new ModuleService();
-        $moduleService->setRegistry($prophecy->reveal());
+        $moduleService->setRegistry($registry);
 
         return $moduleService;
     }
 
-    /**
-     * Check the service is a service
-     */
-    public function testApi()
+    public function testApi(): void
     {
         $moduleService = $this->getModuleService();
         $this->assertInstanceOf(AbstractModuleService::class, $moduleService);
         $this->assertInstanceOf(ConfigurableService::class, $moduleService);
     }
 
-    /**
-     * Test the method AbstractModuleService::getAllModules
-     */
-    public function testGetAllModules()
+    public function testGetAllModules(): void
     {
         $moduleService = $this->getModuleService();
 
         $modules = $moduleService->getAllModules();
 
-        $this->assertEquals(2, count($modules));
+        $this->assertCount(2, $modules);
 
         $module0 = $modules['my/wonderful/module/title'];
         $module1 = $modules['my/wonderful/module/text'];
@@ -154,10 +126,7 @@ class AbstractModuleServiceTest extends TestCase
         $this->assertTrue($module1->isActive());
     }
 
-    /**
-     * Test the method AbstractModuleService::getModule
-     */
-    public function testGetOneModule()
+    public function testGetOneModule(): void
     {
         $moduleService = $this->getModuleService();
 

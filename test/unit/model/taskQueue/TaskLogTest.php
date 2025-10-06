@@ -15,17 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2025 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\taskQueue;
 
 use common_exception_NotFound;
 use Exception;
 use InvalidArgumentException;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
@@ -34,14 +37,15 @@ use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class TaskLogTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     /** @var TaskLog */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new TaskLog(
             [
@@ -60,7 +64,7 @@ class TaskLogTest extends TestCase
     {
         $logBrokerMock = $this->getMockBuilder(TaskLogBrokerInterface::class)
             ->disableOriginalConstructor()
-            ->setMethods(['setServiceLocator'])
+            ->onlyMethods(['setServiceLocator'])
             ->getMockForAbstractClass();
 
         $logBrokerMock->expects($this->once())
@@ -68,18 +72,16 @@ class TaskLogTest extends TestCase
 
         $taskLogMock = $this->getMockBuilder(TaskLog::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getOption', 'getServiceLocator'])
+            ->onlyMethods(['getOption', 'getServiceLocator'])
             ->getMock();
 
         $taskLogMock->expects($this->once())
             ->method('getOption')
             ->willReturn($logBrokerMock);
 
-        $serviceMangerMock = $this->createMock(ServiceLocatorInterface::class);
-
         $taskLogMock->expects($this->once())
             ->method('getServiceLocator')
-            ->willReturn($serviceMangerMock);
+            ->willReturn($this->getServiceManagerMock());
 
         $brokerCaller = function () {
             return $this->getBroker();
@@ -96,7 +98,7 @@ class TaskLogTest extends TestCase
 
         $taskLogMock = $this->getMockBuilder(TaskLog::class)
             ->disableOriginalConstructor()
-            ->setMethods(['logError'])
+            ->onlyMethods(['logError'])
             ->getMock();
 
         $taskLogMock->expects($this->atLeastOnce())
@@ -116,7 +118,7 @@ class TaskLogTest extends TestCase
 
         $taskLogMock = $this->getMockBuilder(TaskLog::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getBroker'])
+            ->onlyMethods(['getBroker'])
             ->getMock();
 
         $taskLogMock->expects($this->once())
@@ -136,7 +138,7 @@ class TaskLogTest extends TestCase
 
         $taskLogMock = $this->getMockBuilder(TaskLog::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getBroker', 'validateStatus'])
+            ->onlyMethods(['getBroker', 'validateStatus'])
             ->getMock();
 
         $taskLogMock->expects($this->once())
@@ -161,7 +163,7 @@ class TaskLogTest extends TestCase
 
         $taskLogMock = $this->getMockBuilder(TaskLog::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getBroker', 'validateStatus'])
+            ->onlyMethods(['getBroker', 'validateStatus'])
             ->getMock();
 
         $taskLogMock->expects($this->once())

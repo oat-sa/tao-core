@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -24,40 +24,31 @@ namespace oat\tao\test\unit\models\classes\task\migration;
 
 use common_persistence_KeyValuePersistence;
 use oat\generis\persistence\PersistenceManager;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\task\migration\service\PositionTracker;
 
 class PositionTrackerTest extends TestCase
 {
-    /**
-     * @var PositionTracker
-     */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /**
-     * @var PersistenceManager|MockObject
-     */
-    private $persistenceManagerMock;
+    private PositionTracker $subject;
+    private common_persistence_KeyValuePersistence|MockObject $persistenceMock;
 
-    /**
-     * @var common_persistence_KeyValuePersistence|MockObject
-     */
-    private $persistenceMock;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new PositionTracker();
-        $this->persistenceManagerMock = $this->createMock(PersistenceManager::class);
+        $persistenceManagerMock = $this->createMock(PersistenceManager::class);
         $this->persistenceMock = $this->createMock(common_persistence_KeyValuePersistence::class);
 
-        $this->persistenceManagerMock
+        $persistenceManagerMock
             ->method('getPersistenceById')
             ->willReturn($this->persistenceMock);
 
-        $this->subject->setServiceLocator($this->getServiceLocatorMock(
+        $this->subject->setServiceLocator($this->getServiceManagerMock(
             [
-                PersistenceManager::SERVICE_ID => $this->persistenceManagerMock,
+                PersistenceManager::SERVICE_ID => $persistenceManagerMock,
             ]
         ));
     }

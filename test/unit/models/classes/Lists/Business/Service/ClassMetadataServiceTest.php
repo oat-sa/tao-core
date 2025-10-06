@@ -15,50 +15,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Lists\Business\Service;
+namespace oat\tao\test\unit\models\classes\Lists\Business\Service;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use oat\generis\model\data\Ontology;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ClassMetadataSearchRequest;
 use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Business\Service\ClassMetadataService;
 use oat\tao\model\Lists\Business\Service\GetClassMetadataValuesService;
-use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ClassMetadataServiceTest extends TestCase
 {
-    /** @var ClassMetadataService */
-    private $sut;
+    use ServiceManagerMockTrait;
 
-    /** @var ValueCollectionService|MockObject */
-    private $valueCollectionServiceMock;
+    private ClassMetadataService $sut;
+    private ValueCollectionRepositoryInterface|MockObject $repositoryMock;
+    private ClassMetadataSearchRequest|MockObject $classMetadataSearchRequestMock;
+    private ClassMetadataSearchInput|MockObject $classMetadataSearchInputMock;
+    private core_kernel_classes_Property|MockObject $property;
 
-    /** @var ValueCollectionRepositoryInterface|MockObject */
-    private $repositoryMock;
-
-    /** @var ClassMetadataSearchRequest|MockObject */
-    private $classMetadataSearchRequestMock;
-
-    /** @var ClassMetadataSearchInput|MockObject */
-    private $classMetadataSearchInputMock;
-
-    /** @var core_kernel_classes_Property|MockObject */
-    private $property;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->repositoryMock = $this->createMock(ValueCollectionRepositoryInterface::class);
-        $this->valueCollectionServiceMock = $this->createMock(GetClassMetadataValuesService::class);
+        $valueCollectionServiceMock = $this->createMock(GetClassMetadataValuesService::class);
         $this->classMetadataSearchRequestMock = $this->createMock(ClassMetadataSearchRequest::class);
         $this->classMetadataSearchInputMock = $this->createMock(ClassMetadataSearchInput::class);
 
@@ -68,7 +57,7 @@ class ClassMetadataServiceTest extends TestCase
             ->willReturn($this->classMetadataSearchRequestMock);
 
         $this->sut = new ClassMetadataService(
-            $this->valueCollectionServiceMock
+            $valueCollectionServiceMock
         );
 
         $ontologyServiceMock = $this->createMock(Ontology::class);
@@ -80,7 +69,7 @@ class ClassMetadataServiceTest extends TestCase
         $getClassMetadataValuesServiceMock = $this->createMock(GetClassMetadataValuesService::class);
 
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     Ontology::SERVICE_ID => $ontologyServiceMock,
                     GetClassMetadataValuesService::class => $getClassMetadataValuesServiceMock,

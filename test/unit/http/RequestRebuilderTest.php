@@ -21,7 +21,7 @@
 namespace oat\tao\test\unit\http;
 
 use GuzzleHttp\Psr7\Request;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\http\RequestRebuilder;
 
 class RequestRebuilderTest extends TestCase
@@ -31,7 +31,7 @@ class RequestRebuilderTest extends TestCase
      */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new RequestRebuilder();
     }

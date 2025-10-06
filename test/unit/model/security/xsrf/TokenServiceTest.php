@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\model\security\xsrf;
 
 use common_exception_NoImplementation;
 use common_exception_Unauthorized as UnauthorizedException;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\exception\InvalidService;

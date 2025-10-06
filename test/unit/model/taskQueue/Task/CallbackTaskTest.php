@@ -25,7 +25,7 @@ use oat\tao\model\taskQueue\Task\CallbackTask;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\test\Asset\CallableFixture;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class CallbackTaskTest extends TestCase
 {
@@ -36,7 +36,7 @@ class CallbackTaskTest extends TestCase
     private $fakeId = 'WCDWW544eefdtyh';
     private $fakeOwner = 'FakeOwner2';
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->task = new CallbackTask($this->fakeId, $this->fakeOwner);
     }

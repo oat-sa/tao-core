@@ -20,7 +20,7 @@
 
 namespace oat\test\unit\model\resources\relation;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\resources\relation\FindAllQuery;
 
 class FindAllQueryTest extends TestCase

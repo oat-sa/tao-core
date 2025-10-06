@@ -23,7 +23,7 @@ namespace oat\tao\test\unit\model\export\Metadata;
 use core_kernel_classes_Property;
 use core_kernel_classes_Triple;
 use InvalidArgumentException;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdBasicTripleEncoder;
@@ -43,7 +43,7 @@ class JsonLdBasicTripleEncoderTest extends TestCase
     /** @var JsonLdBasicTripleEncoder */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new JsonLdBasicTripleEncoder();
     }

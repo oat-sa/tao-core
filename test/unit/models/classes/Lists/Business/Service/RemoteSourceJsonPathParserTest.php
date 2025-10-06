@@ -20,9 +20,10 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Lists\Business\Service;
+namespace oat\tao\test\unit\models\classes\Lists\Business\Service;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
@@ -32,8 +33,9 @@ use oat\tao\model\Lists\Business\Service\RemoteSourceJsonPathParser;
 
 class RemoteSourceJsonPathParserTest extends TestCase
 {
-    /** @var RemoteSourceJsonPathParser */
-    private $sut;
+    use ServiceManagerMockTrait;
+
+    private RemoteSourceJsonPathParser $sut;
 
     protected function setUp(): void
     {
@@ -45,7 +47,7 @@ class RemoteSourceJsonPathParserTest extends TestCase
 
         $this->sut = new RemoteSourceJsonPathParser();
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock([
+            $this->getServiceManagerMock([
                 FeatureFlagChecker::class => $featureFlagChecker,
             ])
         );

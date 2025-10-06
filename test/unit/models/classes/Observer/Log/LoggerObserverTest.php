@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\Observer\Log;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Observer\Log\LoggerObserver;
 use oat\tao\model\Observer\SubjectInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -36,7 +36,7 @@ class LoggerObserverTest extends TestCase
     /** @var LoggerObserver */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->subject = new LoggerObserver($this->logger);

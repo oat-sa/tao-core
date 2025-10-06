@@ -15,17 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\search;
+namespace oat\tao\test\unit\models\classes\search;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\search\GenerisSearchBridge;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
@@ -34,18 +35,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class GenerisSearchBridgeTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private const LOCAL_NAMESPACE = 'http://something';
 
-    /** @var GenerisSearchBridge */
-    private $subject;
+    private GenerisSearchBridge $subject;
+    private Ontology|MockObject $ontology;
+    private Search|MockObject $searchEngineMock;
 
-    /** @var Ontology */
-    private $ontology;
-
-    /** @var Search|MockObject */
-    private $searchEngineMock;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->searchEngineMock = $this->createMock(Search::class);
         $this->ontology = $this->createMock(Ontology::class);
@@ -53,7 +51,7 @@ class GenerisSearchBridgeTest extends TestCase
         $this->subject = new GenerisSearchBridge();
         $this->subject->withLocalNamespace(self::LOCAL_NAMESPACE);
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     Search::SERVICE_ID => $this->searchEngineMock,
                     Ontology::SERVICE_ID => $this->ontology,

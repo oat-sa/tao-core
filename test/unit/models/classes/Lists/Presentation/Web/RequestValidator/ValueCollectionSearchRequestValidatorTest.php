@@ -26,7 +26,7 @@ namespace oat\tao\test\unit\model\Lists\Presentation\Web\RequestValidator;
 
 use common_exception_BadRequest as BadRequestException;
 use Exception;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ValueCollectionSearchRequestValidator;
 use Psr\Http\Message\ServerRequestInterface;
 

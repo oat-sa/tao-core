@@ -15,14 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2022-2025 (original work) Open Assessment Technologies SA;
  *
  * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\unit\test\model\featureFlag\Repository;
+namespace oat\tao\test\unit\models\classes\featureFlag\Repository;
 
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
@@ -44,7 +44,7 @@ class FeatureFlagRepositoryTest extends TestCase
     /** @var Ontology|MockObject */
     private $ontology;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->cache = $this->createMock(CacheInterface::class);
@@ -85,24 +85,13 @@ class FeatureFlagRepositoryTest extends TestCase
             ->willReturn($property);
 
         $this->cache
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('has')
             ->willReturn(true);
 
         $this->cache
-            ->expects($this->at(1))
+            ->expects($this->exactly(2))
             ->method('delete');
-
-        $this->cache
-            ->expects($this->at(2))
-            ->method('has')
-            ->with('FEATURE_FLAG_LIST')
-            ->willReturn(true);
-
-        $this->cache
-            ->expects($this->at(3))
-            ->method('delete')
-            ->with('FEATURE_FLAG_LIST');
 
         $this->subject->save('FEATURE_FLAG_NAME', true);
     }
@@ -125,13 +114,15 @@ class FeatureFlagRepositoryTest extends TestCase
             ->willReturn($resource);
 
         $this->cache
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('get')
-            ->with('FEATURE_FLAG_LIST')
-            ->willReturn(null);
+            ->willReturnCallback(fn ($key) => match ($key) {
+                'http://www.tao.lu/Ontologies/TAO.rdf#featureFlags_FEATURE_FLAG_NAME' => true,
+                default => null,
+            });
 
         $this->cache
-            ->expects($this->at(2))
+            ->expects($this->once())
             ->method('set')
             ->with(
                 'FEATURE_FLAG_LIST',
@@ -140,12 +131,6 @@ class FeatureFlagRepositoryTest extends TestCase
                 ]
             )
             ->willReturn(false);
-
-        $this->cache
-            ->expects($this->at(1))
-            ->method('get')
-            ->with('http://www.tao.lu/Ontologies/TAO.rdf#featureFlags_FEATURE_FLAG_NAME')
-            ->willReturn(true);
 
         $this->assertSame(
             [
@@ -164,7 +149,7 @@ class FeatureFlagRepositoryTest extends TestCase
             ->method('getResource');
 
         $this->cache
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('get')
             ->with('FEATURE_FLAG_LIST')
             ->willReturn(
@@ -210,16 +195,13 @@ class FeatureFlagRepositoryTest extends TestCase
             ->willReturn($resource);
 
         $this->cache
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('get')
-            ->with('FEATURE_FLAG_LIST')
-            ->willReturn('malformedData notAnArray');
-
-        $this->cache
-            ->expects($this->at(1))
-            ->method('get')
-            ->with('http://www.tao.lu/Ontologies/TAO.rdf#featureFlags_FEATURE_FLAG_NAME')
-            ->willReturn(true);
+            ->willReturnCallback(fn ($key) => match ($key) {
+                'FEATURE_FLAG_LIST' => 'malformedData notAnArray',
+                'http://www.tao.lu/Ontologies/TAO.rdf#featureFlags_FEATURE_FLAG_NAME' => true,
+                default => null,
+            });
 
         $this->assertSame(
             [
@@ -305,32 +287,16 @@ class FeatureFlagRepositoryTest extends TestCase
             ->willReturn([$triple1, $triple2]);
 
         $this->cache
-            ->expects($this->at(0))
+            ->expects($this->exactly(3))
             ->method('has')
-            ->with('predicate1')
-            ->willReturn(true);
+            ->willReturnCallback(fn ($key) => match ($key) {
+                'predicate1', 'FEATURE_FLAG_LIST' => true,
+                default => false,
+            });
 
         $this->cache
-            ->expects($this->at(1))
-            ->method('delete')
-            ->with('predicate1');
-
-        $this->cache
-            ->expects($this->at(2))
-            ->method('has')
-            ->with('predicate2')
-            ->willReturn(false);
-
-        $this->cache
-            ->expects($this->at(3))
-            ->method('has')
-            ->with('FEATURE_FLAG_LIST')
-            ->willReturn(true);
-
-        $this->cache
-            ->expects($this->at(4))
-            ->method('delete')
-            ->with('FEATURE_FLAG_LIST');
+            ->expects($this->exactly(2))
+            ->method('delete');
 
         $this->ontology
             ->expects($this->once())

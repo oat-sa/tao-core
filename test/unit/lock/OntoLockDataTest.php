@@ -15,56 +15,66 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 Open Assessment Technologies S.A.
- *
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA.
  */
 
-namespace  oat\tao\test\unit\lock;
+declare(strict_types=1);
+
+namespace oat\tao\test\unit\lock;
 
 use common_exception_InconsistentData;
+use core_kernel_classes_Resource;
 use oat\tao\model\lock\implementation\OntoLockData;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class OntoLockDataTest extends TestCase
 {
     /**
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function testGetOwner()
+    public function testGetOwner(): void
     {
-        $resource = $this->prophesize('core_kernel_classes_Resource');
-        $owner = $this->prophesize('core_kernel_classes_Resource');
-        $owner->getUri()->willReturn('#ownerUri');
-        $lock = new OntoLockData($resource->reveal(), $owner->reveal(), 'epoch');
-        $this->assertInstanceOf('core_kernel_classes_Resource', $lock->getOwner());
+        $resource = $this->createMock(core_kernel_classes_Resource::class);
+        $owner = $this->createMock(core_kernel_classes_Resource::class);
+        $owner
+            ->method('getUri')
+            ->willReturn('#ownerUri');
+
+        $lock = new OntoLockData($resource, $owner, 'epoch');
+
+        $this->assertInstanceOf(core_kernel_classes_Resource::class, $lock->getOwner());
         $this->assertEquals('#ownerUri', $lock->getOwner()->getUri());
     }
+
     /**
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function testToJson()
+    public function testToJson(): void
     {
-        $resource = $this->prophesize('core_kernel_classes_Resource');
-        $owner = $this->prophesize('core_kernel_classes_Resource');
-        $owner->getUri()->willReturn('#ownerUri');
-        $resource->getUri()->willReturn('#resourceUri');
-        $lock = new OntoLockData($resource->reveal(), $owner->reveal(), 'epoch');
+        $resource = $this->createMock(core_kernel_classes_Resource::class);
+        $resource
+            ->method('getUri')
+            ->willReturn('#resourceUri');
+        $owner = $this->createMock(core_kernel_classes_Resource::class);
+        $owner
+            ->method('getUri')
+            ->willReturn('#ownerUri');
 
+        $lock = new OntoLockData($resource, $owner, 'epoch');
 
         $expected = json_encode([
             'resource' => '#resourceUri',
             'owner' =>  '#ownerUri',
-            'epoch' => 'epoch'
+            'epoch' => 'epoch',
         ]);
 
         $this->assertEquals($expected, $lock->toJson());
     }
+
     /**
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function testGetLockDataExeption()
+    public function testGetLockDataException(): void
     {
         $this->expectException(common_exception_InconsistentData::class);
         OntoLockData::getLockData(json_encode([]));
