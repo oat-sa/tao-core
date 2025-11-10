@@ -15,19 +15,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA
- *
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\upload;
 
+use common_persistence_InMemoryKvDriver;
+use common_persistence_KeyValuePersistence;
 use oat\generis\persistence\PersistenceManager;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\TempFlyStorageAssociation;
-use oat\tao\model\upload\TmpLocalAwareStorageInterface;
-use Prophecy\Argument;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class TempFlyStorageAssociationTest
@@ -35,7 +37,9 @@ use Prophecy\Argument;
  */
 class TempFlyStorageAssociationTest extends TestCase
 {
-    public function testSetUpload()
+    use ServiceManagerMockTrait;
+
+    public function testSetUpload(): void
     {
         $file = new File('foo', 'bar');
         $storage = $this->getInstance();
@@ -44,7 +48,7 @@ class TempFlyStorageAssociationTest extends TestCase
         $this->assertTrue(in_array('baz', $storage->getLocalCopies($file)));
     }
 
-    public function testAddLocalCopies()
+    public function testAddLocalCopies(): void
     {
         $file = new File('foo', 'bar');
         $storage = $this->getInstance();
@@ -56,7 +60,7 @@ class TempFlyStorageAssociationTest extends TestCase
         $this->assertCount(2, $storage->getLocalCopies($file));
     }
 
-    public function testGetLocalCopies()
+    public function testGetLocalCopies(): void
     {
         $file = new File('foo', 'bar');
         $storage = $this->getInstance();
@@ -69,7 +73,7 @@ class TempFlyStorageAssociationTest extends TestCase
         $this->assertCount(2, $storage->getLocalCopies($file));
     }
 
-    public function testRemoveFiles()
+    public function testRemoveFiles(): void
     {
         $file = new File('foo', 'bar');
         $storage = $this->getInstance();
@@ -80,33 +84,21 @@ class TempFlyStorageAssociationTest extends TestCase
         $this->assertEquals([], $storage->getLocalCopies($file));
     }
 
-    /**
-     * @return TmpLocalAwareStorageInterface
-     * @throws \common_Exception
-     */
-    private function getInstance()
+    private function getInstance(): TempFlyStorageAssociation
     {
-        /** @var TempFlyStorageAssociation $instance */
-        return new TempFlyStorageAssociation($this->getServiceManagerMock());
-    }
+        $persistenceManagerMock = $this->createMock(PersistenceManager::class);
+        $persistenceManagerMock
+            ->method('setServiceLocator')
+            ->willReturn(null);
+        $persistenceManagerMock
+            ->method('getPersistenceById')
+            ->with('default_kv')
+            ->willReturn(new common_persistence_KeyValuePersistence([], new common_persistence_InMemoryKvDriver()));
 
-    /**
-     * @return ServiceManager
-     * @throws \common_Exception
-     */
-    private function getServiceManagerMock()
-    {
-        $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
-        $serviceManager = new ServiceManager($config);
+        $serviceManagerMock = $this->getServiceManagerMock([
+            PersistenceManager::SERVICE_ID => $persistenceManagerMock,
+        ]);
 
-        $pmProphecy = $this->prophesize(PersistenceManager::class);
-        $pmProphecy->setServiceLocator(Argument::any())->willReturn(null);
-        $pmProphecy->getPersistenceById('default_kv')
-            ->willReturn(new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver()));
-        $pm = $pmProphecy->reveal();
-
-        $serviceManager->register(PersistenceManager::SERVICE_ID, $pm);
-
-        return $serviceManager;
+        return new TempFlyStorageAssociation($serviceManagerMock);
     }
 }

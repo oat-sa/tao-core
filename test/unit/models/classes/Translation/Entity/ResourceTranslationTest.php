@@ -32,7 +32,7 @@ class ResourceTranslationTest extends TestCase
 {
     private ResourceTranslation $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new ResourceTranslation('resourceUri', 'resourceLabel');
         $this->sut->setOriginResourceUri('originResourceUri');

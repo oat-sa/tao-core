@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\session\Business\Domain;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\session\Business\Domain\SessionCookieAttribute;
 
 /**

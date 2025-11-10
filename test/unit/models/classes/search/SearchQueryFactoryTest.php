@@ -32,7 +32,7 @@ class SearchQueryFactoryTest extends TestCase
     /** @var SearchQueryFactory */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new SearchQueryFactory();
     }

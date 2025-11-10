@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -24,8 +24,9 @@ namespace oat\tao\test\unit\models\classes\task\migration\service;
 
 use common_report_Report;
 use core_kernel_classes_Resource;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\task\migration\MigrationConfig;
 use oat\tao\model\task\migration\ResultUnit;
 use oat\tao\model\task\migration\ResultUnitCollection;
@@ -38,37 +39,26 @@ use oat\tao\model\task\migration\service\StatementLastIdRetriever;
 
 class QueueMigrationServiceTest extends TestCase
 {
-    /** @var QueueMigrationService */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /** @var StatementLastIdRetriever|MockObject */
-    private $statementLastIdRetrieverMock;
+    private QueueMigrationService $subject;
+    private StatementLastIdRetriever|MockObject $statementLastIdRetrieverMock;
+    private ResultUnitProcessorInterface|MockObject $resultUnitProcessorMock;
+    private ResultSearcherInterface|MockObject $resultSearcherMock;
+    private common_report_Report|MockObject $reportMock;
+    private ResultFilter|MockObject $resultFilterMock;
+    private SpawnMigrationConfigServiceInterface|MockObject $spawnMigrationConfigServiceMock;
 
-    /** @var ResultUnitProcessorInterface|MockObject */
-    private $resultUnitProcessorMock;
-
-    /** @var ResultSearcherInterface|MockObject */
-    private $resultSearcherMock;
-
-    /** @var common_report_Report|MockObject */
-    private $reportMock;
-
-    /** @var ResultFilter|MockObject */
-    private $resoultFilterMock;
-
-    /** @var SpawnMigrationConfigServiceInterface|MockObject */
-    private $spawnMigrationConfigServiceMock;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->resultSearcherMock = $this->createMock(ResultSearcherInterface::class);
         $this->resultUnitProcessorMock = $this->createMock(ResultUnitProcessorInterface::class);
         $this->statementLastIdRetrieverMock = $this->createMock(StatementLastIdRetriever::class);
         $this->reportMock = $this->createMock(common_report_Report::class);
-        $this->resoultFilterMock = $this->createMock(ResultFilter::class);
+        $this->resultFilterMock = $this->createMock(ResultFilter::class);
         $this->spawnMigrationConfigServiceMock = $this->createMock(SpawnMigrationConfigServiceInterface::class);
         $this->subject = new QueueMigrationService();
-        $this->subject->setServiceLocator($this->getServiceLocatorMock(
+        $this->subject->setServiceLocator($this->getServiceManagerMock(
             [
                 StatementLastIdRetriever::class => $this->statementLastIdRetrieverMock,
                 ResultUnitProcessorInterface::class => $this->resultUnitProcessorMock,
@@ -76,7 +66,7 @@ class QueueMigrationServiceTest extends TestCase
         ));
     }
 
-    public function testMigrateExceuteOnce(): void
+    public function testMigrateExecuteOnce(): void
     {
         $config = new MigrationConfig(['start' => 0], 2, 1, false);
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
@@ -104,7 +94,7 @@ class QueueMigrationServiceTest extends TestCase
             $config,
             $this->resultUnitProcessorMock,
             $this->resultSearcherMock,
-            $this->resoultFilterMock,
+            $this->resultFilterMock,
             $this->spawnMigrationConfigServiceMock,
             $this->reportMock
         );
@@ -145,7 +135,7 @@ class QueueMigrationServiceTest extends TestCase
             $config,
             $this->resultUnitProcessorMock,
             $this->resultSearcherMock,
-            $this->resoultFilterMock,
+            $this->resultFilterMock,
             $this->spawnMigrationConfigServiceMock,
             $this->reportMock
         );

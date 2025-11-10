@@ -15,88 +15,79 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\search;
+namespace oat\tao\test\unit\models\classes\search;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
+use oat\generis\test\ServiceManagerMockTrait;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\model\data\permission\PermissionHelper;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\search\ResultAccessChecker;
 
 class ResultAccessCheckerTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private const SAMPLE_VALUES = [
         'id' => 'uri1',
         'label' => 'label1'
     ];
 
-    /** @var PermissionHelper|MockObject */
-    private $permissionHelperMock;
+    private PermissionHelper|MockObject $permissionHelperMock;
+    private ResultAccessChecker $subject;
 
-    /** @var Ontology|MockObject */
-    private $modelMock;
-
-    /** @var core_kernel_classes_Resource|MockObject */
-    private $resourceMock;
-
-    /** @var core_kernel_classes_Class|MockObject */
-    private $class;
-
-    /** @var ResultAccessChecker */
-    private $subject;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->permissionHelperMock = $this->createMock(PermissionHelper::class);
-        $this->modelMock = $this->createMock(Ontology::class);
-        $this->resourceMock = $this->createMock(core_kernel_classes_Resource::class);
-        $this->class = $this->createMock(core_kernel_classes_Class::class);
+        $modelMock = $this->createMock(Ontology::class);
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $class = $this->createMock(core_kernel_classes_Class::class);
 
-        $this->modelMock
+        $modelMock
             ->method('getResource')
-            ->willReturn($this->resourceMock);
+            ->willReturn($resourceMock);
 
-        $this->resourceMock
+        $resourceMock
             ->method('getUri')
             ->willReturn('uri1');
 
-        $this->resourceMock
+        $resourceMock
             ->method('getLabel')
             ->willReturn('label');
 
-        $this->modelMock
+        $modelMock
             ->method('getClass')
-            ->willReturn($this->class);
+            ->willReturn($class);
 
-        $this->resourceMock
+        $resourceMock
             ->method('getTypes')
-            ->willReturn([$this->class]);
+            ->willReturn([$class]);
 
-        $this->class
+        $class
             ->method('getParentClasses')
             ->willReturn(
                 [
-                    $this->class
+                    $class
                 ]
             );
 
         $this->subject = new ResultAccessChecker();
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     PermissionHelper::class => $this->permissionHelperMock
                 ]
             )
         );
 
-        $this->subject->setModel($this->modelMock);
+        $this->subject->setModel($modelMock);
     }
 
     public function testHasReadAccess()

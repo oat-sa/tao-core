@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\task\migration\service;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\task\migration\MigrationConfig;
 use oat\tao\model\task\migration\service\ResultFilter;
 use oat\tao\model\task\migration\service\SpawnMigrationConfigService;
@@ -32,7 +32,7 @@ class SpawnMigrationConfigServiceTest extends TestCase
     /** @var SpawnMigrationConfigService */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new SpawnMigrationConfigService();
     }

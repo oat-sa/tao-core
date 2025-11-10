@@ -15,40 +15,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\test\unit\AdvancedSearch;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\tao\model\search\SearchInterface;
 use oat\tao\model\search\SearchProxy;
 use oat\taoAdvancedSearch\model\SearchEngine\Driver\Elasticsearch\ElasticSearch;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use PHPUnit\Framework\TestCase;
 
 class AdvancedSearchCheckerTest extends TestCase
 {
-    /** @var FeatureFlagChecker|MockObject */
-    private $featureFlagChecker;
+    use ServiceManagerMockTrait;
 
-    /** @var AdvancedSearchChecker */
-    private $sut;
+    private AdvancedSearchChecker $sut;
+    private FeatureFlagChecker|MockObject $featureFlagChecker;
+    private SearchProxy|MockObject $search;
 
-    /** @var SearchProxy|MockObject */
-    private $search;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
         $this->search = $this->createMock(SearchInterface::class);
 
         $this->sut = new AdvancedSearchChecker();
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     FeatureFlagChecker::class => $this->featureFlagChecker,
                     SearchProxy::SERVICE_ID => $this->search,
@@ -84,11 +82,9 @@ class AdvancedSearchCheckerTest extends TestCase
         $search = $this->createMock(SearchProxy::class);
         $sut = new AdvancedSearchChecker();
         $sut->setServiceManager(
-            $this->getServiceLocatorMock(
-                [
-                    SearchProxy::SERVICE_ID => $search,
-                ]
-            )
+            $this->getServiceManagerMock([
+                SearchProxy::SERVICE_ID => $search,
+            ])
         );
 
         if ($advancedSearch) {

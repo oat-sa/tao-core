@@ -22,7 +22,7 @@ namespace oat\tao\test\unit\modules;
 
 use common_exception_InconsistentData;
 use oat\tao\model\modules\DynamicModule;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test the DynamicModule pojo

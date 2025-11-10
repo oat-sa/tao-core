@@ -15,27 +15,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2025 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
-namespace test\unit\models\classes\search\tasks;
+namespace oat\tao\test\unit\models\classes\search\tasks;
 
 use common_exception_MissingParameter;
-use common_report_Report as Report;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
 use oat\tao\model\search\index\IndexDocument;
-use oat\tao\model\search\index\IndexIterator;
-use oat\tao\model\search\index\IndexIteratorFactory;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\SearchProxy;
-use oat\tao\model\search\tasks\UpdateClassInIndex;
 use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\taoAdvancedSearch\model\Index\Service\AdvancedSearchIndexDocumentBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -43,31 +40,18 @@ use Psr\Log\LoggerInterface;
 
 class UpdateResourceInIndexTest extends TestCase
 {
-    /** @var UpdateResourceInIndex */
-    private $sut;
+    use ServiceManagerMockTrait;
 
-    /** @var IndexDocumentBuilderInterface|MockObject */
-    private $documentBuilder;
+    private UpdateResourceInIndex $sut;
+    private IndexDocumentBuilderInterface|MockObject $documentBuilder;
+    private Search $search;
+    private core_kernel_classes_Resource|MockObject $resource1;
+    private core_kernel_classes_Resource|MockObject $resource2;
+    private IndexDocument|MockObject $document1;
+    private IndexDocument|MockObject $document2;
+    private AdvancedSearchChecker|MockObject $checker;
 
-    /** @var Search */
-    private $search;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var core_kernel_classes_Resource|MockObject */
-    private $resource1;
-
-    /** @var core_kernel_classes_Resource|MockObject */
-    private $resource2;
-
-    /** @var IndexDocument|MockObject */
-    private $document1;
-
-    /** @var IndexDocument|MockObject */
-    private $document2;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->documentBuilder = $this->createMock(
             IndexDocumentBuilderInterface::class
@@ -90,11 +74,11 @@ class UpdateResourceInIndexTest extends TestCase
             ->willReturn('http://resource/2');
 
         $this->search = $this->createMock(SearchProxy::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createMock(LoggerInterface::class);
         $this->checker = $this->createMock(AdvancedSearchChecker::class);
 
-        $this->ontology = $this->createMock(Ontology::class);
-        $this->ontology
+        $ontology = $this->createMock(Ontology::class);
+        $ontology
             ->method('getResource')
             ->willReturnCallback(function (string $uri) {
                 switch ($uri) {
@@ -107,11 +91,11 @@ class UpdateResourceInIndexTest extends TestCase
                 $this->fail("Unexpected resource requested: {$uri}");
             });
 
-        $serviceLocator = $this->getServiceLocatorMock(
+        $serviceLocator = $this->getServiceManagerMock(
             [
                 Search::SERVICE_ID => $this->search,
-                LoggerService::SERVICE_ID => $this->logger,
-                Ontology::SERVICE_ID => $this->ontology,
+                LoggerService::SERVICE_ID => $logger,
+                Ontology::SERVICE_ID => $ontology,
                 AdvancedSearchChecker::class => $this->checker,
                 AdvancedSearchIndexDocumentBuilder::class => $this->documentBuilder
             ]

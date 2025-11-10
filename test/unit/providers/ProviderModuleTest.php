@@ -22,7 +22,7 @@ namespace oat\tao\test\unit\providers;
 
 use common_exception_InconsistentData;
 use oat\tao\model\providers\ProviderModule;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test the ProviderModule pojo
