@@ -609,40 +609,36 @@ body.qc-wins {
                     &:hover,
                     .li-inner:hover {
                         background: none;
-                        .li-inner .glyph,
-                        .li-inner .action-name {
                         color: #176998;
-                        }
                     }
+                    
 
                     .li-inner {
-                        height: 3.6rem;
+                        height: 4.3rem;
                         width: 4.3rem;
+                        color: #666;
+                        line-height: 9px;
 
-                        .glyph {
+                        .glyph { 
                             margin-block: 0 !important;
-                            color: #808080DD;
+                            color: inherit;
                         }
 
                         .action-name {
-                            color: #666;
+                            color: inherit;
                             font-weight: 600;
                             font-size: 0.9rem;
                             transition: color 0.2s ease;
                         }
-                            &:hover {
-                                .glyph,
-                                .action-name {
-                                    color: #176998;
-                                }
+
+                        &:hover {
+                            .glyph,
+                            .action-name {
+                                color: #176998;
                             }
                         }
                     }
-                    .action-name {
-                        color: #666;
-                        font-weight: 600;
-                        font-size: 0.9rem;
-                    }
+                }
             }
         }
     }
