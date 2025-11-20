@@ -31,6 +31,8 @@ use oat\oatbox\user\UserLanguageService;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\clientConfig\ClientConfigService;
+use oat\oatbox\session\SessionService;
+use oat\generis\model\user\UserRdf;
 
 /**
  * Generates client side configuration.
@@ -90,6 +92,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         $this->setData('crossorigin', $this->isCrossorigin());
         $this->setData('tao_base_www', $taoBaseWww);
 
+        $sessionService = $this->getSessionService();
+        $currentSession = $sessionService->getCurrentSession();
+
         $this->setData('context', json_encode([
             'root_url' => ROOT_URL,
             'base_url' => $baseUrl,
@@ -106,6 +111,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
             'shownStructure' => $this->getShownStructure(),
             'bundle' => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION),
             'featureFlags' => $this->getFeatureFlagRepository()->list(),
+            'currentUser' => $this->getUserData($currentSession),
         ]));
 
         $this->setView('client_config.tpl');
@@ -220,5 +226,29 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
     private function getFeatureFlagConfigSwitcher(): FeatureFlagConfigSwitcher
     {
         return $this->getPsrContainer()->get(FeatureFlagConfigSwitcher::class);
+    }
+
+    private function getSessionService(): SessionService
+    {
+        return $this->getPsrContainer()->get(SessionService::SERVICE_ID);
+    }
+
+    private function getUserData(common_session_Session $currentSession): array
+    {
+        $uri = $currentSession->getUserUri();
+        $id = $uri;
+        $login = $currentSession->getUserLabel();
+
+        foreach ($currentSession->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN) as $rdfLogin) {
+            if (!empty($rdfLogin)) {
+                $login = $rdfLogin;
+            }
+        }
+
+        return [
+            'id' => $id,
+            'uri' => $uri,
+            'login' => $login,
+        ];
     }
 }
