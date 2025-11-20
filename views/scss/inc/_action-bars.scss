@@ -605,31 +605,37 @@ body.qc-wins {
                     width: auto;
                     height: auto;
                     border: none;
-                    padding: .6rem;
 
-                    &:hover {
+                    &:hover,
+                    .li-inner:hover {
                         background: none;
-                        .li-inner .glyph {
-                            color: #176998;
-                        }
+                        color: #176998;
                     }
+                    
 
                     .li-inner {
-                        height: 2.5rem;
-                        width: 2.5rem;
-                        padding: 0;
+                        height: 4.2rem;
+                        width: 4.3rem;
+                        color: #666;
+                        line-height: 9px;
 
-                        .glyph {
-                            margin: 0 !important;
-                            color: #808080DD;
-
-                            &:before {
-                                font-size: 2.5rem;
-                            }
+                        .glyph { 
+                            margin-block: 0 !important;
+                            color: inherit;
                         }
 
                         .action-name {
-                            display: none;
+                            color: inherit;
+                            font-weight: 600;
+                            font-size: 0.9rem;
+                            transition: color 0.2s ease;
+                        }
+
+                        &:hover {
+                            .glyph,
+                            .action-name {
+                                color: #176998;
+                            }
                         }
                     }
                 }
@@ -637,3 +643,4 @@ body.qc-wins {
         }
     }
 }
+
