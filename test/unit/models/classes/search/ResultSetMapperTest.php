@@ -15,25 +15,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  *
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\search;
+namespace oat\tao\test\unit\models\classes\search;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\search\ResultSetMapper;
 
 class ResultSetMapperTest extends TestCase
 {
-    /** @var ResultSetMapper */
-    private $subject;
-    private $advancedSearchChecker;
+    use ServiceManagerMockTrait;
 
-    public function setUp(): void
+    private ResultSetMapper $subject;
+    private AdvancedSearchChecker|MockObject $advancedSearchChecker;
+
+    protected function setUp(): void
     {
         $this->subject = new ResultSetMapper(
             [
@@ -72,7 +75,7 @@ class ResultSetMapperTest extends TestCase
         $this->advancedSearchChecker = $this->createMock(AdvancedSearchChecker::class);
 
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     AdvancedSearchChecker::class => $this->advancedSearchChecker
                 ]

@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\StatisticalMetadata\Import\Extractor;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Property;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -133,15 +133,12 @@ class MetadataValuesExtractorTest extends TestCase
             ->method('getUri');
 
         $this->resourceMetadataRelationValidator
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('validate')
-            ->with($resource, $metadataProperty);
-
-        $this->resourceMetadataRelationValidator
-            ->expects($this->at(1))
-            ->method('validate')
-            ->with($resource, $invalidMetadataProperty)
-            ->willThrowException($this->createMock(ErrorValidationException::class));
+            ->willReturnCallback(fn ($key, $value) => match ([$key, $value]) {
+                [$resource, $invalidMetadataProperty] => throw $this->createMock(ErrorValidationException::class),
+                default => null,
+            });
 
         $this->expectException(AggregatedValidationException::class);
 

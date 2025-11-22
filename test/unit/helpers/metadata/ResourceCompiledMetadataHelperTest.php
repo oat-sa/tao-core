@@ -19,7 +19,7 @@
  */
 
 use oat\tao\helpers\metadata\ResourceCompiledMetadataHelper;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ResourceCompiledMetadataHelperTest extends TestCase
 {

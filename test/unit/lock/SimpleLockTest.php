@@ -15,58 +15,61 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 Open Assessment Technologies S.A.
+ * Copyright (c) 2015-2025 Open Assessment Technologies S.A.
  *
+ * @author Lionel Lecaque
  */
 
-namespace  oat\tao\test\unit\lock;
+declare(strict_types=1);
+
+namespace oat\tao\test\unit\lock;
 
 use common_exception_Error;
+use core_kernel_classes_Literal;
+use core_kernel_classes_Resource;
 use oat\tao\model\lock\implementation\SimpleLock;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class SimpleLockTest extends TestCase
 {
-    /**
-     * @author Lionel Lecaque, lionel@taotesting.com
-     */
-    public function testConstructExecption()
+    public function testConstructException(): void
     {
         $this->expectException(common_exception_Error::class);
-        $resource = $this->prophesize('core_kernel_classes_Resource');
-        $owner = $this->prophesize('core_kernel_classes_Literal');
-        $lock = new SimpleLock($resource->reveal(), $owner->reveal(), 'epoch');
+
+        $resource = $this->createMock(core_kernel_classes_Resource::class);
+        $owner = $this->createMock(core_kernel_classes_Literal::class);
+
+        new SimpleLock($resource, $owner, 'epoch');
     }
 
-    /**
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @return \oat\tao\model\lock\implementation\SimpleLock
-     */
-    public function testConstruct()
+    public function testConstruct(): SimpleLock
     {
-        $resource = $this->prophesize('core_kernel_classes_Resource');
-        $owner = $this->prophesize('core_kernel_classes_Resource');
-        $owner->getUri()->willReturn('#ownerUri');
-        $lock = new SimpleLock($resource->reveal(), $owner->reveal(), 'epoch');
+        $resource = $this->createMock(core_kernel_classes_Resource::class);
+
+        $owner = $this->createMock(core_kernel_classes_Resource::class);
+        $owner
+            ->method('getUri')
+            ->willReturn('#ownerUri');
+
+        $lock = new SimpleLock($resource, $owner, 'epoch');
+
         $this->assertTrue(true);
+
         return $lock;
     }
 
     /**
      * @depends testConstruct
-     * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function testGetOwnerId($lock)
+    public function testGetOwnerId(SimpleLock $lock): void
     {
         $this->assertEquals('#ownerUri', $lock->getOwnerId());
     }
 
     /**
      * @depends testConstruct
-     * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function testGetCreationTime($lock)
+    public function testGetCreationTime(SimpleLock $lock): void
     {
         $this->assertEquals('epoch', $lock->getCreationTime());
     }

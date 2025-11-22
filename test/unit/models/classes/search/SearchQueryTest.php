@@ -30,7 +30,7 @@ class SearchQueryTest extends TestCase
     /** @var SearchQuery */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new SearchQuery(
             'user input',

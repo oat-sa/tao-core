@@ -24,7 +24,7 @@ namespace oat\tao\helpers\test\unit\helpers\form\Decorator;
 
 use tao_helpers_form_Form;
 use core_kernel_classes_Class;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use tao_helpers_form_FormElement;
@@ -56,7 +56,7 @@ class ElementDecoratorTest extends TestCase
     /** @var MockObject|tao_helpers_form_FormElement */
     private $element;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->form = $this->createMock(tao_helpers_form_Form::class);

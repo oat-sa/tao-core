@@ -23,8 +23,9 @@ declare(strict_types=1);
 namespace oat\test\unit\model\listener;
 
 use core_kernel_classes_Property;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\dto\OldProperty;
 use oat\tao\model\event\ClassPropertiesChangedEvent;
@@ -35,14 +36,11 @@ use RuntimeException;
 
 class ClassPropertiesChangedListenerTest extends TestCase
 {
-    /** @var QueueDispatcherInterface|MockObject */
-    private $queueDispatcher;
+    use ServiceManagerMockTrait;
 
-    /** @var ClassPropertiesChangedListener */
-    private $sut;
-
-    /** @var AdvancedSearchChecker|MockObject  */
-    private $advancedSearchChecker;
+    private ClassPropertiesChangedListener $sut;
+    private QueueDispatcherInterface|MockObject $queueDispatcher;
+    private AdvancedSearchChecker|MockObject $advancedSearchChecker;
 
     protected function setUp(): void
     {
@@ -53,7 +51,7 @@ class ClassPropertiesChangedListenerTest extends TestCase
         $this->queueDispatcher = $this->createMock(QueueDispatcherInterface::class);
         $this->advancedSearchChecker = $this->createMock(AdvancedSearchChecker::class);
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     QueueDispatcherInterface::SERVICE_ID => $this->queueDispatcher,
                     AdvancedSearchChecker::class => $this->advancedSearchChecker,

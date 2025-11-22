@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\accessControl\Service;
 
 use core_kernel_classes_Resource;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\accessControl\Service\InternalRoleSpecification;
 use oat\tao\model\user\TaoRoles;
 

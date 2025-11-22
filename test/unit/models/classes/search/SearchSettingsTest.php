@@ -32,7 +32,7 @@ class SearchSettingsTest extends TestCase
     /** @var SearchSettings */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new SearchSettings([]);
     }

@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\models\classes\StatisticalMetadata\Import\Processor;
 
 use core_kernel_classes_Resource;
 use Exception;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\exceptions\UserErrorException;
 use oat\tao\model\metadata\compiler\ResourceMetadataCompilerInterface;
 use oat\tao\model\StatisticalMetadata\Import\Observer\ObserverFactory;

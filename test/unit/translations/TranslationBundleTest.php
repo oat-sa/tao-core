@@ -26,7 +26,7 @@
 namespace oat\tao\test\unit\translation;
 
 use InvalidArgumentException;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\translation\TranslationBundle;
 use tao_helpers_File;
 

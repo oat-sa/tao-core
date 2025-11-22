@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\StatisticalMetadata\Import\Validator;
 
 use core_kernel_classes_Class;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Resource;
 use oat\tao\model\StatisticalMetadata\Import\Validator\RecordResourceValidator;
 use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;

@@ -22,7 +22,7 @@
 namespace oat\tao\test\unit\actionQueue;
 
 use oat\tao\model\actionQueue\AbstractQueuedAction;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\actionQueue\ActionQueueException;
 
 /**

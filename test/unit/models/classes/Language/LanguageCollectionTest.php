@@ -34,7 +34,7 @@ class LanguageCollectionTest extends TestCase
     /** @var Language */
     private $language;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->language = new Language(
             'uri',

@@ -15,32 +15,32 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\unit\test\model\featureFlag;
+namespace oat\tao\test\unit\models\classes\featureFlag;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class FeatureFlagCheckerTest extends TestCase
 {
-    /** @var FeatureFlagChecker */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /** @var FeatureFlagRepositoryInterface|MockObject */
-    private $featureFlagRepository;
+    private FeatureFlagChecker $subject;
+    private FeatureFlagRepositoryInterface|MockObject $featureFlagRepository;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->featureFlagRepository = $this->createMock(FeatureFlagRepositoryInterface::class);
         $this->subject = new FeatureFlagChecker();
         $this->subject->setServiceManager(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     FeatureFlagRepositoryInterface::class => $this->featureFlagRepository
                 ]

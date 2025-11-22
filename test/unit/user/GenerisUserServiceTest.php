@@ -18,16 +18,19 @@
  * Copyright (c) 2020-2021  (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\test\unit\models\classes\service;
+namespace oat\tao\test\unit\user;
 
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\tao\model\search\SearchProxy;
 use oat\tao\model\search\SearchQuery;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\GenerisUserService;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class GenerisUserServiceTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     public function testFindUser()
     {
         $searchString = 'test';
@@ -49,7 +52,7 @@ class GenerisUserServiceTest extends TestCase
             ->with($query)
             ->willReturn(['data' => [['id' => $testId]]]);
 
-        $serviceLocator = $this->getServiceLocatorMock([SearchProxy::SERVICE_ID => $searchServiceMock]);
+        $serviceLocator = $this->getServiceManagerMock([SearchProxy::SERVICE_ID => $searchServiceMock]);
         $generisUserServiceMock = $this->getMockBuilder(GenerisUserService::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getUser'])

@@ -17,15 +17,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\search\tasks;
+namespace oat\tao\test\unit\models\classes\search\tasks;
 
 use common_exception_MissingParameter;
 use common_report_Report as Report;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\search\index\IndexIterator;
 use oat\tao\model\search\index\IndexIteratorFactory;
@@ -36,19 +38,14 @@ use Psr\Log\LoggerInterface;
 
 class UpdateClassInIndexTest extends TestCase
 {
-    /** @var UpdateClassInIndex */
-    private $sut;
+    use ServiceManagerMockTrait;
 
-    /** @var IndexIteratorFactory|MockObject */
-    private $indexIterator;
+    private UpdateClassInIndex $sut;
+    private IndexIteratorFactory|MockObject $indexIterator;
+    private Search|MockObject $search;
+    private LoggerInterface|MockObject $logger;
 
-    /** @var Search */
-    private $search;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->indexIterator = $this->createMock(IndexIteratorFactory::class);
 
@@ -58,7 +55,7 @@ class UpdateClassInIndexTest extends TestCase
         $this->search = $this->createMock(Search::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
-        $serviceLocator = $this->getServiceLocatorMock(
+        $serviceLocator = $this->getServiceManagerMock(
             [
                 Search::SERVICE_ID => $this->search,
                 LoggerService::SERVICE_ID => $this->logger

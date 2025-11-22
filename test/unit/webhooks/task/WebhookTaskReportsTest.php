@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\webhooks\task;
 
@@ -25,56 +27,40 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use oat\oatbox\service\ServiceManager;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\log\WebhookEventLogInterface;
 use oat\tao\model\webhooks\task\WebhookResponse;
 use oat\tao\model\webhooks\task\WebhookTaskContext;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class WebhookTaskReportsTest extends TestCase
 {
-    /**
-     * @var WebhookEventLogInterface|MockObject
-     */
-    private $webhookEventLogMock;
+    use ServiceManagerMockTrait;
 
-    /**
-     * @var LoggerInterface|MockObject
-     */
-    private $loggerMock;
+    private WebhookEventLogInterface|MockObject $webhookEventLogMock;
+    private LoggerInterface|MockObject $loggerMock;
+    private ServiceManager|MockObject $serviceLocatorMock;
+    private WebhookTaskContext|MockObject $taskContextMock;
 
-    /**
-     * @var LoggerInterface|MockObject
-     */
-    private $serviceLocatorMock;
-
-    /**
-     * @var WebhookTaskParams|MockObject
-     */
-    private $taskParamsMock;
-
-    /**
-     * @var WebhookTaskContext|MockObject
-     */
-    private $taskContextMock;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->webhookEventLogMock = $this->createMock(WebhookEventLogInterface::class);
         $this->loggerMock = $this->createMock(LoggerInterface::class);
-        $this->serviceLocatorMock = $this->getServiceLocatorMock([
+        $this->serviceLocatorMock = $this->getServiceManagerMock([
             WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
         ]);
 
-        $this->taskParamsMock = $this->createMock(WebhookTaskParams::class);
-        $this->taskParamsMock->method('getEventId')->willReturn('eventId');
+        $taskParamsMock = $this->createMock(WebhookTaskParams::class);
+        $taskParamsMock->method('getEventId')->willReturn('eventId');
 
         $this->taskContextMock = $this->createMock(WebhookTaskContext::class);
         $this->taskContextMock->method('getTaskId')->willReturn('taskId');
-        $this->taskContextMock->method('getWebhookTaskParams')->willReturn($this->taskParamsMock);
+        $this->taskContextMock->method('getWebhookTaskParams')->willReturn($taskParamsMock);
     }
 
     public function testReportInternalException()

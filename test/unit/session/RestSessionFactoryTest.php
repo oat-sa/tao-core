@@ -15,99 +15,131 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2018-2025 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\session;
 
 use common_Exception;
+use common_http_Request;
 use LogicException;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\session\restSessionFactory\SessionBuilder;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
+use stdClass;
+use tao_actions_RestController;
 
 class RestSessionFactoryTest extends TestCase
 {
-    public function testCreateSessionFromRequest()
+    public function testCreateSessionFromRequest(): void
     {
         $class = TestRest::class;
-        $resolverProphecy = $this->prophesize(Resolver::class);
-        $resolverProphecy->getControllerClass()->willReturn($class);
 
-        $request = new \common_http_Request('http:://fixture.test');
+        $resolver = $this->createMock(Resolver::class);
+        $resolver
+            ->method('getControllerClass')
+            ->willReturn($class);
 
-        $sessionBuilderProphecy = $this->prophesize(SessionBuilder::class);
-        $sessionBuilderProphecy->isApplicable($request)->willReturn(false);
+        $request = new common_http_Request('http:://fixture.test');
 
-        $sessionBuilderProphecy2 = $this->prophesize(SessionBuilder::class);
-        $sessionBuilderProphecy2->isApplicable($request)->willReturn(true);
-        $sessionBuilderProphecy2->getSession($request)->shouldBeCalled();
+        $sessionBuilder1 = $this->createMock(SessionBuilder::class);
+        $sessionBuilder1
+            ->method('isApplicable')
+            ->with($request)
+            ->willReturn(false);
+
+        $sessionBuilder2 = $this->createMock(SessionBuilder::class);
+        $sessionBuilder2
+            ->method('isApplicable')
+            ->with($request)
+            ->willReturn(true);
+        $sessionBuilder2->expects($this->once())
+            ->method('getSession')
+            ->with($request);
 
         $service = new RestSessionFactoryTester();
         $service->builders = [
-            $sessionBuilderProphecy->reveal(),
-            $sessionBuilderProphecy2->reveal()
+            $sessionBuilder1,
+            $sessionBuilder2,
         ];
 
-        $service->createSessionFromRequest($request, $resolverProphecy->reveal());
+        $service->createSessionFromRequest($request, $resolver);
         $this->assertEquals(1, $service->isSessionStarted);
     }
 
-    public function testCreateSessionFromRequestWithInalidRestController()
+    public function testCreateSessionFromRequestWithInvalidRestController(): void
     {
-        $class = \stdClass::class;
-        $resolverMock = $this->prophesize(Resolver::class);
-        $resolverMock->getControllerClass()->willReturn($class);
+        $class = stdClass::class;
 
-        $request = new \common_http_Request('http:://fixture.test');
+        $resolver = $this->createMock(Resolver::class);
+        $resolver
+            ->method('getControllerClass')
+            ->willReturn($class);
+
+        $request = new common_http_Request('http:://fixture.test');
 
         $service = new RestSessionFactoryTester();
-        $this->assertFalse($service->createSessionFromRequest($request, $resolverMock->reveal()));
+        $this->assertFalse($service->createSessionFromRequest($request, $resolver));
     }
 
-    public function testCreateSessionFromRequestWithNoBuilders()
+    public function testCreateSessionFromRequestWithNoBuilders(): void
     {
         $this->expectException(common_Exception::class);
-        $class = TestRest::class;
-        $resolverProphecy = $this->prophesize(Resolver::class);
-        $resolverProphecy->getControllerClass()->willReturn($class);
 
-        $request = new \common_http_Request('http:://fixture.test');
+        $class = TestRest::class;
+
+        $resolver = $this->createMock(Resolver::class);
+        $resolver
+            ->method('getControllerClass')
+            ->willReturn($class);
+
+        $request = new common_http_Request('http:://fixture.test');
 
         $service = new RestSessionFactoryTester([
             RestSessionFactoryTester::OPTION_BUILDERS => []
         ]);
 
-        $service->createSessionFromRequest($request, $resolverProphecy->reveal());
+        $service->createSessionFromRequest($request, $resolver);
     }
 
-    public function testCreateSessionFromRequestWithNoApplicableBuilders()
+    public function testCreateSessionFromRequestWithNoApplicableBuilders(): void
     {
         $this->expectException(common_Exception::class);
+
         $class = TestRest::class;
-        $resolverProphecy = $this->prophesize(Resolver::class);
-        $resolverProphecy->getControllerClass()->willReturn($class);
 
-        $request = new \common_http_Request('http:://fixture.test');
+        $resolver = $this->createMock(Resolver::class);
+        $resolver
+            ->method('getControllerClass')
+            ->willReturn($class);
 
-        $mock = $this->prophesize(SessionBuilder::class);
-        $mock->isApplicable($request)->willReturn(false);
+        $request = new common_http_Request('http:://fixture.test');
 
-        $mock2 = $this->prophesize(SessionBuilder::class);
-        $mock2->isApplicable($request)->willReturn(false);
+        $builder1 = $this->createMock(SessionBuilder::class);
+        $builder1
+            ->method('isApplicable')
+            ->with($request)
+            ->willReturn(false);
+
+        $builder2 = $this->createMock(SessionBuilder::class);
+        $builder2
+            ->method('isApplicable')
+            ->with($request)
+            ->willReturn(false);
 
         $service = new RestSessionFactoryTester();
         $service->builders = [
-            $mock->reveal(),
-            $mock2->reveal()
+            $builder1,
+            $builder2
         ];
 
-        $service->createSessionFromRequest($request, $resolverProphecy->reveal());
+        $service->createSessionFromRequest($request, $resolver);
     }
 
-    public function testGetSessionBuilders()
+    public function testGetSessionBuilders(): void
     {
         $mock = $this->getMockForAbstractClass(SessionBuilder::class);
 
@@ -120,56 +152,58 @@ class RestSessionFactoryTest extends TestCase
         $this->assertEquals([$mock], $service->getSessionBuilders());
     }
 
-    public function testGetSessionBuildersWithInvalidBuilder()
+    public function testGetSessionBuildersWithInvalidBuilder(): void
     {
         $this->expectException(LogicException::class);
+
         $mock = $this->getMockForAbstractClass(SessionBuilder::class);
 
         $service = new RestSessionFactoryTester([
             RestSessionFactoryTester::OPTION_BUILDERS => [
                 $mock,
-                new \stdClass()
+                new stdClass()
             ]
         ]);
 
-        $this->assertEquals([$mock], $service->getSessionBuilders());
+        // Вызов провоцирует проверку валидности билдера
+        $service->getSessionBuilders();
     }
 
     /**
      * @dataProvider testIsRestControllerProvider
-     * @param $class
-     * @param $expected
      */
-    public function testIsRestController($class, $expected)
+    public function testIsRestController(string $class, bool $expected): void
     {
         $service = new RestSessionFactoryTester();
 
-        $resolverProphecy = $this->prophesize(Resolver::class);
-        $resolverProphecy->getControllerClass()->willReturn($class);
+        $resolver = $this->createMock(Resolver::class);
+        $resolver
+            ->method('getControllerClass')
+            ->willReturn($class);
 
-        $this->assertEquals($expected, $service->isRestController($resolverProphecy->reveal()));
+        $this->assertEquals($expected, $service->isRestController($resolver));
     }
 
     /**
-     * Provider of testIsRestController
-     *@doesNotPerformAssertions
+     * @doesNotPerformAssertions
      * @return array
      */
-    public function testIsRestControllerProvider()
+    public function testIsRestControllerProvider(): array
     {
         return [
-            [TestRest::class, true,],
+            [TestRest::class, true],
             ['toto', false],
-            [SubTestRest::class, true,],
-            [RestSessionFactoryTest::class, false,],
-            [RestSessionFactoryTest::class, false,],
+            [SubTestRest::class, true],
+            [__CLASS__, false],
+            [__CLASS__, false],
         ];
     }
 }
 
-class TestRest extends \tao_actions_RestController
+class TestRest extends tao_actions_RestController
 {
 }
+
 class SubTestRest extends TestRest
 {
 }
@@ -181,18 +215,19 @@ class RestSessionFactoryTester extends RestSessionFactory
         return parent::isRestController($resolver);
     }
 
-    public $builders;
-    public $isSessionStarted = 0;
+    public array $builders = [];
+    public int $isSessionStarted = 0;
 
-    public function getSessionBuilders()
+    public function getSessionBuilders(): array
     {
         if ($this->builders) {
             return $this->builders;
         }
+
         return parent::getSessionBuilders();
     }
 
-    public function startSession($session)
+    public function startSession($session): void
     {
         $this->isSessionStarted = 1;
     }
