@@ -15,14 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2025 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\resources\Service;
+namespace oat\tao\test\unit\models\classes\resources\Service;
 
 use oat\generis\model\data\Ontology;
 use oat\oatbox\event\EventManager;
@@ -41,18 +41,10 @@ use oat\tao\model\resources\Contract\InstanceMetadataCopierInterface;
 class InstanceCopierTest extends TestCase
 {
     private InstanceCopier $sut;
-
-    /** @var InstanceMetadataCopierInterface|MockObject */
-    private $instanceMetadataCopier;
-
-    /** @var InstanceContentCopierInterface|MockObject */
-    private $instanceContentCopier;
-
-    /** @var Ontology|MockObject */
-    private $ontology;
-
-    /** @var EventManager|MockObject */
-    private $eventManager;
+    private InstanceMetadataCopierInterface|MockObject $instanceMetadataCopier;
+    private InstanceContentCopierInterface|MockObject $instanceContentCopier;
+    private Ontology|MockObject $ontology;
+    private EventManager|MockObject $eventManager;
 
     protected function setUp(): void
     {
@@ -65,11 +57,14 @@ class InstanceCopierTest extends TestCase
         $this->sut->withEventManager($this->eventManager);
     }
 
-    public function testTransfer(): void
+    /**
+     * @dataProvider transferDataProvider
+     */
+    public function testTransfer(string $originalLabel, string $newLabel, array $transferOptions): void
     {
-        $instance = $this->createInstance('instanceLabel', 'instanceUri');
-        $newInstance = $this->createInstance('instanceLabel', 'newInstanceUri');
-        $destinationClass = $this->createClass('destinationClassUri', $newInstance);
+        $instance = $this->createInstance($originalLabel, 'instanceUri');
+        $newInstance = $this->createInstance($newLabel, 'newInstanceUri');
+        $destinationClass = $this->createClass($newInstance, $newLabel);
 
         $this->ontology
             ->expects($this->once())
@@ -93,7 +88,7 @@ class InstanceCopierTest extends TestCase
         $this->eventManager
             ->expects($this->once())
             ->method('trigger')
-            ->with(new InstanceCopiedEvent('newInstanceUri', 'instanceUri'));
+            ->with(new InstanceCopiedEvent('newInstanceUri', 'instanceUri', $transferOptions));
 
         $this->assertEquals(
             new ResourceTransferResult(
@@ -104,7 +99,8 @@ class InstanceCopierTest extends TestCase
                     'instanceUri',
                     'destinationClassUri',
                     ResourceTransferCommand::ACL_KEEP_ORIGINAL,
-                    ResourceTransferCommand::TRANSFER_MODE_COPY
+                    ResourceTransferCommand::TRANSFER_MODE_COPY,
+                    $transferOptions
                 )
             )
         );
@@ -114,7 +110,7 @@ class InstanceCopierTest extends TestCase
     {
         $instance = $this->createInstance('instanceLabel', 'instanceUri');
         $newInstance = $this->createMock(core_kernel_classes_Resource::class);
-        $destinationClass = $this->createClass('destinationClassUri', $newInstance);
+        $destinationClass = $this->createClass($newInstance);
 
         $this->instanceMetadataCopier
             ->expects($this->once())
@@ -131,7 +127,7 @@ class InstanceCopierTest extends TestCase
     public function testCopyInstanceNotCreated(): void
     {
         $instance = $this->createInstance('instanceLabel', 'instanceUri');
-        $destinationClass = $this->createClass('destinationClassUri', null);
+        $destinationClass = $this->createClass(null);
 
         $this->instanceMetadataCopier
             ->expects($this->never())
@@ -154,7 +150,7 @@ class InstanceCopierTest extends TestCase
     {
         $instance = $this->createInstance('instanceLabel', 'uri');
         $newInstance = $this->createMock(core_kernel_classes_Resource::class);
-        $destinationClass = $this->createClass('destinationClassUri', $newInstance);
+        $destinationClass = $this->createClass($newInstance);
 
         $this->instanceMetadataCopier
             ->expects($this->once())
@@ -171,15 +167,49 @@ class InstanceCopierTest extends TestCase
         $this->assertEquals($newInstance, $this->sut->copy($instance, $destinationClass));
     }
 
-    private function createClass(string $uri, ?core_kernel_classes_Resource $newInstance): core_kernel_classes_Class
+    public function transferDataProvider(): array
     {
-        $class = $this->createMock(core_kernel_classes_Class::class);
-        $class->method('createInstance')
-            ->with('instanceLabel')
-            ->willReturn($newInstance);
+        return [
+            'Test copy' => [
+                'instanceLabel',
+                'instanceLabel',
+                []
+            ],
+            'Test copy with increment label option' => [
+                'instanceLabel',
+                'instanceLabel bis',
+                [ResourceTransferCommand::OPTION_INCREMENT_LABEL => true]
+            ],
+            'Test copy with increment label option (bis)' => [
+                'instanceLabel bis',
+                'instanceLabel bis 1',
+                [ResourceTransferCommand::OPTION_INCREMENT_LABEL => true]
+            ],
+            'Test copy with increment label option (bis N)' => [
+                'instanceLabel bis 1',
+                'instanceLabel bis 2',
+                [ResourceTransferCommand::OPTION_INCREMENT_LABEL => true]
+            ],
+            'Test copy with increment label option (multiple bis)' => [
+                'instanceLabel bis bis',
+                'instanceLabel bis bis 1',
+                [ResourceTransferCommand::OPTION_INCREMENT_LABEL => true]
+            ],
+        ];
+    }
 
-        $class->method('getUri')
-            ->willReturn($uri);
+    private function createClass(
+        ?core_kernel_classes_Resource $newInstance,
+        string $newInstanceLabel = 'instanceLabel'
+    ): core_kernel_classes_Class {
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class
+            ->method('createInstance')
+            ->with($newInstanceLabel)
+            ->willReturn($newInstance);
+        $class
+            ->method('getUri')
+            ->willReturn('destinationClassUri');
 
         return $class;
     }
@@ -187,11 +217,11 @@ class InstanceCopierTest extends TestCase
     private function createInstance(string $label, string $uri): core_kernel_classes_Resource
     {
         $instance = $this->createMock(core_kernel_classes_Resource::class);
-
-        $instance->method('getLabel')
+        $instance
+            ->method('getLabel')
             ->willReturn($label);
-
-        $instance->method('getUri')
+        $instance
+            ->method('getUri')
             ->willReturn($uri);
 
         return $instance;

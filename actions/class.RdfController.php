@@ -684,13 +684,40 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
         $this->validateInstanceRoot($uri);
 
-        $clone = $this->getClassService()->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
-        if ($clone !== null) {
-            $this->returnJson([
+        $instanceUri = $this->getCurrentInstance()->getUri();
+        $destinationClassUri = $this->getCurrentClass()->getUri();
+
+        try {
+            $result = $this->getResourceTransfer()->transfer(
+                new ResourceTransferCommand(
+                    $instanceUri,
+                    $destinationClassUri,
+                    ResourceTransferCommand::ACL_KEEP_ORIGINAL,
+                    ResourceTransferCommand::TRANSFER_MODE_COPY,
+                    [ResourceTransferCommand::OPTION_INCREMENT_LABEL => true]
+                )
+            );
+            $clone = $this->getResource($result->getDestination());
+
+            return $this->returnJson([
                 'success' => true,
                 'message' => __('Successfully cloned instance as %s', $clone->getLabel()),
                 'label' => $clone->getLabel(),
-                'uri'   => tao_helpers_Uri::encode($clone->getUri())
+                'uri' => tao_helpers_Uri::encode($clone->getUri()),
+            ]);
+        } catch (Throwable $exception) {
+            $this->logError(
+                sprintf(
+                    'Error cloning instance %s to %s: %s',
+                    $instanceUri,
+                    $destinationClassUri,
+                    $exception->getMessage() . ' - ' . $exception->getTraceAsString()
+                )
+            );
+
+            return $this->returnJson([
+                'success' => false,
+                'message' => __('Unable to clone the resource'),
             ]);
         }
     }

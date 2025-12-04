@@ -15,12 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\models\classes\resources\ResourceService;
+namespace oat\tao\test\unit\models\classes\resources;
 
 use oat\tao\model\resources\Command\ResourceTransferCommand;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +33,8 @@ class ResourceTransferCommandTest extends TestCase
             'fromUri',
             'toUri',
             ResourceTransferCommand::ACL_KEEP_ORIGINAL,
-            ResourceTransferCommand::TRANSFER_MODE_COPY
+            ResourceTransferCommand::TRANSFER_MODE_COPY,
+            ['someOption' => 'someValue']
         );
 
         $this->assertSame('fromUri', $command->getFrom());
@@ -42,5 +43,6 @@ class ResourceTransferCommandTest extends TestCase
         $this->assertFalse($command->isMoveTo());
         $this->assertTrue($command->keepOriginalAcl());
         $this->assertFalse($command->useDestinationAcl());
+        $this->assertSame(['someOption' => 'someValue'], $command->getOptions());
     }
 }
