@@ -44,14 +44,14 @@ class MessagingServiceTest extends TestCase
     public function testSend(): void
     {
         $message = new Message();
-        $transportProphecy = $this->createMock(Transport::class);
-        $transportProphecy
+        $transportMock = $this->createMock(Transport::class);
+        $transportMock
             ->expects($this->once())
             ->method('send')
             ->with($this->identicalTo($message))
             ->willReturn(true);
 
-        $messagingService = $this->getMessagingService($transportProphecy);
+        $messagingService = $this->getMessagingService($transportMock);
 
         $result = $messagingService->send($message);
 
