@@ -27,7 +27,6 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
 use oat\tao\model\requiredAction\implementation\TimeRule;
-use Prophecy\Argument;
 
 class RequiredActionServiceTest extends TestCase
 {
