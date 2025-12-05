@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 15:12\n"
+"PO-Revision-Date: 2025-12-05 20:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es\n"
@@ -214,7 +214,7 @@ msgid "Add / Edit lists"
 msgstr ""
 
 msgid "Add a CSV file"
-msgstr "Agregar archivo CSV"
+msgstr ""
 
 #, tao-public
 msgid "Add a user"
@@ -398,7 +398,7 @@ msgid "Back"
 msgstr "Atrás"
 
 msgid "Back to listing"
-msgstr "Volver a la lista"
+msgstr ""
 
 msgid "Back to Portal"
 msgstr ""
@@ -597,7 +597,7 @@ msgid "comment..."
 msgstr "comentar..."
 
 msgid "Commit"
-msgstr "Efectuar"
+msgstr ""
 
 msgid "Completed"
 msgstr ""
@@ -714,7 +714,7 @@ msgid "Database file"
 msgstr "Archivo de base de datos"
 
 msgid "Date"
-msgstr "Fecha"
+msgstr ""
 
 msgid "date range"
 msgstr ""
@@ -742,7 +742,7 @@ msgstr ""
 
 #, tao-public
 msgid "Delete"
-msgstr "Eliminar"
+msgstr ""
 
 msgid "Delete Left"
 msgstr ""
@@ -828,7 +828,7 @@ msgid "Dot"
 msgstr ""
 
 msgid "Download"
-msgstr "Descargar"
+msgstr ""
 
 msgid "Download this file"
 msgstr "Descargar este archivo"
@@ -843,7 +843,7 @@ msgid "Drop the files to upload"
 msgstr "Suelte los archivos a cargar"
 
 msgid "Edit"
-msgstr "Editar"
+msgstr ""
 
 #, tao-public
 msgid "Edit a user"
@@ -853,7 +853,7 @@ msgid "Edit class %s"
 msgstr "Editar clase %s"
 
 msgid "Edit Instance"
-msgstr "Editar instancia"
+msgstr ""
 
 msgid "Element"
 msgstr ""
@@ -926,7 +926,7 @@ msgstr ""
 
 #, tao-public
 msgid "Export"
-msgstr "Exportar"
+msgstr ""
 
 msgid "Export "
 msgstr "Exportar "
@@ -1235,7 +1235,7 @@ msgid "Installing extension %s..."
 msgstr "Instalando extensión %s..."
 
 msgid "Instance saved"
-msgstr "Instancia guardada"
+msgstr ""
 
 msgid "Interface language"
 msgstr "Lenguaje de interface"
@@ -1397,13 +1397,13 @@ msgid "locked by %s"
 msgstr ""
 
 msgid "Log in"
-msgstr "Iniciar sesión"
+msgstr ""
 
 msgid "Log Out"
 msgstr "Cerrar la sesión"
 
 msgid "Login"
-msgstr "Inicio de sesión"
+msgstr ""
 
 msgid "Login available"
 msgstr "Inicio de sesión diponible"
@@ -1477,7 +1477,7 @@ msgid "Media resize along with their container, e.g. 50% means half of the conta
 msgstr ""
 
 msgid "Message"
-msgstr "Mensaje"
+msgstr ""
 
 msgid "Messages"
 msgstr ""
@@ -1614,7 +1614,7 @@ msgid "My settings (%s)"
 msgstr "Mis configuraciones (%s)"
 
 msgid "Name"
-msgstr "Nombre"
+msgstr ""
 
 msgid "Natural logarithm"
 msgstr ""
@@ -1636,7 +1636,7 @@ msgid "Next page"
 msgstr ""
 
 msgid "No"
-msgstr "Sin"
+msgstr ""
 
 msgid "No action specified"
 msgstr ""
@@ -1929,7 +1929,7 @@ msgstr "Proceder"
 
 #, tao-public
 msgid "Properties"
-msgstr "Propiedades"
+msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr ""
@@ -2007,7 +2007,7 @@ msgid "Remind the recorded value"
 msgstr ""
 
 msgid "Remove"
-msgstr "Remover"
+msgstr ""
 
 msgid "Remove criteria"
 msgstr ""
@@ -2149,7 +2149,7 @@ msgid "Running task %s"
 msgstr ""
 
 msgid "Save"
-msgstr "Guardar"
+msgstr ""
 
 msgid "Saved."
 msgstr "Guardado."
@@ -2186,7 +2186,7 @@ msgid "Security settings"
 msgstr ""
 
 msgid "Select"
-msgstr "Seleccionar"
+msgstr ""
 
 msgid "select"
 msgstr "seleccionar"
@@ -2216,7 +2216,7 @@ msgid "Selected file:"
 msgstr "Archivo seleccionado:"
 
 msgid "Selection saved successfully"
-msgstr "Selección guardada correctamente"
+msgstr ""
 
 msgid "self-locked"
 msgstr ""
@@ -2229,7 +2229,7 @@ msgstr ""
 
 #, tao-public
 msgid "Settings"
-msgstr "Ajustes"
+msgstr ""
 
 msgid "Settings updated"
 msgstr "Configuración actualizada"
@@ -2307,7 +2307,7 @@ msgid "Submit"
 msgstr "Enviar"
 
 msgid "Success"
-msgstr "Correcto"
+msgstr ""
 
 msgid "Successfully cloned instance as %s"
 msgstr ""
@@ -2625,7 +2625,7 @@ msgid "trunc"
 msgstr ""
 
 msgid "Type"
-msgstr "Tipo"
+msgstr ""
 
 msgid "Type your search"
 msgstr ""
@@ -2643,7 +2643,7 @@ msgid "Unable to delete %s"
 msgstr "No se puede eliminar %s"
 
 msgid "Unable to delete the selected resource"
-msgstr "No se puede elminar el recurso seleccionado"
+msgstr ""
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
 msgstr ""
@@ -2685,7 +2685,7 @@ msgid "Unable to upload file"
 msgstr "No es posible subir el archivo"
 
 msgid "Unable to upload file %s : %s"
-msgstr "No es posible subir el archivo %s : %s"
+msgstr ""
 
 msgid "Unary operator +"
 msgstr ""
@@ -2778,7 +2778,7 @@ msgid "Use default value"
 msgstr "Usar valor predeterminado"
 
 msgid "User"
-msgstr "Usuario"
+msgstr ""
 
 msgid "User %s can not be locked"
 msgstr ""
@@ -2813,7 +2813,7 @@ msgstr "Configuración del Usuario"
 
 #, tao-public
 msgid "Users"
-msgstr "Usuarios"
+msgstr ""
 
 msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""

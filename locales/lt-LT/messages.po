@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 15:13\n"
+"PO-Revision-Date: 2025-12-05 20:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt\n"
@@ -594,13 +594,13 @@ msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
-msgstr "komentaras..."
+msgstr ""
 
 msgid "Commit"
 msgstr "Paskirti"
 
 msgid "Completed"
-msgstr "Atlikta"
+msgstr ""
 
 msgid "Completed - Error"
 msgstr "Atlikta – Klaida"
@@ -618,7 +618,7 @@ msgid "Connect to the TAO platform"
 msgstr "Prisijungimas prie elektroninio testavimo aplinkos"
 
 msgid "Continue"
-msgstr "Tęsti"
+msgstr ""
 
 msgid "Cookie Policy"
 msgstr ""
@@ -828,7 +828,7 @@ msgid "Dot"
 msgstr "Taškas"
 
 msgid "Download"
-msgstr "Atsiųsti"
+msgstr ""
 
 msgid "Download this file"
 msgstr "Atsiųsti failą"
@@ -883,7 +883,7 @@ msgid "Enter"
 msgstr "Įeiti į"
 
 msgid "Error"
-msgstr "Klaida"
+msgstr ""
 
 msgid "Error adding search index for %s with message %s"
 msgstr "Klaida pridedant paieškos indeksą %s su pranešimu %s"
@@ -916,7 +916,7 @@ msgid "Execute"
 msgstr "Vykdyti"
 
 msgid "Executing task %s failed"
-msgstr "Užduoties %s vykdymas nepavyko"
+msgstr ""
 
 msgid "exp"
 msgstr ""
@@ -926,7 +926,7 @@ msgstr "Eksponentas"
 
 #, tao-public
 msgid "Export"
-msgstr "Eksportuoti"
+msgstr ""
 
 msgid "Export "
 msgstr "Eksportuoti"
@@ -935,7 +935,7 @@ msgid "Export \"%s\" in %s"
 msgstr "Eksportuoti \"%s\" į %s"
 
 msgid "Export CSV"
-msgstr "Eksportuoti CSV"
+msgstr ""
 
 msgid "Export failed."
 msgstr "Eksportavimas nepavyko."
@@ -957,7 +957,7 @@ msgid "Factorial"
 msgstr "Faktorialas"
 
 msgid "Failed"
-msgstr "Nepavyko"
+msgstr ""
 
 msgid "Failed to copy class."
 msgstr ""
@@ -1098,7 +1098,7 @@ msgid "Highlight all"
 msgstr "Pažymėti visus"
 
 msgid "hours"
-msgstr "valandos(–ų)"
+msgstr ""
 
 msgid "Hyperbolic arc cosine"
 msgstr "Hiperbolinis arkkosinusas"
@@ -1137,7 +1137,7 @@ msgid "Import"
 msgstr "Importuoti"
 
 msgid "Import "
-msgstr "Importuoti"
+msgstr ""
 
 msgid "Import a %s into \"%s"
 msgstr "Importuoti %s į \"%s"
@@ -1930,7 +1930,7 @@ msgstr "Tęsti"
 
 #, tao-public
 msgid "Properties"
-msgstr "Savybės"
+msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr "Pateiktas URL nėra teisingas"
@@ -1939,10 +1939,10 @@ msgid "Publish"
 msgstr "Paskelbti"
 
 msgid "Publish the test"
-msgstr "Paskelbti testą"
+msgstr ""
 
 msgid "Queued"
-msgstr "Yra eilėje"
+msgstr ""
 
 msgid "Quicktime video"
 msgstr ""
@@ -2147,7 +2147,7 @@ msgid "Row %s"
 msgstr "Eilutė %s"
 
 msgid "Running task %s"
-msgstr "Vykdoma užduotis %s"
+msgstr ""
 
 msgid "Save"
 msgstr "Išsaugoti"
@@ -2177,7 +2177,7 @@ msgid "second"
 msgstr "sekundė"
 
 msgid "seconds"
-msgstr "sekundės"
+msgstr ""
 
 #, tao-public
 msgid "Security"
@@ -2217,7 +2217,7 @@ msgid "Selected file:"
 msgstr "Pasirinktas failas:"
 
 msgid "Selection saved successfully"
-msgstr "Pasirinkimas sėkmingai išsaugotas"
+msgstr ""
 
 msgid "self-locked"
 msgstr "užsirakinęs"
@@ -2230,7 +2230,7 @@ msgstr "Nustatyti trigonometrinę funkciją veikti radianais"
 
 #, tao-public
 msgid "Settings"
-msgstr "Nustatymai"
+msgstr ""
 
 msgid "Settings updated"
 msgstr "Nustatymai atnaujinti"
@@ -2284,7 +2284,7 @@ msgid "Start translation"
 msgstr ""
 
 msgid "Status"
-msgstr "Būsena"
+msgstr ""
 
 msgid "Status of"
 msgstr "Būsena"
@@ -2395,7 +2395,7 @@ msgid "Task not found"
 msgstr "Užduotis nerasta"
 
 msgid "Task not returned any report."
-msgstr "Užduotis negražino jokių ataskaitų."
+msgstr ""
 
 msgid "Term"
 msgstr "Terminas"
@@ -2644,7 +2644,7 @@ msgid "Unable to delete %s"
 msgstr "Nepavyko ištrinti %s"
 
 msgid "Unable to delete the selected resource"
-msgstr "Nepavyko ištrinti pasirinkto resurso"
+msgstr ""
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
 msgstr ""

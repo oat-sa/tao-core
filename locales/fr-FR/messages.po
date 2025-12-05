@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 15:12\n"
+"PO-Revision-Date: 2025-12-05 20:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr\n"
@@ -600,7 +600,7 @@ msgid "Commit"
 msgstr "Valider"
 
 msgid "Completed"
-msgstr "Terminé"
+msgstr ""
 
 msgid "Completed - Error"
 msgstr "Terminé avec erreur"
@@ -618,7 +618,7 @@ msgid "Connect to the TAO platform"
 msgstr "Connexion à la plate-forme TAO"
 
 msgid "Continue"
-msgstr "Continuer"
+msgstr ""
 
 msgid "Cookie Policy"
 msgstr ""
@@ -735,7 +735,7 @@ msgid "Define the default values"
 msgstr "Définir les valeurs par défaut"
 
 msgid "Deg"
-msgstr "Deg"
+msgstr ""
 
 msgid "Degree"
 msgstr "Degrés"
@@ -828,7 +828,7 @@ msgid "Dot"
 msgstr "Point"
 
 msgid "Download"
-msgstr "Télécharger"
+msgstr ""
 
 msgid "Download this file"
 msgstr "Télécharger ce fichier"
@@ -916,7 +916,7 @@ msgid "Execute"
 msgstr "Exécuter"
 
 msgid "Executing task %s failed"
-msgstr "Échec de l'exécution de la tâche %s"
+msgstr ""
 
 msgid "exp"
 msgstr "exp"
@@ -926,7 +926,7 @@ msgstr "Exposant"
 
 #, tao-public
 msgid "Export"
-msgstr "Exporter"
+msgstr ""
 
 msgid "Export "
 msgstr "Export"
@@ -957,7 +957,7 @@ msgid "Factorial"
 msgstr "Factorielle"
 
 msgid "Failed"
-msgstr "Échec"
+msgstr ""
 
 msgid "Failed to copy class."
 msgstr ""
@@ -1098,7 +1098,7 @@ msgid "Highlight all"
 msgstr "Tout surligner"
 
 msgid "hours"
-msgstr "heures"
+msgstr ""
 
 msgid "Hyperbolic arc cosine"
 msgstr "Arc cosinus hyperbolique"
@@ -1134,10 +1134,10 @@ msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
-msgstr "Importer"
+msgstr ""
 
 msgid "Import "
-msgstr "Import "
+msgstr ""
 
 msgid "Import a %s into \"%s"
 msgstr "Importer un %s dans \"%s"
@@ -1763,7 +1763,7 @@ msgid "Operated By "
 msgstr "Géré par "
 
 msgid "or"
-msgstr "ou"
+msgstr ""
 
 msgid "Original"
 msgstr "Original"
@@ -1929,7 +1929,7 @@ msgstr "Continuer"
 
 #, tao-public
 msgid "Properties"
-msgstr "Propriétés"
+msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr "L'URL fournie est invalide."
@@ -1938,10 +1938,10 @@ msgid "Publish"
 msgstr "Publier"
 
 msgid "Publish the test"
-msgstr "Publier le test"
+msgstr ""
 
 msgid "Queued"
-msgstr "Mis en file d'attente"
+msgstr ""
 
 msgid "Quicktime video"
 msgstr "Vidéo Quicktime"
@@ -2176,7 +2176,7 @@ msgid "second"
 msgstr "seconde"
 
 msgid "seconds"
-msgstr "secondes"
+msgstr ""
 
 #, tao-public
 msgid "Security"
@@ -2216,7 +2216,7 @@ msgid "Selected file:"
 msgstr "Fichier sélectionné :"
 
 msgid "Selection saved successfully"
-msgstr "Sélection enregistrée avec succès"
+msgstr ""
 
 msgid "self-locked"
 msgstr "Autoverrouillé"
@@ -2229,7 +2229,7 @@ msgstr "Régler la fonction trigonométrique pour fonctionner en radians"
 
 #, tao-public
 msgid "Settings"
-msgstr "Réglages"
+msgstr ""
 
 msgid "Settings updated"
 msgstr "Réglages mis à jour"
@@ -2283,7 +2283,7 @@ msgid "Start translation"
 msgstr ""
 
 msgid "Status"
-msgstr "État"
+msgstr ""
 
 msgid "Status of"
 msgstr "État de"
@@ -2394,7 +2394,7 @@ msgid "Task not found"
 msgstr "Tâche non trouvée"
 
 msgid "Task not returned any report."
-msgstr "La tâche n'a retourné aucun rapport."
+msgstr ""
 
 msgid "Term"
 msgstr "Terme"
@@ -2643,7 +2643,7 @@ msgid "Unable to delete %s"
 msgstr "Impossible de supprimer %s"
 
 msgid "Unable to delete the selected resource"
-msgstr "Autoriser la suppression de la ressource sélectionnée"
+msgstr ""
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
 msgstr ""
