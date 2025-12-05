@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 14:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,30 +16,30 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: ro\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Romanian\n"
 
 msgid ""
 msgstr ""
 
 msgid " and "
-msgstr " și "
+msgstr ""
 
 msgid " AND "
-msgstr " ȘI "
+msgstr ""
 
 msgid " has been deleted successfully"
-msgstr " a fost șters cu succes"
+msgstr ""
 
 msgid " is "
 msgstr ""
 
 msgid " next"
-msgstr " următor"
+msgstr ""
 
 msgid " Remove criteria"
-msgstr " Înlătură criteriul"
+msgstr ""
 
 msgid " requires a subgrid adapter"
 msgstr ""
@@ -51,28 +51,28 @@ msgid "%d attempts left before your account is locked."
 msgstr ""
 
 msgid "%d day"
-msgstr "%d zi"
+msgstr ""
 
 msgid "%d days"
-msgstr "%d zile"
+msgstr ""
 
 msgid "%h hour"
-msgstr "%h oră"
+msgstr ""
 
 msgid "%h hours"
-msgstr "%h ore"
+msgstr ""
 
 msgid "%i minute"
-msgstr "%i minut"
+msgstr ""
 
 msgid "%i minutes"
-msgstr "%i minute"
+msgstr ""
 
 msgid "%m month"
-msgstr "%m lună"
+msgstr ""
 
 msgid "%m months"
-msgstr "%m luni"
+msgstr ""
 
 msgid "%s %s selected"
 msgstr ""
@@ -81,16 +81,16 @@ msgid "%s (%s kb)"
 msgstr ""
 
 msgid "%s Class saved"
-msgstr "%s Clasă salvată"
+msgstr ""
 
 msgid "%s classes"
-msgstr "%s clase"
+msgstr ""
 
 msgid "%s completed"
 msgstr ""
 
 msgid "%s Confirmation"
-msgstr "%s Confirmare"
+msgstr ""
 
 msgid "%s could not be released"
 msgstr ""
@@ -120,25 +120,25 @@ msgid "%s\" is not a valid index identifier. It must start with a letter and con
 msgstr ""
 
 msgid "%y year"
-msgstr "%y an"
+msgstr ""
 
 msgid "%y years"
-msgstr "%y ani"
+msgstr ""
 
 msgid "(empty)"
 msgstr ""
 
 msgid "... reloading page."
-msgstr "... reâncărcare pagină."
+msgstr ""
 
 msgid "7-zip archive"
 msgstr ""
 
 msgid "<del>Filters</del>"
-msgstr "<del>Filtre</del>"
+msgstr ""
 
 msgid "<del>Options</del>"
-msgstr "<del>Opțiuni</del>"
+msgstr ""
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr ""
@@ -150,7 +150,7 @@ msgid "> Installation done."
 msgstr ""
 
 msgid "a class"
-msgstr "o clasă"
+msgstr ""
 
 msgid "A date has to be a Datetime or timestamp"
 msgstr ""
@@ -168,16 +168,16 @@ msgid "AAC audio"
 msgstr ""
 
 msgid "About"
-msgstr "Despre"
+msgstr ""
 
 msgid "abs"
-msgstr "abs"
+msgstr ""
 
 msgid "Absolute value"
-msgstr "Valoare absolută"
+msgstr ""
 
 msgid "AC"
-msgstr "AC"
+msgstr ""
 
 msgid "Accept all"
 msgstr ""
@@ -192,7 +192,7 @@ msgid "Account status"
 msgstr ""
 
 msgid "Action"
-msgstr "Acțiune"
+msgstr ""
 
 msgid "Action %s - removed %s positions"
 msgstr ""
@@ -201,30 +201,30 @@ msgid "Action `%s` is not configured in the action queue service"
 msgstr ""
 
 msgid "Action was not executed yet"
-msgstr "Acțiunea nu a fost executată deocamdată"
+msgstr ""
 
 msgid "Actions"
-msgstr "Acțiuni"
+msgstr ""
 
 #, tao-public
 msgid "Add"
-msgstr "Adaugă"
+msgstr ""
 
 msgid "Add / Edit lists"
-msgstr "Adaugă/Modifică liste"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr ""
 
 #, tao-public
 msgid "Add a user"
-msgstr "Adaugă un utilizator"
+msgstr ""
 
 msgid "Add an RDF/XML file"
 msgstr ""
 
 msgid "add criteria"
-msgstr "adaugă un criteriu"
+msgstr ""
 
 msgid "Add file(s)"
 msgstr ""
@@ -233,7 +233,7 @@ msgid "Add index"
 msgstr ""
 
 msgid "Add property"
-msgstr "Adaugă o proprietate"
+msgstr ""
 
 msgid "Adding search index for %s"
 msgstr ""
@@ -260,7 +260,7 @@ msgid "aliases:"
 msgstr ""
 
 msgid "all"
-msgstr "toate"
+msgstr ""
 
 msgid "all audios"
 msgstr ""
@@ -272,13 +272,13 @@ msgid "All fields are required"
 msgstr ""
 
 msgid "all images"
-msgstr "toate imaginile"
+msgstr ""
 
 msgid "All rights reserved."
-msgstr "Toate drepturile rezervate."
+msgstr ""
 
 msgid "all videos"
-msgstr "toate videorile"
+msgstr ""
 
 msgid "Allow for all domains"
 msgstr ""
@@ -287,10 +287,10 @@ msgid "Allow for the following domains"
 msgstr ""
 
 msgid "Alpha version"
-msgstr "Versiunea Alfa"
+msgstr ""
 
 msgid "An email has been sent"
-msgstr "Un email a fost trimis"
+msgstr ""
 
 msgid "An error occurred during user deletion"
 msgstr ""
@@ -314,7 +314,7 @@ msgid "Ans"
 msgstr ""
 
 msgid "Apply"
-msgstr "Aplică"
+msgstr ""
 
 msgid "Apply date range"
 msgstr ""
@@ -329,7 +329,7 @@ msgid "Arc tangent"
 msgstr ""
 
 msgid "Archived"
-msgstr "Arhivează"
+msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
@@ -1006,10 +1006,10 @@ msgid "Filtering mode"
 msgstr ""
 
 msgid "First Name"
-msgstr "Prenume"
+msgstr ""
 
 msgid "First page"
-msgstr "Prima pagină"
+msgstr ""
 
 msgid "First row column names"
 msgstr ""
@@ -1045,7 +1045,7 @@ msgid "Form data not saved."
 msgstr ""
 
 msgid "From"
-msgstr "De la"
+msgstr ""
 
 msgid "Fuzzy Matching"
 msgstr ""
@@ -1096,7 +1096,7 @@ msgid "Highlight all"
 msgstr ""
 
 msgid "hours"
-msgstr "ore"
+msgstr ""
 
 msgid "Hyperbolic arc cosine"
 msgstr ""
@@ -1135,7 +1135,7 @@ msgid "Import"
 msgstr ""
 
 msgid "Import "
-msgstr "Import "
+msgstr ""
 
 msgid "Import a %s into \"%s"
 msgstr ""
@@ -1175,10 +1175,10 @@ msgid "impossible to update task status"
 msgstr ""
 
 msgid "In Progress"
-msgstr "În progres"
+msgstr ""
 
 msgid "In progress"
-msgstr "În progres"
+msgstr ""
 
 msgid "Include all"
 msgstr ""
@@ -1320,7 +1320,7 @@ msgid "Keep the original permissions"
 msgstr ""
 
 msgid "Label"
-msgstr "Etichetă"
+msgstr ""
 
 msgid "Label Path"
 msgstr ""
@@ -1335,19 +1335,19 @@ msgid "Last Name"
 msgstr ""
 
 msgid "Last page"
-msgstr "Ultima pagină"
+msgstr ""
 
 msgid "Last result"
-msgstr "Ultimul rezultat"
+msgstr ""
 
 msgid "Left parenthesis"
 msgstr ""
 
 msgid "less than a minute"
-msgstr "mai puțin de un minut"
+msgstr ""
 
 msgid "List"
-msgstr "Listă"
+msgstr ""
 
 msgid "List \"%s\" has duplicated values."
 msgstr ""
@@ -1475,16 +1475,16 @@ msgid "Media resize along with their container, e.g. 50% means half of the conta
 msgstr ""
 
 msgid "Message"
-msgstr "Mesaj"
+msgstr ""
 
 msgid "Messages"
-msgstr "Mesaje"
+msgstr ""
 
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
 msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
+msgstr ""
 
 msgid "Microsoft Excel binary format"
 msgstr ""
@@ -1493,7 +1493,7 @@ msgid "Microsoft Office Document Imaging"
 msgstr ""
 
 msgid "Microsoft Powerpoint"
-msgstr "Microsoft Powerpoint"
+msgstr ""
 
 msgid "Microsoft Powerpoint slideshow"
 msgstr ""
@@ -1631,10 +1631,10 @@ msgid "Next match"
 msgstr ""
 
 msgid "Next page"
-msgstr "Pagina următoare"
+msgstr ""
 
 msgid "No"
-msgstr "Nu"
+msgstr ""
 
 msgid "No action specified"
 msgstr ""
@@ -1773,7 +1773,7 @@ msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
-msgstr "Pagină"
+msgstr ""
 
 msgid "Pascal file"
 msgstr ""
@@ -2147,22 +2147,22 @@ msgid "Running task %s"
 msgstr ""
 
 msgid "Save"
-msgstr "Salvează"
+msgstr ""
 
 msgid "Saved."
 msgstr ""
 
 msgid "Scientific Calculator"
-msgstr "Calculator științific"
+msgstr ""
 
 msgid "Scope"
 msgstr ""
 
 msgid "Search"
-msgstr "Căutare"
+msgstr ""
 
 msgid "Search %s"
-msgstr "Căutare %s"
+msgstr ""
 
 msgid "Search by properties"
 msgstr ""
@@ -2178,7 +2178,7 @@ msgstr ""
 
 #, tao-public
 msgid "Security"
-msgstr "Securitate"
+msgstr ""
 
 msgid "Security settings"
 msgstr ""
@@ -2254,7 +2254,7 @@ msgid "sinh"
 msgstr ""
 
 msgid "Size"
-msgstr "Mărime"
+msgstr ""
 
 msgid "Some of resources has not be deleted"
 msgstr ""
@@ -2305,7 +2305,7 @@ msgid "Submit"
 msgstr ""
 
 msgid "Success"
-msgstr "Succes"
+msgstr ""
 
 msgid "Successfully cloned instance as %s"
 msgstr ""
@@ -2539,7 +2539,7 @@ msgid "Title"
 msgstr ""
 
 msgid "to"
-msgstr "la"
+msgstr ""
 
 msgid "To change your preferences, click Manage preferences."
 msgstr ""
@@ -2569,7 +2569,7 @@ msgid "Total duration"
 msgstr ""
 
 msgid "Total:"
-msgstr "Total:"
+msgstr ""
 
 msgid "Translate"
 msgstr ""
@@ -2728,10 +2728,10 @@ msgid "UNIX Compressed Archive File"
 msgstr ""
 
 msgid "unknown"
-msgstr "necunoscut"
+msgstr ""
 
 msgid "Unknown Error"
-msgstr "Eroare necunoscută"
+msgstr ""
 
 msgid "unkown task id %s"
 msgstr ""
