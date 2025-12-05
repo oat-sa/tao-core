@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: hu\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Hungarian\n"
 
 msgid ""
@@ -308,7 +308,7 @@ msgid "Analytics cookies"
 msgstr ""
 
 msgid "and"
-msgstr ""
+msgstr "és"
 
 msgid "Ans"
 msgstr "Válasz"
@@ -446,7 +446,7 @@ msgid "C file"
 msgstr "C-fájl"
 
 msgid "C++ file"
-msgstr ""
+msgstr "C++ fájl"
 
 msgid "C++ file (.cpp)"
 msgstr "C++ fájl (.cpp)"
@@ -488,7 +488,7 @@ msgid "ceil"
 msgstr "mennyezet"
 
 msgid "Center"
-msgstr ""
+msgstr "Központ"
 
 #, tao-public
 msgid "Change password"
@@ -621,7 +621,7 @@ msgid "Continue"
 msgstr "Folytatás"
 
 msgid "Cookie Policy"
-msgstr ""
+msgstr "Sütikre vonatkozó szabályzat"
 
 msgid "Cookies Preferences"
 msgstr ""
@@ -1196,7 +1196,7 @@ msgstr "Beleértve (ÉS)"
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "Index"
 
 msgid "Index has been deleted for %s"
 msgstr "Index törölve a következőhöz: %s"
@@ -1301,7 +1301,7 @@ msgid "invalid regular expression"
 msgstr "érvénytelen reguláris kifejezés"
 
 msgid "Invalid value"
-msgstr ""
+msgstr "Érvénytelen érték"
 
 msgid "Invalid values:"
 msgstr "Érvénytelen értékek:"
@@ -1448,7 +1448,7 @@ msgid "Manage data list"
 msgstr "Adatlista kezelése"
 
 msgid "Manage Preferences"
-msgstr ""
+msgstr "Beállítások kezelése"
 
 #, tao-public
 msgid "Manage roles"
@@ -1669,7 +1669,7 @@ msgid "Node duplication has failed"
 msgstr "A csomópont duplikációja sikertelen"
 
 msgid "none"
-msgstr ""
+msgstr "egyik sem"
 
 msgid "Not enough arguments following: %s"
 msgstr "Nincs elég argumentum a következő után: %s"
@@ -1701,7 +1701,6 @@ msgstr "Értesítések"
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "Az értesítési illesztőprogramok nem állandóak. Használjon állandó adatbázis-tároló illesztőprogramot."
-
 
 msgid "Nth root"
 msgstr "N-edik gyök"
@@ -1767,7 +1766,7 @@ msgid "or"
 msgstr "vagy"
 
 msgid "Original"
-msgstr ""
+msgstr "Eredeti"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
 msgstr ""
@@ -1779,7 +1778,7 @@ msgid "Page"
 msgstr "Oldal"
 
 msgid "Pascal file"
-msgstr ""
+msgstr "Pascal-fájl"
 
 msgid "Pascal file (.pas)"
 msgstr "Pascal fájl (.pas)"
@@ -1809,7 +1808,7 @@ msgid "PDF file"
 msgstr "PDF-fájl"
 
 msgid "Pending"
-msgstr ""
+msgstr "Függőben levő"
 
 msgid "Permission denied to write in the selected class"
 msgstr "A kiválasztott osztályban írási engedély megtagadva"
@@ -1872,7 +1871,7 @@ msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Kérjük, hibákat, ötleteket, megjegyzéseket vagy visszajelzéseket a TAO Fórumon jelezzen."
 
 msgid "Please select a language."
-msgstr ""
+msgstr "Kérem, válasszon nyelvet."
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr ""
@@ -1923,7 +1922,7 @@ msgid "Previous page"
 msgstr "Előző oldal"
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Adatvédelmi irányelvek"
 
 msgid "Proceed"
 msgstr "Folytatás"
@@ -2275,7 +2274,7 @@ msgid "Square root"
 msgstr "Négyzetgyök"
 
 msgid "Start"
-msgstr ""
+msgstr "Indul"
 
 msgid "Start of document reached. Continuing from the end."
 msgstr "Elértük a dokumentum elejét. Folytatjuk a végéről."
@@ -2299,7 +2298,7 @@ msgid "Storing digital video data on a computer game"
 msgstr "Digitális videoadatok tárolása számítógépes játékban"
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
-msgstr ""
+msgstr "A feltétlenül szükséges sütiket mindig engedélyezni kell, hogy elmenthessük a sütibeállításokra vonatkozó preferenciáidat."
 
 msgid "string"
 msgstr "húr"
@@ -2605,13 +2604,13 @@ msgid "Translation Type"
 msgstr ""
 
 msgid "Translations"
-msgstr ""
+msgstr "Fordítások"
 
 msgid "Transport Layer Security"
 msgstr "Szállítási réteg biztonsága"
 
 msgid "Tree - Multiple node choice"
-msgstr ""
+msgstr "Fa - Több csomópont választás"
 
 msgid "Tree - Multiple node choice "
 msgstr "Fa - Több csomópont választás "
@@ -2941,7 +2940,7 @@ msgid "You can choose which types of cookies you want to allow to improve your e
 msgstr ""
 
 msgid "You can read more about this in our"
-msgstr ""
+msgstr "Erről bővebben olvashat a mi"
 
 msgid "You cannot delete the root node"
 msgstr "A gyökércsomópontot nem lehet törölni."

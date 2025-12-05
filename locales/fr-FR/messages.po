@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: French\n"
 
 msgid ""
@@ -87,7 +87,7 @@ msgid "%s classes"
 msgstr ""
 
 msgid "%s completed"
-msgstr ""
+msgstr "%s effectué"
 
 msgid "%s Confirmation"
 msgstr ""
@@ -132,7 +132,7 @@ msgid "... reloading page."
 msgstr "... rechargement de la page."
 
 msgid "7-zip archive"
-msgstr ""
+msgstr "Archive 7-zip"
 
 msgid "<del>Filters</del>"
 msgstr "<del>Filtres</del>"
@@ -165,10 +165,10 @@ msgid "A message with further instructions has been sent to your email address: 
 msgstr "Un message avec des instructions a été envoyée vers votre adresse courriel: %s"
 
 msgid "AAC audio"
-msgstr ""
+msgstr "Audio AAC"
 
 msgid "About"
-msgstr ""
+msgstr "A propos"
 
 msgid "abs"
 msgstr ""
@@ -177,7 +177,7 @@ msgid "Absolute value"
 msgstr "Valeur absolue"
 
 msgid "AC"
-msgstr ""
+msgstr "AC"
 
 msgid "Accept all"
 msgstr ""
@@ -192,7 +192,7 @@ msgid "Account status"
 msgstr "État du compte"
 
 msgid "Action"
-msgstr ""
+msgstr "Action"
 
 msgid "Action %s - removed %s positions"
 msgstr "Action %s - %s positions supprimées"
@@ -204,7 +204,7 @@ msgid "Action was not executed yet"
 msgstr "L'action n'a pas encore été exécutée."
 
 msgid "Actions"
-msgstr ""
+msgstr "Actions"
 
 #, tao-public
 msgid "Add"
@@ -251,7 +251,7 @@ msgid "Adding/updating search index for updated resource"
 msgstr ""
 
 msgid "Adobe Flash file"
-msgstr ""
+msgstr "Fichier Adobe Flash"
 
 msgid "Advanced search, add filters"
 msgstr "Recherche avancée, ajout de filtres"
@@ -263,22 +263,22 @@ msgid "all"
 msgstr "tout"
 
 msgid "all audios"
-msgstr ""
+msgstr "tous les fichiers audio"
 
 msgid "All data will be removed in %s"
 msgstr "Toutes les données vont être supprimées dans %s"
 
 msgid "All fields are required"
-msgstr "Tous les champs sont requis"
+msgstr "Tous les champs sont obligatoires"
 
 msgid "all images"
-msgstr ""
+msgstr "toutes les images"
 
 msgid "All rights reserved."
 msgstr "Tous droits réservés."
 
 msgid "all videos"
-msgstr ""
+msgstr "toutes les vidéos"
 
 msgid "Allow for all domains"
 msgstr ""
@@ -308,7 +308,7 @@ msgid "Analytics cookies"
 msgstr ""
 
 msgid "and"
-msgstr ""
+msgstr "et"
 
 msgid "Ans"
 msgstr ""
@@ -371,7 +371,7 @@ msgid "Assign Users"
 msgstr "Assigner les utilisateurs"
 
 msgid "Audio Video Interleave"
-msgstr ""
+msgstr "Vidéo AVI"
 
 msgid "Auth type"
 msgstr ""
@@ -383,13 +383,13 @@ msgid "Author Item"
 msgstr "Créer l'item"
 
 msgid "Authoring"
-msgstr "Éditeur "
+msgstr "Édition"
 
 msgid "auto unlocked in %s"
 msgstr "auto-verrouillé dans %s"
 
 msgid "Available"
-msgstr "Disponible"
+msgstr ""
 
 msgid "Available Extensions"
 msgstr "Extensions disponibles"
@@ -398,7 +398,7 @@ msgid "Back"
 msgstr "Précédent"
 
 msgid "Back to listing"
-msgstr "Retour au référencement"
+msgstr "Retour à la liste"
 
 msgid "Back to Portal"
 msgstr ""
@@ -425,7 +425,7 @@ msgid "Binary operator modulo"
 msgstr "Opérateur binaire modulo"
 
 msgid "Bitmap image"
-msgstr ""
+msgstr "Image Bitmap"
 
 msgid "boolean"
 msgstr ""
@@ -437,22 +437,22 @@ msgid "Browse resources"
 msgstr ""
 
 msgid "Browse..."
-msgstr "Naviguer..."
+msgstr "Parcourir..."
 
 msgid "C"
 msgstr ""
 
 msgid "C file"
-msgstr ""
+msgstr "Fichiers C"
 
 msgid "C++ file"
 msgstr ""
 
 msgid "C++ file (.cpp)"
-msgstr ""
+msgstr "Fichier C++ (.cpp)"
 
 msgid "Calc speadsheet (Staroffice)"
-msgstr ""
+msgstr "Feuille de calcul Calc (Staroffice)"
 
 msgid "Calculator"
 msgstr "Calculatrice"
@@ -467,7 +467,7 @@ msgid "cancel"
 msgstr "annuler"
 
 msgid "cancel the action"
-msgstr "annuler l'action"
+msgstr ""
 
 msgid "Cancelled"
 msgstr "Annulé"
@@ -479,7 +479,7 @@ msgid "Cannot divide by zero"
 msgstr "Impossible de diviser par 0"
 
 msgid "Cascading Style Sheets"
-msgstr ""
+msgstr "Feuilles de style en cascade"
 
 msgid "Case sensitive"
 msgstr "Respect de la casse"
@@ -488,7 +488,7 @@ msgid "ceil"
 msgstr "plafond"
 
 msgid "Center"
-msgstr ""
+msgstr "Centrer"
 
 #, tao-public
 msgid "Change password"
@@ -510,7 +510,7 @@ msgid "Check-in"
 msgstr "Déposer"
 
 msgid "choices:"
-msgstr ""
+msgstr "choix:"
 
 msgid "Choose a type for your property first"
 msgstr ""
@@ -606,7 +606,7 @@ msgid "Completed - Error"
 msgstr "Terminé avec erreur"
 
 msgid "Compressed tar file"
-msgstr ""
+msgstr "Fichier tar compressé"
 
 msgid "Compute the expression"
 msgstr "Traiter l'expression"
@@ -636,10 +636,10 @@ msgid "Copy to clipboard"
 msgstr "Copier vers le presse-papiers"
 
 msgid "cos"
-msgstr ""
+msgstr "cos"
 
 msgid "cosh"
-msgstr ""
+msgstr "cosh"
 
 msgid "Cosine"
 msgstr "Cosinus"
@@ -672,7 +672,7 @@ msgid "CSV"
 msgstr ""
 
 msgid "CSV file"
-msgstr ""
+msgstr "Fichier CSV"
 
 msgid "CSV Options"
 msgstr "Options CSV"
@@ -687,7 +687,7 @@ msgid "Current playback position"
 msgstr "Position de lecture en cours"
 
 msgid "currently has a dependency established with "
-msgstr ""
+msgstr "a actuellement une dépendance établie avec "
 
 msgid "Data imported"
 msgstr "Importation des données"
@@ -708,34 +708,34 @@ msgid "Data not imported. All records are invalid."
 msgstr "Données non importées. Tous les enregistrements sont invalides."
 
 msgid "Data source URI"
-msgstr ""
+msgstr "URI de la source de données"
 
 msgid "Database file"
-msgstr ""
+msgstr "Fichier de base de données"
 
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 msgid "date range"
-msgstr ""
+msgstr "plage de date"
 
 msgid "date time"
-msgstr ""
+msgstr "date et heure"
 
 msgid "date time range"
-msgstr ""
+msgstr "plage de date et heure"
 
 msgid "Default search"
 msgstr "Recherche par défaut"
 
 msgid "default:"
-msgstr ""
+msgstr "par défaut:"
 
 msgid "Define the default values"
 msgstr "Définir les valeurs par défaut"
 
 msgid "Deg"
-msgstr ""
+msgstr "Deg"
 
 msgid "Degree"
 msgstr "Degrés"
@@ -760,19 +760,19 @@ msgid "Deleting search index for %s"
 msgstr "Supprimer l'index de recherche pour %s"
 
 msgid "Deleting this property will also remove the dependency"
-msgstr ""
+msgstr "Supprimer cette propriété supprimera également la dépendance"
 
 msgid "Demo Sandbox"
 msgstr "Démonstration"
 
 msgid "Dependency URI Path"
-msgstr ""
+msgstr "Chemin URI de la dépendance"
 
 msgid "Depends on property"
-msgstr ""
+msgstr "Dépend de la propriété"
 
 msgid "Did you mean %s?"
-msgstr ""
+msgstr "Voulez-vous dire %s?"
 
 msgid "Digit 0"
 msgstr "Chiffre 0"
@@ -816,7 +816,7 @@ msgstr "Souhaitez-vous installer le(s) extension(s) suivante(s) :\n"
 "%s ?"
 
 msgid "Document templates (Staroffice)"
-msgstr ""
+msgstr "Modèles de document (Staroffice)"
 
 msgid "does not match"
 msgstr "Ne correspond pas"
@@ -843,7 +843,7 @@ msgid "Drop the files to upload"
 msgstr "Choisissez des fichiers à envoyer"
 
 msgid "Edit"
-msgstr "Éditer"
+msgstr "Modifier"
 
 #, tao-public
 msgid "Edit a user"
@@ -853,7 +853,7 @@ msgid "Edit class %s"
 msgstr "Édition de la classe %s"
 
 msgid "Edit Instance"
-msgstr "Modifier Instance"
+msgstr "Éditer l'instance"
 
 msgid "Element"
 msgstr "Élément"
@@ -862,7 +862,7 @@ msgid "Element deleted."
 msgstr "Élément supprimé."
 
 msgid "Email"
-msgstr ""
+msgstr "Adresse e-mail"
 
 msgid "Empty resources cannot be translated."
 msgstr ""
@@ -877,7 +877,7 @@ msgid "End of document reached. Continuing from the beginning."
 msgstr "Fin du document atteinte. Continuer depuis le début ?"
 
 msgid "Enhanced metafile"
-msgstr ""
+msgstr "Métafichier amélioré"
 
 msgid "Enter"
 msgstr "Entrée"
@@ -889,7 +889,7 @@ msgid "Error adding search index for %s with message %s"
 msgstr "Erreur lors de l'ajout de l'index de recherche pour %s avec le message %s"
 
 msgid "Error during file import"
-msgstr "Erreur pendant l'import du fichier"
+msgstr "Erreur pendant l'import du fichier."
 
 msgid "Error in result"
 msgstr "Erreur dans le résultat"
@@ -916,10 +916,10 @@ msgid "Execute"
 msgstr "Exécuter"
 
 msgid "Executing task %s failed"
-msgstr "L'exécution de la tâche %s a échoué."
+msgstr "Échec de l'exécution de la tâche %s"
 
 msgid "exp"
-msgstr ""
+msgstr "exp"
 
 msgid "Exponent"
 msgstr "Exposant"
@@ -935,7 +935,7 @@ msgid "Export \"%s\" in %s"
 msgstr "Exportation de \"%s\" dans %s"
 
 msgid "Export CSV"
-msgstr ""
+msgstr "Exporter en CSV"
 
 msgid "Export failed."
 msgstr "L'export a échoué."
@@ -1020,13 +1020,13 @@ msgid "Fit to width"
 msgstr "Adapter à la largeur"
 
 msgid "Flash video"
-msgstr ""
+msgstr "Vidéo Flash"
 
 msgid "floor"
 msgstr "sol"
 
 msgid "Flowchart-based programming environment & TI Interactive Workbook"
-msgstr ""
+msgstr "Environnement de programmation basé sur Flowchart & Workbook interactif TI"
 
 msgid "Forbid for all domains"
 msgstr ""
@@ -1041,7 +1041,7 @@ msgid "Forgot your password?"
 msgstr "Mot de passe oublié ?"
 
 msgid "Form"
-msgstr ""
+msgstr "Formulaire"
 
 msgid "Form data not saved."
 msgstr ""
@@ -1059,7 +1059,7 @@ msgid "Generis Form"
 msgstr "Formulaire Generis"
 
 msgid "Geogebra data file"
-msgstr ""
+msgstr "Fichier de données Geogebra"
 
 msgid "Get History"
 msgstr "Obtenir l'historique"
@@ -1068,7 +1068,7 @@ msgid "Get the history list"
 msgstr "Obtenir l'historique"
 
 msgid "GIF image"
-msgstr ""
+msgstr "Image GIF"
 
 msgid "Go Back"
 msgstr "Revenir"
@@ -1077,10 +1077,10 @@ msgid "go back to home page"
 msgstr ""
 
 msgid "GZip Compressed Archive"
-msgstr ""
+msgstr "Archive compressée GZip"
 
 msgid "Header file with extensionsLabels"
-msgstr ""
+msgstr "Fichier d'en-tête avec extensionsLabels"
 
 msgid "Height"
 msgstr "Hauteur"
@@ -1092,7 +1092,7 @@ msgid "Hide detailed report"
 msgstr "Cacher le rapport détaillé"
 
 msgid "Hide password"
-msgstr ""
+msgstr "Cacher le mot de passe"
 
 msgid "Highlight all"
 msgstr "Tout surligner"
@@ -1119,7 +1119,7 @@ msgid "Hyperbolic tangent"
 msgstr "Tangente hyperbolique"
 
 msgid "Hypertext markup language"
-msgstr ""
+msgstr "Fichier HTML"
 
 msgid "I understand that this action is permanent."
 msgstr ""
@@ -1137,7 +1137,7 @@ msgid "Import"
 msgstr "Importer"
 
 msgid "Import "
-msgstr "Import"
+msgstr "Import "
 
 msgid "Import a %s into \"%s"
 msgstr "Importer un %s dans \"%s"
@@ -1202,7 +1202,7 @@ msgid "Index has been deleted for %s"
 msgstr "L'index a été supprimé pour %s."
 
 msgid "Infinity"
-msgstr "Infini"
+msgstr "Infinité"
 
 msgid "Inherit the permission of the parent folder"
 msgstr ""
@@ -1301,7 +1301,7 @@ msgid "invalid regular expression"
 msgstr "Expression régulière non valide"
 
 msgid "Invalid value"
-msgstr ""
+msgstr "Valeur invalide"
 
 msgid "Invalid values:"
 msgstr ""
@@ -1313,16 +1313,16 @@ msgid "items per page"
 msgstr ""
 
 msgid "Javascript code"
-msgstr ""
+msgstr "Code JavaScript"
 
 msgid "JPEG image"
-msgstr ""
+msgstr "Image JPEG"
 
 msgid "Keep the original permissions"
 msgstr ""
 
 msgid "Label"
-msgstr "Libellé"
+msgstr "Étiquette"
 
 msgid "Label Path"
 msgstr ""
@@ -1397,13 +1397,13 @@ msgid "locked by %s"
 msgstr "verrouillé par %s"
 
 msgid "Log in"
-msgstr "Se connecter"
+msgstr "Connexion"
 
 msgid "Log Out"
 msgstr "Se déconnecter"
 
 msgid "Login"
-msgstr "Identifiant"
+msgstr "Nom d'utilisateur"
 
 msgid "Login available"
 msgstr "Identifiant disponible"
@@ -1415,10 +1415,10 @@ msgid "Login is empty."
 msgstr "L'identifiant est vide."
 
 msgid "Logout"
-msgstr "Se déconnecter"
+msgstr "Déconnexion"
 
 msgid "M4A audio"
-msgstr ""
+msgstr "Audio M4A"
 
 msgid "Main Menu"
 msgstr ""
@@ -1477,7 +1477,7 @@ msgid "Media resize along with their container, e.g. 50% means half of the conta
 msgstr "Redimensionnement de la taille du média parallèlement à celle de son conteneur, par exemple 50 % signifie la moitié de taille du conteneur et non la moitié de la taille du média."
 
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 msgid "Messages"
 msgstr ""
@@ -1486,49 +1486,49 @@ msgid "Metadata export is not available for the selected resource."
 msgstr "L'exportation de la métadonnée n'est pas disponible pour la ressource sélectionée."
 
 msgid "Microsoft Excel"
-msgstr ""
+msgstr "Microsoft Excel"
 
 msgid "Microsoft Excel binary format"
-msgstr ""
+msgstr "Format binaire Microsoft Excel"
 
 msgid "Microsoft Office Document Imaging"
-msgstr ""
+msgstr "Image de document Microsoft Office"
 
 msgid "Microsoft Powerpoint"
-msgstr ""
+msgstr "Microsoft Powerpoint"
 
 msgid "Microsoft Powerpoint slideshow"
-msgstr ""
+msgstr "Diaporama Microsoft Powerpoint"
 
 msgid "Microsoft Project file"
-msgstr ""
+msgstr "Fichier Microsoft Project"
 
 msgid "Microsoft Visio file"
-msgstr ""
+msgstr "Fichier Microsoft Visio"
 
 msgid "Microsoft Word"
-msgstr ""
+msgstr "Microsoft Word"
 
 msgid "Microsoft Word template"
-msgstr ""
+msgstr "Modèle Microsoft Word"
 
 msgid "Microsoft Works file"
-msgstr ""
+msgstr "Fichier Microsoft Works"
 
 msgid "Microsoft XPS file"
-msgstr ""
+msgstr "Fichier Microsoft XPS"
 
 msgid "MIME encapsulation of aggregate HTML documents"
-msgstr ""
+msgstr "Encapsulation MIME de documents HTML agrégés"
 
 msgid "Mind mapping software application (free mind open source)"
-msgstr ""
+msgstr "Application logicielle de cartographie mentale (open source libre)"
 
 msgid "minimum %s"
 msgstr ""
 
 msgid "minutes"
-msgstr ""
+msgstr "minutes"
 
 msgid "missing config %s for the service %s"
 msgstr "configuration %s manquante pour le service %s"
@@ -1537,7 +1537,7 @@ msgid "Missing Parameters"
 msgstr "Paramètres manquants"
 
 msgid "modulo"
-msgstr ""
+msgstr "modulo"
 
 msgid "More"
 msgstr "Plus"
@@ -1568,16 +1568,16 @@ msgid "Moving this element will replace the properties of the previous class by 
 msgstr "En bougeant cet élément, les propriétés de la classe précédente seront remplacées par ceux de la classe de destination :"
 
 msgid "MP4 video"
-msgstr ""
+msgstr "Vidéo MP4"
 
 msgid "MPEG audio"
-msgstr ""
+msgstr "Audio MPEG"
 
 msgid "MPEG video"
-msgstr ""
+msgstr "Vidéo MPEG"
 
 msgid "MPEG-4 audio file"
-msgstr ""
+msgstr "Fichier audio MPEG-4"
 
 msgid "Multiple values delimiter"
 msgstr "Délimiteur de valeurs multiples"
@@ -1669,7 +1669,7 @@ msgid "Node duplication has failed"
 msgstr "La duplication de nœud a échoué."
 
 msgid "none"
-msgstr ""
+msgstr "aucun"
 
 msgid "Not enough arguments following: %s"
 msgstr ""
@@ -1697,7 +1697,7 @@ msgstr "Rien à lister !"
 
 #, tao-public
 msgid "Notifications"
-msgstr ""
+msgstr "Notifications"
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
@@ -1718,13 +1718,13 @@ msgid "Off"
 msgstr "Inactif"
 
 msgid "Ogg Vorbis audio"
-msgstr ""
+msgstr "Audio Ogg Vorbis"
 
 msgid "Ogg Vorbis video"
-msgstr ""
+msgstr "Vidéo Ogg Vorbis"
 
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 msgid "OK"
 msgstr ""
@@ -1745,19 +1745,19 @@ msgid "Open the item for editing"
 msgstr ""
 
 msgid "OpenDocument Database"
-msgstr ""
+msgstr "Base de données OpenDocument"
 
 msgid "OpenDocument Presentation"
-msgstr ""
+msgstr "Présentation OpenDocument"
 
 msgid "OpenDocument spreadsheet document"
-msgstr ""
+msgstr "Feuille de calcul OpenDocument"
 
 msgid "OpenDocument text document"
-msgstr ""
+msgstr "Document texte OpenDocument"
 
 msgid "OpenDocument Text Template"
-msgstr ""
+msgstr "Modèle de texte OpenDocument"
 
 msgid "Operated By "
 msgstr "Géré par "
@@ -1766,7 +1766,7 @@ msgid "or"
 msgstr "ou"
 
 msgid "Original"
-msgstr ""
+msgstr "Original"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
 msgstr ""
@@ -1775,13 +1775,13 @@ msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
-msgstr ""
+msgstr "Page"
 
 msgid "Pascal file"
 msgstr ""
 
 msgid "Pascal file (.pas)"
-msgstr ""
+msgstr "Pascal file (.pas)"
 
 msgid "Password"
 msgstr "Mot de passe"
@@ -1805,10 +1805,10 @@ msgid "Pause"
 msgstr ""
 
 msgid "PDF file"
-msgstr ""
+msgstr "Fichier PDF"
 
 msgid "Pending"
-msgstr ""
+msgstr "En attente"
 
 msgid "Permission denied to write in the selected class"
 msgstr "Permission refusée d'écrire dans la classe sélectionnée"
@@ -1817,10 +1817,10 @@ msgid "Permission settings"
 msgstr ""
 
 msgid "Plain text"
-msgstr ""
+msgstr "Texte brut"
 
 msgid "Play"
-msgstr "Lire"
+msgstr "Lecture"
 
 msgid "Please confirm deletion"
 msgstr "Veuillez confirmer la suppression."
@@ -1850,7 +1850,7 @@ msgid "Please contact your administrator."
 msgstr "Veuillez contacter votre administrateur."
 
 msgid "Please contact your system administrator."
-msgstr ""
+msgstr "Contactez votre administrateur système."
 
 msgid "Please define your search in the search panel."
 msgstr ""
@@ -1862,7 +1862,7 @@ msgid "Please download the video and view offline."
 msgstr "Veuillez télécharger la vidéo et la visionner hors ligne."
 
 msgid "Please give a message to your commit"
-msgstr "Veuillez ajouter un message à votre validation"
+msgstr "Veuillez donner un message à votre validation."
 
 msgid "Please provide a reason"
 msgstr "Veuillez fournir une raison"
@@ -1871,7 +1871,7 @@ msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Merci de rapporter tout souci rencontré, ainsi que vos idées, vos commentaires et vos impressions sur le forum TAO."
 
 msgid "Please select a language."
-msgstr ""
+msgstr "Veuillez choisir une langue."
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr ""
@@ -1889,10 +1889,10 @@ msgid "Please wait while ..."
 msgstr "Veuillez patienter..."
 
 msgid "PNG image"
-msgstr ""
+msgstr "Image PNG"
 
 msgid "Position"
-msgstr ""
+msgstr "Position"
 
 msgid "Positionals:"
 msgstr ""
@@ -1922,10 +1922,10 @@ msgid "Previous page"
 msgstr "Page précédente"
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Politique de confidentialité"
 
 msgid "Proceed"
-msgstr "Poursuivre"
+msgstr "Continuer"
 
 #, tao-public
 msgid "Properties"
@@ -1944,7 +1944,7 @@ msgid "Queued"
 msgstr "Mis en file d'attente"
 
 msgid "Quicktime video"
-msgstr ""
+msgstr "Vidéo Quicktime"
 
 msgid "Rad"
 msgstr ""
@@ -1962,7 +1962,7 @@ msgid "Range field is required"
 msgstr "Le champ de portée est nécessaire."
 
 msgid "RAR archive"
-msgstr ""
+msgstr "Archive RAR"
 
 msgid "RDF"
 msgstr ""
@@ -1971,7 +1971,7 @@ msgid "Ready for Translation"
 msgstr ""
 
 msgid "RealMedia file"
-msgstr ""
+msgstr "Fichier RealMedia"
 
 msgid "Refresh"
 msgstr "Actualiser"
@@ -1986,7 +1986,7 @@ msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr "Libérer le verrou pourrait causer la perte du travail en cours par %s."
 
 msgid "Reload"
-msgstr ""
+msgstr "Recharger"
 
 msgid "Remind"
 msgstr "Rappeller"
@@ -2016,7 +2016,7 @@ msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
-msgstr "Enlever ce message"
+msgstr "Supprimer le message"
 
 msgid "Remove the translated item"
 msgstr ""
@@ -2049,7 +2049,7 @@ msgid "require notification ID"
 msgstr "demande un ID de notification"
 
 msgid "required"
-msgstr ""
+msgstr "requis"
 
 msgid "required length"
 msgstr "taille requise"
@@ -2112,7 +2112,7 @@ msgid "Return to sign in page"
 msgstr "Revenir à la page de connexion"
 
 msgid "Rich Text Format file"
-msgstr ""
+msgstr "Fichier en format RTF"
 
 msgid "Right click the tree to manage your lists"
 msgstr ""
@@ -2146,13 +2146,13 @@ msgid "Row %s"
 msgstr "Ligne %s"
 
 msgid "Running task %s"
-msgstr "Tâche %s en cours"
+msgstr ""
 
 msgid "Save"
 msgstr "Enregistrer"
 
 msgid "Saved."
-msgstr ""
+msgstr "Enregistré."
 
 msgid "Scientific Calculator"
 msgstr "Calculatrice scientifique"
@@ -2186,7 +2186,7 @@ msgid "Security settings"
 msgstr ""
 
 msgid "Select"
-msgstr "Choisir"
+msgstr "Sélectionner"
 
 msgid "select"
 msgstr "choisir"
@@ -2235,25 +2235,25 @@ msgid "Settings updated"
 msgstr "Réglages mis à jour"
 
 msgid "Show detailed report"
-msgstr "Montrer le détail du rapport"
+msgstr "Afficher le rapport détaillé"
 
 msgid "Show password"
-msgstr ""
+msgstr "Afficher le mot de passe"
 
 msgid "Sibelius music notation"
-msgstr ""
+msgstr "Notation musicale Sibelius"
 
 msgid "Sign change"
 msgstr "Changement de signe"
 
 msgid "sin"
-msgstr ""
+msgstr "sin"
 
 msgid "Sine"
 msgstr "Sinus"
 
 msgid "sinh"
-msgstr ""
+msgstr "sinh"
 
 msgid "Size"
 msgstr "Taille"
@@ -2274,7 +2274,7 @@ msgid "Square root"
 msgstr "Racine carrée"
 
 msgid "Start"
-msgstr ""
+msgstr "Démarrer"
 
 msgid "Start of document reached. Continuing from the end."
 msgstr "Début du document atteint. Continuation depuis la fin."
@@ -2295,7 +2295,7 @@ msgid "Store the value a variable"
 msgstr "Enregistrer la valeur dans une variable"
 
 msgid "Storing digital video data on a computer game"
-msgstr ""
+msgstr "Stockage des données vidéo numériques sur un jeu d'ordinateur"
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
 msgstr ""
@@ -2304,7 +2304,7 @@ msgid "string"
 msgstr ""
 
 msgid "Submit"
-msgstr ""
+msgstr "Envoyer"
 
 msgid "Success"
 msgstr "Succès"
@@ -2331,22 +2331,22 @@ msgid "Supported export formats"
 msgstr "Formats d'export supportés"
 
 msgid "SVG image"
-msgstr ""
+msgstr "Image SVG"
 
 msgid "Syntax error"
 msgstr "Erreur de syntaxe"
 
 msgid "Tagged image file"
-msgstr ""
+msgstr "Fichier image taggé"
 
 msgid "tan"
-msgstr ""
+msgstr "tan"
 
 msgid "Tangent"
 msgstr "Tangente"
 
 msgid "tanh"
-msgstr ""
+msgstr "tanh"
 
 msgid "Tao Default Theme"
 msgstr "Thème TAO par défaut"
@@ -2400,7 +2400,7 @@ msgid "Term"
 msgstr "Terme"
 
 msgid "TeX file"
-msgstr ""
+msgstr "Fichier TeX"
 
 msgid "Text - Long - Box"
 msgstr "Texte - Long - Boîte"
@@ -2412,7 +2412,7 @@ msgid "Text - Short - Field"
 msgstr "Texte - Long - Champ"
 
 msgid "Text document file format (Staroffice)"
-msgstr ""
+msgstr "Format de document texte (Staroffice)"
 
 msgid "Text to translate"
 msgstr ""
@@ -2532,7 +2532,7 @@ msgid "This site uses cookies to improve your browsing experience and to perform
 msgstr ""
 
 msgid "time"
-msgstr ""
+msgstr "date et heure"
 
 msgid "Time zone"
 msgstr "Fuseau horaire"
@@ -2604,7 +2604,7 @@ msgid "Translation Type"
 msgstr ""
 
 msgid "Translations"
-msgstr ""
+msgstr "Traductions"
 
 msgid "Transport Layer Security"
 msgstr ""
@@ -2625,7 +2625,7 @@ msgid "trunc"
 msgstr "tronquer"
 
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 msgid "Type your search"
 msgstr "Saisissez votre recherche"
@@ -2658,7 +2658,7 @@ msgid "Unable to open file %s"
 msgstr "Impossible d'ouvrir le fichier %s"
 
 msgid "Unable to process your request"
-msgstr ""
+msgstr "Votre requête n’a pu aboutir"
 
 msgid "Unable to release the lock"
 msgstr "Autoriser la publication de la serrure"
@@ -2712,7 +2712,7 @@ msgid "Undefined Instance can not be saved"
 msgstr ""
 
 msgid "Undo"
-msgstr "Annuler une action"
+msgstr "Refaire"
 
 msgid "Unexpected error. Please contact administrator"
 msgstr "Erreur inattendue. Merci de contacter l'administrateur."
@@ -2727,7 +2727,7 @@ msgid "Unique Identifier"
 msgstr ""
 
 msgid "UNIX Compressed Archive File"
-msgstr ""
+msgstr "Fichier d'archive UNIX compressé"
 
 msgid "unknown"
 msgstr "inconnu"
@@ -2849,7 +2849,7 @@ msgid "Variable %s"
 msgstr ""
 
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 msgid "View"
 msgstr ""
@@ -2870,7 +2870,7 @@ msgid "Waiting"
 msgstr "En attente"
 
 msgid "WAV audio"
-msgstr ""
+msgstr "Audio WAV"
 
 msgid "WebHook auth configuration can not be loaded"
 msgstr ""
@@ -2880,10 +2880,10 @@ msgid "WebHooks"
 msgstr ""
 
 msgid "WebM audio"
-msgstr ""
+msgstr "Audio WebM"
 
 msgid "WebM video"
-msgstr ""
+msgstr "Vidéo WebM"
 
 msgid "Whole number part"
 msgstr "Partie du nombre entier"
@@ -2892,16 +2892,16 @@ msgid "Width"
 msgstr "Largeur"
 
 msgid "Windows help file"
-msgstr ""
+msgstr "Fichier d'aide Windows"
 
 msgid "Windows Media audio"
-msgstr ""
+msgstr "Audio Windows Media"
 
 msgid "Windows Media file (metafile)"
-msgstr ""
+msgstr "Fichier Windows Media (méta-fichier)"
 
 msgid "Windows Media video"
-msgstr ""
+msgstr "Vidéo Windows Media"
 
 msgid "with"
 msgstr ""
@@ -2913,7 +2913,7 @@ msgid "Wrap image right"
 msgstr ""
 
 msgid "Write Document"
-msgstr ""
+msgstr "Document Write"
 
 msgid "Wrong or missing parameter extension, module or action"
 msgstr "L'extension, le module ou l'action du paramètre est mauvais ou manquant"
@@ -2922,7 +2922,7 @@ msgid "Wrong parameter shownExtension"
 msgstr "Mauvaise extension de paramètre affichée"
 
 msgid "XML file"
-msgstr ""
+msgstr "Fichier XML"
 
 msgid "Yes"
 msgstr "Oui"
@@ -2985,5 +2985,5 @@ msgid "Your TAO Password"
 msgstr "Votre mot de passe TAO"
 
 msgid "ZIP archive"
-msgstr ""
+msgstr "Archive ZIP"
 

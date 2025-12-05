@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: sk\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Slovak\n"
 
 msgid ""
@@ -87,7 +87,7 @@ msgid "%s classes"
 msgstr "%s triedy"
 
 msgid "%s completed"
-msgstr ""
+msgstr "%s dokončené"
 
 msgid "%s Confirmation"
 msgstr "%s Potvrdenie"
@@ -308,7 +308,7 @@ msgid "Analytics cookies"
 msgstr ""
 
 msgid "and"
-msgstr ""
+msgstr "a"
 
 msgid "Ans"
 msgstr "Odpoveď"
@@ -446,7 +446,7 @@ msgid "C file"
 msgstr "Súbor C"
 
 msgid "C++ file"
-msgstr ""
+msgstr "Súbor C++"
 
 msgid "C++ file (.cpp)"
 msgstr "Súbor C++ (.cpp)"
@@ -488,7 +488,7 @@ msgid "ceil"
 msgstr "strop"
 
 msgid "Center"
-msgstr ""
+msgstr "Centrum"
 
 #, tao-public
 msgid "Change password"
@@ -621,7 +621,7 @@ msgid "Continue"
 msgstr "Pokračovať"
 
 msgid "Cookie Policy"
-msgstr ""
+msgstr "Zásady používania súborov cookie"
 
 msgid "Cookies Preferences"
 msgstr ""
@@ -1196,7 +1196,7 @@ msgstr "Inkluzívne (A)"
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "Index"
 
 msgid "Index has been deleted for %s"
 msgstr "Index bol odstránený pre %s"
@@ -1301,7 +1301,7 @@ msgid "invalid regular expression"
 msgstr "neplatný regulárny výraz"
 
 msgid "Invalid value"
-msgstr ""
+msgstr "Neplatná hodnota"
 
 msgid "Invalid values:"
 msgstr "Neplatné hodnoty:"
@@ -1448,7 +1448,7 @@ msgid "Manage data list"
 msgstr "Spravovať zoznam údajov"
 
 msgid "Manage Preferences"
-msgstr ""
+msgstr "Spravovať nastavenia"
 
 #, tao-public
 msgid "Manage roles"
@@ -1669,7 +1669,7 @@ msgid "Node duplication has failed"
 msgstr "Duplikácia uzla zlyhala"
 
 msgid "none"
-msgstr ""
+msgstr "žiadny"
 
 msgid "Not enough arguments following: %s"
 msgstr "Nasleduje nedostatok argumentov: %s"
@@ -1766,7 +1766,7 @@ msgid "or"
 msgstr "alebo"
 
 msgid "Original"
-msgstr ""
+msgstr "Pôvodný"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
 msgstr ""
@@ -1778,7 +1778,7 @@ msgid "Page"
 msgstr "Strana"
 
 msgid "Pascal file"
-msgstr ""
+msgstr "Súbor v Pascale"
 
 msgid "Pascal file (.pas)"
 msgstr "Súbor v jazyku Pascal (.pas)"
@@ -1808,7 +1808,7 @@ msgid "PDF file"
 msgstr "PDF súbor"
 
 msgid "Pending"
-msgstr ""
+msgstr "Čakajúce"
 
 msgid "Permission denied to write in the selected class"
 msgstr "Zápis do vybranej triedy bol zamietnutý."
@@ -1862,7 +1862,7 @@ msgid "Please download the video and view offline."
 msgstr "Prosím, stiahnite si video a pozrite si ho offline."
 
 msgid "Please give a message to your commit"
-msgstr "Prosím, pošlite správu vášmu commitu"
+msgstr "Prosím, napíšte správu k Vašej aktualizácii"
 
 msgid "Please provide a reason"
 msgstr "Uveďte dôvod"
@@ -1871,7 +1871,7 @@ msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Nahláste chyby, nápady, komentáre alebo spätnú väzbu na fóre TAO."
 
 msgid "Please select a language."
-msgstr ""
+msgstr "Vyberte jazyk."
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr ""
@@ -1922,7 +1922,7 @@ msgid "Previous page"
 msgstr "Predchádzajúca stránka"
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Zásady ochrany osobných údajov"
 
 msgid "Proceed"
 msgstr "Pokračovať"
@@ -2274,7 +2274,7 @@ msgid "Square root"
 msgstr "Druhá odmocnina"
 
 msgid "Start"
-msgstr ""
+msgstr "Štart"
 
 msgid "Start of document reached. Continuing from the end."
 msgstr "Dosiahnutý začiatok dokumentu. Pokračovanie od konca."
@@ -2298,7 +2298,7 @@ msgid "Storing digital video data on a computer game"
 msgstr "Ukladanie digitálnych video dát v počítačovej hre"
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
-msgstr ""
+msgstr "Nevyhnutne potrebné súbory cookie by mali byť vždy povolené, aby sme mohli uložiť vaše preferencie týkajúce sa nastavení súborov cookie."
 
 msgid "string"
 msgstr "reťazec"
@@ -2604,13 +2604,13 @@ msgid "Translation Type"
 msgstr ""
 
 msgid "Translations"
-msgstr ""
+msgstr "Preklady"
 
 msgid "Transport Layer Security"
 msgstr "Zabezpečenie transportnej vrstvy"
 
 msgid "Tree - Multiple node choice"
-msgstr ""
+msgstr "Strom - výber z viacerých uzlov"
 
 msgid "Tree - Multiple node choice "
 msgstr "Strom - výber z viacerých uzlov "
@@ -2940,7 +2940,7 @@ msgid "You can choose which types of cookies you want to allow to improve your e
 msgstr ""
 
 msgid "You can read more about this in our"
-msgstr ""
+msgstr "Viac si o tom môžete prečítať v našom"
 
 msgid "You cannot delete the root node"
 msgstr "Koreňový uzol nemôžete odstrániť"

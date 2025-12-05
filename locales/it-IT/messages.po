@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: it\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Italian\n"
 
 msgid ""
@@ -192,7 +192,7 @@ msgid "Account status"
 msgstr ""
 
 msgid "Action"
-msgstr "Azione"
+msgstr ""
 
 msgid "Action %s - removed %s positions"
 msgstr ""
@@ -214,7 +214,7 @@ msgid "Add / Edit lists"
 msgstr ""
 
 msgid "Add a CSV file"
-msgstr "Aggiungi un file CSV"
+msgstr ""
 
 #, tao-public
 msgid "Add a user"
@@ -269,13 +269,13 @@ msgid "All data will be removed in %s"
 msgstr "Tutti i dati saranno rimossi in %s"
 
 msgid "All fields are required"
-msgstr "Tutti i campi sono richiesti"
+msgstr ""
 
 msgid "all images"
 msgstr ""
 
 msgid "All rights reserved."
-msgstr "Tutti i diritti riservati"
+msgstr "Diritti riservati"
 
 msgid "all videos"
 msgstr ""
@@ -388,7 +388,7 @@ msgid "auto unlocked in %s"
 msgstr ""
 
 msgid "Available"
-msgstr "Disponibile"
+msgstr ""
 
 msgid "Available Extensions"
 msgstr "Estensioni disponibili"
@@ -397,7 +397,7 @@ msgid "Back"
 msgstr ""
 
 msgid "Back to listing"
-msgstr "Indietro per ascolto"
+msgstr ""
 
 msgid "Back to Portal"
 msgstr ""
@@ -436,7 +436,7 @@ msgid "Browse resources"
 msgstr ""
 
 msgid "Browse..."
-msgstr "Sfoglia..."
+msgstr "Esplora..."
 
 msgid "C"
 msgstr ""
@@ -454,19 +454,19 @@ msgid "Calc speadsheet (Staroffice)"
 msgstr ""
 
 msgid "Calculator"
-msgstr ""
+msgstr "Calcolatrice"
 
 msgid "Calendar"
 msgstr "Calendario"
 
 msgid "Cancel"
-msgstr "No"
+msgstr "Cancella"
 
 msgid "cancel"
-msgstr "no"
+msgstr "cancella"
 
 msgid "cancel the action"
-msgstr "annulla operazione"
+msgstr ""
 
 msgid "Cancelled"
 msgstr ""
@@ -509,7 +509,7 @@ msgid "Check-in"
 msgstr ""
 
 msgid "choices:"
-msgstr ""
+msgstr "scelte:"
 
 msgid "Choose a type for your property first"
 msgstr ""
@@ -569,7 +569,7 @@ msgid "Click to start"
 msgstr ""
 
 msgid "Close"
-msgstr ""
+msgstr "Chiudi"
 
 msgid "Close dialog"
 msgstr ""
@@ -593,10 +593,10 @@ msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
-msgstr "commento..."
+msgstr ""
 
 msgid "Commit"
-msgstr "Consegna"
+msgstr ""
 
 msgid "Completed"
 msgstr ""
@@ -617,7 +617,7 @@ msgid "Connect to the TAO platform"
 msgstr "Connettersi alla piattaforma TAO"
 
 msgid "Continue"
-msgstr "Continua"
+msgstr ""
 
 msgid "Cookie Policy"
 msgstr ""
@@ -713,7 +713,7 @@ msgid "Database file"
 msgstr ""
 
 msgid "Date"
-msgstr "Data"
+msgstr ""
 
 msgid "date range"
 msgstr ""
@@ -741,7 +741,7 @@ msgstr ""
 
 #, tao-public
 msgid "Delete"
-msgstr "Elimina"
+msgstr ""
 
 msgid "Delete Left"
 msgstr ""
@@ -826,7 +826,7 @@ msgid "Dot"
 msgstr ""
 
 msgid "Download"
-msgstr "Scarica"
+msgstr ""
 
 msgid "Download this file"
 msgstr "Scarica questo file"
@@ -841,7 +841,7 @@ msgid "Drop the files to upload"
 msgstr "Rilascia i file per upload"
 
 msgid "Edit"
-msgstr "Edita"
+msgstr ""
 
 #, tao-public
 msgid "Edit a user"
@@ -851,7 +851,7 @@ msgid "Edit class %s"
 msgstr "Edita la classe %s"
 
 msgid "Edit Instance"
-msgstr "Modifica Istanza"
+msgstr ""
 
 msgid "Element"
 msgstr "Elemento"
@@ -887,7 +887,7 @@ msgid "Error adding search index for %s with message %s"
 msgstr ""
 
 msgid "Error during file import"
-msgstr "Errore durante il file di importazione"
+msgstr "Errore durante l'importazione di file"
 
 msgid "Error in result"
 msgstr ""
@@ -924,7 +924,7 @@ msgstr ""
 
 #, tao-public
 msgid "Export"
-msgstr "Esporta"
+msgstr ""
 
 msgid "Export "
 msgstr "Esporta"
@@ -997,7 +997,7 @@ msgid "files selected"
 msgstr "file selezionato"
 
 msgid "Filter"
-msgstr "Filtro"
+msgstr ""
 
 msgid "Filter by value"
 msgstr ""
@@ -1096,7 +1096,7 @@ msgid "Highlight all"
 msgstr "Evidenzia tutto"
 
 msgid "hours"
-msgstr "ore"
+msgstr ""
 
 msgid "Hyperbolic arc cosine"
 msgstr ""
@@ -1135,7 +1135,7 @@ msgid "Import"
 msgstr "Importa"
 
 msgid "Import "
-msgstr "Importa "
+msgstr ""
 
 msgid "Import a %s into \"%s"
 msgstr ""
@@ -1178,7 +1178,7 @@ msgid "In Progress"
 msgstr ""
 
 msgid "In progress"
-msgstr ""
+msgstr "In corso"
 
 msgid "Include all"
 msgstr ""
@@ -1200,7 +1200,7 @@ msgid "Index has been deleted for %s"
 msgstr ""
 
 msgid "Infinity"
-msgstr "Infinito"
+msgstr ""
 
 msgid "Inherit the permission of the parent folder"
 msgstr ""
@@ -1233,7 +1233,7 @@ msgid "Installing extension %s..."
 msgstr "Installazione delle estensioni %s"
 
 msgid "Instance saved"
-msgstr "Istanza salvata"
+msgstr ""
 
 msgid "Interface language"
 msgstr "Lingua di interfaccia"
@@ -1326,7 +1326,7 @@ msgid "Label Path"
 msgstr ""
 
 msgid "Language"
-msgstr "Lingua"
+msgstr ""
 
 msgid "Last attempt before your account is locked."
 msgstr ""
@@ -1347,7 +1347,7 @@ msgid "less than a minute"
 msgstr "meno di un minuto"
 
 msgid "List"
-msgstr "Elenco"
+msgstr ""
 
 msgid "List \"%s\" has duplicated values."
 msgstr ""
@@ -1383,7 +1383,7 @@ msgid "Loaded at Startup"
 msgstr "Caricato all'avvio"
 
 msgid "Loading"
-msgstr "Caricamento"
+msgstr ""
 
 msgid "Loading status"
 msgstr ""
@@ -1395,13 +1395,13 @@ msgid "locked by %s"
 msgstr ""
 
 msgid "Log in"
-msgstr "Entra"
+msgstr "Accesso"
 
 msgid "Log Out"
 msgstr "Esci"
 
 msgid "Login"
-msgstr ""
+msgstr "Accesso"
 
 msgid "Login available"
 msgstr "Login disponibile"
@@ -1475,7 +1475,7 @@ msgid "Media resize along with their container, e.g. 50% means half of the conta
 msgstr ""
 
 msgid "Message"
-msgstr "Messaggio"
+msgstr ""
 
 msgid "Messages"
 msgstr ""
@@ -1526,7 +1526,7 @@ msgid "minimum %s"
 msgstr ""
 
 msgid "minutes"
-msgstr "minuti"
+msgstr ""
 
 msgid "missing config %s for the service %s"
 msgstr ""
@@ -1541,7 +1541,7 @@ msgid "More"
 msgstr "Ancora"
 
 msgid "Move"
-msgstr ""
+msgstr "Sposta"
 
 msgid "Move Left"
 msgstr ""
@@ -1679,7 +1679,7 @@ msgid "Not Ready for Translation"
 msgstr ""
 
 msgid "Not started"
-msgstr ""
+msgstr "Non avviato"
 
 msgid "NotEmpty"
 msgstr ""
@@ -1725,7 +1725,7 @@ msgid "Ok"
 msgstr "Sì"
 
 msgid "OK"
-msgstr "SI"
+msgstr ""
 
 msgid "Old Password"
 msgstr "Vecchia password"
@@ -1761,7 +1761,7 @@ msgid "Operated By "
 msgstr ""
 
 msgid "or"
-msgstr "o"
+msgstr ""
 
 msgid "Original"
 msgstr ""
@@ -1800,7 +1800,7 @@ msgid "Passwords are not matching"
 msgstr "Le password non corrispondono"
 
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 msgid "PDF file"
 msgstr ""
@@ -1815,7 +1815,7 @@ msgid "Permission settings"
 msgstr ""
 
 msgid "Plain text"
-msgstr ""
+msgstr "Testo semplice"
 
 msgid "Play"
 msgstr ""
@@ -1860,10 +1860,10 @@ msgid "Please download the video and view offline."
 msgstr ""
 
 msgid "Please give a message to your commit"
-msgstr "Prego dare un messaggio alla tua consegna"
+msgstr ""
 
 msgid "Please provide a reason"
-msgstr "Si prega di fornire una motivazione"
+msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
@@ -1890,7 +1890,7 @@ msgid "PNG image"
 msgstr ""
 
 msgid "Position"
-msgstr ""
+msgstr "Posizione"
 
 msgid "Positionals:"
 msgstr ""
@@ -1927,13 +1927,13 @@ msgstr ""
 
 #, tao-public
 msgid "Properties"
-msgstr "Proprietà"
+msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr "URL fornito non valido"
 
 msgid "Publish"
-msgstr ""
+msgstr "Pubblica"
 
 msgid "Publish the test"
 msgstr ""
@@ -2005,7 +2005,7 @@ msgid "Remind the recorded value"
 msgstr ""
 
 msgid "Remove"
-msgstr "Rimuovi"
+msgstr ""
 
 msgid "Remove criteria"
 msgstr ""
@@ -2014,7 +2014,7 @@ msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
-msgstr "Rimuovi Messaggio"
+msgstr "Rimuovi messaggio"
 
 msgid "Remove the translated item"
 msgstr ""
@@ -2047,7 +2047,7 @@ msgid "require notification ID"
 msgstr ""
 
 msgid "required"
-msgstr ""
+msgstr "richiesto"
 
 msgid "required length"
 msgstr "lunghezza richiesta"
@@ -2147,7 +2147,7 @@ msgid "Running task %s"
 msgstr ""
 
 msgid "Save"
-msgstr "Salva"
+msgstr ""
 
 msgid "Saved."
 msgstr ""
@@ -2174,7 +2174,7 @@ msgid "second"
 msgstr ""
 
 msgid "seconds"
-msgstr "secondi"
+msgstr ""
 
 #, tao-public
 msgid "Security"
@@ -2184,7 +2184,7 @@ msgid "Security settings"
 msgstr ""
 
 msgid "Select"
-msgstr "Seleziona"
+msgstr ""
 
 msgid "select"
 msgstr "seleziona"
@@ -2214,7 +2214,7 @@ msgid "Selected file:"
 msgstr "File selezionato:"
 
 msgid "Selection saved successfully"
-msgstr "Selezione salvata correttamente"
+msgstr ""
 
 msgid "self-locked"
 msgstr ""
@@ -2227,13 +2227,13 @@ msgstr ""
 
 #, tao-public
 msgid "Settings"
-msgstr "Impostazioni"
+msgstr ""
 
 msgid "Settings updated"
 msgstr "Setting aggiornati"
 
 msgid "Show detailed report"
-msgstr "Mostra una notifica dettagliata"
+msgstr ""
 
 msgid "Show password"
 msgstr ""
@@ -2302,10 +2302,10 @@ msgid "string"
 msgstr ""
 
 msgid "Submit"
-msgstr ""
+msgstr "Invia"
 
 msgid "Success"
-msgstr "Riuscito"
+msgstr ""
 
 msgid "Successfully cloned instance as %s"
 msgstr ""
@@ -2530,13 +2530,13 @@ msgid "This site uses cookies to improve your browsing experience and to perform
 msgstr ""
 
 msgid "time"
-msgstr ""
+msgstr "tempo"
 
 msgid "Time zone"
 msgstr "Fuso orario"
 
 msgid "Title"
-msgstr ""
+msgstr "Titolo"
 
 msgid "to"
 msgstr ""
@@ -2569,7 +2569,7 @@ msgid "Total duration"
 msgstr ""
 
 msgid "Total:"
-msgstr ""
+msgstr "Totale:"
 
 msgid "Translate"
 msgstr "Traduci"
@@ -2623,7 +2623,7 @@ msgid "trunc"
 msgstr ""
 
 msgid "Type"
-msgstr "Tipo"
+msgstr ""
 
 msgid "Type your search"
 msgstr "Digita"
@@ -2641,7 +2641,7 @@ msgid "Unable to delete %s"
 msgstr "Impossibile eliminare %s."
 
 msgid "Unable to delete the selected resource"
-msgstr "Impossibile eliminare la risorsa selezionata"
+msgstr ""
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
 msgstr ""
@@ -2683,7 +2683,7 @@ msgid "Unable to upload file"
 msgstr "Impossibile caricare il file"
 
 msgid "Unable to upload file %s : %s"
-msgstr "Impossibile caricare il file %s : %s"
+msgstr ""
 
 msgid "Unary operator +"
 msgstr ""
@@ -2710,7 +2710,7 @@ msgid "Undefined Instance can not be saved"
 msgstr ""
 
 msgid "Undo"
-msgstr "Annulla"
+msgstr "Ripristina"
 
 msgid "Unexpected error. Please contact administrator"
 msgstr ""
@@ -2776,7 +2776,7 @@ msgid "Use default value"
 msgstr "Usa valore predefinito"
 
 msgid "User"
-msgstr "Utente"
+msgstr ""
 
 msgid "User %s can not be locked"
 msgstr ""
@@ -2926,7 +2926,7 @@ msgid "Yes"
 msgstr "Sì"
 
 msgid "You are encountering a prolonged connectivity loss."
-msgstr ""
+msgstr "Si sono verificati problemi di connessione."
 
 msgid "You are not allowed to write in the class %s"
 msgstr ""
