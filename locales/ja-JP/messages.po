@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2025.06\n"
-"PO-Revision-Date: 2025-06-13T16:13:52\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 08:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ja-JP\n"
+"Language: ja\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: ja-JP\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-GB\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
+"X-Crowdin-File-ID: 617\n"
+"Language-Team: Japanese\n"
 
 msgid ""
 msgstr ""
@@ -71,7 +78,7 @@ msgid "%s %s selected"
 msgstr "%s %s が選択されました"
 
 msgid "%s (%s kb)"
-msgstr ""
+msgstr "%s (%s kb)"
 
 msgid "%s Class saved"
 msgstr "%s を保存しました"
@@ -170,7 +177,7 @@ msgid "Absolute value"
 msgstr "絶対値"
 
 msgid "AC"
-msgstr ""
+msgstr "AC"
 
 msgid "Accept all"
 msgstr ""
@@ -204,7 +211,7 @@ msgid "Add"
 msgstr "追加"
 
 msgid "Add / Edit lists"
-msgstr ""
+msgstr "リストの追加/編集"
 
 msgid "Add a CSV file"
 msgstr "CSVファイル追加"
@@ -250,7 +257,7 @@ msgid "Advanced search, add filters"
 msgstr "高度な検索（フィルタ追加）"
 
 msgid "aliases:"
-msgstr ""
+msgstr "エイリアス:"
 
 msgid "all"
 msgstr "すべて"
@@ -268,7 +275,7 @@ msgid "all images"
 msgstr "全ての画像"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "All rights reserved."
 
 msgid "all videos"
 msgstr "全ての動画"
@@ -304,7 +311,7 @@ msgid "and"
 msgstr ""
 
 msgid "Ans"
-msgstr ""
+msgstr "Ans"
 
 msgid "Apply"
 msgstr "適用"
@@ -313,13 +320,13 @@ msgid "Apply date range"
 msgstr "日付を適用"
 
 msgid "Arc cosine"
-msgstr ""
+msgstr "アークコサイン"
 
 msgid "Arc sine"
-msgstr ""
+msgstr "アークサイン"
 
 msgid "Arc tangent"
-msgstr ""
+msgstr "アークタンジェント(タンジェント)"
 
 msgid "Archived"
 msgstr "アーカイブ"
@@ -342,16 +349,16 @@ msgid "Are you sure you wish to delete it"
 msgstr ""
 
 msgid "Argument check failed: %s"
-msgstr ""
+msgstr "引数のチェックに失敗しました: %s"
 
 msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
+msgstr "引数 %s と %s は互いに排他的です"
 
 msgid "Arguments separator"
 msgstr "引数の区切り"
 
 msgid "array"
-msgstr ""
+msgstr "配列"
 
 msgid "Assign"
 msgstr "割り当て"
@@ -421,7 +428,7 @@ msgid "Bitmap image"
 msgstr "ビットマップ画像"
 
 msgid "boolean"
-msgstr ""
+msgstr "boolean"
 
 msgid "Browse folders:"
 msgstr "フォルダを参照"
@@ -433,7 +440,7 @@ msgid "Browse..."
 msgstr "参照..."
 
 msgid "C"
-msgstr ""
+msgstr "C"
 
 msgid "C file"
 msgstr "Cファイル"
@@ -503,7 +510,7 @@ msgid "Check-in"
 msgstr "チェックイン"
 
 msgid "choices:"
-msgstr ""
+msgstr "選択肢:"
 
 msgid "Choose a type for your property first"
 msgstr ""
@@ -581,10 +588,10 @@ msgid "Column"
 msgstr "列"
 
 msgid "command"
-msgstr ""
+msgstr "(Command)"
 
 msgid "Commands:"
-msgstr ""
+msgstr "コマンド:"
 
 msgid "comment..."
 msgstr "コメント..."
@@ -629,16 +636,16 @@ msgid "Copy to clipboard"
 msgstr "クリップボードにコピー"
 
 msgid "cos"
-msgstr ""
+msgstr "cos"
 
 msgid "cosh"
-msgstr ""
+msgstr "cosh"
 
 msgid "Cosine"
 msgstr "cos"
 
 msgid "count"
-msgstr ""
+msgstr "カウント"
 
 msgid "Create"
 msgstr "作成"
@@ -662,7 +669,7 @@ msgid "CSP Header settings were saved successfully!"
 msgstr "CSPヘッダの設定が正常に保存されました"
 
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 msgid "CSV file"
 msgstr "CSVファイル"
@@ -722,13 +729,13 @@ msgid "Default search"
 msgstr "デフォルト検索"
 
 msgid "default:"
-msgstr ""
+msgstr "デフォルト:"
 
 msgid "Define the default values"
 msgstr "デフォルト値を定義します"
 
 msgid "Deg"
-msgstr ""
+msgstr "Deg"
 
 msgid "Degree"
 msgstr "レベル"
@@ -765,37 +772,37 @@ msgid "Depends on property"
 msgstr ""
 
 msgid "Did you mean %s?"
-msgstr ""
+msgstr "%s のことですか？"
 
 msgid "Digit 0"
-msgstr ""
+msgstr "Digit 0"
 
 msgid "Digit 1"
-msgstr ""
+msgstr "Digit 1"
 
 msgid "Digit 2"
-msgstr ""
+msgstr "Digit 2"
 
 msgid "Digit 3"
-msgstr ""
+msgstr "Digit 3"
 
 msgid "Digit 4"
-msgstr ""
+msgstr "Digit 4"
 
 msgid "Digit 5"
-msgstr ""
+msgstr "Digit 5"
 
 msgid "Digit 6"
-msgstr ""
+msgstr "Digit 6"
 
 msgid "Digit 7"
-msgstr ""
+msgstr "Digit 7"
 
 msgid "Digit 8"
-msgstr ""
+msgstr "Digit 8"
 
 msgid "Digit 9"
-msgstr ""
+msgstr "Digit 9"
 
 msgid "Disabled %s"
 msgstr "%s　無効"
@@ -900,7 +907,7 @@ msgid "Essential cookies (required)"
 msgstr ""
 
 msgid "Examples:"
-msgstr ""
+msgstr "例"
 
 msgid "Exclusive (OR)"
 msgstr "排他的(OR)"
@@ -912,7 +919,7 @@ msgid "Executing task %s failed"
 msgstr "タスク %s の実行にエラーになりました。"
 
 msgid "exp"
-msgstr ""
+msgstr "Exp"
 
 msgid "Exponent"
 msgstr "指数"
@@ -922,7 +929,7 @@ msgid "Export"
 msgstr "エクスポート"
 
 msgid "Export "
-msgstr ""
+msgstr "エクスポート "
 
 msgid "Export \"%s\" in %s"
 msgstr "\"%s\" を %s にエクスポート"
@@ -959,7 +966,7 @@ msgid "Failed to delete index for %s"
 msgstr "%s のインデックスを削除できませんでした。"
 
 msgid "False"
-msgstr ""
+msgstr "False"
 
 msgid "Field delimiter"
 msgstr "フィールド区切り記号"
@@ -1046,7 +1053,7 @@ msgid "Fuzzy Matching"
 msgstr "あいまい検索"
 
 msgid "generated-value"
-msgstr ""
+msgstr "生成値"
 
 msgid "Generis Form"
 msgstr "ジェネリスフォーム"
@@ -1124,13 +1131,13 @@ msgid "If you do not wish to reset your password, just ignore this email and you
 msgstr "パスワードをリセットしたくない場合は、このメールを無視してください。パスワードは変更されません。"
 
 msgid "Implications failed:"
-msgstr ""
+msgstr "影響に失敗しました:"
 
 msgid "Import"
 msgstr "インポート"
 
 msgid "Import "
-msgstr ""
+msgstr "インポート "
 
 msgid "Import a %s into \"%s"
 msgstr "%s を\"%sにインポート"
@@ -1279,7 +1286,7 @@ msgid "Invalid input for function"
 msgstr "関数の入力が無効"
 
 msgid "Invalid JSON config file: %s"
-msgstr ""
+msgstr "無効な JSON 設定ファイル: %s"
 
 msgid "Invalid login or password. Please try again."
 msgstr "ログイン名またはパスワードが無効です。再度やり直してください。"
@@ -1297,7 +1304,7 @@ msgid "Invalid value"
 msgstr ""
 
 msgid "Invalid values:"
-msgstr ""
+msgstr "無効な値:"
 
 msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
 msgstr ""
@@ -1363,7 +1370,7 @@ msgid "List - Single choice - Search input"
 msgstr "リスト-択一-検索入力"
 
 msgid "List item URI duplications found"
-msgstr ""
+msgstr "リスト項目URIの重複が見つかりました"
 
 msgid "List values"
 msgstr "リスト値"
@@ -1438,7 +1445,7 @@ msgid "manage columns"
 msgstr ""
 
 msgid "Manage data list"
-msgstr ""
+msgstr "データ一覧の管理"
 
 msgid "Manage Preferences"
 msgstr ""
@@ -1479,7 +1486,7 @@ msgid "Metadata export is not available for the selected resource."
 msgstr "選択したリソースのメタデータのエクスポートはできません"
 
 msgid "Microsoft Excel"
-msgstr ""
+msgstr "Microsoft Excel"
 
 msgid "Microsoft Excel binary format"
 msgstr "Microsoft Excel バイナリ形式"
@@ -1488,7 +1495,7 @@ msgid "Microsoft Office Document Imaging"
 msgstr "Microsoft Officeドキュメントイメージング"
 
 msgid "Microsoft Powerpoint"
-msgstr ""
+msgstr "Microsoft Powerpoint"
 
 msgid "Microsoft Powerpoint slideshow"
 msgstr "Microsoft Powerpointスライドショウ"
@@ -1500,7 +1507,7 @@ msgid "Microsoft Visio file"
 msgstr "Microsoft Visioファイル"
 
 msgid "Microsoft Word"
-msgstr ""
+msgstr "Microsoft Word"
 
 msgid "Microsoft Word template"
 msgstr "Microsoft Wordテンプレート"
@@ -1665,10 +1672,10 @@ msgid "none"
 msgstr ""
 
 msgid "Not enough arguments following: %s"
-msgstr ""
+msgstr "以下の引数が足りません: %s"
 
 msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
+msgstr "オプション以外の引数が不足しています: %sを取得しました, 少なくとも %s が必要"
 
 msgid "Not Ready for Translation"
 msgstr ""
@@ -1692,9 +1699,6 @@ msgstr "リストがありません！"
 msgid "Notifications"
 msgstr "通知"
 
-msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
-msgstr ""
-
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "通知ドライバは永続的ではありません。続的なデータベースストレージドライバを使用します"
 
@@ -1702,7 +1706,7 @@ msgid "Nth root"
 msgstr "N番目のルート"
 
 msgid "number"
-msgstr ""
+msgstr "数値"
 
 msgid "Number of elements"
 msgstr "エレメント数"
@@ -1711,7 +1715,7 @@ msgid "of"
 msgstr "／"
 
 msgid "Off"
-msgstr ""
+msgstr "オフ"
 
 msgid "Ogg Vorbis audio"
 msgstr "Ogg Vorbis音声"
@@ -1723,13 +1727,13 @@ msgid "Ok"
 msgstr "OK"
 
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgid "Old Password"
 msgstr "旧パスワード"
 
 msgid "On"
-msgstr ""
+msgstr "オン"
 
 msgid "Only allow for my own domain (%s)"
 msgstr "自分自身のドメインのみ許可 (%s)"
@@ -1891,7 +1895,7 @@ msgid "Position"
 msgstr "画像位置"
 
 msgid "Positionals:"
-msgstr ""
+msgstr "位置:"
 
 msgid "Post install processing"
 msgstr "インストール後の処理"
@@ -1943,7 +1947,7 @@ msgid "Quicktime video"
 msgstr "Quicktimeビデオ"
 
 msgid "Rad"
-msgstr ""
+msgstr "ラッド"
 
 msgid "Radian"
 msgstr "ラジアン"
@@ -1961,7 +1965,7 @@ msgid "RAR archive"
 msgstr "RARアーカイブ"
 
 msgid "RDF"
-msgstr ""
+msgstr "RDF"
 
 msgid "Ready for Translation"
 msgstr ""
@@ -2030,7 +2034,7 @@ msgid "Removing: %s"
 msgstr "削除中: %s"
 
 msgid "Rename"
-msgstr ""
+msgstr "名前の変更"
 
 msgid "Repeat new password"
 msgstr "新パスワード(再入力)"
@@ -2045,7 +2049,7 @@ msgid "require notification ID"
 msgstr "通知のためのIDが必要です"
 
 msgid "required"
-msgstr ""
+msgstr "必須"
 
 msgid "required length"
 msgstr "長さは必須です"
@@ -2111,7 +2115,7 @@ msgid "Rich Text Format file"
 msgstr "リッチテキストファイル"
 
 msgid "Right click the tree to manage your lists"
-msgstr ""
+msgstr "リストを管理するためにツリーを右クリックしてください"
 
 msgid "Right parenthesis"
 msgstr "右括弧"
@@ -2237,19 +2241,19 @@ msgid "Show password"
 msgstr "パスワード表示"
 
 msgid "Sibelius music notation"
-msgstr ""
+msgstr "Sibelius楽譜の表示"
 
 msgid "Sign change"
 msgstr "符号入れ替え"
 
 msgid "sin"
-msgstr ""
+msgstr "sin"
 
 msgid "Sine"
 msgstr "sin"
 
 msgid "sinh"
-msgstr ""
+msgstr "sinh"
 
 msgid "Size"
 msgstr "サイズ"
@@ -2297,7 +2301,7 @@ msgid "Strictly Necessary Cookie should be enabled at all times so that we can s
 msgstr ""
 
 msgid "string"
-msgstr ""
+msgstr "文字列"
 
 msgid "Submit"
 msgstr "送信"
@@ -2336,13 +2340,13 @@ msgid "Tagged image file"
 msgstr "タグ付き画像"
 
 msgid "tan"
-msgstr ""
+msgstr "tan"
 
 msgid "Tangent"
 msgstr "tan"
 
 msgid "tanh"
-msgstr ""
+msgstr "tanh"
 
 msgid "Tao Default Theme"
 msgstr "TAOデフォルトのテーマ"
@@ -2558,7 +2562,7 @@ msgid "Tokenizer"
 msgstr "トークナイザ"
 
 msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
+msgstr "オプション以外の引数が多すぎます: %sを取得しました, 最大 %s"
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "候補が多すぎるため候補の一部が表示されます"
@@ -2609,16 +2613,16 @@ msgid "Tree - Multiple node choice"
 msgstr ""
 
 msgid "Tree - Multiple node choice "
-msgstr ""
+msgstr "ツリー - 複数ノードの選択 "
 
 msgid "Tree values"
 msgstr "ツリーバリュー"
 
 msgid "True"
-msgstr ""
+msgstr "True"
 
 msgid "trunc"
-msgstr ""
+msgstr "trunc"
 
 msgid "Type"
 msgstr "タイプ"
@@ -2636,7 +2640,7 @@ msgid "Unable to copy the resource"
 msgstr "リソースをコピーできません"
 
 msgid "Unable to delete %s"
-msgstr ""
+msgstr "%s を削除できません"
 
 msgid "Unable to delete the selected resource"
 msgstr "選択されたリソースを削除できません。"
