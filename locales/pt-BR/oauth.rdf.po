@@ -1,54 +1,54 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-3x\n"
-"PO-Revision-Date: 2023-04-21 15:46\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 14:28\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: pt-BR\n"
+"Language: pt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: pt-BR\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-3x\n"
-"X-Crowdin-Project-ID: 582145\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: pt-BR\n"
-"X-Crowdin-File: /tao/locales/en-US/oauth.rdf.po\n"
-"X-Crowdin-File-ID: 1349\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/oauth.rdf.po\n"
+"X-Crowdin-File-ID: 1195\n"
 "Language-Team: Portuguese, Brazilian\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Oauth Credentials"
-msgstr "Credenciais Oauth"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "OAuth consumer key"
-msgstr "Chave de consumidor OAuth"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "identifier of OAuth consumer"
-msgstr "identificador do consumidor OAuth"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Oauth consumer secret"
-msgstr "Senhaa de consumidor Oauth"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Secret used for signatures"
-msgstr "Senha usada para assinaturas"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "OAuth consumer callback URL"
-msgstr "URL OAuth de retorno da chamada do consumidor"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "URL to call after autentification"
-msgstr "URL para chamar após autentificação"
+msgstr ""
 
