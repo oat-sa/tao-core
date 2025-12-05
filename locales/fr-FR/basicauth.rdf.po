@@ -1,27 +1,34 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2021.09\n"
-"PO-Revision-Date: 2021-08-24T08:14:37\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 14:26\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: fr-FR\n"
+"Language: fr\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: fr-FR\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/basicauth.rdf.po\n"
+"X-Crowdin-File-ID: 1187\n"
+"Language-Team: French\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Basic Auth Credentials"
-msgstr "Identifiants Auth Basique"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Login"
-msgstr "Identifiant’"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Password"
-msgstr "Mot de passe"
+msgstr ""
 
