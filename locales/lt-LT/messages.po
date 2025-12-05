@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 14:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,153 +16,153 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: lt\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Lithuanian\n"
 
 msgid ""
 msgstr ""
 
 msgid " and "
-msgstr " ir "
+msgstr ""
 
 msgid " AND "
-msgstr " IR "
+msgstr ""
 
 msgid " has been deleted successfully"
-msgstr " sėkmingai ištrintas"
+msgstr ""
 
 msgid " is "
-msgstr " yra "
+msgstr ""
 
 msgid " next"
-msgstr " kitas"
+msgstr ""
 
 msgid " Remove criteria"
 msgstr ""
 
 msgid " requires a subgrid adapter"
-msgstr "reikalauja detalesnės lentelės adapterio"
+msgstr ""
 
 msgid "%1$s expected but %2$s detected"
-msgstr "Turėtų būti %1$s, bet yra %2$s"
+msgstr ""
 
 msgid "%d attempts left before your account is locked."
-msgstr "%d likę bandymų prieš jūsų paskyrai užsirakinant."
+msgstr ""
 
 msgid "%d day"
-msgstr "%d diena"
+msgstr ""
 
 msgid "%d days"
-msgstr "%d dienos(–ų)"
+msgstr ""
 
 msgid "%h hour"
-msgstr "%h valanda"
+msgstr ""
 
 msgid "%h hours"
-msgstr "%h valandos(–ų)"
+msgstr ""
 
 msgid "%i minute"
-msgstr "%i minutės"
+msgstr ""
 
 msgid "%i minutes"
-msgstr "%i minutės(–čių)"
+msgstr ""
 
 msgid "%m month"
-msgstr "%m mėnesis"
+msgstr ""
 
 msgid "%m months"
-msgstr "%m mėnesiai(–ių)"
+msgstr ""
 
 msgid "%s %s selected"
-msgstr "%s %s pasirinkta"
+msgstr ""
 
 msgid "%s (%s kb)"
 msgstr ""
 
 msgid "%s Class saved"
-msgstr "%s Klasė išsaugota"
-
-msgid "%s classes"
-msgstr "%s klasės"
-
-msgid "%s completed"
 msgstr ""
 
+msgid "%s classes"
+msgstr ""
+
+msgid "%s completed"
+msgstr "%s atlikta"
+
 msgid "%s Confirmation"
-msgstr "%s Patvirtinimas"
+msgstr ""
 
 msgid "%s could not be released"
-msgstr "%s negali būti išleistas"
+msgstr ""
 
 msgid "%s created"
-msgstr "%s sukurta"
+msgstr ""
 
 msgid "%s extension(s) to install."
-msgstr "%s plėtinys(–iai) įdiegimui."
+msgstr ""
 
 msgid "%s has been deleted"
-msgstr "%s buvo ištrintas"
+msgstr ""
 
 msgid "%s has been released"
-msgstr "%s buvo išleistas"
+msgstr ""
 
 msgid "%s instances"
-msgstr "%s instancijų"
+msgstr ""
 
 msgid "%s is of a type that cannot be published"
-msgstr "%s tipas, kuris negali būti paskelbtas"
+msgstr ""
 
 msgid "%s Locked"
-msgstr "%s Užrakintas"
+msgstr ""
 
 msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
-msgstr "%s\" nėra teisingas indekso identifikatorius. Turi prasidėti su raide ir turi būti sudarytas tik iš raidžių, skaičių arba pabraukimo simbolio"
+msgstr ""
 
 msgid "%y year"
-msgstr "%y metai"
+msgstr ""
 
 msgid "%y years"
-msgstr "%y metai(–ų)"
+msgstr ""
 
 msgid "(empty)"
-msgstr "(tuščia)"
+msgstr ""
 
 msgid "... reloading page."
-msgstr "... perkraunamas puslapis."
+msgstr ""
 
 msgid "7-zip archive"
 msgstr ""
 
 msgid "<del>Filters</del>"
-msgstr "<del>Filtrai</del>"
+msgstr ""
 
 msgid "<del>Options</del>"
-msgstr "<del>Pasirinkimai</del>"
+msgstr ""
 
 msgid "<strong> %s </strong> has been moved to the background."
-msgstr "<strong> %s </strong> buvo perkeltas į foną."
+msgstr ""
 
 msgid "> Extension %s succesfully installed."
-msgstr "> Plėtinys %s sėkmingai įdiegtas."
+msgstr ""
 
 msgid "> Installation done."
-msgstr "> Diegimas baigtas."
+msgstr ""
 
 msgid "a class"
-msgstr "klasė"
+msgstr ""
 
 msgid "A date has to be a Datetime or timestamp"
-msgstr "Data turi būti Datos laikas arba laiko antspaudas."
+msgstr ""
 
 msgid "A fatal error occured during the installation process."
-msgstr "Įvyko kritinė klaida įdiegimo procese."
+msgstr ""
 
 msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
-msgstr "Priežiūros būsena turi turėti STATUSĄ: \"%s\" arba \"%s"
+msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
-msgstr "Pranešimas su tolimesnėm instrukcijomis buvo nusiųstas į jūsų el. pašto adresą: %s"
+msgstr ""
 
 msgid "AAC audio"
 msgstr ""
@@ -174,7 +174,7 @@ msgid "abs"
 msgstr ""
 
 msgid "Absolute value"
-msgstr "Absoliuti reikšmė"
+msgstr ""
 
 msgid "AC"
 msgstr ""
@@ -183,25 +183,25 @@ msgid "Accept all"
 msgstr ""
 
 msgid "Access Denied"
-msgstr "Prieiga Atmesta"
+msgstr ""
 
 msgid "Access denied. Please renew your authentication!"
-msgstr "Prieiga atmesta. Prašome atnaujinti savo autentifikaciją!"
+msgstr ""
 
 msgid "Account status"
-msgstr "Paskyros būsena"
+msgstr ""
 
 msgid "Action"
 msgstr "Veiksmas"
 
 msgid "Action %s - removed %s positions"
-msgstr "Veiksmas %s - pašalino %s pozicijas"
+msgstr ""
 
 msgid "Action `%s` is not configured in the action queue service"
-msgstr "Veiksmas „%s“ yra nesukonfigūruotas veiksmų eilės servise"
+msgstr ""
 
 msgid "Action was not executed yet"
-msgstr "Veiksmas vis dar nebuvo vykdytas"
+msgstr ""
 
 msgid "Actions"
 msgstr "Veiksmai"
@@ -214,38 +214,38 @@ msgid "Add / Edit lists"
 msgstr ""
 
 msgid "Add a CSV file"
-msgstr "Pridėti CSV failą"
+msgstr ""
 
 #, tao-public
 msgid "Add a user"
-msgstr "Pridėti vartotoją"
+msgstr ""
 
 msgid "Add an RDF/XML file"
-msgstr "Pridėti RDF/XML failą"
+msgstr ""
 
 msgid "add criteria"
 msgstr ""
 
 msgid "Add file(s)"
-msgstr "Pridėti failą(–us)"
+msgstr ""
 
 msgid "Add index"
 msgstr ""
 
 msgid "Add property"
-msgstr "Pridėti ypatybę"
+msgstr ""
 
 msgid "Adding search index for %s"
-msgstr "Pridedamas paieškos indeksas į %s"
+msgstr ""
 
 msgid "Adding search index for created resource"
 msgstr ""
 
 msgid "Adding the new class has failed"
-msgstr "Naujos klasės pridėjimas nepavyko"
+msgstr ""
 
 msgid "Adding the new resource has failed"
-msgstr "Naujo resurso pridėjimas nepavyko"
+msgstr ""
 
 msgid "Adding/updating search index for updated resource"
 msgstr ""
@@ -254,22 +254,22 @@ msgid "Adobe Flash file"
 msgstr ""
 
 msgid "Advanced search, add filters"
-msgstr "Pažengusi paieška, pridėti filtrus"
+msgstr ""
 
 msgid "aliases:"
 msgstr ""
 
 msgid "all"
-msgstr "viskas"
+msgstr ""
 
 msgid "all audios"
 msgstr ""
 
 msgid "All data will be removed in %s"
-msgstr "Visi duomenys bus panaikinti po %s"
+msgstr ""
 
 msgid "All fields are required"
-msgstr "Visi laukai yra privalomi"
+msgstr ""
 
 msgid "all images"
 msgstr ""
@@ -287,22 +287,22 @@ msgid "Allow for the following domains"
 msgstr ""
 
 msgid "Alpha version"
-msgstr "Alfa versija"
+msgstr ""
 
 msgid "An email has been sent"
-msgstr "El. laiškas buvo išsiųstas"
+msgstr ""
 
 msgid "An error occurred during user deletion"
-msgstr "Įvyko klaida vartotojo šalinimo metu"
+msgstr ""
 
 msgid "An error occurred!"
 msgstr "Įvyko klaida!"
 
 msgid "An exception occured while running \"%s"
-msgstr "Įvyko klaida vykdant \"%s"
+msgstr ""
 
 msgid "an instance"
-msgstr "instancija"
+msgstr ""
 
 msgid "Analytics cookies"
 msgstr ""
@@ -314,30 +314,29 @@ msgid "Ans"
 msgstr ""
 
 msgid "Apply"
-msgstr "Taikyti"
+msgstr ""
 
 msgid "Apply date range"
 msgstr ""
 
 msgid "Arc cosine"
-msgstr "Arkkosinusas"
+msgstr ""
 
 msgid "Arc sine"
-msgstr "Arksinusas"
+msgstr ""
 
 msgid "Arc tangent"
-msgstr "Arktangentas"
+msgstr ""
 
 msgid "Archived"
-msgstr "Archyvuota"
+msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr "Ar jūs tikrai norite ištrinti resursą su versija?\n"
-"Istorija bus ištrinta taip pat."
+msgstr ""
 
 msgid "Are you sure you want to delete it?"
-msgstr "Ar tikrai norite ištrinti?"
+msgstr ""
 
 msgid "Are you sure you want to delete the translation for this language?"
 msgstr ""
@@ -355,20 +354,20 @@ msgid "Arguments %s and %s are mutually exclusive"
 msgstr ""
 
 msgid "Arguments separator"
-msgstr "Argumentų skirtukas"
+msgstr ""
 
 msgid "array"
 msgstr ""
 
 msgid "Assign"
-msgstr "Paskirti"
+msgstr ""
 
 msgid "Assign User to role"
-msgstr "Paskirti varotoją rolei"
+msgstr ""
 
 #, tao-public
 msgid "Assign Users"
-msgstr "Paskirti vartotojus"
+msgstr ""
 
 msgid "Audio Video Interleave"
 msgstr ""
@@ -380,22 +379,22 @@ msgid "Author"
 msgstr "Autorius"
 
 msgid "Author Item"
-msgstr "Kurti klausimą"
+msgstr ""
 
 msgid "Authoring"
-msgstr "Tvarkymas"
+msgstr "Redagavimas"
 
 msgid "auto unlocked in %s"
-msgstr "automatiškai atrakinta po %s"
+msgstr ""
 
 msgid "Available"
-msgstr "Galimi testai"
+msgstr ""
 
 msgid "Available Extensions"
-msgstr "Galimi plėtiniai"
+msgstr ""
 
 msgid "Back"
-msgstr "Grį-ti"
+msgstr "Grįžti"
 
 msgid "Back to listing"
 msgstr "Grįžti į sąrašą"
@@ -407,22 +406,22 @@ msgid "Base-10 logarithm"
 msgstr ""
 
 msgid "Beta version"
-msgstr "Beta versija"
+msgstr ""
 
 msgid "Binary operator *"
-msgstr "Dvejetainis operatorius *"
+msgstr ""
 
 msgid "Binary operator +"
-msgstr "Dvejetainis operatorius +"
+msgstr ""
 
 msgid "Binary operator -"
-msgstr "Dvejetainis operatorius -"
+msgstr ""
 
 msgid "Binary operator /"
-msgstr "Dvejetainis operatorius /"
+msgstr ""
 
 msgid "Binary operator modulo"
-msgstr "Dvejetainis operatorius modulo"
+msgstr ""
 
 msgid "Bitmap image"
 msgstr ""
@@ -431,7 +430,7 @@ msgid "boolean"
 msgstr ""
 
 msgid "Browse folders:"
-msgstr "Naršyti aplankus:"
+msgstr ""
 
 msgid "Browse resources"
 msgstr ""
@@ -458,7 +457,7 @@ msgid "Calculator"
 msgstr "Skaičiuotuvas"
 
 msgid "Calendar"
-msgstr "Kalendorius"
+msgstr ""
 
 msgid "Cancel"
 msgstr "Atšaukti"
@@ -467,47 +466,47 @@ msgid "cancel"
 msgstr "atšaukti"
 
 msgid "cancel the action"
-msgstr "atšaukti veiksmą"
+msgstr ""
 
 msgid "Cancelled"
-msgstr "Atšaukta"
+msgstr ""
 
 msgid "Cannot be edited"
-msgstr "Negali būti redaguotas"
+msgstr ""
 
 msgid "Cannot divide by zero"
-msgstr "Negalima padalinti iš nulio"
+msgstr ""
 
 msgid "Cascading Style Sheets"
 msgstr ""
 
 msgid "Case sensitive"
-msgstr "Skiriamos didžiosios-mažosios raidės"
+msgstr ""
 
 msgid "ceil"
 msgstr ""
 
 msgid "Center"
-msgstr ""
+msgstr "Centras"
 
 #, tao-public
 msgid "Change password"
-msgstr "Pakeisti slaptažodį"
+msgstr ""
 
 msgid "Change the password"
-msgstr "Pakeisti slaptažodį"
+msgstr ""
 
 msgid "Change the sign of the current operand"
-msgstr "Keisti ženklą dabartinio operando"
+msgstr ""
 
 msgid "Check All"
-msgstr "Pažymėti Visus"
+msgstr ""
 
 msgid "Check all"
-msgstr "Pažymėti visus"
+msgstr ""
 
 msgid "Check-in"
-msgstr "Pasižymėti"
+msgstr ""
 
 msgid "choices:"
 msgstr ""
@@ -516,52 +515,52 @@ msgid "Choose a type for your property first"
 msgstr ""
 
 msgid "Choose a value..."
-msgstr "Pasirinkti reikšmę..."
+msgstr ""
 
 msgid "Choose export format"
-msgstr "Pasirinkti eksportavimo formatą"
+msgstr ""
 
 msgid "Choose import format"
-msgstr "Pasirinkti importavimo formatą"
+msgstr ""
 
 msgid "class selected"
-msgstr "pasirinktos klasės"
+msgstr ""
 
 msgid "Class uri provided is not a valid class."
-msgstr "Pateiktas netinkamas klasės uri."
+msgstr ""
 
 msgid "Cleaning up tmp space complete"
-msgstr "Laikinos atminties valymas atliktas"
+msgstr ""
 
 msgid "Cleaning up tmp space started"
-msgstr "Laikinos atminties valymas pradėtas"
+msgstr ""
 
 msgid "Clear"
-msgstr "Išvalyti"
+msgstr ""
 
 msgid "Clear All"
-msgstr "Išvalyti viską"
+msgstr ""
 
 msgid "Clear all data"
-msgstr "Išvalyti visus duomenis"
+msgstr ""
 
 msgid "Clear expression"
-msgstr "Išvalyti išraišką"
+msgstr ""
 
 msgid "Clear History"
-msgstr "Išvalyti Istoriją"
+msgstr ""
 
 msgid "Clear history"
-msgstr "Išvalyti istoriją"
+msgstr ""
 
 msgid "Clear selection"
-msgstr "Išvalyti pasirinimą"
+msgstr ""
 
 msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
-msgstr "Išvalyti saugomas reikšmes"
+msgstr ""
 
 msgid "Click to reload."
 msgstr ""
@@ -576,16 +575,16 @@ msgid "Close dialog"
 msgstr ""
 
 msgid "Close message"
-msgstr "Uždaryti pranešimą"
+msgstr ""
 
 msgid "Code Version"
-msgstr "Kodo Versija"
+msgstr ""
 
 msgid "Collecting of abandoned actions in the action queue ..."
-msgstr "Renkami apleisti veiksmai veiksmų eilėje ..."
+msgstr ""
 
 msgid "Column"
-msgstr "Stulpelis"
+msgstr ""
 
 msgid "command"
 msgstr ""
@@ -594,31 +593,31 @@ msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
-msgstr "komentaras..."
+msgstr ""
 
 msgid "Commit"
-msgstr "Patvirtinti"
+msgstr "Paskirti"
 
 msgid "Completed"
-msgstr "Atlikta"
+msgstr ""
 
 msgid "Completed - Error"
-msgstr "Atlikta – Klaida"
+msgstr ""
 
 msgid "Compressed tar file"
 msgstr ""
 
 msgid "Compute the expression"
-msgstr "Apskaičiuoti išraišką"
+msgstr ""
 
 msgid "Confirm"
-msgstr "Patvirtinti"
+msgstr ""
 
 msgid "Connect to the TAO platform"
-msgstr "Prisijungimas prie elektroninio testavimo aplinkos"
+msgstr ""
 
 msgid "Continue"
-msgstr "Tęsti"
+msgstr ""
 
 msgid "Cookie Policy"
 msgstr ""
@@ -627,13 +626,13 @@ msgid "Cookies Preferences"
 msgstr ""
 
 msgid "Copy"
-msgstr "Kopijuoti"
+msgstr ""
 
 msgid "Copy to"
-msgstr "Kopijuoti į"
+msgstr ""
 
 msgid "Copy to clipboard"
-msgstr "Kopijuoti į iškarpinę"
+msgstr ""
 
 msgid "cos"
 msgstr ""
@@ -642,25 +641,25 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
-msgstr "Kosinusas"
+msgstr ""
 
 msgid "count"
 msgstr ""
 
 msgid "Create"
-msgstr "Sukurti"
+msgstr ""
 
 msgid "Create instance"
 msgstr ""
 
 msgid "Create instance of "
-msgstr "Sukurti instanciją"
+msgstr ""
 
 msgid "Create translation"
 msgstr ""
 
 msgid "Created"
-msgstr "Sukurta"
+msgstr ""
 
 msgid "Creating report ..."
 msgstr ""
@@ -675,37 +674,37 @@ msgid "CSV file"
 msgstr ""
 
 msgid "CSV Options"
-msgstr "CSV Pasirinkimai"
+msgstr ""
 
 msgid "Cube root"
-msgstr "Kubinė šaknis"
+msgstr ""
 
 msgid "Current language"
-msgstr "Dabartinė kalba"
+msgstr ""
 
 msgid "Current playback position"
-msgstr "Dabartinė atkūrimo vieta"
+msgstr ""
 
 msgid "currently has a dependency established with "
 msgstr ""
 
 msgid "Data imported"
-msgstr "Duomenys importuoti"
+msgstr ""
 
 msgid "Data imported successfully"
-msgstr "Duomenys importuoti sėkmingai"
+msgstr ""
 
 msgid "Data imported. Some records are invalid."
-msgstr "Duomenys importuoti. Kaikurie įrašai neteisingi."
+msgstr ""
 
 msgid "Data language"
-msgstr "Duomenų kalba"
+msgstr ""
 
 msgid "Data Language"
-msgstr "Duomenų Kalba"
+msgstr ""
 
 msgid "Data not imported. All records are invalid."
-msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
+msgstr ""
 
 msgid "Data source URI"
 msgstr ""
@@ -726,44 +725,44 @@ msgid "date time range"
 msgstr ""
 
 msgid "Default search"
-msgstr "Numatyta paieška"
+msgstr ""
 
 msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
-msgstr "Nustatyti numatytas reikšmes"
+msgstr ""
 
 msgid "Deg"
-msgstr "Laip."
+msgstr ""
 
 msgid "Degree"
-msgstr "Laipsnis"
+msgstr ""
 
 #, tao-public
 msgid "Delete"
 msgstr "Ištrinti"
 
 msgid "Delete Left"
-msgstr "Ištrinti Kairėje"
+msgstr ""
 
 msgid "Delete Right"
-msgstr "Ištrinti Dešinėje"
+msgstr ""
 
 msgid "Delete the term on the left side of the cursor"
-msgstr "Ištrinti terminą kairėje pusėje žymeklio"
+msgstr ""
 
 msgid "Delete the term on the right side of the cursor"
-msgstr "Ištrinti terminą dešinėje pusėje žymeklio"
+msgstr ""
 
 msgid "Deleting search index for %s"
-msgstr "Šalinamas paieškos indeksas %s"
+msgstr ""
 
 msgid "Deleting this property will also remove the dependency"
 msgstr ""
 
 msgid "Demo Sandbox"
-msgstr "Smėlio dėžė"
+msgstr ""
 
 msgid "Dependency URI Path"
 msgstr ""
@@ -775,130 +774,129 @@ msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
-msgstr "Skaitmuo 0"
+msgstr ""
 
 msgid "Digit 1"
-msgstr "Skaitmuo 1"
+msgstr ""
 
 msgid "Digit 2"
-msgstr "Skaitmuo 2"
+msgstr ""
 
 msgid "Digit 3"
-msgstr "Skaitmuo 3"
+msgstr ""
 
 msgid "Digit 4"
-msgstr "Skaitmuo 4"
+msgstr ""
 
 msgid "Digit 5"
-msgstr "Skaitmuo 5"
+msgstr ""
 
 msgid "Digit 6"
-msgstr "Skaitmuo 6"
+msgstr ""
 
 msgid "Digit 7"
-msgstr "Skaitmuo 7"
+msgstr ""
 
 msgid "Digit 8"
-msgstr "Skaitmuo 8"
+msgstr ""
 
 msgid "Digit 9"
-msgstr "Skaitmuo 9"
+msgstr ""
 
 msgid "Disabled %s"
-msgstr "Išjungtas %s"
+msgstr ""
 
 msgid "Do you want to override \"%s\"?"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr "Ar norite įdiegti šiuos plėtinius:\n"
-"%s?"
+msgstr ""
 
 msgid "Document templates (Staroffice)"
 msgstr ""
 
 msgid "does not match"
-msgstr "nesutampa"
+msgstr ""
 
 msgid "Don't set"
-msgstr "Nenustatyti"
+msgstr ""
 
 msgid "Dot"
-msgstr "Taškas"
+msgstr ""
 
 msgid "Download"
-msgstr "Atsiųsti"
+msgstr ""
 
 msgid "Download this file"
-msgstr "Atsiųsti failą"
+msgstr ""
 
 msgid "Drag file here"
-msgstr "Tempti failą į čia"
+msgstr ""
 
 msgid "Drag files here"
-msgstr "Tempti failus į čia"
+msgstr ""
 
 msgid "Drop the files to upload"
-msgstr "Tempti failus, kad įkeltum"
+msgstr ""
 
 msgid "Edit"
-msgstr "Redaguoti"
+msgstr "Keisti"
 
 #, tao-public
 msgid "Edit a user"
-msgstr "Redaguoti vartotoją"
+msgstr ""
 
 msgid "Edit class %s"
-msgstr "Redaguoti klasę %s"
+msgstr ""
 
 msgid "Edit Instance"
 msgstr "Redaguoti Instanciją"
 
 msgid "Element"
-msgstr "Elementas"
+msgstr ""
 
 msgid "Element deleted."
-msgstr "Elementas ištrintas."
+msgstr ""
 
 msgid "Email"
-msgstr "El. Paštas"
+msgstr ""
 
 msgid "Empty resources cannot be translated."
 msgstr ""
 
 msgid "enabled"
-msgstr "įjungta"
+msgstr ""
 
 msgid "Enabled %s"
-msgstr "Įjungtas %s"
+msgstr ""
 
 msgid "End of document reached. Continuing from the beginning."
-msgstr "Dokumento pabaiga pasiekta. Tęsiama nuo pradžios."
+msgstr ""
 
 msgid "Enhanced metafile"
 msgstr ""
 
 msgid "Enter"
-msgstr "Įeiti į"
+msgstr ""
 
 msgid "Error"
-msgstr "Klaida"
+msgstr ""
 
 msgid "Error adding search index for %s with message %s"
-msgstr "Klaida pridedant paieškos indeksą %s su pranešimu %s"
+msgstr ""
 
 msgid "Error during file import"
-msgstr "Klaida importuojant failą"
+msgstr "Klaida failo importavimo metu"
 
 msgid "Error in result"
-msgstr "Klaida rezultate"
+msgstr ""
 
 msgid "Error in syntax"
-msgstr "Klaida sintaksėje"
+msgstr ""
 
 msgid "Error in value"
-msgstr "Klaida reikšmėje"
+msgstr ""
 
 msgid "Error: %s"
 msgstr ""
@@ -913,10 +911,10 @@ msgid "Exclusive (OR)"
 msgstr ""
 
 msgid "Execute"
-msgstr "Vykdyti"
+msgstr ""
 
 msgid "Executing task %s failed"
-msgstr "Užduoties %s vykdymas nepavyko"
+msgstr ""
 
 msgid "exp"
 msgstr ""
@@ -926,98 +924,98 @@ msgstr "Eksponentas"
 
 #, tao-public
 msgid "Export"
-msgstr "Eksportuoti"
+msgstr ""
 
 msgid "Export "
-msgstr "Eksportuoti"
+msgstr ""
 
 msgid "Export \"%s\" in %s"
-msgstr "Eksportuoti \"%s\" į %s"
+msgstr ""
 
 msgid "Export CSV"
-msgstr "Eksportuoti CSV"
+msgstr ""
 
 msgid "Export failed."
-msgstr "Eksportavimas nepavyko."
+msgstr ""
 
 msgid "Export Metadata as RDF/XML file"
-msgstr "Eksportuoti metaduomenis RDF/XML failu"
+msgstr ""
 
 msgid "Export succeeded."
-msgstr "Eksportavimas pavyko."
+msgstr ""
 
 msgid "Extension \"%s\" has been installed"
-msgstr "Plėtinys \"%s\" buvo įdiegtas"
+msgstr ""
 
 #, tao-public
 msgid "Extensions manager"
-msgstr "Plėtinių valdymas"
+msgstr ""
 
 msgid "Factorial"
-msgstr "Faktorialas"
+msgstr ""
 
 msgid "Failed"
-msgstr "Nepavyko"
+msgstr ""
 
 msgid "Failed to copy class."
 msgstr ""
 
 msgid "Failed to delete index for %s"
-msgstr "Nepavyko ištrinti %s indekso"
+msgstr ""
 
 msgid "False"
 msgstr ""
 
 msgid "Field delimiter"
-msgstr "Lauko atskyriklis"
+msgstr ""
 
 msgid "Field encloser"
-msgstr "Lauko padėklas"
+msgstr ""
 
 msgid "Fields must match"
-msgstr "Laukai privalo sutapti"
+msgstr ""
 
 msgid "File"
 msgstr "Failas"
 
 msgid "File download failed"
-msgstr "Failo atsiuntimas nepavyko"
+msgstr ""
 
 msgid "File name"
 msgstr "Failo pavadinimas"
 
 msgid "File Properties"
-msgstr "Failo savybės"
+msgstr ""
 
 msgid "file selected"
-msgstr "failas pasirinktas"
+msgstr ""
 
 msgid "File Uploader"
-msgstr "Failų Įkėlimas"
+msgstr ""
 
 msgid "files selected"
-msgstr "pasirinkti failai"
+msgstr ""
 
 msgid "Filter"
 msgstr "Filtras"
 
 msgid "Filter by value"
-msgstr "Filtras pagal reikšmę"
+msgstr ""
 
 msgid "Filtering mode"
-msgstr "Filtravimo režimas"
+msgstr ""
 
 msgid "First Name"
-msgstr "Vardas"
+msgstr ""
 
 msgid "First page"
-msgstr "Pirmas puslapis"
+msgstr ""
 
 msgid "First row column names"
-msgstr "Pirmos eilės stulpelio pavadinimai"
+msgstr ""
 
 msgid "Fit to width"
-msgstr "Tilpti į plotį"
+msgstr ""
 
 msgid "Flash video"
 msgstr ""
@@ -1035,10 +1033,10 @@ msgid "Force HTTPS on this platform"
 msgstr ""
 
 msgid "Force Release"
-msgstr "Priverstinis Išleidimas"
+msgstr ""
 
 msgid "Forgot your password?"
-msgstr "Pamiršote slaptažodį?"
+msgstr ""
 
 msgid "Form"
 msgstr ""
@@ -1047,31 +1045,31 @@ msgid "Form data not saved."
 msgstr ""
 
 msgid "From"
-msgstr "Iš"
+msgstr ""
 
 msgid "Fuzzy Matching"
-msgstr "Apytikslis Atitikimas"
+msgstr ""
 
 msgid "generated-value"
 msgstr ""
 
 msgid "Generis Form"
-msgstr "Generis forma"
+msgstr ""
 
 msgid "Geogebra data file"
 msgstr ""
 
 msgid "Get History"
-msgstr "Gauti Istroriją"
+msgstr ""
 
 msgid "Get the history list"
-msgstr "Gauti istorijos sąrašą"
+msgstr ""
 
 msgid "GIF image"
 msgstr ""
 
 msgid "Go Back"
-msgstr "Grįžti Atgal"
+msgstr ""
 
 msgid "go back to home page"
 msgstr ""
@@ -1086,37 +1084,37 @@ msgid "Height"
 msgstr "Aukštis"
 
 msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
-msgstr "Labas, %s<br>Jūs nurodėte, kad pamiršote savo TAO slaptažodį."
+msgstr ""
 
 msgid "Hide detailed report"
-msgstr "Slėpti detalią ataskaitą"
+msgstr ""
 
 msgid "Hide password"
 msgstr ""
 
 msgid "Highlight all"
-msgstr "Pažymėti visus"
+msgstr ""
 
 msgid "hours"
-msgstr "valandos(–ų)"
+msgstr ""
 
 msgid "Hyperbolic arc cosine"
-msgstr "Hiperbolinis arkkosinusas"
+msgstr ""
 
 msgid "Hyperbolic arc sine"
-msgstr "Hiperbolinis arksinusas"
+msgstr ""
 
 msgid "Hyperbolic arc tangent"
-msgstr "Hiperbolinis arktangentas"
+msgstr ""
 
 msgid "Hyperbolic cosine"
-msgstr "Hiperbolinis kosinusas"
+msgstr ""
 
 msgid "Hyperbolic sine"
-msgstr "Hiperbolinis sinusas"
+msgstr ""
 
 msgid "Hyperbolic tangent"
-msgstr "Hiperbolinis tangentas"
+msgstr ""
 
 msgid "Hypertext markup language"
 msgstr ""
@@ -1128,7 +1126,7 @@ msgid "Identifier"
 msgstr "Identifikatorius"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr "Jeigu jūs nenori atstatyti savo slaptažodžio, tiesiog ignoruokite šį el. laišką ir jūsų slaptažodis liks toks pat."
+msgstr ""
 
 msgid "Implications failed:"
 msgstr ""
@@ -1137,44 +1135,44 @@ msgid "Import"
 msgstr "Importuoti"
 
 msgid "Import "
-msgstr "Importuoti"
+msgstr ""
 
 msgid "Import a %s into \"%s"
-msgstr "Importuoti %s į \"%s"
+msgstr ""
 
 msgid "Import Completed"
-msgstr "Importavimas Atliktas"
+msgstr ""
 
 msgid "Import failed."
-msgstr "Importavimas nepavyko."
+msgstr ""
 
 msgid "Import Metadata from CSV file"
-msgstr "Importuoti Metaduomenis iš CSV failo"
+msgstr ""
 
 msgid "Import Metadata from RDF file"
-msgstr "Importuoti Metaduomenis iš RDF failo"
+msgstr ""
 
 #, tao-public
 msgid "Import statistical analysis metadata"
 msgstr ""
 
 msgid "Import succeeded."
-msgstr "Importavimas pavyko."
+msgstr ""
 
 msgid "Imported %1$d/%2$d. Some records are invalid."
-msgstr "Importuoti %1$d/%2$d. Kaikurie įrašai neteisingi."
+msgstr ""
 
 msgid "Imported %d resources"
-msgstr "Importuoti %d resursai"
+msgstr ""
 
 msgid "Imported resource \"%s"
-msgstr "Importuotas resursas \"%s"
+msgstr ""
 
 msgid "Imported successfully finished!"
 msgstr ""
 
 msgid "impossible to update task status"
-msgstr "neįmanoma atnaujinti užduoties būsenos"
+msgstr ""
 
 msgid "In Progress"
 msgstr "Vykdoma"
@@ -1196,10 +1194,10 @@ msgstr ""
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "Indeksas"
 
 msgid "Index has been deleted for %s"
-msgstr "Indeksas buvo pašalintas iš %s"
+msgstr ""
 
 msgid "Infinity"
 msgstr "Begalybė"
@@ -1208,40 +1206,40 @@ msgid "Inherit the permission of the parent folder"
 msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
-msgstr "Iterpiant reikalingas tinkamas \"paskirties\" parametras."
+msgstr ""
 
 msgid "Injector has to contains a valid \"source\" field."
-msgstr "Iterpiant reikalingas tinkamas \"šaltinio\" parametras."
+msgstr ""
 
 msgid "Inline"
 msgstr ""
 
 msgid "Install"
-msgstr "Įdiegti"
+msgstr ""
 
 msgid "Installation done."
-msgstr "Įdiegimas baigtas."
+msgstr ""
 
 msgid "Installation..."
-msgstr "Įdiegimas..."
+msgstr ""
 
 msgid "Installed Extensions"
-msgstr "Įdiegti Plėtiniai"
+msgstr ""
 
 msgid "Installed Version"
-msgstr "Įdiegta Versija"
+msgstr ""
 
 msgid "Installing extension %s..."
-msgstr "Įdiegiamas plėtinys %s..."
+msgstr ""
 
 msgid "Instance saved"
-msgstr "Instancija išsaugota"
+msgstr "Instanciją išsaugota"
 
 msgid "Interface language"
-msgstr "Sąsajos kalba"
+msgstr ""
 
 msgid "Interface Language"
-msgstr "Sąsajos Kalba"
+msgstr ""
 
 msgid "Interface Mode"
 msgstr ""
@@ -1250,55 +1248,55 @@ msgid "Invalid CSP header."
 msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
-msgstr "Blogas datos intervalas (privalo būti paskui arba toks pat kaip: %s)"
+msgstr ""
 
 msgid "Invalid date range (must be after: %s)"
-msgstr "Neteisingas datos intervalas (privalo būti paskui: %s)"
+msgstr ""
 
 msgid "Invalid date range (must be before or the same as: %s)"
-msgstr "Blogas datos intervalas (privalo būti prieš arba toks pat kaip: %s)"
+msgstr ""
 
 msgid "Invalid date range (must be before: %s)"
-msgstr "Neteisingas datos intervalas (privalo būti prieš: %s)"
+msgstr ""
 
 msgid "Invalid field length"
-msgstr "Neteisingas lauko ilgis"
+msgstr ""
 
 msgid "Invalid field range (maximum value: %s)"
-msgstr "Neteisingas lauko intervalas (maksimali reikšmė: %s)"
+msgstr ""
 
 msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
-msgstr "Blogas lauko intervalas (minimali reikšmė: %1$s, maksimali reikšmė: %2$s)"
+msgstr ""
 
 msgid "Invalid field range (minimum value: %s)"
-msgstr "Neteisingas lauko intervalas (minimali reikšmė: %s)"
+msgstr ""
 
 msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
-msgstr "Neteisingas failo dydis (minimalus %1$s baitai, maksimalus %2$s baitai)"
+msgstr ""
 
 msgid "Invalid file type!"
-msgstr "Neteisingas failo tipas!"
+msgstr ""
 
 msgid "Invalid input"
 msgstr ""
 
 msgid "Invalid input for function"
-msgstr "Neteisinga įvestis funkcijai"
+msgstr ""
 
 msgid "Invalid JSON config file: %s"
 msgstr ""
 
 msgid "Invalid login or password. Please try again."
-msgstr "Blogas prisijungimo vardas arba slaptažodis. Prašome bandyti dar kartą."
+msgstr ""
 
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
-msgstr "Neteisingas prisijungimas arba slaptažodis. Jūsų paskyra buvo užrakinta, prašome susisiekti su jūsų administratoriumi."
+msgstr ""
 
 msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
 msgstr ""
 
 msgid "invalid regular expression"
-msgstr "neteisinga įprasta išraiška"
+msgstr ""
 
 msgid "Invalid value"
 msgstr ""
@@ -1331,22 +1329,22 @@ msgid "Language"
 msgstr "Kalba"
 
 msgid "Last attempt before your account is locked."
-msgstr "Paskutinis bandymas prieš jūsų paskyros užrakinimą."
+msgstr ""
 
 msgid "Last Name"
-msgstr "Pavardė"
+msgstr ""
 
 msgid "Last page"
-msgstr "Paskutinis puslapis"
+msgstr ""
 
 msgid "Last result"
-msgstr "Paskutinis rezultatas"
+msgstr ""
 
 msgid "Left parenthesis"
-msgstr "Kairysis skliaustelis"
+msgstr ""
 
 msgid "less than a minute"
-msgstr "trumpiau negu minutę"
+msgstr ""
 
 msgid "List"
 msgstr "Sąrašas"
@@ -1355,16 +1353,16 @@ msgid "List \"%s\" has duplicated values."
 msgstr ""
 
 msgid "List - Multiple choice - Check box"
-msgstr "Sąrašas - pasirinkimas, pažymint kelis"
+msgstr ""
 
 msgid "List - Multiple choice - Search input"
 msgstr ""
 
 msgid "List - Single choice - Drop down"
-msgstr "Sąrašas - pasirinkimas vienos reikšmės iš iškrentančio sąrašo"
+msgstr ""
 
 msgid "List - Single choice - Radio button"
-msgstr "Sąrašas - Pasirinkimas tik vienos reikšmės "
+msgstr ""
 
 msgid "List - Single choice - Search input"
 msgstr ""
@@ -1376,43 +1374,43 @@ msgid "List values"
 msgstr ""
 
 msgid "Load more"
-msgstr "Įkelti daugiau"
+msgstr ""
 
 msgid "Loaded"
-msgstr "Įkelta"
+msgstr ""
 
 msgid "Loaded at Startup"
-msgstr "Įkelta paleidimo metu"
+msgstr ""
 
 msgid "Loading"
 msgstr "Įkeliama"
 
 msgid "Loading status"
-msgstr "Įkėlimo būsena"
+msgstr ""
 
 msgid "Loading task status ..."
-msgstr "Įkeliama užduoties būsena ..."
+msgstr ""
 
 msgid "locked by %s"
-msgstr "užrakino %s"
+msgstr ""
 
 msgid "Log in"
 msgstr "Prisijungti"
 
 msgid "Log Out"
-msgstr "Atsijungti"
+msgstr ""
 
 msgid "Login"
 msgstr "Prisijungimas"
 
 msgid "Login available"
-msgstr "Toks prisijungimo vardas yra galimas"
+msgstr ""
 
 msgid "Login is already in use."
-msgstr "Prisijungimas yra jau naudojamas."
+msgstr ""
 
 msgid "Login is empty."
-msgstr "Prisijungimas yra tuščias."
+msgstr ""
 
 msgid "Logout"
 msgstr "Atsijungti"
@@ -1427,7 +1425,7 @@ msgid "Maintenance service is already installed."
 msgstr ""
 
 msgid "Maintenance service must have a persistence option."
-msgstr "Priežiūros tarnyba turi turėti palaikymo opciją."
+msgstr ""
 
 msgid "Maintenance service was installed. Platform is disabled."
 msgstr ""
@@ -1436,54 +1434,54 @@ msgid "Maintenance service was installed. Platform is enabled."
 msgstr ""
 
 msgid "Maintenance storage driver is not set"
-msgstr "Priežiūros saugykla yra nenustatyta"
+msgstr ""
 
 msgid "Manage class schema"
-msgstr "Tvarkyti klasės schemą"
+msgstr ""
 
 msgid "manage columns"
 msgstr ""
 
 msgid "Manage data list"
-msgstr "Tvarkyti duomenų sąrašą"
+msgstr ""
 
 msgid "Manage Preferences"
 msgstr ""
 
 #, tao-public
 msgid "Manage roles"
-msgstr "Tvarkyti roles"
+msgstr ""
 
 msgid "Manage Roles and apply them to users."
-msgstr "Tvarkyti Roles ir taikyti vartotojams."
+msgstr ""
 
 #, tao-public
 msgid "Manage users"
-msgstr "Tvarkyti vartotojus"
+msgstr ""
 
 msgid "Manage Versioned File"
-msgstr "Tvarkyti Versijuojamą Failą"
+msgstr ""
 
 msgid "Map the properties to the CSV columns"
-msgstr "Susiekite požymius su CSV stulpeliais"
+msgstr ""
 
 msgid "maximum %s"
 msgstr ""
 
 msgid "Maximum selection reached"
-msgstr "Pasiektas maksimalus pasirinkimas"
+msgstr ""
 
 msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
-msgstr "Medijos dydžio keitimas kartu su jų konteineriu, pvz.: 50% reiškia pusę konteinerio dydžio, bet ne pusę medijos dydžio."
+msgstr ""
 
 msgid "Message"
 msgstr "Pranešimas"
 
 msgid "Messages"
-msgstr "Pranešimai"
+msgstr ""
 
 msgid "Metadata export is not available for the selected resource."
-msgstr "Negalimas metaduomenų eksportavimas pasirinktam resursui."
+msgstr ""
 
 msgid "Microsoft Excel"
 msgstr ""
@@ -1531,41 +1529,41 @@ msgid "minutes"
 msgstr "minutės"
 
 msgid "missing config %s for the service %s"
-msgstr "trūksta konfigūracijos %s servisui %s"
+msgstr ""
 
 msgid "Missing Parameters"
-msgstr "Trūkstami Parametrai"
+msgstr ""
 
 msgid "modulo"
 msgstr ""
 
 msgid "More"
-msgstr "Daugiau"
+msgstr ""
 
 msgid "Move"
 msgstr "Perkelti"
 
 msgid "Move Left"
-msgstr "Perkelti Kairėn"
+msgstr ""
 
 msgid "Move Right"
-msgstr "Perkelti Dešinėn"
+msgstr ""
 
 #, tao-public
 msgid "Move role"
-msgstr "Perkelti rolę"
+msgstr ""
 
 msgid "Move the cursor one step on the left"
-msgstr "Perkelti žymeklį vienu žingsniu į kairę"
+msgstr ""
 
 msgid "Move the cursor one step on the right"
-msgstr "Perkelti žymeklį vienu žingsniu į dešinę"
+msgstr ""
 
 msgid "Move to"
-msgstr "Perkelti į"
+msgstr ""
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
-msgstr "Perkeliant šį elementą, bus pakeičiamos praeitos klasės savybės pagal nurodytą klasę :"
+msgstr ""
 
 msgid "MP4 video"
 msgstr ""
@@ -1580,7 +1578,7 @@ msgid "MPEG-4 audio file"
 msgstr ""
 
 msgid "Multiple values delimiter"
-msgstr "Keli reikšmių dalikliai"
+msgstr ""
 
 msgid "Multiply the value by 10^x"
 msgstr ""
@@ -1601,75 +1599,75 @@ msgid "Must include upper case letters"
 msgstr ""
 
 msgid "Mute"
-msgstr "Nutildyti"
+msgstr ""
 
 msgid "My custom text translation"
-msgstr "Mano laisvas teksto vertimas"
+msgstr ""
 
 #, tao-public
 msgid "My settings"
-msgstr "Mano nustatymai"
+msgstr ""
 
 msgid "My settings (%s)"
-msgstr "Mano nustatymai (%s)"
+msgstr ""
 
 msgid "Name"
 msgstr "Pavadinimas"
 
 msgid "Natural logarithm"
-msgstr "Natūralusis logaritmas"
+msgstr ""
 
 msgid "New password"
-msgstr "Naujas slaptažodis"
+msgstr ""
 
 #, tao-public
 msgid "New role"
-msgstr "Nauja rolė"
+msgstr ""
 
 msgid "Next"
 msgstr "Tęsti"
 
 msgid "Next match"
-msgstr "Kitas atitikmuo"
+msgstr ""
 
 msgid "Next page"
-msgstr "Kitas puslapis"
+msgstr ""
 
 msgid "No"
 msgstr "Ne"
 
 msgid "No action specified"
-msgstr "Veiksmas nenurodytas"
+msgstr ""
 
 msgid "No client translation bundles updated"
-msgstr "Nėra atnaujintų vertimų"
+msgstr ""
 
 msgid "No extensions available."
-msgstr "Nėra jokių galimų plėtinių."
+msgstr ""
 
 msgid "no file not found in this location"
-msgstr "failas nerastas šioje vietoje"
+msgstr ""
 
 msgid "No file selected"
 msgstr "Joks failas nepasirinktas"
 
 msgid "No files"
-msgstr "Nėra failų"
+msgstr ""
 
 msgid "No item found. Please try other search criteria."
 msgstr ""
 
 msgid "no label"
-msgstr "nėra pavadinimo"
+msgstr ""
 
 msgid "No Task yet"
-msgstr "Nėra jokios Užduoties"
+msgstr ""
 
 msgid "Node duplication has failed"
 msgstr ""
 
 msgid "none"
-msgstr ""
+msgstr "nėra"
 
 msgid "Not enough arguments following: %s"
 msgstr ""
@@ -1681,41 +1679,41 @@ msgid "Not Ready for Translation"
 msgstr ""
 
 msgid "Not started"
-msgstr "Dar nepradėta"
+msgstr ""
 
 msgid "NotEmpty"
 msgstr ""
 
 msgid "Nothing imported"
-msgstr "Niekas neimportuota"
+msgstr ""
 
 msgid "Nothing to install !"
-msgstr "Nieko nėra įdiegti !"
+msgstr ""
 
 msgid "Nothing to list!"
-msgstr "Tusčias sąrašas!"
+msgstr ""
 
 #, tao-public
 msgid "Notifications"
-msgstr "Pranešimai"
+msgstr ""
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "Nth root"
-msgstr "N šaknis"
+msgstr ""
 
 msgid "number"
 msgstr ""
 
 msgid "Number of elements"
-msgstr "Elementų kiekis"
+msgstr ""
 
 msgid "of"
 msgstr "iš"
 
 msgid "Off"
-msgstr "Išjungta"
+msgstr ""
 
 msgid "Ogg Vorbis audio"
 msgstr ""
@@ -1730,10 +1728,10 @@ msgid "OK"
 msgstr "Gerai"
 
 msgid "Old Password"
-msgstr "Senas Slaptažodis"
+msgstr ""
 
 msgid "On"
-msgstr "Įjungta"
+msgstr ""
 
 msgid "Only allow for my own domain (%s)"
 msgstr ""
@@ -1760,10 +1758,10 @@ msgid "OpenDocument Text Template"
 msgstr ""
 
 msgid "Operated By "
-msgstr "Valdo "
+msgstr ""
 
 msgid "or"
-msgstr "arba"
+msgstr ""
 
 msgid "Original"
 msgstr ""
@@ -1784,22 +1782,22 @@ msgid "Pascal file (.pas)"
 msgstr ""
 
 msgid "Password"
-msgstr "Slaptažodis"
+msgstr ""
 
 msgid "Password changed"
-msgstr "Slaptažodis pakeistas"
+msgstr ""
 
 msgid "Password is empty."
-msgstr "Slaptažodis tuščias."
+msgstr ""
 
 msgid "Password reset"
-msgstr "Slaptažodžio atstatymas"
+msgstr ""
 
 msgid "Password successfully changed"
-msgstr "Slaptažodis pakeistas sėkmingai"
+msgstr ""
 
 msgid "Passwords are not matching"
-msgstr "Slaptažodžiai nesutampa"
+msgstr ""
 
 msgid "Pause"
 msgstr "Pristabdyti"
@@ -1811,43 +1809,43 @@ msgid "Pending"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
-msgstr "Atmestas prašymas rašyti į pasirinktą klasę"
+msgstr ""
 
 msgid "Permission settings"
 msgstr ""
 
 msgid "Plain text"
-msgstr ""
+msgstr "Paprastas tekstas"
 
 msgid "Play"
-msgstr "Paleisti"
+msgstr "Leisti"
 
 msgid "Please confirm deletion"
-msgstr "Prašome patvirtinti ištrynimą"
+msgstr ""
 
 msgid "Please confirm deletion of %s."
-msgstr "Prašome patvirtinti %s šalinimą."
+msgstr ""
 
 msgid "Please confirm deletion of user %s"
-msgstr "Prašome patvirtinti vartotojo %s šalinimą."
+msgstr ""
 
 msgid "Please confirm locking of account %s"
-msgstr "Prašome patvirtinti paskyros %s užrakinimą."
+msgstr ""
 
 msgid "Please confirm property deletion!"
-msgstr "Prašome patvirtinti savybės šalinimą!"
+msgstr ""
 
 msgid "Please confirm this operation."
-msgstr "Prašome patvirtinti šį veiksmą."
+msgstr ""
 
 msgid "Please confirm unlocking of account %s"
-msgstr "Prašome patvirtinti paskyros %s atrakinimą."
+msgstr ""
 
 msgid "Please contact %s or an administrator to release it"
-msgstr "Prašome pranešti %s arba administratorių, kad išleistumėte"
+msgstr ""
 
 msgid "Please contact your administrator."
-msgstr "Prašome susisiekti su jūsų administratoriumi."
+msgstr ""
 
 msgid "Please contact your system administrator."
 msgstr ""
@@ -1856,19 +1854,19 @@ msgid "Please define your search in the search panel."
 msgstr ""
 
 msgid "Please download the track and listen offline."
-msgstr "Prašome atsisiųsti įrašą, kad paleistumėte neprisijungę."
+msgstr ""
 
 msgid "Please download the video and view offline."
-msgstr "Prašome atsisiųsti video, kad peržiūrėtumėte neprisijungę."
+msgstr ""
 
 msgid "Please give a message to your commit"
-msgstr "Perduokite pranešimą patvirtinimui"
+msgstr "Aprašykite savo paskyrimą"
 
 msgid "Please provide a reason"
-msgstr "Prašome pateikti priežastį"
+msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr "Klaidas ir komentarus prašome registruoti TAO forume."
+msgstr ""
 
 msgid "Please select a language."
 msgstr ""
@@ -1883,10 +1881,10 @@ msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
-msgstr "Prašome palaukti"
+msgstr ""
 
 msgid "Please wait while ..."
-msgstr "Prašome palaukti kol..."
+msgstr ""
 
 msgid "PNG image"
 msgstr ""
@@ -1898,16 +1896,16 @@ msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
-msgstr "Vykdymas po įdiegimo"
+msgstr ""
 
 msgid "Power of"
-msgstr "Pakeltas laipsniu"
+msgstr ""
 
 msgid "Power of 10"
-msgstr "Pakeltas 10 laipsniu"
+msgstr ""
 
 msgid "Preparing installation..."
-msgstr "Ruošiamas įdiegimas..."
+msgstr ""
 
 msgid "Preview"
 msgstr "Peržiūra"
@@ -1916,10 +1914,10 @@ msgid "Previous"
 msgstr "Grįžti"
 
 msgid "Previous match"
-msgstr "Ankstesnis susiejimas"
+msgstr ""
 
 msgid "Previous page"
-msgstr "Ankstesnis puslapis"
+msgstr ""
 
 msgid "Privacy Policy"
 msgstr ""
@@ -1929,37 +1927,37 @@ msgstr "Tęsti"
 
 #, tao-public
 msgid "Properties"
-msgstr "Savybės"
+msgstr ""
 
 msgid "Provided URL is not valid"
-msgstr "Pateiktas URL nėra teisingas"
+msgstr ""
 
 msgid "Publish"
 msgstr "Paskelbti"
 
 msgid "Publish the test"
-msgstr "Paskelbti testą"
+msgstr ""
 
 msgid "Queued"
-msgstr "Yra eilėje"
+msgstr ""
 
 msgid "Quicktime video"
 msgstr ""
 
 msgid "Rad"
-msgstr "Rad."
+msgstr ""
 
 msgid "Radian"
-msgstr "Radianai"
+msgstr ""
 
 msgid "random"
-msgstr "atsitiktinis"
+msgstr ""
 
 msgid "Random value"
-msgstr "Atsitiktinė reikšmė"
+msgstr ""
 
 msgid "Range field is required"
-msgstr "Intervalo laukas yra būtinas"
+msgstr ""
 
 msgid "RAR archive"
 msgstr ""
@@ -1980,31 +1978,31 @@ msgid "Reject all"
 msgstr ""
 
 msgid "Release"
-msgstr "Išleidimas"
+msgstr ""
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr "Jei atšauksite rakinimą, galite prarasti %s atlikto darbo."
+msgstr ""
 
 msgid "Reload"
 msgstr ""
 
 msgid "Remind"
-msgstr "Priminti"
+msgstr ""
 
 msgid "Remind Last"
-msgstr "Priminti Paskutinį"
+msgstr ""
 
 msgid "Remind the last value"
-msgstr "Priminti paskutinę reikšmę"
+msgstr ""
 
 msgid "Remind the next expression in the history"
-msgstr "Priminti sekančią išraišką istorijoje"
+msgstr ""
 
 msgid "Remind the previous expression in the history"
-msgstr "Priminti ankstesnę išraišką istorijoje"
+msgstr ""
 
 msgid "Remind the recorded value"
-msgstr "Priminti įrašytą reikšmę"
+msgstr ""
 
 msgid "Remove"
 msgstr "Ištrinti"
@@ -2016,85 +2014,85 @@ msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
-msgstr "Ištrinti Pranešimą"
+msgstr "Pašalinti Pranešimą"
 
 msgid "Remove the translated item"
 msgstr ""
 
 msgid "Remove this file"
-msgstr "Ištrinti šį failą"
-
-msgid "Removed %s directories"
-msgstr "Ištrinti %s aplankai"
-
-msgid "Removed %s files"
-msgstr "Ištrinti %s failai"
-
-msgid "Removing: %s"
-msgstr "Ištrinama: %s"
-
-msgid "Rename"
-msgstr "Pervadinti"
-
-msgid "Repeat new password"
-msgstr "Pakartoti naują slaptažodį"
-
-msgid "Repeat password"
-msgstr "Pakartoti slaptažodį"
-
-msgid "Request a password reset via Email."
-msgstr "Slaptažodžio atstatymo užklausa per El. paštą."
-
-msgid "require notification ID"
-msgstr "reikalauja pranešimo ID"
-
-msgid "required"
 msgstr ""
 
+msgid "Removed %s directories"
+msgstr ""
+
+msgid "Removed %s files"
+msgstr ""
+
+msgid "Removing: %s"
+msgstr ""
+
+msgid "Rename"
+msgstr ""
+
+msgid "Repeat new password"
+msgstr ""
+
+msgid "Repeat password"
+msgstr ""
+
+msgid "Request a password reset via Email."
+msgstr ""
+
+msgid "require notification ID"
+msgstr ""
+
+msgid "required"
+msgstr "reikalaujama"
+
 msgid "required length"
-msgstr "reikalaujamas ilgis"
+msgstr ""
 
 msgid "Requires"
-msgstr "Reikalauja"
+msgstr ""
 
 msgid "Reset"
-msgstr "Atstatyti"
+msgstr ""
 
 msgid "Reset the range values"
 msgstr ""
 
 msgid "Resource"
-msgstr "Resursas"
+msgstr ""
 
 msgid "Resource copied"
-msgstr "Resursas nukopijuotas"
+msgstr ""
 
 msgid "Resource deleted"
 msgstr ""
 
 msgid "Resource Identifier"
-msgstr "Ištekliaus Identifikatorius"
+msgstr ""
 
 msgid "Resource Identifier could not be copied to the clipboard"
-msgstr "Resurso Identifikatorius negali būti nukopijuotas į iškarpinę"
+msgstr ""
 
 msgid "Resource Identifier has been copied to the clipboard"
-msgstr "Resurso Identifikatorius buvo nukopijuotas į iškarpinę"
+msgstr ""
 
 msgid "Resource not imported due to multiple super classes"
-msgstr "Resursas nebuvo importuotas, dėl daugkartinių super klasių"
+msgstr ""
 
 msgid "Resource not imported due to multiple types"
-msgstr "Ištekliai nebuvo įkelti dėl egzistuojančių kelių tipų"
+msgstr ""
 
 msgid "Resource saved"
-msgstr "Resursas išsaugotas"
+msgstr ""
 
 msgid "resources"
-msgstr "resursai"
+msgstr ""
 
 msgid "Resources moved"
-msgstr "Resursai perkelti"
+msgstr ""
 
 msgid "Resources successfully indexed"
 msgstr ""
@@ -2103,50 +2101,50 @@ msgid "Resources was not indexed"
 msgstr ""
 
 msgid "Responsive mode"
-msgstr "Reaktyvus režimas"
+msgstr ""
 
 msgid "Restore sound"
-msgstr "Atstatyti garsą"
+msgstr ""
 
 msgid "Return to sign in page"
-msgstr "Grįžti į prisijungimo puslapį"
+msgstr ""
 
 msgid "Rich Text Format file"
 msgstr ""
 
 msgid "Right click the tree to manage your lists"
-msgstr "Spauskite dešiniu pelės klavišu ant medžio, norėdami tvarkyti savo sąrašus"
+msgstr ""
 
 msgid "Right parenthesis"
-msgstr "Dešinys skliaustelis"
+msgstr ""
 
 msgid "Role saved"
-msgstr "Rolė išsaugota"
+msgstr ""
 
 msgid "Roles"
 msgstr "Rolės"
 
 #, tao-public
 msgid "Roles library"
-msgstr "Rolių biblioteka"
+msgstr ""
 
 msgid "round"
-msgstr "apvalinti"
+msgstr ""
 
 msgid "Round to closest whole number"
-msgstr "Apvalinti iki artimiausio pilno skaičiaus"
+msgstr ""
 
 msgid "Round to lower whole number"
-msgstr "Apvalinti iki mažiausio pilno skaičiaus"
+msgstr ""
 
 msgid "Round to upper whole number"
-msgstr "Apvalinti iki didesnio pilno skaičiaus"
+msgstr ""
 
 msgid "Row %s"
-msgstr "Eilutė %s"
+msgstr ""
 
 msgid "Running task %s"
-msgstr "Vykdoma užduotis %s"
+msgstr ""
 
 msgid "Save"
 msgstr "Išsaugoti"
@@ -2155,28 +2153,28 @@ msgid "Saved."
 msgstr ""
 
 msgid "Scientific Calculator"
-msgstr "Mokslinis Skaičiuotuvas"
+msgstr "Mokslinis skaičiuotuvas"
 
 msgid "Scope"
-msgstr "Apimtis"
+msgstr ""
 
 msgid "Search"
-msgstr "Ieškoti"
+msgstr ""
 
 msgid "Search %s"
-msgstr "Ieškoti %s"
+msgstr ""
 
 msgid "Search by properties"
-msgstr "Ieškoti pagal savybes"
+msgstr ""
 
 msgid "Search sub-classes"
-msgstr "Ieškoti poklasiuose"
+msgstr ""
 
 msgid "second"
-msgstr "sekundė"
+msgstr ""
 
 msgid "seconds"
-msgstr "sekundės"
+msgstr ""
 
 #, tao-public
 msgid "Security"
@@ -2189,53 +2187,53 @@ msgid "Select"
 msgstr "Pasirinkti"
 
 msgid "select"
-msgstr "pasirinkti"
+msgstr ""
 
 msgid "Select a class"
-msgstr "Pasirinkti klasę"
+msgstr ""
 
 msgid "Select a destination"
-msgstr "Pasirinkti tikslą"
+msgstr ""
 
 msgid "Select a language"
-msgstr "Pasirinkti kalbą"
+msgstr ""
 
 msgid "Select loaded %s"
-msgstr "Pasirinkimas įkeltas %s"
+msgstr ""
 
 msgid "Select this file"
-msgstr "Pasirinkti šį failą"
+msgstr ""
 
 msgid "select..."
-msgstr "pasirinkti..."
+msgstr ""
 
 msgid "Selected"
-msgstr "Pasirinkta"
+msgstr ""
 
 msgid "Selected file:"
-msgstr "Pasirinktas failas:"
+msgstr ""
 
 msgid "Selection saved successfully"
-msgstr "Pasirinkimas sėkmingai išsaugotas"
+msgstr ""
 
 msgid "self-locked"
-msgstr "užsirakinęs"
+msgstr ""
 
 msgid "Set the trigonometric function to work in degrees"
-msgstr "Nustatyti trigonometrinę funkciją veikti laipsniais"
+msgstr ""
 
 msgid "Set the trigonometric function to work in radians"
-msgstr "Nustatyti trigonometrinę funkciją veikti radianais"
+msgstr ""
 
 #, tao-public
 msgid "Settings"
-msgstr "Nustatymai"
+msgstr ""
 
 msgid "Settings updated"
-msgstr "Nustatymai atnaujinti"
+msgstr ""
 
 msgid "Show detailed report"
-msgstr "Rodytį detalią ataskaitą"
+msgstr "Rodyti detalią ataskaitą"
 
 msgid "Show password"
 msgstr ""
@@ -2244,25 +2242,25 @@ msgid "Sibelius music notation"
 msgstr ""
 
 msgid "Sign change"
-msgstr "Ženklo keitimas"
+msgstr ""
 
 msgid "sin"
 msgstr ""
 
 msgid "Sine"
-msgstr "Sinusas"
+msgstr ""
 
 msgid "sinh"
 msgstr ""
 
 msgid "Size"
-msgstr "Dydis"
+msgstr ""
 
 msgid "Some of resources has not be deleted"
 msgstr ""
 
 msgid "Some resources have not been moved: %s"
-msgstr "Kai kurie resursai nebuvo perkelti: %s"
+msgstr ""
 
 msgid "Something unexpected happened."
 msgstr ""
@@ -2271,28 +2269,28 @@ msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
-msgstr "Kvadratinės šaknis"
+msgstr "Kvadratinė šaknis"
 
 msgid "Start"
-msgstr ""
+msgstr "Pradėti"
 
 msgid "Start of document reached. Continuing from the end."
-msgstr "Pasiekta dokumento pradžia. Tęsiama nuo pabaigos."
+msgstr ""
 
 msgid "Start translation"
 msgstr ""
 
 msgid "Status"
-msgstr "Būsena"
+msgstr ""
 
 msgid "Status of"
-msgstr "Būsena"
+msgstr ""
 
 msgid "Store"
-msgstr "Saugoti"
+msgstr ""
 
 msgid "Store the value a variable"
-msgstr "Saugoti reikšmę, kaip kintamąjį"
+msgstr ""
 
 msgid "Storing digital video data on a computer game"
 msgstr ""
@@ -2304,7 +2302,7 @@ msgid "string"
 msgstr ""
 
 msgid "Submit"
-msgstr ""
+msgstr "Pateikti"
 
 msgid "Success"
 msgstr "Pavyko"
@@ -2313,28 +2311,28 @@ msgid "Successfully cloned instance as %s"
 msgstr ""
 
 msgid "Successfully deleted %s"
-msgstr "Pašalinta sėkmingai %s"
+msgstr ""
 
 msgid "Successfully imported \"%s"
-msgstr "Sėkmingai importuota \"%s"
+msgstr ""
 
 msgid "Successfully imported %s tripples"
-msgstr "Sėkmingai įkelti %s trejetai"
+msgstr ""
 
 msgid "Successfully imported class \"%s"
-msgstr "Klasė sėkmingai importuota \"%s"
+msgstr ""
 
 msgid "Successfully updated %s client translation bundles"
-msgstr "Sėkmingai atnaujinti %s vertimo įrašų rinkiniai"
+msgstr ""
 
 msgid "Supported export formats"
-msgstr "Palaikomi eksportavimo formatai"
+msgstr ""
 
 msgid "SVG image"
 msgstr ""
 
 msgid "Syntax error"
-msgstr "Sintaksės klaida"
+msgstr ""
 
 msgid "Tagged image file"
 msgstr ""
@@ -2343,19 +2341,19 @@ msgid "tan"
 msgstr ""
 
 msgid "Tangent"
-msgstr "Tangentas"
+msgstr ""
 
 msgid "tanh"
 msgstr ""
 
 msgid "Tao Default Theme"
-msgstr "Tao Numatyta Tema"
+msgstr ""
 
 msgid "TAO Home"
-msgstr "TAO Namai"
+msgstr ""
 
 msgid "TAO Login"
-msgstr "TAO Prisijungimas"
+msgstr ""
 
 msgid "TAO platform is already on live mode since %s"
 msgstr ""
@@ -2379,37 +2377,37 @@ msgid "Tao WebHooks"
 msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
-msgstr "Užduotis %s buvo atšaukta, pranešimas nebuvo apdorotas."
+msgstr ""
 
 msgid "task created"
-msgstr "užduotis sukurta"
+msgstr ""
 
 msgid "Task Listing"
-msgstr "Užduoties Sąrašas"
+msgstr ""
 
 msgid "Task Name"
-msgstr "Užduoties Pavadinimas"
+msgstr ""
 
 msgid "Task not found"
-msgstr "Užduotis nerasta"
+msgstr ""
 
 msgid "Task not returned any report."
-msgstr "Užduotis negražino jokių ataskaitų."
+msgstr ""
 
 msgid "Term"
-msgstr "Terminas"
+msgstr ""
 
 msgid "TeX file"
 msgstr ""
 
 msgid "Text - Long - Box"
-msgstr "Ilgesnis tekstas - langelis"
+msgstr ""
 
 msgid "Text - Long - HTML editor"
-msgstr "Ilgesnis tekstas - HTML redaktorius"
+msgstr ""
 
 msgid "Text - Short - Field"
-msgstr "Trumpesnis teksto laukas"
+msgstr ""
 
 msgid "Text document file format (Staroffice)"
 msgstr ""
@@ -2418,22 +2416,22 @@ msgid "Text to translate"
 msgstr ""
 
 msgid "The action will be applied to"
-msgstr "Šis veiksmas bus taikomas: "
+msgstr ""
 
 msgid "The action will be applied to the following"
-msgstr "Veiksmas bus taikomas šiems: "
+msgstr ""
 
 msgid "The action will not be applied to "
-msgstr "Šis veiksmas nebus taikomas: "
+msgstr ""
 
 msgid "The action will not be applied to the following"
-msgstr "Veiksmas nebus taikomas šiems: "
+msgstr ""
 
 msgid "The class has been copied."
 msgstr ""
 
 msgid "The column "
-msgstr "Stulpelis"
+msgstr ""
 
 msgid "The field \"List\" is disabled because the property is part of a dependency"
 msgstr ""
@@ -2442,91 +2440,91 @@ msgid "The following criteria are not applicable to the selected class and have 
 msgstr ""
 
 msgid "The format of this field is not valid."
-msgstr "Šio lauko formatas yra netinkamas."
+msgstr ""
 
 msgid "The imported file is not properly UTF-8 encoded."
-msgstr "Importuotas failas nėra teisingas UTF-8 koduotas."
+msgstr ""
 
 msgid "The index identifier should not be empty"
-msgstr "Indekso identifikatorius negali būti tuščias."
+msgstr ""
 
 msgid "The lock has been released"
-msgstr "Užraktas buvo paleistas"
+msgstr ""
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
-msgstr "Savybės šaltinio klasėje bus pakeistos iš paskirtos klasės. Dėl to gali būti prarasti meta duomenys. Tęsti vistiek?"
+msgstr ""
 
 msgid "The selected value(s) must be compatible with the primary property."
 msgstr ""
 
 msgid "The server has sent an empty response"
-msgstr "Serveris atsiuntė tuščią atsakymą"
+msgstr ""
 
 msgid "The uploaded file is too large (maximum %s bytes)"
-msgstr "Įkeltas failas yra per didelis (maksimum %s baitų)"
+msgstr ""
 
 msgid "The value for the property \"%s\" must be unique."
-msgstr "Požymio \"%s\" reikšmė turi būti unikali."
+msgstr ""
 
 msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
-msgstr "Šio lauko reikšmė turi būti data tinkamu formatu, pvz. YYYY-MM-DD."
+msgstr ""
 
 msgid "The value of this field must be an integer"
-msgstr "Šio lauko reikšmė turi būti sveikas skaičius"
+msgstr ""
 
 msgid "The value of this field must be numeric"
-msgstr "Šio lauko reikšmė turi būti skaičius"
+msgstr ""
 
 msgid "There is nothing to list!"
-msgstr "Sąrašas tuščias!"
+msgstr ""
 
 msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
 msgstr ""
 
 msgid "This %s is currently checked out"
-msgstr "Šiuo metu šis %s yra išregistruotas"
+msgstr ""
 
 msgid "This field is required"
-msgstr "Šis laukelis privalomas"
+msgstr ""
 
 msgid "This field is too long"
-msgstr "Laukelis per ilgas"
+msgstr ""
 
 msgid "This field is too short"
-msgstr "Laukelis per trumpas"
+msgstr ""
 
 msgid "This is not a valid email address."
-msgstr "Neteisingas el. pašto adresas."
+msgstr ""
 
 msgid "this is required"
-msgstr "privaloma"
+msgstr ""
 
 msgid "This Login is already in use"
-msgstr "Prisijungimo vardas užimtas"
+msgstr ""
 
 msgid "This media cannot be played!"
-msgstr "Medija negali būti paleista!"
+msgstr ""
 
 msgid "This or one of %s must have a value"
 msgstr ""
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
-msgstr "Slaptažodžio atstatymo nuoroda yra nebegaliojanti. Gali būti, kad jau panaudota. Jeigu vistiek norite atstatyti savo slaptažodį, paprašykite naujos nuorodos"
+msgstr ""
 
 msgid "This resource is locked"
-msgstr "Šis resursas užrakintas"
+msgstr ""
 
 msgid "This resource is not ready for translation."
 msgstr ""
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
-msgstr "Šį rolė vis dar priskirta vienam ar daugiau vartotojų. Prašome pirma pašalinti šią rolę iš vartotojų."
+msgstr ""
 
 msgid "This should equal %s"
-msgstr "Tai turi būti lygu %s"
+msgstr ""
 
 msgid "This should not equal %s"
-msgstr "Tai neturi būti lygu %s"
+msgstr ""
 
 msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
 msgstr ""
@@ -2535,7 +2533,7 @@ msgid "time"
 msgstr ""
 
 msgid "Time zone"
-msgstr "Laiko zona"
+msgstr ""
 
 msgid "Title"
 msgstr "Pavadinimas"
@@ -2547,10 +2545,10 @@ msgid "To change your preferences, click Manage preferences."
 msgstr ""
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
-msgstr "Norint atstatyti slaptažodį, paspauskite ant nuorodos apačioje, arba nukopijuokite ir įklijuokite į savo naršyklę. Jūsų bus prašoma įvesti naują slaptažodį."
+msgstr ""
 
 msgid "to translate"
-msgstr "išversti"
+msgstr ""
 
 msgid "Toggle multiple/single selection"
 msgstr ""
@@ -2559,25 +2557,25 @@ msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
-msgstr "Antspaudėjas"
+msgstr ""
 
 msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
-msgstr "Jūsų užklausą atitinka daug daugiau rezultatų, nei rodoma."
+msgstr ""
 
 msgid "Total duration"
-msgstr "Bendra trukmė"
+msgstr ""
 
 msgid "Total:"
-msgstr "Iš viso:"
+msgstr ""
 
 msgid "Translate"
-msgstr "Išversti"
+msgstr ""
 
 msgid "Translate to"
-msgstr "Išversti į"
+msgstr ""
 
 msgid "Translated"
 msgstr ""
@@ -2589,13 +2587,13 @@ msgid "Translation"
 msgstr ""
 
 msgid "Translation parameters"
-msgstr "Vertimo pasirinkimai"
+msgstr ""
 
 msgid "Translation Progress"
 msgstr ""
 
 msgid "Translation saved"
-msgstr "Vertimas išsaugotas"
+msgstr ""
 
 msgid "Translation Status"
 msgstr ""
@@ -2613,13 +2611,13 @@ msgid "Tree - Multiple node choice"
 msgstr ""
 
 msgid "Tree - Multiple node choice "
-msgstr "Medis - galimi kelių šakų pasirinkimai"
+msgstr ""
 
 msgid "Tree values"
 msgstr ""
 
 msgid "True"
-msgstr "Teisingas"
+msgstr ""
 
 msgid "trunc"
 msgstr ""
@@ -2628,85 +2626,85 @@ msgid "Type"
 msgstr "Tipas"
 
 msgid "Type your search"
-msgstr "Įveskite paiešką"
+msgstr ""
 
 msgid "Unable to access your account?"
-msgstr "Napvyksta pasiekti savo paskyros?"
+msgstr ""
 
 msgid "Unable to change passwords in demo mode"
-msgstr "Negalima keisti slaptažodžio, dirbant demonstravimo režimu"
+msgstr ""
 
 msgid "Unable to copy the resource"
-msgstr "Nepavyko nukopijuoti resurso"
+msgstr ""
 
 msgid "Unable to delete %s"
-msgstr "Nepavyko ištrinti %s"
+msgstr ""
 
 msgid "Unable to delete the selected resource"
-msgstr "Nepavyko ištrinti pasirinkto resurso"
+msgstr ""
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
 msgstr ""
 
 msgid "Unable to delete the selected resources"
-msgstr "Neįmanoma ištrinti pasirinktų resursų"
+msgstr ""
 
 msgid "Unable to move the resources"
-msgstr "Neįmanoma perkleti resursų"
+msgstr ""
 
 msgid "Unable to open file %s"
-msgstr "Nepavyko atidaryti failo %s"
+msgstr ""
 
 msgid "Unable to process your request"
 msgstr ""
 
 msgid "Unable to release the lock"
-msgstr "Nepavyko paleisti užrakto"
+msgstr ""
 
 msgid "Unable to remove the property."
-msgstr "Neįmanoma pašalinti šios savybės."
+msgstr ""
 
 msgid "Unable to save resource."
-msgstr "Nepavyko išsaugoti resurso."
+msgstr ""
 
 msgid "unable to search into notification."
-msgstr "negalima ieškoti pranešime."
+msgstr ""
 
 msgid "Unable to send the password reset request"
-msgstr "Nepavyko išsiųsti slaptažodžio atstatymo prašymo"
+msgstr ""
 
 msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
 msgstr ""
 
 msgid "Unable to update the asset service"
-msgstr "Nepavyko atnaujinti turinio serviso"
+msgstr ""
 
 msgid "Unable to upload file"
-msgstr "Nepavyko įkelti failo"
+msgstr ""
 
 msgid "Unable to upload file %s : %s"
 msgstr "Nepavyko įkelti failo %s : %s"
 
 msgid "Unary operator +"
-msgstr "Vienetinis operatorius +"
+msgstr ""
 
 msgid "Unary operator -"
-msgstr "Vienetinis operatorius -"
+msgstr ""
 
 msgid "Unauthorized files have been removed"
 msgstr ""
 
 msgid "Uncheck All"
-msgstr "Atžymėti visus"
+msgstr ""
 
 msgid "Uncheck all"
-msgstr "Atžymėti visus"
+msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
-msgstr "Nenustatytas puslapių skaičius skirstymui puslapiais"
+msgstr ""
 
 msgid "Undefined amount of the totalPages for pagination"
-msgstr "Nenustatytas bendras puslapių skaičius skirstymui puslapiais"
+msgstr ""
 
 msgid "Undefined Instance can not be saved"
 msgstr ""
@@ -2715,13 +2713,13 @@ msgid "Undo"
 msgstr "Anuliuoti"
 
 msgid "Unexpected error. Please contact administrator"
-msgstr "Netikėta klaida. Prašome pranešti administratoriui"
+msgstr ""
 
 msgid "Uninstall of %s failed"
-msgstr "%s išdiegimas nepavyko"
+msgstr ""
 
 msgid "Uninstalled %s"
-msgstr "Išdiegtas %s"
+msgstr ""
 
 msgid "Unique Identifier"
 msgstr ""
@@ -2730,34 +2728,34 @@ msgid "UNIX Compressed Archive File"
 msgstr ""
 
 msgid "unknown"
-msgstr "nežinoma"
+msgstr ""
 
 msgid "Unknown Error"
-msgstr "Nežinoma Klaida"
+msgstr ""
 
 msgid "unkown task id %s"
-msgstr "nežinomas užduoties id %s"
+msgstr ""
 
 msgid "Update"
-msgstr "Atnaujinti"
+msgstr ""
 
 msgid "Update ID : %s"
-msgstr "Atnaujinimo ID : %s"
+msgstr ""
 
 msgid "Updating search index"
 msgstr ""
 
 msgid "Upload"
-msgstr "Įkelti"
+msgstr ""
 
 msgid "Upload into:"
-msgstr "Įkelti į:"
+msgstr ""
 
 msgid "URI Path"
 msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
-msgstr "Naudojimo pavyzdys: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr ""
 
 msgid "USAGE: please provide a valid extension id as second parameter"
 msgstr ""
@@ -2769,47 +2767,47 @@ msgid "USAGE: please provide the service name as first parameter"
 msgstr ""
 
 msgid "Use a term"
-msgstr "Naudoti terminą"
+msgstr ""
 
 msgid "Use a variable"
-msgstr "Naudoti reikšmę"
+msgstr ""
 
 msgid "Use default value"
-msgstr "Naudoti numatytą reikšmę"
+msgstr ""
 
 msgid "User"
 msgstr "Vartotojas"
 
 msgid "User %s can not be locked"
-msgstr "Vartotojas %s negali būti užrakintas"
+msgstr ""
 
 msgid "User %s can not be unlocked"
-msgstr "Vartotojas %s negali būti atrakintas"
+msgstr ""
 
 msgid "User %s successfully locked"
-msgstr "Vartotojas %s sėkmingai užrakintas"
+msgstr ""
 
 msgid "User %s successfully unlocked"
-msgstr "Vartotojas %s sėkmingai neužrakintas"
+msgstr ""
 
 msgid "User added"
-msgstr "Varototojas pridėtas"
+msgstr ""
 
 msgid "User deleted successfully"
-msgstr "Vartotojas sėkmingai ištrintas"
+msgstr ""
 
 msgid "User deletion not permitted on a demo instance"
-msgstr "Vartotojo šalinimas nėra galimas bandomoje instancijoje"
+msgstr ""
 
 msgid "User not found"
-msgstr "Vartotojas nerastas"
+msgstr ""
 
 msgid "User saved"
-msgstr "Vartotojas išsaugotas"
+msgstr ""
 
 #, tao-public
 msgid "User Settings"
-msgstr "Vartotojo Nustatymai"
+msgstr ""
 
 #, tao-public
 msgid "Users"
@@ -2819,55 +2817,55 @@ msgid "Validation for field '%s' has failed. Language does not exist in the syst
 msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
-msgstr "Patvirtinimas lauko '%s' nepavyko. Turėtų būti sąrašas reikšmių"
+msgstr ""
 
 msgid "Validation for field '%s' has failed. Should not be empty"
 msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
-msgstr "Patvirtinimas lauko '%s' nepavyko. Turėjo būti teisinga rolė. Pateikta: %s"
+msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected"
-msgstr "Patvirtinimas lauko '%s' nepavyko. Teisingas URI turėjo būti"
+msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
-msgstr "Patvirtinimas lauko '%s' nepavyko. Teisingas URI turėjo būti. Pateiktas: %s"
+msgstr ""
 
 msgid "Value ellipsis"
 msgstr ""
 
 msgid "Value of E"
-msgstr "E reikšmė"
+msgstr ""
 
 msgid "Value of PI"
-msgstr "PI reikšmė"
+msgstr ""
 
 msgid "Variable"
-msgstr "Kintamasis"
+msgstr ""
 
 msgid "Variable %s"
-msgstr "Kintamasis %s"
+msgstr ""
 
 msgid "Version"
-msgstr "Versija"
+msgstr ""
 
 msgid "View"
 msgstr ""
 
 msgid "View report"
-msgstr "Peržiūrėti ataskaitą"
+msgstr ""
 
 msgid "View resources as a list"
-msgstr "Peržiūrėti resursus, kaip sąrašą"
+msgstr ""
 
 msgid "View resources as a tree"
-msgstr "Peržiūrėti resursus, kaip medį"
+msgstr ""
 
 msgid "Wait is over"
-msgstr "Laukimas baigtas"
+msgstr ""
 
 msgid "Waiting"
-msgstr "Laukiama"
+msgstr ""
 
 msgid "WAV audio"
 msgstr ""
@@ -2886,7 +2884,7 @@ msgid "WebM video"
 msgstr ""
 
 msgid "Whole number part"
-msgstr "Pilno skaičiaus dalis"
+msgstr ""
 
 msgid "Width"
 msgstr "Plotis"
@@ -2916,10 +2914,10 @@ msgid "Write Document"
 msgstr ""
 
 msgid "Wrong or missing parameter extension, module or action"
-msgstr "Neteisingas parametras plėtinys, modulis ar veiksmas arba jo nėra"
+msgstr ""
 
 msgid "Wrong parameter shownExtension"
-msgstr "Neteisingas parametras shownExtension"
+msgstr ""
 
 msgid "XML file"
 msgstr ""
@@ -2931,10 +2929,10 @@ msgid "You are encountering a prolonged connectivity loss."
 msgstr ""
 
 msgid "You are not allowed to write in the class %s"
-msgstr "Jums neleidžiama rašu %s klasėje"
+msgstr ""
 
 msgid "You are not authorised to remove this lock"
-msgstr "Jūs esate neautorizuotas ištrinti šį užraktą"
+msgstr ""
 
 msgid "You can choose which types of cookies you want to allow to improve your experience."
 msgstr ""
@@ -2943,46 +2941,46 @@ msgid "You can read more about this in our"
 msgstr ""
 
 msgid "You cannot delete the root node"
-msgstr "Negalima panaikinti šakninio elemento"
+msgstr ""
 
 msgid "You cannot move the selected resources in the class %s"
-msgstr "Jūs negalite perkelti pasirinktų resursų iš %s klasės"
+msgstr ""
 
 msgid "You currently have no access to the platform"
-msgstr "Jūs šiuo metu neturite prieigos prie platformos"
+msgstr ""
 
 msgid "You do not have the required rights to edit this resource."
-msgstr "Jūs neturite reikalaujamų teisių redaguotį šį resursą."
+msgstr ""
 
 msgid "You have been locked due to too many failed login attempts. "
-msgstr "Jūs buvote užrakintas dėl per daug nepavykusių prisijungimo bandymų."
+msgstr ""
 
 msgid "You have been logged out. Please login again"
-msgstr "Jūs esate atsijungę. Prašome prisijungti dar kartą"
+msgstr ""
 
 msgid "You must activate JavaScript in your browser to run this application."
-msgstr "Jūs privalote aktyvuoti JavaScript savo naršyklėje, kad paleistumėte programą."
+msgstr ""
 
 msgid "Your account has been locked, please contact your administrator."
-msgstr "Jūsų paskyra buvo užrakinta, prašome susisiekti su jūsų administratoriumi."
+msgstr ""
 
 msgid "Your browser does not meet the technical requirements to run TAO."
-msgstr "Jūsų naršyklė neatitinka techninių reikalavimų paleisti TAO."
+msgstr ""
 
 msgid "Your browser does not support copying to the clipboard"
-msgstr "Jūsų naršyklė nepalaiko kopijavimo į iškarpinę"
+msgstr ""
 
 msgid "Your browser doesn’t support the audio player."
-msgstr "Jūsų naršyklė nepalaiko audio grotuvo."
+msgstr ""
 
 msgid "Your browser doesn’t support the video player."
-msgstr "Jūsų naršyklė nepalaiko vaizdo grotuvo."
+msgstr ""
 
 msgid "Your mail"
-msgstr "Jūsų paštas"
+msgstr ""
 
 msgid "Your TAO Password"
-msgstr "Jūsų TAO Slaptažodis"
+msgstr ""
 
 msgid "ZIP archive"
 msgstr ""
