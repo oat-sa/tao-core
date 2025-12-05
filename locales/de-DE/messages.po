@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 15:12\n"
+"PO-Revision-Date: 2025-12-05 20:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de\n"
@@ -1763,7 +1763,7 @@ msgid "Operated By "
 msgstr "Betrieben von "
 
 msgid "or"
-msgstr "oder"
+msgstr ""
 
 msgid "Original"
 msgstr ""
@@ -1820,7 +1820,7 @@ msgid "Plain text"
 msgstr "Klartext"
 
 msgid "Play"
-msgstr "Abspielen"
+msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "Wollen Sie wirklich löschen?"
@@ -2176,7 +2176,7 @@ msgid "second"
 msgstr "zweite"
 
 msgid "seconds"
-msgstr "Sekunden"
+msgstr ""
 
 #, tao-public
 msgid "Security"
@@ -2265,7 +2265,7 @@ msgid "Some resources have not been moved: %s"
 msgstr "Einige Ressourcen wurden nicht verschoben: %s"
 
 msgid "Something unexpected happened."
-msgstr "Etwas Unerwartetes ist passiert."
+msgstr ""
 
 msgid "Sources that can embed this platform in an iFrame"
 msgstr "Quellen, die diese Plattform in einen iFrame einbetten können"
