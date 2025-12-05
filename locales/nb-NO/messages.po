@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 14:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb_NO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,165 +16,165 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: nb\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Norwegian Bokmal\n"
 
 msgid ""
 msgstr ""
 
 msgid " and "
-msgstr " og "
+msgstr ""
 
 msgid " AND "
-msgstr " OG "
+msgstr ""
 
 msgid " has been deleted successfully"
-msgstr " har blitt slettet"
+msgstr ""
 
 msgid " is "
-msgstr " er "
+msgstr ""
 
 msgid " next"
-msgstr " neste"
+msgstr ""
 
 msgid " Remove criteria"
-msgstr " Fjern kriterier"
+msgstr ""
 
 msgid " requires a subgrid adapter"
-msgstr " krever en subgrid -adapter"
+msgstr ""
 
 msgid "%1$s expected but %2$s detected"
-msgstr "%1$s var forventet, men %2$s ble oppdaget"
+msgstr ""
 
 msgid "%d attempts left before your account is locked."
-msgstr "Du har %d forsøk igjen før kontoen din låses."
+msgstr ""
 
 msgid "%d day"
-msgstr "%d dag"
+msgstr ""
 
 msgid "%d days"
-msgstr "%d dager"
+msgstr ""
 
 msgid "%h hour"
-msgstr "%h time"
+msgstr ""
 
 msgid "%h hours"
-msgstr "%h timer"
+msgstr ""
 
 msgid "%i minute"
-msgstr "%i minutt"
+msgstr ""
 
 msgid "%i minutes"
-msgstr "%i minutter"
+msgstr ""
 
 msgid "%m month"
-msgstr "%m måned"
+msgstr ""
 
 msgid "%m months"
-msgstr "%m måneder"
+msgstr ""
 
 msgid "%s %s selected"
-msgstr "%s %s valgt"
+msgstr ""
 
 msgid "%s (%s kb)"
 msgstr ""
 
 msgid "%s Class saved"
-msgstr "%s Mappe lagret"
+msgstr ""
 
 msgid "%s classes"
-msgstr "%s mapper"
+msgstr ""
 
 msgid "%s completed"
 msgstr ""
 
 msgid "%s Confirmation"
-msgstr "%s Bekreftelse"
+msgstr ""
 
 msgid "%s could not be released"
-msgstr "%s kunne ikke publiseres"
+msgstr ""
 
 msgid "%s created"
-msgstr "%s opprettet"
+msgstr ""
 
 msgid "%s extension(s) to install."
-msgstr "%s tillegg som skal installeres."
+msgstr ""
 
 msgid "%s has been deleted"
-msgstr "%s er slettet"
+msgstr ""
 
 msgid "%s has been released"
-msgstr "%s er publisert"
+msgstr ""
 
 msgid "%s instances"
-msgstr "%s forekomster"
+msgstr ""
 
 msgid "%s is of a type that cannot be published"
-msgstr "%s er av en type som ikke kan publiseres"
+msgstr ""
 
 msgid "%s Locked"
-msgstr "%s Låst"
+msgstr ""
 
 msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
-msgstr "%s\"er ikke en gyldig indeksidentifikator. Den må starte med en bokstav og kun inneholde bokstaver, tall eller understrekninger"
+msgstr ""
 
 msgid "%y year"
-msgstr "%y år"
+msgstr ""
 
 msgid "%y years"
-msgstr "%y år"
+msgstr ""
 
 msgid "(empty)"
-msgstr "(tom)"
+msgstr ""
 
 msgid "... reloading page."
-msgstr "... laster siden på nytt."
+msgstr ""
 
 msgid "7-zip archive"
-msgstr "7-zip arkiv"
+msgstr ""
 
 msgid "<del>Filters</del>"
-msgstr "<del>Filtre</del>"
+msgstr ""
 
 msgid "<del>Options</del>"
-msgstr "<del>Alternativer</del>"
+msgstr ""
 
 msgid "<strong> %s </strong> has been moved to the background."
-msgstr "<strong>%s</strong> er flyttet til bakgrunnen."
+msgstr ""
 
 msgid "> Extension %s succesfully installed."
-msgstr ">Utvidelsen %s er installert."
+msgstr ""
 
 msgid "> Installation done."
-msgstr "> Installasjonen er utført."
+msgstr ""
 
 msgid "a class"
-msgstr "en mappe"
+msgstr ""
 
 msgid "A date has to be a Datetime or timestamp"
-msgstr "En dato må være en Datotid eller tidsstempel"
+msgstr ""
 
 msgid "A fatal error occured during the installation process."
-msgstr "En alvorlig feil oppstod under installasjonsprosessen."
+msgstr ""
 
 msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
-msgstr "En vedlikeholdsstatus må ha en STATUS: \"%s\" eller \"%s"
+msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
-msgstr "En melding med ytterligere instruksjoner er sendt til e -postadressen din: %s"
+msgstr ""
 
 msgid "AAC audio"
-msgstr "AAC lyd"
+msgstr ""
 
 msgid "About"
-msgstr "Om"
+msgstr ""
 
 msgid "abs"
 msgstr ""
 
 msgid "Absolute value"
-msgstr "Absolutt verdi"
+msgstr ""
 
 msgid "AC"
 msgstr ""
@@ -183,25 +183,25 @@ msgid "Accept all"
 msgstr ""
 
 msgid "Access Denied"
-msgstr "Ingen Tilgang"
+msgstr ""
 
 msgid "Access denied. Please renew your authentication!"
-msgstr "Ingen tilgang. Du må fornye autentiseringen din!"
+msgstr ""
 
 msgid "Account status"
-msgstr "Konto status"
+msgstr ""
 
 msgid "Action"
-msgstr "Handling"
+msgstr ""
 
 msgid "Action %s - removed %s positions"
-msgstr "Handling %s - fjernet %s posisjoner"
+msgstr ""
 
 msgid "Action `%s` is not configured in the action queue service"
-msgstr "Handlingen %s er ikke konfigurert i tjenesten for handlingskø"
+msgstr ""
 
 msgid "Action was not executed yet"
-msgstr "Handlingen er ikke utført ennå"
+msgstr ""
 
 msgid "Actions"
 msgstr "Handlinger"
@@ -211,132 +211,132 @@ msgid "Add"
 msgstr "Legg til"
 
 msgid "Add / Edit lists"
-msgstr "Legg til / rediger lister"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "Legg til en CSV-fil"
 
 #, tao-public
 msgid "Add a user"
-msgstr "Legg til en bruker"
+msgstr ""
 
 msgid "Add an RDF/XML file"
-msgstr "Legg til en RDF/XML-fil"
+msgstr ""
 
 msgid "add criteria"
-msgstr "legg til kriterier"
+msgstr ""
 
 msgid "Add file(s)"
-msgstr "Legg til fil(er)"
+msgstr ""
 
 msgid "Add index"
 msgstr ""
 
 msgid "Add property"
-msgstr "Legg til egenskap"
+msgstr ""
 
 msgid "Adding search index for %s"
-msgstr "Legger til søkeindeks for %s"
+msgstr ""
 
 msgid "Adding search index for created resource"
-msgstr "Legger til søkeindeks for opprettet ressurs"
+msgstr ""
 
 msgid "Adding the new class has failed"
-msgstr "Å legge til ny mappe mislyktes"
+msgstr ""
 
 msgid "Adding the new resource has failed"
-msgstr "Å legge til ny ressurs mislyktes"
+msgstr ""
 
 msgid "Adding/updating search index for updated resource"
-msgstr "Legger til/oppdaterer søkeindeks for oppdaterte ressurs"
+msgstr ""
 
 msgid "Adobe Flash file"
-msgstr "Adobe Flash-fil"
+msgstr ""
 
 msgid "Advanced search, add filters"
-msgstr "Avansert søk, legg til filtre"
+msgstr ""
 
 msgid "aliases:"
 msgstr ""
 
 msgid "all"
-msgstr "alle"
+msgstr ""
 
 msgid "all audios"
-msgstr "alle lydfilene"
+msgstr ""
 
 msgid "All data will be removed in %s"
-msgstr "Alle data vil bli fjernet om %s"
+msgstr ""
 
 msgid "All fields are required"
-msgstr "Alle felt må fylles ut"
+msgstr ""
 
 msgid "all images"
-msgstr "alle bilder"
+msgstr ""
 
 msgid "All rights reserved."
 msgstr "Alle rettigheter forbeholdt."
 
 msgid "all videos"
-msgstr "alle videoer"
+msgstr ""
 
 msgid "Allow for all domains"
-msgstr "Tillat for alle domener"
+msgstr ""
 
 msgid "Allow for the following domains"
-msgstr "Tillat følgende domener"
+msgstr ""
 
 msgid "Alpha version"
-msgstr "Alpha -versjon"
+msgstr ""
 
 msgid "An email has been sent"
-msgstr "En e -post er sendt"
+msgstr ""
 
 msgid "An error occurred during user deletion"
-msgstr "Det oppstod en feil under sletting av brukeren"
+msgstr ""
 
 msgid "An error occurred!"
 msgstr "Det oppstod en feil!"
 
 msgid "An exception occured while running \"%s"
-msgstr "Det oppstod et avvik under kjøring av \"%s"
+msgstr ""
 
 msgid "an instance"
-msgstr "en forekomst"
+msgstr ""
 
 msgid "Analytics cookies"
 msgstr ""
 
 msgid "and"
-msgstr ""
+msgstr "og"
 
 msgid "Ans"
-msgstr "Svar"
+msgstr ""
 
 msgid "Apply"
-msgstr "Bruke"
+msgstr ""
 
 msgid "Apply date range"
-msgstr "Bruk datointervall"
+msgstr ""
 
 msgid "Arc cosine"
-msgstr "Cosinusbue"
+msgstr ""
 
 msgid "Arc sine"
-msgstr "Sinusbue"
+msgstr ""
 
 msgid "Arc tangent"
-msgstr "Tangensbue"
+msgstr ""
 
 msgid "Archived"
-msgstr "Arkivert"
+msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr "Er du sikker på å slette den versjonerte ressursen? Historikken vil også gå tapt."
+msgstr ""
 
 msgid "Are you sure you want to delete it?"
-msgstr "Er du sikker på at du ønsker slette?"
+msgstr ""
 
 msgid "Are you sure you want to delete the translation for this language?"
 msgstr ""
@@ -360,17 +360,17 @@ msgid "array"
 msgstr ""
 
 msgid "Assign"
-msgstr "Tildele"
+msgstr ""
 
 msgid "Assign User to role"
-msgstr "Tilordne bruker til rolle"
+msgstr ""
 
 #, tao-public
 msgid "Assign Users"
-msgstr "Tilordne brukere"
+msgstr ""
 
 msgid "Audio Video Interleave"
-msgstr "Lyd og bilde sammensetning"
+msgstr ""
 
 msgid "Auth type"
 msgstr ""
@@ -379,58 +379,58 @@ msgid "Author"
 msgstr "Forfatter"
 
 msgid "Author Item"
-msgstr "Forfatte oppgave"
+msgstr ""
 
 msgid "Authoring"
 msgstr "Rediger"
 
 msgid "auto unlocked in %s"
-msgstr "åpnes automatisk om %s"
+msgstr ""
 
 msgid "Available"
-msgstr "Tilgjengelig"
+msgstr ""
 
 msgid "Available Extensions"
-msgstr "Tilgjengelige utvidelser"
+msgstr ""
 
 msgid "Back"
-msgstr "Tilbake"
+msgstr ""
 
 msgid "Back to listing"
-msgstr "Tilbake til oppføring"
+msgstr "Tilbake til oversikt"
 
 msgid "Back to Portal"
 msgstr ""
 
 msgid "Base-10 logarithm"
-msgstr "Base-10 logaritme"
+msgstr ""
 
 msgid "Beta version"
-msgstr "Betaversjon"
+msgstr ""
 
 msgid "Binary operator *"
-msgstr "Binær operatør *"
+msgstr ""
 
 msgid "Binary operator +"
-msgstr "Binær operatør +"
+msgstr ""
 
 msgid "Binary operator -"
-msgstr "Binær operatør -"
+msgstr ""
 
 msgid "Binary operator /"
-msgstr "Binær operatør /"
+msgstr ""
 
 msgid "Binary operator modulo"
-msgstr "Binær operatør modulo"
+msgstr ""
 
 msgid "Bitmap image"
-msgstr "Bitmap bilde"
+msgstr ""
 
 msgid "boolean"
 msgstr ""
 
 msgid "Browse folders:"
-msgstr "Søk gjennom mapper:"
+msgstr ""
 
 msgid "Browse resources"
 msgstr ""
@@ -442,22 +442,22 @@ msgid "C"
 msgstr ""
 
 msgid "C file"
-msgstr "C-fil"
+msgstr ""
 
 msgid "C++ file"
 msgstr ""
 
 msgid "C++ file (.cpp)"
-msgstr "C++ fil (.cpp)"
+msgstr ""
 
 msgid "Calc speadsheet (Staroffice)"
-msgstr "Calc regneark (Staroffice)"
+msgstr ""
 
 msgid "Calculator"
 msgstr "Kalkulator"
 
 msgid "Calendar"
-msgstr "Kalender"
+msgstr ""
 
 msgid "Cancel"
 msgstr "Avbryt"
@@ -466,47 +466,47 @@ msgid "cancel"
 msgstr "avbryt"
 
 msgid "cancel the action"
-msgstr "avbryt handlingen"
+msgstr ""
 
 msgid "Cancelled"
-msgstr "Avbrutt"
+msgstr ""
 
 msgid "Cannot be edited"
-msgstr "Kan ikke redigeres"
+msgstr ""
 
 msgid "Cannot divide by zero"
-msgstr "Kan ikke dele med null"
+msgstr ""
 
 msgid "Cascading Style Sheets"
 msgstr ""
 
 msgid "Case sensitive"
-msgstr "Skille mellom store og små bokstaver"
+msgstr ""
 
 msgid "ceil"
-msgstr "tak"
+msgstr ""
 
 msgid "Center"
-msgstr ""
+msgstr "Senter"
 
 #, tao-public
 msgid "Change password"
-msgstr "Endre passord"
+msgstr ""
 
 msgid "Change the password"
-msgstr "Endre passordet"
+msgstr ""
 
 msgid "Change the sign of the current operand"
-msgstr "Endre tegnet på gjeldende operand"
+msgstr ""
 
 msgid "Check All"
-msgstr "Sjekk Alle"
+msgstr ""
 
 msgid "Check all"
-msgstr "Sjekk alle"
+msgstr ""
 
 msgid "Check-in"
-msgstr "Innsjekking"
+msgstr ""
 
 msgid "choices:"
 msgstr ""
@@ -515,55 +515,55 @@ msgid "Choose a type for your property first"
 msgstr ""
 
 msgid "Choose a value..."
-msgstr "Velg en verdi..."
+msgstr ""
 
 msgid "Choose export format"
-msgstr "Velg eksportformat"
+msgstr ""
 
 msgid "Choose import format"
-msgstr "Velg importformat"
+msgstr ""
 
 msgid "class selected"
-msgstr "valgt mappe"
+msgstr ""
 
 msgid "Class uri provided is not a valid class."
-msgstr "Gitt mappe uri er ikke en gyldig mappe."
+msgstr ""
 
 msgid "Cleaning up tmp space complete"
-msgstr "Rydding av tmp-plass er fullført"
+msgstr ""
 
 msgid "Cleaning up tmp space started"
-msgstr "Rydding av tmp-plass er påbegynt"
+msgstr ""
 
 msgid "Clear"
-msgstr "Nullstill"
+msgstr ""
 
 msgid "Clear All"
-msgstr "Nullstill alt"
+msgstr ""
 
 msgid "Clear all data"
-msgstr "Nullstill alle data"
+msgstr ""
 
 msgid "Clear expression"
-msgstr "Nullstill uttrykk"
+msgstr ""
 
 msgid "Clear History"
-msgstr "Nullstill Historikk"
+msgstr ""
 
 msgid "Clear history"
-msgstr "Nullstill historikk"
+msgstr ""
 
 msgid "Clear selection"
-msgstr "Nullstill utvalg"
+msgstr ""
 
 msgid "Clear the date time picker"
-msgstr "Nullstill datovelger"
+msgstr ""
 
 msgid "Clear the stored variables"
-msgstr "Nullstill lagrede variabler"
+msgstr ""
 
 msgid "Click to reload."
-msgstr "Klikk for å laste siden på nytt."
+msgstr ""
 
 msgid "Click to start"
 msgstr ""
@@ -572,19 +572,19 @@ msgid "Close"
 msgstr "Lukk"
 
 msgid "Close dialog"
-msgstr "Lukk dialog"
+msgstr ""
 
 msgid "Close message"
-msgstr "Lukk melding"
+msgstr ""
 
 msgid "Code Version"
-msgstr "Kodeversjon"
+msgstr ""
 
 msgid "Collecting of abandoned actions in the action queue ..."
-msgstr "Samling av forlatte handlinger i handlingskøen..."
+msgstr ""
 
 msgid "Column"
-msgstr "Kolonne"
+msgstr ""
 
 msgid "command"
 msgstr ""
@@ -593,31 +593,31 @@ msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
-msgstr "kommentar..."
+msgstr ""
 
 msgid "Commit"
-msgstr "Begå"
+msgstr "Utføre"
 
 msgid "Completed"
 msgstr "Fullført"
 
 msgid "Completed - Error"
-msgstr "Fullført - Feil"
+msgstr ""
 
 msgid "Compressed tar file"
-msgstr "Komprimert tar-fil"
+msgstr ""
 
 msgid "Compute the expression"
-msgstr "Beregn uttrykket"
+msgstr ""
 
 msgid "Confirm"
-msgstr "Bekreft"
+msgstr ""
 
 msgid "Connect to the TAO platform"
-msgstr "Koble til TAO-plattformen"
+msgstr ""
 
 msgid "Continue"
-msgstr "Fortsett"
+msgstr ""
 
 msgid "Cookie Policy"
 msgstr ""
@@ -626,13 +626,13 @@ msgid "Cookies Preferences"
 msgstr ""
 
 msgid "Copy"
-msgstr "Kopier"
+msgstr ""
 
 msgid "Copy to"
-msgstr "Kopier til"
+msgstr ""
 
 msgid "Copy to clipboard"
-msgstr "Kopier til utklippstavlen"
+msgstr ""
 
 msgid "cos"
 msgstr ""
@@ -641,122 +641,122 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
-msgstr "Kosinus"
+msgstr ""
 
 msgid "count"
 msgstr ""
 
 msgid "Create"
-msgstr "Opprett"
+msgstr ""
 
 msgid "Create instance"
 msgstr ""
 
 msgid "Create instance of "
-msgstr "Opprett en forekomst av "
+msgstr ""
 
 msgid "Create translation"
 msgstr ""
 
 msgid "Created"
-msgstr "Opprettet"
+msgstr ""
 
 msgid "Creating report ..."
-msgstr "Opprett rapport..."
+msgstr ""
 
 msgid "CSP Header settings were saved successfully!"
-msgstr "Innstillinger for CSP-topptekst ble lagret!"
+msgstr ""
 
 msgid "CSV"
 msgstr ""
 
 msgid "CSV file"
-msgstr "CSV-fil"
+msgstr ""
 
 msgid "CSV Options"
-msgstr "CSV-alternativer"
+msgstr ""
 
 msgid "Cube root"
-msgstr "Kubikkrot"
+msgstr ""
 
 msgid "Current language"
-msgstr "Gjeldende språk"
+msgstr ""
 
 msgid "Current playback position"
-msgstr "Gjeldende avspillingsposisjon"
+msgstr ""
 
 msgid "currently has a dependency established with "
 msgstr ""
 
 msgid "Data imported"
-msgstr "Data importert"
+msgstr ""
 
 msgid "Data imported successfully"
-msgstr "Data importert"
+msgstr ""
 
 msgid "Data imported. Some records are invalid."
-msgstr "Data importert. Noen registreriger er ugyldige."
+msgstr ""
 
 msgid "Data language"
-msgstr "Data språk"
+msgstr ""
 
 msgid "Data Language"
-msgstr "Data Språk"
+msgstr ""
 
 msgid "Data not imported. All records are invalid."
-msgstr "Data ble ikke importert. Alle registreringene er ugyldige."
+msgstr ""
 
 msgid "Data source URI"
-msgstr "Datakilde URI"
+msgstr ""
 
 msgid "Database file"
-msgstr "Database-fil"
+msgstr ""
 
 msgid "Date"
 msgstr "Dato"
 
 msgid "date range"
-msgstr "dato-intervall"
+msgstr ""
 
 msgid "date time"
-msgstr "dato tid"
+msgstr ""
 
 msgid "date time range"
-msgstr "dato tidsintervall"
+msgstr ""
 
 msgid "Default search"
-msgstr "Standard søk"
+msgstr ""
 
 msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
-msgstr "Definer standardverdiene"
+msgstr ""
 
 msgid "Deg"
-msgstr "Grad"
+msgstr ""
 
 msgid "Degree"
-msgstr "Grad"
+msgstr ""
 
 #, tao-public
 msgid "Delete"
 msgstr "Slett"
 
 msgid "Delete Left"
-msgstr "Slett Venstre"
+msgstr ""
 
 msgid "Delete Right"
-msgstr "Slett Høyre"
+msgstr ""
 
 msgid "Delete the term on the left side of the cursor"
-msgstr "Slett ordet på venstre side av markøren"
+msgstr ""
 
 msgid "Delete the term on the right side of the cursor"
-msgstr "Slett ordet på høyre side av markøren"
+msgstr ""
 
 msgid "Deleting search index for %s"
-msgstr "Sletter søkeindeks for %s"
+msgstr ""
 
 msgid "Deleting this property will also remove the dependency"
 msgstr ""
@@ -774,81 +774,81 @@ msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
-msgstr "Siffer 0"
+msgstr ""
 
 msgid "Digit 1"
-msgstr "Siffer 1"
+msgstr ""
 
 msgid "Digit 2"
-msgstr "Siffer 2"
+msgstr ""
 
 msgid "Digit 3"
-msgstr "Siffer 3"
+msgstr ""
 
 msgid "Digit 4"
-msgstr "Siffer 4"
+msgstr ""
 
 msgid "Digit 5"
-msgstr "Siffer 5"
+msgstr ""
 
 msgid "Digit 6"
-msgstr "Siffer 6"
+msgstr ""
 
 msgid "Digit 7"
-msgstr "Siffer 7"
+msgstr ""
 
 msgid "Digit 8"
-msgstr "Siffer 8"
+msgstr ""
 
 msgid "Digit 9"
-msgstr "Siffer 9"
+msgstr ""
 
 msgid "Disabled %s"
-msgstr "Deaktivert %s"
+msgstr ""
 
 msgid "Do you want to override \"%s\"?"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr "Ønsker du å installere følgende utvidelse(r): %s?"
+msgstr ""
 
 msgid "Document templates (Staroffice)"
-msgstr "Dokumentmaler (Staroffice)"
+msgstr ""
 
 msgid "does not match"
-msgstr "passer ikke"
+msgstr ""
 
 msgid "Don't set"
-msgstr "Ikke sett"
+msgstr ""
 
 msgid "Dot"
-msgstr "Punktum"
+msgstr ""
 
 msgid "Download"
 msgstr "Last ned"
 
 msgid "Download this file"
-msgstr "Last ned denne filen"
+msgstr ""
 
 msgid "Drag file here"
-msgstr "Dra filen hit"
+msgstr ""
 
 msgid "Drag files here"
-msgstr "Dra filene hit"
+msgstr ""
 
 msgid "Drop the files to upload"
-msgstr "Slipp filene for å laste opp"
+msgstr ""
 
 msgid "Edit"
-msgstr "Rediger"
+msgstr "Redigere"
 
 #, tao-public
 msgid "Edit a user"
-msgstr "Rediger en bruker"
+msgstr ""
 
 msgid "Edit class %s"
-msgstr "Rediger mappe %s"
+msgstr ""
 
 msgid "Edit Instance"
 msgstr "Rediger egenskaper"
@@ -857,25 +857,25 @@ msgid "Element"
 msgstr ""
 
 msgid "Element deleted."
-msgstr "Element ble slettet."
+msgstr ""
 
 msgid "Email"
-msgstr "E-post"
+msgstr ""
 
 msgid "Empty resources cannot be translated."
 msgstr ""
 
 msgid "enabled"
-msgstr "aktivert"
+msgstr ""
 
 msgid "Enabled %s"
-msgstr "Aktivert %s"
+msgstr ""
 
 msgid "End of document reached. Continuing from the beginning."
-msgstr "Slutten på dokumentet er nådd. Fortsetter fra begynnelsen."
+msgstr ""
 
 msgid "Enhanced metafile"
-msgstr "Forbedret metafil"
+msgstr ""
 
 msgid "Enter"
 msgstr ""
@@ -884,22 +884,22 @@ msgid "Error"
 msgstr "Feil"
 
 msgid "Error adding search index for %s with message %s"
-msgstr "Feil ved tilføyelse av søkeindeks for %s med melding %s"
+msgstr ""
 
 msgid "Error during file import"
-msgstr "Feil under filimport"
+msgstr "Filimport feilet"
 
 msgid "Error in result"
-msgstr "Feil i resultat"
+msgstr ""
 
 msgid "Error in syntax"
-msgstr "Feil i syntaks"
+msgstr ""
 
 msgid "Error in value"
-msgstr "Feil i verdi"
+msgstr ""
 
 msgid "Error: %s"
-msgstr "Feil: %s"
+msgstr ""
 
 msgid "Essential cookies (required)"
 msgstr ""
@@ -908,51 +908,51 @@ msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
-msgstr "Eksklusiv (OR)"
+msgstr ""
 
 msgid "Execute"
-msgstr "Utfør"
+msgstr ""
 
 msgid "Executing task %s failed"
-msgstr "Utførelsen av oppgave %s mislyktes"
+msgstr "Utførelse av oppgave %s mislyktes"
 
 msgid "exp"
-msgstr "eksp"
+msgstr ""
 
 msgid "Exponent"
 msgstr "Eksponent"
 
 #, tao-public
 msgid "Export"
-msgstr "Eksport"
+msgstr ""
 
 msgid "Export "
-msgstr "Eksport "
+msgstr ""
 
 msgid "Export \"%s\" in %s"
-msgstr "Eksporter \" %s\" i %s"
+msgstr ""
 
 msgid "Export CSV"
 msgstr "Eksporter CSV"
 
 msgid "Export failed."
-msgstr "Eksport mislyktes."
+msgstr ""
 
 msgid "Export Metadata as RDF/XML file"
-msgstr "Eksporter metadata som RDF/XML-fil"
+msgstr ""
 
 msgid "Export succeeded."
-msgstr "Eksporten var vellykket."
+msgstr ""
 
 msgid "Extension \"%s\" has been installed"
-msgstr "Utvidelsen \"%s\" er installert"
+msgstr ""
 
 #, tao-public
 msgid "Extensions manager"
-msgstr "Utvidelser"
+msgstr ""
 
 msgid "Factorial"
-msgstr "Faktorisk"
+msgstr ""
 
 msgid "Failed"
 msgstr "Mislyktes"
@@ -961,94 +961,94 @@ msgid "Failed to copy class."
 msgstr ""
 
 msgid "Failed to delete index for %s"
-msgstr "Kunne ikke slette indeksen for %s"
+msgstr ""
 
 msgid "False"
-msgstr "Usant"
+msgstr ""
 
 msgid "Field delimiter"
-msgstr "Feltavgrensning"
+msgstr ""
 
 msgid "Field encloser"
-msgstr "Feltområde"
+msgstr ""
 
 msgid "Fields must match"
-msgstr "Feltene må samsvare"
+msgstr ""
 
 msgid "File"
 msgstr "Fil"
 
 msgid "File download failed"
-msgstr "Nedlasting av fil mislyktes"
+msgstr ""
 
 msgid "File name"
 msgstr "Filnavn"
 
 msgid "File Properties"
-msgstr "Filegenskaper"
+msgstr ""
 
 msgid "file selected"
-msgstr "valgt fil"
+msgstr ""
 
 msgid "File Uploader"
-msgstr "Filopplasting"
+msgstr ""
 
 msgid "files selected"
-msgstr "valgte filer"
+msgstr ""
 
 msgid "Filter"
 msgstr ""
 
 msgid "Filter by value"
-msgstr "Filtrer etter verdi"
+msgstr ""
 
 msgid "Filtering mode"
-msgstr "Filtreringsmodus"
+msgstr ""
 
 msgid "First Name"
-msgstr "Fornavn"
+msgstr ""
 
 msgid "First page"
-msgstr "Første side"
+msgstr ""
 
 msgid "First row column names"
-msgstr "Kolonnenavn første rad"
+msgstr ""
 
 msgid "Fit to width"
-msgstr "Tilpass i bredden"
+msgstr ""
 
 msgid "Flash video"
-msgstr "Flash-video"
+msgstr ""
 
 msgid "floor"
-msgstr "gulv"
+msgstr ""
 
 msgid "Flowchart-based programming environment & TI Interactive Workbook"
-msgstr "Flytskjema-basert programmeringsmiljø og TI interaktiv arbeidsbok"
+msgstr ""
 
 msgid "Forbid for all domains"
-msgstr "Forbud for alle domener"
+msgstr ""
 
 msgid "Force HTTPS on this platform"
-msgstr "Tving HTTPS på denne plattformen"
+msgstr ""
 
 msgid "Force Release"
-msgstr "Tving utgivelse"
+msgstr ""
 
 msgid "Forgot your password?"
-msgstr "Glemt passord?"
+msgstr ""
 
 msgid "Form"
-msgstr "Skjema"
+msgstr ""
 
 msgid "Form data not saved."
-msgstr "Skjemadata er ikke lagret."
+msgstr ""
 
 msgid "From"
-msgstr "Fra"
+msgstr ""
 
 msgid "Fuzzy Matching"
-msgstr "Uklar Matching"
+msgstr ""
 
 msgid "generated-value"
 msgstr ""
@@ -1057,128 +1057,128 @@ msgid "Generis Form"
 msgstr ""
 
 msgid "Geogebra data file"
-msgstr "Geogebra data-fil"
+msgstr ""
 
 msgid "Get History"
-msgstr "Få historie"
+msgstr ""
 
 msgid "Get the history list"
-msgstr "Få historielisten"
+msgstr ""
 
 msgid "GIF image"
-msgstr "GIF-bilde"
+msgstr ""
 
 msgid "Go Back"
-msgstr "Gå tilbake"
+msgstr ""
 
 msgid "go back to home page"
-msgstr "gå tilbake til hjemmesiden"
+msgstr ""
 
 msgid "GZip Compressed Archive"
-msgstr "GZip komprimert arkiv"
+msgstr ""
 
 msgid "Header file with extensionsLabels"
-msgstr "Toppfil med utvidelsesetiketter"
+msgstr ""
 
 msgid "Height"
 msgstr "Høyde"
 
 msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
-msgstr "Hei, %s <br> Du skrev at du har glemt TAO-passordet ditt."
+msgstr ""
 
 msgid "Hide detailed report"
-msgstr "Skjul detaljert rapport"
+msgstr ""
 
 msgid "Hide password"
-msgstr "Skjul passord"
+msgstr ""
 
 msgid "Highlight all"
-msgstr "Marker alt"
+msgstr ""
 
 msgid "hours"
 msgstr "timer"
 
 msgid "Hyperbolic arc cosine"
-msgstr "Hyperbolisk cosinuskurve"
+msgstr ""
 
 msgid "Hyperbolic arc sine"
-msgstr "Hyperbolisk sinuskurve"
+msgstr ""
 
 msgid "Hyperbolic arc tangent"
-msgstr "Hyperbolisk tangenskurve"
+msgstr ""
 
 msgid "Hyperbolic cosine"
-msgstr "Hyperbolisk cosinus"
+msgstr ""
 
 msgid "Hyperbolic sine"
-msgstr "Hyperbolisk sinus"
+msgstr ""
 
 msgid "Hyperbolic tangent"
-msgstr "Hyperbolisk tangens"
+msgstr ""
 
 msgid "Hypertext markup language"
-msgstr "Markeringsspråk for hypertekst"
+msgstr ""
 
 msgid "I understand that this action is permanent."
-msgstr "Jeg forstår at denne handlingen er permanent."
+msgstr ""
 
 msgid "Identifier"
 msgstr "Identifikator"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr "Hvis du ikke ønsker å tilbakestille passordet ditt, kan du bare ignorere denne e -posten, og passordet forblir uendret."
+msgstr ""
 
 msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 msgid "Import "
 msgstr ""
 
 msgid "Import a %s into \"%s"
-msgstr "Importer en %s til \"%s"
+msgstr ""
 
 msgid "Import Completed"
-msgstr "Import fullført"
+msgstr ""
 
 msgid "Import failed."
-msgstr "Import mislyktes."
+msgstr ""
 
 msgid "Import Metadata from CSV file"
-msgstr "Importer metadata fra CSV-fil"
+msgstr ""
 
 msgid "Import Metadata from RDF file"
-msgstr "Importer metadata fra RDF-fil"
+msgstr ""
 
 #, tao-public
 msgid "Import statistical analysis metadata"
 msgstr ""
 
 msgid "Import succeeded."
-msgstr "Importen var vellykket."
+msgstr ""
 
 msgid "Imported %1$d/%2$d. Some records are invalid."
-msgstr "Importerte %1$d/%2$d. Noen poster er ugyldige."
+msgstr ""
 
 msgid "Imported %d resources"
-msgstr "Importerte %d ressurser"
+msgstr ""
 
 msgid "Imported resource \"%s"
-msgstr "Importerte ressurs \"%s"
+msgstr ""
 
 msgid "Imported successfully finished!"
 msgstr ""
 
 msgid "impossible to update task status"
-msgstr "umulig å oppdatere oppgavestatus"
+msgstr ""
 
 msgid "In Progress"
-msgstr "I Arbeid"
+msgstr "I arbeid"
 
 msgid "In progress"
-msgstr "I arbeid"
+msgstr "Under arbeid"
 
 msgid "Include all"
 msgstr ""
@@ -1190,113 +1190,113 @@ msgid "Include none"
 msgstr ""
 
 msgid "Inclusive (AND)"
-msgstr "Inkludert (AND)"
+msgstr ""
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "Indeks"
 
 msgid "Index has been deleted for %s"
-msgstr "Indeksen er slettet for %s"
+msgstr ""
 
 msgid "Infinity"
-msgstr "Uendelig"
+msgstr "Evighet"
 
 msgid "Inherit the permission of the parent folder"
 msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
-msgstr "Injektoren må inneholde et gyldig \"destinasjonsfelt\"."
+msgstr ""
 
 msgid "Injector has to contains a valid \"source\" field."
-msgstr "Injektoren må inneholde et gyldig \"kilde\"-felt."
+msgstr ""
 
 msgid "Inline"
-msgstr "Linje"
+msgstr ""
 
 msgid "Install"
-msgstr "Installer"
+msgstr ""
 
 msgid "Installation done."
-msgstr "Installasjon utført."
+msgstr ""
 
 msgid "Installation..."
-msgstr "Installasjon..."
+msgstr ""
 
 msgid "Installed Extensions"
-msgstr "Installerte utvidelser"
+msgstr ""
 
 msgid "Installed Version"
-msgstr "Installert versjon"
+msgstr ""
 
 msgid "Installing extension %s..."
-msgstr "Installerer utvidelse %s..."
+msgstr ""
 
 msgid "Instance saved"
 msgstr "Forekomsten er lagret"
 
 msgid "Interface language"
-msgstr "Grensesnittspråk"
+msgstr ""
 
 msgid "Interface Language"
-msgstr "Grensesnittspråk"
+msgstr ""
 
 msgid "Interface Mode"
 msgstr ""
 
 msgid "Invalid CSP header."
-msgstr "Ugyldig CSP-topptekst."
+msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
-msgstr "Ugyldig datointervall (må være etter eller det samme som: %s)"
+msgstr ""
 
 msgid "Invalid date range (must be after: %s)"
-msgstr "Ugyldig datointervall (må være etter: %s)"
+msgstr ""
 
 msgid "Invalid date range (must be before or the same as: %s)"
-msgstr "Ugyldig datointervall (må være før eller det samme som: %s)"
+msgstr ""
 
 msgid "Invalid date range (must be before: %s)"
-msgstr "Ugyldig datointervall (må være før: %s)"
+msgstr ""
 
 msgid "Invalid field length"
-msgstr "Ugyldig feltlengde"
+msgstr ""
 
 msgid "Invalid field range (maximum value: %s)"
-msgstr "Ugyldig feltområde (maksimumverdi: %s)"
+msgstr ""
 
 msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
-msgstr "Ugyldig feltområde (minimumsverdi: %1$s, maksimumverdi: %2 $ s)"
+msgstr ""
 
 msgid "Invalid field range (minimum value: %s)"
-msgstr "Ugyldig feltområde (minimumsverdi: %s)"
+msgstr ""
 
 msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
-msgstr "Ugyldig filstørrelse (minimum %1$s bytes, maksimum %2$s bytes)"
+msgstr ""
 
 msgid "Invalid file type!"
-msgstr "Ugyldig filtype!"
+msgstr ""
 
 msgid "Invalid input"
-msgstr "Ugyldig input"
+msgstr ""
 
 msgid "Invalid input for function"
-msgstr "Ugyldig input for denne handlingen"
+msgstr ""
 
 msgid "Invalid JSON config file: %s"
 msgstr ""
 
 msgid "Invalid login or password. Please try again."
-msgstr "Ugyldig brukernavn eller passord. Prøv på nytt."
+msgstr ""
 
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
-msgstr "Ugyldig brukernavn eller passord. Kontoen din er låst. Ta kontakt med administrator."
+msgstr ""
 
 msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
 msgstr ""
 
 msgid "invalid regular expression"
-msgstr "ugyldig uttrykk"
+msgstr ""
 
 msgid "Invalid value"
 msgstr ""
@@ -1308,13 +1308,13 @@ msgid "It appears there were some issues and we were unable to process your requ
 msgstr ""
 
 msgid "items per page"
-msgstr "oppgaver per side"
+msgstr ""
 
 msgid "Javascript code"
-msgstr "Javascript-kode"
+msgstr ""
 
 msgid "JPEG image"
-msgstr "JPEG-bilde"
+msgstr ""
 
 msgid "Keep the original permissions"
 msgstr ""
@@ -1323,28 +1323,28 @@ msgid "Label"
 msgstr "Navn"
 
 msgid "Label Path"
-msgstr "Etikettsti"
+msgstr ""
 
 msgid "Language"
 msgstr "Språk"
 
 msgid "Last attempt before your account is locked."
-msgstr "Du har et forsøk igjen før kontoen din blir låst."
+msgstr ""
 
 msgid "Last Name"
-msgstr "Etternavn"
+msgstr ""
 
 msgid "Last page"
-msgstr "Siste side"
+msgstr ""
 
 msgid "Last result"
-msgstr "Siste resultat"
+msgstr ""
 
 msgid "Left parenthesis"
-msgstr "Venstre parentes"
+msgstr ""
 
 msgid "less than a minute"
-msgstr "mindre enn ett minutt"
+msgstr ""
 
 msgid "List"
 msgstr "Liste"
@@ -1353,141 +1353,141 @@ msgid "List \"%s\" has duplicated values."
 msgstr ""
 
 msgid "List - Multiple choice - Check box"
-msgstr "Liste - Flervalg - Avhukingsboks"
+msgstr ""
 
 msgid "List - Multiple choice - Search input"
-msgstr "Liste - Flervalg - Søkefelt"
+msgstr ""
 
 msgid "List - Single choice - Drop down"
-msgstr "Liste - Enkeltvalg - Nedtrekksliste"
+msgstr ""
 
 msgid "List - Single choice - Radio button"
-msgstr "Liste - Enkeltvalg - Radioknapp"
+msgstr ""
 
 msgid "List - Single choice - Search input"
-msgstr "Liste - Enkeltvalg - Søkefelt"
+msgstr ""
 
 msgid "List item URI duplications found"
-msgstr "Oppgave URI -dupliseringer funnet"
+msgstr ""
 
 msgid "List values"
-msgstr "Listeverdier"
+msgstr ""
 
 msgid "Load more"
-msgstr "Last mer"
+msgstr ""
 
 msgid "Loaded"
-msgstr "Lastet"
+msgstr ""
 
 msgid "Loaded at Startup"
-msgstr "Lastet ved oppstart"
+msgstr ""
 
 msgid "Loading"
 msgstr "Laster"
 
 msgid "Loading status"
-msgstr "Laster status"
+msgstr ""
 
 msgid "Loading task status ..."
-msgstr "Laster inn oppgavestatus..."
+msgstr ""
 
 msgid "locked by %s"
-msgstr "låst med %s"
+msgstr ""
 
 msgid "Log in"
 msgstr "Logg inn"
 
 msgid "Log Out"
-msgstr "Logg ut"
+msgstr ""
 
 msgid "Login"
 msgstr "Logg inn"
 
 msgid "Login available"
-msgstr "Pålogging tilgjengelig"
+msgstr ""
 
 msgid "Login is already in use."
-msgstr "Pålogging er allerede i bruk."
+msgstr ""
 
 msgid "Login is empty."
-msgstr "Ingen er innlogget."
+msgstr ""
 
 msgid "Logout"
 msgstr "Logg ut"
 
 msgid "M4A audio"
-msgstr "M4A-lydfil"
+msgstr ""
 
 msgid "Main Menu"
-msgstr "Hovedmeny"
+msgstr ""
 
 msgid "Maintenance service is already installed."
-msgstr "Vedlikeholdstjenesten er allerede installert."
+msgstr ""
 
 msgid "Maintenance service must have a persistence option."
-msgstr "Vedlikeholdstjenesten må ha et tidsbegrensningsalternativ."
+msgstr ""
 
 msgid "Maintenance service was installed. Platform is disabled."
-msgstr "Vedlikeholdstjenesten ble installert. Plattformen er deaktivert."
+msgstr ""
 
 msgid "Maintenance service was installed. Platform is enabled."
-msgstr "Vedlikeholdstjenesten ble installert. Plattformen er aktivert."
+msgstr ""
 
 msgid "Maintenance storage driver is not set"
-msgstr "Vedlikeholdslagringsdriver er ikke angitt"
+msgstr ""
 
 msgid "Manage class schema"
-msgstr "Administrer egenskaper for oppgavemappe"
+msgstr ""
 
 msgid "manage columns"
 msgstr ""
 
 msgid "Manage data list"
-msgstr "Administrer dataliste"
+msgstr ""
 
 msgid "Manage Preferences"
 msgstr ""
 
 #, tao-public
 msgid "Manage roles"
-msgstr "Administrer roller"
+msgstr ""
 
 msgid "Manage Roles and apply them to users."
-msgstr "Administrer roller og tildel til brukere."
+msgstr ""
 
 #, tao-public
 msgid "Manage users"
-msgstr "Administrer brukere"
+msgstr ""
 
 msgid "Manage Versioned File"
-msgstr "Administrer versjonert fil"
+msgstr ""
 
 msgid "Map the properties to the CSV columns"
-msgstr "Gi egenskaper til CSV-kolonnene"
+msgstr ""
 
 msgid "maximum %s"
 msgstr ""
 
 msgid "Maximum selection reached"
-msgstr "Maksimalt valg er nådd"
+msgstr ""
 
 msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
-msgstr "Media endrer størrelsen sammen med boksen, f.eks. 50% betyr halvparten av boksstørrelsen, ikke halvparten av mediestørrelsen."
+msgstr ""
 
 msgid "Message"
-msgstr "Beskjed"
+msgstr "Melding"
 
 msgid "Messages"
-msgstr "Beskjeder"
+msgstr ""
 
 msgid "Metadata export is not available for the selected resource."
-msgstr "Metadataeksport er ikke tilgjengelig for den valgte ressursen."
+msgstr ""
 
 msgid "Microsoft Excel"
 msgstr ""
 
 msgid "Microsoft Excel binary format"
-msgstr "Microsoft Excel binært format"
+msgstr ""
 
 msgid "Microsoft Office Document Imaging"
 msgstr ""
@@ -1496,92 +1496,92 @@ msgid "Microsoft Powerpoint"
 msgstr ""
 
 msgid "Microsoft Powerpoint slideshow"
-msgstr "Lysbildefremvisning fra Microsoft Powerpoint"
+msgstr ""
 
 msgid "Microsoft Project file"
-msgstr "Microsoft Project-fil"
+msgstr ""
 
 msgid "Microsoft Visio file"
-msgstr "Microsoft Visio-fil"
+msgstr ""
 
 msgid "Microsoft Word"
 msgstr ""
 
 msgid "Microsoft Word template"
-msgstr "Microsoft Word-mal"
+msgstr ""
 
 msgid "Microsoft Works file"
-msgstr "Microsoft Works-fil"
+msgstr ""
 
 msgid "Microsoft XPS file"
-msgstr "Microsoft XPS-fil"
+msgstr ""
 
 msgid "MIME encapsulation of aggregate HTML documents"
-msgstr "MIME-innkapsling av samlede HTML-dokumenter"
+msgstr ""
 
 msgid "Mind mapping software application (free mind open source)"
-msgstr "Mind mapping programvare (gratis åpen kildekode)"
+msgstr ""
 
 msgid "minimum %s"
 msgstr ""
 
 msgid "minutes"
-msgstr "minutter"
+msgstr ""
 
 msgid "missing config %s for the service %s"
-msgstr "mangler konfigurasjon %s for tjenesten %s"
+msgstr ""
 
 msgid "Missing Parameters"
-msgstr "Mangler parametere"
+msgstr ""
 
 msgid "modulo"
 msgstr ""
 
 msgid "More"
-msgstr "Mer"
+msgstr ""
 
 msgid "Move"
 msgstr "Flytt"
 
 msgid "Move Left"
-msgstr "Flytt til venstre"
+msgstr ""
 
 msgid "Move Right"
-msgstr "Flytt til høyre"
+msgstr ""
 
 #, tao-public
 msgid "Move role"
-msgstr "Flytt rolle"
+msgstr ""
 
 msgid "Move the cursor one step on the left"
-msgstr "Flytt markøren ett trinn til venstre"
+msgstr ""
 
 msgid "Move the cursor one step on the right"
-msgstr "Flytt markøren ett trinn til høyre"
+msgstr ""
 
 msgid "Move to"
-msgstr "Flytt til"
+msgstr ""
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
-msgstr "Hvis du flytter dette elementet, vil egenskapene til den forrige mappen erstattes med egenskapene til valgt mappe:"
+msgstr ""
 
 msgid "MP4 video"
 msgstr ""
 
 msgid "MPEG audio"
-msgstr "MPEG lyd"
+msgstr ""
 
 msgid "MPEG video"
 msgstr ""
 
 msgid "MPEG-4 audio file"
-msgstr "MPEG-4 lydfil"
+msgstr ""
 
 msgid "Multiple values delimiter"
-msgstr "Avgrensning av flere verdier"
+msgstr ""
 
 msgid "Multiply the value by 10^x"
-msgstr "Multipliser verdien med 10^x"
+msgstr ""
 
 msgid "Must include at least one letter"
 msgstr ""
@@ -1599,75 +1599,75 @@ msgid "Must include upper case letters"
 msgstr ""
 
 msgid "Mute"
-msgstr "Dempe"
+msgstr ""
 
 msgid "My custom text translation"
-msgstr "Min tilpassede tekstoversettelse"
+msgstr ""
 
 #, tao-public
 msgid "My settings"
-msgstr "Mine innstillinger"
+msgstr ""
 
 msgid "My settings (%s)"
-msgstr "Mine innstillinger (%s)"
+msgstr ""
 
 msgid "Name"
 msgstr "Navn"
 
 msgid "Natural logarithm"
-msgstr "Naturlig logaritme"
+msgstr ""
 
 msgid "New password"
-msgstr "Nytt passord"
+msgstr ""
 
 #, tao-public
 msgid "New role"
-msgstr "Ny rolle"
+msgstr ""
 
 msgid "Next"
 msgstr "Neste"
 
 msgid "Next match"
-msgstr "Neste oppgave"
+msgstr ""
 
 msgid "Next page"
-msgstr "Neste side"
+msgstr ""
 
 msgid "No"
-msgstr "Ingen"
+msgstr "Nei"
 
 msgid "No action specified"
-msgstr "Ingen handling angitt"
+msgstr ""
 
 msgid "No client translation bundles updated"
-msgstr "Ingen oversettelsespakker for kunden er oppdatert"
+msgstr ""
 
 msgid "No extensions available."
-msgstr "Ingen utvidelser tilgjengelig."
+msgstr ""
 
 msgid "no file not found in this location"
-msgstr "ingen fil ble funnet på dette området"
+msgstr ""
 
 msgid "No file selected"
 msgstr "Ingen fil er valgt"
 
 msgid "No files"
-msgstr "Ingen filer"
+msgstr ""
 
 msgid "No item found. Please try other search criteria."
-msgstr "Fant ingen oppgave. Prøv andre søkekriterier."
+msgstr ""
 
 msgid "no label"
-msgstr "ingen etikett"
+msgstr ""
 
 msgid "No Task yet"
-msgstr "Ingen handling ennå"
+msgstr ""
 
 msgid "Node duplication has failed"
-msgstr "Nodeduplisering mislyktes"
+msgstr ""
 
 msgid "none"
-msgstr ""
+msgstr "ingen"
 
 msgid "Not enough arguments following: %s"
 msgstr ""
@@ -1679,44 +1679,44 @@ msgid "Not Ready for Translation"
 msgstr ""
 
 msgid "Not started"
-msgstr "Ikke startet"
+msgstr ""
 
 msgid "NotEmpty"
 msgstr ""
 
 msgid "Nothing imported"
-msgstr "Ingenting importert"
+msgstr ""
 
 msgid "Nothing to install !"
-msgstr "Ingenting å installere!"
+msgstr ""
 
 msgid "Nothing to list!"
-msgstr "Ingenting å liste!"
+msgstr ""
 
 #, tao-public
 msgid "Notifications"
-msgstr "Varsler"
+msgstr ""
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "Nth root"
-msgstr "Hth rot"
+msgstr ""
 
 msgid "number"
 msgstr ""
 
 msgid "Number of elements"
-msgstr "Antall elementer"
+msgstr ""
 
 msgid "of"
 msgstr "av"
 
 msgid "Off"
-msgstr "Av"
+msgstr ""
 
 msgid "Ogg Vorbis audio"
-msgstr "Ogg Vorbis lyd"
+msgstr ""
 
 msgid "Ogg Vorbis video"
 msgstr ""
@@ -1728,16 +1728,16 @@ msgid "OK"
 msgstr ""
 
 msgid "Old Password"
-msgstr "Gammelt passord"
+msgstr ""
 
 msgid "On"
-msgstr "På"
+msgstr ""
 
 msgid "Only allow for my own domain (%s)"
-msgstr "Tillat bare for mitt eget domene (%s)"
+msgstr ""
 
 msgid "Only one of the field must have value %s"
-msgstr "Bare ett av feltene må ha verdien %s"
+msgstr ""
 
 msgid "Open the item for editing"
 msgstr ""
@@ -1746,19 +1746,19 @@ msgid "OpenDocument Database"
 msgstr ""
 
 msgid "OpenDocument Presentation"
-msgstr "OpenDocument presentasjon"
+msgstr ""
 
 msgid "OpenDocument spreadsheet document"
-msgstr "OpenDocument regnearkdokument"
+msgstr ""
 
 msgid "OpenDocument text document"
-msgstr "OpenDocument tekstdokument"
+msgstr ""
 
 msgid "OpenDocument Text Template"
-msgstr "OpenDocument tekstmal"
+msgstr ""
 
 msgid "Operated By "
-msgstr "Styrt av "
+msgstr ""
 
 msgid "or"
 msgstr "eller"
@@ -1770,7 +1770,7 @@ msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of 
 msgstr ""
 
 msgid "Outlook on the next Synchronization"
-msgstr "Outlook på neste synkronisering"
+msgstr ""
 
 msgid "Page"
 msgstr "Side"
@@ -1779,37 +1779,37 @@ msgid "Pascal file"
 msgstr ""
 
 msgid "Pascal file (.pas)"
-msgstr "Pascal fil (.pas)"
+msgstr ""
 
 msgid "Password"
-msgstr "Passord"
+msgstr ""
 
 msgid "Password changed"
-msgstr "Passord ble endret"
+msgstr ""
 
 msgid "Password is empty."
-msgstr "Passord er tomt."
+msgstr ""
 
 msgid "Password reset"
-msgstr "Passordet ble tilbakestilt"
+msgstr ""
 
 msgid "Password successfully changed"
-msgstr "Passordet ble endret"
+msgstr ""
 
 msgid "Passwords are not matching"
-msgstr "Passord samsvarer ikke"
+msgstr ""
 
 msgid "Pause"
 msgstr ""
 
 msgid "PDF file"
-msgstr "PDF-fil"
+msgstr ""
 
 msgid "Pending"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
-msgstr "Ikke tilgang til å skrive i den valgte mappen"
+msgstr ""
 
 msgid "Permission settings"
 msgstr ""
@@ -1818,55 +1818,55 @@ msgid "Plain text"
 msgstr "Ren tekst"
 
 msgid "Play"
-msgstr "Spill av"
+msgstr "Spille"
 
 msgid "Please confirm deletion"
-msgstr "Bekreft sletting"
-
-msgid "Please confirm deletion of %s."
-msgstr "Bekreft sletting av %s."
-
-msgid "Please confirm deletion of user %s"
-msgstr "Bekreft sletting av bruker %s"
-
-msgid "Please confirm locking of account %s"
-msgstr "Bekreft låsing av kontoen %s"
-
-msgid "Please confirm property deletion!"
-msgstr "Bekreft sletting av egenskaper!"
-
-msgid "Please confirm this operation."
-msgstr "Bekreft denne handlingen."
-
-msgid "Please confirm unlocking of account %s"
-msgstr "Bekreft opplåsing av kontoen %s"
-
-msgid "Please contact %s or an administrator to release it"
-msgstr "Ta kontakt med %s eller en administrator for å gi den ut"
-
-msgid "Please contact your administrator."
-msgstr "Ta kontakt med en administrator."
-
-msgid "Please contact your system administrator."
-msgstr "Ta kontakt med systemadministrator."
-
-msgid "Please define your search in the search panel."
-msgstr "Definer søket ditt i søkefeltet."
-
-msgid "Please download the track and listen offline."
-msgstr "Last ned filen og lytt i frakoblet modus."
-
-msgid "Please download the video and view offline."
-msgstr "Last ned videoen og se den i frakoblet modus."
-
-msgid "Please give a message to your commit"
 msgstr ""
 
+msgid "Please confirm deletion of %s."
+msgstr ""
+
+msgid "Please confirm deletion of user %s"
+msgstr ""
+
+msgid "Please confirm locking of account %s"
+msgstr ""
+
+msgid "Please confirm property deletion!"
+msgstr ""
+
+msgid "Please confirm this operation."
+msgstr ""
+
+msgid "Please confirm unlocking of account %s"
+msgstr ""
+
+msgid "Please contact %s or an administrator to release it"
+msgstr ""
+
+msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please contact your system administrator."
+msgstr ""
+
+msgid "Please define your search in the search panel."
+msgstr ""
+
+msgid "Please download the track and listen offline."
+msgstr ""
+
+msgid "Please download the video and view offline."
+msgstr ""
+
+msgid "Please give a message to your commit"
+msgstr "Gi en melding til"
+
 msgid "Please provide a reason"
-msgstr "Oppgi en grunn"
+msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr "Vennligst rapporter feil, ideer, kommentarer eller tilbakemeldinger på TAO Forum"
+msgstr ""
 
 msgid "Please select a language."
 msgstr ""
@@ -1881,31 +1881,31 @@ msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
-msgstr "Vennligst vent"
+msgstr ""
 
 msgid "Please wait while ..."
-msgstr "Vennligst vent mens..."
+msgstr ""
 
 msgid "PNG image"
-msgstr "PNG-bilde"
+msgstr ""
 
 msgid "Position"
-msgstr "Posisjon"
+msgstr ""
 
 msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
-msgstr "Etter installasjon"
+msgstr ""
 
 msgid "Power of"
-msgstr "Slå av"
+msgstr ""
 
 msgid "Power of 10"
-msgstr "Styrke på 10"
+msgstr ""
 
 msgid "Preparing installation..."
-msgstr "Forbereder installasjon..."
+msgstr ""
 
 msgid "Preview"
 msgstr "Forhåndsvis"
@@ -1914,29 +1914,29 @@ msgid "Previous"
 msgstr "Forrige"
 
 msgid "Previous match"
-msgstr "Forrige match"
+msgstr ""
 
 msgid "Previous page"
-msgstr "Forrige side"
+msgstr ""
 
 msgid "Privacy Policy"
 msgstr ""
 
 msgid "Proceed"
-msgstr "Fortsett"
+msgstr ""
 
 #, tao-public
 msgid "Properties"
-msgstr "Egenskaper"
+msgstr ""
 
 msgid "Provided URL is not valid"
-msgstr "Oppgitt URL er ikke gyldig"
+msgstr ""
 
 msgid "Publish"
 msgstr "Publiser"
 
 msgid "Publish the test"
-msgstr "Publiser prøven"
+msgstr ""
 
 msgid "Queued"
 msgstr "I kø"
@@ -1951,16 +1951,16 @@ msgid "Radian"
 msgstr ""
 
 msgid "random"
-msgstr "tilfeldig"
+msgstr ""
 
 msgid "Random value"
-msgstr "Tilfeldig verdi"
+msgstr ""
 
 msgid "Range field is required"
-msgstr "Områdefelt er obligatorisk"
+msgstr ""
 
 msgid "RAR archive"
-msgstr "RAR arkiv"
+msgstr ""
 
 msgid "RDF"
 msgstr ""
@@ -1969,7 +1969,7 @@ msgid "Ready for Translation"
 msgstr ""
 
 msgid "RealMedia file"
-msgstr "RealMedia-fil"
+msgstr ""
 
 msgid "Refresh"
 msgstr "Oppdater"
@@ -1978,170 +1978,170 @@ msgid "Reject all"
 msgstr ""
 
 msgid "Release"
-msgstr "Utgivelse"
+msgstr ""
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr ""
 
 msgid "Reload"
-msgstr "Last på nytt"
+msgstr ""
 
 msgid "Remind"
-msgstr "Husk"
+msgstr ""
 
 msgid "Remind Last"
-msgstr "Husk siste"
+msgstr ""
 
 msgid "Remind the last value"
-msgstr "Husk siste verdi"
+msgstr ""
 
 msgid "Remind the next expression in the history"
-msgstr "Husk det neste uttrykket i historien"
+msgstr ""
 
 msgid "Remind the previous expression in the history"
-msgstr "Husk det forrige uttrykket i historien"
+msgstr ""
 
 msgid "Remind the recorded value"
-msgstr "Husk den registrerte verdien"
+msgstr ""
 
 msgid "Remove"
 msgstr "Fjern"
 
 msgid "Remove criteria"
-msgstr "Fjern kriterier"
+msgstr ""
 
 msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
-msgstr "Fjern melding"
+msgstr "Fjern medling"
 
 msgid "Remove the translated item"
 msgstr ""
 
 msgid "Remove this file"
-msgstr "Fjern denne filen"
-
-msgid "Removed %s directories"
-msgstr "%s kataloger ble fjernet"
-
-msgid "Removed %s files"
-msgstr "Fjernet %s filer"
-
-msgid "Removing: %s"
-msgstr "Fjerner: %s"
-
-msgid "Rename"
-msgstr "Gi nytt navn"
-
-msgid "Repeat new password"
-msgstr "Gjenta nytt passord"
-
-msgid "Repeat password"
-msgstr "Gjenta passord"
-
-msgid "Request a password reset via Email."
-msgstr "Be om tilbakestilling av passord via e -post."
-
-msgid "require notification ID"
-msgstr "krever varslings-ID"
-
-msgid "required"
 msgstr ""
 
+msgid "Removed %s directories"
+msgstr ""
+
+msgid "Removed %s files"
+msgstr ""
+
+msgid "Removing: %s"
+msgstr ""
+
+msgid "Rename"
+msgstr ""
+
+msgid "Repeat new password"
+msgstr ""
+
+msgid "Repeat password"
+msgstr ""
+
+msgid "Request a password reset via Email."
+msgstr ""
+
+msgid "require notification ID"
+msgstr ""
+
+msgid "required"
+msgstr "påkrevd"
+
 msgid "required length"
-msgstr "påkrevd lengde"
+msgstr ""
 
 msgid "Requires"
-msgstr "Krever"
+msgstr ""
 
 msgid "Reset"
-msgstr "Tilbakestill"
+msgstr ""
 
 msgid "Reset the range values"
-msgstr "Tilbakestill verdiene"
+msgstr ""
 
 msgid "Resource"
-msgstr "Ressurs"
+msgstr ""
 
 msgid "Resource copied"
-msgstr "Ressurs ble kopiert"
+msgstr ""
 
 msgid "Resource deleted"
 msgstr "Ressurs ble slettet"
 
 msgid "Resource Identifier"
-msgstr "Ressurs ID"
+msgstr ""
 
 msgid "Resource Identifier could not be copied to the clipboard"
-msgstr "Ressurs ID kunne ikke kopieres til utklippstavlen"
+msgstr ""
 
 msgid "Resource Identifier has been copied to the clipboard"
-msgstr "Ressurs ID ble kopiert til utklippstavlen"
+msgstr ""
 
 msgid "Resource not imported due to multiple super classes"
-msgstr "Ressursen ble ikke importert på grunn av flere supermapper"
+msgstr ""
 
 msgid "Resource not imported due to multiple types"
-msgstr "Ressursen ble ikke importert på grunn av flere typer"
+msgstr ""
 
 msgid "Resource saved"
-msgstr "Ressurs ble lagret"
+msgstr ""
 
 msgid "resources"
-msgstr "ressurser"
+msgstr ""
 
 msgid "Resources moved"
-msgstr "Ressurs ble flyttet"
+msgstr ""
 
 msgid "Resources successfully indexed"
-msgstr "Ressurser ble indeksert"
+msgstr ""
 
 msgid "Resources was not indexed"
-msgstr "Ressurser ble ikke indeksert"
+msgstr ""
 
 msgid "Responsive mode"
-msgstr "Responsiv modus"
+msgstr ""
 
 msgid "Restore sound"
-msgstr "Gjenopprett lyd"
+msgstr ""
 
 msgid "Return to sign in page"
-msgstr "Gå tilbake til påloggingssiden"
+msgstr ""
 
 msgid "Rich Text Format file"
-msgstr "Rik tekstformat fil"
+msgstr ""
 
 msgid "Right click the tree to manage your lists"
-msgstr "Høyreklikk for å administrere listene dine"
+msgstr ""
 
 msgid "Right parenthesis"
-msgstr "Høyre parentes"
+msgstr ""
 
 msgid "Role saved"
-msgstr "Rolle lagret"
+msgstr ""
 
 msgid "Roles"
 msgstr "Roller"
 
 #, tao-public
 msgid "Roles library"
-msgstr "Rollebibliotek"
+msgstr ""
 
 msgid "round"
-msgstr "rund"
+msgstr ""
 
 msgid "Round to closest whole number"
-msgstr "Rund av til nærmeste hele tall"
+msgstr ""
 
 msgid "Round to lower whole number"
-msgstr "Rund ned til heltall"
+msgstr ""
 
 msgid "Round to upper whole number"
-msgstr "Rund opp til heltall"
+msgstr ""
 
 msgid "Row %s"
-msgstr "Rad %s"
+msgstr ""
 
 msgid "Running task %s"
 msgstr "Kjører oppgave %s"
@@ -2150,123 +2150,123 @@ msgid "Save"
 msgstr "Lagre"
 
 msgid "Saved."
-msgstr "Lagret."
+msgstr ""
 
 msgid "Scientific Calculator"
 msgstr "Vitenskapelig kalkulator"
 
 msgid "Scope"
-msgstr "Omfang"
+msgstr ""
 
 msgid "Search"
-msgstr "Søk"
+msgstr ""
 
 msgid "Search %s"
-msgstr "Søk %s"
+msgstr ""
 
 msgid "Search by properties"
-msgstr "Søk ved hjelp av egenskaper"
+msgstr ""
 
 msgid "Search sub-classes"
-msgstr "Søk i undermapper"
+msgstr ""
 
 msgid "second"
-msgstr "sekund"
+msgstr ""
 
 msgid "seconds"
 msgstr "sekunder"
 
 #, tao-public
 msgid "Security"
-msgstr "Sikkerhet"
+msgstr ""
 
 msgid "Security settings"
-msgstr "Sikkerhetsinnstillinger"
+msgstr ""
 
 msgid "Select"
-msgstr "Velg"
+msgstr "Velge"
 
 msgid "select"
-msgstr "velg"
+msgstr ""
 
 msgid "Select a class"
-msgstr "Velg en mappe"
+msgstr ""
 
 msgid "Select a destination"
-msgstr "Velg en destinasjon"
+msgstr ""
 
 msgid "Select a language"
-msgstr "Velg et språk"
+msgstr ""
 
 msgid "Select loaded %s"
-msgstr "Velg lastet %s"
+msgstr ""
 
 msgid "Select this file"
-msgstr "Velg denne filen"
+msgstr ""
 
 msgid "select..."
-msgstr "velg..."
+msgstr ""
 
 msgid "Selected"
-msgstr "Valgt"
+msgstr ""
 
 msgid "Selected file:"
-msgstr "Valgt fil:"
+msgstr ""
 
 msgid "Selection saved successfully"
-msgstr "Valget ble lagret"
+msgstr ""
 
 msgid "self-locked"
-msgstr "selvlåst"
+msgstr ""
 
 msgid "Set the trigonometric function to work in degrees"
-msgstr "Sett den trigonometriske funksjonen til å fungere i grader"
+msgstr ""
 
 msgid "Set the trigonometric function to work in radians"
-msgstr "Sett den trigonometriske funksjonen til å fungere i radianer"
+msgstr ""
 
 #, tao-public
 msgid "Settings"
-msgstr "Innstillinger"
+msgstr "Instillinger"
 
 msgid "Settings updated"
-msgstr "Innstillinger oppdatert"
+msgstr ""
 
 msgid "Show detailed report"
-msgstr "Vis detaljert rapport"
+msgstr ""
 
 msgid "Show password"
-msgstr "Vis passord"
+msgstr ""
 
 msgid "Sibelius music notation"
-msgstr "Sibelius musikknotasjon"
+msgstr ""
 
 msgid "Sign change"
-msgstr "Tegnendring"
+msgstr ""
 
 msgid "sin"
 msgstr ""
 
 msgid "Sine"
-msgstr "Sinus"
+msgstr ""
 
 msgid "sinh"
 msgstr ""
 
 msgid "Size"
-msgstr "Størrelse"
+msgstr ""
 
 msgid "Some of resources has not be deleted"
 msgstr ""
 
 msgid "Some resources have not been moved: %s"
-msgstr "Noen ressurser ble ikke flyttet: %s"
+msgstr ""
 
 msgid "Something unexpected happened."
 msgstr "En uventet handling oppstod."
 
 msgid "Sources that can embed this platform in an iFrame"
-msgstr "Kilder som kan bygge inn denne plattformen i en iFrame"
+msgstr ""
 
 msgid "Square root"
 msgstr "Kvadratrot"
@@ -2275,7 +2275,7 @@ msgid "Start"
 msgstr ""
 
 msgid "Start of document reached. Continuing from the end."
-msgstr "Starten på dokumentet er nådd. Fortsetter fra slutten."
+msgstr ""
 
 msgid "Start translation"
 msgstr ""
@@ -2284,16 +2284,16 @@ msgid "Status"
 msgstr ""
 
 msgid "Status of"
-msgstr "Status for"
+msgstr ""
 
 msgid "Store"
-msgstr "Lagre"
+msgstr ""
 
 msgid "Store the value a variable"
-msgstr "Lagre verdien som en variabel"
+msgstr ""
 
 msgid "Storing digital video data on a computer game"
-msgstr "Lagring av digitale videodata på et dataspill"
+msgstr ""
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
 msgstr ""
@@ -2305,37 +2305,37 @@ msgid "Submit"
 msgstr "Lever"
 
 msgid "Success"
-msgstr "Vellykket"
+msgstr "Suksess"
 
 msgid "Successfully cloned instance as %s"
-msgstr "Klonet forekomsten som %s"
+msgstr ""
 
 msgid "Successfully deleted %s"
-msgstr "Slettet %s"
+msgstr ""
 
 msgid "Successfully imported \"%s"
-msgstr "Importert \"%s"
+msgstr ""
 
 msgid "Successfully imported %s tripples"
-msgstr "%s trippler ble importert"
+msgstr ""
 
 msgid "Successfully imported class \"%s"
-msgstr "Mappen %s er importert"
+msgstr ""
 
 msgid "Successfully updated %s client translation bundles"
-msgstr "%s klientoversettelsespakker ble oppdatert"
+msgstr ""
 
 msgid "Supported export formats"
-msgstr "Eksportformater som støttes"
+msgstr ""
 
 msgid "SVG image"
-msgstr "SVG-bilde"
+msgstr ""
 
 msgid "Syntax error"
-msgstr "Syntaksfeil"
+msgstr ""
 
 msgid "Tagged image file"
-msgstr "Merket bildefil"
+msgstr ""
 
 msgid "tan"
 msgstr ""
@@ -2347,7 +2347,7 @@ msgid "tanh"
 msgstr ""
 
 msgid "Tao Default Theme"
-msgstr "Tao standardtema"
+msgstr ""
 
 msgid "TAO Home"
 msgstr ""
@@ -2377,163 +2377,163 @@ msgid "Tao WebHooks"
 msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
-msgstr "Oppgave %s er avbrutt, meldingen ble ikke behandlet."
+msgstr ""
 
 msgid "task created"
-msgstr "oppgave ble opprettet"
+msgstr ""
 
 msgid "Task Listing"
-msgstr "Oppgaveoppføring"
+msgstr ""
 
 msgid "Task Name"
-msgstr "Oppgavenavn"
+msgstr ""
 
 msgid "Task not found"
-msgstr "Oppgave ble ikke funnet"
+msgstr ""
 
 msgid "Task not returned any report."
 msgstr "Oppgaven returnerte ingen rapport."
 
 msgid "Term"
-msgstr "Begrep"
+msgstr ""
 
 msgid "TeX file"
-msgstr "TeX-fil"
+msgstr ""
 
 msgid "Text - Long - Box"
-msgstr "Tekst - Lang - Boks"
+msgstr ""
 
 msgid "Text - Long - HTML editor"
-msgstr "Tekst - Lang - HTML-editor"
+msgstr ""
 
 msgid "Text - Short - Field"
-msgstr "Tekst - kort - felt"
+msgstr ""
 
 msgid "Text document file format (Staroffice)"
-msgstr "Tekstdokument filformat (Staroffice)"
+msgstr ""
 
 msgid "Text to translate"
 msgstr ""
 
 msgid "The action will be applied to"
-msgstr "Handlingen vil bli brukt på"
+msgstr ""
 
 msgid "The action will be applied to the following"
-msgstr "Handlingen vil bli brukt på følgende"
+msgstr ""
 
 msgid "The action will not be applied to "
-msgstr "Handlingen vil ikke bli brukt på "
+msgstr ""
 
 msgid "The action will not be applied to the following"
-msgstr "Handlingen vil ikke bli brukt på følgende"
+msgstr ""
 
 msgid "The class has been copied."
 msgstr ""
 
 msgid "The column "
-msgstr "Kolonnen "
+msgstr ""
 
 msgid "The field \"List\" is disabled because the property is part of a dependency"
 msgstr ""
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
-msgstr "Følgende kriterier gjelder ikke for den valgte mappen og er fjernet fra søket"
+msgstr ""
 
 msgid "The format of this field is not valid."
-msgstr "Formatet til dette feltet er ugyldig."
+msgstr ""
 
 msgid "The imported file is not properly UTF-8 encoded."
-msgstr "Den importerte filen er ikke riktig UTF-8-kodet."
+msgstr ""
 
 msgid "The index identifier should not be empty"
-msgstr "Indeksidentifikatoren skal ikke være tom"
+msgstr ""
 
 msgid "The lock has been released"
-msgstr "Låsen er åpnet"
+msgstr ""
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
-msgstr "Egenskapene til kildemappen vil bli erstattet av egenskapene til destinasjonsmappen. Dette kan føre til tap av metadata. Vil du fortsette?"
+msgstr ""
 
 msgid "The selected value(s) must be compatible with the primary property."
 msgstr ""
 
 msgid "The server has sent an empty response"
-msgstr "Serveren har sendt et tomt svar"
+msgstr ""
 
 msgid "The uploaded file is too large (maximum %s bytes)"
-msgstr "Den opplastede filen er for stor (maks. %s byte)"
+msgstr ""
 
 msgid "The value for the property \"%s\" must be unique."
-msgstr "Verdien for egenskapen \"%s\" må være unik."
+msgstr ""
 
 msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
-msgstr "Verdien av dette feltet må være et gyldig datoformat, f.eks. ÅÅÅÅ-MM-DD"
+msgstr ""
 
 msgid "The value of this field must be an integer"
-msgstr "Verdien av dette feltet må være et heltall"
+msgstr ""
 
 msgid "The value of this field must be numeric"
-msgstr "Verdien av dette feltet må være numerisk"
+msgstr ""
 
 msgid "There is nothing to list!"
-msgstr "Det er ingenting å liste!"
+msgstr ""
 
 msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
 msgstr ""
 
 msgid "This %s is currently checked out"
-msgstr "Denne %s er sjekket ut"
+msgstr ""
 
 msgid "This field is required"
-msgstr "Dette feltet er obligatorisk"
+msgstr ""
 
 msgid "This field is too long"
-msgstr "Dette feltet er for langt"
+msgstr ""
 
 msgid "This field is too short"
-msgstr "Dette feltet er for kort"
+msgstr ""
 
 msgid "This is not a valid email address."
-msgstr "Dette er ikke en gyldig e-postadresse."
+msgstr ""
 
 msgid "this is required"
-msgstr "dette er påkrevd"
+msgstr ""
 
 msgid "This Login is already in use"
-msgstr "Denne brukeren er allerede i bruk"
+msgstr ""
 
 msgid "This media cannot be played!"
-msgstr "Denne mediefilen kan ikke avspilles!"
+msgstr ""
 
 msgid "This or one of %s must have a value"
-msgstr "Denne eller en av %s må ha en verdi"
+msgstr ""
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
-msgstr "Denne koblingen for tilbakestilling av passord er ikke lenger gyldig. Det kan ha blitt brukt allerede. Hvis du fortsatt ønsker å tilbakestille passordet ditt, kan du be om en ny lenke"
+msgstr ""
 
 msgid "This resource is locked"
-msgstr "Denne ressursen er låst"
+msgstr ""
 
 msgid "This resource is not ready for translation."
 msgstr ""
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
-msgstr "Denne rollen er fremdeles i bruk av en eller flere brukere. Fjern rollen til disse brukerne først."
+msgstr ""
 
 msgid "This should equal %s"
-msgstr "Dette skal være lik %s"
+msgstr ""
 
 msgid "This should not equal %s"
-msgstr "Dette skal ikke være lik %s"
+msgstr ""
 
 msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
 msgstr ""
 
 msgid "time"
-msgstr "tid"
+msgstr ""
 
 msgid "Time zone"
-msgstr "Tidssone"
+msgstr ""
 
 msgid "Title"
 msgstr "Tittel"
@@ -2545,16 +2545,16 @@ msgid "To change your preferences, click Manage preferences."
 msgstr ""
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
-msgstr "For å tilbakestille passordet ditt, klikk på lenken nedenfor, eller lim det inn i nettleseren din. Du blir deretter bedt om å opprette et nytt passord."
+msgstr ""
 
 msgid "to translate"
-msgstr "å oversette"
+msgstr ""
 
 msgid "Toggle multiple/single selection"
-msgstr "Veksle mellom flervalg/enkeltvalg"
+msgstr ""
 
 msgid "Toggle the date time picker"
-msgstr "Veksle datovelgeren"
+msgstr ""
 
 msgid "Tokenizer"
 msgstr ""
@@ -2563,19 +2563,19 @@ msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
-msgstr "For mange forslag samsvarer med søket ditt. Bare noen få er oppført"
+msgstr ""
 
 msgid "Total duration"
-msgstr "Total varighet"
+msgstr ""
 
 msgid "Total:"
 msgstr ""
 
 msgid "Translate"
-msgstr "Oversett"
+msgstr ""
 
 msgid "Translate to"
-msgstr "Oversett til"
+msgstr ""
 
 msgid "Translated"
 msgstr ""
@@ -2587,13 +2587,13 @@ msgid "Translation"
 msgstr ""
 
 msgid "Translation parameters"
-msgstr "Oversettelsesparametere"
+msgstr ""
 
 msgid "Translation Progress"
 msgstr ""
 
 msgid "Translation saved"
-msgstr "Oversettelsen ble lagret"
+msgstr ""
 
 msgid "Translation Status"
 msgstr ""
@@ -2605,106 +2605,106 @@ msgid "Translations"
 msgstr ""
 
 msgid "Transport Layer Security"
-msgstr "Sikkerhet"
+msgstr ""
 
 msgid "Tree - Multiple node choice"
 msgstr ""
 
 msgid "Tree - Multiple node choice "
-msgstr "Treet - Valg av flere noder "
+msgstr ""
 
 msgid "Tree values"
-msgstr "Tre-verdier"
+msgstr ""
 
 msgid "True"
-msgstr "Sant"
+msgstr ""
 
 msgid "trunc"
-msgstr "trunk"
+msgstr ""
 
 msgid "Type"
-msgstr "Skriv"
+msgstr ""
 
 msgid "Type your search"
-msgstr "Skriv inn søket ditt"
+msgstr ""
 
 msgid "Unable to access your account?"
-msgstr "Får du ikke tilgang til kontoen din?"
+msgstr ""
 
 msgid "Unable to change passwords in demo mode"
-msgstr "Kan ikke endre passord i demomodus"
+msgstr ""
 
 msgid "Unable to copy the resource"
-msgstr "Kan ikke kopiere ressursen"
+msgstr ""
 
 msgid "Unable to delete %s"
-msgstr "Kan ikke slette %s"
+msgstr ""
 
 msgid "Unable to delete the selected resource"
-msgstr "Kan ikke slette den valgte ressursen"
+msgstr "Kan ikke slette den valgte filen"
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
 msgstr ""
 
 msgid "Unable to delete the selected resources"
-msgstr "Kan ikke slette de valgte ressursene"
+msgstr ""
 
 msgid "Unable to move the resources"
-msgstr "Kan ikke flytte ressursene"
+msgstr ""
 
 msgid "Unable to open file %s"
-msgstr "Kan ikke åpne filen %s"
+msgstr ""
 
 msgid "Unable to process your request"
 msgstr "Kan ikke behandle forespørselen din"
 
 msgid "Unable to release the lock"
-msgstr "Kunne ikke åpne låsen"
+msgstr ""
 
 msgid "Unable to remove the property."
-msgstr "Kunne ikke fjerne egenskap."
+msgstr ""
 
 msgid "Unable to save resource."
-msgstr "Kunne ikke lagre ressursen."
+msgstr ""
 
 msgid "unable to search into notification."
-msgstr "kunne ikke søke etter varsling."
+msgstr ""
 
 msgid "Unable to send the password reset request"
-msgstr "Kan ikke sende forespørselen om tilbakestilling av passord"
+msgstr ""
 
 msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
 msgstr ""
 
 msgid "Unable to update the asset service"
-msgstr "Kan ikke oppdatere medietjenesten"
+msgstr ""
 
 msgid "Unable to upload file"
-msgstr "Kan ikke laste opp fil"
+msgstr ""
 
 msgid "Unable to upload file %s : %s"
 msgstr "Kan ikke laste opp filen %s: %s"
 
 msgid "Unary operator +"
-msgstr "Unary operatør +"
+msgstr ""
 
 msgid "Unary operator -"
-msgstr "Unary operatør -"
+msgstr ""
 
 msgid "Unauthorized files have been removed"
 msgstr ""
 
 msgid "Uncheck All"
-msgstr "Fjern merket for alle"
+msgstr ""
 
 msgid "Uncheck all"
-msgstr "Fjern merket for alle"
+msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
-msgstr "Udefinert antall sider for paginering"
+msgstr ""
 
 msgid "Undefined amount of the totalPages for pagination"
-msgstr "Udefinert antall av den totale siden for paginering"
+msgstr ""
 
 msgid "Undefined Instance can not be saved"
 msgstr ""
@@ -2713,162 +2713,162 @@ msgid "Undo"
 msgstr "Angre"
 
 msgid "Unexpected error. Please contact administrator"
-msgstr "Uventet feil. Ta kontakt med administrator"
+msgstr ""
 
 msgid "Uninstall of %s failed"
-msgstr "Avinstallering av %s mislyktes"
+msgstr ""
 
 msgid "Uninstalled %s"
-msgstr "Avinstallert %s"
+msgstr ""
 
 msgid "Unique Identifier"
 msgstr ""
 
 msgid "UNIX Compressed Archive File"
-msgstr "UNIX komprimert arkivfil"
+msgstr ""
 
 msgid "unknown"
-msgstr "ukjent"
+msgstr ""
 
 msgid "Unknown Error"
-msgstr "Ukjent feil"
+msgstr ""
 
 msgid "unkown task id %s"
-msgstr "ukjent oppgave-id %s"
+msgstr ""
 
 msgid "Update"
-msgstr "Oppdater"
+msgstr ""
 
 msgid "Update ID : %s"
-msgstr "Oppdaterings-ID: %s"
+msgstr ""
 
 msgid "Updating search index"
-msgstr "Oppdaterer søkeindeks"
+msgstr ""
 
 msgid "Upload"
-msgstr "Laste opp"
+msgstr ""
 
 msgid "Upload into:"
-msgstr "Last opp til:"
+msgstr ""
 
 msgid "URI Path"
-msgstr "URI-sti"
+msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
-msgstr "Bruk: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr ""
 
 msgid "USAGE: please provide a valid extension id as second parameter"
-msgstr "BRUK: Oppgi en gyldig utvidelses-ID som andre parameter"
+msgstr ""
 
 msgid "USAGE: please provide a valid service name as first parameter"
-msgstr "BRUK: Oppgi et gyldig tjenestenavn som første parameter"
+msgstr ""
 
 msgid "USAGE: please provide the service name as first parameter"
-msgstr "BRUK: Oppgi tjenestenavnet som første parameter"
+msgstr ""
 
 msgid "Use a term"
-msgstr "Bruk et begrep"
+msgstr ""
 
 msgid "Use a variable"
-msgstr "Bruk en variabel"
+msgstr ""
 
 msgid "Use default value"
-msgstr "Bruk standardverdi"
+msgstr ""
 
 msgid "User"
-msgstr "Brukder"
+msgstr "Bruker"
 
 msgid "User %s can not be locked"
-msgstr "Bruker %s kan ikke låses"
+msgstr ""
 
 msgid "User %s can not be unlocked"
-msgstr "Bruker %s kan ikke låses opp"
+msgstr ""
 
 msgid "User %s successfully locked"
-msgstr "Bruker %s er låst"
+msgstr ""
 
 msgid "User %s successfully unlocked"
-msgstr "Brukeren %s ble låst opp"
+msgstr ""
 
 msgid "User added"
-msgstr "Bruker ble lagt til"
+msgstr ""
 
 msgid "User deleted successfully"
-msgstr "Bruker ble slettet"
+msgstr ""
 
 msgid "User deletion not permitted on a demo instance"
-msgstr "Sletting av bruker er ikke tillatt i et demomiljø"
+msgstr ""
 
 msgid "User not found"
-msgstr "Bruker ble ikke funnet"
+msgstr ""
 
 msgid "User saved"
-msgstr "Bruker ble lagret"
+msgstr ""
 
 #, tao-public
 msgid "User Settings"
-msgstr "Brukerinstillinger"
+msgstr ""
 
 #, tao-public
 msgid "Users"
 msgstr "Brukere"
 
 msgid "Validation for field '%s' has failed. Language does not exist in the system"
-msgstr "Valideringen for feltet '%s' mislyktes. Valgt språk finnes ikke i systemet"
+msgstr ""
 
 msgid "Validation for field '%s' has failed. List of values expected"
-msgstr "Valideringen for feltet '%s' mislyktes. Liste over verdier som forventet"
+msgstr ""
 
 msgid "Validation for field '%s' has failed. Should not be empty"
-msgstr "Valideringen for feltet '%s' mislyktes. Bør ikke være tom"
+msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
-msgstr "Valideringen for feltet '%s' mislyktes. Gyldig rolle forventet. Gitt: %s"
+msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected"
-msgstr "Valideringen for feltet '%s' mislyktes. Gyldig URI forventet"
+msgstr ""
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
-msgstr "Valideringen for feltet '%s' mislyktes. Gyldig URI forventet. Gitt: %s"
+msgstr ""
 
 msgid "Value ellipsis"
-msgstr "Verdiellipse"
+msgstr ""
 
 msgid "Value of E"
-msgstr "Verdien av E"
+msgstr ""
 
 msgid "Value of PI"
-msgstr "Verdien av PI"
+msgstr ""
 
 msgid "Variable"
-msgstr "Variabel"
+msgstr ""
 
 msgid "Variable %s"
-msgstr "Variabel %s"
+msgstr ""
 
 msgid "Version"
-msgstr "Versjon"
+msgstr ""
 
 msgid "View"
-msgstr "Visning"
+msgstr ""
 
 msgid "View report"
-msgstr "Se rapport"
+msgstr ""
 
 msgid "View resources as a list"
-msgstr "Se ressurser som en liste"
+msgstr ""
 
 msgid "View resources as a tree"
-msgstr "Se ressurser som et tre"
+msgstr ""
 
 msgid "Wait is over"
-msgstr "Ventetiden er over"
+msgstr ""
 
 msgid "Waiting"
-msgstr "Venter"
+msgstr ""
 
 msgid "WAV audio"
-msgstr "WAV lyd"
+msgstr ""
 
 msgid "WebHook auth configuration can not be loaded"
 msgstr ""
@@ -2878,25 +2878,25 @@ msgid "WebHooks"
 msgstr ""
 
 msgid "WebM audio"
-msgstr "WebM lyd"
+msgstr ""
 
 msgid "WebM video"
 msgstr ""
 
 msgid "Whole number part"
-msgstr "Hele talldelen"
+msgstr ""
 
 msgid "Width"
 msgstr "Bredde"
 
 msgid "Windows help file"
-msgstr "Windows hjelpefil"
+msgstr ""
 
 msgid "Windows Media audio"
-msgstr "Windows Media lyd"
+msgstr ""
 
 msgid "Windows Media file (metafile)"
-msgstr "Windows Media fil (metafil)"
+msgstr ""
 
 msgid "Windows Media video"
 msgstr ""
@@ -2905,34 +2905,34 @@ msgid "with"
 msgstr ""
 
 msgid "Wrap image left"
-msgstr "Pakk bildet til venstre"
+msgstr ""
 
 msgid "Wrap image right"
-msgstr "Pakk bildet til høyre"
+msgstr ""
 
 msgid "Write Document"
-msgstr "Skriv dokument"
+msgstr ""
 
 msgid "Wrong or missing parameter extension, module or action"
-msgstr "Feil eller manglende parameterutvidelse, modul eller handling"
+msgstr ""
 
 msgid "Wrong parameter shownExtension"
-msgstr "Viser feil parameter utvidelse"
+msgstr ""
 
 msgid "XML file"
-msgstr "XML fil"
+msgstr ""
 
 msgid "Yes"
 msgstr "Ja"
 
 msgid "You are encountering a prolonged connectivity loss."
-msgstr "Du opplever et langvarig tap av tilkobling."
+msgstr ""
 
 msgid "You are not allowed to write in the class %s"
-msgstr "Du har ikke skrivetilgang i mappen %s"
+msgstr ""
 
 msgid "You are not authorised to remove this lock"
-msgstr "Du er ikke atilgang til å fjerne denne låsen"
+msgstr ""
 
 msgid "You can choose which types of cookies you want to allow to improve your experience."
 msgstr ""
@@ -2941,47 +2941,47 @@ msgid "You can read more about this in our"
 msgstr ""
 
 msgid "You cannot delete the root node"
-msgstr "Du kan ikke slette rotnoden"
+msgstr ""
 
 msgid "You cannot move the selected resources in the class %s"
-msgstr "Du kan ikke flytte de valgte ressursene i mappe %s"
+msgstr ""
 
 msgid "You currently have no access to the platform"
-msgstr "Du har for øyeblikket ingen tilgang"
+msgstr ""
 
 msgid "You do not have the required rights to edit this resource."
-msgstr "Du har ikke nok rettigheter til å redigere denne ressursen."
+msgstr ""
 
 msgid "You have been locked due to too many failed login attempts. "
-msgstr "Kontoen din har blitt sperret på grunn av for mange mislykkede påloggingsforsøk "
+msgstr ""
 
 msgid "You have been logged out. Please login again"
-msgstr "Du har blitt logget ut. Logg inn igjen"
+msgstr ""
 
 msgid "You must activate JavaScript in your browser to run this application."
-msgstr "Du må aktivere JavaScript i nettleseren din for å kjøre denne applikasjonen."
+msgstr ""
 
 msgid "Your account has been locked, please contact your administrator."
-msgstr "Kontoen din er sperret. Kontakt din administrator."
+msgstr ""
 
 msgid "Your browser does not meet the technical requirements to run TAO."
-msgstr "Nettleseren din oppfyller ikke de tekniske kravene for å kjøre TAO."
+msgstr ""
 
 msgid "Your browser does not support copying to the clipboard"
-msgstr "Nettleseren din støtter ikke kopiering til utklippstavlen"
+msgstr ""
 
 msgid "Your browser doesn’t support the audio player."
-msgstr "Nettleseren din støtter ikke lydavspilleren."
+msgstr ""
 
 msgid "Your browser doesn’t support the video player."
-msgstr "Nettleseren din støtter ikke videoavspilleren."
+msgstr ""
 
 msgid "Your mail"
-msgstr "Din E-post"
+msgstr ""
 
 msgid "Your TAO Password"
-msgstr "Ditt TAO passord"
+msgstr ""
 
 msgid "ZIP archive"
-msgstr "ZIK arkiv"
+msgstr ""
 
