@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb_NO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: nb\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Norwegian Bokmal\n"
 
 msgid ""
@@ -269,7 +269,7 @@ msgid "All data will be removed in %s"
 msgstr "Alle data vil bli fjernet om %s"
 
 msgid "All fields are required"
-msgstr "Alle felt må fylles ut"
+msgstr ""
 
 msgid "all images"
 msgstr "alle bilder"
@@ -308,7 +308,7 @@ msgid "Analytics cookies"
 msgstr ""
 
 msgid "and"
-msgstr ""
+msgstr "og"
 
 msgid "Ans"
 msgstr "Svar"
@@ -397,7 +397,7 @@ msgid "Back"
 msgstr "Tilbake"
 
 msgid "Back to listing"
-msgstr "Tilbake til oppføring"
+msgstr "Tilbake til oversikt"
 
 msgid "Back to Portal"
 msgstr ""
@@ -466,7 +466,7 @@ msgid "cancel"
 msgstr "avbryt"
 
 msgid "cancel the action"
-msgstr "avbryt handlingen"
+msgstr ""
 
 msgid "Cancelled"
 msgstr "Avbrutt"
@@ -478,7 +478,7 @@ msgid "Cannot divide by zero"
 msgstr "Kan ikke dele med null"
 
 msgid "Cascading Style Sheets"
-msgstr ""
+msgstr "CSS fil"
 
 msgid "Case sensitive"
 msgstr "Skille mellom store og små bokstaver"
@@ -487,7 +487,7 @@ msgid "ceil"
 msgstr "tak"
 
 msgid "Center"
-msgstr ""
+msgstr "Senter"
 
 #, tao-public
 msgid "Change password"
@@ -509,7 +509,7 @@ msgid "Check-in"
 msgstr "Innsjekking"
 
 msgid "choices:"
-msgstr ""
+msgstr "alternativer:"
 
 msgid "Choose a type for your property first"
 msgstr ""
@@ -596,7 +596,7 @@ msgid "comment..."
 msgstr "kommentar..."
 
 msgid "Commit"
-msgstr "Begå"
+msgstr "Utføre"
 
 msgid "Completed"
 msgstr "Fullført"
@@ -728,7 +728,7 @@ msgid "Default search"
 msgstr "Standard søk"
 
 msgid "default:"
-msgstr ""
+msgstr "standard:"
 
 msgid "Define the default values"
 msgstr "Definer standardverdiene"
@@ -841,7 +841,7 @@ msgid "Drop the files to upload"
 msgstr "Slipp filene for å laste opp"
 
 msgid "Edit"
-msgstr "Rediger"
+msgstr "Redigere"
 
 #, tao-public
 msgid "Edit a user"
@@ -887,7 +887,7 @@ msgid "Error adding search index for %s with message %s"
 msgstr "Feil ved tilføyelse av søkeindeks for %s med melding %s"
 
 msgid "Error during file import"
-msgstr "Feil under filimport"
+msgstr "Filimport feilet"
 
 msgid "Error in result"
 msgstr "Feil i resultat"
@@ -914,7 +914,7 @@ msgid "Execute"
 msgstr "Utfør"
 
 msgid "Executing task %s failed"
-msgstr "Utførelsen av oppgave %s mislyktes"
+msgstr "Utførelse av oppgave %s mislyktes"
 
 msgid "exp"
 msgstr "eksp"
@@ -1132,7 +1132,7 @@ msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 msgid "Import "
 msgstr ""
@@ -1175,10 +1175,10 @@ msgid "impossible to update task status"
 msgstr "umulig å oppdatere oppgavestatus"
 
 msgid "In Progress"
-msgstr "I Arbeid"
+msgstr "I arbeid"
 
 msgid "In progress"
-msgstr "I arbeid"
+msgstr "Under arbeid"
 
 msgid "Include all"
 msgstr ""
@@ -1194,13 +1194,13 @@ msgstr "Inkludert (AND)"
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "Indeks"
 
 msgid "Index has been deleted for %s"
 msgstr "Indeksen er slettet for %s"
 
 msgid "Infinity"
-msgstr "Uendelig"
+msgstr "Evighet"
 
 msgid "Inherit the permission of the parent folder"
 msgstr ""
@@ -1299,7 +1299,7 @@ msgid "invalid regular expression"
 msgstr "ugyldig uttrykk"
 
 msgid "Invalid value"
-msgstr ""
+msgstr "Ugyldig verdi"
 
 msgid "Invalid values:"
 msgstr ""
@@ -1475,7 +1475,7 @@ msgid "Media resize along with their container, e.g. 50% means half of the conta
 msgstr "Media endrer størrelsen sammen med boksen, f.eks. 50% betyr halvparten av boksstørrelsen, ikke halvparten av mediestørrelsen."
 
 msgid "Message"
-msgstr "Beskjed"
+msgstr "Melding"
 
 msgid "Messages"
 msgstr "Beskjeder"
@@ -1490,7 +1490,7 @@ msgid "Microsoft Excel binary format"
 msgstr "Microsoft Excel binært format"
 
 msgid "Microsoft Office Document Imaging"
-msgstr ""
+msgstr "Microsoft Office bildebehandling"
 
 msgid "Microsoft Powerpoint"
 msgstr ""
@@ -1566,13 +1566,13 @@ msgid "Moving this element will replace the properties of the previous class by 
 msgstr "Hvis du flytter dette elementet, vil egenskapene til den forrige mappen erstattes med egenskapene til valgt mappe:"
 
 msgid "MP4 video"
-msgstr ""
+msgstr "MP4 fil"
 
 msgid "MPEG audio"
 msgstr "MPEG lyd"
 
 msgid "MPEG video"
-msgstr ""
+msgstr "MPEG fil"
 
 msgid "MPEG-4 audio file"
 msgstr "MPEG-4 lydfil"
@@ -1634,7 +1634,7 @@ msgid "Next page"
 msgstr "Neste side"
 
 msgid "No"
-msgstr "Ingen"
+msgstr "Nei"
 
 msgid "No action specified"
 msgstr "Ingen handling angitt"
@@ -1667,7 +1667,7 @@ msgid "Node duplication has failed"
 msgstr "Nodeduplisering mislyktes"
 
 msgid "none"
-msgstr ""
+msgstr "ingen"
 
 msgid "Not enough arguments following: %s"
 msgstr ""
@@ -1719,7 +1719,7 @@ msgid "Ogg Vorbis audio"
 msgstr "Ogg Vorbis lyd"
 
 msgid "Ogg Vorbis video"
-msgstr ""
+msgstr "Ogg Vorbis videofil"
 
 msgid "Ok"
 msgstr ""
@@ -1764,7 +1764,7 @@ msgid "or"
 msgstr "eller"
 
 msgid "Original"
-msgstr ""
+msgstr "Opprinnelig"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
 msgstr ""
@@ -1818,7 +1818,7 @@ msgid "Plain text"
 msgstr "Ren tekst"
 
 msgid "Play"
-msgstr "Spill av"
+msgstr "Spille"
 
 msgid "Please confirm deletion"
 msgstr "Bekreft sletting"
@@ -1860,7 +1860,7 @@ msgid "Please download the video and view offline."
 msgstr "Last ned videoen og se den i frakoblet modus."
 
 msgid "Please give a message to your commit"
-msgstr ""
+msgstr "Gi en melding til"
 
 msgid "Please provide a reason"
 msgstr "Oppgi en grunn"
@@ -1920,7 +1920,7 @@ msgid "Previous page"
 msgstr "Forrige side"
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Personvern"
 
 msgid "Proceed"
 msgstr "Fortsett"
@@ -1942,7 +1942,7 @@ msgid "Queued"
 msgstr "I kø"
 
 msgid "Quicktime video"
-msgstr ""
+msgstr "Quicktime fil"
 
 msgid "Rad"
 msgstr ""
@@ -2014,7 +2014,7 @@ msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
-msgstr "Fjern melding"
+msgstr "Fjern medling"
 
 msgid "Remove the translated item"
 msgstr ""
@@ -2047,7 +2047,7 @@ msgid "require notification ID"
 msgstr "krever varslings-ID"
 
 msgid "required"
-msgstr ""
+msgstr "påkrevd"
 
 msgid "required length"
 msgstr "påkrevd lengde"
@@ -2184,7 +2184,7 @@ msgid "Security settings"
 msgstr "Sikkerhetsinnstillinger"
 
 msgid "Select"
-msgstr "Velg"
+msgstr "Velge"
 
 msgid "select"
 msgstr "velg"
@@ -2227,7 +2227,7 @@ msgstr "Sett den trigonometriske funksjonen til å fungere i radianer"
 
 #, tao-public
 msgid "Settings"
-msgstr "Innstillinger"
+msgstr "Instillinger"
 
 msgid "Settings updated"
 msgstr "Innstillinger oppdatert"
@@ -2305,7 +2305,7 @@ msgid "Submit"
 msgstr "Lever"
 
 msgid "Success"
-msgstr "Vellykket"
+msgstr "Suksess"
 
 msgid "Successfully cloned instance as %s"
 msgstr "Klonet forekomsten som %s"
@@ -2608,7 +2608,7 @@ msgid "Transport Layer Security"
 msgstr "Sikkerhet"
 
 msgid "Tree - Multiple node choice"
-msgstr ""
+msgstr "Treet - Valg av flere noder"
 
 msgid "Tree - Multiple node choice "
 msgstr "Treet - Valg av flere noder "
@@ -2641,7 +2641,7 @@ msgid "Unable to delete %s"
 msgstr "Kan ikke slette %s"
 
 msgid "Unable to delete the selected resource"
-msgstr "Kan ikke slette den valgte ressursen"
+msgstr "Kan ikke slette den valgte filen"
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
 msgstr ""
@@ -2776,7 +2776,7 @@ msgid "Use default value"
 msgstr "Bruk standardverdi"
 
 msgid "User"
-msgstr "Brukder"
+msgstr "Bruker"
 
 msgid "User %s can not be locked"
 msgstr "Bruker %s kan ikke låses"
@@ -2881,7 +2881,7 @@ msgid "WebM audio"
 msgstr "WebM lyd"
 
 msgid "WebM video"
-msgstr ""
+msgstr "WebM fil"
 
 msgid "Whole number part"
 msgstr "Hele talldelen"
@@ -2899,7 +2899,7 @@ msgid "Windows Media file (metafile)"
 msgstr "Windows Media fil (metafil)"
 
 msgid "Windows Media video"
-msgstr ""
+msgstr "Windows Media videofil"
 
 msgid "with"
 msgstr ""

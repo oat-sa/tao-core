@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: gl\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: gl\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Galician\n"
 
 msgid ""
@@ -36,7 +36,7 @@ msgid " is "
 msgstr ""
 
 msgid " next"
-msgstr ""
+msgstr " seguinte"
 
 msgid " Remove criteria"
 msgstr ""
@@ -54,19 +54,19 @@ msgid "%d day"
 msgstr ""
 
 msgid "%d days"
-msgstr ""
+msgstr "%d días"
 
 msgid "%h hour"
 msgstr ""
 
 msgid "%h hours"
-msgstr ""
+msgstr "%hhoras"
 
 msgid "%i minute"
 msgstr ""
 
 msgid "%i minutes"
-msgstr ""
+msgstr "%i minutos"
 
 msgid "%m month"
 msgstr ""
@@ -132,7 +132,7 @@ msgid "... reloading page."
 msgstr ""
 
 msgid "7-zip archive"
-msgstr ""
+msgstr "Arquivo 7-zip"
 
 msgid "<del>Filters</del>"
 msgstr ""
@@ -165,10 +165,10 @@ msgid "A message with further instructions has been sent to your email address: 
 msgstr ""
 
 msgid "AAC audio"
-msgstr ""
+msgstr "Audio ACC"
 
 msgid "About"
-msgstr ""
+msgstr "Acerca de"
 
 msgid "abs"
 msgstr ""
@@ -177,7 +177,7 @@ msgid "Absolute value"
 msgstr ""
 
 msgid "AC"
-msgstr ""
+msgstr "AC"
 
 msgid "Accept all"
 msgstr ""
@@ -251,7 +251,7 @@ msgid "Adding/updating search index for updated resource"
 msgstr ""
 
 msgid "Adobe Flash file"
-msgstr ""
+msgstr "Arquivo Adobe Flash"
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -260,10 +260,10 @@ msgid "aliases:"
 msgstr ""
 
 msgid "all"
-msgstr ""
+msgstr "todo"
 
 msgid "all audios"
-msgstr ""
+msgstr "tódolos sons"
 
 msgid "All data will be removed in %s"
 msgstr ""
@@ -272,13 +272,13 @@ msgid "All fields are required"
 msgstr ""
 
 msgid "all images"
-msgstr ""
+msgstr "tódalas imaxes"
 
 msgid "All rights reserved."
 msgstr ""
 
 msgid "all videos"
-msgstr ""
+msgstr "tódolos vídeos"
 
 msgid "Allow for all domains"
 msgstr ""
@@ -360,7 +360,7 @@ msgid "array"
 msgstr ""
 
 msgid "Assign"
-msgstr ""
+msgstr "Asignación"
 
 msgid "Assign User to role"
 msgstr ""
@@ -370,7 +370,7 @@ msgid "Assign Users"
 msgstr ""
 
 msgid "Audio Video Interleave"
-msgstr ""
+msgstr "Audio e vídeo entrelazado"
 
 msgid "Auth type"
 msgstr ""
@@ -424,7 +424,7 @@ msgid "Binary operator modulo"
 msgstr ""
 
 msgid "Bitmap image"
-msgstr ""
+msgstr "Imaxe de mapa de bits"
 
 msgid "boolean"
 msgstr ""
@@ -442,16 +442,16 @@ msgid "C"
 msgstr ""
 
 msgid "C file"
-msgstr ""
+msgstr "Fichero C"
 
 msgid "C++ file"
 msgstr ""
 
 msgid "C++ file (.cpp)"
-msgstr ""
+msgstr "Ficheiro C++ (.cpp)"
 
 msgid "Calc speadsheet (Staroffice)"
-msgstr ""
+msgstr "Folla de cálculo (Staroffice)"
 
 msgid "Calculator"
 msgstr ""
@@ -478,7 +478,7 @@ msgid "Cannot divide by zero"
 msgstr ""
 
 msgid "Cascading Style Sheets"
-msgstr ""
+msgstr "Follas de estilo en cadea"
 
 msgid "Case sensitive"
 msgstr ""
@@ -491,7 +491,7 @@ msgstr ""
 
 #, tao-public
 msgid "Change password"
-msgstr ""
+msgstr "Cambiar a contrasinal"
 
 msgid "Change the password"
 msgstr ""
@@ -584,7 +584,7 @@ msgid "Collecting of abandoned actions in the action queue ..."
 msgstr ""
 
 msgid "Column"
-msgstr ""
+msgstr "Columna"
 
 msgid "command"
 msgstr ""
@@ -605,13 +605,13 @@ msgid "Completed - Error"
 msgstr ""
 
 msgid "Compressed tar file"
-msgstr ""
+msgstr "Ficheiro tar comprimido"
 
 msgid "Compute the expression"
 msgstr ""
 
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 msgid "Connect to the TAO platform"
 msgstr ""
@@ -632,13 +632,13 @@ msgid "Copy to"
 msgstr ""
 
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Copiar ao portapapeis"
 
 msgid "cos"
-msgstr ""
+msgstr "cos"
 
 msgid "cosh"
-msgstr ""
+msgstr "cosh"
 
 msgid "Cosine"
 msgstr ""
@@ -647,7 +647,7 @@ msgid "count"
 msgstr ""
 
 msgid "Create"
-msgstr ""
+msgstr "Crear"
 
 msgid "Create instance"
 msgstr ""
@@ -671,7 +671,7 @@ msgid "CSV"
 msgstr ""
 
 msgid "CSV file"
-msgstr ""
+msgstr "Arquivo CSV"
 
 msgid "CSV Options"
 msgstr ""
@@ -710,7 +710,7 @@ msgid "Data source URI"
 msgstr ""
 
 msgid "Database file"
-msgstr ""
+msgstr "Arquivo de base de datos"
 
 msgid "Date"
 msgstr ""
@@ -728,7 +728,7 @@ msgid "Default search"
 msgstr ""
 
 msgid "default:"
-msgstr ""
+msgstr "por defecto:"
 
 msgid "Define the default values"
 msgstr ""
@@ -860,13 +860,13 @@ msgid "Element deleted."
 msgstr ""
 
 msgid "Email"
-msgstr ""
+msgstr "Correo electrónico"
 
 msgid "Empty resources cannot be translated."
 msgstr ""
 
 msgid "enabled"
-msgstr ""
+msgstr "habilitado"
 
 msgid "Enabled %s"
 msgstr ""
@@ -875,10 +875,10 @@ msgid "End of document reached. Continuing from the beginning."
 msgstr ""
 
 msgid "Enhanced metafile"
-msgstr ""
+msgstr "Metarquivo mellorado"
 
 msgid "Enter"
-msgstr ""
+msgstr "Entra."
 
 msgid "Error"
 msgstr ""
@@ -917,7 +917,7 @@ msgid "Executing task %s failed"
 msgstr ""
 
 msgid "exp"
-msgstr ""
+msgstr "exp"
 
 msgid "Exponent"
 msgstr ""
@@ -936,7 +936,7 @@ msgid "Export CSV"
 msgstr ""
 
 msgid "Export failed."
-msgstr ""
+msgstr "A exportación fracasou."
 
 msgid "Export Metadata as RDF/XML file"
 msgstr ""
@@ -1006,7 +1006,7 @@ msgid "Filtering mode"
 msgstr ""
 
 msgid "First Name"
-msgstr ""
+msgstr "Primeiro nome"
 
 msgid "First page"
 msgstr ""
@@ -1018,7 +1018,7 @@ msgid "Fit to width"
 msgstr ""
 
 msgid "Flash video"
-msgstr ""
+msgstr "Vídeo Flash"
 
 msgid "floor"
 msgstr ""
@@ -1039,7 +1039,7 @@ msgid "Forgot your password?"
 msgstr ""
 
 msgid "Form"
-msgstr ""
+msgstr "Forma"
 
 msgid "Form data not saved."
 msgstr ""
@@ -1057,7 +1057,7 @@ msgid "Generis Form"
 msgstr ""
 
 msgid "Geogebra data file"
-msgstr ""
+msgstr "Arquivo de datos de Geogebra"
 
 msgid "Get History"
 msgstr ""
@@ -1066,7 +1066,7 @@ msgid "Get the history list"
 msgstr ""
 
 msgid "GIF image"
-msgstr ""
+msgstr "Imaxe GIF"
 
 msgid "Go Back"
 msgstr ""
@@ -1075,10 +1075,10 @@ msgid "go back to home page"
 msgstr ""
 
 msgid "GZip Compressed Archive"
-msgstr ""
+msgstr "Arquivo comprimido GZip"
 
 msgid "Header file with extensionsLabels"
-msgstr ""
+msgstr "Arquivo de cabeceira con etiquetas de extensión"
 
 msgid "Height"
 msgstr ""
@@ -1090,7 +1090,7 @@ msgid "Hide detailed report"
 msgstr ""
 
 msgid "Hide password"
-msgstr ""
+msgstr "Ocultar a contrasinal"
 
 msgid "Highlight all"
 msgstr ""
@@ -1117,7 +1117,7 @@ msgid "Hyperbolic tangent"
 msgstr ""
 
 msgid "Hypertext markup language"
-msgstr ""
+msgstr "HTML"
 
 msgid "I understand that this action is permanent."
 msgstr ""
@@ -1299,7 +1299,7 @@ msgid "invalid regular expression"
 msgstr ""
 
 msgid "Invalid value"
-msgstr ""
+msgstr "Valor inválido"
 
 msgid "Invalid values:"
 msgstr ""
@@ -1311,10 +1311,10 @@ msgid "items per page"
 msgstr ""
 
 msgid "Javascript code"
-msgstr ""
+msgstr "Código Javascript"
 
 msgid "JPEG image"
-msgstr ""
+msgstr "Imaxe JPEG"
 
 msgid "Keep the original permissions"
 msgstr ""
@@ -1332,7 +1332,7 @@ msgid "Last attempt before your account is locked."
 msgstr ""
 
 msgid "Last Name"
-msgstr ""
+msgstr "Apellido"
 
 msgid "Last page"
 msgstr ""
@@ -1374,7 +1374,7 @@ msgid "List values"
 msgstr ""
 
 msgid "Load more"
-msgstr ""
+msgstr "Cargar máis"
 
 msgid "Loaded"
 msgstr ""
@@ -1416,7 +1416,7 @@ msgid "Logout"
 msgstr ""
 
 msgid "M4A audio"
-msgstr ""
+msgstr "Audio M4A"
 
 msgid "Main Menu"
 msgstr ""
@@ -1484,37 +1484,37 @@ msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
 msgid "Microsoft Excel"
-msgstr ""
+msgstr "Microsoft Excel"
 
 msgid "Microsoft Excel binary format"
-msgstr ""
+msgstr "Microsoft Excel formato binario"
 
 msgid "Microsoft Office Document Imaging"
-msgstr ""
+msgstr "Imaxe de documento Microsoft Office"
 
 msgid "Microsoft Powerpoint"
-msgstr ""
+msgstr "Microsoft Powerpoint"
 
 msgid "Microsoft Powerpoint slideshow"
-msgstr ""
+msgstr "Presentación de diapositivas Microsoft Powerpoint"
 
 msgid "Microsoft Project file"
-msgstr ""
+msgstr "Arquivo de Microsoft Project"
 
 msgid "Microsoft Visio file"
-msgstr ""
+msgstr "Arquivo Microsoft Visio"
 
 msgid "Microsoft Word"
-msgstr ""
+msgstr "Microsoft Word"
 
 msgid "Microsoft Word template"
-msgstr ""
+msgstr "Modelo de Microsoft Word"
 
 msgid "Microsoft Works file"
-msgstr ""
+msgstr "Arquivo Microsoft Works"
 
 msgid "Microsoft XPS file"
-msgstr ""
+msgstr "Arquivo Microsoft XPS"
 
 msgid "MIME encapsulation of aggregate HTML documents"
 msgstr ""
@@ -1535,7 +1535,7 @@ msgid "Missing Parameters"
 msgstr ""
 
 msgid "modulo"
-msgstr ""
+msgstr "módulo"
 
 msgid "More"
 msgstr ""
@@ -1566,16 +1566,16 @@ msgid "Moving this element will replace the properties of the previous class by 
 msgstr ""
 
 msgid "MP4 video"
-msgstr ""
+msgstr "vídeo MP4"
 
 msgid "MPEG audio"
-msgstr ""
+msgstr "Audio MPEG"
 
 msgid "MPEG video"
-msgstr ""
+msgstr "vídeo MPEG"
 
 msgid "MPEG-4 audio file"
-msgstr ""
+msgstr "Arquivo de audio MPEG-4"
 
 msgid "Multiple values delimiter"
 msgstr ""
@@ -1606,7 +1606,7 @@ msgstr ""
 
 #, tao-public
 msgid "My settings"
-msgstr ""
+msgstr "Os meus axustes"
 
 msgid "My settings (%s)"
 msgstr ""
@@ -1618,7 +1618,7 @@ msgid "Natural logarithm"
 msgstr ""
 
 msgid "New password"
-msgstr ""
+msgstr "Novo contrasinal"
 
 #, tao-public
 msgid "New role"
@@ -1679,7 +1679,7 @@ msgid "Not Ready for Translation"
 msgstr ""
 
 msgid "Not started"
-msgstr ""
+msgstr "Non iniciado"
 
 msgid "NotEmpty"
 msgstr ""
@@ -1695,7 +1695,7 @@ msgstr ""
 
 #, tao-public
 msgid "Notifications"
-msgstr ""
+msgstr "Notificacións"
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
@@ -1713,13 +1713,13 @@ msgid "of"
 msgstr ""
 
 msgid "Off"
-msgstr ""
+msgstr "Desactivado"
 
 msgid "Ogg Vorbis audio"
 msgstr ""
 
 msgid "Ogg Vorbis video"
-msgstr ""
+msgstr "Vídeo Ogg Vorbis"
 
 msgid "Ok"
 msgstr ""
@@ -1731,7 +1731,7 @@ msgid "Old Password"
 msgstr ""
 
 msgid "On"
-msgstr ""
+msgstr "Activado"
 
 msgid "Only allow for my own domain (%s)"
 msgstr ""
@@ -1743,19 +1743,19 @@ msgid "Open the item for editing"
 msgstr ""
 
 msgid "OpenDocument Database"
-msgstr ""
+msgstr "Base de datos OpenDocument"
 
 msgid "OpenDocument Presentation"
-msgstr ""
+msgstr "Presentación Open Document"
 
 msgid "OpenDocument spreadsheet document"
-msgstr ""
+msgstr "Folla de cálculo OpenDocument"
 
 msgid "OpenDocument text document"
-msgstr ""
+msgstr "Documento de texto OpenDocument"
 
 msgid "OpenDocument Text Template"
-msgstr ""
+msgstr "Modelo de documento de texto OpenDocument"
 
 msgid "Operated By "
 msgstr ""
@@ -1764,7 +1764,7 @@ msgid "or"
 msgstr ""
 
 msgid "Original"
-msgstr ""
+msgstr "Orixinal"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
 msgstr ""
@@ -1779,10 +1779,10 @@ msgid "Pascal file"
 msgstr ""
 
 msgid "Pascal file (.pas)"
-msgstr ""
+msgstr "Ficheiro Pascal (.pas)"
 
 msgid "Password"
-msgstr ""
+msgstr "Contrasinal"
 
 msgid "Password changed"
 msgstr ""
@@ -1803,10 +1803,10 @@ msgid "Pause"
 msgstr ""
 
 msgid "PDF file"
-msgstr ""
+msgstr "Arquivo PDF"
 
 msgid "Pending"
-msgstr ""
+msgstr "En espera"
 
 msgid "Permission denied to write in the selected class"
 msgstr ""
@@ -1845,10 +1845,10 @@ msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Por favor, póñase en contacto co seu administrador."
 
 msgid "Please contact your system administrator."
-msgstr ""
+msgstr "Por favor, póñase en contacto co seu administrador de sistemas."
 
 msgid "Please define your search in the search panel."
 msgstr ""
@@ -1869,7 +1869,7 @@ msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
 msgid "Please select a language."
-msgstr ""
+msgstr "Selecciona un idioma."
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr ""
@@ -1887,7 +1887,7 @@ msgid "Please wait while ..."
 msgstr ""
 
 msgid "PNG image"
-msgstr ""
+msgstr "Imaxe PNG"
 
 msgid "Position"
 msgstr ""
@@ -1920,7 +1920,7 @@ msgid "Previous page"
 msgstr ""
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Política de privacidade"
 
 msgid "Proceed"
 msgstr ""
@@ -1942,7 +1942,7 @@ msgid "Queued"
 msgstr ""
 
 msgid "Quicktime video"
-msgstr ""
+msgstr "vídeo Quicktime"
 
 msgid "Rad"
 msgstr ""
@@ -1960,7 +1960,7 @@ msgid "Range field is required"
 msgstr ""
 
 msgid "RAR archive"
-msgstr ""
+msgstr "Arquivo RAR"
 
 msgid "RDF"
 msgstr ""
@@ -1969,7 +1969,7 @@ msgid "Ready for Translation"
 msgstr ""
 
 msgid "RealMedia file"
-msgstr ""
+msgstr "Arquivo RealMedia"
 
 msgid "Refresh"
 msgstr ""
@@ -2110,7 +2110,7 @@ msgid "Return to sign in page"
 msgstr ""
 
 msgid "Rich Text Format file"
-msgstr ""
+msgstr "Arquivo de texto enriquecido"
 
 msgid "Right click the tree to manage your lists"
 msgstr ""
@@ -2159,7 +2159,7 @@ msgid "Scope"
 msgstr ""
 
 msgid "Search"
-msgstr ""
+msgstr "Busca"
 
 msgid "Search %s"
 msgstr ""
@@ -2187,7 +2187,7 @@ msgid "Select"
 msgstr ""
 
 msgid "select"
-msgstr ""
+msgstr "seleccionar"
 
 msgid "Select a class"
 msgstr ""
@@ -2236,7 +2236,7 @@ msgid "Show detailed report"
 msgstr ""
 
 msgid "Show password"
-msgstr ""
+msgstr "Mostrar contrasinal"
 
 msgid "Sibelius music notation"
 msgstr ""
@@ -2245,16 +2245,16 @@ msgid "Sign change"
 msgstr ""
 
 msgid "sin"
-msgstr ""
+msgstr "sin"
 
 msgid "Sine"
 msgstr ""
 
 msgid "sinh"
-msgstr ""
+msgstr "sinh"
 
 msgid "Size"
-msgstr ""
+msgstr "Tamaño"
 
 msgid "Some of resources has not be deleted"
 msgstr ""
@@ -2293,7 +2293,7 @@ msgid "Store the value a variable"
 msgstr ""
 
 msgid "Storing digital video data on a computer game"
-msgstr ""
+msgstr "Almacenando datos de vídeo dixitais nun xogo de ordenador"
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
 msgstr ""
@@ -2329,22 +2329,22 @@ msgid "Supported export formats"
 msgstr ""
 
 msgid "SVG image"
-msgstr ""
+msgstr "Imaxe SVG"
 
 msgid "Syntax error"
-msgstr ""
+msgstr "Error de sintaxe"
 
 msgid "Tagged image file"
-msgstr ""
+msgstr "Arquivo de imaxe etiquetado"
 
 msgid "tan"
-msgstr ""
+msgstr "tan"
 
 msgid "Tangent"
 msgstr ""
 
 msgid "tanh"
-msgstr ""
+msgstr "tanh"
 
 msgid "Tao Default Theme"
 msgstr ""
@@ -2398,7 +2398,7 @@ msgid "Term"
 msgstr ""
 
 msgid "TeX file"
-msgstr ""
+msgstr "Arquivo TeX"
 
 msgid "Text - Long - Box"
 msgstr ""
@@ -2485,7 +2485,7 @@ msgid "This %s is currently checked out"
 msgstr ""
 
 msgid "This field is required"
-msgstr ""
+msgstr "Este campo é obrigatorio"
 
 msgid "This field is too long"
 msgstr ""
@@ -2602,7 +2602,7 @@ msgid "Translation Type"
 msgstr ""
 
 msgid "Translations"
-msgstr ""
+msgstr "Traducións"
 
 msgid "Transport Layer Security"
 msgstr ""
@@ -2725,7 +2725,7 @@ msgid "Unique Identifier"
 msgstr ""
 
 msgid "UNIX Compressed Archive File"
-msgstr ""
+msgstr "Arquivo UNIX comprimido"
 
 msgid "unknown"
 msgstr ""
@@ -2737,7 +2737,7 @@ msgid "unkown task id %s"
 msgstr ""
 
 msgid "Update"
-msgstr ""
+msgstr "Actualización"
 
 msgid "Update ID : %s"
 msgstr ""
@@ -2807,7 +2807,7 @@ msgstr ""
 
 #, tao-public
 msgid "User Settings"
-msgstr ""
+msgstr "Configuracións do usuario"
 
 #, tao-public
 msgid "Users"
@@ -2853,7 +2853,7 @@ msgid "View"
 msgstr ""
 
 msgid "View report"
-msgstr ""
+msgstr "Ver informe"
 
 msgid "View resources as a list"
 msgstr ""
@@ -2868,7 +2868,7 @@ msgid "Waiting"
 msgstr ""
 
 msgid "WAV audio"
-msgstr ""
+msgstr "Arquivo de audio WAV"
 
 msgid "WebHook auth configuration can not be loaded"
 msgstr ""
@@ -2878,10 +2878,10 @@ msgid "WebHooks"
 msgstr ""
 
 msgid "WebM audio"
-msgstr ""
+msgstr "Audio WebM"
 
 msgid "WebM video"
-msgstr ""
+msgstr "Vídeo WebM"
 
 msgid "Whole number part"
 msgstr ""
@@ -2890,16 +2890,16 @@ msgid "Width"
 msgstr ""
 
 msgid "Windows help file"
-msgstr ""
+msgstr "Arquivo de axuda de Windows"
 
 msgid "Windows Media audio"
-msgstr ""
+msgstr "Arquivo de audio de Windows "
 
 msgid "Windows Media file (metafile)"
 msgstr ""
 
 msgid "Windows Media video"
-msgstr ""
+msgstr "vídeo de Windows Media"
 
 msgid "with"
 msgstr ""
@@ -2920,7 +2920,7 @@ msgid "Wrong parameter shownExtension"
 msgstr ""
 
 msgid "XML file"
-msgstr ""
+msgstr "Arquivo XML"
 
 msgid "Yes"
 msgstr ""
@@ -2983,5 +2983,5 @@ msgid "Your TAO Password"
 msgstr ""
 
 msgid "ZIP archive"
-msgstr ""
+msgstr "Arquivo ZIP"
 

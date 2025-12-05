@@ -1,0 +1,59 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 14:28\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: ro\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ro\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/services.rdf.po\n"
+"X-Crowdin-File-ID: 1199\n"
+"Language-Team: Romanian\n"
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Services Definition"
+msgstr ""
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Services Definition"
+msgstr ""
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Support Services"
+msgstr ""
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Support Services"
+msgstr ""
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Web Service"
+msgstr ""
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Web Service"
+msgstr ""
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Delivery Services"
+msgstr ""
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Delivery Services"
+msgstr ""
+

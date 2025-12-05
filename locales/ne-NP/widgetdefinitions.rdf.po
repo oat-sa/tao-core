@@ -1,0 +1,139 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 14:31\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: ne\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ne-NP\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/widgetdefinitions.rdf.po\n"
+"X-Crowdin-File-ID: 1209\n"
+"Language-Team: Nepali\n"
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Search Input"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "One may select 0 to N values from a defined list"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Search Dropdown"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "One may select 1 value from a defined list"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Text Label"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Content is read only"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Hidden Box"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Content is hidden, but visibility can be toggled"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Calendar"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Dynamic Calendar for easy date selecting"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Authoring"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Open a tool to edit special content"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "VersionedFile"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Manage your versioned file"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "File"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Upload and download file"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Readonly"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Display a constant and uneditable value"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Literal Readonly"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Display a literal constant and uneditable value"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "A Tree Box"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "A particular tree box"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Json Object"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Display a Json Object stored as a literal value as a collection of key/value pairs."
+msgstr ""
+
