@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: de\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: German\n"
 
 msgid ""
@@ -87,7 +87,7 @@ msgid "%s classes"
 msgstr "%s Klassen"
 
 msgid "%s completed"
-msgstr ""
+msgstr "%s abgeschlossen"
 
 msgid "%s Confirmation"
 msgstr "%s Bestätigung"
@@ -214,7 +214,7 @@ msgid "Add / Edit lists"
 msgstr "Listen hinzufügen/bearbeiten"
 
 msgid "Add a CSV file"
-msgstr "CSV-Datei hinzufügen"
+msgstr "eine CSV Datei hinzufügen"
 
 #, tao-public
 msgid "Add a user"
@@ -308,7 +308,7 @@ msgid "Analytics cookies"
 msgstr ""
 
 msgid "and"
-msgstr ""
+msgstr "und"
 
 msgid "Ans"
 msgstr "ANS"
@@ -383,7 +383,7 @@ msgid "Author Item"
 msgstr "Element bearbeiten"
 
 msgid "Authoring"
-msgstr "Bearbeiten"
+msgstr "Verfassen"
 
 msgid "auto unlocked in %s"
 msgstr "automatisch entsperrt in %s"
@@ -437,7 +437,7 @@ msgid "Browse resources"
 msgstr ""
 
 msgid "Browse..."
-msgstr "Durchsuchen…"
+msgstr "Durchsuchen..."
 
 msgid "C"
 msgstr "C"
@@ -455,7 +455,7 @@ msgid "Calc speadsheet (Staroffice)"
 msgstr "Calc-Arbeitsblatt (StarOffice)"
 
 msgid "Calculator"
-msgstr "Taschenrechner"
+msgstr ""
 
 msgid "Calendar"
 msgstr "Kalender"
@@ -467,7 +467,7 @@ msgid "cancel"
 msgstr "abbrechen"
 
 msgid "cancel the action"
-msgstr "Aktion abbrechen"
+msgstr "die Aktion abbrechen"
 
 msgid "Cancelled"
 msgstr "Vorgang abgebrochen"
@@ -488,7 +488,7 @@ msgid "ceil"
 msgstr "Aufrunden"
 
 msgid "Center"
-msgstr ""
+msgstr "Zentrieren"
 
 #, tao-public
 msgid "Change password"
@@ -573,7 +573,7 @@ msgid "Close"
 msgstr "Schließen"
 
 msgid "Close dialog"
-msgstr "Dialogfenster schließen"
+msgstr "Dialog schließen"
 
 msgid "Close message"
 msgstr "Nachricht schließen"
@@ -594,10 +594,10 @@ msgid "Commands:"
 msgstr "Anweisung:"
 
 msgid "comment..."
-msgstr "kommentieren..."
+msgstr "kommentiere ..."
 
 msgid "Commit"
-msgstr "Abschicken"
+msgstr "Übernahme/Commit"
 
 msgid "Completed"
 msgstr "Abgeschlossen"
@@ -828,7 +828,7 @@ msgid "Dot"
 msgstr "Punkt"
 
 msgid "Download"
-msgstr "Herunterladen"
+msgstr "Download"
 
 msgid "Download this file"
 msgstr "Diese Datei herunterladen"
@@ -843,7 +843,7 @@ msgid "Drop the files to upload"
 msgstr "Dateien zum Hochladen ablegen"
 
 msgid "Edit"
-msgstr "Bearbeiten"
+msgstr "Edit"
 
 #, tao-public
 msgid "Edit a user"
@@ -883,13 +883,13 @@ msgid "Enter"
 msgstr "Eingabe"
 
 msgid "Error"
-msgstr "Fehler"
+msgstr "Fehlermeldung"
 
 msgid "Error adding search index for %s with message %s"
 msgstr "Fehler beim Hinzufügen des Suchindex für %s mit der Meldung %s"
 
 msgid "Error during file import"
-msgstr "Fehler beim Datei-Import"
+msgstr "Fehler beim Dateiimport"
 
 msgid "Error in result"
 msgstr "Fehler im Ergebnis"
@@ -926,7 +926,7 @@ msgstr "Exponent"
 
 #, tao-public
 msgid "Export"
-msgstr "Exportieren"
+msgstr "Export"
 
 msgid "Export "
 msgstr "Exportieren "
@@ -935,7 +935,7 @@ msgid "Export \"%s\" in %s"
 msgstr "Exportiere \"%s\" in %s"
 
 msgid "Export CSV"
-msgstr "Exportiere CSV"
+msgstr "CSV exportieren"
 
 msgid "Export failed."
 msgstr "Export fehlgeschlagen."
@@ -1098,7 +1098,7 @@ msgid "Highlight all"
 msgstr "Markieren Sie alles"
 
 msgid "hours"
-msgstr "Stunden"
+msgstr ""
 
 msgid "Hyperbolic arc cosine"
 msgstr "Hyperbolischer Bogenkosinus"
@@ -1137,7 +1137,7 @@ msgid "Import"
 msgstr "Importieren"
 
 msgid "Import "
-msgstr "Importieren "
+msgstr "Import "
 
 msgid "Import a %s into \"%s"
 msgstr "Importieren Sie ein %s in \"%s"
@@ -1196,13 +1196,13 @@ msgstr "Inklusiv (UND)"
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "Index"
 
 msgid "Index has been deleted for %s"
 msgstr "Der Index wurde für %s gelöscht"
 
 msgid "Infinity"
-msgstr "Infinit"
+msgstr "Unendlich"
 
 msgid "Inherit the permission of the parent folder"
 msgstr ""
@@ -1322,7 +1322,7 @@ msgid "Keep the original permissions"
 msgstr ""
 
 msgid "Label"
-msgstr "Bezeichnung"
+msgstr "Beschriftung"
 
 msgid "Label Path"
 msgstr " Beschriftungspfad"
@@ -1385,7 +1385,7 @@ msgid "Loaded at Startup"
 msgstr "beim Starten geladen"
 
 msgid "Loading"
-msgstr "Laden"
+msgstr "Ladevorgang"
 
 msgid "Loading status"
 msgstr "Ladestatus"
@@ -1397,13 +1397,13 @@ msgid "locked by %s"
 msgstr "gesperrt von %s"
 
 msgid "Log in"
-msgstr "anmelden"
+msgstr "Anmelden"
 
 msgid "Log Out"
 msgstr "abmelden"
 
 msgid "Login"
-msgstr "Anmeldung"
+msgstr "Anmelden"
 
 msgid "Login available"
 msgstr "Anmeldung verfügbar"
@@ -1415,7 +1415,7 @@ msgid "Login is empty."
 msgstr "Das Anmeldefeld ist leer."
 
 msgid "Logout"
-msgstr "Ausloggen"
+msgstr "Abmelden"
 
 msgid "M4A audio"
 msgstr "M4A-Audio"
@@ -1543,7 +1543,7 @@ msgid "More"
 msgstr "Mehr"
 
 msgid "Move"
-msgstr "Bewegen"
+msgstr "Verschieben"
 
 msgid "Move Left"
 msgstr "Nach links bewegen"
@@ -1627,7 +1627,7 @@ msgid "New role"
 msgstr "Neue Rolle"
 
 msgid "Next"
-msgstr "Weiter"
+msgstr "Nächste"
 
 msgid "Next match"
 msgstr "Nächster Treffer"
@@ -1651,7 +1651,7 @@ msgid "no file not found in this location"
 msgstr "Datei wurde unter diesem Pfad nicht gefunden"
 
 msgid "No file selected"
-msgstr "keine Datei ausgewählt"
+msgstr "Keine Datei ausgewählt"
 
 msgid "No files"
 msgstr "keine Dateien"
@@ -1669,7 +1669,7 @@ msgid "Node duplication has failed"
 msgstr "Die Knotenduplizierung ist fehlgeschlagen"
 
 msgid "none"
-msgstr ""
+msgstr "keine"
 
 msgid "Not enough arguments following: %s"
 msgstr "Nicht genügend Argumente folgen: %s"
@@ -1862,10 +1862,10 @@ msgid "Please download the video and view offline."
 msgstr "Bitte laden Sie das Video herunter und schauen Sie es sich offline an."
 
 msgid "Please give a message to your commit"
-msgstr "bitte machen Sie eine Anmerkung zu ihren abgeschickten Daten"
+msgstr "Bitte geben Sie Ihrem Commit eine Nachricht"
 
 msgid "Please provide a reason"
-msgstr "bitte Grund angeben"
+msgstr "Bitte geben Sie einen Grund an"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Bitte melden Sie Fehler, Ideen, Kommentare oder Feedback im TAO-Forum."
@@ -1913,7 +1913,7 @@ msgid "Preview"
 msgstr "Vorschau"
 
 msgid "Previous"
-msgstr "Zurück"
+msgstr "Vorherige"
 
 msgid "Previous match"
 msgstr "Vorherige Übereinstimmung"
@@ -1922,10 +1922,10 @@ msgid "Previous page"
 msgstr "Vorherige Seite"
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Datenschutzrichtlinie"
 
 msgid "Proceed"
-msgstr "Fortfahren"
+msgstr "Weiter"
 
 #, tao-public
 msgid "Properties"
@@ -1974,7 +1974,7 @@ msgid "RealMedia file"
 msgstr "RealMedia-Datei"
 
 msgid "Refresh"
-msgstr "Aktualisierung"
+msgstr "Aktualisieren"
 
 msgid "Reject all"
 msgstr ""
@@ -2155,7 +2155,7 @@ msgid "Saved."
 msgstr "Gespeichert."
 
 msgid "Scientific Calculator"
-msgstr "Wissenschaftlicher Taschenrechner"
+msgstr ""
 
 msgid "Scope"
 msgstr "Rahmen"
@@ -2235,7 +2235,7 @@ msgid "Settings updated"
 msgstr "Einstellungen aktualisiert"
 
 msgid "Show detailed report"
-msgstr "Zeige Detailbericht"
+msgstr "Detaillierten Bericht anzeigen"
 
 msgid "Show password"
 msgstr "Passwort anzeigen"
@@ -2274,7 +2274,7 @@ msgid "Square root"
 msgstr "Quadratwurzel"
 
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 msgid "Start of document reached. Continuing from the end."
 msgstr "Anfang des Dokuments erreicht. Fortsetzung vom Ende."
@@ -2301,7 +2301,7 @@ msgid "Strictly Necessary Cookie should be enabled at all times so that we can s
 msgstr ""
 
 msgid "string"
-msgstr "String"
+msgstr "Zeichenfolge"
 
 msgid "Submit"
 msgstr "Absenden"
@@ -2541,7 +2541,7 @@ msgid "Title"
 msgstr "Titel"
 
 msgid "to"
-msgstr "nach"
+msgstr "zu"
 
 msgid "To change your preferences, click Manage preferences."
 msgstr ""
@@ -2610,7 +2610,7 @@ msgid "Transport Layer Security"
 msgstr "Transportschichtsicherheit"
 
 msgid "Tree - Multiple node choice"
-msgstr ""
+msgstr "Baum - Mehrfache Knotenauswahl"
 
 msgid "Tree - Multiple node choice "
 msgstr "Baum - Mehrfache Knotenauswahl "
@@ -2658,7 +2658,7 @@ msgid "Unable to open file %s"
 msgstr "Datei kann nicht geöffnet werden%s"
 
 msgid "Unable to process your request"
-msgstr "Ihre Anfrage konnte nicht bearbeitet werden"
+msgstr "Ihre Anfrage konnte nicht verarbeitet werden"
 
 msgid "Unable to release the lock"
 msgstr "Die Sperre kann nicht aufgehoben werden"
@@ -2778,7 +2778,7 @@ msgid "Use default value"
 msgstr "Standardwerte verwenden"
 
 msgid "User"
-msgstr "Benutzer"
+msgstr "Nutzer"
 
 msgid "User %s can not be locked"
 msgstr "Benutzer %s kann nicht gesperrt werden"
@@ -2813,7 +2813,7 @@ msgstr "Benutzereinstellungen"
 
 #, tao-public
 msgid "Users"
-msgstr "Benutzer"
+msgstr "Nutzer"
 
 msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr "Die Validierung für das Feld  '%s'  ist fehlgeschlagen. Die Sprache ist im System nicht vorhanden"

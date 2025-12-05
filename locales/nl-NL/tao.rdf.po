@@ -1,44 +1,21 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.11\n"
-"PO-Revision-Date: 2022-11-24T12:55:53\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 15:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl-NL\n"
+"Language: nl\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: nl-NL\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-# http://www.w3.org/2000/01/rdf-schema#label
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Label"
-msgstr ""
-
-# http://www.w3.org/2000/01/rdf-schema#label
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "A human-readable name for the subject."
-msgstr ""
-
-# http://www.tao.lu/Ontologies/generis.rdf#alias
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Alias"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/generis.rdf#alias
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Alias to be used when publishing a remote delivery"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Is language dependent?"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "is_language_dependent"
-msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: nl\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/tao.rdf.po\n"
+"X-Crowdin-File-ID: 1201\n"
+"Language-Team: Dutch\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -113,16 +90,6 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list type"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListDependencyItemUriPath
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Remote list dependency source uri path"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListDependencyItemUriPath
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Remote list dependency source uri path"
 msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
@@ -248,7 +215,7 @@ msgstr "The beheerders rol klasse"
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Back Office"
-msgstr "Back Office"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -270,7 +237,7 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Service"
 msgstr "Dienst"
 
-# dienst isdirect translation. maybe change if i see the context
+# http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Service Role"
 msgstr "De dienst rol"
@@ -355,12 +322,12 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Operational Administrator role"
 msgstr "De Operationeel beheerder rol"
 
-# At least if this is the one taking an exam and not a system tester
+# http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Test Taker"
 msgstr "Test kandidaat"
 
-# at least if this is exam candaidate and not a system tester
+# http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Test Taker Role"
 msgstr "De kandidaat rol"
@@ -454,4 +421,34 @@ msgstr "TAO object"
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Any resource related to etesting"
 msgstr "Elke bron gerelateerd aan e-testing"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Worker"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The Worker Role Class"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Workflow Participant"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The Workflow Participant Role"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "WfUser"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Workflow User: sub class to group the workflow user, not deletable"
+msgstr ""
 

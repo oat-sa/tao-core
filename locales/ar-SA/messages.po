@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: ar\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Arabic\n"
 
 msgid ""
@@ -87,7 +87,7 @@ msgid "%s classes"
 msgstr "%s / أقسام"
 
 msgid "%s completed"
-msgstr ""
+msgstr "%s مكتمل"
 
 msgid "%s Confirmation"
 msgstr "تأكيد %s"
@@ -192,7 +192,7 @@ msgid "Account status"
 msgstr "وضعية الحساب"
 
 msgid "Action"
-msgstr "إجراء"
+msgstr "فِعْل"
 
 msgid "Action %s - removed %s positions"
 msgstr "الإجراء %s - إزالة %s من المواضع"
@@ -208,13 +208,13 @@ msgstr "إجراءات"
 
 #, tao-public
 msgid "Add"
-msgstr "إضافة"
+msgstr "أضف"
 
 msgid "Add / Edit lists"
 msgstr "إضافة / تحرير اللاوائح"
 
 msgid "Add a CSV file"
-msgstr "أضف ملف CSV "
+msgstr "أضف مِلَفّ CSV"
 
 #, tao-public
 msgid "Add a user"
@@ -275,7 +275,7 @@ msgid "all images"
 msgstr "كل الصور"
 
 msgid "All rights reserved."
-msgstr "جميع الحقوق محفوظة"
+msgstr "جميع الحقوق محفوظة."
 
 msgid "all videos"
 msgstr "كل مقاطع الفيديو"
@@ -296,7 +296,7 @@ msgid "An error occurred during user deletion"
 msgstr "حدث خطأ أثناء حذف المستخدم"
 
 msgid "An error occurred!"
-msgstr "حدث خطأ"
+msgstr "حدث خطأ!"
 
 msgid "An exception occured while running \"%s"
 msgstr "حدث استثناء أثناء تشغيل \"%s"
@@ -308,7 +308,7 @@ msgid "Analytics cookies"
 msgstr ""
 
 msgid "and"
-msgstr ""
+msgstr "و"
 
 msgid "Ans"
 msgstr "Ans"
@@ -377,19 +377,19 @@ msgid "Auth type"
 msgstr ""
 
 msgid "Author"
-msgstr "المؤلف"
+msgstr "كاتب"
 
 msgid "Author Item"
 msgstr "مؤلف البند/التمرين"
 
 msgid "Authoring"
-msgstr "محرر"
+msgstr "التحرير"
 
 msgid "auto unlocked in %s"
 msgstr "تم فتح القفل تلقائيًا في %s"
 
 msgid "Available"
-msgstr "متوفرة"
+msgstr "متوفر"
 
 msgid "Available Extensions"
 msgstr "الإضافات المتوفرة"
@@ -398,7 +398,7 @@ msgid "Back"
 msgstr "عودة"
 
 msgid "Back to listing"
-msgstr "العودة إلى القائمة"
+msgstr "الرجوع إلى القائمة"
 
 msgid "Back to Portal"
 msgstr ""
@@ -437,7 +437,7 @@ msgid "Browse resources"
 msgstr ""
 
 msgid "Browse..."
-msgstr "تصفح  "
+msgstr "تصفح..."
 
 msgid "C"
 msgstr "C"
@@ -455,16 +455,16 @@ msgid "Calc speadsheet (Staroffice)"
 msgstr "Calc speadsheet (Staroffice)"
 
 msgid "Calculator"
-msgstr "آلة حاسبة "
+msgstr "آلة حاسبة"
 
 msgid "Calendar"
 msgstr "تقويم  "
 
 msgid "Cancel"
-msgstr "الغاء"
+msgstr "إلغاء"
 
 msgid "cancel"
-msgstr "إلغاء "
+msgstr "إلغاء"
 
 msgid "cancel the action"
 msgstr "إلغاء الإجراء"
@@ -488,7 +488,7 @@ msgid "ceil"
 msgstr "سقف"
 
 msgid "Center"
-msgstr ""
+msgstr "مركز"
 
 #, tao-public
 msgid "Change password"
@@ -570,10 +570,10 @@ msgid "Click to start"
 msgstr ""
 
 msgid "Close"
-msgstr "أغلق "
+msgstr "إغلاق"
 
 msgid "Close dialog"
-msgstr "أنهي الحوار"
+msgstr "أغلق مربع الحوار"
 
 msgid "Close message"
 msgstr "إنهاء الرسالة "
@@ -594,13 +594,13 @@ msgid "Commands:"
 msgstr "أوامر "
 
 msgid "comment..."
-msgstr "تعليق"
+msgstr "تعلي..."
 
 msgid "Commit"
-msgstr "ارتكب"
+msgstr "التزم"
 
 msgid "Completed"
-msgstr "منجز"
+msgstr "مكتمل"
 
 msgid "Completed - Error"
 msgstr "مكتمل - خطأ"
@@ -618,7 +618,7 @@ msgid "Connect to the TAO platform"
 msgstr "قم بالاتصال بمنصة TAO "
 
 msgid "Continue"
-msgstr "واصل "
+msgstr "تابع"
 
 msgid "Cookie Policy"
 msgstr ""
@@ -828,7 +828,7 @@ msgid "Dot"
 msgstr "نقطة"
 
 msgid "Download"
-msgstr "تحميل"
+msgstr "تنزيل"
 
 msgid "Download this file"
 msgstr "تحميل هذا الملف"
@@ -843,7 +843,7 @@ msgid "Drop the files to upload"
 msgstr "ضع الملفات للتحميل"
 
 msgid "Edit"
-msgstr "تحرير"
+msgstr "الإصدار"
 
 #, tao-public
 msgid "Edit a user"
@@ -853,7 +853,7 @@ msgid "Edit class %s"
 msgstr "تحرير قسم %s"
 
 msgid "Edit Instance"
-msgstr "تحرير المثيل "
+msgstr "تحرير المثيل"
 
 msgid "Element"
 msgstr "العنصر"
@@ -916,13 +916,13 @@ msgid "Execute"
 msgstr "نفذ "
 
 msgid "Executing task %s failed"
-msgstr "فشل تنفيذ المهمة %s "
+msgstr "فشل تنفيذ المهمة %s"
 
 msgid "exp"
 msgstr "أس"
 
 msgid "Exponent"
-msgstr "الأس  "
+msgstr "متسارع"
 
 #, tao-public
 msgid "Export"
@@ -935,7 +935,7 @@ msgid "Export \"%s\" in %s"
 msgstr "تصدير \"%s\" في  %s"
 
 msgid "Export CSV"
-msgstr "تصدير CSV "
+msgstr "تصدير CSV"
 
 msgid "Export failed."
 msgstr "فشل الإرسال"
@@ -957,7 +957,7 @@ msgid "Factorial"
 msgstr "عاملي"
 
 msgid "Failed"
-msgstr "باءت بالفشل"
+msgstr "فشل"
 
 msgid "Failed to copy class."
 msgstr ""
@@ -999,7 +999,7 @@ msgid "files selected"
 msgstr "تم تحديد الملفات"
 
 msgid "Filter"
-msgstr "فرز"
+msgstr "مصفي"
 
 msgid "Filter by value"
 msgstr "تصفية حسب القيمة "
@@ -1098,7 +1098,7 @@ msgid "Highlight all"
 msgstr "تسليط الضوء على الكل "
 
 msgid "hours"
-msgstr "ساعات "
+msgstr "ساعات"
 
 msgid "Hyperbolic arc cosine"
 msgstr "جيب التمام القوس الزائدي"
@@ -1125,7 +1125,7 @@ msgid "I understand that this action is permanent."
 msgstr "أنا أفهم أن هذا الإجراء دائم. "
 
 msgid "Identifier"
-msgstr "تعريف "
+msgstr "معرف"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "إذا كنت لا ترغب في إعادة تحديد كلمة المرور الخاصة بك ، فتجاهل هذا البريد الإلكتروني وستظل كلمة المرور كما هي."
@@ -1134,7 +1134,7 @@ msgid "Implications failed:"
 msgstr "فشل التأثيرات:"
 
 msgid "Import"
-msgstr "استيراد"
+msgstr "استورد"
 
 msgid "Import "
 msgstr "استيراد "
@@ -1196,13 +1196,13 @@ msgstr "دامج (و)"
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "فهرس"
 
 msgid "Index has been deleted for %s"
 msgstr "تم حذف الفهرس لـ %s"
 
 msgid "Infinity"
-msgstr "اللانهاية"
+msgstr "لانهاية"
 
 msgid "Inherit the permission of the parent folder"
 msgstr ""
@@ -1235,7 +1235,7 @@ msgid "Installing extension %s..."
 msgstr "يتم الآن تثبيت الملحق %s ... "
 
 msgid "Instance saved"
-msgstr "تم حفظ المثال "
+msgstr "تم حفظ المثال"
 
 msgid "Interface language"
 msgstr "لغة الواجهة"
@@ -1322,13 +1322,13 @@ msgid "Keep the original permissions"
 msgstr ""
 
 msgid "Label"
-msgstr "تسمية"
+msgstr "اسم"
 
 msgid "Label Path"
 msgstr "مسار التسمية "
 
 msgid "Language"
-msgstr "اللغة"
+msgstr "لغة"
 
 msgid "Last attempt before your account is locked."
 msgstr "آخر محاولة قبل إغلاق حسابك."
@@ -1415,7 +1415,7 @@ msgid "Login is empty."
 msgstr "تسجيل الدخول فارغ."
 
 msgid "Logout"
-msgstr "تسجيل خروج"
+msgstr "تسجيل الخروج"
 
 msgid "M4A audio"
 msgstr "صوت M4A"
@@ -1543,7 +1543,7 @@ msgid "More"
 msgstr "أكثر"
 
 msgid "Move"
-msgstr "يتحرك/ تحرك"
+msgstr "حرك"
 
 msgid "Move Left"
 msgstr "تحرك يسارا "
@@ -1669,7 +1669,7 @@ msgid "Node duplication has failed"
 msgstr "فشل نسخ العقدة"
 
 msgid "none"
-msgstr ""
+msgstr "لا أحد"
 
 msgid "Not enough arguments following: %s"
 msgstr " المبررات التالية غير كافية: %s"
@@ -1712,7 +1712,7 @@ msgid "Number of elements"
 msgstr "عدد العناصر"
 
 msgid "of"
-msgstr "من"
+msgstr "ل"
 
 msgid "Off"
 msgstr "إيقاف"
@@ -1862,7 +1862,7 @@ msgid "Please download the video and view offline."
 msgstr "يرجى تنزيل الفيديو ومشاهدته في وضع عدم الاتصال بالربط."
 
 msgid "Please give a message to your commit"
-msgstr "يرجى إعطاء رسالة لالتزامك"
+msgstr "من فضلك ابعث رسالة بالتزامك"
 
 msgid "Please provide a reason"
 msgstr "يرجى تقديم سبب"
@@ -1910,7 +1910,7 @@ msgid "Preparing installation..."
 msgstr "يتم الآن تحضير التثبيت ..."
 
 msgid "Preview"
-msgstr "معاينة أولى"
+msgstr "معاينة"
 
 msgid "Previous"
 msgstr "سابق"
@@ -1929,16 +1929,16 @@ msgstr "تقدم"
 
 #, tao-public
 msgid "Properties"
-msgstr "الخصائص"
+msgstr "خصائص"
 
 msgid "Provided URL is not valid"
 msgstr "عنوان URL المقدم غير مضبوط"
 
 msgid "Publish"
-msgstr "ينشر"
+msgstr "نشر"
 
 msgid "Publish the test"
-msgstr "انشر الرائز"
+msgstr "انشر الاختبار"
 
 msgid "Queued"
 msgstr "في قائمة الانتظار"
@@ -2016,7 +2016,7 @@ msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
-msgstr "إزالة الرسالة"
+msgstr "قم بإزالة هذه الرسالة"
 
 msgid "Remove the translated item"
 msgstr ""
@@ -2146,7 +2146,7 @@ msgid "Row %s"
 msgstr "صف %s"
 
 msgid "Running task %s"
-msgstr "مهمة قيد التشغيل %s"
+msgstr "تشغيل المهمة %s"
 
 msgid "Save"
 msgstr "حفظ"
@@ -2155,7 +2155,7 @@ msgid "Saved."
 msgstr "تم الحفظ"
 
 msgid "Scientific Calculator"
-msgstr " حاسبة علمية"
+msgstr "الحاسبة العلمية"
 
 msgid "Scope"
 msgstr "نطاق"
@@ -2186,7 +2186,7 @@ msgid "Security settings"
 msgstr "اعدادات الامان"
 
 msgid "Select"
-msgstr "حدد"
+msgstr "اختر"
 
 msgid "select"
 msgstr "اختر"
@@ -2229,7 +2229,7 @@ msgstr "اضبط الدالة المثلثية لتعمل بوحدات الرا�
 
 #, tao-public
 msgid "Settings"
-msgstr "الإعدادات"
+msgstr "إعدادات/تطبيقات"
 
 msgid "Settings updated"
 msgstr "تم تحديث الإعدادات"
@@ -2274,7 +2274,7 @@ msgid "Square root"
 msgstr "الجذر التربيعي"
 
 msgid "Start"
-msgstr ""
+msgstr "بداية"
 
 msgid "Start of document reached. Continuing from the end."
 msgstr "بداية المستند المتاح. استمرار من النهاية."
@@ -2283,7 +2283,7 @@ msgid "Start translation"
 msgstr ""
 
 msgid "Status"
-msgstr "الحالة"
+msgstr "حالة"
 
 msgid "Status of"
 msgstr "حالة "
@@ -2301,7 +2301,7 @@ msgid "Strictly Necessary Cookie should be enabled at all times so that we can s
 msgstr ""
 
 msgid "string"
-msgstr "خيط"
+msgstr "سلسلة"
 
 msgid "Submit"
 msgstr "إرسال"
@@ -2394,7 +2394,7 @@ msgid "Task not found"
 msgstr "لم يتم العثور على المهمة"
 
 msgid "Task not returned any report."
-msgstr "لم يتم إرجاع المهمة لأي تقرير."
+msgstr "لم تُرجع المهمة أي تقرير."
 
 msgid "Term"
 msgstr "مصطلح"
@@ -2541,7 +2541,7 @@ msgid "Title"
 msgstr "عنوان"
 
 msgid "to"
-msgstr "ل"
+msgstr "إلى"
 
 msgid "To change your preferences, click Manage preferences."
 msgstr ""
@@ -2643,7 +2643,7 @@ msgid "Unable to delete %s"
 msgstr "غير قادر على حذف %s"
 
 msgid "Unable to delete the selected resource"
-msgstr "تعذر حذف المورد المحدد"
+msgstr "غير قادر على حذف المورد المختار"
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
 msgstr ""
@@ -2685,7 +2685,7 @@ msgid "Unable to upload file"
 msgstr "لا اتمكن من تحميل الملف"
 
 msgid "Unable to upload file %s : %s"
-msgstr "تعذر تحميل الملف  %s : %s"
+msgstr "تعذر تحميل الملف %s : %s"
 
 msgid "Unary operator +"
 msgstr "عامل أحادي +"
@@ -2778,7 +2778,7 @@ msgid "Use default value"
 msgstr "استخدم القيمة المعتادة"
 
 msgid "User"
-msgstr "المستعمل"
+msgstr "مستعمل"
 
 msgid "User %s can not be locked"
 msgstr "لا يمكن تأمين المستخدم %s"
@@ -2889,7 +2889,7 @@ msgid "Whole number part"
 msgstr "جزء العدد الكامل"
 
 msgid "Width"
-msgstr "عرض"
+msgstr "العرض"
 
 msgid "Windows help file"
 msgstr "ملف مساعدة ويندوز"

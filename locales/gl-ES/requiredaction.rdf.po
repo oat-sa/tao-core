@@ -1,0 +1,59 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 14:28\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: gl\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: gl\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/requiredaction.rdf.po\n"
+"X-Crowdin-File-ID: 1197\n"
+"Language-Team: Galician\n"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Required Action Time Rule"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Required Action Time Rule"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Required Action Name"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Name Of Required Action"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Executed At Date"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Time of execution of required action"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Executed by"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Required action executed by user"
+msgstr ""
+

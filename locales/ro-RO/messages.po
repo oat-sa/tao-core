@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: ro\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Romanian\n"
 
 msgid ""
@@ -126,13 +126,13 @@ msgid "%y years"
 msgstr "%y ani"
 
 msgid "(empty)"
-msgstr ""
+msgstr "(golire)"
 
 msgid "... reloading page."
 msgstr "... reâncărcare pagină."
 
 msgid "7-zip archive"
-msgstr ""
+msgstr "7-ZIP arhivă"
 
 msgid "<del>Filters</del>"
 msgstr "<del>Filtre</del>"
@@ -165,7 +165,7 @@ msgid "A message with further instructions has been sent to your email address: 
 msgstr ""
 
 msgid "AAC audio"
-msgstr ""
+msgstr "Audio AAC"
 
 msgid "About"
 msgstr "Despre"
@@ -192,7 +192,7 @@ msgid "Account status"
 msgstr ""
 
 msgid "Action"
-msgstr "Acțiune"
+msgstr ""
 
 msgid "Action %s - removed %s positions"
 msgstr ""
@@ -204,11 +204,11 @@ msgid "Action was not executed yet"
 msgstr "Acțiunea nu a fost executată deocamdată"
 
 msgid "Actions"
-msgstr "Acțiuni"
+msgstr ""
 
 #, tao-public
 msgid "Add"
-msgstr "Adaugă"
+msgstr ""
 
 msgid "Add / Edit lists"
 msgstr "Adaugă/Modifică liste"
@@ -251,7 +251,7 @@ msgid "Adding/updating search index for updated resource"
 msgstr ""
 
 msgid "Adobe Flash file"
-msgstr ""
+msgstr "Fişier Adobe Flash"
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -263,7 +263,7 @@ msgid "all"
 msgstr "toate"
 
 msgid "all audios"
-msgstr ""
+msgstr "toate audio-urile"
 
 msgid "All data will be removed in %s"
 msgstr ""
@@ -275,7 +275,7 @@ msgid "all images"
 msgstr "toate imaginile"
 
 msgid "All rights reserved."
-msgstr "Toate drepturile rezervate."
+msgstr ""
 
 msgid "all videos"
 msgstr "toate videorile"
@@ -360,7 +360,7 @@ msgid "array"
 msgstr ""
 
 msgid "Assign"
-msgstr ""
+msgstr "Atribuiți"
 
 msgid "Assign User to role"
 msgstr ""
@@ -370,7 +370,7 @@ msgid "Assign Users"
 msgstr ""
 
 msgid "Audio Video Interleave"
-msgstr ""
+msgstr "Interconcesie audio video"
 
 msgid "Auth type"
 msgstr ""
@@ -424,7 +424,7 @@ msgid "Binary operator modulo"
 msgstr ""
 
 msgid "Bitmap image"
-msgstr ""
+msgstr "Imagine Bitmap"
 
 msgid "boolean"
 msgstr ""
@@ -442,16 +442,16 @@ msgid "C"
 msgstr ""
 
 msgid "C file"
-msgstr ""
+msgstr "Fişier C"
 
 msgid "C++ file"
 msgstr ""
 
 msgid "C++ file (.cpp)"
-msgstr ""
+msgstr "Fișier C++ (.cpp)"
 
 msgid "Calc speadsheet (Staroffice)"
-msgstr ""
+msgstr "Foaie de difuzare Calc (Stilou)"
 
 msgid "Calculator"
 msgstr ""
@@ -478,7 +478,7 @@ msgid "Cannot divide by zero"
 msgstr ""
 
 msgid "Cascading Style Sheets"
-msgstr ""
+msgstr "Foi de stil cascadă"
 
 msgid "Case sensitive"
 msgstr ""
@@ -491,7 +491,7 @@ msgstr ""
 
 #, tao-public
 msgid "Change password"
-msgstr ""
+msgstr "Schimbă parola"
 
 msgid "Change the password"
 msgstr ""
@@ -584,7 +584,7 @@ msgid "Collecting of abandoned actions in the action queue ..."
 msgstr ""
 
 msgid "Column"
-msgstr ""
+msgstr "Coloana"
 
 msgid "command"
 msgstr ""
@@ -605,13 +605,13 @@ msgid "Completed - Error"
 msgstr ""
 
 msgid "Compressed tar file"
-msgstr ""
+msgstr "Fișier tar comprimat"
 
 msgid "Compute the expression"
 msgstr ""
 
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmare"
 
 msgid "Connect to the TAO platform"
 msgstr ""
@@ -632,13 +632,13 @@ msgid "Copy to"
 msgstr ""
 
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Copiază în clipboard"
 
 msgid "cos"
-msgstr ""
+msgstr "cos"
 
 msgid "cosh"
-msgstr ""
+msgstr "cosh"
 
 msgid "Cosine"
 msgstr ""
@@ -647,7 +647,7 @@ msgid "count"
 msgstr ""
 
 msgid "Create"
-msgstr ""
+msgstr "Crează"
 
 msgid "Create instance"
 msgstr ""
@@ -671,7 +671,7 @@ msgid "CSV"
 msgstr ""
 
 msgid "CSV file"
-msgstr ""
+msgstr "Fișier CSV"
 
 msgid "CSV Options"
 msgstr ""
@@ -710,7 +710,7 @@ msgid "Data source URI"
 msgstr ""
 
 msgid "Database file"
-msgstr ""
+msgstr "Fișier bază de date"
 
 msgid "Date"
 msgstr ""
@@ -728,7 +728,7 @@ msgid "Default search"
 msgstr ""
 
 msgid "default:"
-msgstr ""
+msgstr "implicit:"
 
 msgid "Define the default values"
 msgstr ""
@@ -814,7 +814,7 @@ msgid "Do you wish to install the following extension(s):\n"
 msgstr ""
 
 msgid "Document templates (Staroffice)"
-msgstr ""
+msgstr "Şabloane de documente (Staroffice)"
 
 msgid "does not match"
 msgstr ""
@@ -860,13 +860,13 @@ msgid "Element deleted."
 msgstr ""
 
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 msgid "Empty resources cannot be translated."
 msgstr ""
 
 msgid "enabled"
-msgstr ""
+msgstr "activat"
 
 msgid "Enabled %s"
 msgstr ""
@@ -875,10 +875,10 @@ msgid "End of document reached. Continuing from the beginning."
 msgstr ""
 
 msgid "Enhanced metafile"
-msgstr ""
+msgstr "Metafil îmbunătățit"
 
 msgid "Enter"
-msgstr ""
+msgstr "Introducere"
 
 msgid "Error"
 msgstr ""
@@ -917,7 +917,7 @@ msgid "Executing task %s failed"
 msgstr ""
 
 msgid "exp"
-msgstr ""
+msgstr "exp"
 
 msgid "Exponent"
 msgstr ""
@@ -927,7 +927,7 @@ msgid "Export"
 msgstr ""
 
 msgid "Export "
-msgstr ""
+msgstr "Exportă "
 
 msgid "Export \"%s\" in %s"
 msgstr ""
@@ -936,7 +936,7 @@ msgid "Export CSV"
 msgstr ""
 
 msgid "Export failed."
-msgstr ""
+msgstr "Exportul a eșuat."
 
 msgid "Export Metadata as RDF/XML file"
 msgstr ""
@@ -1018,13 +1018,13 @@ msgid "Fit to width"
 msgstr ""
 
 msgid "Flash video"
-msgstr ""
+msgstr "Flash video"
 
 msgid "floor"
 msgstr ""
 
 msgid "Flowchart-based programming environment & TI Interactive Workbook"
-msgstr ""
+msgstr "Calendar de programare bazat pe Flowcharts & TI Interactive Workbook"
 
 msgid "Forbid for all domains"
 msgstr ""
@@ -1039,7 +1039,7 @@ msgid "Forgot your password?"
 msgstr ""
 
 msgid "Form"
-msgstr ""
+msgstr "Formular"
 
 msgid "Form data not saved."
 msgstr ""
@@ -1057,7 +1057,7 @@ msgid "Generis Form"
 msgstr ""
 
 msgid "Geogebra data file"
-msgstr ""
+msgstr "Fișier de date Geogebra"
 
 msgid "Get History"
 msgstr ""
@@ -1066,7 +1066,7 @@ msgid "Get the history list"
 msgstr ""
 
 msgid "GIF image"
-msgstr ""
+msgstr "Imagine GIF"
 
 msgid "Go Back"
 msgstr ""
@@ -1075,10 +1075,10 @@ msgid "go back to home page"
 msgstr ""
 
 msgid "GZip Compressed Archive"
-msgstr ""
+msgstr "Arhiva GZip comprimată"
 
 msgid "Header file with extensionsLabels"
-msgstr ""
+msgstr "Fișier antet cu extensiiEtichete"
 
 msgid "Height"
 msgstr ""
@@ -1090,13 +1090,13 @@ msgid "Hide detailed report"
 msgstr ""
 
 msgid "Hide password"
-msgstr ""
+msgstr "Ascunde parola"
 
 msgid "Highlight all"
 msgstr ""
 
 msgid "hours"
-msgstr "ore"
+msgstr ""
 
 msgid "Hyperbolic arc cosine"
 msgstr ""
@@ -1117,7 +1117,7 @@ msgid "Hyperbolic tangent"
 msgstr ""
 
 msgid "Hypertext markup language"
-msgstr ""
+msgstr "Limba marcajului hipertext"
 
 msgid "I understand that this action is permanent."
 msgstr ""
@@ -1135,7 +1135,7 @@ msgid "Import"
 msgstr ""
 
 msgid "Import "
-msgstr "Import "
+msgstr ""
 
 msgid "Import a %s into \"%s"
 msgstr ""
@@ -1175,10 +1175,10 @@ msgid "impossible to update task status"
 msgstr ""
 
 msgid "In Progress"
-msgstr "În progres"
+msgstr ""
 
 msgid "In progress"
-msgstr "În progres"
+msgstr ""
 
 msgid "Include all"
 msgstr ""
@@ -1236,7 +1236,7 @@ msgid "Instance saved"
 msgstr ""
 
 msgid "Interface language"
-msgstr ""
+msgstr "Limba interfeței"
 
 msgid "Interface Language"
 msgstr ""
@@ -1299,7 +1299,7 @@ msgid "invalid regular expression"
 msgstr ""
 
 msgid "Invalid value"
-msgstr ""
+msgstr "Valoare nevalidă"
 
 msgid "Invalid values:"
 msgstr ""
@@ -1311,16 +1311,16 @@ msgid "items per page"
 msgstr ""
 
 msgid "Javascript code"
-msgstr ""
+msgstr "Cod Javascript"
 
 msgid "JPEG image"
-msgstr ""
+msgstr "Imagine JPEG"
 
 msgid "Keep the original permissions"
 msgstr ""
 
 msgid "Label"
-msgstr "Etichetă"
+msgstr ""
 
 msgid "Label Path"
 msgstr ""
@@ -1332,7 +1332,7 @@ msgid "Last attempt before your account is locked."
 msgstr ""
 
 msgid "Last Name"
-msgstr ""
+msgstr "Nume de familie"
 
 msgid "Last page"
 msgstr "Ultima pagină"
@@ -1347,7 +1347,7 @@ msgid "less than a minute"
 msgstr "mai puțin de un minut"
 
 msgid "List"
-msgstr "Listă"
+msgstr ""
 
 msgid "List \"%s\" has duplicated values."
 msgstr ""
@@ -1374,7 +1374,7 @@ msgid "List values"
 msgstr ""
 
 msgid "Load more"
-msgstr ""
+msgstr "Încarcă mai mult"
 
 msgid "Loaded"
 msgstr ""
@@ -1416,7 +1416,7 @@ msgid "Logout"
 msgstr ""
 
 msgid "M4A audio"
-msgstr ""
+msgstr "Audio M4A"
 
 msgid "Main Menu"
 msgstr ""
@@ -1475,7 +1475,7 @@ msgid "Media resize along with their container, e.g. 50% means half of the conta
 msgstr ""
 
 msgid "Message"
-msgstr "Mesaj"
+msgstr ""
 
 msgid "Messages"
 msgstr "Mesaje"
@@ -1487,40 +1487,40 @@ msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
 
 msgid "Microsoft Excel binary format"
-msgstr ""
+msgstr "Microsoft Excel binary format"
 
 msgid "Microsoft Office Document Imaging"
-msgstr ""
+msgstr "Imagine document Microsoft Office"
 
 msgid "Microsoft Powerpoint"
 msgstr "Microsoft Powerpoint"
 
 msgid "Microsoft Powerpoint slideshow"
-msgstr ""
+msgstr "slideshow Microsoft Powerpoint"
 
 msgid "Microsoft Project file"
-msgstr ""
+msgstr "Fișier proiect Microsoft"
 
 msgid "Microsoft Visio file"
-msgstr ""
+msgstr "Fişier Visio Microsoft"
 
 msgid "Microsoft Word"
-msgstr ""
+msgstr "Microsoft Word"
 
 msgid "Microsoft Word template"
-msgstr ""
+msgstr "Şablon Word Microsoft"
 
 msgid "Microsoft Works file"
-msgstr ""
+msgstr "Fişier Microsoft Works"
 
 msgid "Microsoft XPS file"
-msgstr ""
+msgstr "Fişier Microsoft XPS"
 
 msgid "MIME encapsulation of aggregate HTML documents"
-msgstr ""
+msgstr "Încapsularea MIME a documentelor HTML agregate"
 
 msgid "Mind mapping software application (free mind open source)"
-msgstr ""
+msgstr "Mind mapping aplicație (sursă deschisă gratuită pentru mentă)"
 
 msgid "minimum %s"
 msgstr ""
@@ -1535,7 +1535,7 @@ msgid "Missing Parameters"
 msgstr ""
 
 msgid "modulo"
-msgstr ""
+msgstr "modulo"
 
 msgid "More"
 msgstr ""
@@ -1566,16 +1566,16 @@ msgid "Moving this element will replace the properties of the previous class by 
 msgstr ""
 
 msgid "MP4 video"
-msgstr ""
+msgstr "Videoclip MP4"
 
 msgid "MPEG audio"
-msgstr ""
+msgstr "MPEG audio"
 
 msgid "MPEG video"
-msgstr ""
+msgstr "Videoclip MPEG"
 
 msgid "MPEG-4 audio file"
-msgstr ""
+msgstr "Fișier audio MPEG-4"
 
 msgid "Multiple values delimiter"
 msgstr ""
@@ -1606,7 +1606,7 @@ msgstr ""
 
 #, tao-public
 msgid "My settings"
-msgstr ""
+msgstr "Setările mele"
 
 msgid "My settings (%s)"
 msgstr ""
@@ -1618,7 +1618,7 @@ msgid "Natural logarithm"
 msgstr ""
 
 msgid "New password"
-msgstr ""
+msgstr "Parola nouă"
 
 #, tao-public
 msgid "New role"
@@ -1634,7 +1634,7 @@ msgid "Next page"
 msgstr "Pagina următoare"
 
 msgid "No"
-msgstr "Nu"
+msgstr ""
 
 msgid "No action specified"
 msgstr ""
@@ -1679,7 +1679,7 @@ msgid "Not Ready for Translation"
 msgstr ""
 
 msgid "Not started"
-msgstr ""
+msgstr "Neinceput"
 
 msgid "NotEmpty"
 msgstr ""
@@ -1695,7 +1695,7 @@ msgstr ""
 
 #, tao-public
 msgid "Notifications"
-msgstr ""
+msgstr "Notificări"
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
@@ -1713,13 +1713,13 @@ msgid "of"
 msgstr ""
 
 msgid "Off"
-msgstr ""
+msgstr "Dezactivat"
 
 msgid "Ogg Vorbis audio"
-msgstr ""
+msgstr "Audio Ogg Vorbis"
 
 msgid "Ogg Vorbis video"
-msgstr ""
+msgstr "Video Ogg Vorbis"
 
 msgid "Ok"
 msgstr ""
@@ -1731,7 +1731,7 @@ msgid "Old Password"
 msgstr ""
 
 msgid "On"
-msgstr ""
+msgstr "Activat"
 
 msgid "Only allow for my own domain (%s)"
 msgstr ""
@@ -1743,19 +1743,19 @@ msgid "Open the item for editing"
 msgstr ""
 
 msgid "OpenDocument Database"
-msgstr ""
+msgstr "Baza de date OpenDocument"
 
 msgid "OpenDocument Presentation"
-msgstr ""
+msgstr "Prezentare OpenDocument"
 
 msgid "OpenDocument spreadsheet document"
-msgstr ""
+msgstr "Document foaie de calcul OpenDocument"
 
 msgid "OpenDocument text document"
-msgstr ""
+msgstr "Document text OpenDocument"
 
 msgid "OpenDocument Text Template"
-msgstr ""
+msgstr "Sabloane Text OpenDocument"
 
 msgid "Operated By "
 msgstr ""
@@ -1764,7 +1764,7 @@ msgid "or"
 msgstr ""
 
 msgid "Original"
-msgstr ""
+msgstr "Originală"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
 msgstr ""
@@ -1779,10 +1779,10 @@ msgid "Pascal file"
 msgstr ""
 
 msgid "Pascal file (.pas)"
-msgstr ""
+msgstr "Pascal file (.pas)"
 
 msgid "Password"
-msgstr ""
+msgstr "Parolă"
 
 msgid "Password changed"
 msgstr ""
@@ -1803,10 +1803,10 @@ msgid "Pause"
 msgstr ""
 
 msgid "PDF file"
-msgstr ""
+msgstr "Fişier PDF"
 
 msgid "Pending"
-msgstr ""
+msgstr "In asteptare"
 
 msgid "Permission denied to write in the selected class"
 msgstr ""
@@ -1845,10 +1845,10 @@ msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Vă rugăm să contactaţi administratorul."
 
 msgid "Please contact your system administrator."
-msgstr ""
+msgstr "Vă rugăm să contactaţi administratorul de sistem."
 
 msgid "Please define your search in the search panel."
 msgstr ""
@@ -1869,7 +1869,7 @@ msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
 msgid "Please select a language."
-msgstr ""
+msgstr "Vă rugăm să selectați o limbă."
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr ""
@@ -1887,10 +1887,10 @@ msgid "Please wait while ..."
 msgstr ""
 
 msgid "PNG image"
-msgstr ""
+msgstr "Imagine PNG"
 
 msgid "Position"
-msgstr ""
+msgstr "Poziția"
 
 msgid "Positionals:"
 msgstr ""
@@ -1920,7 +1920,7 @@ msgid "Previous page"
 msgstr ""
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Politica de confidenţialitate"
 
 msgid "Proceed"
 msgstr ""
@@ -1942,7 +1942,7 @@ msgid "Queued"
 msgstr ""
 
 msgid "Quicktime video"
-msgstr ""
+msgstr "Video rapid"
 
 msgid "Rad"
 msgstr ""
@@ -1960,7 +1960,7 @@ msgid "Range field is required"
 msgstr ""
 
 msgid "RAR archive"
-msgstr ""
+msgstr "Arhivă RAR"
 
 msgid "RDF"
 msgstr ""
@@ -1969,7 +1969,7 @@ msgid "Ready for Translation"
 msgstr ""
 
 msgid "RealMedia file"
-msgstr ""
+msgstr "Fișier RealMedia"
 
 msgid "Refresh"
 msgstr ""
@@ -2008,7 +2008,7 @@ msgid "Remove"
 msgstr ""
 
 msgid "Remove criteria"
-msgstr ""
+msgstr "Înlătură criteriul"
 
 msgid "remove index"
 msgstr ""
@@ -2110,7 +2110,7 @@ msgid "Return to sign in page"
 msgstr ""
 
 msgid "Rich Text Format file"
-msgstr ""
+msgstr "Fișier format text îmbogățit"
 
 msgid "Right click the tree to manage your lists"
 msgstr ""
@@ -2147,13 +2147,13 @@ msgid "Running task %s"
 msgstr ""
 
 msgid "Save"
-msgstr "Salvează"
-
-msgid "Saved."
 msgstr ""
 
+msgid "Saved."
+msgstr "Salvat."
+
 msgid "Scientific Calculator"
-msgstr "Calculator științific"
+msgstr ""
 
 msgid "Scope"
 msgstr ""
@@ -2187,7 +2187,7 @@ msgid "Select"
 msgstr ""
 
 msgid "select"
-msgstr ""
+msgstr "selectare"
 
 msgid "Select a class"
 msgstr ""
@@ -2236,22 +2236,22 @@ msgid "Show detailed report"
 msgstr ""
 
 msgid "Show password"
-msgstr ""
+msgstr "Arată parola"
 
 msgid "Sibelius music notation"
-msgstr ""
+msgstr "Notația muzicii Sibelius"
 
 msgid "Sign change"
 msgstr ""
 
 msgid "sin"
-msgstr ""
+msgstr "păcat"
 
 msgid "Sine"
 msgstr ""
 
 msgid "sinh"
-msgstr ""
+msgstr "sinh"
 
 msgid "Size"
 msgstr "Mărime"
@@ -2293,7 +2293,7 @@ msgid "Store the value a variable"
 msgstr ""
 
 msgid "Storing digital video data on a computer game"
-msgstr ""
+msgstr "Stocarea de date video digitale pe un joc de calculator"
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
 msgstr ""
@@ -2305,7 +2305,7 @@ msgid "Submit"
 msgstr ""
 
 msgid "Success"
-msgstr "Succes"
+msgstr ""
 
 msgid "Successfully cloned instance as %s"
 msgstr ""
@@ -2329,28 +2329,28 @@ msgid "Supported export formats"
 msgstr ""
 
 msgid "SVG image"
-msgstr ""
+msgstr "SVG image"
 
 msgid "Syntax error"
-msgstr ""
+msgstr "Eroare de sintaxă"
 
 msgid "Tagged image file"
-msgstr ""
+msgstr "Fișier imagine etichetat"
 
 msgid "tan"
-msgstr ""
+msgstr "tan"
 
 msgid "Tangent"
 msgstr ""
 
 msgid "tanh"
-msgstr ""
+msgstr "tanh"
 
 msgid "Tao Default Theme"
 msgstr ""
 
 msgid "TAO Home"
-msgstr ""
+msgstr "Acasă TAO"
 
 msgid "TAO Login"
 msgstr ""
@@ -2398,7 +2398,7 @@ msgid "Term"
 msgstr ""
 
 msgid "TeX file"
-msgstr ""
+msgstr "Fișier TeX"
 
 msgid "Text - Long - Box"
 msgstr ""
@@ -2410,7 +2410,7 @@ msgid "Text - Short - Field"
 msgstr ""
 
 msgid "Text document file format (Staroffice)"
-msgstr ""
+msgstr "Format fișier document text (Staroffice)"
 
 msgid "Text to translate"
 msgstr ""
@@ -2485,7 +2485,7 @@ msgid "This %s is currently checked out"
 msgstr ""
 
 msgid "This field is required"
-msgstr ""
+msgstr "Acest câmp este necesar"
 
 msgid "This field is too long"
 msgstr ""
@@ -2530,7 +2530,7 @@ msgid "This site uses cookies to improve your browsing experience and to perform
 msgstr ""
 
 msgid "time"
-msgstr ""
+msgstr "timp"
 
 msgid "Time zone"
 msgstr ""
@@ -2539,7 +2539,7 @@ msgid "Title"
 msgstr ""
 
 msgid "to"
-msgstr "la"
+msgstr ""
 
 msgid "To change your preferences, click Manage preferences."
 msgstr ""
@@ -2602,7 +2602,7 @@ msgid "Translation Type"
 msgstr ""
 
 msgid "Translations"
-msgstr ""
+msgstr "Traduceri"
 
 msgid "Transport Layer Security"
 msgstr ""
@@ -2725,7 +2725,7 @@ msgid "Unique Identifier"
 msgstr ""
 
 msgid "UNIX Compressed Archive File"
-msgstr ""
+msgstr "Fișier arhivă comprimat UNIX"
 
 msgid "unknown"
 msgstr "necunoscut"
@@ -2737,7 +2737,7 @@ msgid "unkown task id %s"
 msgstr ""
 
 msgid "Update"
-msgstr ""
+msgstr "Actualizare"
 
 msgid "Update ID : %s"
 msgstr ""
@@ -2807,7 +2807,7 @@ msgstr ""
 
 #, tao-public
 msgid "User Settings"
-msgstr ""
+msgstr "Setări utilizator"
 
 #, tao-public
 msgid "Users"
@@ -2853,7 +2853,7 @@ msgid "View"
 msgstr ""
 
 msgid "View report"
-msgstr ""
+msgstr "Vizualizați raportul"
 
 msgid "View resources as a list"
 msgstr ""
@@ -2868,7 +2868,7 @@ msgid "Waiting"
 msgstr ""
 
 msgid "WAV audio"
-msgstr ""
+msgstr "WAV audio"
 
 msgid "WebHook auth configuration can not be loaded"
 msgstr ""
@@ -2878,10 +2878,10 @@ msgid "WebHooks"
 msgstr ""
 
 msgid "WebM audio"
-msgstr ""
+msgstr "Audio WebM"
 
 msgid "WebM video"
-msgstr ""
+msgstr "Video WebM"
 
 msgid "Whole number part"
 msgstr ""
@@ -2890,16 +2890,16 @@ msgid "Width"
 msgstr ""
 
 msgid "Windows help file"
-msgstr ""
+msgstr "Fisier de ajutor Windows"
 
 msgid "Windows Media audio"
-msgstr ""
+msgstr "Windows Media audio"
 
 msgid "Windows Media file (metafile)"
-msgstr ""
+msgstr "Fisier Windows Media (metafil)"
 
 msgid "Windows Media video"
-msgstr ""
+msgstr "Windows Media video"
 
 msgid "with"
 msgstr ""
@@ -2911,7 +2911,7 @@ msgid "Wrap image right"
 msgstr ""
 
 msgid "Write Document"
-msgstr ""
+msgstr "Scrie Document"
 
 msgid "Wrong or missing parameter extension, module or action"
 msgstr ""
@@ -2920,7 +2920,7 @@ msgid "Wrong parameter shownExtension"
 msgstr ""
 
 msgid "XML file"
-msgstr ""
+msgstr "Fișier XML"
 
 msgid "Yes"
 msgstr ""
@@ -2983,5 +2983,5 @@ msgid "Your TAO Password"
 msgstr ""
 
 msgid "ZIP archive"
-msgstr ""
+msgstr "Arhivă ZIP"
 
