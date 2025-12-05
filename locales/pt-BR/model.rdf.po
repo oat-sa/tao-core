@@ -1,99 +1,99 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-3x\n"
-"PO-Revision-Date: 2023-04-21 15:46\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 14:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: pt-BR\n"
+"Language: pt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: pt-BR\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-3x\n"
-"X-Crowdin-Project-ID: 582145\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: pt-BR\n"
-"X-Crowdin-File: /tao/locales/en-US/model.rdf.po\n"
-"X-Crowdin-File-ID: 1369\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/model.rdf.po\n"
+"X-Crowdin-File-ID: 1193\n"
 "Language-Team: Portuguese, Brazilian\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Abstract Model"
-msgstr "Modelo de Resumo"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "An abstract model to differentiate implementations of resources of the same type"
-msgstr "Um modelo abstracto para diferenciar implementações de recursos do mesmo tipo"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelImplementation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Model implementation"
-msgstr "Implementação do modelo"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Model Status"
-msgstr "Estado do modelo"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Stable"
-msgstr "Estável"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "This model can be used in production"
-msgstr "Este modelo pode ser usado em produção"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Deprecated"
-msgstr "Obsoleto"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "This model is not supported anymore, we advise to migrate"
-msgstr "Este modelo não é mais suportado, recomendamos migrar"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Development"
-msgstr "Desenvolvimento"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "this model has not been tested in a production environment, we advise to be carefull with it"
-msgstr "esse modelo não foi testado em um ambiente de produção, recomendamos ser cuidadoso com ele"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Experimental"
-msgstr "Experimental"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "this model is still in conception, but you can try it, give your feedback and it will be improved."
-msgstr "Este modelo ainda está em concepção, mas você pode experimentá-lo, dar seu feedback e será melhorado."
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Status"
-msgstr "SItuação"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The status of a model"
-msgstr "O status de um modelo"
+msgstr ""
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Model"
-msgstr "Modelo"
+msgstr ""
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Select the associated model"
-msgstr "Selecione o modelo associado"
+msgstr ""
 
