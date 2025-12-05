@@ -1,127 +1,134 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.11\n"
-"PO-Revision-Date: 2022-11-24T12:55:53\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 14:26\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl-NL\n"
+"Language: nl\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: nl-NL\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: nl\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/indexation.rdf.po\n"
+"X-Crowdin-File-ID: 1189\n"
+"Language-Team: Dutch\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Index"
-msgstr "Index"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Index class"
-msgstr "Indexlijst"
+msgstr ""
 
-# kan ook uniek id zijn.
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Identifier"
-msgstr "Naam"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Humanreadable identifier of the index"
-msgstr "Een, door mensen te lezen, naam van de index"
+msgstr ""
 
-# There is no Dutch for tokenizer as far as I know
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer of index"
-msgstr "Tokenizer van de index"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer to be used to extract search strings"
-msgstr "Tokenizer wordt gebruikt om zoek strings te extraheren"
+msgstr ""
 
-# English will be best known to Dutch
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Fuzzy matching"
-msgstr "Fuzzy matching"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Should the string matching be exact or fuzzy"
-msgstr "Moet de string exact overeenkomen of fuzzy?"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Use by default"
-msgstr "Gebruik als standaard"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Should this property be used implicitly in the defautl search"
-msgstr "Moet deze eigenschap impliciet worden gebruikt in de standaard zoekopdracht?"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer"
-msgstr "Tokenizer"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer class"
-msgstr "Tokenizer klasse"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer implementation"
-msgstr "Tokenizer implementatie "
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Classname of the tokenizer implementation"
-msgstr "Klasse naam van de tokenzier implementatie"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Property Indexation"
-msgstr "Eigenschap Indexering"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "How a property should be indexed"
-msgstr "Hoe een eigenschap moet worden geïndexeerd "
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Raw Value Tokenizer"
-msgstr "Ruwe waarde Tokenizer"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer using the raw property value"
-msgstr "Tokenizer gebruikt de ruwe eigenschap waarde"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Label Tokenizer"
-msgstr "Label tokenizer"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer using the resource labels"
-msgstr "Tokenizer gebruikt de bron labels "
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Label Index"
-msgstr "Label index"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TypeIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Type Index"
-msgstr "Index type"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LoginIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Login Index"
-msgstr "Index Login"
+msgstr ""
 
