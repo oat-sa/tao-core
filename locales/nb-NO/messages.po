@@ -1700,9 +1700,6 @@ msgstr "Varsler"
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
 
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr ""
-
 msgid "Nth root"
 msgstr "Hth rot"
 

@@ -1702,9 +1702,6 @@ msgstr "通知"
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "通知ドライバは永続的ではありません。続的なデータベースストレージドライバを使用します"
 
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr ""
-
 msgid "Nth root"
 msgstr "N番目のルート"
 

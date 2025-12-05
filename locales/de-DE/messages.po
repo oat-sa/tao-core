@@ -1702,9 +1702,6 @@ msgstr "Benachrichtigungen"
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "Benachrichtigungstreiber sind nicht dauerhaft. Verwenden Sie einen persistenten Datenbankspeichertreiber"
 
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr ""
-
 msgid "Nth root"
 msgstr "N-te Wurzel"
 

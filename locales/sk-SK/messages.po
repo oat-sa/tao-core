@@ -1702,9 +1702,6 @@ msgstr "Upozornenia"
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "Ovládače upozornení nie sú trvalé. Použite ovládač trvalého úložiska databázy."
 
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr ""
-
 msgid "Nth root"
 msgstr "N-tý koreň"
 

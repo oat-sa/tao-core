@@ -1702,9 +1702,6 @@ msgstr "Notificações"
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "notificações drivers não são salvos. use um driver de armazenamento"
 
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr ""
-
 msgid "Nth root"
 msgstr "Raiz enésima"
 

@@ -1702,9 +1702,6 @@ msgstr "إشعارات"
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "برامج تشغيل الإشعارات ليست ثابتة. استخدم برنامج تشغيل تخزين قاعدة بيانات ثابت"
 
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr ""
-
 msgid "Nth root"
 msgstr "الجذر التاسع"
 

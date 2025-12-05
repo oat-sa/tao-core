@@ -87,7 +87,7 @@ msgid "%s classes"
 msgstr "%s osztályok"
 
 msgid "%s completed"
-msgstr ""
+msgstr "%s befejezve"
 
 msgid "%s Confirmation"
 msgstr "%s Megerősítés"
@@ -1702,8 +1702,6 @@ msgstr "Értesítések"
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "Az értesítési illesztőprogramok nem állandóak. Használjon állandó adatbázis-tároló illesztőprogramot."
 
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr ""
 
 msgid "Nth root"
 msgstr "N-edik gyök"
