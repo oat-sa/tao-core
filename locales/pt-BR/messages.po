@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2025.06\n"
-"PO-Revision-Date: 2025-06-13T16:15:38\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 08:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: pt-BR\n"
+"Language: pt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: pt-BR\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-GB\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
+"X-Crowdin-File-ID: 617\n"
+"Language-Team: Portuguese, Brazilian\n"
 
 msgid ""
 msgstr ""
@@ -71,13 +78,13 @@ msgid "%s %s selected"
 msgstr "%s de %s selecionados"
 
 msgid "%s (%s kb)"
-msgstr ""
+msgstr "%s (%s kb)"
 
 msgid "%s Class saved"
 msgstr "Classe %s salva"
 
 msgid "%s classes"
-msgstr ""
+msgstr "%s pastas"
 
 msgid "%s completed"
 msgstr ""
@@ -164,13 +171,13 @@ msgid "About"
 msgstr "Sobre"
 
 msgid "abs"
-msgstr ""
+msgstr "abs"
 
 msgid "Absolute value"
 msgstr "Valor absoluto"
 
 msgid "AC"
-msgstr ""
+msgstr "AC"
 
 msgid "Accept all"
 msgstr ""
@@ -304,7 +311,7 @@ msgid "and"
 msgstr ""
 
 msgid "Ans"
-msgstr ""
+msgstr "Ans"
 
 msgid "Apply"
 msgstr "Aplicar"
@@ -351,7 +358,7 @@ msgid "Arguments separator"
 msgstr "Separador de argumentos"
 
 msgid "array"
-msgstr ""
+msgstr "array"
 
 msgid "Assign"
 msgstr "Atribuir"
@@ -433,7 +440,7 @@ msgid "Browse..."
 msgstr "Navegar..."
 
 msgid "C"
-msgstr ""
+msgstr "C"
 
 msgid "C file"
 msgstr "Arquivo C"
@@ -500,7 +507,7 @@ msgid "Check all"
 msgstr "Marcar todas"
 
 msgid "Check-in"
-msgstr ""
+msgstr "Checar"
 
 msgid "choices:"
 msgstr "opções:"
@@ -629,10 +636,10 @@ msgid "Copy to clipboard"
 msgstr "Copiar para área de transferência"
 
 msgid "cos"
-msgstr ""
+msgstr "cos"
 
 msgid "cosh"
-msgstr ""
+msgstr "cosh"
 
 msgid "Cosine"
 msgstr "Cosseno"
@@ -662,7 +669,7 @@ msgid "CSP Header settings were saved successfully!"
 msgstr "Configurações de cabeçalho CSP foram salvas com sucesso!"
 
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 msgid "CSV file"
 msgstr "Arquivo CSV"
@@ -728,7 +735,7 @@ msgid "Define the default values"
 msgstr "Definir valores padrão"
 
 msgid "Deg"
-msgstr ""
+msgstr "Deg"
 
 msgid "Degree"
 msgstr "Grau"
@@ -756,7 +763,7 @@ msgid "Deleting this property will also remove the dependency"
 msgstr ""
 
 msgid "Demo Sandbox"
-msgstr ""
+msgstr "Demo Sandbox"
 
 msgid "Dependency URI Path"
 msgstr ""
@@ -821,7 +828,7 @@ msgid "Dot"
 msgstr "Ponto"
 
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 msgid "Download this file"
 msgstr "Download do arquivo"
@@ -855,7 +862,7 @@ msgid "Element deleted."
 msgstr "Elemento excluído."
 
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 msgid "Empty resources cannot be translated."
 msgstr ""
@@ -912,7 +919,7 @@ msgid "Executing task %s failed"
 msgstr "Falha ao executar tarefa %s"
 
 msgid "exp"
-msgstr ""
+msgstr "exp"
 
 msgid "Exponent"
 msgstr "Expoente"
@@ -1043,13 +1050,13 @@ msgid "From"
 msgstr "De"
 
 msgid "Fuzzy Matching"
-msgstr ""
+msgstr "Fuzzy Matching"
 
 msgid "generated-value"
 msgstr "valores gerados"
 
 msgid "Generis Form"
-msgstr ""
+msgstr "Formulário Generis"
 
 msgid "Geogebra data file"
 msgstr "Arquivo de dados Geogebra"
@@ -1479,7 +1486,7 @@ msgid "Metadata export is not available for the selected resource."
 msgstr "Exportação de metadados não está disponível para o recurso selecionado."
 
 msgid "Microsoft Excel"
-msgstr ""
+msgstr "Microsoft Excel"
 
 msgid "Microsoft Excel binary format"
 msgstr "Formato binário do Microsoft Excel"
@@ -1500,7 +1507,7 @@ msgid "Microsoft Visio file"
 msgstr "Arquivo do Microsoft Visio"
 
 msgid "Microsoft Word"
-msgstr ""
+msgstr "Microsoft Word"
 
 msgid "Microsoft Word template"
 msgstr "Modelo do Microsoft Word"
@@ -1692,11 +1699,11 @@ msgstr "Nada para exibir!"
 msgid "Notifications"
 msgstr "Notificações"
 
-msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
-msgstr ""
-
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "notificações drivers não são salvos. use um driver de armazenamento"
+
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
+msgstr ""
 
 msgid "Nth root"
 msgstr "Raiz enésima"
@@ -1720,10 +1727,10 @@ msgid "Ogg Vorbis video"
 msgstr "Vídeo Ogg Vorbis"
 
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgid "Old Password"
 msgstr "Senha Antiga"
@@ -1943,7 +1950,7 @@ msgid "Quicktime video"
 msgstr "Vídeo Quicktime"
 
 msgid "Rad"
-msgstr ""
+msgstr "Rad"
 
 msgid "Radian"
 msgstr "Radianos"
@@ -1961,7 +1968,7 @@ msgid "RAR archive"
 msgstr "Arquivo RAR"
 
 msgid "RDF"
-msgstr ""
+msgstr "RDF"
 
 msgid "Ready for Translation"
 msgstr ""
@@ -2249,7 +2256,7 @@ msgid "Sine"
 msgstr "Seno"
 
 msgid "sinh"
-msgstr ""
+msgstr "sinh"
 
 msgid "Size"
 msgstr "Tamanho"
@@ -2279,7 +2286,7 @@ msgid "Start translation"
 msgstr ""
 
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 msgid "Status of"
 msgstr "Status de"
@@ -2297,7 +2304,7 @@ msgid "Strictly Necessary Cookie should be enabled at all times so that we can s
 msgstr ""
 
 msgid "string"
-msgstr ""
+msgstr "string"
 
 msgid "Submit"
 msgstr "Enviar"
@@ -2336,13 +2343,13 @@ msgid "Tagged image file"
 msgstr "Arquivo de imagem marcados"
 
 msgid "tan"
-msgstr ""
+msgstr "tan"
 
 msgid "Tangent"
 msgstr "Tangente"
 
 msgid "tanh"
-msgstr ""
+msgstr "tanh"
 
 msgid "Tao Default Theme"
 msgstr "Tema Padrão do Tao"
@@ -2351,7 +2358,7 @@ msgid "TAO Home"
 msgstr "TAO Início"
 
 msgid "TAO Login"
-msgstr ""
+msgstr "TAO Login"
 
 msgid "TAO platform is already on live mode since %s"
 msgstr "Plataforma TAO já está ativa desde %s"
@@ -2555,7 +2562,7 @@ msgid "Toggle the date time picker"
 msgstr "Alternar o seletor de data e hora"
 
 msgid "Tokenizer"
-msgstr ""
+msgstr "Tokenizer"
 
 msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr "Muitos argumentos não-opção: obteve %s, máximo de %s"
@@ -2567,7 +2574,7 @@ msgid "Total duration"
 msgstr "Duração total"
 
 msgid "Total:"
-msgstr ""
+msgstr "Total:"
 
 msgid "Translate"
 msgstr "Traduzir"
@@ -2618,7 +2625,7 @@ msgid "True"
 msgstr "Verdadeiro"
 
 msgid "trunc"
-msgstr ""
+msgstr "trunc"
 
 msgid "Type"
 msgstr "Tipo"
@@ -2750,7 +2757,7 @@ msgid "Upload into:"
 msgstr "Enviar para:"
 
 msgid "URI Path"
-msgstr ""
+msgstr "Caminho URI"
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "Uso: ImportRdf RDF_FILE [MODEL_ID]"
