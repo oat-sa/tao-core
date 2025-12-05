@@ -1,301 +1,308 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2025.06\n"
-"PO-Revision-Date: 2025-06-13T16:13:15\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 08:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: hu-HU\n"
+"Language: hu\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: hu-HU\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-GB\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: hu\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
+"X-Crowdin-File-ID: 617\n"
+"Language-Team: Hungarian\n"
 
 msgid ""
 msgstr ""
 
 msgid " and "
-msgstr ""
+msgstr " és "
 
 msgid " AND "
-msgstr ""
+msgstr " ÉS "
 
 msgid " has been deleted successfully"
-msgstr ""
+msgstr " sikeresen törölve"
 
 msgid " is "
-msgstr ""
+msgstr " van "
 
 msgid " next"
-msgstr ""
+msgstr " következő"
 
 msgid " Remove criteria"
-msgstr ""
+msgstr " Feltételek eltávolítása"
 
 msgid " requires a subgrid adapter"
-msgstr ""
+msgstr " alhálózati adaptert igényel"
 
 msgid "%1$s expected but %2$s detected"
-msgstr ""
+msgstr "%1$s várható, de %2$s észlelhető"
 
 msgid "%d attempts left before your account is locked."
-msgstr ""
+msgstr "%d próbálkozás van hátra a fiókod zárolásáig."
 
 msgid "%d day"
-msgstr ""
+msgstr "%d nap"
 
 msgid "%d days"
-msgstr ""
+msgstr "%d nap"
 
 msgid "%h hour"
-msgstr ""
+msgstr "%h óra"
 
 msgid "%h hours"
-msgstr ""
+msgstr "%h óra"
 
 msgid "%i minute"
-msgstr ""
+msgstr "%i perc"
 
 msgid "%i minutes"
-msgstr ""
+msgstr "%i perc"
 
 msgid "%m month"
-msgstr ""
+msgstr "%m hónap"
 
 msgid "%m months"
-msgstr ""
+msgstr "%m hónap"
 
 msgid "%s %s selected"
-msgstr ""
+msgstr "%s %s kiválasztva"
 
 msgid "%s (%s kb)"
-msgstr ""
+msgstr "%s (%s kb)"
 
 msgid "%s Class saved"
-msgstr ""
+msgstr "%s Osztály mentve"
 
 msgid "%s classes"
-msgstr ""
+msgstr "%s osztályok"
 
 msgid "%s completed"
-msgstr ""
+msgstr "%s befejezve"
 
 msgid "%s Confirmation"
-msgstr ""
+msgstr "%s Megerősítés"
 
 msgid "%s could not be released"
-msgstr ""
+msgstr "%s nem sikerült felszabadítani"
 
 msgid "%s created"
-msgstr ""
+msgstr "%s létrehozva"
 
 msgid "%s extension(s) to install."
-msgstr ""
+msgstr "%s telepítendő bővítmény(ek)."
 
 msgid "%s has been deleted"
-msgstr ""
+msgstr "%s törölve lett"
 
 msgid "%s has been released"
-msgstr ""
+msgstr "%s megjelent"
 
 msgid "%s instances"
-msgstr ""
+msgstr "%s példányok"
 
 msgid "%s is of a type that cannot be published"
-msgstr ""
+msgstr "%s olyan típusú, amely nem publikálható"
 
 msgid "%s Locked"
-msgstr ""
+msgstr "%s Zárolva"
 
 msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
-msgstr ""
+msgstr "A %s\" nem érvényes indexazonosító. Betűvel kell kezdődnie, és csak betűket, számokat vagy aláhúzásjelet tartalmazhat."
 
 msgid "%y year"
-msgstr ""
+msgstr "%y év"
 
 msgid "%y years"
-msgstr ""
+msgstr "%y év"
 
 msgid "(empty)"
-msgstr ""
+msgstr "(üres)"
 
 msgid "... reloading page."
-msgstr ""
+msgstr "... oldal újratöltése."
 
 msgid "7-zip archive"
-msgstr ""
+msgstr "7 zip archívum"
 
 msgid "<del>Filters</del>"
-msgstr ""
+msgstr "<del>Szűrők</del>"
 
 msgid "<del>Options</del>"
-msgstr ""
+msgstr "<del>Beállítások</del>"
 
 msgid "<strong> %s </strong> has been moved to the background."
-msgstr ""
+msgstr "<strong> %s </strong> a háttérbe került."
 
 msgid "> Extension %s succesfully installed."
-msgstr ""
+msgstr "> A %s bővítmény telepítése sikeresen megtörtént."
 
 msgid "> Installation done."
-msgstr ""
+msgstr "> Telepítés kész."
 
 msgid "a class"
-msgstr ""
+msgstr "egy osztály"
 
 msgid "A date has to be a Datetime or timestamp"
-msgstr ""
+msgstr "A dátumnak dátumnak/időnek vagy időbélyegnek kell lennie."
 
 msgid "A fatal error occured during the installation process."
-msgstr ""
+msgstr "Végzetes hiba történt a telepítési folyamat során."
 
 msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
-msgstr ""
+msgstr "A karbantartási állapotnak a következő ÁLLAPOTTAL kell rendelkeznie: \"%s\" vagy \"%s"
 
 msgid "A message with further instructions has been sent to your email address: %s"
-msgstr ""
+msgstr "További utasításokat tartalmazó üzenetet küldtünk az e-mail címedre: %s"
 
 msgid "AAC audio"
-msgstr ""
+msgstr "AAC hang"
 
 msgid "About"
-msgstr ""
+msgstr "Körülbelül"
 
 msgid "abs"
-msgstr ""
+msgstr "hasizmok"
 
 msgid "Absolute value"
-msgstr ""
+msgstr "Abszolút érték"
 
 msgid "AC"
-msgstr ""
+msgstr "Légkondicionáló"
 
 msgid "Accept all"
 msgstr ""
 
 msgid "Access Denied"
-msgstr ""
+msgstr "Hozzáférés megtagadva"
 
 msgid "Access denied. Please renew your authentication!"
-msgstr ""
+msgstr "Hozzáférés megtagadva. Kérjük, újítsa meg hitelesítését!"
 
 msgid "Account status"
-msgstr ""
+msgstr "Fiók állapota"
 
 msgid "Action"
-msgstr ""
+msgstr "Akció"
 
 msgid "Action %s - removed %s positions"
-msgstr ""
+msgstr "Akció %s - eltávolított %s pozíciók"
 
 msgid "Action `%s` is not configured in the action queue service"
-msgstr ""
+msgstr "A(z) `%s` művelet nincs konfigurálva a műveleti várólista szolgáltatásban."
 
 msgid "Action was not executed yet"
-msgstr ""
+msgstr "A művelet még nem került végrehajtásra"
 
 msgid "Actions"
-msgstr ""
+msgstr "Műveletek"
 
 #, tao-public
 msgid "Add"
-msgstr ""
+msgstr "Hozzáadás"
 
 msgid "Add / Edit lists"
-msgstr ""
+msgstr "Listák hozzáadása / szerkesztése"
 
 msgid "Add a CSV file"
-msgstr ""
+msgstr "CSV-fájl hozzáadása"
 
 #, tao-public
 msgid "Add a user"
-msgstr ""
+msgstr "Felhasználó hozzáadása"
 
 msgid "Add an RDF/XML file"
-msgstr ""
+msgstr "RDF/XML fájl hozzáadása"
 
 msgid "add criteria"
-msgstr ""
+msgstr "kritériumok hozzáadása"
 
 msgid "Add file(s)"
-msgstr ""
+msgstr "Fájl(ok) hozzáadása"
 
 msgid "Add index"
 msgstr ""
 
 msgid "Add property"
-msgstr ""
+msgstr "Ingatlan hozzáadása"
 
 msgid "Adding search index for %s"
-msgstr ""
+msgstr "Keresési index hozzáadása %s-hoz"
 
 msgid "Adding search index for created resource"
-msgstr ""
+msgstr "Keresési index hozzáadása a létrehozott erőforráshoz"
 
 msgid "Adding the new class has failed"
-msgstr ""
+msgstr "Az új osztály hozzáadása sikertelen"
 
 msgid "Adding the new resource has failed"
-msgstr ""
+msgstr "Az új erőforrás hozzáadása sikertelen"
 
 msgid "Adding/updating search index for updated resource"
-msgstr ""
+msgstr "Keresési index hozzáadása/frissítése a frissített erőforráshoz"
 
 msgid "Adobe Flash file"
-msgstr ""
+msgstr "Adobe Flash fájl"
 
 msgid "Advanced search, add filters"
-msgstr ""
+msgstr "Speciális keresés, szűrők hozzáadása"
 
 msgid "aliases:"
-msgstr ""
+msgstr "álnevek:"
 
 msgid "all"
-msgstr ""
+msgstr "minden"
 
 msgid "all audios"
-msgstr ""
+msgstr "minden hanganyag"
 
 msgid "All data will be removed in %s"
-msgstr ""
+msgstr "Minden adat eltávolításra kerül %smúlva"
 
 msgid "All fields are required"
-msgstr ""
+msgstr "Minden mező kitöltése kötelező"
 
 msgid "all images"
-msgstr ""
+msgstr "minden kép"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Minden jog fenntartva."
 
 msgid "all videos"
-msgstr ""
+msgstr "minden videó"
 
 msgid "Allow for all domains"
-msgstr ""
+msgstr "Engedélyezés minden domainhez"
 
 msgid "Allow for the following domains"
-msgstr ""
+msgstr "Engedélyezi a következő domaineket"
 
 msgid "Alpha version"
-msgstr ""
+msgstr "Alfa verzió"
 
 msgid "An email has been sent"
-msgstr ""
+msgstr "Elküldtünk egy e-mailt"
 
 msgid "An error occurred during user deletion"
-msgstr ""
+msgstr "Hiba történt a felhasználó törlése során"
 
 msgid "An error occurred!"
-msgstr ""
+msgstr "Hiba történt!"
 
 msgid "An exception occured while running \"%s"
-msgstr ""
+msgstr "Kivétel történt a(z) \"%sfuttatása közben"
 
 msgid "an instance"
-msgstr ""
+msgstr "egy példány"
 
 msgid "Analytics cookies"
 msgstr ""
@@ -304,32 +311,33 @@ msgid "and"
 msgstr ""
 
 msgid "Ans"
-msgstr ""
+msgstr "Válasz"
 
 msgid "Apply"
-msgstr ""
+msgstr "Jelentkezés"
 
 msgid "Apply date range"
-msgstr ""
+msgstr "Dátumtartomány alkalmazása"
 
 msgid "Arc cosine"
-msgstr ""
+msgstr "Arkusz koszinusz"
 
 msgid "Arc sine"
-msgstr ""
+msgstr "Arkusz szinusz"
 
 msgid "Arc tangent"
-msgstr ""
+msgstr "Ívusz tangens"
 
 msgid "Archived"
-msgstr ""
+msgstr "Archivált"
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
+msgstr "Biztosan törli a verziózott erőforrást?\n"
+"A történet is elveszik."
 
 msgid "Are you sure you want to delete it?"
-msgstr ""
+msgstr "Biztosan törölni szeretnéd?"
 
 msgid "Are you sure you want to delete the translation for this language?"
 msgstr ""
@@ -341,276 +349,276 @@ msgid "Are you sure you wish to delete it"
 msgstr ""
 
 msgid "Argument check failed: %s"
-msgstr ""
+msgstr "Argumentumellenőrzés sikertelen: %s"
 
 msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
+msgstr "A %s és %s argumentumok kölcsönösen kizárják egymást."
 
 msgid "Arguments separator"
-msgstr ""
+msgstr "Argumentum elválasztó"
 
 msgid "array"
-msgstr ""
+msgstr "sor"
 
 msgid "Assign"
-msgstr ""
+msgstr "Hozzárendelés"
 
 msgid "Assign User to role"
-msgstr ""
+msgstr "Felhasználó hozzárendelése szerepkörhöz"
 
 #, tao-public
 msgid "Assign Users"
-msgstr ""
+msgstr "Felhasználók hozzárendelése"
 
 msgid "Audio Video Interleave"
-msgstr ""
+msgstr "Audio- és videointerleave"
 
 msgid "Auth type"
 msgstr ""
 
 msgid "Author"
-msgstr ""
+msgstr "Szerző"
 
 msgid "Author Item"
-msgstr ""
+msgstr "Szerzői elem"
 
 msgid "Authoring"
-msgstr ""
+msgstr "Szerzői munka"
 
 msgid "auto unlocked in %s"
-msgstr ""
+msgstr "automatikus feloldás %smúlva"
 
 msgid "Available"
-msgstr ""
+msgstr "Elérhető"
 
 msgid "Available Extensions"
-msgstr ""
+msgstr "Elérhető bővítmények"
 
 msgid "Back"
-msgstr ""
+msgstr "Vissza"
 
 msgid "Back to listing"
-msgstr ""
+msgstr "Vissza a listához"
 
 msgid "Back to Portal"
 msgstr ""
 
 msgid "Base-10 logarithm"
-msgstr ""
+msgstr "10-es alapú logaritmus"
 
 msgid "Beta version"
-msgstr ""
+msgstr "Béta verzió"
 
 msgid "Binary operator *"
-msgstr ""
+msgstr "Bináris operátor *"
 
 msgid "Binary operator +"
-msgstr ""
+msgstr "Bináris operátor +"
 
 msgid "Binary operator -"
-msgstr ""
+msgstr "Bináris operátor -"
 
 msgid "Binary operator /"
-msgstr ""
+msgstr "Bináris operátor /"
 
 msgid "Binary operator modulo"
-msgstr ""
+msgstr "Bináris operátor modulo"
 
 msgid "Bitmap image"
-msgstr ""
+msgstr "Bittérképes kép"
 
 msgid "boolean"
-msgstr ""
+msgstr "logikai érték"
 
 msgid "Browse folders:"
-msgstr ""
+msgstr "Mappák böngészése:"
 
 msgid "Browse resources"
 msgstr ""
 
 msgid "Browse..."
-msgstr ""
+msgstr "Böngészés..."
 
 msgid "C"
-msgstr ""
+msgstr "C"
 
 msgid "C file"
-msgstr ""
+msgstr "C-fájl"
 
 msgid "C++ file"
 msgstr ""
 
 msgid "C++ file (.cpp)"
-msgstr ""
+msgstr "C++ fájl (.cpp)"
 
 msgid "Calc speadsheet (Staroffice)"
-msgstr ""
+msgstr "Calc táblázat (Staroffice)"
 
 msgid "Calculator"
-msgstr ""
+msgstr "Számológép"
 
 msgid "Calendar"
-msgstr ""
+msgstr "Naptár"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Mégsem"
 
 msgid "cancel"
-msgstr ""
+msgstr "mégsem"
 
 msgid "cancel the action"
-msgstr ""
+msgstr "törölje a műveletet"
 
 msgid "Cancelled"
-msgstr ""
+msgstr "Lemondva"
 
 msgid "Cannot be edited"
-msgstr ""
+msgstr "Nem szerkeszthető"
 
 msgid "Cannot divide by zero"
-msgstr ""
+msgstr "Nem lehet nullával osztani"
 
 msgid "Cascading Style Sheets"
-msgstr ""
+msgstr "Kaszkádos stíluslapok"
 
 msgid "Case sensitive"
-msgstr ""
+msgstr "Kis- és nagybetűérzékeny"
 
 msgid "ceil"
-msgstr ""
+msgstr "mennyezet"
 
 msgid "Center"
 msgstr ""
 
 #, tao-public
 msgid "Change password"
-msgstr ""
+msgstr "Jelszó módosítása"
 
 msgid "Change the password"
-msgstr ""
+msgstr "Jelszó módosítása"
 
 msgid "Change the sign of the current operand"
-msgstr ""
+msgstr "Az aktuális operandus előjelének módosítása"
 
 msgid "Check All"
-msgstr ""
+msgstr "Összes bejelölése"
 
 msgid "Check all"
-msgstr ""
+msgstr "Összes bejelölése"
 
 msgid "Check-in"
-msgstr ""
+msgstr "Bejelentkezés"
 
 msgid "choices:"
-msgstr ""
+msgstr "választási lehetőségek:"
 
 msgid "Choose a type for your property first"
 msgstr ""
 
 msgid "Choose a value..."
-msgstr ""
+msgstr "Válasszon egy értéket..."
 
 msgid "Choose export format"
-msgstr ""
+msgstr "Exportálási formátum kiválasztása"
 
 msgid "Choose import format"
-msgstr ""
+msgstr "Importálási formátum kiválasztása"
 
 msgid "class selected"
-msgstr ""
+msgstr "kiválasztott osztály"
 
 msgid "Class uri provided is not a valid class."
-msgstr ""
+msgstr "A megadott osztály URI nem érvényes osztály."
 
 msgid "Cleaning up tmp space complete"
-msgstr ""
+msgstr "Az ideiglenes tárhely kiürítése befejeződött"
 
 msgid "Cleaning up tmp space started"
-msgstr ""
+msgstr "Az ideiglenes tárhely kiürítése elkezdődött"
 
 msgid "Clear"
-msgstr ""
+msgstr "Világos"
 
 msgid "Clear All"
-msgstr ""
+msgstr "Összes törlése"
 
 msgid "Clear all data"
-msgstr ""
+msgstr "Az összes adat törlése"
 
 msgid "Clear expression"
-msgstr ""
+msgstr "Tiszta kifejezés"
 
 msgid "Clear History"
-msgstr ""
+msgstr "Előzmények törlése"
 
 msgid "Clear history"
-msgstr ""
+msgstr "Előzmények törlése"
 
 msgid "Clear selection"
-msgstr ""
+msgstr "Kijelölés törlése"
 
 msgid "Clear the date time picker"
-msgstr ""
+msgstr "Dátum-idő kiválasztó törlése"
 
 msgid "Clear the stored variables"
-msgstr ""
+msgstr "Törölje a tárolt változókat"
 
 msgid "Click to reload."
-msgstr ""
+msgstr "Kattintson az újratöltéshez."
 
 msgid "Click to start"
 msgstr ""
 
 msgid "Close"
-msgstr ""
+msgstr "Közeli"
 
 msgid "Close dialog"
-msgstr ""
+msgstr "Párbeszédpanel bezárása"
 
 msgid "Close message"
-msgstr ""
+msgstr "Üzenet bezárása"
 
 msgid "Code Version"
-msgstr ""
+msgstr "Kód verzió"
 
 msgid "Collecting of abandoned actions in the action queue ..."
-msgstr ""
+msgstr "A műveleti sorban félbehagyott műveletek összegyűjtése ..."
 
 msgid "Column"
-msgstr ""
+msgstr "Oszlop"
 
 msgid "command"
-msgstr ""
+msgstr "parancs"
 
 msgid "Commands:"
-msgstr ""
+msgstr "Parancsok:"
 
 msgid "comment..."
-msgstr ""
+msgstr "megjegyzés..."
 
 msgid "Commit"
-msgstr ""
+msgstr "Kötelezettségvállalás"
 
 msgid "Completed"
-msgstr ""
+msgstr "Befejezve"
 
 msgid "Completed - Error"
-msgstr ""
+msgstr "Befejezve - Hiba"
 
 msgid "Compressed tar file"
-msgstr ""
+msgstr "Tömörített tar fájl"
 
 msgid "Compute the expression"
-msgstr ""
+msgstr "Számítsd ki a kifejezést"
 
 msgid "Confirm"
-msgstr ""
+msgstr "Megerősítés"
 
 msgid "Connect to the TAO platform"
-msgstr ""
+msgstr "Csatlakozás a TAO platformhoz"
 
 msgid "Continue"
-msgstr ""
+msgstr "Folytatás"
 
 msgid "Cookie Policy"
 msgstr ""
@@ -619,143 +627,143 @@ msgid "Cookies Preferences"
 msgstr ""
 
 msgid "Copy"
-msgstr ""
+msgstr "Másolat"
 
 msgid "Copy to"
-msgstr ""
+msgstr "Másolás ide:"
 
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Másolás a vágólapra"
 
 msgid "cos"
-msgstr ""
+msgstr "kötözősaláta"
 
 msgid "cosh"
-msgstr ""
+msgstr "bunkó"
 
 msgid "Cosine"
-msgstr ""
+msgstr "Koszinusz"
 
 msgid "count"
-msgstr ""
+msgstr "gróf"
 
 msgid "Create"
-msgstr ""
+msgstr "Teremt"
 
 msgid "Create instance"
 msgstr ""
 
 msgid "Create instance of "
-msgstr ""
+msgstr "Példány létrehozása a következőből: "
 
 msgid "Create translation"
 msgstr ""
 
 msgid "Created"
-msgstr ""
+msgstr "Létrehozva"
 
 msgid "Creating report ..."
-msgstr ""
+msgstr "Jelentés létrehozása..."
 
 msgid "CSP Header settings were saved successfully!"
-msgstr ""
+msgstr "A CSP fejlécbeállítások mentése sikeresen megtörtént!"
 
 msgid "CSV"
-msgstr ""
+msgstr "CSV-fájl"
 
 msgid "CSV file"
-msgstr ""
+msgstr "CSV-fájl"
 
 msgid "CSV Options"
-msgstr ""
+msgstr "CSV-beállítások"
 
 msgid "Cube root"
-msgstr ""
+msgstr "Köbgyök"
 
 msgid "Current language"
-msgstr ""
+msgstr "Jelenlegi nyelv"
 
 msgid "Current playback position"
-msgstr ""
+msgstr "Aktuális lejátszási pozíció"
 
 msgid "currently has a dependency established with "
 msgstr ""
 
 msgid "Data imported"
-msgstr ""
+msgstr "Importált adatok"
 
 msgid "Data imported successfully"
-msgstr ""
+msgstr "Az adatok importálása sikeresen megtörtént"
 
 msgid "Data imported. Some records are invalid."
-msgstr ""
+msgstr "Adatok importálva. Néhány rekord érvénytelen."
 
 msgid "Data language"
-msgstr ""
+msgstr "Adatnyelv"
 
 msgid "Data Language"
-msgstr ""
+msgstr "Adatnyelv"
 
 msgid "Data not imported. All records are invalid."
-msgstr ""
+msgstr "Az adatok importálása nem történt meg. Minden rekord érvénytelen."
 
 msgid "Data source URI"
-msgstr ""
+msgstr "Adatforrás URI"
 
 msgid "Database file"
-msgstr ""
+msgstr "Adatbázisfájl"
 
 msgid "Date"
-msgstr ""
+msgstr "Dátum"
 
 msgid "date range"
-msgstr ""
+msgstr "dátumtartomány"
 
 msgid "date time"
-msgstr ""
+msgstr "dátum idő"
 
 msgid "date time range"
-msgstr ""
+msgstr "dátum-időtartomány"
 
 msgid "Default search"
-msgstr ""
+msgstr "Alapértelmezett keresés"
 
 msgid "default:"
-msgstr ""
+msgstr "alapértelmezett:"
 
 msgid "Define the default values"
-msgstr ""
+msgstr "Az alapértelmezett értékek meghatározása"
 
 msgid "Deg"
-msgstr ""
+msgstr "Fok"
 
 msgid "Degree"
-msgstr ""
+msgstr "Fokozat"
 
 #, tao-public
 msgid "Delete"
-msgstr ""
+msgstr "Töröl"
 
 msgid "Delete Left"
-msgstr ""
+msgstr "Törlés balra"
 
 msgid "Delete Right"
-msgstr ""
+msgstr "Törlés jobbra"
 
 msgid "Delete the term on the left side of the cursor"
-msgstr ""
+msgstr "Törölje a kurzor bal oldalán lévő kifejezést"
 
 msgid "Delete the term on the right side of the cursor"
-msgstr ""
+msgstr "Törölje a kurzor jobb oldalán lévő kifejezést"
 
 msgid "Deleting search index for %s"
-msgstr ""
+msgstr "Keresési index törlése a következőhöz: %s"
 
 msgid "Deleting this property will also remove the dependency"
 msgstr ""
 
 msgid "Demo Sandbox"
-msgstr ""
+msgstr "Demó homokozó"
 
 msgid "Dependency URI Path"
 msgstr ""
@@ -764,414 +772,415 @@ msgid "Depends on property"
 msgstr ""
 
 msgid "Did you mean %s?"
-msgstr ""
+msgstr "Úgy érted, hogy %s?"
 
 msgid "Digit 0"
-msgstr ""
+msgstr "0. számjegy"
 
 msgid "Digit 1"
-msgstr ""
+msgstr "1. számjegy"
 
 msgid "Digit 2"
-msgstr ""
+msgstr "2. számjegy"
 
 msgid "Digit 3"
-msgstr ""
+msgstr "3. számjegy"
 
 msgid "Digit 4"
-msgstr ""
+msgstr "4. számjegy"
 
 msgid "Digit 5"
-msgstr ""
+msgstr "5. számjegy"
 
 msgid "Digit 6"
-msgstr ""
+msgstr "6. számjegy"
 
 msgid "Digit 7"
-msgstr ""
+msgstr "7. számjegy"
 
 msgid "Digit 8"
-msgstr ""
+msgstr "8. számjegy"
 
 msgid "Digit 9"
-msgstr ""
+msgstr "9. számjegy"
 
 msgid "Disabled %s"
-msgstr ""
+msgstr "Letiltva %s"
 
 msgid "Do you want to override \"%s\"?"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr ""
+msgstr "Szeretnéd telepíteni a következő bővítmény(eke)t?\n"
+"%s?"
 
 msgid "Document templates (Staroffice)"
-msgstr ""
+msgstr "Dokumentum sablonok (Staroffice)"
 
 msgid "does not match"
-msgstr ""
+msgstr "nem egyezik"
 
 msgid "Don't set"
-msgstr ""
+msgstr "Ne állítsa be"
 
 msgid "Dot"
-msgstr ""
+msgstr "Pont"
 
 msgid "Download"
-msgstr ""
+msgstr "Letöltés"
 
 msgid "Download this file"
-msgstr ""
+msgstr "Töltse le ezt a fájlt"
 
 msgid "Drag file here"
-msgstr ""
+msgstr "Húzd ide a fájlt"
 
 msgid "Drag files here"
-msgstr ""
+msgstr "Húzd ide a fájlokat"
 
 msgid "Drop the files to upload"
-msgstr ""
+msgstr "Húzd el a feltöltendő fájlokat"
 
 msgid "Edit"
-msgstr ""
+msgstr "Szerkesztés"
 
 #, tao-public
 msgid "Edit a user"
-msgstr ""
+msgstr "Felhasználó szerkesztése"
 
 msgid "Edit class %s"
-msgstr ""
+msgstr "Osztály szerkesztése %s"
 
 msgid "Edit Instance"
-msgstr ""
+msgstr "Példány szerkesztése"
 
 msgid "Element"
-msgstr ""
+msgstr "Elem"
 
 msgid "Element deleted."
-msgstr ""
+msgstr "Elem törölve."
 
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 msgid "Empty resources cannot be translated."
 msgstr ""
 
 msgid "enabled"
-msgstr ""
+msgstr "engedélyezve"
 
 msgid "Enabled %s"
-msgstr ""
+msgstr "Engedélyezve %s"
 
 msgid "End of document reached. Continuing from the beginning."
-msgstr ""
+msgstr "A dokumentum vége elérve. Folytatjuk az elejétől."
 
 msgid "Enhanced metafile"
-msgstr ""
+msgstr "Bővített metafájl"
 
 msgid "Enter"
-msgstr ""
+msgstr "Belépés"
 
 msgid "Error"
-msgstr ""
+msgstr "Hiba"
 
 msgid "Error adding search index for %s with message %s"
-msgstr ""
+msgstr "Hiba a %s keresési indexének hozzáadásakor, a %süzenettel"
 
 msgid "Error during file import"
-msgstr ""
+msgstr "Hiba a fájl importálása során"
 
 msgid "Error in result"
-msgstr ""
+msgstr "Hiba az eredményben"
 
 msgid "Error in syntax"
-msgstr ""
+msgstr "Szintaxishiba"
 
 msgid "Error in value"
-msgstr ""
+msgstr "Értékhiba"
 
 msgid "Error: %s"
-msgstr ""
+msgstr "Hiba: %s"
 
 msgid "Essential cookies (required)"
 msgstr ""
 
 msgid "Examples:"
-msgstr ""
+msgstr "Példák:"
 
 msgid "Exclusive (OR)"
-msgstr ""
+msgstr "Kizárólagos (VAGY)"
 
 msgid "Execute"
-msgstr ""
+msgstr "Végrehajtás"
 
 msgid "Executing task %s failed"
-msgstr ""
+msgstr "A %s feladat végrehajtása sikertelen"
 
 msgid "exp"
-msgstr ""
+msgstr "tapasztalat"
 
 msgid "Exponent"
-msgstr ""
+msgstr "Kitevő"
 
 #, tao-public
 msgid "Export"
-msgstr ""
+msgstr "Export"
 
 msgid "Export "
-msgstr ""
+msgstr "Export "
 
 msgid "Export \"%s\" in %s"
-msgstr ""
+msgstr "Exportálja a(z) „%s” fájlt %s-ba"
 
 msgid "Export CSV"
-msgstr ""
+msgstr "CSV exportálása"
 
 msgid "Export failed."
-msgstr ""
+msgstr "Az exportálás sikertelen."
 
 msgid "Export Metadata as RDF/XML file"
-msgstr ""
+msgstr "Metaadatok exportálása RDF/XML fájlként"
 
 msgid "Export succeeded."
-msgstr ""
+msgstr "Az exportálás sikerült."
 
 msgid "Extension \"%s\" has been installed"
-msgstr ""
+msgstr "A(z) „%s” bővítmény telepítve lett"
 
 #, tao-public
 msgid "Extensions manager"
-msgstr ""
+msgstr "Bővítménykezelő"
 
 msgid "Factorial"
-msgstr ""
+msgstr "Faktoriális"
 
 msgid "Failed"
-msgstr ""
+msgstr "Sikertelen"
 
 msgid "Failed to copy class."
 msgstr ""
 
 msgid "Failed to delete index for %s"
-msgstr ""
+msgstr "Nem sikerült törölni a %sindexét"
 
 msgid "False"
-msgstr ""
+msgstr "Hamis"
 
 msgid "Field delimiter"
-msgstr ""
+msgstr "Mezőelválasztó"
 
 msgid "Field encloser"
-msgstr ""
+msgstr "Terepi bekerítés"
 
 msgid "Fields must match"
-msgstr ""
+msgstr "A mezőknek egyezniük kell"
 
 msgid "File"
-msgstr ""
+msgstr "Fájl"
 
 msgid "File download failed"
-msgstr ""
+msgstr "Fájl letöltése sikertelen"
 
 msgid "File name"
-msgstr ""
+msgstr "Fájlnév"
 
 msgid "File Properties"
-msgstr ""
+msgstr "Fájl tulajdonságai"
 
 msgid "file selected"
-msgstr ""
+msgstr "fájl kiválasztva"
 
 msgid "File Uploader"
-msgstr ""
+msgstr "Fájlfeltöltő"
 
 msgid "files selected"
-msgstr ""
+msgstr "kiválasztott fájlok"
 
 msgid "Filter"
-msgstr ""
+msgstr "Szűrő"
 
 msgid "Filter by value"
-msgstr ""
+msgstr "Szűrés érték szerint"
 
 msgid "Filtering mode"
-msgstr ""
+msgstr "Szűrési mód"
 
 msgid "First Name"
-msgstr ""
+msgstr "Keresztnév"
 
 msgid "First page"
-msgstr ""
+msgstr "Első oldal"
 
 msgid "First row column names"
-msgstr ""
+msgstr "Első sor oszlopnevei"
 
 msgid "Fit to width"
-msgstr ""
+msgstr "Szélességhez igazítva"
 
 msgid "Flash video"
-msgstr ""
+msgstr "Flash videó"
 
 msgid "floor"
-msgstr ""
+msgstr "emelet"
 
 msgid "Flowchart-based programming environment & TI Interactive Workbook"
-msgstr ""
+msgstr "Folyamatábra alapú programozási környezet és TI Interactive Workbook"
 
 msgid "Forbid for all domains"
-msgstr ""
+msgstr "Tiltás minden domainhez"
 
 msgid "Force HTTPS on this platform"
-msgstr ""
+msgstr "HTTPS kényszerítése ezen a platformon"
 
 msgid "Force Release"
-msgstr ""
+msgstr "Erőszakos kioldás"
 
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Elfelejtette jelszavát?"
 
 msgid "Form"
-msgstr ""
+msgstr "Forma"
 
 msgid "Form data not saved."
-msgstr ""
+msgstr "Az űrlap adatai nincsenek mentve."
 
 msgid "From"
-msgstr ""
+msgstr "Tól"
 
 msgid "Fuzzy Matching"
-msgstr ""
+msgstr "Fuzzy Matching"
 
 msgid "generated-value"
-msgstr ""
+msgstr "generált érték"
 
 msgid "Generis Form"
-msgstr ""
+msgstr "Generikus forma"
 
 msgid "Geogebra data file"
-msgstr ""
+msgstr "Geogebra adatfájl"
 
 msgid "Get History"
-msgstr ""
+msgstr "Előzmények lekérése"
 
 msgid "Get the history list"
-msgstr ""
+msgstr "Szerezd meg az előzmények listáját"
 
 msgid "GIF image"
-msgstr ""
+msgstr "GIF-kép"
 
 msgid "Go Back"
-msgstr ""
+msgstr "Vissza"
 
 msgid "go back to home page"
-msgstr ""
+msgstr "vissza a főoldalra"
 
 msgid "GZip Compressed Archive"
-msgstr ""
+msgstr "GZip tömörített archívum"
 
 msgid "Header file with extensionsLabels"
-msgstr ""
+msgstr "Fejlécfájl kiterjesztésekkelCímkék"
 
 msgid "Height"
-msgstr ""
+msgstr "Magasság"
 
 msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
-msgstr ""
+msgstr "Szia, %s<br>Jelezted, hogy elfelejtetted a TAO jelszavadat."
 
 msgid "Hide detailed report"
-msgstr ""
+msgstr "Részletes jelentés elrejtése"
 
 msgid "Hide password"
-msgstr ""
+msgstr "Jelszó elrejtése"
 
 msgid "Highlight all"
-msgstr ""
+msgstr "Összes kiemelése"
 
 msgid "hours"
-msgstr ""
+msgstr "órák"
 
 msgid "Hyperbolic arc cosine"
-msgstr ""
+msgstr "Hiperbolikus arkusz koszinusz"
 
 msgid "Hyperbolic arc sine"
-msgstr ""
+msgstr "Hiperbolikus arkusz szinusz"
 
 msgid "Hyperbolic arc tangent"
-msgstr ""
+msgstr "Hiperbolikus arkusz tangens"
 
 msgid "Hyperbolic cosine"
-msgstr ""
+msgstr "Hiperbolikus koszinusz"
 
 msgid "Hyperbolic sine"
-msgstr ""
+msgstr "Hiperbolikus szinusz"
 
 msgid "Hyperbolic tangent"
-msgstr ""
+msgstr "Hiperbolikus tangens"
 
 msgid "Hypertext markup language"
-msgstr ""
+msgstr "Hipertext jelölőnyelv"
 
 msgid "I understand that this action is permanent."
-msgstr ""
+msgstr "Tudomásul veszem, hogy ez a művelet végleges."
 
 msgid "Identifier"
-msgstr ""
+msgstr "Azonosító"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr ""
+msgstr "Ha nem szeretné visszaállítani a jelszavát, hagyja figyelmen kívül ezt az e-mailt, és a jelszava változatlan marad."
 
 msgid "Implications failed:"
-msgstr ""
+msgstr "A következtetések nem sikerültek:"
 
 msgid "Import"
-msgstr ""
+msgstr "Importálás"
 
 msgid "Import "
-msgstr ""
+msgstr "Importálás "
 
 msgid "Import a %s into \"%s"
-msgstr ""
+msgstr "Importáljon egy %s -t a \"%s\"-be"
 
 msgid "Import Completed"
-msgstr ""
+msgstr "Importálás befejezve"
 
 msgid "Import failed."
-msgstr ""
+msgstr "Importálás sikertelen."
 
 msgid "Import Metadata from CSV file"
-msgstr ""
+msgstr "Metaadatok importálása CSV-fájlból"
 
 msgid "Import Metadata from RDF file"
-msgstr ""
+msgstr "Metaadatok importálása RDF fájlból"
 
 #, tao-public
 msgid "Import statistical analysis metadata"
 msgstr ""
 
 msgid "Import succeeded."
-msgstr ""
+msgstr "Az importálás sikeres volt."
 
 msgid "Imported %1$d/%2$d. Some records are invalid."
-msgstr ""
+msgstr "Importálva %1$d/%2$d. Néhány rekord érvénytelen."
 
 msgid "Imported %d resources"
-msgstr ""
+msgstr "Importált %d erőforrások"
 
 msgid "Imported resource \"%s"
-msgstr ""
+msgstr "Importált erőforrás \"%s"
 
 msgid "Imported successfully finished!"
 msgstr ""
 
 msgid "impossible to update task status"
-msgstr ""
+msgstr "lehetetlen frissíteni a feladat állapotát"
 
 msgid "In Progress"
-msgstr ""
+msgstr "Folyamatban van"
 
 msgid "In progress"
-msgstr ""
+msgstr "Folyamatban van"
 
 msgid "Include all"
 msgstr ""
@@ -1183,398 +1192,398 @@ msgid "Include none"
 msgstr ""
 
 msgid "Inclusive (AND)"
-msgstr ""
+msgstr "Beleértve (ÉS)"
 
 #, tao-public
 msgid "Index"
 msgstr ""
 
 msgid "Index has been deleted for %s"
-msgstr ""
+msgstr "Index törölve a következőhöz: %s"
 
 msgid "Infinity"
-msgstr ""
+msgstr "Végtelenség"
 
 msgid "Inherit the permission of the parent folder"
 msgstr ""
 
 msgid "Injector has to contains a valid \"destination\" field."
-msgstr ""
+msgstr "Az injektornak érvényes „cél” mezőt kell tartalmaznia."
 
 msgid "Injector has to contains a valid \"source\" field."
-msgstr ""
+msgstr "Az injektornak érvényes „source” mezőt kell tartalmaznia."
 
 msgid "Inline"
-msgstr ""
+msgstr "Beágyazott"
 
 msgid "Install"
-msgstr ""
+msgstr "Telepítés"
 
 msgid "Installation done."
-msgstr ""
+msgstr "Telepítés kész."
 
 msgid "Installation..."
-msgstr ""
+msgstr "Telepítés..."
 
 msgid "Installed Extensions"
-msgstr ""
+msgstr "Telepített bővítmények"
 
 msgid "Installed Version"
-msgstr ""
+msgstr "Telepített verzió"
 
 msgid "Installing extension %s..."
-msgstr ""
+msgstr "Bővítmény telepítése %s..."
 
 msgid "Instance saved"
-msgstr ""
+msgstr "Példány mentve"
 
 msgid "Interface language"
-msgstr ""
+msgstr "Felhasználói felület nyelve"
 
 msgid "Interface Language"
-msgstr ""
+msgstr "Felhasználói felület nyelve"
 
 msgid "Interface Mode"
 msgstr ""
 
 msgid "Invalid CSP header."
-msgstr ""
+msgstr "Érvénytelen CSP fejléc."
 
 msgid "Invalid date range (must be after or the same as: %s)"
-msgstr ""
+msgstr "Érvénytelen dátumtartomány (a következő értéknek későbbinek vagy azzal megegyezőnek kell lennie: %s)"
 
 msgid "Invalid date range (must be after: %s)"
-msgstr ""
+msgstr "Érvénytelen dátumtartomány (a következő értéknek kell lennie: %s)"
 
 msgid "Invalid date range (must be before or the same as: %s)"
-msgstr ""
+msgstr "Érvénytelen dátumtartomány (a következő értéknél korábbinak vagy azzal megegyezőnek kell lennie: %s)"
 
 msgid "Invalid date range (must be before: %s)"
-msgstr ""
+msgstr "Érvénytelen dátumtartomány (előttinek kell lennie: %s)"
 
 msgid "Invalid field length"
-msgstr ""
+msgstr "Érvénytelen mezőhossz"
 
 msgid "Invalid field range (maximum value: %s)"
-msgstr ""
+msgstr "Érvénytelen mezőtartomány (maximális érték: %s)"
 
 msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
-msgstr ""
+msgstr "Érvénytelen mezőtartomány (minimális érték: %1$s, maximális érték: %2$s)"
 
 msgid "Invalid field range (minimum value: %s)"
-msgstr ""
+msgstr "Érvénytelen mezőtartomány (minimális érték: %s)"
 
 msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
-msgstr ""
+msgstr "Érvénytelen fájlméret (minimum %1$s bájt, maximum %2$s bájt)"
 
 msgid "Invalid file type!"
-msgstr ""
+msgstr "Érvénytelen fájltípus!"
 
 msgid "Invalid input"
-msgstr ""
+msgstr "Érvénytelen bevitel"
 
 msgid "Invalid input for function"
-msgstr ""
+msgstr "Érvénytelen bemenet a függvényhez"
 
 msgid "Invalid JSON config file: %s"
-msgstr ""
+msgstr "Érvénytelen JSON konfigurációs fájl: %s"
 
 msgid "Invalid login or password. Please try again."
-msgstr ""
+msgstr "Érvénytelen bejelentkezési név vagy jelszó. Kérjük, próbálja újra."
 
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
-msgstr ""
+msgstr "Érvénytelen bejelentkezési név vagy jelszó. Fiókja zárolva van, kérjük, vegye fel a kapcsolatot a rendszergazdával."
 
 msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
 msgstr ""
 
 msgid "invalid regular expression"
-msgstr ""
+msgstr "érvénytelen reguláris kifejezés"
 
 msgid "Invalid value"
 msgstr ""
 
 msgid "Invalid values:"
-msgstr ""
+msgstr "Érvénytelen értékek:"
 
 msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
 msgstr ""
 
 msgid "items per page"
-msgstr ""
+msgstr "elem oldalanként"
 
 msgid "Javascript code"
-msgstr ""
+msgstr "Javascript kód"
 
 msgid "JPEG image"
-msgstr ""
+msgstr "JPEG kép"
 
 msgid "Keep the original permissions"
 msgstr ""
 
 msgid "Label"
-msgstr ""
+msgstr "Címke"
 
 msgid "Label Path"
-msgstr ""
+msgstr "Címke elérési útja"
 
 msgid "Language"
-msgstr ""
+msgstr "Nyelv"
 
 msgid "Last attempt before your account is locked."
-msgstr ""
+msgstr "Utolsó próbálkozás a fiók zárolása előtt."
 
 msgid "Last Name"
-msgstr ""
+msgstr "Vezetéknév"
 
 msgid "Last page"
-msgstr ""
+msgstr "Utolsó oldal"
 
 msgid "Last result"
-msgstr ""
+msgstr "Utolsó eredmény"
 
 msgid "Left parenthesis"
-msgstr ""
+msgstr "Bal zárójel"
 
 msgid "less than a minute"
-msgstr ""
+msgstr "kevesebb mint egy perc"
 
 msgid "List"
-msgstr ""
+msgstr "Lista"
 
 msgid "List \"%s\" has duplicated values."
 msgstr ""
 
 msgid "List - Multiple choice - Check box"
-msgstr ""
+msgstr "Lista - Feleletválasztós - Jelölőnégyzet"
 
 msgid "List - Multiple choice - Search input"
-msgstr ""
+msgstr "Lista - Feleletválasztós - Keresési bevitel"
 
 msgid "List - Single choice - Drop down"
-msgstr ""
+msgstr "Lista - Egyetlen választási lehetőség - Legördülő menü"
 
 msgid "List - Single choice - Radio button"
-msgstr ""
+msgstr "Lista - Egyetlen választási lehetőség - Rádiógomb"
 
 msgid "List - Single choice - Search input"
-msgstr ""
+msgstr "Lista - Egyetlen választási lehetőség - Keresési bevitel"
 
 msgid "List item URI duplications found"
-msgstr ""
+msgstr "Listaelem URI duplikációi találhatók"
 
 msgid "List values"
-msgstr ""
+msgstr "Értékek listája"
 
 msgid "Load more"
-msgstr ""
+msgstr "Továbbiak betöltése"
 
 msgid "Loaded"
-msgstr ""
+msgstr "Töltött"
 
 msgid "Loaded at Startup"
-msgstr ""
+msgstr "Indításkor betöltve"
 
 msgid "Loading"
-msgstr ""
+msgstr "Terhelés"
 
 msgid "Loading status"
-msgstr ""
+msgstr "Betöltési állapot"
 
 msgid "Loading task status ..."
-msgstr ""
+msgstr "Feladat állapotának betöltése..."
 
 msgid "locked by %s"
-msgstr ""
+msgstr "%szárolta"
 
 msgid "Log in"
-msgstr ""
+msgstr "Bejelentkezés"
 
 msgid "Log Out"
-msgstr ""
+msgstr "Kijelentkezés"
 
 msgid "Login"
-msgstr ""
+msgstr "Bejelentkezés"
 
 msgid "Login available"
-msgstr ""
+msgstr "Bejelentkezés elérhető"
 
 msgid "Login is already in use."
-msgstr ""
+msgstr "A bejelentkezés már használatban van."
 
 msgid "Login is empty."
-msgstr ""
+msgstr "A bejelentkezés üres."
 
 msgid "Logout"
-msgstr ""
+msgstr "Kijelentkezés"
 
 msgid "M4A audio"
-msgstr ""
+msgstr "M4A hanganyag"
 
 msgid "Main Menu"
-msgstr ""
+msgstr "Főmenü"
 
 msgid "Maintenance service is already installed."
-msgstr ""
+msgstr "A karbantartási szolgáltatás már telepítve van."
 
 msgid "Maintenance service must have a persistence option."
-msgstr ""
+msgstr "A karbantartási szolgáltatásnak rendelkeznie kell megőrző opcióval."
 
 msgid "Maintenance service was installed. Platform is disabled."
-msgstr ""
+msgstr "Karbantartási szolgáltatás telepítve. A platform le van tiltva."
 
 msgid "Maintenance service was installed. Platform is enabled."
-msgstr ""
+msgstr "Karbantartási szolgáltatás telepítve. A platform engedélyezve van."
 
 msgid "Maintenance storage driver is not set"
-msgstr ""
+msgstr "A karbantartási tároló illesztőprogramja nincs beállítva"
 
 msgid "Manage class schema"
-msgstr ""
+msgstr "Osztályséma kezelése"
 
 msgid "manage columns"
 msgstr ""
 
 msgid "Manage data list"
-msgstr ""
+msgstr "Adatlista kezelése"
 
 msgid "Manage Preferences"
 msgstr ""
 
 #, tao-public
 msgid "Manage roles"
-msgstr ""
+msgstr "Szerepkörök kezelése"
 
 msgid "Manage Roles and apply them to users."
-msgstr ""
+msgstr "Szerepkörök kezelése és alkalmazása felhasználókra."
 
 #, tao-public
 msgid "Manage users"
-msgstr ""
+msgstr "Felhasználók kezelése"
 
 msgid "Manage Versioned File"
-msgstr ""
+msgstr "Verzióval ellátott fájl kezelése"
 
 msgid "Map the properties to the CSV columns"
-msgstr ""
+msgstr "Tulajdonságok leképezése a CSV oszlopaira"
 
 msgid "maximum %s"
 msgstr ""
 
 msgid "Maximum selection reached"
-msgstr ""
+msgstr "Elérte a maximális kiválasztható mennyiséget"
 
 msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
-msgstr ""
+msgstr "A média mérete a konténerével együtt változik, pl. az 50% a konténer méretének felét jelenti, nem a média méretének felét."
 
 msgid "Message"
-msgstr ""
+msgstr "Üzenet"
 
 msgid "Messages"
-msgstr ""
+msgstr "Üzenetek"
 
 msgid "Metadata export is not available for the selected resource."
-msgstr ""
+msgstr "A metaadatok exportálása nem érhető el a kiválasztott erőforráshoz."
 
 msgid "Microsoft Excel"
-msgstr ""
+msgstr "Microsoft Excel"
 
 msgid "Microsoft Excel binary format"
-msgstr ""
+msgstr "Microsoft Excel bináris formátum"
 
 msgid "Microsoft Office Document Imaging"
-msgstr ""
+msgstr "Microsoft Office dokumentumképalkotás"
 
 msgid "Microsoft Powerpoint"
-msgstr ""
+msgstr "Microsoft PowerPoint"
 
 msgid "Microsoft Powerpoint slideshow"
-msgstr ""
+msgstr "Microsoft PowerPoint diavetítés"
 
 msgid "Microsoft Project file"
-msgstr ""
+msgstr "Microsoft Project fájl"
 
 msgid "Microsoft Visio file"
-msgstr ""
+msgstr "Microsoft Visio-fájl"
 
 msgid "Microsoft Word"
-msgstr ""
+msgstr "Microsoft Word"
 
 msgid "Microsoft Word template"
-msgstr ""
+msgstr "Microsoft Word sablon"
 
 msgid "Microsoft Works file"
-msgstr ""
+msgstr "Microsoft Works fájl"
 
 msgid "Microsoft XPS file"
-msgstr ""
+msgstr "Microsoft XPS-fájl"
 
 msgid "MIME encapsulation of aggregate HTML documents"
-msgstr ""
+msgstr "Összesített HTML dokumentumok MIME beágyazása"
 
 msgid "Mind mapping software application (free mind open source)"
-msgstr ""
+msgstr "Gondolattérkép-készítő szoftveralkalmazás (ingyenes, nyílt forráskódú)"
 
 msgid "minimum %s"
 msgstr ""
 
 msgid "minutes"
-msgstr ""
+msgstr "jegyzőkönyv"
 
 msgid "missing config %s for the service %s"
-msgstr ""
+msgstr "hiányzó konfiguráció %s a szolgáltatáshoz %s"
 
 msgid "Missing Parameters"
-msgstr ""
+msgstr "Hiányzó paraméterek"
 
 msgid "modulo"
-msgstr ""
+msgstr "modulus"
 
 msgid "More"
-msgstr ""
+msgstr "Több"
 
 msgid "Move"
-msgstr ""
+msgstr "Mozog"
 
 msgid "Move Left"
-msgstr ""
+msgstr "Balra mozgatás"
 
 msgid "Move Right"
-msgstr ""
+msgstr "Jobbra mozgatás"
 
 #, tao-public
 msgid "Move role"
-msgstr ""
+msgstr "Szerepkör áthelyezése"
 
 msgid "Move the cursor one step on the left"
-msgstr ""
+msgstr "A kurzor mozgatása egy lépéssel balra"
 
 msgid "Move the cursor one step on the right"
-msgstr ""
+msgstr "A kurzor egy lépéssel jobbra mozgatása"
 
 msgid "Move to"
-msgstr ""
+msgstr "Áthelyezés ide:"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
-msgstr ""
+msgstr "Ennek az elemnek az áthelyezése az előző osztály tulajdonságait a célosztály tulajdonságaival cseréli le:"
 
 msgid "MP4 video"
-msgstr ""
+msgstr "MP4 videó"
 
 msgid "MPEG audio"
-msgstr ""
+msgstr "MPEG hang"
 
 msgid "MPEG video"
-msgstr ""
+msgstr "MPEG-videó"
 
 msgid "MPEG-4 audio file"
-msgstr ""
+msgstr "MPEG-4 hangfájl"
 
 msgid "Multiple values delimiter"
-msgstr ""
+msgstr "Több érték elválasztója"
 
 msgid "Multiply the value by 10^x"
-msgstr ""
+msgstr "Szorozd meg az értéket 10^x-szel"
 
 msgid "Must include at least one letter"
 msgstr ""
@@ -1592,169 +1601,170 @@ msgid "Must include upper case letters"
 msgstr ""
 
 msgid "Mute"
-msgstr ""
+msgstr "Néma"
 
 msgid "My custom text translation"
-msgstr ""
+msgstr "Saját szövegfordításom"
 
 #, tao-public
 msgid "My settings"
-msgstr ""
+msgstr "Saját beállítások"
 
 msgid "My settings (%s)"
-msgstr ""
+msgstr "A beállításaim (%s)"
 
 msgid "Name"
-msgstr ""
+msgstr "Név"
 
 msgid "Natural logarithm"
-msgstr ""
+msgstr "Természetes logaritmus"
 
 msgid "New password"
-msgstr ""
+msgstr "Új jelszó"
 
 #, tao-public
 msgid "New role"
-msgstr ""
+msgstr "Új szerepkör"
 
 msgid "Next"
-msgstr ""
+msgstr "Következő"
 
 msgid "Next match"
-msgstr ""
+msgstr "Következő mérkőzés"
 
 msgid "Next page"
-msgstr ""
+msgstr "Következő oldal"
 
 msgid "No"
-msgstr ""
+msgstr "Nem"
 
 msgid "No action specified"
-msgstr ""
+msgstr "Nincs megadva művelet"
 
 msgid "No client translation bundles updated"
-msgstr ""
+msgstr "Nincsenek frissített kliensfordítási csomagok"
 
 msgid "No extensions available."
-msgstr ""
+msgstr "Nincsenek elérhető bővítmények."
 
 msgid "no file not found in this location"
-msgstr ""
+msgstr "nem található fájl ezen a helyen"
 
 msgid "No file selected"
-msgstr ""
+msgstr "Nincs kiválasztott fájl"
 
 msgid "No files"
-msgstr ""
+msgstr "Nincsenek fájlok"
 
 msgid "No item found. Please try other search criteria."
-msgstr ""
+msgstr "Nem található elem. Kérjük, próbálkozzon más keresési feltételekkel."
 
 msgid "no label"
-msgstr ""
+msgstr "nincs címke"
 
 msgid "No Task yet"
-msgstr ""
+msgstr "Még nincs feladat"
 
 msgid "Node duplication has failed"
-msgstr ""
+msgstr "A csomópont duplikációja sikertelen"
 
 msgid "none"
 msgstr ""
 
 msgid "Not enough arguments following: %s"
-msgstr ""
+msgstr "Nincs elég argumentum a következő után: %s"
 
 msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
+msgstr "Nincs elég nem-opcionális argumentum: %sértéket kaptunk, legalább %sszükséges"
 
 msgid "Not Ready for Translation"
 msgstr ""
 
 msgid "Not started"
-msgstr ""
+msgstr "Nincs elkezdve"
 
 msgid "NotEmpty"
 msgstr ""
 
 msgid "Nothing imported"
-msgstr ""
+msgstr "Semmi importált"
 
 msgid "Nothing to install !"
-msgstr ""
+msgstr "Nincs mit telepíteni!"
 
 msgid "Nothing to list!"
-msgstr ""
+msgstr "Nincs mit felsorolni!"
 
 #, tao-public
 msgid "Notifications"
-msgstr ""
+msgstr "Értesítések"
 
-msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
-msgstr ""
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
+msgstr "Az értesítési illesztőprogramok nem állandóak. Használjon állandó adatbázis-tároló illesztőprogramot."
+
 
 msgid "Nth root"
-msgstr ""
+msgstr "N-edik gyök"
 
 msgid "number"
-msgstr ""
+msgstr "szám"
 
 msgid "Number of elements"
-msgstr ""
+msgstr "Elemek száma"
 
 msgid "of"
-msgstr ""
+msgstr "a"
 
 msgid "Off"
-msgstr ""
+msgstr "Le"
 
 msgid "Ogg Vorbis audio"
-msgstr ""
+msgstr "Ogg Vorbis hang"
 
 msgid "Ogg Vorbis video"
-msgstr ""
+msgstr "Ogg Vorbis videó"
 
 msgid "Ok"
-msgstr ""
+msgstr "Rendben"
 
 msgid "OK"
-msgstr ""
+msgstr "RENDBEN"
 
 msgid "Old Password"
-msgstr ""
+msgstr "Régi jelszó"
 
 msgid "On"
-msgstr ""
+msgstr "On"
 
 msgid "Only allow for my own domain (%s)"
-msgstr ""
+msgstr "Csak a saját domainemhez engedélyezve (%s)"
 
 msgid "Only one of the field must have value %s"
-msgstr ""
+msgstr "Csak az egyik mező értéke lehet %s"
 
 msgid "Open the item for editing"
 msgstr ""
 
 msgid "OpenDocument Database"
-msgstr ""
+msgstr "OpenDocument adatbázis"
 
 msgid "OpenDocument Presentation"
-msgstr ""
+msgstr "OpenDocument prezentáció"
 
 msgid "OpenDocument spreadsheet document"
-msgstr ""
+msgstr "OpenDocument táblázatkezelő dokumentum"
 
 msgid "OpenDocument text document"
-msgstr ""
+msgstr "OpenDocument szöveges dokumentum"
 
 msgid "OpenDocument Text Template"
-msgstr ""
+msgstr "OpenDocument szövegsablon"
 
 msgid "Operated By "
-msgstr ""
+msgstr "Üzemeltető "
 
 msgid "or"
-msgstr ""
+msgstr "vagy"
 
 msgid "Original"
 msgstr ""
@@ -1763,103 +1773,103 @@ msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of 
 msgstr ""
 
 msgid "Outlook on the next Synchronization"
-msgstr ""
+msgstr "Outlook a következő szinkronizáláskor"
 
 msgid "Page"
-msgstr ""
+msgstr "Oldal"
 
 msgid "Pascal file"
 msgstr ""
 
 msgid "Pascal file (.pas)"
-msgstr ""
+msgstr "Pascal fájl (.pas)"
 
 msgid "Password"
-msgstr ""
+msgstr "Jelszó"
 
 msgid "Password changed"
-msgstr ""
+msgstr "Jelszó megváltozott"
 
 msgid "Password is empty."
-msgstr ""
+msgstr "A jelszó üres."
 
 msgid "Password reset"
-msgstr ""
+msgstr "Jelszó visszaállítása"
 
 msgid "Password successfully changed"
-msgstr ""
+msgstr "Jelszó sikeresen megváltoztatva"
 
 msgid "Passwords are not matching"
-msgstr ""
+msgstr "A jelszavak nem egyeznek"
 
 msgid "Pause"
-msgstr ""
+msgstr "Szünet"
 
 msgid "PDF file"
-msgstr ""
+msgstr "PDF-fájl"
 
 msgid "Pending"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
-msgstr ""
+msgstr "A kiválasztott osztályban írási engedély megtagadva"
 
 msgid "Permission settings"
 msgstr ""
 
 msgid "Plain text"
-msgstr ""
+msgstr "Sima szöveg"
 
 msgid "Play"
-msgstr ""
+msgstr "Játék"
 
 msgid "Please confirm deletion"
-msgstr ""
+msgstr "Kérjük, erősítse meg a törlést"
 
 msgid "Please confirm deletion of %s."
-msgstr ""
+msgstr "Kérjük, erősítse meg a %störlését."
 
 msgid "Please confirm deletion of user %s"
-msgstr ""
+msgstr "Kérjük, erősítse meg a felhasználó törlését %s"
 
 msgid "Please confirm locking of account %s"
-msgstr ""
+msgstr "Kérjük, erősítse meg a fiók zárolását %s"
 
 msgid "Please confirm property deletion!"
-msgstr ""
+msgstr "Kérjük, erősítse meg az ingatlan törlését!"
 
 msgid "Please confirm this operation."
-msgstr ""
+msgstr "Kérjük, erősítse meg ezt a műveletet."
 
 msgid "Please confirm unlocking of account %s"
-msgstr ""
+msgstr "Kérjük, erősítse meg a fiók feloldását %s"
 
 msgid "Please contact %s or an administrator to release it"
-msgstr ""
+msgstr "Kérjük, vedd fel a kapcsolatot a %s -val vagy egy adminisztrátorral a feloldáshoz."
 
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Kérjük, vegye fel a kapcsolatot a rendszergazdával."
 
 msgid "Please contact your system administrator."
-msgstr ""
+msgstr "Kérjük, vegye fel a kapcsolatot a rendszergazdával."
 
 msgid "Please define your search in the search panel."
-msgstr ""
+msgstr "Kérjük, definiálja a keresést a keresőpanelen."
 
 msgid "Please download the track and listen offline."
-msgstr ""
+msgstr "Kérlek, töltsd le a számot és hallgasd meg offline."
 
 msgid "Please download the video and view offline."
-msgstr ""
+msgstr "Kérlek töltsd le a videót és nézd meg offline."
 
 msgid "Please give a message to your commit"
-msgstr ""
+msgstr "Kérlek, adj egy üzenetet a commitodnak"
 
 msgid "Please provide a reason"
-msgstr ""
+msgstr "Kérjük, adjon meg egy okot"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
+msgstr "Kérjük, hibákat, ötleteket, megjegyzéseket vagy visszajelzéseket a TAO Fórumon jelezzen."
 
 msgid "Please select a language."
 msgstr ""
@@ -1874,701 +1884,701 @@ msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
-msgstr ""
+msgstr "Kérjük, várjon"
 
 msgid "Please wait while ..."
-msgstr ""
+msgstr "Kérlek várj, amíg..."
 
 msgid "PNG image"
-msgstr ""
+msgstr "PNG-kép"
 
 msgid "Position"
-msgstr ""
+msgstr "Pozíció"
 
 msgid "Positionals:"
-msgstr ""
+msgstr "Pozíciók:"
 
 msgid "Post install processing"
-msgstr ""
+msgstr "Telepítés utáni feldolgozás"
 
 msgid "Power of"
-msgstr ""
+msgstr "A hatalom"
 
 msgid "Power of 10"
-msgstr ""
+msgstr "10 hatványa"
 
 msgid "Preparing installation..."
-msgstr ""
+msgstr "Telepítés előkészítése..."
 
 msgid "Preview"
-msgstr ""
+msgstr "Előnézet"
 
 msgid "Previous"
-msgstr ""
+msgstr "Előző"
 
 msgid "Previous match"
-msgstr ""
+msgstr "Előző mérkőzés"
 
 msgid "Previous page"
-msgstr ""
+msgstr "Előző oldal"
 
 msgid "Privacy Policy"
 msgstr ""
 
 msgid "Proceed"
-msgstr ""
+msgstr "Folytatás"
 
 #, tao-public
 msgid "Properties"
-msgstr ""
+msgstr "Tulajdonságok"
 
 msgid "Provided URL is not valid"
-msgstr ""
+msgstr "A megadott URL érvénytelen"
 
 msgid "Publish"
-msgstr ""
+msgstr "Közzététel"
 
 msgid "Publish the test"
-msgstr ""
+msgstr "Teszt közzététele"
 
 msgid "Queued"
-msgstr ""
+msgstr "Sorban álló"
 
 msgid "Quicktime video"
-msgstr ""
+msgstr "Quicktime videó"
 
 msgid "Rad"
-msgstr ""
+msgstr "Rad"
 
 msgid "Radian"
-msgstr ""
+msgstr "Radián"
 
 msgid "random"
-msgstr ""
+msgstr "véletlen"
 
 msgid "Random value"
-msgstr ""
+msgstr "Véletlenszerű érték"
 
 msgid "Range field is required"
-msgstr ""
+msgstr "Tartomány mező kitöltése kötelező"
 
 msgid "RAR archive"
-msgstr ""
+msgstr "RAR archívum"
 
 msgid "RDF"
-msgstr ""
+msgstr "RDF"
 
 msgid "Ready for Translation"
 msgstr ""
 
 msgid "RealMedia file"
-msgstr ""
+msgstr "RealMedia fájl"
 
 msgid "Refresh"
-msgstr ""
+msgstr "Frissítés"
 
 msgid "Reject all"
 msgstr ""
 
 msgid "Release"
-msgstr ""
+msgstr "Kiadás"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
+msgstr "A zár feloldása a %s által folyamatban lévő munka elvesztését okozhatja."
 
 msgid "Reload"
-msgstr ""
+msgstr "Újratöltés"
 
 msgid "Remind"
-msgstr ""
+msgstr "Emlékeztet"
 
 msgid "Remind Last"
-msgstr ""
+msgstr "Emlékeztető utolsó"
 
 msgid "Remind the last value"
-msgstr ""
+msgstr "Emlékeztető az utolsó értékre"
 
 msgid "Remind the next expression in the history"
-msgstr ""
+msgstr "Emlékeztesd a következő kifejezést a történelemben"
 
 msgid "Remind the previous expression in the history"
-msgstr ""
+msgstr "Emlékeztesd a korábbi kifejezést a történelemben"
 
 msgid "Remind the recorded value"
-msgstr ""
+msgstr "Emlékeztetőül a rögzített értékre"
 
 msgid "Remove"
-msgstr ""
+msgstr "Eltávolítás"
 
 msgid "Remove criteria"
-msgstr ""
+msgstr "Feltételek eltávolítása"
 
 msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
-msgstr ""
+msgstr "Üzenet eltávolítása"
 
 msgid "Remove the translated item"
 msgstr ""
 
 msgid "Remove this file"
-msgstr ""
+msgstr "Fájl eltávolítása"
 
 msgid "Removed %s directories"
-msgstr ""
+msgstr "%s könyvtár eltávolítva"
 
 msgid "Removed %s files"
-msgstr ""
+msgstr "%s fájl eltávolítva"
 
 msgid "Removing: %s"
-msgstr ""
+msgstr "Eltávolítás: %s"
 
 msgid "Rename"
-msgstr ""
+msgstr "Átnevezés"
 
 msgid "Repeat new password"
-msgstr ""
+msgstr "Ismételje meg az új jelszót"
 
 msgid "Repeat password"
-msgstr ""
+msgstr "Jelszó ismétlése"
 
 msgid "Request a password reset via Email."
-msgstr ""
+msgstr "Jelszó-visszaállítás kérése e-mailben."
 
 msgid "require notification ID"
-msgstr ""
+msgstr "értesítési azonosító szükséges"
 
 msgid "required"
-msgstr ""
+msgstr "kívánt"
 
 msgid "required length"
-msgstr ""
+msgstr "szükséges hossz"
 
 msgid "Requires"
-msgstr ""
+msgstr "Szükséges"
 
 msgid "Reset"
-msgstr ""
+msgstr "Visszaállítás"
 
 msgid "Reset the range values"
-msgstr ""
+msgstr "A tartomány értékeinek visszaállítása"
 
 msgid "Resource"
-msgstr ""
+msgstr "Forrás"
 
 msgid "Resource copied"
-msgstr ""
+msgstr "Erőforrás másolva"
 
 msgid "Resource deleted"
-msgstr ""
+msgstr "Erőforrás törölve"
 
 msgid "Resource Identifier"
-msgstr ""
+msgstr "Erőforrás-azonosító"
 
 msgid "Resource Identifier could not be copied to the clipboard"
-msgstr ""
+msgstr "Az erőforrás-azonosítót nem sikerült a vágólapra másolni."
 
 msgid "Resource Identifier has been copied to the clipboard"
-msgstr ""
+msgstr "Az erőforrás-azonosító a vágólapra másolva"
 
 msgid "Resource not imported due to multiple super classes"
-msgstr ""
+msgstr "Az erőforrás nem importálható több szuperosztály miatt."
 
 msgid "Resource not imported due to multiple types"
-msgstr ""
+msgstr "Az erőforrás nem importálható, mert több típus is van benne."
 
 msgid "Resource saved"
-msgstr ""
+msgstr "Erőforrás mentve"
 
 msgid "resources"
-msgstr ""
+msgstr "erőforrás"
 
 msgid "Resources moved"
-msgstr ""
+msgstr "Erőforrások áthelyezve"
 
 msgid "Resources successfully indexed"
-msgstr ""
+msgstr "Erőforrások sikeresen indexelve"
 
 msgid "Resources was not indexed"
-msgstr ""
+msgstr "Az erőforrások nem lettek indexelve"
 
 msgid "Responsive mode"
-msgstr ""
+msgstr "Reszponzív mód"
 
 msgid "Restore sound"
-msgstr ""
+msgstr "Hang visszaállítása"
 
 msgid "Return to sign in page"
-msgstr ""
+msgstr "Vissza a bejelentkezési oldalra"
 
 msgid "Rich Text Format file"
-msgstr ""
+msgstr "Rich Text formátumú fájl"
 
 msgid "Right click the tree to manage your lists"
-msgstr ""
+msgstr "Kattintson jobb gombbal a fára a listák kezeléséhez"
 
 msgid "Right parenthesis"
-msgstr ""
+msgstr "Jobb zárójel"
 
 msgid "Role saved"
-msgstr ""
+msgstr "Szerepkör mentve"
 
 msgid "Roles"
-msgstr ""
+msgstr "Szerepkörök"
 
 #, tao-public
 msgid "Roles library"
-msgstr ""
+msgstr "Szerepkörök könyvtára"
 
 msgid "round"
-msgstr ""
+msgstr "kerek"
 
 msgid "Round to closest whole number"
-msgstr ""
+msgstr "Kerekítés a legközelebbi egész számra"
 
 msgid "Round to lower whole number"
-msgstr ""
+msgstr "Kerekítés kisebb egész számra"
 
 msgid "Round to upper whole number"
-msgstr ""
+msgstr "Kerekítés a felső egész számra"
 
 msgid "Row %s"
-msgstr ""
+msgstr "Sor %s"
 
 msgid "Running task %s"
-msgstr ""
+msgstr "Futó feladat %s"
 
 msgid "Save"
-msgstr ""
+msgstr "Megtakarítás"
 
 msgid "Saved."
-msgstr ""
+msgstr "Mentve."
 
 msgid "Scientific Calculator"
-msgstr ""
+msgstr "Tudományos számológép"
 
 msgid "Scope"
-msgstr ""
+msgstr "Hatókör"
 
 msgid "Search"
-msgstr ""
+msgstr "Keresés"
 
 msgid "Search %s"
-msgstr ""
+msgstr "Keresés %s"
 
 msgid "Search by properties"
-msgstr ""
+msgstr "Keresés ingatlanok szerint"
 
 msgid "Search sub-classes"
-msgstr ""
+msgstr "Alosztályok keresése"
 
 msgid "second"
-msgstr ""
+msgstr "második"
 
 msgid "seconds"
-msgstr ""
+msgstr "másodperc"
 
 #, tao-public
 msgid "Security"
-msgstr ""
+msgstr "Biztonság"
 
 msgid "Security settings"
-msgstr ""
+msgstr "Biztonsági beállítások"
 
 msgid "Select"
-msgstr ""
+msgstr "Válasszon"
 
 msgid "select"
-msgstr ""
+msgstr "kiválasztás"
 
 msgid "Select a class"
-msgstr ""
+msgstr "Válasszon egy osztályt"
 
 msgid "Select a destination"
-msgstr ""
+msgstr "Válasszon úti célt"
 
 msgid "Select a language"
-msgstr ""
+msgstr "Válasszon nyelvet"
 
 msgid "Select loaded %s"
-msgstr ""
+msgstr "Válasszon betöltve %s"
 
 msgid "Select this file"
-msgstr ""
+msgstr "Jelölje ki ezt a fájlt"
 
 msgid "select..."
-msgstr ""
+msgstr "válassz..."
 
 msgid "Selected"
-msgstr ""
+msgstr "Kiválasztott"
 
 msgid "Selected file:"
-msgstr ""
+msgstr "Kiválasztott fájl:"
 
 msgid "Selection saved successfully"
-msgstr ""
+msgstr "A kijelölés sikeresen mentve"
 
 msgid "self-locked"
-msgstr ""
+msgstr "önzáró"
 
 msgid "Set the trigonometric function to work in degrees"
-msgstr ""
+msgstr "A trigonometrikus függvény beállítása fokban való működésre"
 
 msgid "Set the trigonometric function to work in radians"
-msgstr ""
+msgstr "A trigonometrikus függvény beállítása radiánban való működésre"
 
 #, tao-public
 msgid "Settings"
-msgstr ""
+msgstr "Beállítások"
 
 msgid "Settings updated"
-msgstr ""
+msgstr "Beállítások frissítve"
 
 msgid "Show detailed report"
-msgstr ""
+msgstr "Részletes jelentés megjelenítése"
 
 msgid "Show password"
-msgstr ""
+msgstr "Jelszó megjelenítése"
 
 msgid "Sibelius music notation"
-msgstr ""
+msgstr "Sibelius kottajelölés"
 
 msgid "Sign change"
-msgstr ""
+msgstr "Jelzésváltás"
 
 msgid "sin"
-msgstr ""
+msgstr "bűn"
 
 msgid "Sine"
-msgstr ""
+msgstr "Szinusz"
 
 msgid "sinh"
-msgstr ""
+msgstr "sinh"
 
 msgid "Size"
-msgstr ""
+msgstr "Méret"
 
 msgid "Some of resources has not be deleted"
 msgstr ""
 
 msgid "Some resources have not been moved: %s"
-msgstr ""
+msgstr "Néhány erőforrás nem lett áthelyezve: %s"
 
 msgid "Something unexpected happened."
-msgstr ""
+msgstr "Valami váratlan történt."
 
 msgid "Sources that can embed this platform in an iFrame"
-msgstr ""
+msgstr "Források, amelyek beágyazhatják ezt a platformot egy iFrame-be"
 
 msgid "Square root"
-msgstr ""
+msgstr "Négyzetgyök"
 
 msgid "Start"
 msgstr ""
 
 msgid "Start of document reached. Continuing from the end."
-msgstr ""
+msgstr "Elértük a dokumentum elejét. Folytatjuk a végéről."
 
 msgid "Start translation"
 msgstr ""
 
 msgid "Status"
-msgstr ""
+msgstr "Állapot"
 
 msgid "Status of"
-msgstr ""
+msgstr "Állapot"
 
 msgid "Store"
-msgstr ""
+msgstr "Bolt"
 
 msgid "Store the value a variable"
-msgstr ""
+msgstr "Tárold az értéket egy változóban"
 
 msgid "Storing digital video data on a computer game"
-msgstr ""
+msgstr "Digitális videoadatok tárolása számítógépes játékban"
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
 msgstr ""
 
 msgid "string"
-msgstr ""
+msgstr "húr"
 
 msgid "Submit"
-msgstr ""
+msgstr "Küldés"
 
 msgid "Success"
-msgstr ""
+msgstr "Siker"
 
 msgid "Successfully cloned instance as %s"
-msgstr ""
+msgstr "Példány klónozása sikeresen megtörtént %snéven"
 
 msgid "Successfully deleted %s"
-msgstr ""
+msgstr "Sikeresen törölve %s"
 
 msgid "Successfully imported \"%s"
-msgstr ""
+msgstr "Sikeresen importálva \"%s"
 
 msgid "Successfully imported %s tripples"
-msgstr ""
+msgstr "%s tripple sikeresen importálva"
 
 msgid "Successfully imported class \"%s"
-msgstr ""
+msgstr "A \"%s\" osztály importálása sikeresen megtörtént."
 
 msgid "Successfully updated %s client translation bundles"
-msgstr ""
+msgstr "%s kliens fordítási csomag sikeresen frissítve"
 
 msgid "Supported export formats"
-msgstr ""
+msgstr "Támogatott exportformátumok"
 
 msgid "SVG image"
-msgstr ""
+msgstr "SVG-kép"
 
 msgid "Syntax error"
-msgstr ""
+msgstr "Szintaxishiba"
 
 msgid "Tagged image file"
-msgstr ""
+msgstr "Címkézett képfájl"
 
 msgid "tan"
-msgstr ""
+msgstr "cserszínű"
 
 msgid "Tangent"
-msgstr ""
+msgstr "Tangens"
 
 msgid "tanh"
-msgstr ""
+msgstr "tanh"
 
 msgid "Tao Default Theme"
-msgstr ""
+msgstr "Tao alapértelmezett téma"
 
 msgid "TAO Home"
-msgstr ""
+msgstr "TAO Home"
 
 msgid "TAO Login"
-msgstr ""
+msgstr "TAO bejelentkezés"
 
 msgid "TAO platform is already on live mode since %s"
-msgstr ""
+msgstr "A TAO platform már élő módban van %sóta"
 
 msgid "TAO platform is already on maintenance mode since %s"
-msgstr ""
+msgstr "A TAO platform már karbantartási üzemmódban van %sóta"
 
 msgid "TAO platform is live since %s."
-msgstr ""
+msgstr "A TAO platform %sóta működik."
 
 msgid "TAO platform is now live. It was in maintenance since %s"
-msgstr ""
+msgstr "A TAO platform mostantól elérhető. Karbantartás alatt állt %sóta."
 
 msgid "TAO platform is now under maintenance. It was in maintenance since %s"
-msgstr ""
+msgstr "A TAO platform jelenleg karbantartás alatt áll. %sóta karbantartás alatt állt."
 
 msgid "TAO platform is under maintenance since %s"
-msgstr ""
+msgstr "A TAO platform %sóta karbantartás alatt áll."
 
 msgid "Tao WebHooks"
 msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
-msgstr ""
+msgstr "A %s feladatot megszakították, az üzenetet nem sikerült feldolgozni."
 
 msgid "task created"
-msgstr ""
+msgstr "feladat létrehozva"
 
 msgid "Task Listing"
-msgstr ""
+msgstr "Feladatlista"
 
 msgid "Task Name"
-msgstr ""
+msgstr "Feladat neve"
 
 msgid "Task not found"
-msgstr ""
+msgstr "Feladat nem található"
 
 msgid "Task not returned any report."
-msgstr ""
+msgstr "A feladat nem adott vissza jelentést."
 
 msgid "Term"
-msgstr ""
+msgstr "Kifejezés"
 
 msgid "TeX file"
-msgstr ""
+msgstr "TeX-fájl"
 
 msgid "Text - Long - Box"
-msgstr ""
+msgstr "Szöveg - Hosszú - Doboz"
 
 msgid "Text - Long - HTML editor"
-msgstr ""
+msgstr "Szöveg - Hosszú - HTML szerkesztő"
 
 msgid "Text - Short - Field"
-msgstr ""
+msgstr "Szöveg - Rövid - Mező"
 
 msgid "Text document file format (Staroffice)"
-msgstr ""
+msgstr "Szöveges dokumentumfájl formátuma (Staroffice)"
 
 msgid "Text to translate"
 msgstr ""
 
 msgid "The action will be applied to"
-msgstr ""
+msgstr "A művelet a következőre lesz alkalmazva:"
 
 msgid "The action will be applied to the following"
-msgstr ""
+msgstr "A művelet a következőkre lesz alkalmazva"
 
 msgid "The action will not be applied to "
-msgstr ""
+msgstr "A művelet nem lesz alkalmazva a következőre: "
 
 msgid "The action will not be applied to the following"
-msgstr ""
+msgstr "A művelet nem lesz érvényes a következőkre"
 
 msgid "The class has been copied."
 msgstr ""
 
 msgid "The column "
-msgstr ""
+msgstr "Az oszlop "
 
 msgid "The field \"List\" is disabled because the property is part of a dependency"
 msgstr ""
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
-msgstr ""
+msgstr "A következő kritériumok nem alkalmazhatók a kiválasztott osztályra, ezért eltávolításra kerültek a keresésből"
 
 msgid "The format of this field is not valid."
-msgstr ""
+msgstr "A mező formátuma érvénytelen."
 
 msgid "The imported file is not properly UTF-8 encoded."
-msgstr ""
+msgstr "Az importált fájl nincs megfelelően UTF-8 kódolva."
 
 msgid "The index identifier should not be empty"
-msgstr ""
+msgstr "Az indexazonosító nem lehet üres"
 
 msgid "The lock has been released"
-msgstr ""
+msgstr "A zár kioldva"
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
-msgstr ""
+msgstr "A forrásosztály tulajdonságait a célosztály tulajdonságai fogják felülírni. Ez metaadatok elvesztéséhez vezethet. Folytatja ennek ellenére?"
 
 msgid "The selected value(s) must be compatible with the primary property."
 msgstr ""
 
 msgid "The server has sent an empty response"
-msgstr ""
+msgstr "A szerver üres választ küldött"
 
 msgid "The uploaded file is too large (maximum %s bytes)"
-msgstr ""
+msgstr "A feltöltött fájl túl nagy (maximum %s bájt)"
 
 msgid "The value for the property \"%s\" must be unique."
-msgstr ""
+msgstr "A \"%s\" tulajdonság értékének egyedinek kell lennie."
 
 msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
-msgstr ""
+msgstr "A mező értékének érvényes dátumformátumnak kell lennie, pl. ÉÉÉÉ-HH-NN"
 
 msgid "The value of this field must be an integer"
-msgstr ""
+msgstr "A mező értékének egész számnak kell lennie"
 
 msgid "The value of this field must be numeric"
-msgstr ""
+msgstr "Ennek a mezőnek az értékének numerikusnak kell lennie."
 
 msgid "There is nothing to list!"
-msgstr ""
+msgstr "Nincs mit felsorolni!"
 
 msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
 msgstr ""
 
 msgid "This %s is currently checked out"
-msgstr ""
+msgstr "Ez a %s jelenleg ki van véve"
 
 msgid "This field is required"
-msgstr ""
+msgstr "Ez a mező kötelező"
 
 msgid "This field is too long"
-msgstr ""
+msgstr "Ez a mező túl hosszú"
 
 msgid "This field is too short"
-msgstr ""
+msgstr "Ez a mező túl rövid"
 
 msgid "This is not a valid email address."
-msgstr ""
+msgstr "Ez nem érvényes e-mail cím."
 
 msgid "this is required"
-msgstr ""
+msgstr "ez kötelező"
 
 msgid "This Login is already in use"
-msgstr ""
+msgstr "Ez a bejelentkezés már használatban van"
 
 msgid "This media cannot be played!"
-msgstr ""
+msgstr "Ez a média nem játszható le!"
 
 msgid "This or one of %s must have a value"
-msgstr ""
+msgstr "Ennek vagy a %s egyikének értéke kell, hogy legyen"
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
-msgstr ""
+msgstr "Ez a jelszó-visszaállító link már nem érvényes. Lehet, hogy már használták. Ha továbbra is vissza szeretné állítani a jelszavát, kérjük, kérjen új linket."
 
 msgid "This resource is locked"
-msgstr ""
+msgstr "Ez az erőforrás zárolva van"
 
 msgid "This resource is not ready for translation."
 msgstr ""
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
-msgstr ""
+msgstr "Ez a szerepkör még mindig egy vagy több felhasználóhoz tartozik. Kérjük, először távolítsa el a szerepkört ezektől a felhasználóktól."
 
 msgid "This should equal %s"
-msgstr ""
+msgstr "Ennek %s-nak kell lennie"
 
 msgid "This should not equal %s"
-msgstr ""
+msgstr "Ennek nem szabad egyenlőnek lennie %s-val"
 
 msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
 msgstr ""
 
 msgid "time"
-msgstr ""
+msgstr "idő"
 
 msgid "Time zone"
-msgstr ""
+msgstr "Időzóna"
 
 msgid "Title"
-msgstr ""
+msgstr "Cím"
 
 msgid "to"
-msgstr ""
+msgstr "hogy"
 
 msgid "To change your preferences, click Manage preferences."
 msgstr ""
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
-msgstr ""
+msgstr "Jelszava visszaállításához kattintson az alábbi linkre, vagy illessze be a böngészőjébe. Ezután a rendszer kérni fogja, hogy hozzon létre egy új jelszót."
 
 msgid "to translate"
-msgstr ""
+msgstr "fordítani"
 
 msgid "Toggle multiple/single selection"
-msgstr ""
+msgstr "Többszörös/egyszeres kijelölés váltása"
 
 msgid "Toggle the date time picker"
-msgstr ""
+msgstr "Dátum-időválasztó be-/kikapcsolása"
 
 msgid "Tokenizer"
-msgstr ""
+msgstr "Tokenizáló"
 
 msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
+msgstr "Túl sok nem opcionális argumentum: %slett belőle, maximum %s"
 
 msgid "Too many suggestions match your query. Only a few are listed"
-msgstr ""
+msgstr "Túl sok javaslat felel meg a keresésnek. Csak néhány szerepel a listában."
 
 msgid "Total duration"
-msgstr ""
+msgstr "Teljes időtartam"
 
 msgid "Total:"
-msgstr ""
+msgstr "Teljes:"
 
 msgid "Translate"
-msgstr ""
+msgstr "Fordítás"
 
 msgid "Translate to"
-msgstr ""
+msgstr "Fordítás erre:"
 
 msgid "Translated"
 msgstr ""
@@ -2580,13 +2590,13 @@ msgid "Translation"
 msgstr ""
 
 msgid "Translation parameters"
-msgstr ""
+msgstr "Fordítási paraméterek"
 
 msgid "Translation Progress"
 msgstr ""
 
 msgid "Translation saved"
-msgstr ""
+msgstr "Fordítás mentve"
 
 msgid "Translation Status"
 msgstr ""
@@ -2598,270 +2608,270 @@ msgid "Translations"
 msgstr ""
 
 msgid "Transport Layer Security"
-msgstr ""
+msgstr "Szállítási réteg biztonsága"
 
 msgid "Tree - Multiple node choice"
 msgstr ""
 
 msgid "Tree - Multiple node choice "
-msgstr ""
+msgstr "Fa - Több csomópont választás "
 
 msgid "Tree values"
-msgstr ""
+msgstr "Fa értékek"
 
 msgid "True"
-msgstr ""
+msgstr "Igaz"
 
 msgid "trunc"
-msgstr ""
+msgstr "csonk"
 
 msgid "Type"
-msgstr ""
+msgstr "Típus"
 
 msgid "Type your search"
-msgstr ""
+msgstr "Írja be a keresést"
 
 msgid "Unable to access your account?"
-msgstr ""
+msgstr "Nem fér hozzá a fiókjához?"
 
 msgid "Unable to change passwords in demo mode"
-msgstr ""
+msgstr "Nem lehet jelszavakat módosítani demó módban"
 
 msgid "Unable to copy the resource"
-msgstr ""
+msgstr "Nem sikerült másolni az erőforrást"
 
 msgid "Unable to delete %s"
-msgstr ""
+msgstr "Nem sikerült törölni %s"
 
 msgid "Unable to delete the selected resource"
-msgstr ""
+msgstr "A kiválasztott erőforrás törlése sikertelen"
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
 msgstr ""
 
 msgid "Unable to delete the selected resources"
-msgstr ""
+msgstr "A kiválasztott erőforrások törlése sikertelen"
 
 msgid "Unable to move the resources"
-msgstr ""
+msgstr "Nem sikerült áthelyezni az erőforrásokat"
 
 msgid "Unable to open file %s"
-msgstr ""
+msgstr "Nem sikerült megnyitni a fájlt %s"
 
 msgid "Unable to process your request"
-msgstr ""
+msgstr "Nem sikerült feldolgozni a kérését"
 
 msgid "Unable to release the lock"
-msgstr ""
+msgstr "Nem sikerült feloldani a zárat"
 
 msgid "Unable to remove the property."
-msgstr ""
+msgstr "Nem sikerült eltávolítani a tulajdonságot."
 
 msgid "Unable to save resource."
-msgstr ""
+msgstr "Nem sikerült menteni az erőforrást."
 
 msgid "unable to search into notification."
-msgstr ""
+msgstr "nem lehet keresni az értesítésben."
 
 msgid "Unable to send the password reset request"
-msgstr ""
+msgstr "Nem sikerült elküldeni a jelszó-visszaállítási kérelmet"
 
 msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
 msgstr ""
 
 msgid "Unable to update the asset service"
-msgstr ""
+msgstr "Nem sikerült frissíteni az eszközszolgáltatást."
 
 msgid "Unable to upload file"
-msgstr ""
+msgstr "Nem sikerült feltölteni a fájlt"
 
 msgid "Unable to upload file %s : %s"
-msgstr ""
+msgstr "Nem sikerült feltölteni a fájlt %s : %s"
 
 msgid "Unary operator +"
-msgstr ""
+msgstr "Unáris operátor +"
 
 msgid "Unary operator -"
-msgstr ""
+msgstr "Unáris operátor -"
 
 msgid "Unauthorized files have been removed"
 msgstr ""
 
 msgid "Uncheck All"
-msgstr ""
+msgstr "Összes kijelölésének törlése"
 
 msgid "Uncheck all"
-msgstr ""
+msgstr "Összes kijelölésének törlése"
 
 msgid "Undefined amount of the pages for pagination"
-msgstr ""
+msgstr "Meghatározatlan számú oldal tördeléshez"
 
 msgid "Undefined amount of the totalPages for pagination"
-msgstr ""
+msgstr "A lapozáshoz használt összes oldalszám meghatározatlan mennyisége"
 
 msgid "Undefined Instance can not be saved"
 msgstr ""
 
 msgid "Undo"
-msgstr ""
+msgstr "Visszavonás"
 
 msgid "Unexpected error. Please contact administrator"
-msgstr ""
+msgstr "Váratlan hiba. Kérjük, vegye fel a kapcsolatot a rendszergazdával."
 
 msgid "Uninstall of %s failed"
-msgstr ""
+msgstr "A %s eltávolítása sikertelen"
 
 msgid "Uninstalled %s"
-msgstr ""
+msgstr "Eltávolítva %s"
 
 msgid "Unique Identifier"
 msgstr ""
 
 msgid "UNIX Compressed Archive File"
-msgstr ""
+msgstr "UNIX tömörített archívumfájl"
 
 msgid "unknown"
-msgstr ""
+msgstr "ismeretlen"
 
 msgid "Unknown Error"
-msgstr ""
+msgstr "Ismeretlen hiba"
 
 msgid "unkown task id %s"
-msgstr ""
+msgstr "ismeretlen feladatazonosító %s"
 
 msgid "Update"
-msgstr ""
+msgstr "Frissítés"
 
 msgid "Update ID : %s"
-msgstr ""
+msgstr "Frissítési azonosító: %s"
 
 msgid "Updating search index"
-msgstr ""
+msgstr "Keresési index frissítése"
 
 msgid "Upload"
-msgstr ""
+msgstr "Feltöltés"
 
 msgid "Upload into:"
-msgstr ""
+msgstr "Feltöltés ide:"
 
 msgid "URI Path"
-msgstr ""
+msgstr "URI-útvonal"
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
-msgstr ""
+msgstr "Használat: ImportRdf RDF_FILE [MODEL_ID]"
 
 msgid "USAGE: please provide a valid extension id as second parameter"
-msgstr ""
+msgstr "HASZNÁLAT: kérjük, adjon meg egy érvényes bővítményazonosítót második paraméterként"
 
 msgid "USAGE: please provide a valid service name as first parameter"
-msgstr ""
+msgstr "HASZNÁLAT: kérjük, adjon meg egy érvényes szolgáltatásnevet első paraméterként"
 
 msgid "USAGE: please provide the service name as first parameter"
-msgstr ""
+msgstr "HASZNÁLAT: kérjük, adja meg a szolgáltatás nevét első paraméterként"
 
 msgid "Use a term"
-msgstr ""
+msgstr "Használjon egy kifejezést"
 
 msgid "Use a variable"
-msgstr ""
+msgstr "Változó használata"
 
 msgid "Use default value"
-msgstr ""
+msgstr "Alapértelmezett érték használata"
 
 msgid "User"
-msgstr ""
+msgstr "Felhasználó"
 
 msgid "User %s can not be locked"
-msgstr ""
+msgstr "A %s felhasználó nem zárolható"
 
 msgid "User %s can not be unlocked"
-msgstr ""
+msgstr "A %s felhasználó nem oldható fel."
 
 msgid "User %s successfully locked"
-msgstr ""
+msgstr "Felhasználó %s sikeresen zárolva"
 
 msgid "User %s successfully unlocked"
-msgstr ""
+msgstr "%s felhasználó sikeresen feloldva"
 
 msgid "User added"
-msgstr ""
+msgstr "Felhasználó hozzáadva"
 
 msgid "User deleted successfully"
-msgstr ""
+msgstr "Felhasználó sikeresen törölve"
 
 msgid "User deletion not permitted on a demo instance"
-msgstr ""
+msgstr "Felhasználó törlése nem engedélyezett demó példányon"
 
 msgid "User not found"
-msgstr ""
+msgstr "Felhasználó nem található"
 
 msgid "User saved"
-msgstr ""
+msgstr "Felhasználó mentve"
 
 #, tao-public
 msgid "User Settings"
-msgstr ""
+msgstr "Felhasználói beállítások"
 
 #, tao-public
 msgid "Users"
-msgstr ""
+msgstr "Felhasználók"
 
 msgid "Validation for field '%s' has failed. Language does not exist in the system"
-msgstr ""
+msgstr "A(z) '%s' mező érvényesítése sikertelen. A nyelv nem létezik a rendszerben."
 
 msgid "Validation for field '%s' has failed. List of values expected"
-msgstr ""
+msgstr "A(z) '%s' mező érvényesítése sikertelen. A várt értékek listája."
 
 msgid "Validation for field '%s' has failed. Should not be empty"
-msgstr ""
+msgstr "A(z) '%s' mező érvényesítése sikertelen. Nem lehet üres."
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
-msgstr ""
+msgstr "A(z) '%s' mező érvényesítése sikertelen. Érvényes szerepkört várt a rendszer. Adott: %s"
 
 msgid "Validation for field '%s' has failed. Valid URI expected"
-msgstr ""
+msgstr "A(z) '%s' mező érvényesítése sikertelen. Érvényes URI-t vártunk."
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
-msgstr ""
+msgstr "A(z) '%s' mező érvényesítése sikertelen. Érvényes URI-t vártunk. Adott: %s"
 
 msgid "Value ellipsis"
-msgstr ""
+msgstr "Érték három pont"
 
 msgid "Value of E"
-msgstr ""
+msgstr "E értéke"
 
 msgid "Value of PI"
-msgstr ""
+msgstr "A PI értéke"
 
 msgid "Variable"
-msgstr ""
+msgstr "Változó"
 
 msgid "Variable %s"
-msgstr ""
+msgstr "Változó %s"
 
 msgid "Version"
-msgstr ""
+msgstr "Változat"
 
 msgid "View"
-msgstr ""
+msgstr "Kilátás"
 
 msgid "View report"
-msgstr ""
+msgstr "Jelentés megtekintése"
 
 msgid "View resources as a list"
-msgstr ""
+msgstr "Erőforrások megtekintése listaként"
 
 msgid "View resources as a tree"
-msgstr ""
+msgstr "Erőforrások megtekintése faszerkezetben"
 
 msgid "Wait is over"
-msgstr ""
+msgstr "Vége a várakozásnak"
 
 msgid "Waiting"
-msgstr ""
+msgstr "Várakozás"
 
 msgid "WAV audio"
-msgstr ""
+msgstr "WAV hang"
 
 msgid "WebHook auth configuration can not be loaded"
 msgstr ""
@@ -2871,61 +2881,61 @@ msgid "WebHooks"
 msgstr ""
 
 msgid "WebM audio"
-msgstr ""
+msgstr "WebM hanganyag"
 
 msgid "WebM video"
-msgstr ""
+msgstr "WebM-videó"
 
 msgid "Whole number part"
-msgstr ""
+msgstr "Egész szám része"
 
 msgid "Width"
-msgstr ""
+msgstr "Szélesség"
 
 msgid "Windows help file"
-msgstr ""
+msgstr "Windows súgófájl"
 
 msgid "Windows Media audio"
-msgstr ""
+msgstr "Windows Media hanganyag"
 
 msgid "Windows Media file (metafile)"
-msgstr ""
+msgstr "Windows Media fájl (metafájl)"
 
 msgid "Windows Media video"
-msgstr ""
+msgstr "Windows Media videó"
 
 msgid "with"
 msgstr ""
 
 msgid "Wrap image left"
-msgstr ""
+msgstr "Kép balra tördelése"
 
 msgid "Wrap image right"
-msgstr ""
+msgstr "Kép jobbra tördelése"
 
 msgid "Write Document"
-msgstr ""
+msgstr "Dokumentum írása"
 
 msgid "Wrong or missing parameter extension, module or action"
-msgstr ""
+msgstr "Hibás vagy hiányzó paraméterbővítmény, modul vagy művelet"
 
 msgid "Wrong parameter shownExtension"
-msgstr ""
+msgstr "Hibás paraméter a shownExtension-ben"
 
 msgid "XML file"
-msgstr ""
+msgstr "XML-fájl"
 
 msgid "Yes"
-msgstr ""
+msgstr "Igen"
 
 msgid "You are encountering a prolonged connectivity loss."
-msgstr ""
+msgstr "Hosszan tartó kapcsolatkiesést tapasztal."
 
 msgid "You are not allowed to write in the class %s"
-msgstr ""
+msgstr "Nem szabad írni az órán %s"
 
 msgid "You are not authorised to remove this lock"
-msgstr ""
+msgstr "Nincs jogosultsága a zár eltávolítására"
 
 msgid "You can choose which types of cookies you want to allow to improve your experience."
 msgstr ""
@@ -2934,47 +2944,47 @@ msgid "You can read more about this in our"
 msgstr ""
 
 msgid "You cannot delete the root node"
-msgstr ""
+msgstr "A gyökércsomópontot nem lehet törölni."
 
 msgid "You cannot move the selected resources in the class %s"
-msgstr ""
+msgstr "A kiválasztott erőforrásokat nem lehet áthelyezni a %sosztályban."
 
 msgid "You currently have no access to the platform"
-msgstr ""
+msgstr "Jelenleg nincs hozzáférésed a platformhoz"
 
 msgid "You do not have the required rights to edit this resource."
-msgstr ""
+msgstr "Nincsenek meg a szükséges jogosultságai ennek az erőforrásnak a szerkesztéséhez."
 
 msgid "You have been locked due to too many failed login attempts. "
-msgstr ""
+msgstr "Túl sok sikertelen bejelentkezési kísérlet miatt zároltuk az oldalt. "
 
 msgid "You have been logged out. Please login again"
-msgstr ""
+msgstr "Kijelentkezett. Kérjük, jelentkezzen be újra."
 
 msgid "You must activate JavaScript in your browser to run this application."
-msgstr ""
+msgstr "Az alkalmazás futtatásához engedélyeznie kell a JavaScriptet a böngészőjében."
 
 msgid "Your account has been locked, please contact your administrator."
-msgstr ""
+msgstr "Fiókja zárolva van, kérjük, vegye fel a kapcsolatot a rendszergazdával."
 
 msgid "Your browser does not meet the technical requirements to run TAO."
-msgstr ""
+msgstr "A böngésződ nem felel meg a TAO futtatásához szükséges technikai követelményeknek."
 
 msgid "Your browser does not support copying to the clipboard"
-msgstr ""
+msgstr "A böngésződ nem támogatja a vágólapra másolást"
 
 msgid "Your browser doesn’t support the audio player."
-msgstr ""
+msgstr "A böngésződ nem támogatja az audiolejátszót."
 
 msgid "Your browser doesn’t support the video player."
-msgstr ""
+msgstr "A böngésződ nem támogatja a videolejátszót."
 
 msgid "Your mail"
-msgstr ""
+msgstr "Az Ön levelei"
 
 msgid "Your TAO Password"
-msgstr ""
+msgstr "Az Ön TAO jelszava"
 
 msgid "ZIP archive"
-msgstr ""
+msgstr "ZIP archívum"
 
