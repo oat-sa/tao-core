@@ -1,127 +1,134 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2021.09\n"
-"PO-Revision-Date: 2021-08-24T08:14:37\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 14:26\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: fr-FR\n"
+"Language: fr\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: fr-FR\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/indexation.rdf.po\n"
+"X-Crowdin-File-ID: 1189\n"
+"Language-Team: French\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Index"
-msgstr "Sommaire"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Index class"
-msgstr "Classe d'indices"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Identifier"
-msgstr "Identifiant"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Humanreadable identifier of the index"
-msgstr "Identifiant de l'indice lisible en clair "
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer of index"
-msgstr "Analyseur lexical de l'indice"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer to be used to extract search strings"
-msgstr "Analyseur lexical à utiliser pour extraire des mots-clés"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Fuzzy matching"
-msgstr "Appariement flou"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Should the string matching be exact or fuzzy"
-msgstr "Il devrait être donné que la chaîne de caractère soit exacte ou floue"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Use by default"
-msgstr "Utiliser par défaut"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Should this property be used implicitly in the defautl search"
-msgstr "Il devrait être donné que cette propriété soit implicitement utilisée dans la recherche par défaut"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer"
-msgstr "Analyseur lexical"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer class"
-msgstr "Classe d'analyseur lexical"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer implementation"
-msgstr "Implementation d'analyseur lexical"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Classname of the tokenizer implementation"
-msgstr "Nom de la classe d'implementation de l'analyseur lexical"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Property Indexation"
-msgstr "Indexation de la propriété"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "How a property should be indexed"
-msgstr "Comment une propriété devrait être indexée"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Raw Value Tokenizer"
-msgstr "Valeur brute d'un analyseur lexical"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer using the raw property value"
-msgstr "Analyseur lexical utilisant la propriété de la valeur brute"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Label Tokenizer"
-msgstr "Etiquette d'analyseur lexical"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer using the resource labels"
-msgstr "Analyseur lexical utilisant les étiquettes initiales"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Label Index"
-msgstr "Etiquette d'index"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TypeIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Type Index"
-msgstr "Type d'index"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LoginIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Login Index"
-msgstr "Index de l'identifiant"
+msgstr ""
 
