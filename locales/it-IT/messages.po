@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 15:13\n"
+"PO-Revision-Date: 2025-12-05 20:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it\n"
@@ -1612,7 +1612,7 @@ msgid "My settings (%s)"
 msgstr "Le mie impostazioni (%s)"
 
 msgid "Name"
-msgstr "Nome"
+msgstr ""
 
 msgid "Natural logarithm"
 msgstr ""
