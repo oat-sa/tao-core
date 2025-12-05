@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2025.06\n"
-"PO-Revision-Date: 2025-06-13T16:12:32\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 08:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: fa-IR\n"
+"Language: fa\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: fa-IR\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-GB\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: fa\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
+"X-Crowdin-File-ID: 617\n"
+"Language-Team: Persian\n"
 
 msgid ""
 msgstr ""
@@ -203,6 +210,9 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr ""
 
@@ -335,9 +345,6 @@ msgid "Are you sure you want to start the translation for this language?"
 msgstr ""
 
 msgid "Are you sure you wish to delete it"
-msgstr ""
-
-msgid "Are you wish to delete it"
 msgstr ""
 
 msgid "Argument check failed: %s"
@@ -540,10 +547,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -1435,6 +1442,9 @@ msgstr ""
 msgid "manage columns"
 msgstr ""
 
+msgid "Manage data list"
+msgstr ""
+
 msgid "Manage Preferences"
 msgstr ""
 
@@ -1687,7 +1697,10 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
-msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
+msgstr ""
+
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "Nth root"
@@ -2021,6 +2034,9 @@ msgstr ""
 msgid "Removing: %s"
 msgstr ""
 
+msgid "Rename"
+msgstr ""
+
 msgid "Repeat new password"
 msgstr ""
 
@@ -2097,6 +2113,9 @@ msgid "Return to sign in page"
 msgstr ""
 
 msgid "Rich Text Format file"
+msgstr ""
+
+msgid "Right click the tree to manage your lists"
 msgstr ""
 
 msgid "Right parenthesis"
