@@ -42,8 +42,16 @@ class ResultAccessChecker extends ConfigurableService
         $permissionHelper =  $this->getPermissionHelper();
 
         foreach ($resource->getTypes() as $type) {
+            $typeUri = $type->getUri();
+
+            // Skip permission check for ontology classes (schema/metadata)
+            // These don't have permission records in the database
+            if ($this->isOntologyClass($typeUri)) {
+                continue;
+            }
+
             $accessibleResources = $permissionHelper->filterByPermission(
-                [$type->getUri()],
+                [$typeUri],
                 PermissionInterface::RIGHT_READ
             );
 
@@ -51,7 +59,7 @@ class ResultAccessChecker extends ConfigurableService
                 return false;
             }
 
-            $class = $this->getClass($type->getUri());
+            $class = $this->getClass($typeUri);
 
             if (!$this->hasReadPermissionForClass($class, $permissionHelper, $topLevelClass)) {
                 return false;
@@ -69,17 +77,28 @@ class ResultAccessChecker extends ConfigurableService
         $parentClasses = $class->getParentClasses(true);
 
         foreach ($parentClasses as $parentClass) {
+            $parentUri = $parentClass->getUri();
+
+            // Skip permission check for ontology classes (schema/metadata)
+            if ($this->isOntologyClass($parentUri)) {
+                // If we reached the top level class, we're done
+                if ($parentUri === $topLevelClass->getUri()) {
+                    return true;
+                }
+                continue;
+            }
+
             $accessibleResource = $permissionHelper
-            ->filterByPermission(
-                [$parentClass->getUri()],
-                PermissionInterface::RIGHT_READ
-            );
+                ->filterByPermission(
+                    [$parentUri],
+                    PermissionInterface::RIGHT_READ
+                );
 
             if (empty($accessibleResource)) {
                 return false;
             }
 
-            if ($parentClass->getUri() === $topLevelClass->getUri()) {
+            if ($parentUri === $topLevelClass->getUri()) {
                 return true;
             }
         }
@@ -89,5 +108,30 @@ class ResultAccessChecker extends ConfigurableService
     private function getPermissionHelper(): PermissionHelper
     {
         return $this->getServiceLocator()->get(PermissionHelper::class);
+    }
+
+    /**
+     * Check if a URI represents an ontology class (schema/metadata) rather than a data instance.
+     * Ontology classes don't have permission records in the database.
+     *
+     * @param string $uri
+     * @return bool
+     */
+    private function isOntologyClass(string $uri): bool
+    {
+        // Ontology classes are in specific namespaces
+        $ontologyNamespaces = [
+            'http://www.tao.lu/Ontologies/',
+            'http://www.w3.org/2000/01/rdf-schema#',
+            'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+        ];
+
+        foreach ($ontologyNamespaces as $namespace) {
+            if (strpos($uri, $namespace) === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
