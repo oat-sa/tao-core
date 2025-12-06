@@ -20,7 +20,7 @@
 
 namespace oat\tao\test\unit\helpers;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\ArrayValidator;
 
 class ArrayValidatorTest extends TestCase

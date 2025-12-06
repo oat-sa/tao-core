@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\webhooks\task;
 
@@ -26,8 +28,9 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\log\LoggerService;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookAuth;
@@ -45,86 +48,30 @@ use oat\tao\model\webhooks\task\WebhookTaskParamsFactory;
 use oat\tao\model\webhooks\task\WebhookTaskReports;
 use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookTaskServiceInterface;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerInterface;
 
 class WebhookTaskTest extends TestCase
 {
-    private $serviceLocatorMock;
+    use ServiceManagerMockTrait;
 
-    /**
-     * @var WebhookRegistryInterface | MockObject
-     */
-    private $webhookRegistryMock;
+    private ServiceManager|MockObject $serviceManagerMock;
+    private WebhookRegistryInterface|MockObject $webhookRegistryMock;
+    private WebhookPayloadFactoryInterface|MockObject $webhookPayloadFactoryInterfaceMock;
+    private WebhookTaskParamsFactory|MockObject $webhookTaskParamsFactoryMock;
+    private WebhookResponseFactoryInterface|MockObject $webhookResponseFactoryInterfaceMock;
+    private WebhookSender|MockObject $webhookSenderMock;
+    private WebhookTaskServiceInterface|MockObject $webhookTaskServiceMock;
+    private WebhookInterface|MockObject $webhookConfigMock;
+    private WebhookTaskParams|MockObject $webhookTaskParamsMock;
+    private RequestInterface|MockObject $requestMock;
+    private WebhookResponse|MockObject $webhookResponseMock;
+    private WebhookEventLogInterface|MockObject $webhookLogServiceMock;
+    private WebhookTaskReports|MockObject $webhookTaskReports;
 
-    /**
-     * @var WebhookPayloadFactoryInterface | MockObject
-     */
-    private $webhookPayloadFactoryInterfaceMock;
-
-    /**
-     * @var WebhookTaskParamsFactory | MockObject
-     */
-    private $webhookTaskParamsFactoryMock;
-
-    /**
-     * @var WebhookResponseFactoryInterface | MockObject
-     */
-    private $webhookResponseFactoryInterfaceMock;
-
-    /**
-     * @var WebhookSender | MockObject
-     */
-    private $webhookSenderMock;
-
-    /**
-     * @var WebhookTaskServiceInterface | MockObject
-     */
-    private $webhookTaskServiceMock;
-
-    /**
-     * @var WebhookInterface | MockObject
-     */
-    private $webhookConfigMock;
-
-    /**
-     * @var WebhookTaskParams
-     */
-    private $webhookTaskParamsMock;
-
-    /**
-     * @var RequestInterface | MockObject
-     */
-    private $requestMock;
-
-    /**
-     * @var WebhookResponse | MockObject
-     */
-    private $webhookResponseMock;
-
-    /**
-     * @var LoggerService | MockObject
-     */
-    private $logerMock;
-
-    /**
-     * @var WebhookEventLogInterface | MockObject
-     */
-    private $webhookLogServiceMock;
-
-    /**
-     * @var ResponseInterface | MockObject
-     */
-    private $responseMock;
-
-    /**
-     * @var WebhookTaskReports | MockObject
-     */
-    private $webhookTaskReports;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->webhookRegistryMock = $this->createMock(WebhookRegistryInterface::class);
         $this->webhookPayloadFactoryInterfaceMock = $this->createMock(WebhookPayloadFactoryInterface::class);
@@ -132,11 +79,11 @@ class WebhookTaskTest extends TestCase
         $this->webhookResponseFactoryInterfaceMock = $this->createMock(WebhookResponseFactoryInterface::class);
         $this->webhookSenderMock = $this->createMock(WebhookSender::class);
         $this->webhookTaskServiceMock = $this->createMock(WebhookTaskServiceInterface::class);
-        $this->logerMock = $this->createMock(LoggerService::class);
+        $loggerMock = $this->createMock(LoggerService::class);
         $this->webhookLogServiceMock = $this->createMock(WebhookEventLogInterface::class);
         $this->webhookTaskReports = $this->createMock(WebhookTaskReports::class);
 
-        $this->serviceLocatorMock = $this->getServiceLocatorMock([
+        $this->serviceManagerMock = $this->getServiceManagerMock([
             WebhookTaskReports::class => $this->webhookTaskReports,
             WebhookRegistryInterface::class => $this->webhookRegistryMock,
             WebhookPayloadFactoryInterface::SERVICE_ID => $this->webhookPayloadFactoryInterfaceMock,
@@ -144,7 +91,7 @@ class WebhookTaskTest extends TestCase
             WebhookResponseFactoryInterface::SERVICE_ID => $this->webhookResponseFactoryInterfaceMock,
             WebhookSender::class => $this->webhookSenderMock,
             WebhookTaskServiceInterface::SERVICE_ID => $this->webhookTaskServiceMock,
-            LoggerService::SERVICE_ID => $this->logerMock,
+            LoggerService::SERVICE_ID => $loggerMock,
             WebhookEventLogInterface::SERVICE_ID => $this->webhookLogServiceMock,
         ]);
     }
@@ -182,7 +129,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
@@ -239,11 +186,11 @@ class WebhookTaskTest extends TestCase
         $this->webhookPayloadFactoryInterfaceMock->method('getContentType')->willReturn('html/php');
         $this->webhookResponseFactoryInterfaceMock->method('getAcceptedContentType')->willReturn('*');
         $this->requestMock = $this->createMock(RequestInterface::class);
-        $this->responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock = $this->createMock(ResponseInterface::class);
         $this->webhookSenderMock
             ->method('performRequest')
-            ->willReturn($this->responseMock);
-        $this->responseMock->method('getStatusCode')->willReturn(302);
+            ->willReturn($responseMock);
+        $responseMock->method('getStatusCode')->willReturn(302);
         $this->webhookTaskParamsMock->method('isMaxRetryCountReached')->willReturn(false);
         $this->webhookResponseMock = $this->createMock(WebhookResponse::class);
         $this->webhookResponseFactoryInterfaceMock->method('create')->willReturn($this->webhookResponseMock);
@@ -260,14 +207,14 @@ class WebhookTaskTest extends TestCase
                         $this->webhookTaskParamsMock === $context->getWebhookTaskParams() &&
                         $this->webhookConfigMock === $context->getWebhookConfig();
                 }),
-                $this->responseMock
+                $responseMock
             )
             ->willReturn($report);
 
         $paramArray = [];
         $webhookTask = new WebhookTask();
         $webhookTask->setTask($this->createTaskMock('someId'));
-        $webhookTask->setServiceLocator($this->serviceLocatorMock);
+        $webhookTask->setServiceLocator($this->serviceManagerMock);
         /* @noinspection PhpUnhandledExceptionInspection */
         $result = $webhookTask($paramArray);
         $this->assertSame($report, $result);
@@ -313,7 +260,7 @@ class WebhookTaskTest extends TestCase
         $paramArray = [];
         $webhookTask = new WebhookTask();
         $webhookTask->setTask($this->createTaskMock('someId'));
-        $webhookTask->setServiceLocator($this->serviceLocatorMock);
+        $webhookTask->setServiceLocator($this->serviceManagerMock);
         /* @noinspection PhpUnhandledExceptionInspection */
         $result = $webhookTask($paramArray);
         $this->assertSame($report, $result);
@@ -354,7 +301,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
@@ -421,7 +368,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
             WebhookEventLogInterface::SERVICE_ID => $this->webhookLogServiceMock,
@@ -485,7 +432,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
@@ -548,7 +495,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
@@ -617,7 +564,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
@@ -688,7 +635,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,

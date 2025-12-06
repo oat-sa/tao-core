@@ -23,12 +23,43 @@
 namespace oat\tao\test\unit\helpers;
 
 use common_exception_Error;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use tao_helpers_Xml;
 
 class XmlHelperTest extends TestCase
 {
-    public function dataProvider()
+    /**
+     * @dataProvider dataProvider
+     */
+    public function testToArray(string $xml, array $expected): void
+    {
+        $actual = tao_helpers_Xml::to_array($xml);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @dataProvider exceptionDataProvider
+     */
+    public function testToArrayExceptions(string $data, array $expected): void
+    {
+        try {
+            tao_helpers_Xml::to_array($data);
+            $this->fail('Should not be here, exceptions only');
+        } catch (common_exception_Error $e) {
+            $this->assertSame($expected['exception']['class'], get_class($e));
+            $this->assertSame($expected['exception']['message'], $e->getMessage());
+        }
+    }
+
+    /**
+     * @dataProvider extractElementDataProvider
+     */
+    public function testExtractElements(string $xml, string $tag, string $namespace, array $expected): void
+    {
+        $elements = tao_helpers_Xml::extractElements($tag, $xml, $namespace);
+        $this->assertSame($expected, $elements);
+    }
+    public function dataProvider(): array
     {
         return [
             [
@@ -66,7 +97,7 @@ class XmlHelperTest extends TestCase
         ];
     }
 
-    public function exceptionDataProvider()
+    public function exceptionDataProvider(): array
     {
         return [
             // xml validation
@@ -102,35 +133,7 @@ class XmlHelperTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProvider
-     * @param $xml
-     * @param $expected
-     * @throws common_exception_Error
-     */
-    public function testToArray($xml, $expected)
-    {
-        $actual = tao_helpers_Xml::to_array($xml);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @dataProvider exceptionDataProvider
-     * @param $data
-     * @param $expected
-     */
-    public function testToArrayExceptions($data, $expected)
-    {
-        try {
-            tao_helpers_Xml::to_array($data);
-            $this->assertFalse(true, 'Should not be here, exceptions only');
-        } catch (common_exception_Error $e) {
-            $this->assertSame($expected['exception']['class'], get_class($e));
-            $this->assertSame($expected['exception']['message'], $e->getMessage());
-        }
-    }
-
-    public function extractElementDataProvider()
+    public function extractElementDataProvider(): array
     {
         return [
             [
@@ -152,19 +155,5 @@ class XmlHelperTest extends TestCase
                 ], // result
             ],
         ];
-    }
-
-    /**
-     * @dataProvider extractElementDataProvider
-     * @param string $xml
-     * @param string $tag
-     * @param string $namespace
-     * @param array $expected
-     * @throws common_exception_Error
-     */
-    public function testExtractElements($xml, $tag, $namespace, $expected)
-    {
-        $elements = tao_helpers_Xml::extractElements($tag, $xml, $namespace);
-        $this->assertSame($expected, $elements);
     }
 }

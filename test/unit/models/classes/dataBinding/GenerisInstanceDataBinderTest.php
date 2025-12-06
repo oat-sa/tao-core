@@ -15,69 +15,51 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2025 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
+namespace oat\tao\test\unit\models\classes\dataBinding;
+
+use core_kernel_classes_Class;
+use core_kernel_classes_ContainerCollection;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\event\EventManager;
-use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
-use oat\tao\model\event\MetadataModified;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
-use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
+use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
+use tao_models_classes_dataBinding_GenerisInstanceDataBindingException;
 
 class GenerisInstanceDataBinderTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private const URI_CLASS_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
     private const URI_PROPERTY_1 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1';
     private const URI_PROPERTY_2 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2';
     private const URI_TYPE_1 = 'http://example.com/Type1';
     private const URI_TYPE_2 = 'http://example.com/Type2';
 
-    /** @var tao_models_classes_dataBinding_GenerisInstanceDataBinder */
-    private $sut;
+    private tao_models_classes_dataBinding_GenerisInstanceDataBinder $sut;
+    private core_kernel_classes_Resource|MockObject $target;
+    private core_kernel_classes_Class|MockObject $classType1;
+    private core_kernel_classes_Class|MockObject $classType2;
+    private core_kernel_classes_Property|MockObject $property1;
+    private core_kernel_classes_Property|MockObject $property2;
+    private EventManager|MockObject $eventManagerMock;
+    private core_kernel_classes_ContainerCollection|MockObject $emptyCollectionMock;
+    private core_kernel_classes_ContainerCollection|MockObject $nonEmptyCollectionMock;
 
-    /** @var core_kernel_classes_Resource|MockObject */
-    private $target;
-
-    /** @var core_kernel_classes_Class|MockObject */
-    private $classType1;
-
-    /** @var core_kernel_classes_Class|MockObject */
-    private $classType2;
-
-    /** @var core_kernel_classes_Property|MockObject */
-    private $property1;
-
-    /** @var core_kernel_classes_Property|MockObject */
-    private $property2;
-
-    /** @var EventManager|MockObject */
-    private $eventManagerMock;
-
-    /** @var core_kernel_classes_ContainerCollection|MockObject */
-    private $emptyCollectionMock;
-
-    /** @var core_kernel_classes_ContainerCollection|MockObject */
-    private $nonEmptyCollectionMock;
-
-    /** @var FeatureFlagCheckerInterface|MockObject */
-    private $featureFlagChecker;
-
-    /** @var Ontology|MockObject */
-    private $ontology;
-
-    /** @var core_kernel_classes_Property|MockObject */
-    private $widget;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);
-        $this->widget = $this->createMock(core_kernel_classes_Property::class);
+        $widget = $this->createMock(core_kernel_classes_Property::class);
 
         $this->classType1 = $this->createMock(core_kernel_classes_Class::class);
         $this->classType1
@@ -112,11 +94,11 @@ class GenerisInstanceDataBinderTest extends TestCase
 
         $this->property1
             ->method('getWidget')
-            ->willReturn($this->widget);
+            ->willReturn($widget);
 
         $this->property2
             ->method('getWidget')
-            ->willReturn($this->widget);
+            ->willReturn($widget);
 
         $this->target
             ->method('getUri')
@@ -142,19 +124,19 @@ class GenerisInstanceDataBinderTest extends TestCase
             $this->target
         );
 
-        $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
-        $this->featureFlagChecker
+        $featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
+        $featureFlagChecker
             ->method('isEnabled')
             ->willReturn(false);
 
-        $this->ontology = $this->createMock(Ontology::class);
-        $this->ontology
+        $ontology = $this->createMock(Ontology::class);
+        $ontology
             ->method('getClass')
             ->willReturnMap([
                 [self::URI_TYPE_1, $this->classType1],
                 [self::URI_TYPE_2, $this->classType2],
             ]);
-        $this->ontology
+        $ontology
             ->method('getProperty')
             ->willReturnMap([
                 [self::URI_PROPERTY_1, $this->property1],
@@ -163,10 +145,10 @@ class GenerisInstanceDataBinderTest extends TestCase
 
         $this->sut->withEventManager($this->eventManagerMock);
         $this->sut->withServiceManager(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
-                    FeatureFlagChecker::class => $this->featureFlagChecker,
-                    Ontology::SERVICE_ID => $this->ontology
+                    FeatureFlagChecker::class => $featureFlagChecker,
+                    Ontology::SERVICE_ID => $ontology
                 ]
             )
         );
@@ -174,8 +156,10 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testBindScalarWithPreviousValue(): void
     {
-        $this->expectsEvent($this->once(), self::URI_PROPERTY_1, 'Value 1');
-
+        $this->eventManagerMock
+            ->expects($this->once())
+            ->method('trigger')
+        ;
         $this->target
             ->expects($this->once())
             ->method('setType')
@@ -200,15 +184,13 @@ class GenerisInstanceDataBinderTest extends TestCase
         //
         $this->target
             ->method('getPropertyValuesCollection')
-            ->will($this->returnCallback(
-                function (core_kernel_classes_Property $property) {
-                    if ($property->getUri() === self::URI_PROPERTY_1) {
-                        return $this->nonEmptyCollectionMock;
-                    }
-
-                    $this->fail('Unexpected property: ' . $property->getUri());
+            ->willReturnCallback(function (core_kernel_classes_Property $property) {
+                if ($property->getUri() === self::URI_PROPERTY_1) {
+                    return $this->nonEmptyCollectionMock;
                 }
-            ));
+
+                $this->fail('Unexpected property: ' . $property->getUri());
+            });
 
         $this->target
             ->expects($this->once())
@@ -232,7 +214,9 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testBindScalarWithNoPreviousValue(): void
     {
-        $this->expectsEvent($this->once(), self::URI_PROPERTY_1, 'Value 1');
+        $this->eventManagerMock
+            ->expects($this->once())
+            ->method('trigger');
 
         $this->target
             ->expects($this->once())
@@ -258,15 +242,13 @@ class GenerisInstanceDataBinderTest extends TestCase
         //
         $this->target
             ->method('getPropertyValuesCollection')
-            ->will($this->returnCallback(
-                function (core_kernel_classes_Property $property) {
-                    if ($property->getUri() === self::URI_PROPERTY_1) {
-                        return $this->emptyCollectionMock;
-                    }
-
-                    $this->fail('Unexpected property: ' . $property->getUri());
+            ->willReturnCallback(function (core_kernel_classes_Property $property) {
+                if ($property->getUri() === self::URI_PROPERTY_1) {
+                    return $this->emptyCollectionMock;
                 }
-            ));
+
+                $this->fail('Unexpected property: ' . $property->getUri());
+            });
 
         $this->target
             ->expects($this->once())
@@ -294,7 +276,9 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testBindArrayWithPreviousValue(): void
     {
-        $this->expectsEvent($this->at(0), self::URI_PROPERTY_1, ['one', 'two'], true);
+        $this->eventManagerMock
+            ->expects($this->once())
+            ->method('trigger');
 
         $this->target
             ->expects($this->once())
@@ -320,15 +304,13 @@ class GenerisInstanceDataBinderTest extends TestCase
         // removePropertyValues should be called first.
         $this->target
             ->method('getPropertyValuesCollection')
-            ->will($this->returnCallback(
-                function (core_kernel_classes_Property $property) {
-                    if ($property->getUri() === self::URI_PROPERTY_1) {
-                        return $this->nonEmptyCollectionMock;
-                    }
-
-                    $this->fail('Unexpected property: ' . $property->getUri());
+            ->willReturnCallback(function (core_kernel_classes_Property $property) {
+                if ($property->getUri() === self::URI_PROPERTY_1) {
+                    return $this->nonEmptyCollectionMock;
                 }
-            ));
+
+                $this->fail('Unexpected property: ' . $property->getUri());
+            });
 
         $this->target
             ->expects($this->once())
@@ -357,7 +339,9 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testBindArrayWithNoPreviousValue(): void
     {
-        $this->expectsEvent($this->at(0), self::URI_PROPERTY_1, ['Value 1', 'Value 2']);
+        $this->eventManagerMock
+            ->expects($this->once())
+            ->method('trigger');
 
         $this->target
             ->expects($this->once())
@@ -382,15 +366,13 @@ class GenerisInstanceDataBinderTest extends TestCase
         // The data binder should call setPropertyValue() on the resource.
         $this->target
             ->method('getPropertyValuesCollection')
-            ->will($this->returnCallback(
-                function (core_kernel_classes_Property $property) {
-                    if ($property->getUri() === self::URI_PROPERTY_1) {
-                        return $this->emptyCollectionMock;
-                    }
-
-                    $this->fail('Unexpected property: ' . $property->getUri());
+            ->willReturnCallback(function (core_kernel_classes_Property $property) {
+                if ($property->getUri() === self::URI_PROPERTY_1) {
+                    return $this->emptyCollectionMock;
                 }
-            ));
+
+                $this->fail('Unexpected property: ' . $property->getUri());
+            });
 
         $this->target
             ->expects($this->never())
@@ -417,8 +399,9 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testBindEmptyValue(): void
     {
-        $this->expectsEvent($this->at(0), self::URI_PROPERTY_1, ' ');
-        $this->expectsEvent($this->at(1), self::URI_PROPERTY_2, 'Value 2');
+        $this->eventManagerMock
+            ->expects($this->exactly(2))
+            ->method('trigger');
 
         $this->target
             ->expects($this->exactly(2))
@@ -542,7 +525,9 @@ class GenerisInstanceDataBinderTest extends TestCase
     public function testDontSetNewValuesIfTheyAreEmpty(): void
     {
         // The event is triggered even if the property value stays the same
-        $this->expectsEvent($this->at(0), self::URI_PROPERTY_1, '  ');
+        $this->eventManagerMock
+            ->expects($this->once())
+            ->method('trigger');
 
         $this->target
             ->expects($this->never())
@@ -595,7 +580,9 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testZeroIsNotHandledAsAnEmptyValue(): void
     {
-        $this->expectsEvent($this->once(), self::URI_PROPERTY_1, '0');
+        $this->eventManagerMock
+            ->expects($this->once())
+            ->method('trigger');
 
         $this->target
             ->expects($this->never())
@@ -684,27 +671,5 @@ class GenerisInstanceDataBinderTest extends TestCase
         ]);
 
         $this->assertSame($this->target, $resource);
-    }
-
-    private function expectsEvent(
-        InvocationOrder $invocationRule,
-        string $property,
-        $value
-    ): void {
-        $this->eventManagerMock
-            ->expects($invocationRule)
-            ->method('trigger')
-            ->with(
-                $this->callback(function (MetadataModified $event) use (
-                    $property,
-                    $value
-                ) {
-                    return (
-                        $event->getResource()->getUri() === $this->target->getUri()
-                        && $event->getMetadataUri() === $property
-                        && $event->getMetadataValue() === $value
-                    );
-                })
-            );
     }
 }

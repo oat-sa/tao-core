@@ -21,11 +21,12 @@
 
 declare(strict_types=1);
 
-namespace oat\test\unit\model\listener;
+namespace oat\tao\test\unit\model\listener;
 
 use core_kernel_classes_Class;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\tao\model\listener\ClassPropertyRemovedListener;
@@ -34,14 +35,11 @@ use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 class ClassPropertyRemovedListenerTest extends TestCase
 {
-    /** @var QueueDispatcherInterface|MockObject */
-    private $queueDispatcher;
+    use ServiceManagerMockTrait;
 
-    /** @var ClassPropertyRemovedListener */
-    private $sut;
-
-    /** @var AdvancedSearchChecker|MockObject  */
-    private $advancedSearchChecker;
+    private ClassPropertyRemovedListener $sut;
+    private QueueDispatcherInterface|MockObject $queueDispatcher;
+    private AdvancedSearchChecker|MockObject $advancedSearchChecker;
 
     protected function setUp(): void
     {
@@ -53,7 +51,7 @@ class ClassPropertyRemovedListenerTest extends TestCase
         $this->advancedSearchChecker = $this->createMock(AdvancedSearchChecker::class);
 
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     QueueDispatcherInterface::SERVICE_ID => $this->queueDispatcher,
                     AdvancedSearchChecker::class => $this->advancedSearchChecker,

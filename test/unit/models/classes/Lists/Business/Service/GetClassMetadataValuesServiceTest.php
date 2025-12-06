@@ -15,18 +15,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Lists\Business\Service;
+namespace oat\tao\test\unit\models\classes\Lists\Business\Service;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Lists\Business\Domain\Metadata;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
@@ -37,25 +38,16 @@ use tao_helpers_form_elements_Textbox;
 
 class GetClassMetadataValuesServiceTest extends TestCase
 {
-    /** @var GetClassMetadataValuesService */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /** @var core_kernel_classes_Class|MockObject */
-    private $classMock;
+    private GetClassMetadataValuesService $subject;
+    private core_kernel_classes_Class|MockObject $classMock;
+    private core_kernel_classes_Property|MockObject $propertyMock;
+    private core_kernel_classes_Resource|MockObject $resourceMock;
+    private ValueCollectionService|MockObject $valueCollectionServiceMock;
+    private Value|MockObject $valueMock;
 
-    /** @var core_kernel_classes_Property|MockObject */
-    private $propertyMock;
-
-    /** @var core_kernel_classes_Resource|MockObject */
-    private $resourceMock;
-
-    /** @var ValueCollectionService|MockObject */
-    private $valueCollectionServiceMock;
-
-
-    private $valueMock;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new GetClassMetadataValuesService();
         $this->valueCollectionServiceMock = $this->createMock(ValueCollectionService::class);
@@ -65,7 +57,7 @@ class GetClassMetadataValuesServiceTest extends TestCase
         $this->valueMock = $this->createMock(Value::class);
 
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     ValueCollectionService::SERVICE_ID => $this->valueCollectionServiceMock
                 ]

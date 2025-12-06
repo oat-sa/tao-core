@@ -27,7 +27,7 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionObject;
 use ReflectionProperty;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  *@Annotation

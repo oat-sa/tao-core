@@ -2,7 +2,7 @@
 
 namespace oat\tao\test\unit\webhooks\task;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 use oat\tao\model\webhooks\task\WebhookTaskParamsFactory;
 

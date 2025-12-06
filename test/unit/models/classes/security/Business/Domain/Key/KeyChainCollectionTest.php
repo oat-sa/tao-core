@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\security\Business\Domain\Key;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\security\Business\Domain\Key\Key;
 use oat\tao\model\security\Business\Domain\Key\KeyChain;
 use oat\tao\model\security\Business\Domain\Key\KeyChainCollection;
@@ -41,7 +41,7 @@ class KeyChainCollectionTest extends TestCase
     /** @var Key */
     private $privateKey;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->privateKey = new Key('123456');
         $this->publicKey = new Key('654321');

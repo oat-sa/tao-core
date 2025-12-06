@@ -2,7 +2,7 @@
 
 namespace oat\tao\test\unit\model\metadata\import;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\metadata\exception\writer\MetadataWriterException;
 use oat\tao\model\metadata\writer\ontologyWriter\PropertyWriter;
 
@@ -14,7 +14,7 @@ class PropertyWriterTest extends TestCase
 
         $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
             ->setConstructorArgs(['uriResource'])
-            ->setMethods(['editPropertyValues'])
+            ->onlyMethods(['editPropertyValues'])
             ->getMock();
         $resource->expects($this->once())
             ->method('editPropertyValues')
@@ -26,7 +26,7 @@ class PropertyWriterTest extends TestCase
 
         $writer = $this->getMockBuilder(PropertyWriter::class)
             ->disableOriginalConstructor()
-            ->setMethods(['validate', 'getPropertyToWrite'])
+            ->onlyMethods(['validate', 'getPropertyToWrite'])
             ->getMock();
 
         $writer->expects($this->once())
@@ -54,7 +54,7 @@ class PropertyWriterTest extends TestCase
 
         $writer = $this->getMockBuilder(PropertyWriter::class)
             ->disableOriginalConstructor()
-            ->setMethods(['validate', 'getPropertyToWrite'])
+            ->onlyMethods(['validate', 'getPropertyToWrite'])
             ->getMock();
         $writer->expects($this->once())
             ->method('validate')
@@ -74,7 +74,7 @@ class PropertyWriterTest extends TestCase
 
         $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
             ->setConstructorArgs(['uriResource'])
-            ->setMethods(['setPropertyValue'])
+            ->onlyMethods(['setPropertyValue'])
             ->getMock();
         $resource->expects($this->never())
             ->method('setPropertyValue');
@@ -85,7 +85,7 @@ class PropertyWriterTest extends TestCase
 
         $writer = $this->getMockBuilder(PropertyWriter::class)
             ->disableOriginalConstructor()
-            ->setMethods(['validate', 'getPropertyToWrite'])
+            ->onlyMethods(['validate', 'getPropertyToWrite'])
             ->getMock();
         $writer->expects($this->once())
             ->method('validate')
@@ -104,7 +104,7 @@ class PropertyWriterTest extends TestCase
 
         $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
             ->setConstructorArgs(['uriResource'])
-            ->setMethods(['editPropertyValues'])
+            ->onlyMethods(['editPropertyValues'])
             ->getMock();
         $resource->expects($this->once())
             ->method('editPropertyValues')
@@ -116,7 +116,7 @@ class PropertyWriterTest extends TestCase
 
         $writer = $this->getMockBuilder(PropertyWriter::class)
             ->disableOriginalConstructor()
-            ->setMethods(['validate', 'getPropertyToWrite'])
+            ->onlyMethods(['validate', 'getPropertyToWrite'])
             ->getMock();
         $writer->expects($this->once())
             ->method('validate')

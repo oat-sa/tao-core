@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\model\Lists\DataAccess\Repository;
 
 use InvalidArgumentException;
 use core_kernel_classes_Class;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use tao_helpers_form_elements_Combobox;
@@ -59,7 +59,7 @@ class DependsOnPropertyRepositoryTest extends TestCase
     /** @var ParentPropertyListRepositoryInterface|MockObject */
     private $parentPropertyListRepository;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
         $this->primaryPropertySpecification = $this->createMock(PrimaryPropertySpecification::class);

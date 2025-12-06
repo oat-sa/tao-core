@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\Business\Specification;
 
 use core_kernel_classes_Property;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Lists\Business\Contract\DependentPropertiesRepositoryInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 

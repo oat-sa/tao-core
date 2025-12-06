@@ -27,7 +27,7 @@ declare(strict_types=1);
  * @package tao
  */
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\service\ApplicationService;
 

@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\session\DataAccess\Factory;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\session\DataAccess\Factory\SessionCookieAttributesFactory;
 use tao_helpers_Uri as UriHelper;
 

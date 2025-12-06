@@ -20,7 +20,7 @@
 
 namespace oat\tao\test\unit\model\security;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\security\TokenGenerator;
 
 /**
@@ -39,11 +39,11 @@ class TokenGeneratorTest extends TestCase
     {
         $token = $this->generate(40);
         $this->assertEquals(40, strlen($token), 'The token has the expected length');
-        $this->assertRegExp('/^[0-9a-f]{40}$/', $token, 'The token is correctly formatted');
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{40}$/', $token, 'The token is correctly formatted');
 
         $token = $this->generate(60);
         $this->assertEquals(60, strlen($token), 'The token has the expected length');
-        $this->assertRegExp('/^[0-9a-f]{60}$/', $token, 'The token is correctly formatted');
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{60}$/', $token, 'The token is correctly formatted');
     }
 
     /**

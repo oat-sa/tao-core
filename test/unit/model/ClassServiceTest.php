@@ -15,15 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\test\unit\model;
+namespace oat\tao\test\unit\model;
 
-use oat\generis\test\TestCase;
 use core_kernel_classes_Resource;
+use PHPUnit\Framework\TestCase;
 use tao_models_classes_ClassService;
 
 /**
@@ -43,12 +43,12 @@ class ClassServiceTest extends TestCase
             []
         );
 
-        $resourceProphet = $this->prophesize(core_kernel_classes_Resource::class);
-        $resourceProphet
-            ->delete(true)
-            ->willReturn($resourceProphet);
-        $resourceMock = $resourceProphet->reveal();
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $resourceMock
+            ->method('delete')
+            ->with(true)
+            ->willReturn(true);
 
-        $this->assertSame($resourceMock, $instance->deletePropertyIndex($resourceMock));
+        $this->assertTrue($instance->deletePropertyIndex($resourceMock));
     }
 }

@@ -25,7 +25,7 @@ namespace oat\tao\test\unit\models\classes\Observer\GCP;
 use ErrorException;
 use Google\Cloud\PubSub\PubSubClient;
 use Google\Cloud\PubSub\Topic;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Observer\GCP\PubSubObserver;
 use oat\tao\model\Observer\SubjectInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -45,7 +45,7 @@ class PubSubObserverTest extends TestCase
     /** @var Topic|MockObject */
     private $pubSubTopic;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         if (!class_exists(PubSubClient::class)) {
             return;

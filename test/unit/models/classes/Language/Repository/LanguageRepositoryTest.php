@@ -43,7 +43,7 @@ class LanguageRepositoryTest extends TestCase
     /** @var Ontology|MockObject */
     private $ontology;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->languageService = $this->createMock(tao_models_classes_LanguageService::class);

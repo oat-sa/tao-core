@@ -15,17 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\models\classes\service;
+namespace oat\tao\test\unit\user\implementation;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\generis\test\OntologyMockTrait;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\user\UserTimezoneServiceInterface;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\user\implementation\UserSettings;
@@ -39,34 +40,23 @@ use tao_models_classes_UserService;
 class UserSettingsServiceTest extends TestCase
 {
     use OntologyMockTrait;
+    use ServiceManagerMockTrait;
 
-    /** @var UserTimezoneServiceInterface */
-    private $userTimezoneService;
+    private Ontology|core_kernel_persistence_smoothsql_SmoothModel $ontologyMock;
+    private UserSettingsService $sut;
+    private UserSettings|MockObject $userSettings;
+    private tao_models_classes_UserService|MockObject $userService;
+    private FeatureFlagCheckerInterface|MockObject $featureFlagChecker;
 
-    /** @var Ontology|core_kernel_persistence_smoothsql_SmoothModel */
-    private $ontologyMock;
-
-    /** @var UserSettingsService */
-    private $sut;
-
-    /** @var UserSettings|MockObject */
-    private $userSettings;
-
-    /** @var tao_models_classes_UserService|MockObject */
-    private $userService;
-
-    /** @var FeatureFlagCheckerInterface|MockObject */
-    private $featureFlagChecker;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
-        $this->userTimezoneService = $this->getUserTimezoneServiceMock();
+        $userTimezoneService = $this->getUserTimezoneServiceMock();
         $this->userSettings = $this->createMock(UserSettings::class);
         $this->userService = $this->createMock(tao_models_classes_UserService::class);
         $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
 
         $this->sut = new UserSettingsService(
-            $this->userTimezoneService,
+            $userTimezoneService,
             $this->getOntologyMock(),
             $this->userService,
             $this->featureFlagChecker

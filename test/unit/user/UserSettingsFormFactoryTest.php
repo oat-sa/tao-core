@@ -15,16 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\models\classes\service;
+namespace oat\tao\test\unit\user;
 
 use oat\generis\model\OntologyRdf;
 use oat\generis\test\OntologyMockTrait;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\user\implementation\UserSettings;
 use oat\tao\model\user\UserSettingsFormFactory;
@@ -37,6 +38,7 @@ use tao_helpers_form_FormContainer;
 class UserSettingsFormFactoryTest extends TestCase
 {
     use OntologyMockTrait;
+    use ServiceManagerMockTrait;
 
     /** @var UserSettingsFormFactory */
     private $sut;
@@ -52,7 +54,7 @@ class UserSettingsFormFactoryTest extends TestCase
      */
     private $languageService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontologyMock = $this->getOntologyMock();
         $this->languageService = $this->getLanguageServiceMock();

@@ -15,17 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\task\migration\service;
 
-use Doctrine\DBAL\Driver\Statement;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\OntologyMockTrait;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\task\migration\MigrationConfig;
 use oat\tao\model\task\migration\service\ResultFilter;
 use oat\tao\model\task\migration\service\ResultFilterFactory;
@@ -34,20 +34,18 @@ use oat\tao\model\task\migration\service\StatementLastIdRetriever;
 class ResultFilterFactoryTest extends TestCase
 {
     use OntologyMockTrait;
+    use ServiceManagerMockTrait;
 
-    /** @var ResultFilterFactory */
-    private $subject;
+    private ResultFilterFactory $subject;
+    private StatementLastIdRetriever|MockObject $statementLastIdRetriever;
 
-    /** @var Statement|MockObject */
-    private $statementLastIdRetriever;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new ResultFilterFactory();
         $this->statementLastIdRetriever = $this->createMock(StatementLastIdRetriever::class);
 
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     StatementLastIdRetriever::class => $this->statementLastIdRetriever
                 ]

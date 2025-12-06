@@ -28,7 +28,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\service;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\service\ConfigurableService;
 
 class EmptyConstructorInjectionAwareService extends InjectionAwareService

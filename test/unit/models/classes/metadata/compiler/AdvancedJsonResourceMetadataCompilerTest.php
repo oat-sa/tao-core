@@ -25,7 +25,7 @@ namespace oat\tao\test\unit\models\classes\metadata\compiler;
 use core_kernel_classes_Resource;
 use oat\generis\model\GenerisRdf;
 use oat\generis\test\OntologyMockTrait;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\export\JsonLdExport;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdTripleEncoderInterface;
 use oat\tao\model\metadata\compiler\AdvancedJsonResourceMetadataCompiler;

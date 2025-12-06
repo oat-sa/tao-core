@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\Observer\Log;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Observer\Subject;
 use ReflectionProperty;
 use SplObserver;
@@ -32,7 +32,7 @@ class SubjectTest extends TestCase
     /** @var Subject */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new Subject(['data' => 'value']);
     }

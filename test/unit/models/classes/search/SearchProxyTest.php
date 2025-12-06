@@ -20,10 +20,11 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\search;
+namespace oat\tao\test\unit\models\classes\search;
 
 use oat\generis\model\GenerisRdf;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\search\IdentifierSearcher;
@@ -38,37 +39,20 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class SearchProxyTest extends TestCase
 {
-    /** @var SearchProxy */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /** @var AdvancedSearchChecker|MockObject */
-    private $advancedSearchCheckerMock;
+    private SearchProxy $subject;
+    private AdvancedSearchChecker|MockObject $advancedSearchCheckerMock;
+    private IdentifierSearcher|MockObject $identifierSearcher;
+    private SearchQueryFactory|MockObject $searchQueryFactoryMock;
+    private ResultSet|MockObject $resultSetMock;
+    private ServerRequestInterface|MockObject $requestMock;
+    private ResultSetResponseNormalizer|MockObject $resultSetResponseNormalizerMock;
+    private SearchInterface|MockObject $defaultSearch;
+    private SearchInterface|MockObject $advancedSearch;
+    private FeatureFlagChecker|MockObject $featureFlagChecker;
 
-    /** @var IdentifierSearcher|MockObject */
-    private $identifierSearcher;
-
-    /** @var SearchQueryFactory|MockObject */
-    private $searchQueryFactoryMock;
-
-    /** @var ResultSet|MockObject */
-    private $resultSetMock;
-
-    /** @var ServerRequestInterface|MockObject */
-    private $requestMock;
-
-    /** @var ResultSetResponseNormalizer|MockObject */
-    private $resultSetResponseNormalizerMock;
-
-    /** @var SearchInterface|MockObject */
-    private $defaultSearch;
-
-    /** @var SearchInterface|MockObject */
-    private $advancedSearch;
-
-    /** @var FeatureFlagChecker|MockObject */
-    private $featureFlagChecker;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->advancedSearchCheckerMock = $this->createMock(AdvancedSearchChecker::class);
         $this->identifierSearcher = $this->createMock(IdentifierSearcher::class);
@@ -98,7 +82,7 @@ class SearchProxyTest extends TestCase
             ]
         );
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     AdvancedSearchChecker::class => $this->advancedSearchCheckerMock,
                     SearchQueryFactory::class => $this->searchQueryFactoryMock,

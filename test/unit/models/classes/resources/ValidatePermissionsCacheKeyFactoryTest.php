@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\resources;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\user\User;
 use oat\tao\model\resources\ValidatePermissionsCacheKeyFactory;
 

@@ -15,23 +15,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\search\index;
+namespace oat\tao\test\unit\models\classes\search\index;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\search\index\IndexIterator;
 use oat\tao\model\search\index\IndexIteratorFactory;
 
 class IndexIteratorFactoryTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     public function testMakeIterator(): void
     {
-        $iterator = (new IndexIteratorFactory($this->getServiceLocatorMock()))->create([]);
+        $iterator = (new IndexIteratorFactory($this->getServiceManagerMock()))->create([]);
         $this->assertInstanceOf(IndexIterator::class, $iterator);
-        $this->assertEquals($this->getServiceLocatorMock(), $iterator->getServiceLocator());
+        $this->assertEquals($this->getServiceManagerMock(), $iterator->getServiceLocator());
     }
 }

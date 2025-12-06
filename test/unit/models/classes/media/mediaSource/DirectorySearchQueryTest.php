@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\media\mediaSource;
 
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\media\MediaAsset;
 
 class DirectorySearchQueryTest extends TestCase

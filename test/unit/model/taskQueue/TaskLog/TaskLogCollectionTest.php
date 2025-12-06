@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\model\taskQueue\TaskLog;
 use DateTime;
 use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class TaskLogCollectionTest extends TestCase
 {

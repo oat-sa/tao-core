@@ -24,8 +24,8 @@ namespace oat\tao\test\unit\model\event;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\event\ResourceMovedEvent;
 
 class ResourceMovedEventTest extends TestCase
@@ -39,7 +39,7 @@ class ResourceMovedEventTest extends TestCase
     /** @var ResourceMovedEvent */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->resourceMock  = $this->createMock(core_kernel_classes_Resource::class);
         $this->classMock = $this->createMock(core_kernel_classes_Class::class);

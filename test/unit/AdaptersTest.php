@@ -23,7 +23,7 @@
  *
  */
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class AdaptersTest extends TestCase
 {

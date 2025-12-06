@@ -22,15 +22,18 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\import\Form;
 
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\tao\model\import\Form\MetadataImportForm;
-use oat\generis\test\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use tao_helpers_form_FormElement;
 use oat\tao\helpers\form\Feeder\SanitizerValidationFeeder;
 use oat\tao\helpers\form\Feeder\SanitizerValidationFeederInterface;
 
 class MetadataImportFormTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     /** @var MetadataImportForm */
     private $subject;
 
@@ -43,7 +46,7 @@ class MetadataImportFormTest extends TestCase
     /** @var MockObject|tao_helpers_form_FormElement */
     private $submitElement;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->fileUploadElement = $this->createMock(tao_helpers_form_FormElement::class);
         $this->hiddenImportElement = $this->createMock(tao_helpers_form_FormElement::class);
@@ -64,7 +67,7 @@ class MetadataImportFormTest extends TestCase
         $this->subject = new MetadataImportForm(
             [],
             [
-                MetadataImportForm::WITH_SERVICE_MANAGER => $this->getServiceLocatorMock(
+                MetadataImportForm::WITH_SERVICE_MANAGER => $this->getServiceManagerMock(
                     [
                         SanitizerValidationFeeder::class => $this->createMock(
                             SanitizerValidationFeederInterface::class

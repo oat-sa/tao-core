@@ -15,54 +15,52 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2015-2025 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
+
+namespace oat\tao\test\unit\messaging;
 
 use oat\tao\model\messaging\MessagingService;
 use oat\tao\model\messaging\Message;
-use Prophecy\Prediction\CallTimesPrediction;
-use oat\generis\test\TestCase;
+use oat\tao\model\messaging\Transport;
+use PHPUnit\Framework\TestCase;
+use ReflectionObject;
 
-/**
- * @author Aleh Hutnikau <hutnikau@1pt.com>
- * @package tao
- */
 class MessagingServiceTest extends TestCase
 {
-    /**
-     *
-     * @param Transport $transport
-     * @return MessagingService
-     */
-    protected function getMessagingService($transport)
+    private function getMessagingService(Transport $transport): MessagingService
     {
         $messagingService = MessagingService::singleton();
         $refObject = new ReflectionObject($messagingService);
         $refProperty = $refObject->getProperty('transport');
         $refProperty->setAccessible(true);
         $refProperty->setValue($messagingService, $transport);
+
         return $messagingService;
     }
 
-    public function testSend()
+    public function testSend(): void
     {
         $message = new Message();
-        $transportProphecy = $this->prophesize('oat\tao\model\messaging\Transport');
-        $transportProphecy->send($message)->willReturn(true);
-        $transportProphecy->send($message)->should(new CallTimesPrediction(1));
+        $transportMock = $this->createMock(Transport::class);
+        $transportMock
+            ->expects($this->once())
+            ->method('send')
+            ->with($this->identicalTo($message))
+            ->willReturn(true);
 
-        $messagingService = $this->getMessagingService($transportProphecy->reveal());
+        $messagingService = $this->getMessagingService($transportMock);
 
         $result = $messagingService->send($message);
 
-        $transportProphecy->checkProphecyMethodsPredictions();
         $this->assertTrue($result);
     }
 
-    public function testIsAvailable()
+    public function testIsAvailable(): void
     {
-        $transportMock = $this->getMockBuilder('oat\tao\model\messaging\Transport');
+        $transportMock = $this->createMock(Transport::class);
         $messagingService = $this->getMessagingService($transportMock);
 
         $this->assertTrue($messagingService->isAvailable());

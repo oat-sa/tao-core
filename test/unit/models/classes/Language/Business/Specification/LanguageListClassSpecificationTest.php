@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Language\Business\Specification;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 use PHPUnit\Framework\MockObject\MockObject;
 use tao_models_classes_LanguageService;

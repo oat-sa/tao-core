@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -29,7 +29,9 @@ use core_kernel_classes_Literal as Literal;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource as Resource;
 use oat\generis\model\data\Ontology;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\auth\BasicAuthType;
 use oat\tao\model\auth\BasicType;
 use oat\tao\model\webhooks\configEntity\Webhook;
@@ -41,8 +43,10 @@ use tao_models_classes_dataBinding_GenerisFormDataBinder;
 
 class WebHookClassServiceTest extends TestCase
 {
-    private WebHookClassService $webhookService;
-    private WebhookEntryFactory $webhookEntryFactory;
+    use ServiceManagerMockTrait;
+
+    private WebHookClassService|MockObject $webhookService;
+    private WebhookEntryFactory|MockObject $webhookEntryFactory;
 
     protected function setUp(): void
     {
@@ -58,7 +62,7 @@ class WebHookClassServiceTest extends TestCase
             ['getDataBinder', 'getModel', 'getProperty', 'createInstance', 'getRootClass']
         );
 
-        $serviceLocator = $this->getServiceLocatorMock([
+        $serviceLocator = $this->getServiceManagerMock([
             WebhookEntryFactory::class => $this->webhookEntryFactory,
             WebhookAuthService::class => $authService,
         ]);

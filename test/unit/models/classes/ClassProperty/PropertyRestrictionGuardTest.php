@@ -30,7 +30,7 @@ use core_kernel_classes_Property as Property;
 
 class PropertyRestrictionGuardTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontologyMock = $this->createMock(Ontology::class);
         $this->subject = new PropertyRestrictionGuard($this->ontologyMock);

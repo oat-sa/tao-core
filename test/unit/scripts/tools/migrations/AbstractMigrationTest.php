@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\scripts\tools\migrations;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Connection;
 use oat\tao\scripts\tools\migrations\AbstractMigration;

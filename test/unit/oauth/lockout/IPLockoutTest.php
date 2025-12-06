@@ -1,27 +1,44 @@
 <?php
 
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
+ */
+
+declare(strict_types=1);
+
 namespace oat\tao\test\unit\oauth\lockout;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\oauth\lockout\IPFactory;
 use oat\tao\model\oauth\lockout\IPLockout;
 use oat\tao\model\oauth\lockout\storage\LockoutStorageInterface;
 use oat\tao\model\oauth\lockout\storage\RdsLockoutStorage;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class IPLockoutTest extends TestCase
 {
-    /**
-     * @var LockoutStorageInterface|MockObject
-     */
-    private $lockStorageMock;
-    /**
-     * @var IPLockout
-     */
-    private $lockoutService;
+    use ServiceManagerMockTrait;
 
-    public function setUp(): void
+    private LockoutStorageInterface|MockObject $lockStorageMock;
+    private IPLockout $lockoutService;
+
+    protected function setUp(): void
     {
         $this->lockStorageMock = $this->createMock(RdsLockoutStorage::class);
 
@@ -37,7 +54,7 @@ class IPLockoutTest extends TestCase
             IPLockout::OPTION_LOCKOUT_STORAGE => $this->lockStorageMock
         ]);
         $this->lockoutService->setServiceLocator(
-            $this->getServiceLocatorMock([LoggerService::SERVICE_ID => $loggerMock])
+            $this->getServiceManagerMock([LoggerService::SERVICE_ID => $loggerMock])
         );
     }
 

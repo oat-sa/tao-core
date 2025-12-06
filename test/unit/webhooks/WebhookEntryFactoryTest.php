@@ -20,7 +20,7 @@
 
 namespace oat\tao\test\unit\webhooks;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
 
@@ -29,7 +29,7 @@ class WebhookEntryFactoryTest extends TestCase
     /** @var WebhookEntryFactory */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new WebhookEntryFactory();
     }

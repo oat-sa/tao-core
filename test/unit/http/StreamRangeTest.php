@@ -29,7 +29,7 @@ use Slim\Http\Stream;
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class StreamRangeTest extends TestCase
 {

@@ -21,7 +21,7 @@
 
 namespace oat\tao\test\unit\helpers\dateFormatter;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use tao_helpers_Date as DateHelper;
 

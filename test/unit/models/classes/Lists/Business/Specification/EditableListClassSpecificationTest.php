@@ -27,7 +27,7 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Lists\Business\Specification\EditableListClassSpecification;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\Specification\ClassSpecificationInterface;

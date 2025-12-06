@@ -21,7 +21,7 @@
 
 namespace oat\tao\test\unit\model\mvc;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\mvc\RendererTrait;
 
 class RendererTraitTest extends TestCase

@@ -15,13 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2017-2025 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Decorator;
 
 use DateTime;
+use DateTimeInterface;
 use DateTimeZone;
 use oat\oatbox\user\AnonymousUser;
 use oat\tao\model\taskQueue\TaskLog;
@@ -29,32 +31,29 @@ use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Decorator\RedirectUrlEntityDecorator;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use Prophecy\Argument;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class RedirectUrlEntityDecoratorTest extends TestCase
 {
-    private $createdAt;
-    private $updatedAt;
-
     /**
      * @dataProvider taskLogStatusProvider
-     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
-    public function testDecorator_NotUsed_excludedTaskLogStatus($taskStatus)
+    public function testDecoratorNotUsedExcludedTaskLogStatus($taskStatus): void
     {
         $entity = $this->getFixtureEntity();
 
-        $taskLog = $this->prophesize(TaskLog::class);
-        $taskLog->getCategoryForTask(Argument::is('Task Name'))->willReturn($taskStatus);
+        $taskLog = $this->createMock(TaskLog::class);
+        $taskLog
+            ->method('getCategoryForTask')
+            ->with('Task Name')
+            ->willReturn($taskStatus);
 
-        $decorator = new RedirectUrlEntityDecorator($entity, $taskLog->reveal(), new AnonymousUser());
+        $decorator = new RedirectUrlEntityDecorator($entity, $taskLog, new AnonymousUser());
 
         $this->assertEquals($this->getFixtureEntityData(), $decorator->toArray());
     }
-    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
-    public function taskLogStatusProvider()
+    public function taskLogStatusProvider(): array
     {
         return [
             [TaskLogInterface::CATEGORY_DELETE],
@@ -66,26 +65,27 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
     /**
      * @dataProvider entityTaskLogStatusProvider
-     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
-    public function testDecorator_NotUsed_excludedTaskEntityStatus($status)
+    public function testDecoratorNotUsedExcludedTaskEntityStatus($status): void
     {
         $entity = $this->getFixtureEntity($status);
 
-        $taskLog = $this->prophesize(TaskLog::class);
-        $taskLog->getCategoryForTask(Argument::is('Task Name'))->willReturn('notExcludedStatus');
+        $taskLog = $this->createMock(TaskLog::class);
+        $taskLog
+            ->method('getCategoryForTask')
+            ->with('Task Name')
+            ->willReturn('notExcludedStatus');
 
         $redirectUrlEntityDecoratorMock = $this->getMockBuilder(RedirectUrlEntityDecorator::class)
-            ->setConstructorArgs([$entity, $taskLog->reveal(), new AnonymousUser()])
-            ->setMethods(['hasAccess'])
+            ->setConstructorArgs([$entity, $taskLog, new AnonymousUser()])
+            ->onlyMethods(['hasAccess'])
             ->getMock();
         $redirectUrlEntityDecoratorMock->expects($this->once())->method('hasAccess')->willReturn(false);
 
         $this->assertEquals($this->getFixtureEntityData($status), $redirectUrlEntityDecoratorMock->toArray());
     }
-    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
-    public function entityTaskLogStatusProvider()
+    public function entityTaskLogStatusProvider(): array
     {
         return [
             [TaskLogInterface::STATUS_COMPLETED],
@@ -93,17 +93,19 @@ class RedirectUrlEntityDecoratorTest extends TestCase
         ];
     }
 
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName
-    public function testDecorator_Used()
+    public function testDecoratorUsed(): void
     {
         $entity = $this->getFixtureEntity();
 
-        $taskLog = $this->prophesize(TaskLog::class);
-        $taskLog->getCategoryForTask(Argument::is('Task Name'))->willReturn('notExcludedStatus');
+        $taskLog = $this->createMock(TaskLog::class);
+        $taskLog
+            ->method('getCategoryForTask')
+            ->with('Task Name')
+            ->willReturn('notExcludedStatus');
 
         $redirectUrlEntityDecoratorMock = $this->getMockBuilder(RedirectUrlEntityDecorator::class)
-            ->setConstructorArgs([$entity, $taskLog->reveal(), new AnonymousUser()])
-            ->setMethods(['hasAccess'])
+            ->setConstructorArgs([$entity, $taskLog, new AnonymousUser()])
+            ->onlyMethods(['hasAccess'])
             ->getMock();
         $redirectUrlEntityDecoratorMock->expects($this->once())->method('hasAccess')->willReturn(true);
 
@@ -121,34 +123,36 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
         $this->assertEquals($expectedData, $redirectUrlEntityDecoratorMock->toArray());
     }
-    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
-    protected function getFixtureEntity($status = TaskLogInterface::STATUS_COMPLETED)
+    protected function getFixtureEntity($status = TaskLogInterface::STATUS_COMPLETED): TaskLogEntity
     {
-        $this->createdAt = new DateTime('2017-11-16 14:11:42', new DateTimeZone('UTC'));
-        $this->updatedAt = new DateTime('2017-11-16 17:12:30', new DateTimeZone('UTC'));
+        $createdAt = new DateTime('2017-11-16 14:11:42', new DateTimeZone('UTC'));
+        $updatedAt = new DateTime('2017-11-16 17:12:30', new DateTimeZone('UTC'));
 
-        return TaskLogEntity::createFromArray([
-            'id' => 'rdf#i1508337970199318643',
-            'parent_id' => 'parentFake0002525',
-            'task_name' => 'Task Name',
-            'parameters' => json_encode(['param1' => 'value1', 'param2' => 'value2']),
-            'label' => 'Task label',
-            'status' => $status,
-            'owner' => 'userId',
-            'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
-            'report' => [
-                'type' => 'info',
-                'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => null,
-                'children' => []
+        return TaskLogEntity::createFromArray(
+            [
+                'id' => 'rdf#i1508337970199318643',
+                'parent_id' => 'parentFake0002525',
+                'task_name' => 'Task Name',
+                'parameters' => json_encode(['param1' => 'value1', 'param2' => 'value2']),
+                'label' => 'Task label',
+                'status' => $status,
+                'owner' => 'userId',
+                'created_at' => $createdAt->format('Y-m-d H:i:s'),
+                'updated_at' => $updatedAt->format('Y-m-d H:i:s'),
+                'report' => [
+                    'type' => 'info',
+                    'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
+                    'data' => null,
+                    'children' => []
+                ],
+                'master_status' => true
             ],
-            'master_status' => true
-        ], DateTime::RFC3339);
+            DateTimeInterface::RFC3339
+        );
     }
 
-    protected function getFixtureEntityData($status = TaskLogInterface::STATUS_COMPLETED)
+    protected function getFixtureEntityData($status = TaskLogInterface::STATUS_COMPLETED): array
     {
         $status = CategorizedStatus::createFromString($status);
 

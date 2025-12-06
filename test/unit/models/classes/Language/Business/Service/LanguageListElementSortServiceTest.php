@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Language\Business\Service;
 
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Language\Service\LanguageListElementSortService;
 use oat\tao\model\Lists\Business\Contract\ListElementSorterComparatorInterface;
 use oat\tao\model\Lists\Business\Contract\ListElementSorterInterface;

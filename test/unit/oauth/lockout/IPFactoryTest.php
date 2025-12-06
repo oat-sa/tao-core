@@ -2,17 +2,17 @@
 
 namespace oat\tao\test\unit\oauth\lockout;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\oauth\lockout\IPFactory;
 use oat\tao\model\oauth\lockout\IPLockout;
 use oat\tao\model\oauth\lockout\storage\LockoutStorageInterface;
 use oat\tao\model\oauth\lockout\storage\RdsLockoutStorage;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class IPFactoryTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         $_SERVER['HTTP_CLIENT_IP'] = '127.0.0.1';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '127.0.0.2';

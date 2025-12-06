@@ -20,7 +20,7 @@
 
 namespace oat\test\unit\model\resources\relation;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\resources\relation\ResourceRelation;
 use oat\tao\model\resources\relation\ResourceRelationCollection;
 
@@ -29,7 +29,7 @@ class ResourceRelationCollectionTest extends TestCase
     /** @var ResourceRelationCollection */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new ResourceRelationCollection(
             ...[

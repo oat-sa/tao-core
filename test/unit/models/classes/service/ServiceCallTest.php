@@ -24,8 +24,8 @@ use InvalidArgumentException;
 use tao_models_classes_service_Parameter;
 use tao_models_classes_service_ServiceCall;
 use tao_models_classes_service_VariableParameter;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 class ServiceCallTest extends TestCase
 {

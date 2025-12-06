@@ -21,7 +21,7 @@
 
 namespace oat\tao\test\unit\helpers;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ArrayHelperTest extends TestCase
 {

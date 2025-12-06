@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Business\Service;
 
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\event\EventAggregator;
 use oat\oatbox\session\SessionService;

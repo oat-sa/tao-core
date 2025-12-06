@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\helpers\test\unit\helpers\form\Factory;
 
 use core_kernel_classes_Property;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\form\Factory\AbstractElementPropertyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementFactoryContext;
 use oat\tao\helpers\form\Factory\ElementPropertyEmptyListValuesFactory;
@@ -51,7 +51,7 @@ class ElementPropertyEmptyListValuesFactoryTest extends TestCase
     /** @var tao_helpers_form_elements_xhtml_Combobox|MockObject */
     private $element;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->primaryPropertySpecification = $this->createMock(PropertySpecificationInterface::class);
         $this->secondaryPropertySpecification = $this->createMock(SecondaryPropertySpecification::class);
