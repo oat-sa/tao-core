@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 14:28\n"
+"PO-Revision-Date: 2025-12-11 13:20\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -20,35 +20,35 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Oauth Credentials"
-msgstr ""
+msgstr "Poverenia OAuth"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "OAuth consumer key"
-msgstr ""
+msgstr "Kľúč spotrebiteľa OAuth"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "identifier of OAuth consumer"
-msgstr ""
+msgstr "identifikátor spotrebiteľa OAuth"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Oauth consumer secret"
-msgstr ""
+msgstr "Tajný kód používateľa OAuth"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Secret used for signatures"
-msgstr ""
+msgstr "Tajomstvo používané na podpisy"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "OAuth consumer callback URL"
-msgstr ""
+msgstr "URL adresa spätného volania spotrebiteľa OAuth"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "URL to call after autentification"
-msgstr ""
+msgstr "URL adresa, ktorá sa má volať po overení"
 
