@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 15:14\n"
+"PO-Revision-Date: 2025-12-12 13:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt\n"
@@ -225,7 +225,7 @@ msgstr "O Papel de Administração"
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Front Office"
-msgstr ""
+msgstr "Front Office"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -415,7 +415,7 @@ msgstr "Objeto para representar o conteúdo da avaliação"
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO Object"
-msgstr ""
+msgstr "TAO Object"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -435,7 +435,7 @@ msgstr "A classe Função dos Trabalhadores"
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Workflow Participant"
-msgstr ""
+msgstr "Workflow Participant"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -445,7 +445,7 @@ msgstr "Função de Participante do Workflow"
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "WfUser"
-msgstr ""
+msgstr "WfUser"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
