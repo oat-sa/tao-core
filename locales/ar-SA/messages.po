@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 15:12\n"
+"PO-Revision-Date: 2025-12-12 13:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -180,7 +180,7 @@ msgid "AC"
 msgstr "AC"
 
 msgid "Accept all"
-msgstr ""
+msgstr "قبول الكل"
 
 msgid "Access Denied"
 msgstr "رفض الدخول"
@@ -230,7 +230,7 @@ msgid "Add file(s)"
 msgstr "أضف ملفات"
 
 msgid "Add index"
-msgstr ""
+msgstr "إضافة فهرس"
 
 msgid "Add property"
 msgstr "أضف خاصيات"
@@ -305,7 +305,7 @@ msgid "an instance"
 msgstr "حالة أو مثال"
 
 msgid "Analytics cookies"
-msgstr ""
+msgstr "ملفات تعريف الارتباط بالتحليلات"
 
 msgid "and"
 msgstr "و"
@@ -340,13 +340,13 @@ msgid "Are you sure you want to delete it?"
 msgstr "هل أنت متأكد أنك تريد حذف ذلك؟"
 
 msgid "Are you sure you want to delete the translation for this language?"
-msgstr ""
+msgstr "هل أنت متأكد من أنك تريد حذف الترجمة لهذه اللغة؟"
 
 msgid "Are you sure you want to start the translation for this language?"
-msgstr ""
+msgstr "هل أنت متأكد من أنك تريد بدء الترجمة لهذه اللغة؟"
 
 msgid "Are you sure you wish to delete it"
-msgstr ""
+msgstr "هل أنت متأكد من رغبتك في حذفه"
 
 msgid "Argument check failed: %s"
 msgstr "تعذر التحقق من الحجج: %s"
@@ -374,7 +374,7 @@ msgid "Audio Video Interleave"
 msgstr "تداخل الصوت والفيديو"
 
 msgid "Auth type"
-msgstr ""
+msgstr "نوع المصادقة"
 
 msgid "Author"
 msgstr "كاتب"
@@ -401,7 +401,7 @@ msgid "Back to listing"
 msgstr "الرجوع إلى القائمة"
 
 msgid "Back to Portal"
-msgstr ""
+msgstr "العودة إلى البوابة"
 
 msgid "Base-10 logarithm"
 msgstr "قاعدة لوغاريتم العشري"
@@ -434,7 +434,7 @@ msgid "Browse folders:"
 msgstr "تصفح المجلدات:"
 
 msgid "Browse resources"
-msgstr ""
+msgstr "تصفح الموارد"
 
 msgid "Browse..."
 msgstr "تصفح..."
@@ -446,7 +446,7 @@ msgid "C file"
 msgstr "ملف C"
 
 msgid "C++ file"
-msgstr ""
+msgstr "ملف C++"
 
 msgid "C++ file (.cpp)"
 msgstr "C++ ملف (.cpp)"
@@ -513,7 +513,7 @@ msgid "choices:"
 msgstr "خيارات "
 
 msgid "Choose a type for your property first"
-msgstr ""
+msgstr "اختر نوع الخاصية الخاصة بك أولاً"
 
 msgid "Choose a value..."
 msgstr "اختر قيمة .."
@@ -567,7 +567,7 @@ msgid "Click to reload."
 msgstr "انقر لإعادة التحميل."
 
 msgid "Click to start"
-msgstr ""
+msgstr "انقر للبدء"
 
 msgid "Close"
 msgstr "إغلاق"
@@ -621,10 +621,10 @@ msgid "Continue"
 msgstr "تابع"
 
 msgid "Cookie Policy"
-msgstr ""
+msgstr "سياسة ملفات تعريف الارتباط"
 
 msgid "Cookies Preferences"
-msgstr ""
+msgstr "تفضيلات ملفات تعريف الارتباط"
 
 msgid "Copy"
 msgstr "نسخ "
@@ -651,13 +651,13 @@ msgid "Create"
 msgstr "إنشاء"
 
 msgid "Create instance"
-msgstr ""
+msgstr "إنشاء مثيل"
 
 msgid "Create instance of "
 msgstr "إنشاء مثيل من "
 
 msgid "Create translation"
-msgstr ""
+msgstr "إنشاء ترجمة"
 
 msgid "Created"
 msgstr "تم الإنشاء"
@@ -687,7 +687,7 @@ msgid "Current playback position"
 msgstr "موضع التشغيل الحالي "
 
 msgid "currently has a dependency established with "
-msgstr ""
+msgstr "حاليًا لديه تبعية تم إنشاؤها مع "
 
 msgid "Data imported"
 msgstr "البيانات المستوردة"
@@ -760,16 +760,16 @@ msgid "Deleting search index for %s"
 msgstr "حذف فهرس البحث ل %s"
 
 msgid "Deleting this property will also remove the dependency"
-msgstr ""
+msgstr "حذف هذه الخاصية سيؤدي أيضا إلى إزالة التبعية"
 
 msgid "Demo Sandbox"
 msgstr "تجريب Sandbox"
 
 msgid "Dependency URI Path"
-msgstr ""
+msgstr "مسار URI التابع"
 
 msgid "Depends on property"
-msgstr ""
+msgstr "الاعتماد على الممتلكات"
 
 msgid "Did you mean %s?"
 msgstr "هل تقصد %s?"
@@ -808,7 +808,7 @@ msgid "Disabled %s"
 msgstr "%s معطل"
 
 msgid "Do you want to override \"%s\"?"
-msgstr ""
+msgstr "هل تريد تجاوز \"%s\"؟"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -865,7 +865,7 @@ msgid "Email"
 msgstr " بريد إلكتروني "
 
 msgid "Empty resources cannot be translated."
-msgstr ""
+msgstr "الموارد الفارغة لا يمكن ترجمتها."
 
 msgid "enabled"
 msgstr "ممكن "
@@ -904,7 +904,7 @@ msgid "Error: %s"
 msgstr "خطأ: %s"
 
 msgid "Essential cookies (required)"
-msgstr ""
+msgstr "ملفات تعريف الارتباط الأساسية (مطلوب)"
 
 msgid "Examples:"
 msgstr "أمثلة "
@@ -960,7 +960,7 @@ msgid "Failed"
 msgstr "فشل"
 
 msgid "Failed to copy class."
-msgstr ""
+msgstr "فشل في نسخ الصف."
 
 msgid "Failed to delete index for %s"
 msgstr "فشل حذف فهرس ل  %s"
@@ -1156,7 +1156,7 @@ msgstr "استيراد الميتا بيانات  من ملف RDF "
 
 #, tao-public
 msgid "Import statistical analysis metadata"
-msgstr ""
+msgstr "استيراد البيانات الفوقية للتحليل الإحصائي"
 
 msgid "Import succeeded."
 msgstr "نجح الاستيراد. "
@@ -1171,7 +1171,7 @@ msgid "Imported resource \"%s"
 msgstr "المورد المستورد \"%s"
 
 msgid "Imported successfully finished!"
-msgstr ""
+msgstr "تم الاستيراد بنجاح !"
 
 msgid "impossible to update task status"
 msgstr "من المستحيل تحديث حالة المهمة "
@@ -1183,13 +1183,13 @@ msgid "In progress"
 msgstr "في تقدم"
 
 msgid "Include all"
-msgstr ""
+msgstr "تضمين الكل"
 
 msgid "Include any"
-msgstr ""
+msgstr "تضمين أي"
 
 msgid "Include none"
-msgstr ""
+msgstr "لا يشمل أي"
 
 msgid "Inclusive (AND)"
 msgstr "دامج (و)"
@@ -1205,7 +1205,7 @@ msgid "Infinity"
 msgstr "لانهاية"
 
 msgid "Inherit the permission of the parent folder"
-msgstr ""
+msgstr "وراثة إذن المجلد الأصلي"
 
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr "يجب أن يحتوي الحاقن على مجال مضبوط الوجهة."
@@ -1244,7 +1244,7 @@ msgid "Interface Language"
 msgstr "لغة الواجهة"
 
 msgid "Interface Mode"
-msgstr ""
+msgstr "وضع الواجهة"
 
 msgid "Invalid CSP header."
 msgstr "رأس CSP غير مضبوط."
@@ -1295,19 +1295,19 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr "معلومات الدخول خاطئة او كلمة المرور خاطئة. تم إغلاق حسابك ، يرجى الاتصال بالمسؤول."
 
 msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
-msgstr ""
+msgstr "مسار غير صالح للمصدر \"%s\". المسار يجب أن يشير إلى الملف الموجود داخل الحزمة."
 
 msgid "invalid regular expression"
 msgstr "تعبير عادي غير مضبوط"
 
 msgid "Invalid value"
-msgstr ""
+msgstr "قيمة غير صالحة"
 
 msgid "Invalid values:"
 msgstr "قيم غير صحيحة:"
 
 msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
-msgstr ""
+msgstr "يبدو أن هناك بعض المشكلات ولم نتمكن من معالجة طلبك. يمكنك الاتصال بمدير TAO إذا لزم الأمر. أو بدلاً من ذلك:"
 
 msgid "items per page"
 msgstr "مواد لكل صفحة "
@@ -1319,7 +1319,7 @@ msgid "JPEG image"
 msgstr "صورة JPEG"
 
 msgid "Keep the original permissions"
-msgstr ""
+msgstr "الاحتفاظ بالأذونات الأصلية"
 
 msgid "Label"
 msgstr "اسم"
@@ -1352,7 +1352,7 @@ msgid "List"
 msgstr "قائمة"
 
 msgid "List \"%s\" has duplicated values."
-msgstr ""
+msgstr "قائمة \"%s\" تحتوي على قيم مكررة."
 
 msgid "List - Multiple choice - Check box"
 msgstr "قائمة - الاختيار من متعدد - خانة الاختيار "
@@ -1442,13 +1442,13 @@ msgid "Manage class schema"
 msgstr "إدارة مخطط القسم"
 
 msgid "manage columns"
-msgstr ""
+msgstr "إدارة الأعمدة"
 
 msgid "Manage data list"
 msgstr "إدارة قائمة البيانات"
 
 msgid "Manage Preferences"
-msgstr ""
+msgstr "إدارة التفضيلات"
 
 #, tao-public
 msgid "Manage roles"
@@ -1468,7 +1468,7 @@ msgid "Map the properties to the CSV columns"
 msgstr "CSV اختر الخصائص المتعلقة بالاعمدة"
 
 msgid "maximum %s"
-msgstr ""
+msgstr "الحد الأقصى %s"
 
 msgid "Maximum selection reached"
 msgstr "تم الوصول إلى الحد الأقصى من الاختيار"
@@ -1525,7 +1525,7 @@ msgid "Mind mapping software application (free mind open source)"
 msgstr "تطبيق برنامج رسم الخرائط الذهنية (العقل الحر مفتوح المصدر)"
 
 msgid "minimum %s"
-msgstr ""
+msgstr "الحد الأدنى %s"
 
 msgid "minutes"
 msgstr "دقائق"
@@ -1586,19 +1586,19 @@ msgid "Multiply the value by 10^x"
 msgstr "اضرب القيمة بـ 10^x"
 
 msgid "Must include at least one letter"
-msgstr ""
+msgstr "يجب أن يتضمن حرف واحد على الأقل"
 
 msgid "Must include at least one number"
-msgstr ""
+msgstr "يجب أن يتضمن رقم واحد على الأقل"
 
 msgid "Must include at least one special letter"
-msgstr ""
+msgstr "يجب أن يتضمن حرف خاص واحد على الأقل"
 
 msgid "Must include lower case letters"
-msgstr ""
+msgstr "يجب أن تتضمن أحرف صغيرة"
 
 msgid "Must include upper case letters"
-msgstr ""
+msgstr "يجب أن تتضمن الأحرف العلوية"
 
 msgid "Mute"
 msgstr "صامت"
@@ -1678,13 +1678,13 @@ msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr "لا توجد وسائط كافية غير متعلقة بالخيارات: حصلت على %s ، وتحتاج إلى %s على الأقل"
 
 msgid "Not Ready for Translation"
-msgstr ""
+msgstr "غير مستعد للترجمة"
 
 msgid "Not started"
 msgstr "لم يبدأ"
 
 msgid "NotEmpty"
-msgstr ""
+msgstr "غير فارغ"
 
 msgid "Nothing imported"
 msgstr "لا شيء مستورد"
@@ -1742,7 +1742,7 @@ msgid "Only one of the field must have value %s"
 msgstr "يجب أن يحتوي حقل واحد فقط على القيمة %s"
 
 msgid "Open the item for editing"
-msgstr ""
+msgstr "افتح العنصر للتعديل"
 
 msgid "OpenDocument Database"
 msgstr "قاعدة بيانات OpenDocument"
@@ -1766,10 +1766,10 @@ msgid "or"
 msgstr "أو"
 
 msgid "Original"
-msgstr ""
+msgstr "الأصل"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
-msgstr ""
+msgstr "خلاف ذلك، النقر على قبول جميع ملفات تعريف الارتباط يشير إلى أنك توافق على استخدامنا لكعكات على جهازك. النقر على رفض جميع ملفات تعريف الارتباط يعني أنك لا توافق على استخدامنا لملفات تعريف الارتباط غير الضرورية على جهازك."
 
 msgid "Outlook on the next Synchronization"
 msgstr "توقعات بشأن التزامن التالي"
@@ -1778,7 +1778,7 @@ msgid "Page"
 msgstr "صفحة"
 
 msgid "Pascal file"
-msgstr ""
+msgstr "ملف باسكال"
 
 msgid "Pascal file (.pas)"
 msgstr "ملف باسكال (.pas)"
@@ -1808,13 +1808,13 @@ msgid "PDF file"
 msgstr "ملف PDF"
 
 msgid "Pending"
-msgstr ""
+msgstr "معلق"
 
 msgid "Permission denied to write in the selected class"
 msgstr "تم رفض الإذن بالكتابة في القسم المحدد"
 
 msgid "Permission settings"
-msgstr ""
+msgstr "إعدادات الإذن"
 
 msgid "Plain text"
 msgstr "نص عادي"
@@ -1871,16 +1871,16 @@ msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "يرجى الإبلاغ عن الأخطاء أو الأفكار أو التعليقات أو الملاحظات على منصة TAO"
 
 msgid "Please select a language."
-msgstr ""
+msgstr "الرجاء تحديد لغة."
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "الرجاء تحديد ملف صورة من مدير الموارد. يمكنك إضافة ملفات من جهاز الكمبيوتر الخاص بك مع زر \"إضافة ملف/ملفات\"."
 
 msgid "Please set 'min' and/or 'max' options!"
-msgstr ""
+msgstr "الرجاء تعيين خيارات 'دقيقة' و/أو 'حد أقصى'!"
 
 msgid "Please try in %s."
-msgstr ""
+msgstr "الرجاء المحاولة في %s."
 
 msgid "Please wait"
 msgstr "المرجو الانتظار"
@@ -1922,7 +1922,7 @@ msgid "Previous page"
 msgstr "الصفحة السابقة"
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "سياسة الخصوصية"
 
 msgid "Proceed"
 msgstr "تقدم"
@@ -1968,7 +1968,7 @@ msgid "RDF"
 msgstr "إطار توصيف الموارد"
 
 msgid "Ready for Translation"
-msgstr ""
+msgstr "جاهز للترجمة"
 
 msgid "RealMedia file"
 msgstr "ملف RealMedia"
@@ -1977,7 +1977,7 @@ msgid "Refresh"
 msgstr "تحديث"
 
 msgid "Reject all"
-msgstr ""
+msgstr "رفض الكل"
 
 msgid "Release"
 msgstr "إنجاز"
@@ -2013,13 +2013,13 @@ msgid "Remove criteria"
 msgstr "إزالة المعيار"
 
 msgid "remove index"
-msgstr ""
+msgstr "إزالة الفهرس"
 
 msgid "Remove Message"
 msgstr "قم بإزالة هذه الرسالة"
 
 msgid "Remove the translated item"
-msgstr ""
+msgstr "إزالة العنصر المترجم"
 
 msgid "Remove this file"
 msgstr "إزالة هذا الملف"
@@ -2259,7 +2259,7 @@ msgid "Size"
 msgstr "حجم"
 
 msgid "Some of resources has not be deleted"
-msgstr ""
+msgstr "بعض الموارد لم يتم حذفها"
 
 msgid "Some resources have not been moved: %s"
 msgstr "لم يتم نقل بعض الموارد: %s"
@@ -2280,7 +2280,7 @@ msgid "Start of document reached. Continuing from the end."
 msgstr "بداية المستند المتاح. استمرار من النهاية."
 
 msgid "Start translation"
-msgstr ""
+msgstr "بدء الترجمة"
 
 msgid "Status"
 msgstr "حالة"
@@ -2298,7 +2298,7 @@ msgid "Storing digital video data on a computer game"
 msgstr "تخزين بيانات الفيديو الرقمية على لعبة كمبيوتر"
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
-msgstr ""
+msgstr "يجب تمكين ملفات تعريف الارتباط الضرورية في جميع الأوقات حتى نتمكن من حفظ تفضيلاتك لإعدادات ملفات تعريف الارتباط."
 
 msgid "string"
 msgstr "سلسلة"
@@ -2376,7 +2376,7 @@ msgid "TAO platform is under maintenance since %s"
 msgstr "منصة TAO تحت الصيانة منذ %s"
 
 msgid "Tao WebHooks"
-msgstr ""
+msgstr "تاو WebHooks"
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr "تم إلغاء المهام %s، الرسالة لم يتم معالجتها"
@@ -2415,7 +2415,7 @@ msgid "Text document file format (Staroffice)"
 msgstr "تنسيق ملف المستند النصي (Staroffice)"
 
 msgid "Text to translate"
-msgstr ""
+msgstr "النص للترجمة"
 
 msgid "The action will be applied to"
 msgstr "سيتم تطبيق الإجراء على"
@@ -2430,13 +2430,13 @@ msgid "The action will not be applied to the following"
 msgstr "لن يتم تطبيق الإجراء على ما يلي"
 
 msgid "The class has been copied."
-msgstr ""
+msgstr "تم نسخ الصف."
 
 msgid "The column "
 msgstr "العمود"
 
 msgid "The field \"List\" is disabled because the property is part of a dependency"
-msgstr ""
+msgstr "حقل \"القائمة\" معطل لأن الخاصية جزء من التبعية"
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
 msgstr "المعايير التالية لا تنطبق على القسم المختار وتمت إزالتها من البحث"
@@ -2457,7 +2457,7 @@ msgid "The properties of the source class will be replaced by those of the desti
 msgstr "سيتم استبدال خصائص فئة المصدر بخصائص فئة الوجهة. قد يؤدي هذا إلى فقدان البيانات الوصفية. هل تريد الاستمرار على أي حال؟"
 
 msgid "The selected value(s) must be compatible with the primary property."
-msgstr ""
+msgstr "القيمة (القيم) المحددة يجب أن تكون متوافقة مع الخاصية الأساسية."
 
 msgid "The server has sent an empty response"
 msgstr "أرسل الخادم ردًا فارغًا"
@@ -2481,7 +2481,7 @@ msgid "There is nothing to list!"
 msgstr "لا يوجد شيء لإضافته للقائمة!"
 
 msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
-msgstr ""
+msgstr "تتيح لنا ملفات تعريف الارتباط هذه إحصاء الزيارات ومختلف البيانات التحليلية الأخرى حتى نتمكن من قياس وتحسين أداء موقعنا. إذا كنت لا تسمح لهذه ملفات تعريف الارتباط فلن نعرف متى قمت بزيارة موقعنا، ولن تكون قادرة على رصد أدائها."
 
 msgid "This %s is currently checked out"
 msgstr "تم سحب %s هذا حالياً"
@@ -2517,7 +2517,7 @@ msgid "This resource is locked"
 msgstr "هذا المورد مقفل"
 
 msgid "This resource is not ready for translation."
-msgstr ""
+msgstr "هذا المورد غير جاهز للترجمة."
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
 msgstr "لا يزال هذا الدور يعطى لمستخدم واحد أو أكثر. يرجى إزالة الدور لهؤلاء المستخدمين أولاً."
@@ -2529,7 +2529,7 @@ msgid "This should not equal %s"
 msgstr "يجب ألا يساوي هذا %s"
 
 msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
-msgstr ""
+msgstr "يستخدم هذا الموقع ملفات تعريف الارتباط لتحسين تجربة التصفح الخاصة بك ولإجراء التحليلات والبحوث."
 
 msgid "time"
 msgstr "زمن"
@@ -2544,7 +2544,7 @@ msgid "to"
 msgstr "إلى"
 
 msgid "To change your preferences, click Manage preferences."
-msgstr ""
+msgstr "لتغيير التفضيلات الخاصة بك، انقر على إدارة التفضيلات."
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr "لإعادة تعيين كلمة المرور الخاصة بك ، انقر فوق الارتباط أدناه ، أو الصقه في متصفحك. سيُطلب منك بعد ذلك إنشاء كلمة مرور جديدة."
@@ -2580,37 +2580,37 @@ msgid "Translate to"
 msgstr "ترجم الى"
 
 msgid "Translated"
-msgstr ""
+msgstr "مترجم"
 
 msgid "Translating"
-msgstr ""
+msgstr "الترجمة"
 
 msgid "Translation"
-msgstr ""
+msgstr "الترجمة"
 
 msgid "Translation parameters"
 msgstr "اعدادات الترجمة"
 
 msgid "Translation Progress"
-msgstr ""
+msgstr "تقدم الترجمة"
 
 msgid "Translation saved"
 msgstr "حفظ الترجمة"
 
 msgid "Translation Status"
-msgstr ""
+msgstr "حالة الترجمة"
 
 msgid "Translation Type"
-msgstr ""
+msgstr "نوع الترجمة"
 
 msgid "Translations"
-msgstr ""
+msgstr "الترجمات"
 
 msgid "Transport Layer Security"
 msgstr "أمن طبقة النقل"
 
 msgid "Tree - Multiple node choice"
-msgstr ""
+msgstr "شجرة - اختيار عقد متعددة"
 
 msgid "Tree - Multiple node choice "
 msgstr "شجرة - اختيار عقدة متعددة"
@@ -2646,7 +2646,7 @@ msgid "Unable to delete the selected resource"
 msgstr "غير قادر على حذف المورد المختار"
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
-msgstr ""
+msgstr "غير قادر على حذف المورد المحدد لأنه ليس لديك الحقوق المطلوبة لحذف جزء من محتوياته."
 
 msgid "Unable to delete the selected resources"
 msgstr "تعذر حذف الموارد المحددة"
@@ -2676,7 +2676,7 @@ msgid "Unable to send the password reset request"
 msgstr "تعذر إرسال طلب إعادة تعيين كلمة المرور"
 
 msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
-msgstr ""
+msgstr "غير قادر على مزامنة البيانات الإحصائية. يرجى الاتصال بمسؤول النظام لمزيد من التفاصيل"
 
 msgid "Unable to update the asset service"
 msgstr "تعذر تحديث خدمة الأصول"
@@ -2694,7 +2694,7 @@ msgid "Unary operator -"
 msgstr "عامل أحادي -"
 
 msgid "Unauthorized files have been removed"
-msgstr ""
+msgstr "تم إزالة الملفات غير المصرح بها"
 
 msgid "Uncheck All"
 msgstr "الغاءالكل"
@@ -2709,7 +2709,7 @@ msgid "Undefined amount of the totalPages for pagination"
 msgstr "كمية غير محددة من إجمالي الصفحات المراد ترقيمها"
 
 msgid "Undefined Instance can not be saved"
-msgstr ""
+msgstr "لا يمكن حفظ مثيل غير محدد"
 
 msgid "Undo"
 msgstr "الغاء التحميل"
@@ -2724,7 +2724,7 @@ msgid "Uninstalled %s"
 msgstr "تم إلغاء تثبيت %s"
 
 msgid "Unique Identifier"
-msgstr ""
+msgstr "Unique Identifier"
 
 msgid "UNIX Compressed Archive File"
 msgstr "ملف أرشيف UNIX المضغوط"
@@ -2873,11 +2873,11 @@ msgid "WAV audio"
 msgstr "صوت WAV"
 
 msgid "WebHook auth configuration can not be loaded"
-msgstr ""
+msgstr "لا يمكن تحميل إعدادات مصادقة WebHook"
 
 #, tao-public
 msgid "WebHooks"
-msgstr ""
+msgstr "WebHooks"
 
 msgid "WebM audio"
 msgstr "صوت WebM"
@@ -2904,7 +2904,7 @@ msgid "Windows Media video"
 msgstr "فيديو ويندوز ميديا"
 
 msgid "with"
-msgstr ""
+msgstr "مع"
 
 msgid "Wrap image left"
 msgstr "التفاف الصورة إلى اليسار"
@@ -2937,10 +2937,10 @@ msgid "You are not authorised to remove this lock"
 msgstr "غير مصرح لك بإزالة هذا القفل"
 
 msgid "You can choose which types of cookies you want to allow to improve your experience."
-msgstr ""
+msgstr "يمكنك اختيار أنواع ملفات تعريف الارتباط التي تريد السماح بها لتحسين تجربتك."
 
 msgid "You can read more about this in our"
-msgstr ""
+msgstr "يمكنك قراءة المزيد عن هذا في منطقتنا"
 
 msgid "You cannot delete the root node"
 msgstr "لا يمكنك حذف عقدة الجذر"

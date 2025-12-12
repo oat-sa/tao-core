@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 15:15\n"
+"PO-Revision-Date: 2025-12-12 13:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl\n"
@@ -20,102 +20,102 @@ msgstr ""
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Search Input"
-msgstr ""
+msgstr "Search Input"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "One may select 0 to N values from a defined list"
-msgstr ""
+msgstr "Één kan 0 tot N waarden selecteren uit een gedefinieerde lijst"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Search Dropdown"
-msgstr ""
+msgstr "Dropdown zoeken"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "One may select 1 value from a defined list"
-msgstr ""
+msgstr "Eén kan 1 waarde selecteren uit een gedefinieerde lijst"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Text Label"
-msgstr ""
+msgstr "Tekst label"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Content is read only"
-msgstr ""
+msgstr "Inhoud is alleen lezen"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Hidden Box"
-msgstr ""
+msgstr "Verborgen Box"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Content is hidden, but visibility can be toggled"
-msgstr ""
+msgstr "Inhoud is verborgen, maar zichtbaarheid kan worden aan/uit gezet"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Calendar"
-msgstr ""
+msgstr "Kalender"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Dynamic Calendar for easy date selecting"
-msgstr ""
+msgstr "Dynamische kalender voor het selecteren van eenvoudige datum"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Authoring"
-msgstr ""
+msgstr "Auteur"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Open a tool to edit special content"
-msgstr ""
+msgstr "Open een gereedschap om speciale inhoud te bewerken"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "VersionedFile"
-msgstr ""
+msgstr "VersieBestand"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Manage your versioned file"
-msgstr ""
+msgstr "Beheer uw versiebestand"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "File"
-msgstr ""
+msgstr "Bestand"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Upload and download file"
-msgstr ""
+msgstr "Upload en download bestand"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Readonly"
-msgstr ""
+msgstr "Alleen Lezen"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Display a constant and uneditable value"
-msgstr ""
+msgstr "Een constante en onbewerkbare waarde weergeven"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Literal Readonly"
-msgstr ""
+msgstr "Letterlijke Leadonly"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Display a literal constant and uneditable value"
-msgstr ""
+msgstr "Een letterlijke constante en onbewerkbare waarde weergeven"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
