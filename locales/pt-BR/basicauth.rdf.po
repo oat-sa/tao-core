@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 15:12\n"
+"PO-Revision-Date: 2025-12-12 13:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt\n"
@@ -25,7 +25,7 @@ msgstr "Credenciais de Autenticação Básicas"
 # http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Login"
-msgstr ""
+msgstr "Conectar-se"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
