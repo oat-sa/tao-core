@@ -121,7 +121,7 @@ class RemoveCsvRowsByPattern implements Action
             if (!isset($sourceData[$columnIndex])) {
                 return new Report(
                     Report::TYPE_ERROR,
-                    "No data found at row ${rowCount}, index ${$columnIndex}"
+                    "No data found at row {$rowCount}, index ${$columnIndex}"
                 );
             }
 
@@ -136,7 +136,7 @@ class RemoveCsvRowsByPattern implements Action
             } else {
                 return new Report(
                     Report::TYPE_ERROR,
-                    "A PCRE engine error occured while processing pattern '${pattern}'."
+                    "A PCRE engine error occured while processing pattern '{$pattern}'."
                 );
             }
 
@@ -149,7 +149,7 @@ class RemoveCsvRowsByPattern implements Action
         return new Report(
             Report::TYPE_SUCCESS,
             $writtenCount . " lines written in file '" . realpath($destination)
-                . "'. ${matchCount} lines were ignored because they were matching the provided pattern."
+                . "'. {$matchCount} lines were ignored because they were matching the provided pattern."
         );
     }
 }

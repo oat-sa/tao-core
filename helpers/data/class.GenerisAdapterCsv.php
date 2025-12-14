@@ -133,7 +133,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
             throw new BadFunctionCallException("import map not set");
         }
         if (is_null($destination)) {
-            throw new InvalidArgumentException("${destination} must be a valid core_kernel_classes_Class");
+            throw new InvalidArgumentException("{$destination} must be a valid core_kernel_classes_Class");
         }
 
         /** @var UploadService $uploadService */
@@ -163,7 +163,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 
         for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++) {
             helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::SHORT);
-            common_Logger::d("CSV - Importing CSV row ${rowIterator}.");
+            common_Logger::d("CSV - Importing CSV row {$rowIterator}.");
 
             $resource = null;
             $csvRow = $csvData->getRow($rowIterator);

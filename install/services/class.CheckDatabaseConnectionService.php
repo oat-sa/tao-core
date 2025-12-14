@@ -146,16 +146,16 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
                 $persistence = $persistenceManager->getPersistenceById('default');
                 // If we are here, we are connected.
                 if ($overwrite == false && !empty($persistence->getSchemaManager()->getTables())) {
-                    $message = "The database with name '${database}' is not empty.";
+                    $message = "The database with name '{$database}' is not empty.";
                     $status = 'invalid-overwrite';
                 } else {
-                    $message = "Database connection successfully established with '${host}' using driver '${driver}'.";
+                    $message = "Database connection successfully established with '{$host}' using driver '{$driver}'.";
                     $status = 'valid';
                 }
 
                 restore_error_handler();
             } catch (Exception $e) {
-                $message = "Unable to connect to database '${database}' at '${host}' using driver '${driver}': "
+                $message = "Unable to connect to database '{$database}' at '{$host}' using driver '{$driver}': "
                     . $e->getMessage();
                 $status = 'invalid-noconnection';
                 restore_error_handler();
@@ -163,7 +163,7 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
         } else {
             // No driver found.
             $status = 'invalid-nodriver';
-            $message = "Database driver '${driver}' is not available.";
+            $message = "Database driver '{$driver}' is not available.";
         }
 
 

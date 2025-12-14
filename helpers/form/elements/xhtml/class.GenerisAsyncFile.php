@@ -78,7 +78,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
         $widgetContainerId = $this->buildWidgetContainerId();
 
         $returnValue = $this->renderLabel();
-        $returnValue .= "<div id='${widgetContainerId}' class='form-elt-container file-uploader'>";
+        $returnValue .= "<div id='{$widgetContainerId}' class='form-elt-container file-uploader'>";
 
         if (
             $this->value instanceof tao_helpers_form_data_UploadFileDescription
@@ -99,12 +99,12 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
             $downloadButtonTitle = __("Download");
             $downloadButtonId = $this->buildDownloadButtonId();
             $iFrameId = $this->buildIframeId();
-            $returnValue .= "<span class=\"widget_AsyncFile_fileinfo\">${shownFileTxt}</span>";
-            $returnValue .= "<button id=\"${downloadButtonId}\" type=\"button\" "
-                . "class=\"download btn-neutral small icon-download\" title=\"${downloadButtonTitle}\">";
-            $returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" "
-                . "class=\"delete btn-error small icon-bin\" title=\"${deleteButtonTitle}\"/>";
-            $returnValue .= "<iframe style=\"display:none\" id=\"${iFrameId}\" frameborder=\"0\"/>";
+            $returnValue .= "<span class=\"widget_AsyncFile_fileinfo\">{$shownFileTxt}</span>";
+            $returnValue .= "<button id=\"{$downloadButtonId}\" type=\"button\" "
+                . "class=\"download btn-neutral small icon-download\" title=\"{$downloadButtonTitle}\">";
+            $returnValue .= "<button id=\"{$deleteButtonId}\" type=\"button\" "
+                . "class=\"delete btn-error small icon-bin\" title=\"{$deleteButtonTitle}\"/>";
+            $returnValue .= "<iframe style=\"display:none\" id=\"{$iFrameId}\" frameborder=\"0\"/>";
 
             // Inject behaviour of the Delete/Download buttons component in response.
             $returnValue .= self::embedBehaviour($this->buildDeleterBehaviour() . $this->buildDownloaderBehaviour());

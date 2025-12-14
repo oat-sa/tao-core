@@ -62,7 +62,7 @@ class RemoveCsvDuplicates extends AbstractIndexedCsv
 
         return new Report(
             Report::TYPE_INFO,
-            "${writtenCount} records written in file '" . realpath($this->getDestination()) . "'."
+            "{$writtenCount} records written in file '" . realpath($this->getDestination()) . "'."
         );
     }
 }

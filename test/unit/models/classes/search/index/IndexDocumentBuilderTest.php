@@ -48,12 +48,6 @@ class IndexDocumentBuilderTest extends TestCase
     use OntologyMockTrait;
     use ServiceManagerMockTrait;
 
-    /** @var ServiceManager|MockObject */
-    private $serviceLocatorMock;
-
-    /** @var IndexDocumentBuilder $builder */
-    private $builder;
-
     private const RESOURCE_URI = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de';
 
     private const ARRAY_RESOURCE = [
@@ -63,17 +57,12 @@ class IndexDocumentBuilderTest extends TestCase
         ]
     ];
 
-    /** @var MockObject|string */
-    private $ontologyMock;
-
-    /** @var core_kernel_classes_Resource|MockObject */
-    private $resourceMock;
-
-    /** @var SearchTokenGenerator|MockObject */
-    private $tokenGeneratorMock;
-
-    /** @var PermissionInterface|MockObject */
-    private $permissionProvider;
+    private ServiceManager|MockObject $serviceLocatorMock;
+    private IndexDocumentBuilder $builder;
+    private MockObject|string $ontologyMock;
+    private core_kernel_classes_Resource|MockObject $resourceMock;
+    private SearchTokenGenerator|MockObject $tokenGeneratorMock;
+    private PermissionInterface|MockObject $permissionProvider;
 
     protected function setUp(): void
     {
@@ -81,7 +70,7 @@ class IndexDocumentBuilderTest extends TestCase
         $this->resourceMock = $this->createMock(
             core_kernel_classes_Resource::class
         );
-        $this->propertyIndexReferenceFactory = $this->createMock(
+        $propertyIndexReferenceFactory = $this->createMock(
             PropertyIndexReferenceFactory::class
         );
 
@@ -101,7 +90,7 @@ class IndexDocumentBuilderTest extends TestCase
         $this->builder = new IndexDocumentBuilder(
             $this->ontologyMock,
             $this->tokenGeneratorMock,
-            $this->propertyIndexReferenceFactory,
+            $propertyIndexReferenceFactory,
             $this->createMock(ValueCollectionService::class),
             $this->createMock(RemoteListPropertySpecification::class),
             $this->permissionProvider

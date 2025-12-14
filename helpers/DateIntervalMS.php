@@ -22,6 +22,8 @@
 
 namespace oat\tao\helpers;
 
+use ReturnTypeWillChange;
+
 /**
  * Helps manipulate intervals of dates with microseconds, extended from built in DateInterval
  *
@@ -52,6 +54,7 @@ class DateIntervalMS extends \DateInterval
      * @param $format
      * @return string
      */
+    #[ReturnTypeWillChange]
     public function format($format)
     {
         $format = str_replace('%U', sprintf("%06d", $this->u), $format);

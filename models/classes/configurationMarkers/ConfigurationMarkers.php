@@ -55,7 +55,7 @@ class ConfigurationMarkers
             throw new InvalidArgumentException('Empty configuration.');
         }
 
-        array_walk_recursive($configurationWithMarkers, 'self::walkReplaceMarkers');
+        array_walk_recursive($configurationWithMarkers, [$this, 'walkReplaceMarkers']);
 
         return $configurationWithMarkers;
     }

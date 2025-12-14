@@ -38,6 +38,7 @@ class InstanceMover implements ResourceTransferInterface
     private Ontology $ontology;
     private RootClassesListServiceInterface $rootClassesListService;
     private TranslationMoveService $translationMoveService;
+    private PermissionCopierInterface $permissionCopier;
 
     public function __construct(
         Ontology $ontology,

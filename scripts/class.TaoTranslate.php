@@ -299,15 +299,15 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             $languageDir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
 
             if (!is_dir($languageDir)) {
-                $this->err("The 'language' directory ${languageDir} does not exist.", true);
+                $this->err("The 'language' directory {$languageDir} does not exist.", true);
             } elseif (!is_readable($languageDir)) {
                 $this->err(
-                    "The 'language' directory ${languageDir} is not readable. Please check permissions on this "
+                    "The 'language' directory {$languageDir} is not readable. Please check permissions on this "
                         . "directory."
                 );
             } elseif (!is_writable($languageDir)) {
                 $this->err(
-                    "The 'language' directory ${languageDir} is not writable. Please check permissions on this "
+                    "The 'language' directory {$languageDir} is not writable. Please check permissions on this "
                         . "directory."
                 );
             } else {
@@ -896,13 +896,13 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                 if ($f == 'messages.po') {
                     // Change the language tag in the PO file.
 
-                    $pattern = "/Language: ${qSourceLang}/u";
+                    $pattern = "/Language: {$qSourceLang}/u";
                     $count = 0;
                     $content = file_get_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'messages.po');
-                    $newFileContent = preg_replace($pattern, "Language: ${destLang}", $content, -1, $count);
+                    $newFileContent = preg_replace($pattern, "Language: {$destLang}", $content, -1, $count);
 
                     if ($count == 1) {
-                        $this->outVerbose("Language tag '${destLang}' applied to messages.po.");
+                        $this->outVerbose("Language tag '{$destLang}' applied to messages.po.");
                         file_put_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'messages.po', $newFileContent);
                     } else {
                         $this->err("Could not change language tag in messages.po.");
@@ -910,17 +910,17 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                 } elseif ($f == 'messages_po.js') {
                     // Change the language tag in comments.
                     // Change the langCode JS variable.
-                    $pattern = "/var langCode = '${qSourceLang}';/u";
+                    $pattern = "/var langCode = '{$qSourceLang}';/u";
                     $count1 = 0;
                     $content = file_get_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'messages_po.js');
-                    $newFileContent = preg_replace($pattern, "var langCode = '${destLang}';", $content, -1, $count1);
+                    $newFileContent = preg_replace($pattern, "var langCode = '{$destLang}';", $content, -1, $count1);
 
-                    $pattern = "|/\\* lang: ${qSourceLang} \\*/|u";
+                    $pattern = "|/\\* lang: {$qSourceLang} \\*/|u";
                     $count2 = 0;
-                    $newFileContent = preg_replace($pattern, "/* lang: ${destLang} */", $newFileContent, -1, $count2);
+                    $newFileContent = preg_replace($pattern, "/* lang: {$destLang} */", $newFileContent, -1, $count2);
 
                     if ($count1 + $count2 == 2) {
-                        $this->outVerbose("Language tag '${destLang}' applied to messages_po.js");
+                        $this->outVerbose("Language tag '{$destLang}' applied to messages_po.js");
                         file_put_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'messages_po.js', $newFileContent);
                     } else {
                         $this->err("Could not change language tag in messages_po.js");
@@ -928,16 +928,16 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                 } elseif ($f == 'lang.rdf') {
                     // Change <![CDATA[XX]]>
                     // Change http://www.tao.lu/Ontologies/TAO.rdf#LangXX
-                    $pattern = "/<!\\[CDATA\\[${qSourceLang}\\]\\]>/u";
+                    $pattern = "/<!\\[CDATA\\[{$qSourceLang}\\]\\]>/u";
                     $count1 = 0;
                     $content = file_get_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'lang.rdf');
-                    $newFileContent = preg_replace($pattern, "<![CDATA[${destLang}]]>", $content, -1, $count1);
+                    $newFileContent = preg_replace($pattern, "<![CDATA[{$destLang}]]>", $content, -1, $count1);
 
-                    $pattern = "|http://www.tao.lu/Ontologies/TAO.rdf#Lang${qSourceLang}|u";
+                    $pattern = "|http://www.tao.lu/Ontologies/TAO.rdf#Lang{$qSourceLang}|u";
                     $count2 = 0;
                     $newFileContent = preg_replace(
                         $pattern,
-                        "http://www.tao.lu/Ontologies/TAO.rdf#Lang${destLang}",
+                        "http://www.tao.lu/Ontologies/TAO.rdf#Lang{$destLang}",
                         $newFileContent,
                         -1,
                         $count2
@@ -948,7 +948,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                     $newFileContent = preg_replace($pattern, 'xml:lang="en-US"', $newFileContent, -1, $count3);
 
                     if ($count1 + $count2 + $count3 == 3) {
-                        $this->outVerbose("Language tag '${destLang}' applied to lang.rdf");
+                        $this->outVerbose("Language tag '{$destLang}' applied to lang.rdf");
                         file_put_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'lang.rdf', $newFileContent);
                     } else {
                         $this->err("Could not change language tag in lang.rdf");
@@ -963,13 +963,13 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                         $content = file_get_contents($destLocaleDir . DIRECTORY_SEPARATOR . $f);
                         $newFileContent = preg_replace($pattern, "@sourceLanguage en-US", $content);
 
-                        $pattern = "/@targetLanguage ${qSourceLang}/u";
-                        $newFileContent = preg_replace($pattern, "@targetLanguage ${destLang}", $newFileContent);
+                        $pattern = "/@targetLanguage {$qSourceLang}/u";
+                        $newFileContent = preg_replace($pattern, "@targetLanguage {$destLang}", $newFileContent);
 
                         $pattern = '/xml:lang="' . $qSourceLang . '"/u';
                         $newFileContent = preg_replace($pattern, 'xml:lang="' . $destLang . '"', $newFileContent);
 
-                        $this->outVerbose("Language tag '${destLang}' applied to ${f}");
+                        $this->outVerbose("Language tag '{$destLang}' applied to {$f}");
                         file_put_contents($destLocaleDir . DIRECTORY_SEPARATOR . $f, $newFileContent);
                     }
                 }
@@ -1391,7 +1391,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             $compiledTranslationFile = new tao_helpers_translation_TranslationFile();
             $compiledTranslationFile->setTargetLanguage($this->options['language']);
 
-            $this->outVerbose("Compiling language '${$language}' for extension '${extension}'...");
+            $this->outVerbose("Compiling language '${$language}' for extension '{$extension}'...");
 
             // Get the dependencies of the target extension.
             // @todo Deal with dependencies at compilation time.
@@ -1402,12 +1402,12 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
 
             $this->outVerbose("Resolving Dependencies...");
             foreach ($dependencies as $depExtId) {
-                $this->outVerbose("Adding messages from extension '${depExtId}' in '${language}'...");
+                $this->outVerbose("Adding messages from extension '{$depExtId}' in '{$language}'...");
                 // Does the locale exist for $depExtId?
                 $depPath = $this->buildLanguagePath($depExtId, $language) . '/' . self::DEF_PO_FILENAME;
                 if (!file_exists($depPath) || !is_readable($depPath)) {
                     $this->outVerbose(
-                        "Dependency on extension '${depExtId}' in '${language}' does not exist. "
+                        "Dependency on extension '{$depExtId}' in '{$language}' does not exist. "
                             . "Trying to resolve default language..."
                     );
                     $depPath = $this->buildLanguagePath(
@@ -1416,7 +1416,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                     );
 
                     if (!file_exists($depPath) || !is_readable($depPath)) {
-                        $this->outVerbose("Dependency on extension '${depExtId}' in '${language}' does not exist.");
+                        $this->outVerbose("Dependency on extension '{$depExtId}' in '{$language}' does not exist.");
                         continue;
                     }
                 }
@@ -1435,7 +1435,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                 $poCount = $poFile->count();
                 $compiledTranslationFile->addTranslationUnits($poFile->getTranslationUnits());
 
-                $this->outVerbose("${poCount} messages added.");
+                $this->outVerbose("{$poCount} messages added.");
             }
 
             if (($extDirectories = scandir(ROOT_PATH)) !== false) {
@@ -1451,12 +1451,12 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                         && $extDir != $extension
                         && $extDir != 'generis'
                     ) {
-                        $this->outVerbose("Adding public messages from extension '${extDir}' in '${language}'...");
+                        $this->outVerbose("Adding public messages from extension '{$extDir}' in '{$language}'...");
 
                         $poPath = $this->buildLanguagePath($extDir, $language) . '/' . self::DEF_PO_FILENAME;
                         if (!file_exists($poPath) || !is_readable($poPath)) {
                             $this->outVerbose(
-                                "Extension '${extDir}' is not translated in language '${language}'. "
+                                "Extension '{$extDir}' is not translated in language '{$language}'. "
                                     . "Trying to retrieve default language..."
                             );
                             $languagePath = $this->buildLanguagePath(
@@ -1466,7 +1466,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                             $poPath = $languagePath . '/' . self::DEF_PO_FILENAME;
 
                             if (!file_exists($poPath) || !is_readable($poPath)) {
-                                $this->outVerbose("Extension '${extDir}' in '${language}' does not exist.");
+                                $this->outVerbose("Extension '{$extDir}' in '{$language}' does not exist.");
                                 continue;
                             }
                         }
@@ -1477,7 +1477,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                         $poUnits = $poFile->getByFlag('tao-public');
                         $poCount = count($poUnits);
                         $compiledTranslationFile->addTranslationUnits($poUnits);
-                        $this->outVerbose("${poCount} public messages added.");
+                        $this->outVerbose("{$poCount} public messages added.");
                     }
                 }
 
@@ -1499,11 +1499,11 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                     $jsFileWriter = new tao_helpers_translation_JSFileWriter($jsPath, $compiledTranslationFile);
                     $jsFileWriter->write();
                     $this->outVerbose(
-                        "JavaScript compiled translations for extension '${extension}' with '${language}' written."
+                        "JavaScript compiled translations for extension '{$extension}' with '{$language}' written."
                     );
                 } else {
                     $this->err(
-                        "PO file '${path}' for extension '${extension}' with language '${language}' cannot be read.",
+                        "PO file '{$path}' for extension '{$extension}' with language '{$language}' cannot be read.",
                         true
                     );
                 }
@@ -1511,7 +1511,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                 $this->err("Cannot list TAO Extensions from root path. Check your system rights.", true);
             }
 
-            $this->outVerbose("Translations for '${extension}' with language '${language}' gracefully compiled.");
+            $this->outVerbose("Translations for '{$extension}' with language '{$language}' gracefully compiled.");
         }
     }
 

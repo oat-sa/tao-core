@@ -61,7 +61,7 @@ class UriHelperTest extends TestCase
 
         $uri = 'flupsTu8tridou:kek';
         $domain = tao_helpers_Uri::getDomain($uri);
-        $this->assertNull($domain, "domain should be null but is equal to '${domain}'.");
+        $this->assertNull($domain, "domain should be null but is equal to '{$domain}'.");
 
         $uri = 'http://mytaoplatform/';
         $domain = tao_helpers_Uri::getDomain($uri);

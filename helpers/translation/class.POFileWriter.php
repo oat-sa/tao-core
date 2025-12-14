@@ -75,7 +75,7 @@ class tao_helpers_translation_POFileWriter extends tao_helpers_translation_Trans
             $a = tao_helpers_translation_POUtils::serializeAnnotations($tu->getAnnotations());
 
             if (!empty($a)) {
-                $buffer .= "${a}\n";
+                $buffer .= "{$a}\n";
             }
 
             if ($c) {

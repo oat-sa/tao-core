@@ -45,23 +45,13 @@ use oat\generis\model\resource\Contract\ResourceRepositoryInterface;
  */
 class ClassDeleterTest extends TestCase
 {
-    /** @var ClassDeleter */
-    private $sut;
-
-    /** @var ClassSpecificationInterface|MockObject */
-    private $rootClassSpecification;
-
-    /** @var PermissionCheckerInterface|MockObject */
-    private $permissionChecker;
-
-    /** @var Ontology|MockObject */
-    private $ontology;
-
-    /** @var ResourceRepositoryInterface|MockObject */
-    private $resourceRepository;
-
-    /** @var ResourceRepositoryInterface|MockObject */
-    private $classRepository;
+    private ClassDeleter $sut;
+    private ClassSpecificationInterface|MockObject $rootClassSpecification;
+    private PermissionCheckerInterface|MockObject $permissionChecker;
+    private Ontology|MockObject $ontology;
+    private ResourceRepositoryInterface|MockObject $resourceRepository;
+    private ResourceRepositoryInterface|MockObject $classRepository;
+    private ResourceRelationServiceProxy|MockObject $resourceRelationServiceProxyMock;
 
     protected function setUp(): void
     {
