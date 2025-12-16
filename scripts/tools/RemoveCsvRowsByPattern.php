@@ -121,7 +121,7 @@ class RemoveCsvRowsByPattern implements Action
             if (!isset($sourceData[$columnIndex])) {
                 return new Report(
                     Report::TYPE_ERROR,
-                    "No data found at row {$rowCount}, index ${$columnIndex}"
+                    "No data found at row {$rowCount}, index {$columnIndex}"
                 );
             }
 
