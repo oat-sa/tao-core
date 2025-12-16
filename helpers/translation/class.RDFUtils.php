@@ -78,7 +78,7 @@ class tao_helpers_translation_RDFUtils
             }
         } else {
             throw new tao_helpers_translation_TranslationException(
-                "A fatal error occured while parsing annotations '${annotations}.'"
+                "A fatal error occured while parsing annotations '{$annotations}.'"
             );
         }
 
@@ -109,7 +109,7 @@ class tao_helpers_translation_RDFUtils
         foreach ($annotations as $n => $v) {
             $v = str_replace("\\", "\\\\", $v);
             $v = str_replace('--', "\\-\\-", $v);
-            $a[] = '@' . trim($n) . " ${v}";
+            $a[] = '@' . trim($n) . " {$v}";
         }
         $returnValue = implode($glue, $a);
 

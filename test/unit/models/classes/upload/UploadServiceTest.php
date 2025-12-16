@@ -20,10 +20,12 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\upload;
+namespace oat\tao\test\unit\models\classes\upload;
 
 use common_exception_Error;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use oat\tao\model\upload\UploadService;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
@@ -32,22 +34,19 @@ use tao_helpers_form_Form;
 
 class UploadServiceTest extends TestCase
 {
-    /** @var UploadService */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /** @var FileSystemService|MockObject */
-    private $fileSystemService;
+    private UploadService $subject;
+    private FileSystemService|MockObject $fileSystemService;
+    private Directory|MockObject $directory;
 
-    /** @var Directory|MockObject */
-    private $directory;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->fileSystemService = $this->createMock(FileSystemService::class);
         $this->directory = $this->createMock(Directory::class);
         $this->subject = new UploadService();
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     FileSystemService::SERVICE_ID => $this->fileSystemService,
                 ]

@@ -65,7 +65,7 @@ namespace oat\tao\model\session\Business\Service {
 namespace oat\tao\test\unit\session\Business\Service {
 
     use common_http_Request as Request;
-    use oat\generis\test\TestCase;
+    use PHPUnit\Framework\TestCase;
     use oat\tao\model\session\Business\Contract\SessionCookieAttributesFactoryInterface;
     use oat\tao\model\session\Business\Domain\SessionCookieAttribute;
     use oat\tao\model\session\Business\Domain\SessionCookieAttributeCollection;

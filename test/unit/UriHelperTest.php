@@ -28,11 +28,11 @@
 
  */
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class UriHelperTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
     }
@@ -61,7 +61,7 @@ class UriHelperTest extends TestCase
 
         $uri = 'flupsTu8tridou:kek';
         $domain = tao_helpers_Uri::getDomain($uri);
-        $this->assertNull($domain, "domain should be null but is equal to '${domain}'.");
+        $this->assertNull($domain, "domain should be null but is equal to '{$domain}'.");
 
         $uri = 'http://mytaoplatform/';
         $domain = tao_helpers_Uri::getDomain($uri);

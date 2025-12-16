@@ -75,7 +75,7 @@ class tao_install_utils_System
     public static function isTAOInstalled($path = '')
     {
         $path = (empty($path)) ? __DIR__ . '/../../../config' : rtrim($path, '/\\');
-        $config = "${path}/generis.conf.php";
+        $config = "{$path}/generis.conf.php";
         return file_exists($config);
     }
 
@@ -87,14 +87,14 @@ class tao_install_utils_System
     public static function isTAOUpToDate($path = '')
     {
         $path = (empty($path)) ? __DIR__ . '/../../../config' : rtrim($path, '/\\');
-        $generisConf = "${path}/generis.conf.php";
+        $generisConf = "{$path}/generis.conf.php";
 
         if (!is_readable($generisConf)) {
             return false;
         }
 
         include_once($generisConf);
-        $installationConf = "${path}/generis/installation.conf.php";
+        $installationConf = "{$path}/generis/installation.conf.php";
 
         if (!is_readable($installationConf)) {
             return false;
@@ -104,7 +104,7 @@ class tao_install_utils_System
         $extIterator = is_array($conf) ? $conf : $conf->getConfig();
 
         foreach ($extIterator as $extName => $ext) {
-            $manifestPath = __DIR__ . "/../../../${extName}/manifest.php";
+            $manifestPath = __DIR__ . "/../../../{$extName}/manifest.php";
 
             if (!is_readable($manifestPath)) {
                 return false;
@@ -156,12 +156,12 @@ class tao_install_utils_System
                             $expectedUri = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $l;
 
                             // Look for an rdf:value equals to the folder name.
-                            $rdfValues = $xpath->query("//rdf:Description[@rdf:about='${expectedUri}']/rdf:value");
+                            $rdfValues = $xpath->query("//rdf:Description[@rdf:about='{$expectedUri}']/rdf:value");
                             if ($rdfValues->length == 1 && $rdfValues->item(0)->nodeValue == $l) {
                                 $key = $l;
 
                                 $rdfsLabels = $xpath->query(
-                                    "//rdf:Description[@rdf:about='${expectedUri}']/rdfs:label[@xml:lang='en-US']"
+                                    "//rdf:Description[@rdf:about='{$expectedUri}']/rdfs:label[@xml:lang='en-US']"
                                 );
                                 if ($rdfsLabels->length == 1) {
                                     $value = $rdfsLabels->item(0)->nodeValue;
@@ -178,7 +178,7 @@ class tao_install_utils_System
 
             return $returnValue;
         } else {
-            throw new UnexpectedValueException("Unable to list locales in '${path}'.");
+            throw new UnexpectedValueException("Unable to list locales in '{$path}'.");
         }
     }
 }

@@ -38,14 +38,12 @@ class tao_helpers_Numeric
      *
      * @access public
      * @author Jehan Bihin, <jehan.bihin@tudor.lu>
-     * @param  string value
+     * @param string value
      * @return float
      */
     public static function parseFloat($value)
     {
-        $returnValue = (float) 0.0;
-
-        $returnValue = str_replace(',', '.', $value);
+        $returnValue = str_replace(',', '.', $value ?? '');
         $returnValue = preg_replace('/[^\-\d.]/', '', $returnValue);
 
         return (float) $returnValue;

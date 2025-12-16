@@ -47,7 +47,7 @@ class ResourceMetadataPopulateServiceTest extends TestCase
     /** @var core_kernel_classes_Resource|MockObject */
     private $originResource;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->resource = $this->createMock(AbstractResource::class);

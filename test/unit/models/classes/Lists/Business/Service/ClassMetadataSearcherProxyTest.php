@@ -15,15 +15,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Lists\Business\Service;
+namespace oat\tao\test\unit\models\classes\Lists\Business\Service;
 
 use Exception;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\Lists\Business\Contract\ClassMetadataSearcherInterface;
 use oat\tao\model\Lists\Business\Domain\ClassCollection;
@@ -34,19 +35,14 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ClassMetadataSearcherProxyTest extends TestCase
 {
-    /** @var ClassMetadataSearcherProxy */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /** @var ClassMetadataService|MockObject */
-    private $classMetadataService;
+    private ClassMetadataSearcherProxy $subject;
+    private ClassMetadataService|MockObject $classMetadataService;
+    private ClassMetadataSearcherInterface|MockObject $searcher;
+    private LoggerService|MockObject $logger;
 
-    /** @var ClassMetadataSearcherInterface|MockObject */
-    private $searcher;
-
-    /** @var LoggerService|MockObject */
-    private $logger;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new ClassMetadataSearcherProxy(
             [
@@ -59,7 +55,7 @@ class ClassMetadataSearcherProxyTest extends TestCase
         $this->logger = $this->createMock(LoggerService::class);
 
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     ClassMetadataService::SERVICE_ID => $this->classMetadataService,
                     ClassMetadataSearcherInterface::class => $this->searcher,

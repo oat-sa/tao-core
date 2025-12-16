@@ -15,19 +15,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\webhooks\task;
 
 use GuzzleHttp\Psr7\Response;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\task\InvalidJsonException;
 use oat\tao\model\webhooks\task\JsonValidator;
 use oat\tao\model\webhooks\task\JsonWebhookResponseFactory;
 
 class JsonWebhookResponseFactoryTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     public function testGetAcceptedContentType()
     {
         $factory = new JsonWebhookResponseFactory();
@@ -57,7 +62,7 @@ class JsonWebhookResponseFactoryTest extends TestCase
                        $event->status === 'accepted';
             }));
 
-        $factory->setServiceLocator($this->getServiceLocatorMock([
+        $factory->setServiceLocator($this->getServiceManagerMock([
             JsonValidator::class => $jsonValidatorMock
         ]));
 
@@ -103,7 +108,7 @@ class JsonWebhookResponseFactoryTest extends TestCase
             ->with(['ab'])
             ->willThrowException(new InvalidJsonException('Err', 0, ['err1']));
 
-        $factory->setServiceLocator($this->getServiceLocatorMock([
+        $factory->setServiceLocator($this->getServiceManagerMock([
             JsonValidator::class => $jsonValidatorMock
         ]));
 

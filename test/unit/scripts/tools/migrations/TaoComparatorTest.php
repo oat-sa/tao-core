@@ -26,7 +26,7 @@ namespace oat\tao\test\unit\scripts\tools\migrations;
 use Doctrine\Migrations\Version\Version;
 use common_ext_ExtensionsManager as ExtensionsManager;
 use common_ext_Extension as Extension;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\scripts\tools\migrations\TaoComparator;
 use helpers_ExtensionHelper as ExtensionHelper;
 

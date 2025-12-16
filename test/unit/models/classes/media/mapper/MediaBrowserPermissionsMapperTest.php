@@ -15,32 +15,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\media\mapper;
+namespace oat\tao\test\unit\models\classes\media\mapper;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use oat\tao\model\media\mapper\MediaBrowserPermissionsMapper;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\accessControl\PermissionCheckerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class MediaBrowserPermissionsMapperTest extends TestCase
 {
-    /** @var MediaBrowserPermissionsMapper */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /** @var PermissionCheckerInterface|MockObject */
-    private $permissionChecker;
+    private MediaBrowserPermissionsMapper $subject;
+    private PermissionCheckerInterface|MockObject $permissionChecker;
 
     protected function setUp(): void
     {
         $this->permissionChecker = $this->createMock(PermissionCheckerInterface::class);
         $this->subject = new MediaBrowserPermissionsMapper();
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     PermissionChecker::class => $this->permissionChecker,
                 ]

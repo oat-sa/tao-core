@@ -51,7 +51,7 @@ class SecureResourceServiceTest extends GenerisTestCase
     private FeatureFlagCheckerInterface $featureFlagChecker;
     private Ontology $ontology;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new SecureResourceService();
         $this->permissionInterface = $this->createMock(PermissionInterface::class);

@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\model\Lists\Business\Validation;
 
 use tao_helpers_form_Form;
 use core_kernel_classes_Class;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Property;
 use tao_helpers_form_FormElement;
 use oat\generis\model\data\Ontology;

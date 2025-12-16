@@ -22,33 +22,31 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\accessControl;
 
-use oat\generis\test\TestCase;
 use common_test_TestUser as TestUser;
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\tao\model\accessControl\Context;
 use oat\oatbox\log\logger\AdvancedLogger;
 use oat\tao\model\Context\ContextInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\accessControl\ActionAccessControl;
+use PHPUnit\Framework\TestCase;
 
 class ActionAccessControlTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private const TEST_CONTROLLER = 'testController';
     private const TEST_ACTION = 'testAction';
 
-    /** @var ActionAccessControl */
-    private $sut;
+    private ActionAccessControl $sut;
+    private TestUser $user;
+    private ContextInterface|MockObject $context;
 
-    /** @var TestUser */
-    private $user;
-
-    /** @var ContextInterface|MockObject */
-    private $context;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new ActionAccessControl();
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     AdvancedLogger::ACL_SERVICE_ID => $this->createMock(AdvancedLogger::class),
                 ]

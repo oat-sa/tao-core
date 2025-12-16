@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\StatisticalMetadata\Import\Validator;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Property;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\model\StatisticalMetadata\Import\Exception\HeaderValidationException;

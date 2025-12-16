@@ -24,13 +24,20 @@ namespace oat\tao\test\unit\models\classes\ClassProperty;
 
 use oat\generis\model\data\Ontology;
 use oat\tao\model\ClassProperty\PropertyRestrictionGuard;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Resource as Resource;
 use core_kernel_classes_Property as Property;
 
 class PropertyRestrictionGuardTest extends TestCase
 {
-    public function setUp(): void
+    private Ontology|MockObject $ontologyMock;
+    private PropertyRestrictionGuard $subject;
+    private Resource|MockObject $instance;
+    private Property|MockObject $property;
+    private array $restrictedProperties;
+
+    protected function setUp(): void
     {
         $this->ontologyMock = $this->createMock(Ontology::class);
         $this->subject = new PropertyRestrictionGuard($this->ontologyMock);

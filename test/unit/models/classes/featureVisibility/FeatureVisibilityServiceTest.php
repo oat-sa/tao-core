@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\unit\test\model\featureVisibility;
 
 use InvalidArgumentException;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\AbstractRegistry;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\featureVisibility\FeatureVisibilityService;

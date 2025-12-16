@@ -48,7 +48,7 @@ class tao_install_services_UnknownServiceException extends Exception
         if (!empty($serviceName)) {
             parent::__construct("Service not found.");
         } else {
-            parent::__construct("Service '${serviceName} not found.");
+            parent::__construct("Service '{$serviceName} not found.");
         }
 
         $this->setServiceName($serviceName);

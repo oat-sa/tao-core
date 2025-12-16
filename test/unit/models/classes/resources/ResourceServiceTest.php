@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\resources\ResourceService;
 
 use core_kernel_classes_Class;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\resources\ResourceService;
 
 class ResourceServiceTest extends TestCase

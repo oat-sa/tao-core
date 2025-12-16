@@ -102,7 +102,7 @@ class tao_helpers_Display
      */
     public static function htmlize($input): string
     {
-        return htmlentities($input, ENT_COMPAT, self::getEncoding());
+        return htmlentities($input ?? '', ENT_COMPAT, self::getEncoding());
     }
 
 

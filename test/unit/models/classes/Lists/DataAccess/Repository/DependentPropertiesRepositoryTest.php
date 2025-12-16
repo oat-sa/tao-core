@@ -15,15 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Lists\DataAccess\Repository;
+namespace oat\tao\test\unit\models\classes\Lists\DataAccess\Repository;
 
-use ArrayIterator;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Property;
 use oat\generis\model\OntologyRdf;
 use oat\search\base\QueryInterface;
@@ -37,11 +37,10 @@ use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 
 class DependentPropertiesRepositoryTest extends TestCase
 {
-    /** @var DependentPropertiesRepository */
-    private $sut;
+    use ServiceManagerMockTrait;
 
-    /** @var ComplexSearchService|MockObject */
-    private $complexSearchService;
+    private DependentPropertiesRepository $sut;
+    private ComplexSearchService|MockObject $complexSearchService;
 
     protected function setUp(): void
     {
@@ -49,7 +48,7 @@ class DependentPropertiesRepositoryTest extends TestCase
 
         $this->sut = new DependentPropertiesRepository();
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock([
+            $this->getServiceManagerMock([
                 ComplexSearchService::SERVICE_ID => $this->complexSearchService,
             ])
         );

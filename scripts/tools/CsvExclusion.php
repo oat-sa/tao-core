@@ -124,8 +124,8 @@ class CsvExclusion extends AbstractIndexedCsv
 
         return new Report(
             Report::TYPE_INFO,
-            "${writtenCount} record(s) written in file '" . realpath($this->getDestination())
-                . "'. ${removedCount} record(s) were excluded."
+            "{$writtenCount} record(s) written in file '" . realpath($this->getDestination())
+                . "'. {$removedCount} record(s) were excluded."
         );
     }
 }

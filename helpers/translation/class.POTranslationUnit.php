@@ -111,7 +111,7 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
         if (!isset($currentAnnotations[self::FLAGS])) {
             $currentAnnotations[self::FLAGS] = $flag;
         } elseif (!(mb_strpos($currentAnnotations[self::FLAGS], $flag, 0, TAO_DEFAULT_ENCODING) !== false)) {
-            $currentAnnotations[self::FLAGS] .= " ${flag}";
+            $currentAnnotations[self::FLAGS] .= " {$flag}";
         }
 
         $this->setAnnotations($currentAnnotations);

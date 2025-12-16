@@ -221,14 +221,14 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                                 'topClass'              => $topClass,
                                 'additionalProperties'  => $additionalProperties];
         try {
-            $this->outVerbose("Hardifying class '${classUri}'...");
+            $this->outVerbose("Hardifying class '{$classUri}'...");
             $switcher = new core_kernel_persistence_Switcher($blackList);
             $switcher->hardify($class, $optionsHardify);
 
             $hardenedClasses = $switcher->getHardenedClasses();
             if (array_key_exists($classUri, $hardenedClasses)) {
                 $count = $hardenedClasses[$classUri];
-                $this->outVerbose("Class '${classUri}' successfully hardified: ${count} instance(s) compiled.");
+                $this->outVerbose("Class '{$classUri}' successfully hardified: {$count} instance(s) compiled.");
 
                 if (true == $optionsHardify['createForeigns']) {
                     unset($hardenedClasses[$classUri]);
@@ -238,14 +238,14 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                     } else {
                         foreach ($hardenedClasses as $uri => $count) {
                             $this->outVerbose(
-                                "Foreign class '${uri} successfully hardified: ${count} instance(s) compiled.'"
+                                "Foreign class '{$uri} successfully hardified: {$count} instance(s) compiled.'"
                             );
                         }
                     }
                 }
             }
         } catch (Exception $e) {
-            $msg = "A fatal error occured while hardifying class '${classUri}': " . $e->getMessage();
+            $msg = "A fatal error occured while hardifying class '{$classUri}': " . $e->getMessage();
             $this->error($msg, true);
         }
     }
@@ -366,7 +366,7 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                                 // store clean uri.
                                 $additionalProperties[$k] = new core_kernel_classes_Property($uri);
                             } else {
-                                $this->error("'${uri}' is not a valid URI in 'additionalProperties'.", true);
+                                $this->error("'{$uri}' is not a valid URI in 'additionalProperties'.", true);
                             }
                         }
 
@@ -381,7 +381,7 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                             if (true == common_Utils::isUri($topClassUri)) {
                                 $this->options['topClass'] = new core_kernel_classes_Class($topClassUri);
                             } else {
-                                $this->error("'${topClassUri}' is not a valid URI in 'topClass'.", true);
+                                $this->error("'{$topClassUri}' is not a valid URI in 'topClass'.", true);
                             }
                         }
                     }

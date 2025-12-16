@@ -22,12 +22,11 @@
 
 namespace oat\tao\test\unit\requiredAction;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
 use oat\tao\model\requiredAction\implementation\TimeRule;
-use Prophecy\Argument;
 
 class RequiredActionServiceTest extends TestCase
 {

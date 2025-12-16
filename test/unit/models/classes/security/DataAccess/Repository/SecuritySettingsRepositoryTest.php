@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\security\DataAccess\Repository;
 
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\security\Business\Domain\Setting;
 use oat\tao\model\security\Business\Domain\SettingsCollection;
 use oat\tao\model\security\DataAccess\Repository\SecuritySettingsRepository;
@@ -40,7 +40,7 @@ class SecuritySettingsRepositoryTest extends TestCase
     /** @var SecuritySettingsRepository */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->storage = $this->createMock(SettingsStorage::class);
 
