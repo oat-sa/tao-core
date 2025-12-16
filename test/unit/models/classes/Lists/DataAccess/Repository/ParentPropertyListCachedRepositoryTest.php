@@ -15,16 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Lists\DataAccess\Repository;
+namespace oat\tao\test\unit\models\classes\Lists\DataAccess\Repository;
 
 use core_kernel_classes_Property;
 use InvalidArgumentException;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\cache\SimpleCache;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
@@ -34,26 +35,21 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ParentPropertyListCachedRepositoryTest extends TestCase
 {
-    /** @var ParentPropertyListCachedRepository */
-    private $sut;
+    use ServiceManagerMockTrait;
 
-    /** @var SimpleCache|MockObject */
-    private $simpleCache;
+    private ParentPropertyListCachedRepository $sut;
+    private SimpleCache|MockObject $simpleCache;
+    private ParentPropertyListRepository|MockObject $parentPropertyListRepository;
+    private DependsOnPropertyRepository|MockObject $dependencyRepository;
 
-    /** @var ParentPropertyListRepository|MockObject */
-    private $parentPropertyListRepository;
-
-    /** @var DependsOnPropertyRepository|MockObject */
-    private $dependencyRepository;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->simpleCache = $this->createMock(SimpleCache::class);
         $this->parentPropertyListRepository = $this->createMock(ParentPropertyListRepository::class);
         $this->dependencyRepository = $this->createMock(DependencyRepository::class);
         $this->sut = new ParentPropertyListCachedRepository();
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
 
                     SimpleCache::SERVICE_ID => $this->simpleCache,

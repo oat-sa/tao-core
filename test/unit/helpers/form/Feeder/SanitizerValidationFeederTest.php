@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\helpers\form\Feeder;
 
 use RuntimeException;
 use tao_helpers_form_Form;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use tao_helpers_form_Validator;
 use tao_helpers_form_FormElement;
 use tao_helpers_form_elements_Textbox;

@@ -46,7 +46,7 @@ class ResourceTranslatableStatusRetrieverTest extends TestCase
     /** @var MockObject|ServerRequestInterface */
     private $request;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->request = $this->createMock(ServerRequestInterface::class);

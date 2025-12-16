@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\security\Business\Domain\Key;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\security\Business\Domain\Key\Jwk;
 
 class JwkTest extends TestCase
@@ -30,7 +30,7 @@ class JwkTest extends TestCase
     /** @var Jwk */
     private $subject;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new Jwk('kty', 'e', 'n', 'kid', 'alg', 'use');
     }

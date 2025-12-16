@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\helpers;
 
 use stdClass;
 use oat\tao\helpers\Base64;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class Base64Test

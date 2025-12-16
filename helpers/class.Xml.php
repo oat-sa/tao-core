@@ -97,7 +97,7 @@ class tao_helpers_Xml
     {
         libxml_use_internal_errors(true);
 
-        $xml = simplexml_load_string($xml);
+        $xml = simplexml_load_string($xml ?? '');
         if ($xml === false) {
             $report = [];
             $errors = libxml_get_errors();

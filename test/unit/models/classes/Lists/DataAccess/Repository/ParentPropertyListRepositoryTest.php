@@ -15,16 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Lists\DataAccess\Repository;
+namespace oat\tao\test\unit\models\classes\Lists\DataAccess\Repository;
 
 use core_kernel_classes_Property;
 use InvalidArgumentException;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Lists\Business\Domain\Dependency;
 use oat\tao\model\Lists\Business\Domain\DependencyCollection;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
@@ -39,22 +40,15 @@ use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListRepository;
 
 class ParentPropertyListRepositoryTest extends TestCase
 {
-    /** @var ParentPropertyListRepository|MockObject */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /** @var DependencyRepository|MockObject */
-    private $dependencyRepository;
+    private ParentPropertyListRepository|MockObject $subject;
+    private DependencyRepository|MockObject $dependencyRepository;
+    private RdsValueCollectionRepository|MockObject $rdsCollectionRepository;
+    private valueCollection|MockObject $valueCollection;
+    private ComplexSearchService|MockObject $complexSearchService;
 
-    /** @var RdsValueCollectionRepository|MockObject */
-    private $rdsCollectionRepository;
-
-    /** @var valueCollection|MockObject */
-    private $valueCollection;
-
-    /** @var ComplexSearchService|MockObject */
-    private $complexSearchService;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->rdsCollectionRepository = $this->createMock(RdsValueCollectionRepository::class);
         $this->valueCollection = $this->createMock(ValueCollection::class);
@@ -63,7 +57,7 @@ class ParentPropertyListRepositoryTest extends TestCase
 
         $this->subject = new ParentPropertyListRepository();
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     ComplexSearchService::SERVICE_ID => $this->complexSearchService,
                     DependencyRepository::class => $this->dependencyRepository,

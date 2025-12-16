@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\model\search;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\search\tokenizer\ResourceClasses;
 
 class ResourceClassesTest extends TestCase

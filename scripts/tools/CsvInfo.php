@@ -64,7 +64,7 @@ class CsvInfo implements Action
         if ($sourceFp === false) {
             return new Report(
                 Report::TYPE_ERROR,
-                "Source file '${source}' could not be open."
+                "Source file '{$source}' could not be open."
             );
         }
 
@@ -92,14 +92,14 @@ class CsvInfo implements Action
             $report->add(
                 new Report(
                     Report::TYPE_INFO,
-                    "The source file contains ${rowCount} rows."
+                    "The source file contains {$rowCount} rows."
                 )
             );
 
             $report->add(
                 new Report(
                     Report::TYPE_INFO,
-                    "The source file contains ${columnCount} columns (inferred from first row)."
+                    "The source file contains {$columnCount} columns (inferred from first row)."
                 )
             );
 

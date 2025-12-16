@@ -15,21 +15,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2017-2025 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\taskQueue;
 
 use InvalidArgumentException;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Lock\LockInterface;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
+
+interface QueueBrokerInterfaceMock extends QueueBrokerInterface
+{
+    public function setServiceLocator();
+}
 
 class QueueTest extends TestCase
 {
@@ -78,7 +84,7 @@ class QueueTest extends TestCase
         /** @var Queue|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(Queue::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getBroker', 'getTaskLog', 'createLock'])
+            ->onlyMethods(['getBroker', 'getTaskLog', 'createLock'])
             ->getMock();
 
         $queueMock->expects($this->once())
@@ -112,13 +118,15 @@ class QueueTest extends TestCase
      */
     public function testDequeueWhenTaskPoppedOrNot($dequeuedElem, $expected)
     {
+        $queueBrokerMock =
+
         $lockMock = $this->getMockBuilder(LockInterface::class)->disableOriginalConstructor()->getMock();
         $lockMock->method('acquire')->willReturn(true);
         $lockMock->method('release')->willReturn(true);
-        /** @var QueueBrokerInterface|MockObject $queueBrokerMock */
-        $queueBrokerMock = $this->getMockBuilder(QueueBrokerInterface::class)
+        /** @var QueueBrokerInterfaceMock|MockObject $queueBrokerMock */
+        $queueBrokerMock = $this->getMockBuilder(QueueBrokerInterfaceMock::class)
             ->disableOriginalConstructor()
-            ->setMethods(['pop', 'setServiceLocator'])
+            ->onlyMethods(['pop', 'setServiceLocator'])
             ->getMockForAbstractClass();
 
         $queueBrokerMock
@@ -128,7 +136,7 @@ class QueueTest extends TestCase
         $queueName = 'name of the queue';
         $subject = $this->getMockBuilder(Queue::class)
             ->setConstructorArgs([$queueName, $queueBrokerMock])
-            ->setMethods(['createLock'])
+            ->onlyMethods(['createLock'])
             ->getMock();
         $subject->method('createLock')
             ->willReturn($lockMock);
@@ -148,7 +156,7 @@ class QueueTest extends TestCase
                 /** @var LoggerInterface|MockObject $loggerMock */
                 $loggerMock = $this->getMockBuilder(LoggerInterface::class)
                     ->disableOriginalConstructor()
-                    ->setMethods(['info'])
+                    ->onlyMethods(['info'])
                     ->getMockForAbstractClass();
                 $loggerMock
                     ->expects($this->once())
@@ -188,7 +196,7 @@ class QueueTest extends TestCase
     {
         $taskMock = $this->getMockBuilder(AbstractTask::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId'])
+            ->onlyMethods(['getId'])
             ->getMockForAbstractClass();
 
         $taskMock->method('getId')->willReturn($id);
@@ -208,7 +216,7 @@ class QueueTest extends TestCase
         /** @var Queue|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(Queue::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getBroker'])
+            ->onlyMethods(['getBroker'])
             ->getMock();
 
         $queueMock->expects($this->once())
@@ -228,7 +236,7 @@ class QueueTest extends TestCase
         /** @var Queue|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(Queue::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getBroker'])
+            ->onlyMethods(['getBroker'])
             ->getMock();
 
         $queueMock->expects($this->once())
@@ -248,7 +256,7 @@ class QueueTest extends TestCase
         /** @var Queue|MockObject $queueMock */
         $queueMock = $this->getMockBuilder(Queue::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getBroker'])
+            ->onlyMethods(['getBroker'])
             ->getMock();
 
         $queueMock->expects($this->once())

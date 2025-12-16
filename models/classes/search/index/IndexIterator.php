@@ -21,6 +21,7 @@
 namespace oat\tao\model\search\index;
 
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
+use ReturnTypeWillChange;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -50,6 +51,7 @@ class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInte
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
         return $this->getIndexer()->createDocumentFromResource($this->getInnerIterator()->current());

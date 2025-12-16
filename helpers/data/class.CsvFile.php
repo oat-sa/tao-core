@@ -268,7 +268,7 @@ class tao_helpers_data_CsvFile
                 }
             }
         } else {
-            throw new InvalidArgumentException("No row at index ${index}.");
+            throw new InvalidArgumentException("No row at index {$index}.");
         }
 
         return (array)$returnValue;
@@ -313,7 +313,7 @@ class tao_helpers_data_CsvFile
                 }
             }
         } else {
-            throw new InvalidArgumentException("No value at ${row},${col}.");
+            throw new InvalidArgumentException("No value at {$row},{$col}.");
         }
         return $returnValue;
     }
@@ -345,9 +345,9 @@ class tao_helpers_data_CsvFile
                 }
             }
             // Not found.
-            throw new InvalidArgumentException("Unknown column ${col}");
+            throw new InvalidArgumentException("Unknown column {$col}");
         } else {
-            throw new InvalidArgumentException("No value at ${row},${col}.");
+            throw new InvalidArgumentException("No value at {$row},{$col}.");
         }
     }
 

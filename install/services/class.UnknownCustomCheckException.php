@@ -42,7 +42,7 @@ class tao_install_services_UnknownCustomCheckException extends Exception
      */
     public function __construct($customCheckName, $extensionName)
     {
-        parent::__construct("Unable to find Custom Check '${customCheckName}' in extension '${extensionName}'.");
+        parent::__construct("Unable to find Custom Check '{$customCheckName}' in extension '{$extensionName}'.");
         $this->setCustomCheckName($customCheckName);
         $this->setExtensionName($extensionName);
     }

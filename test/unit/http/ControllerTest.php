@@ -4,7 +4,7 @@ namespace oat\tao\test\unit\http;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\http\Controller;
 use oat\tao\model\http\HttpFlowTrait;
 use oat\tao\model\http\HttpRequestHelperTrait;

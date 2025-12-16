@@ -68,10 +68,10 @@ class tao_helpers_translation_RDFExtractor extends tao_helpers_translation_Trans
         foreach ($this->getPaths() as $path) {
             // In the RDFExtractor, we expect the paths to points directly to the file.
             if (!file_exists($path)) {
-                throw new tao_helpers_translation_TranslationException("No RDF file to parse at '${path}'.");
+                throw new tao_helpers_translation_TranslationException("No RDF file to parse at '{$path}'.");
             } elseif (!is_readable($path)) {
                 throw new tao_helpers_translation_TranslationException(
-                    "'${path}' is not readable. Please check file system rights."
+                    "'{$path}' is not readable. Please check file system rights."
                 );
             } else {
                 try {
@@ -124,7 +124,7 @@ class tao_helpers_translation_RDFExtractor extends tao_helpers_translation_Trans
                     $this->setTranslationUnits($tus);
                 } catch (DOMException $e) {
                     throw new tao_helpers_translation_TranslationException(
-                        "Unable to parse RDF file at '${path}'. DOM returns '" . $e->getMessage() . "'."
+                        "Unable to parse RDF file at '{$path}'. DOM returns '" . $e->getMessage() . "'."
                     );
                 }
             }

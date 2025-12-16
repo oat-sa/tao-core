@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\dto\OldProperty;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\validator\PropertyChangedValidator;
@@ -34,7 +34,7 @@ class PropertyChangedValidatorTest extends TestCase
     /** @var PropertyChangedValidator  */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new PropertyChangedValidator();
     }

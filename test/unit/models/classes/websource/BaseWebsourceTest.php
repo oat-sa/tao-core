@@ -20,17 +20,17 @@
 
 namespace oat\tao\test\model\websource;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\filesystem\FileSystem;
 use oat\tao\model\websource\BaseWebsource;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class BaseWebsourceTest extends TestCase
 {
     /** @var BaseWebsource | MockObject */
     private $baseWebsource;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->baseWebsource = $this->getMockForAbstractClass(
             BaseWebsource::class,

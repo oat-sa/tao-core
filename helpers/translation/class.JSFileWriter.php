@@ -57,7 +57,7 @@ class tao_helpers_translation_JSFileWriter extends tao_helpers_translation_Trans
         $buffer = json_encode($strings, JSON_HEX_QUOT | JSON_HEX_APOS);
         if (!file_put_contents($path, $buffer)) {
             throw new tao_helpers_translation_TranslationException(
-                "An error occured while writing Javascript translation file '${path}'."
+                "An error occured while writing Javascript translation file '{$path}'."
             );
         }
     }

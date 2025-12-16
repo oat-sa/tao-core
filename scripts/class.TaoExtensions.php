@@ -233,7 +233,7 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
             $currentConfig = $ext->getConfiguration();
 
             if ($currentConfig == null) {
-                $this->error("The extension '${extensionId} is not referenced.", true);
+                $this->error("The extension '{$extensionId} is not referenced.", true);
             } else {
                 // Change the configuration with the new value.
                 switch ($configParam) {
@@ -250,18 +250,18 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
                         break;
 
                     default:
-                        $this->error("Unknown configuration parameter '${configParam}'.", true);
+                        $this->error("Unknown configuration parameter '{$configParam}'.", true);
                         break;
                 }
 
                 $currentConfig->save($ext);
                 $this->outVerbose(
-                    "Configuration parameter '${configParam}' successfully updated to "
-                        . (($configValue == true) ? 1 : 0) . " for extension '${extensionId}'."
+                    "Configuration parameter '{$configParam}' successfully updated to "
+                        . (($configValue == true) ? 1 : 0) . " for extension '{$extensionId}'."
                 );
             }
         } catch (common_ext_ExtensionException $e) {
-            $this->error("The extension '${extensionId}' does not exist or has no manifest.", true);
+            $this->error("The extension '{$extensionId}' does not exist or has no manifest.", true);
         }
     }
 
@@ -481,14 +481,14 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
         $importLocalData = $this->options['data']; // Import local data (local.rdf) or not ?
         try {
             // Retrieve the extension's information.
-            $this->outVerbose("Locating extension '${extensionId}'...");
+            $this->outVerbose("Locating extension '{$extensionId}'...");
             $extensionManager = common_ext_ExtensionsManager::singleton();
             $ext = $extensionManager->getExtensionById($extensionId);
             $this->outVerbose("Extension located.");
 
             try {
                 // Install the extension.
-                $this->outVerbose("Installing extension '${extensionId}'...");
+                $this->outVerbose("Installing extension '{$extensionId}'...");
                 $installer = new tao_install_ExtensionInstaller($ext, $importLocalData);
                 $installer->install();
                 $this->outVerbose("Extension successfully installed.");
