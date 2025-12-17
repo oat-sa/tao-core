@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-11 13:19\n"
+"PO-Revision-Date: 2025-12-17 23:26\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu\n"
@@ -20,22 +20,22 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Abstract Model"
-msgstr ""
+msgstr "Absztrakt modell"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "An abstract model to differentiate implementations of resources of the same type"
-msgstr ""
+msgstr "Egy absztrakt modell az azonos típusú erőforrások implementációinak megkülönböztetésére"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelImplementation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Model implementation"
-msgstr ""
+msgstr "Modell megvalósítása"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Model Status"
-msgstr ""
+msgstr "Modell állapota"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -45,7 +45,7 @@ msgstr "This item  model can be used in production"
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "This model can be used in production"
-msgstr ""
+msgstr "Ez a modell használható a gyártásban"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -55,7 +55,7 @@ msgstr "This item model is not supported anymore, we advise to migrate your item
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "This model is not supported anymore, we advise to migrate"
-msgstr ""
+msgstr "Ez a modell már nem támogatott, javasoljuk az áttelepítést."
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -65,7 +65,7 @@ msgstr "this item model has not been tested in a production environment, we advi
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "this model has not been tested in a production environment, we advise to be carefull with it"
-msgstr ""
+msgstr "Ezt a modellt nem tesztelték éles környezetben, ezért óvatosan kell bánni vele."
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -75,7 +75,7 @@ msgstr "this item model is still in conception, but you can try it, give your fe
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "this model is still in conception, but you can try it, give your feedback and it will be improved."
-msgstr ""
+msgstr "Ez a modell még mindig koncepcióban van, de kipróbálhatod, megoszthatod a véleményed, és folyamatosan fejleszteni fogjuk."
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -85,15 +85,15 @@ msgstr "The status of an item model"
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The status of a model"
-msgstr ""
+msgstr "Egy modell állapota"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Model"
-msgstr ""
+msgstr "Modell"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Select the associated model"
-msgstr ""
+msgstr "Válassza ki a társított modellt"
 
