@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-11 13:21\n"
+"PO-Revision-Date: 2025-12-17 23:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu\n"
@@ -20,42 +20,42 @@ msgstr ""
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Search Input"
-msgstr ""
+msgstr "Keresési bevitel"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "One may select 0 to N values from a defined list"
-msgstr ""
+msgstr "0-tól N-ig terjedő értékek választhatók ki egy definiált listából"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Search Dropdown"
-msgstr ""
+msgstr "Keresés legördülő menü"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "One may select 1 value from a defined list"
-msgstr ""
+msgstr "Egy értéket lehet kiválasztani egy definiált listából"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Text Label"
-msgstr ""
+msgstr "Szöveges címke"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Content is read only"
-msgstr ""
+msgstr "A tartalom csak olvasható"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Hidden Box"
-msgstr ""
+msgstr "Rejtett doboz"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Content is hidden, but visibility can be toggled"
-msgstr ""
+msgstr "A tartalom rejtett, de a láthatóság ki-be kapcsolható"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -65,7 +65,7 @@ msgstr "Naptár"
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Dynamic Calendar for easy date selecting"
-msgstr ""
+msgstr "Dinamikus naptár az egyszerű dátumkiválasztáshoz"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -75,17 +75,17 @@ msgstr "Szerzői munka"
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Open a tool to edit special content"
-msgstr ""
+msgstr "Eszköz megnyitása speciális tartalom szerkesztéséhez"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "VersionedFile"
-msgstr ""
+msgstr "VerziózottFájl"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Manage your versioned file"
-msgstr ""
+msgstr "Verziózott fájl kezelése"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -95,45 +95,45 @@ msgstr "Fájl"
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Upload and download file"
-msgstr ""
+msgstr "Fájl feltöltése és letöltése"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Readonly"
-msgstr ""
+msgstr "Csak olvasható"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Display a constant and uneditable value"
-msgstr ""
+msgstr "Állandó és nem szerkeszthető érték megjelenítése"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Literal Readonly"
-msgstr ""
+msgstr "Literális, csak olvasható"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Display a literal constant and uneditable value"
-msgstr ""
+msgstr "Konstans és nem szerkeszthető érték megjelenítése literálként"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "A Tree Box"
-msgstr ""
+msgstr "Egy fadoboz"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "A particular tree box"
-msgstr ""
+msgstr "Egy adott fadoboz"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Json Object"
-msgstr ""
+msgstr "JSON-objektum"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Display a Json Object stored as a literal value as a collection of key/value pairs."
-msgstr ""
+msgstr "Egy literálértékként tárolt JSON-objektum megjelenítése kulcs/érték párok gyűjteményeként."
 
