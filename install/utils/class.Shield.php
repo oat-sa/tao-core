@@ -75,7 +75,7 @@ class tao_install_utils_Shield
                 }
                 if ($updated > 0) {
                     if (!is_writable($file)) {
-                        throw new tao_install_utils_Exception("Unable to write .htaccess file : ${file}.");
+                        throw new tao_install_utils_Exception("Unable to write .htaccess file : {$file}.");
                     }
                     file_put_contents($file, implode("\n", $lines));
                 }
@@ -92,7 +92,7 @@ class tao_install_utils_Shield
                     !is_writable($installDir)
                     || (file_exists($installDir . '.htaccess' && !is_writable($installDir . '.htaccess')))
                 ) {
-                    throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${installDir}.");
+                    throw new tao_install_utils_Exception("Unable to write .htaccess file into : {$installDir}.");
                 }
                 file_put_contents(
                     $installDir . '.htaccess',
@@ -123,7 +123,7 @@ class tao_install_utils_Shield
                 if (file_exists($denied) && is_dir($denied)) {
                     $accessFile = $denied .  DIRECTORY_SEPARATOR . '.htaccess';
                     if (!is_writable($denied) || (file_exists($accessFile && !is_writable($accessFile)))) {
-                        throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${denied}.");
+                        throw new tao_install_utils_Exception("Unable to write .htaccess file into : {$denied}.");
                     }
                     file_put_contents($accessFile, "<IfModule mod_rewrite.c>\n"
                                                 . "RewriteEngine On\n"

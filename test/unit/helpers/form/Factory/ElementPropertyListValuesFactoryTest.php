@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\helpers\test\unit\helpers\form\Factory;
 
 use core_kernel_classes_Class;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\form\Factory\AbstractElementPropertyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementFactoryContext;
 use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
@@ -47,7 +47,7 @@ class ElementPropertyListValuesFactoryTest extends TestCase
     /** @var MockObject|tao_helpers_form_elements_xhtml_Combobox */
     private $element;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->remoteListClassSpecification = $this->createMock(ClassSpecificationInterface::class);
         $this->listService = $this->createMock(tao_models_classes_ListService::class);

@@ -143,7 +143,9 @@ class tao_helpers_Uri
         if (is_array($params) && count($params)) {
             $returnValue .= '?';
             foreach ($params as $key => $value) {
-                $returnValue .= $key . '=' . rawurlencode($value) . '&';
+                if ($value !== null) {
+                    $returnValue .= $key . '=' . rawurlencode($value) . '&';
+                }
             }
             $returnValue = substr($returnValue, 0, -1);
         }
@@ -176,7 +178,7 @@ class tao_helpers_Uri
      */
     public static function encode($uri, $dotMode = true)
     {
-        if (0 === strpos($uri, 'http')) {
+        if (0 === strpos($uri ?? '', 'http')) {
             //return base64_encode($uri);
             if ($dotMode) {
                 //order matters here don't change the _4_ position

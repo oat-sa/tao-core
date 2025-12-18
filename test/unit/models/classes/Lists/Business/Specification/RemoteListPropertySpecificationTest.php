@@ -15,14 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Lists\Business\Specification;
+namespace oat\tao\test\unit\models\classes\Lists\Business\Specification;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
@@ -32,21 +33,18 @@ use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 
 class RemoteListPropertySpecificationTest extends TestCase
 {
-    /** @var RemoteListPropertySpecification */
-    private $sut;
+    use ServiceManagerMockTrait;
 
-    /** @var core_kernel_classes_Property|MockObject */
-    private $property;
-
-    /** @var ClassSpecificationInterface|MockObject */
-    private $remoteListClassSpecification;
+    private RemoteListPropertySpecification $sut;
+    private core_kernel_classes_Property|MockObject $property;
+    private ClassSpecificationInterface|MockObject $remoteListClassSpecification;
 
     protected function setUp(): void
     {
         $this->remoteListClassSpecification = $this->createMock(ClassSpecificationInterface::class);
         $this->sut = new RemoteListPropertySpecification();
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     RemoteListClassSpecification::class => $this->remoteListClassSpecification
                 ]

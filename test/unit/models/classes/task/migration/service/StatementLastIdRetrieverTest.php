@@ -27,9 +27,9 @@ use common_persistence_SqlPersistence;
 use core_kernel_persistence_smoothsql_SmoothModel;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Query\QueryBuilder;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\OntologyMockTrait;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\task\migration\service\StatementLastIdRetriever;
 
 class StatementLastIdRetrieverTest extends TestCase
@@ -54,7 +54,7 @@ class StatementLastIdRetrieverTest extends TestCase
     /** @var Statement|MockObject */
     private $statementMock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->subject = new StatementLastIdRetriever();
         $this->ontologyMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothModel::class);

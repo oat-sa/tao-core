@@ -180,7 +180,7 @@ class FileHelperTest extends TaoPhpUnitTestRunner
     {
         // Prepare test archive.
         $root = $this->envPath;
-        $archivePath = "${root}/rename.zip";
+        $archivePath = "{$root}/rename.zip";
         $zipArchive = new ZipArchive();
         $zipArchive->open($archivePath, ZipArchive::CREATE);
         $zipArchive->addFromString('path/to/data/text.txt', 'some text');
@@ -200,7 +200,7 @@ class FileHelperTest extends TaoPhpUnitTestRunner
     {
         // Prepare test archive.
         $root = $this->envPath;
-        $archivePath = "${root}/exclude.zip";
+        $archivePath = "{$root}/exclude.zip";
         $zipArchive = new ZipArchive();
         $zipArchive->open($archivePath, ZipArchive::CREATE);
         $zipArchive->addFromString('path/to/data/text.txt', 'some text');
@@ -220,7 +220,7 @@ class FileHelperTest extends TaoPhpUnitTestRunner
     {
         // Prepare test archive.
         $root = $this->envPath;
-        $archivePath = "${root}/rename.zip";
+        $archivePath = "{$root}/rename.zip";
         $zipArchive = new ZipArchive();
         $zipArchive->open($archivePath, ZipArchive::CREATE);
         $zipArchive->addFromString('path/to/data/text.txt', 'some text');

@@ -45,12 +45,12 @@ class tao_install_utils_PostgresProceduresParser extends tao_install_utils_SQLPa
         $file = $this->getFile();
 
         if (!file_exists($file)) {
-            throw new tao_install_utils_SQLParsingException("SQL file '${file}' does not exist.");
+            throw new tao_install_utils_SQLParsingException("SQL file '{$file}' does not exist.");
         } elseif (!is_readable($file)) {
-            throw new tao_install_utils_SQLParsingException("SQL file '${file}' is not readable.");
+            throw new tao_install_utils_SQLParsingException("SQL file '{$file}' is not readable.");
         } elseif (!preg_match("/\.sql$/", basename($file))) {
             throw new tao_install_utils_SQLParsingException(
-                "File '${file}' is not a valid SQL file. Extension '.sql' not found."
+                "File '{$file}' is not a valid SQL file. Extension '.sql' not found."
             );
         }
 
@@ -68,7 +68,7 @@ class tao_install_utils_PostgresProceduresParser extends tao_install_utils_SQLPa
             }
         } else {
             throw new tao_install_utils_SQLParsingException(
-                "SQL file '${file}' cannot be read. An unknown error occured while reading it."
+                "SQL file '{$file}' cannot be read. An unknown error occured while reading it."
             );
         }
     }

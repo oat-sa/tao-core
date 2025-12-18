@@ -15,12 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\test\unit\model\resources\relation\service;
+namespace oat\tao\test\unit\model\resources\relation\service;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\resources\relation\FindAllQuery;
 use oat\tao\model\resources\relation\ResourceRelation;
 use oat\tao\model\resources\relation\ResourceRelationCollection;
@@ -30,18 +31,17 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ResourceRelationServiceProxyTest extends TestCase
 {
-    /** @var ResourceRelationServiceProxy */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /** @var ResourceRelationServiceInterface|MockObject */
-    private $resourceRelationService;
+    private ResourceRelationServiceProxy $subject;
+    private ResourceRelationServiceInterface|MockObject $resourceRelationService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->resourceRelationService = $this->createMock(ResourceRelationServiceInterface::class);
         $this->subject = new ResourceRelationServiceProxy();
         $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     'serviceId' => $this->resourceRelationService,
                 ]

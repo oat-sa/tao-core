@@ -155,22 +155,22 @@ class tao_helpers_translation_RDFFileReader extends tao_helpers_translation_Tran
                             $this->getTranslationFile()->addTranslationUnits($translationUnits);
                         } else {
                             throw new tao_helpers_translation_TranslationException(
-                                "'${inputFile}' has no rdf:RDF root node or more than one rdf:RDF root node."
+                                "'{$inputFile}' has no rdf:RDF root node or more than one rdf:RDF root node."
                             );
                         }
                     } catch (DOMException $e) {
-                        throw new tao_helpers_translation_TranslationException("'${inputFile}' cannot be parsed.");
+                        throw new tao_helpers_translation_TranslationException("'{$inputFile}' cannot be parsed.");
                     }
                 } else {
                     throw new tao_helpers_translation_TranslationException(
-                        "'${inputFile}' cannot be read. Check your system permissions."
+                        "'{$inputFile}' cannot be read. Check your system permissions."
                     );
                 }
             } else {
-                throw new tao_helpers_translation_TranslationException("'${inputFile}' is not a file.");
+                throw new tao_helpers_translation_TranslationException("'{$inputFile}' is not a file.");
             }
         } else {
-            throw new tao_helpers_translation_TranslationException("The file '${inputFile}' does not exist.");
+            throw new tao_helpers_translation_TranslationException("The file '{$inputFile}' does not exist.");
         }
     }
 }

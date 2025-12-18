@@ -62,6 +62,7 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
      */
     abstract public function toOntology(Ontology $model);
 
+    #[ReturnTypeWillChange]
     abstract public function jsonSerialize();
 
     public static function fromJson($data)

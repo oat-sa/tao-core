@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nn_NO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: nn-NO\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Norwegian Nynorsk\n"
 
 msgid ""
@@ -36,7 +36,7 @@ msgid " is "
 msgstr ""
 
 msgid " next"
-msgstr ""
+msgstr " neste"
 
 msgid " Remove criteria"
 msgstr ""
@@ -60,13 +60,13 @@ msgid "%h hour"
 msgstr ""
 
 msgid "%h hours"
-msgstr ""
+msgstr "%h timar"
 
 msgid "%i minute"
 msgstr ""
 
 msgid "%i minutes"
-msgstr ""
+msgstr "%i minutt"
 
 msgid "%m month"
 msgstr ""
@@ -132,7 +132,7 @@ msgid "... reloading page."
 msgstr ""
 
 msgid "7-zip archive"
-msgstr ""
+msgstr "7-zip arkiv"
 
 msgid "<del>Filters</del>"
 msgstr ""
@@ -165,10 +165,10 @@ msgid "A message with further instructions has been sent to your email address: 
 msgstr ""
 
 msgid "AAC audio"
-msgstr ""
+msgstr "AAC fil"
 
 msgid "About"
-msgstr ""
+msgstr "Om"
 
 msgid "abs"
 msgstr ""
@@ -251,7 +251,7 @@ msgid "Adding/updating search index for updated resource"
 msgstr ""
 
 msgid "Adobe Flash file"
-msgstr ""
+msgstr "Adobe Flash fil"
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -260,10 +260,10 @@ msgid "aliases:"
 msgstr ""
 
 msgid "all"
-msgstr ""
+msgstr "vis alle"
 
 msgid "all audios"
-msgstr ""
+msgstr "alle lydfiler"
 
 msgid "All data will be removed in %s"
 msgstr ""
@@ -272,13 +272,13 @@ msgid "All fields are required"
 msgstr ""
 
 msgid "all images"
-msgstr ""
+msgstr "alle bilete"
 
 msgid "All rights reserved."
 msgstr ""
 
 msgid "all videos"
-msgstr ""
+msgstr "alle videoar"
 
 msgid "Allow for all domains"
 msgstr ""
@@ -370,7 +370,7 @@ msgid "Assign Users"
 msgstr ""
 
 msgid "Audio Video Interleave"
-msgstr ""
+msgstr "AVI fil"
 
 msgid "Auth type"
 msgstr ""
@@ -424,7 +424,7 @@ msgid "Binary operator modulo"
 msgstr ""
 
 msgid "Bitmap image"
-msgstr ""
+msgstr "Bitmap bilete"
 
 msgid "boolean"
 msgstr ""
@@ -442,16 +442,16 @@ msgid "C"
 msgstr ""
 
 msgid "C file"
-msgstr ""
+msgstr "C fil"
 
 msgid "C++ file"
 msgstr ""
 
 msgid "C++ file (.cpp)"
-msgstr ""
+msgstr "C++ fil (.cpp)"
 
 msgid "Calc speadsheet (Staroffice)"
-msgstr ""
+msgstr "Calc rekneark"
 
 msgid "Calculator"
 msgstr ""
@@ -478,7 +478,7 @@ msgid "Cannot divide by zero"
 msgstr ""
 
 msgid "Cascading Style Sheets"
-msgstr ""
+msgstr "CSS fil"
 
 msgid "Case sensitive"
 msgstr ""
@@ -584,7 +584,7 @@ msgid "Collecting of abandoned actions in the action queue ..."
 msgstr ""
 
 msgid "Column"
-msgstr ""
+msgstr "Kolonne"
 
 msgid "command"
 msgstr ""
@@ -605,7 +605,7 @@ msgid "Completed - Error"
 msgstr ""
 
 msgid "Compressed tar file"
-msgstr ""
+msgstr "Komprimert TAR fil"
 
 msgid "Compute the expression"
 msgstr ""
@@ -632,7 +632,7 @@ msgid "Copy to"
 msgstr ""
 
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Kopier"
 
 msgid "cos"
 msgstr ""
@@ -671,7 +671,7 @@ msgid "CSV"
 msgstr ""
 
 msgid "CSV file"
-msgstr ""
+msgstr "CSV fil"
 
 msgid "CSV Options"
 msgstr ""
@@ -710,7 +710,7 @@ msgid "Data source URI"
 msgstr ""
 
 msgid "Database file"
-msgstr ""
+msgstr "Database fil"
 
 msgid "Date"
 msgstr ""
@@ -728,7 +728,7 @@ msgid "Default search"
 msgstr ""
 
 msgid "default:"
-msgstr ""
+msgstr "standard:"
 
 msgid "Define the default values"
 msgstr ""
@@ -814,7 +814,7 @@ msgid "Do you wish to install the following extension(s):\n"
 msgstr ""
 
 msgid "Document templates (Staroffice)"
-msgstr ""
+msgstr "Dokumentmalar"
 
 msgid "does not match"
 msgstr ""
@@ -866,7 +866,7 @@ msgid "Empty resources cannot be translated."
 msgstr ""
 
 msgid "enabled"
-msgstr ""
+msgstr "aktivert"
 
 msgid "Enabled %s"
 msgstr ""
@@ -875,7 +875,7 @@ msgid "End of document reached. Continuing from the beginning."
 msgstr ""
 
 msgid "Enhanced metafile"
-msgstr ""
+msgstr "Forbedra metafil"
 
 msgid "Enter"
 msgstr ""
@@ -1018,7 +1018,7 @@ msgid "Fit to width"
 msgstr ""
 
 msgid "Flash video"
-msgstr ""
+msgstr "Flash fil"
 
 msgid "floor"
 msgstr ""
@@ -1057,7 +1057,7 @@ msgid "Generis Form"
 msgstr ""
 
 msgid "Geogebra data file"
-msgstr ""
+msgstr "Geogebra datafil"
 
 msgid "Get History"
 msgstr ""
@@ -1066,7 +1066,7 @@ msgid "Get the history list"
 msgstr ""
 
 msgid "GIF image"
-msgstr ""
+msgstr "GIF fil"
 
 msgid "Go Back"
 msgstr ""
@@ -1075,10 +1075,10 @@ msgid "go back to home page"
 msgstr ""
 
 msgid "GZip Compressed Archive"
-msgstr ""
+msgstr "GZip komprimert arkiv"
 
 msgid "Header file with extensionsLabels"
-msgstr ""
+msgstr "Overskriftsfil"
 
 msgid "Height"
 msgstr ""
@@ -1117,7 +1117,7 @@ msgid "Hyperbolic tangent"
 msgstr ""
 
 msgid "Hypertext markup language"
-msgstr ""
+msgstr "HTML fil"
 
 msgid "I understand that this action is permanent."
 msgstr ""
@@ -1299,7 +1299,7 @@ msgid "invalid regular expression"
 msgstr ""
 
 msgid "Invalid value"
-msgstr ""
+msgstr "Ugyldig verdi"
 
 msgid "Invalid values:"
 msgstr ""
@@ -1311,10 +1311,10 @@ msgid "items per page"
 msgstr ""
 
 msgid "Javascript code"
-msgstr ""
+msgstr "Javascript fil"
 
 msgid "JPEG image"
-msgstr ""
+msgstr "JPG fil"
 
 msgid "Keep the original permissions"
 msgstr ""
@@ -1416,7 +1416,7 @@ msgid "Logout"
 msgstr ""
 
 msgid "M4A audio"
-msgstr ""
+msgstr "M4A fil"
 
 msgid "Main Menu"
 msgstr ""
@@ -1487,37 +1487,37 @@ msgid "Microsoft Excel"
 msgstr ""
 
 msgid "Microsoft Excel binary format"
-msgstr ""
+msgstr "Microsoft Excel binært format"
 
 msgid "Microsoft Office Document Imaging"
-msgstr ""
+msgstr "Microsoft Office biletebehandling"
 
 msgid "Microsoft Powerpoint"
 msgstr ""
 
 msgid "Microsoft Powerpoint slideshow"
-msgstr ""
+msgstr "Microsoft Powerpoint lysbileteframvising"
 
 msgid "Microsoft Project file"
-msgstr ""
+msgstr "Microsoft Project fil"
 
 msgid "Microsoft Visio file"
-msgstr ""
+msgstr "Microsoft Visio fil"
 
 msgid "Microsoft Word"
 msgstr ""
 
 msgid "Microsoft Word template"
-msgstr ""
+msgstr "Microsoft Word mal"
 
 msgid "Microsoft Works file"
-msgstr ""
+msgstr "Microsoft Works fil"
 
 msgid "Microsoft XPS file"
-msgstr ""
+msgstr "Microsoft XPS fil"
 
 msgid "MIME encapsulation of aggregate HTML documents"
-msgstr ""
+msgstr "MIME-innkapsling av aggregerte HTML-dokument"
 
 msgid "Mind mapping software application (free mind open source)"
 msgstr ""
@@ -1566,16 +1566,16 @@ msgid "Moving this element will replace the properties of the previous class by 
 msgstr ""
 
 msgid "MP4 video"
-msgstr ""
+msgstr "MP4 fil"
 
 msgid "MPEG audio"
-msgstr ""
+msgstr "MPEG fil"
 
 msgid "MPEG video"
-msgstr ""
+msgstr "MPEG fil"
 
 msgid "MPEG-4 audio file"
-msgstr ""
+msgstr "MPEG-4 lydfil"
 
 msgid "Multiple values delimiter"
 msgstr ""
@@ -1606,7 +1606,7 @@ msgstr ""
 
 #, tao-public
 msgid "My settings"
-msgstr ""
+msgstr "Innstillingar"
 
 msgid "My settings (%s)"
 msgstr ""
@@ -1679,7 +1679,7 @@ msgid "Not Ready for Translation"
 msgstr ""
 
 msgid "Not started"
-msgstr ""
+msgstr "Ikkje starta"
 
 msgid "NotEmpty"
 msgstr ""
@@ -1713,13 +1713,13 @@ msgid "of"
 msgstr ""
 
 msgid "Off"
-msgstr ""
+msgstr "Av"
 
 msgid "Ogg Vorbis audio"
-msgstr ""
+msgstr "Ogg Vorbis lydfil"
 
 msgid "Ogg Vorbis video"
-msgstr ""
+msgstr "Ogg Vorbis videofil"
 
 msgid "Ok"
 msgstr ""
@@ -1731,7 +1731,7 @@ msgid "Old Password"
 msgstr ""
 
 msgid "On"
-msgstr ""
+msgstr "På"
 
 msgid "Only allow for my own domain (%s)"
 msgstr ""
@@ -1746,16 +1746,16 @@ msgid "OpenDocument Database"
 msgstr ""
 
 msgid "OpenDocument Presentation"
-msgstr ""
+msgstr "OpenDocument Presentasjon"
 
 msgid "OpenDocument spreadsheet document"
-msgstr ""
+msgstr "OpenDocument rekneark"
 
 msgid "OpenDocument text document"
-msgstr ""
+msgstr "OpenDocument tekstdokument"
 
 msgid "OpenDocument Text Template"
-msgstr ""
+msgstr "OpenDocument Tekstmal"
 
 msgid "Operated By "
 msgstr ""
@@ -1764,7 +1764,7 @@ msgid "or"
 msgstr ""
 
 msgid "Original"
-msgstr ""
+msgstr "Opphaveleg"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
 msgstr ""
@@ -1779,10 +1779,10 @@ msgid "Pascal file"
 msgstr ""
 
 msgid "Pascal file (.pas)"
-msgstr ""
+msgstr "Pascal fil (.pas)"
 
 msgid "Password"
-msgstr ""
+msgstr "Passord"
 
 msgid "Password changed"
 msgstr ""
@@ -1803,7 +1803,7 @@ msgid "Pause"
 msgstr ""
 
 msgid "PDF file"
-msgstr ""
+msgstr "PDF fil"
 
 msgid "Pending"
 msgstr ""
@@ -1887,10 +1887,10 @@ msgid "Please wait while ..."
 msgstr ""
 
 msgid "PNG image"
-msgstr ""
+msgstr "PNG fil"
 
 msgid "Position"
-msgstr ""
+msgstr "Posisjon"
 
 msgid "Positionals:"
 msgstr ""
@@ -1920,7 +1920,7 @@ msgid "Previous page"
 msgstr ""
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Personvern"
 
 msgid "Proceed"
 msgstr ""
@@ -1942,7 +1942,7 @@ msgid "Queued"
 msgstr ""
 
 msgid "Quicktime video"
-msgstr ""
+msgstr "Quicktime videofil"
 
 msgid "Rad"
 msgstr ""
@@ -1960,7 +1960,7 @@ msgid "Range field is required"
 msgstr ""
 
 msgid "RAR archive"
-msgstr ""
+msgstr "RAR arkiv"
 
 msgid "RDF"
 msgstr ""
@@ -1969,7 +1969,7 @@ msgid "Ready for Translation"
 msgstr ""
 
 msgid "RealMedia file"
-msgstr ""
+msgstr "RealMedia fil"
 
 msgid "Refresh"
 msgstr ""
@@ -2110,7 +2110,7 @@ msgid "Return to sign in page"
 msgstr ""
 
 msgid "Rich Text Format file"
-msgstr ""
+msgstr "Rik Tekst Format fil"
 
 msgid "Right click the tree to manage your lists"
 msgstr ""
@@ -2187,7 +2187,7 @@ msgid "Select"
 msgstr ""
 
 msgid "select"
-msgstr ""
+msgstr "vel alle"
 
 msgid "Select a class"
 msgstr ""
@@ -2293,7 +2293,7 @@ msgid "Store the value a variable"
 msgstr ""
 
 msgid "Storing digital video data on a computer game"
-msgstr ""
+msgstr "Lagre digital videodata på eit dataspel"
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
 msgstr ""
@@ -2329,13 +2329,13 @@ msgid "Supported export formats"
 msgstr ""
 
 msgid "SVG image"
-msgstr ""
+msgstr "SVG fil"
 
 msgid "Syntax error"
 msgstr ""
 
 msgid "Tagged image file"
-msgstr ""
+msgstr "Merka biletefil"
 
 msgid "tan"
 msgstr ""
@@ -2398,7 +2398,7 @@ msgid "Term"
 msgstr ""
 
 msgid "TeX file"
-msgstr ""
+msgstr "TeX fil"
 
 msgid "Text - Long - Box"
 msgstr ""
@@ -2410,7 +2410,7 @@ msgid "Text - Short - Field"
 msgstr ""
 
 msgid "Text document file format (Staroffice)"
-msgstr ""
+msgstr "Tekstdokument filformat (Staroffice)"
 
 msgid "Text to translate"
 msgstr ""
@@ -2530,7 +2530,7 @@ msgid "This site uses cookies to improve your browsing experience and to perform
 msgstr ""
 
 msgid "time"
-msgstr ""
+msgstr "tid"
 
 msgid "Time zone"
 msgstr ""
@@ -2725,7 +2725,7 @@ msgid "Unique Identifier"
 msgstr ""
 
 msgid "UNIX Compressed Archive File"
-msgstr ""
+msgstr "UNIX komprimert arkivfil"
 
 msgid "unknown"
 msgstr ""
@@ -2868,7 +2868,7 @@ msgid "Waiting"
 msgstr ""
 
 msgid "WAV audio"
-msgstr ""
+msgstr "WAV fil"
 
 msgid "WebHook auth configuration can not be loaded"
 msgstr ""
@@ -2878,10 +2878,10 @@ msgid "WebHooks"
 msgstr ""
 
 msgid "WebM audio"
-msgstr ""
+msgstr "WebM fil"
 
 msgid "WebM video"
-msgstr ""
+msgstr "WebM fil"
 
 msgid "Whole number part"
 msgstr ""
@@ -2890,16 +2890,16 @@ msgid "Width"
 msgstr ""
 
 msgid "Windows help file"
-msgstr ""
+msgstr "Windows help fil"
 
 msgid "Windows Media audio"
-msgstr ""
+msgstr "Windows Media lydfil"
 
 msgid "Windows Media file (metafile)"
-msgstr ""
+msgstr "Windows Mediafil (metafil)"
 
 msgid "Windows Media video"
-msgstr ""
+msgstr "Windows Media videofil"
 
 msgid "with"
 msgstr ""
@@ -2911,7 +2911,7 @@ msgid "Wrap image right"
 msgstr ""
 
 msgid "Write Document"
-msgstr ""
+msgstr "Write Document fil"
 
 msgid "Wrong or missing parameter extension, module or action"
 msgstr ""
@@ -2920,7 +2920,7 @@ msgid "Wrong parameter shownExtension"
 msgstr ""
 
 msgid "XML file"
-msgstr ""
+msgstr "XML fil"
 
 msgid "Yes"
 msgstr ""
@@ -2983,5 +2983,5 @@ msgid "Your TAO Password"
 msgstr ""
 
 msgid "ZIP archive"
-msgstr ""
+msgstr "ZIP arkiv"
 

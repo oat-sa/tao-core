@@ -67,14 +67,14 @@ class LanguagesTestCase extends TaoPhpUnitTestRunner
                             $this->assertCount(
                                 1,
                                 $kbLangs,
-                                "Number of languages retrieved for language '${l}' is '" . count($kbLangs) . "'."
+                                "Number of languages retrieved for language '{$l}' is '" . count($kbLangs) . "'."
                             );
 
                             // Check if the language has the correct URI.
                             if ($kbLangs[0] instanceof core_kernel_classes_Resource) {
                                 $this->assertTrue(
                                     $kbLangs[0]->getUri() == $expectedUriPrefix . $l,
-                                    "Malformed URI scheme for language resource '${l}'."
+                                    "Malformed URI scheme for language resource '{$l}'."
                                 );
                             }
                         } else {

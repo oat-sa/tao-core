@@ -24,7 +24,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Triple;
 use InvalidArgumentException;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdListTripleEncoder;
@@ -59,7 +59,7 @@ class JsonLdListTripleEncoderTest extends TestCase
     /** @var JsonLdListTripleEncoder */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->valueCollectionService = $this->createMock(ValueCollectionService::class);
         $this->remoteListClassSpecification = $this->createMock(RemoteListClassSpecification::class);

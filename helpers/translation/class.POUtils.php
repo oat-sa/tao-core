@@ -138,14 +138,14 @@ class tao_helpers_translation_POUtils
                         if (!isset($returnValue[$annotationId])) {
                             $returnValue[$annotationId] = $annotationValue;
                         } else {
-                            $returnValue[$annotationId] .= "\n${annotationValue}";
+                            $returnValue[$annotationId] .= "\n{$annotationValue}";
                         }
                     }
                 }
             }
         } else {
             throw new tao_helpers_translation_TranslationException(
-                "An error occured while unserializing annotations '${annotations}'."
+                "An error occured while unserializing annotations '{$annotations}'."
             );
         }
 
@@ -200,7 +200,7 @@ class tao_helpers_translation_POUtils
             if ($prefix !== null) {
                 // We have a PO compliant annotation that we have to serialize.
                 foreach (explode("\n", $value) as $v) {
-                    $buffer[] = "${prefix} ${v}";
+                    $buffer[] = "{$prefix} {$v}";
                 }
             }
         }
@@ -230,7 +230,7 @@ class tao_helpers_translation_POUtils
         $flag = trim($flag);
         $encoding = self::getApplicationHelper()->getDefaultEncoding();
         if (mb_strpos($returnValue, $flag, 0, $encoding) === false) {
-            $returnValue .= ((mb_strlen($returnValue, $encoding) > 0) ? " ${flag}" : $flag);
+            $returnValue .= ((mb_strlen($returnValue, $encoding) > 0) ? " {$flag}" : $flag);
         }
 
 

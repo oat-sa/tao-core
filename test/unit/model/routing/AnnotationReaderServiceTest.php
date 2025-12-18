@@ -15,25 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA;
  *
  * @author Oleksandr Zagovorychev <zagovorichev@gmail.com>
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\test\unit\model\routing;
 
 use common_cache_Cache;
+use common_cache_NotFoundException;
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\tao\model\routing\AnnotationReader\requiredRights;
 use oat\tao\model\routing\AnnotationReader\security;
 use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\RouteAnnotationService;
-use Prophecy\Argument;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Class TestingClass
- * @package oat\tao\test\unit\model\routing
  * @requiredRights(key="id", permission="READ")
  * @security("allow")
  */
@@ -57,68 +57,79 @@ class TestingClass
 
 class AnnotationReaderServiceTest extends TestCase
 {
-    /**
-     * @var AnnotationReaderService
-     */
-    private $service;
+    use ServiceManagerMockTrait;
 
-    public function setUp(): void
+    private AnnotationReaderService $service;
+
+    protected function setUp(): void
     {
         $this->service = new AnnotationReaderService();
 
-        $cacheService = $this->prophesize(\common_cache_Cache::class);
-        $cacheService->has(Argument::type('string'))->willReturn(false);
+        $cacheService = $this->createMock(common_cache_Cache::class);
         $cacheService
-            ->get(Argument::type('string'))
-            ->willThrow(new \common_cache_NotFoundException('PhpUnit exception'));
-        $cacheService->put(Argument::any(), Argument::any())->willReturn(true);
+            ->method('has')
+            ->with($this->isType('string'))
+            ->willReturn(false);
+        $cacheService
+            ->method('get')
+            ->with($this->isType('string'))
+            ->willThrowException(new common_cache_NotFoundException('PhpUnit exception'));
+        $cacheService
+            ->method('put')
+            ->willReturn(true);
 
-        /** @var ServiceLocatorInterface $serviceLocator */
-        $serviceLocator = $this->prophesize(ServiceLocatorInterface::class);
-        $serviceLocator->get(Argument::type('string'))->will(function ($args) use ($cacheService) {
-            if ($args[0] === common_cache_Cache::SERVICE_ID) {
-                return $cacheService->reveal();
-            }
-        });
-        $this->service->setServiceLocator($serviceLocator->reveal());
+        $serviceManagerMock = $this->getServiceManagerMock([
+            common_cache_Cache::SERVICE_ID => $cacheService,
+        ]);
+
+        $this->service->setServiceLocator($serviceManagerMock);
     }
 
-    public function testGetAnnotations()
+    public function testGetAnnotations(): void
     {
         $annotations = $this->service->getAnnotations(TestingClass::class, 'someAction');
-        self::assertSame([
-            'required_rights' => [
-                [
-                    'key' => 'id',
-                    'permission' => 'READ',
+        self::assertSame(
+            [
+                'required_rights' => [
+                    [
+                        'key' => 'id',
+                        'permission' => 'READ',
+                    ],
+                    [
+                        'key' => 'uri',
+                        'permission' => 'WRITE',
+                    ],
                 ],
-                [
-                    'key' => 'uri',
-                    'permission' => 'WRITE',
-                ],
+                'security' => [RouteAnnotationService::SECURITY_HIDE, RouteAnnotationService::SECURITY_ALLOW],
             ],
-            'security' => [RouteAnnotationService::SECURITY_HIDE, RouteAnnotationService::SECURITY_ALLOW],
-        ], $annotations);
+            $annotations
+        );
     }
 
-    public function testGetBlankAnnotations()
+    public function testGetBlankAnnotations(): void
     {
         $annotations = $this->service->getAnnotations(TestingClass::class, 'anotherAction');
-        self::assertSame([
-            'required_rights' => [],
-            'security' => [],
-        ], $annotations);
+        self::assertSame(
+            [
+                'required_rights' => [],
+                'security' => [],
+            ],
+            $annotations
+        );
     }
 
-    public function testGetClassAnnotations()
+    public function testGetClassAnnotations(): void
     {
         $annotations = $this->service->getAnnotations(TestingClass::class, '');
-        self::assertSame([
-            'required_rights' => [[
-                'key' => 'id',
-                'permission' => 'READ',
-            ]],
-            'security' => ['allow'],
-        ], $annotations);
+        self::assertSame(
+            [
+                'required_rights' => [[
+                    'key' => 'id',
+                    'permission' => 'READ',
+                ]],
+                'security' => ['allow'],
+            ],
+            $annotations
+        );
     }
 }

@@ -54,7 +54,7 @@ class tao_helpers_translation_POFileReader extends tao_helpers_translation_Trans
 
         $file = $this->getFilePath();
         if (!file_exists($file)) {
-            throw new tao_helpers_translation_TranslationException("The translation file '${file}' does not exist.");
+            throw new tao_helpers_translation_TranslationException("The translation file '{$file}' does not exist.");
         }
 
         // Create the translation file.

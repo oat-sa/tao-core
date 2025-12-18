@@ -15,28 +15,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\search\strategy;
+namespace oat\tao\test\unit\models\classes\search\strategy;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\search\strategy\GenerisIndexUpdater;
 
 class GenerisIndexUpdaterTest extends TestCase
 {
-    /** @var GenerisIndexUpdater */
-    private $sut;
+    use ServiceManagerMockTrait;
 
-    public function setUp(): void
+    private GenerisIndexUpdater $sut;
+
+    protected function setUp(): void
     {
         $this->sut = new GenerisIndexUpdater();
-
-        $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock()
-        );
+        $this->sut->setServiceLocator($this->getServiceManagerMock());
     }
 
     public function testHasClassSupportShouldAlwaysBeFalseForGenerisIndexUpdater(): void

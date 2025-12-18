@@ -280,7 +280,7 @@ try {
         $result = $service->getResult();
         $contentType = $result->getMimeType();
         $charset = $result->getEncoding();
-        header("Content-Type:${contentType}; charset=${charset}", 200);
+        header("Content-Type:{$contentType}; charset={$charset}", 200);
         echo $result->getContent();
         die();
     }
@@ -344,14 +344,14 @@ try {
         $result = $service->getResult();
         $contentType = $result->getMimeType();
         $charset = $result->getEncoding();
-        header("Content-Type:${contentType}; charset=${charset}", 200);
+        header("Content-Type:{$contentType}; charset={$charset}", 200);
         echo $result->getContent();
     }
 } catch (tao_install_services_UnknownServiceException $e) {
     $serviceName = $e->getServiceName();
     header('HTTP/1.0 404 Not Found');
     header('Content-Type:text; charset=UTF-8');
-    echo "The requested service '${serviceName}' does not exist.";
+    echo "The requested service '{$serviceName}' does not exist.";
 } catch (tao_install_api_MalformedRequestBodyException $e) {
     header("HTTP/1.0 400 Bad Request");
     header("Content-Type:text; charset=UTF-8");

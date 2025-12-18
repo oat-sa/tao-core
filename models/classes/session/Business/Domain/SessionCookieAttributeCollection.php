@@ -26,6 +26,7 @@ namespace oat\tao\model\session\Business\Domain;
 
 use IteratorAggregate;
 use oat\tao\model\session\Business\Contract\SessionCookieAttributeInterface;
+use ReturnTypeWillChange;
 
 final class SessionCookieAttributeCollection implements IteratorAggregate
 {
@@ -44,6 +45,7 @@ final class SessionCookieAttributeCollection implements IteratorAggregate
     /**
      * @return iterable|SessionCookieAttributeInterface[]
      */
+    #[ReturnTypeWillChange]
     public function getIterator(): iterable
     {
         yield from $this->attributes;

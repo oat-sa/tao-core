@@ -15,12 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2025 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\test\unit\model\notification;
+declare(strict_types=1);
 
-use oat\generis\test\TestCase;
+namespace oat\tao\test\unit\models\classes\notification;
+
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\notification\Notification;
 
 class NotificationTest extends TestCase
@@ -36,8 +38,7 @@ class NotificationTest extends TestCase
     private const UPDTAED_AT = '2001-02-03 01:00:00';
     private const STATUS = 1;
 
-    /** @var Notification */
-    private $subjectCompleted;
+    private Notification $subjectCompleted;
 
     protected function setUp(): void
     {

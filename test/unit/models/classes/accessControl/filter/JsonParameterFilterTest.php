@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\accessControl\filter;
 
 use oat\tao\model\accessControl\filter\JsonParameterFilter;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class JsonParameterFilterTest extends TestCase
 {

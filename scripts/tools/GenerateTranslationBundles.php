@@ -46,20 +46,20 @@ $extensions = [];
 $locales = [];
 
 // Check final destination is readable.
-if (!is_writable("${path}/tao/views/locales") || !is_dir("${path}/tao/views/locales")) {
+if (!is_writable("{$path}/tao/views/locales") || !is_dir("{$path}/tao/views/locales")) {
     fwrite(STDERR, "Final destination path 'tao/views/locales' is not writable.\n");
 }
 
 // Scan extensions to find out all locales.
-foreach (array_filter(glob("${path}/*"), 'is_dir') as $dir) {
-    if (is_readable("${dir}/manifest.php")) {
+foreach (array_filter(glob("{$path}/*"), 'is_dir') as $dir) {
+    if (is_readable("{$dir}/manifest.php")) {
         // This is an extension.
         $extensionId = basename($dir);
         $extensions[] = $extensionId;
 
-        if (is_readable("${dir}/locales") && is_dir("${dir}/locales")) {
+        if (is_readable("{$dir}/locales") && is_dir("{$dir}/locales")) {
             // We have a locales directory. Let's retrieve locales we don't know yet.
-            foreach (array_filter(glob("${dir}/locales/*"), 'is_dir') as $localeDir) {
+            foreach (array_filter(glob("{$dir}/locales/*"), 'is_dir') as $localeDir) {
                 $locale = basename($localeDir);
                 $newLocale = !in_array($locale, $locales);
 
@@ -67,12 +67,12 @@ foreach (array_filter(glob("${path}/*"), 'is_dir') as $dir) {
                     $locales[] = $locale;
 
                     if ($verbose) {
-                        fwrite(STDOUT, "Locale '${locale}' found.\n");
+                        fwrite(STDOUT, "Locale '{$locale}' found.\n");
                     }
                 }
             }
         } elseif ($verbose) {
-            fwrite(STDOUT, "Extension '${extensionId}' has no locales.\n");
+            fwrite(STDOUT, "Extension '{$extensionId}' has no locales.\n");
         }
     }
 }
@@ -81,19 +81,19 @@ foreach (array_filter(glob("${path}/*"), 'is_dir') as $dir) {
 $count = 0;
 foreach ($locales as $locale) {
     $translationBundle = new oat\tao\helpers\translation\TranslationBundle($locale, $extensions, $path);
-    $bundleFile = $translationBundle->generateTo("${path}/tao/views/locales");
+    $bundleFile = $translationBundle->generateTo("{$path}/tao/views/locales");
 
     if ($bundleFile !== false) {
         if ($verbose) {
-            fwrite(STDOUT, "Translation Bundle for locale '${locale}' written to '${bundleFile}'.\n");
+            fwrite(STDOUT, "Translation Bundle for locale '{$locale}' written to '{$bundleFile}'.\n");
         }
 
         $count++;
     } else {
-        fwrite(STDERR, "Translation Bundle for locale '${locale}' could not be created.\n");
+        fwrite(STDERR, "Translation Bundle for locale '{$locale}' could not be created.\n");
     }
 }
 
 if ($verbose) {
-    fwrite(STDOUT, "${count} Translation Bundles created.\n");
+    fwrite(STDOUT, "{$count} Translation Bundles created.\n");
 }

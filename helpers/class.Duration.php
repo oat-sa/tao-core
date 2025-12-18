@@ -40,11 +40,11 @@ class tao_helpers_Duration
 
         $regexp = "/^([0-9]{2}):([0-9]{2}):([0-9]{2})(\.[0-9]{1,6})?$/";
 
-        if (preg_match($regexp, $time, $matches)) {
-            $duration .= intval($matches[1]) . 'H' . intval($matches[2]) . 'M';
+        if (preg_match($regexp, $time ?? '', $matches)) {
+            $duration .= (int)$matches[1] . 'H' . (int)$matches[2] . 'M';
             $duration .= isset($matches[4])
-                ? intval($matches[3]) . $matches[4] . 'S'
-                : intval($matches[3]) . 'S';
+                ? (int)$matches[3] . $matches[4] . 'S'
+                : (int)$matches[3] . 'S';
         } else {
             $duration .= '0S';
         }
@@ -79,6 +79,7 @@ class tao_helpers_Duration
         $time = null;
 
         try {
+            $duration ??= '';
             $interval = preg_match('/(\.[0-9]{1,6}S)$/', $duration)
                 ? new DateIntervalMS($duration)
                 : new DateInterval($duration);

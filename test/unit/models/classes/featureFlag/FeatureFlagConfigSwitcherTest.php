@@ -46,7 +46,7 @@ class FeatureFlagConfigSwitcherTest extends TestCase
     /** @var common_ext_ExtensionsManager|MockObject */
     private $extensionManager;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->registry = $this->createMock(ClientLibConfigRegistry::class);
         $this->extensionManager = $this->createMock(common_ext_ExtensionsManager::class);

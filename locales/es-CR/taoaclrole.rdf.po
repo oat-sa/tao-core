@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 14:29\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: es_CR\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: es-CR\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/taoaclrole.rdf.po\n"
+"X-Crowdin-File-ID: 1203\n"
+"Language-Team: Spanish, Costa Rica\n"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Base User"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Base User Role"
+msgstr ""
+

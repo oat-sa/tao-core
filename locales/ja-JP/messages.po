@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: ja\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Japanese\n"
 
 msgid ""
@@ -87,7 +87,7 @@ msgid "%s classes"
 msgstr "%s クラス"
 
 msgid "%s completed"
-msgstr ""
+msgstr "%s 完了"
 
 msgid "%s Confirmation"
 msgstr "%s 確認"
@@ -192,7 +192,7 @@ msgid "Account status"
 msgstr "アカウント状況"
 
 msgid "Action"
-msgstr "操作"
+msgstr "処理"
 
 msgid "Action %s - removed %s positions"
 msgstr "％s-％sを削除しました"
@@ -204,7 +204,7 @@ msgid "Action was not executed yet"
 msgstr "操作はまだ実行されていません"
 
 msgid "Actions"
-msgstr "操作"
+msgstr "アクション"
 
 #, tao-public
 msgid "Add"
@@ -214,7 +214,7 @@ msgid "Add / Edit lists"
 msgstr "リストの追加/編集"
 
 msgid "Add a CSV file"
-msgstr "CSVファイル追加"
+msgstr "CSVファイルを追加"
 
 #, tao-public
 msgid "Add a user"
@@ -269,7 +269,7 @@ msgid "All data will be removed in %s"
 msgstr "すべてのデータは%sから移動されました"
 
 msgid "All fields are required"
-msgstr "すべて必須項目です"
+msgstr "すべての項目が必須です"
 
 msgid "all images"
 msgstr "全ての画像"
@@ -308,7 +308,7 @@ msgid "Analytics cookies"
 msgstr ""
 
 msgid "and"
-msgstr ""
+msgstr "と"
 
 msgid "Ans"
 msgstr "Ans"
@@ -377,7 +377,7 @@ msgid "Auth type"
 msgstr ""
 
 msgid "Author"
-msgstr "編集者"
+msgstr "作成者"
 
 msgid "Author Item"
 msgstr "編集アイテム"
@@ -389,7 +389,7 @@ msgid "auto unlocked in %s"
 msgstr "％sで自動ロック解除"
 
 msgid "Available"
-msgstr "利用可能"
+msgstr "実施可能"
 
 msgid "Available Extensions"
 msgstr "利用可能な拡張機能"
@@ -398,7 +398,7 @@ msgid "Back"
 msgstr "戻る"
 
 msgid "Back to listing"
-msgstr "リストへ戻る"
+msgstr "リストに戻る"
 
 msgid "Back to Portal"
 msgstr ""
@@ -446,7 +446,7 @@ msgid "C file"
 msgstr "Cファイル"
 
 msgid "C++ file"
-msgstr ""
+msgstr "C++ ファイル"
 
 msgid "C++ file (.cpp)"
 msgstr "C++ ファイル (.cpp)"
@@ -467,7 +467,7 @@ msgid "cancel"
 msgstr "キャンセル"
 
 msgid "cancel the action"
-msgstr "操作のキャンセル"
+msgstr "操作をキャンセル"
 
 msgid "Cancelled"
 msgstr "キャンセルされました"
@@ -488,7 +488,7 @@ msgid "ceil"
 msgstr "CEIL"
 
 msgid "Center"
-msgstr ""
+msgstr "センター"
 
 #, tao-public
 msgid "Change password"
@@ -573,7 +573,7 @@ msgid "Close"
 msgstr "閉じる"
 
 msgid "Close dialog"
-msgstr "ダイアログ終了"
+msgstr "ダイアログを閉じる"
 
 msgid "Close message"
 msgstr "メッセージ終了"
@@ -594,10 +594,10 @@ msgid "Commands:"
 msgstr "コマンド:"
 
 msgid "comment..."
-msgstr "コメント..."
+msgstr "コメント"
 
 msgid "Commit"
-msgstr "適用"
+msgstr "コミット"
 
 msgid "Completed"
 msgstr "完了"
@@ -618,10 +618,10 @@ msgid "Connect to the TAO platform"
 msgstr "CBTプラットホームへ接続"
 
 msgid "Continue"
-msgstr "次へ"
+msgstr "続行"
 
 msgid "Cookie Policy"
-msgstr ""
+msgstr "Cookieポリシー"
 
 msgid "Cookies Preferences"
 msgstr ""
@@ -889,7 +889,7 @@ msgid "Error adding search index for %s with message %s"
 msgstr "メッセージ %s で %s の検索インデックスを追加するとエラーが発生します。"
 
 msgid "Error during file import"
-msgstr "インポート実行中のエラー"
+msgstr "ファイルインポート中のエラー"
 
 msgid "Error in result"
 msgstr "結果のエラー"
@@ -916,7 +916,7 @@ msgid "Execute"
 msgstr "実行"
 
 msgid "Executing task %s failed"
-msgstr "タスク %s の実行にエラーになりました。"
+msgstr "タスク%sの実行に失敗しました"
 
 msgid "exp"
 msgstr "Exp"
@@ -935,7 +935,7 @@ msgid "Export \"%s\" in %s"
 msgstr "\"%s\" を %s にエクスポート"
 
 msgid "Export CSV"
-msgstr "CSVをエクスポート"
+msgstr "エクスポートCSV"
 
 msgid "Export failed."
 msgstr "エクスポートに失敗しました"
@@ -957,7 +957,7 @@ msgid "Factorial"
 msgstr "階乗"
 
 msgid "Failed"
-msgstr "失敗しました"
+msgstr "エラー"
 
 msgid "Failed to copy class."
 msgstr ""
@@ -1137,7 +1137,7 @@ msgid "Import"
 msgstr "インポート"
 
 msgid "Import "
-msgstr "インポート "
+msgstr "インポート"
 
 msgid "Import a %s into \"%s"
 msgstr "%s を\"%sにインポート"
@@ -1177,10 +1177,10 @@ msgid "impossible to update task status"
 msgstr "タスクステータスを更新できません"
 
 msgid "In Progress"
-msgstr "処理中"
+msgstr "実施中"
 
 msgid "In progress"
-msgstr "処理中"
+msgstr "実施中"
 
 msgid "Include all"
 msgstr ""
@@ -1196,13 +1196,13 @@ msgstr "包括（AND)"
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "インデックス"
 
 msgid "Index has been deleted for %s"
 msgstr "インデックスが %s で削除されました。"
 
 msgid "Infinity"
-msgstr "無限大"
+msgstr "∞"
 
 msgid "Inherit the permission of the parent folder"
 msgstr ""
@@ -1301,7 +1301,7 @@ msgid "invalid regular expression"
 msgstr "無効な正規表現です"
 
 msgid "Invalid value"
-msgstr ""
+msgstr "無効な値"
 
 msgid "Invalid values:"
 msgstr "無効な値:"
@@ -1403,7 +1403,7 @@ msgid "Log Out"
 msgstr "ログアウト"
 
 msgid "Login"
-msgstr "ログインID"
+msgstr "ログイン"
 
 msgid "Login available"
 msgstr "ログイン可能"
@@ -1448,7 +1448,7 @@ msgid "Manage data list"
 msgstr "データ一覧の管理"
 
 msgid "Manage Preferences"
-msgstr ""
+msgstr "設定の管理"
 
 #, tao-public
 msgid "Manage roles"
@@ -1614,7 +1614,7 @@ msgid "My settings (%s)"
 msgstr "ユーザ設定(%s)"
 
 msgid "Name"
-msgstr "名前"
+msgstr "名称"
 
 msgid "Natural logarithm"
 msgstr "自然対数"
@@ -1651,7 +1651,7 @@ msgid "no file not found in this location"
 msgstr "この場所には、ファイルがありません"
 
 msgid "No file selected"
-msgstr "ファイル未選択"
+msgstr "ファイルが未選択"
 
 msgid "No files"
 msgstr "ファイルがありません"
@@ -1669,7 +1669,7 @@ msgid "Node duplication has failed"
 msgstr "ノードのコピーに失敗しました"
 
 msgid "none"
-msgstr ""
+msgstr "なし"
 
 msgid "Not enough arguments following: %s"
 msgstr "以下の引数が足りません: %s"
@@ -1763,10 +1763,10 @@ msgid "Operated By "
 msgstr "運営元"
 
 msgid "or"
-msgstr "または"
+msgstr "｜"
 
 msgid "Original"
-msgstr ""
+msgstr "元のサイズ"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
 msgstr ""
@@ -1778,7 +1778,7 @@ msgid "Page"
 msgstr "ページ"
 
 msgid "Pascal file"
-msgstr ""
+msgstr "Pascalファイル"
 
 msgid "Pascal file (.pas)"
 msgstr "Pascalファイル(.pas)"
@@ -1808,7 +1808,7 @@ msgid "PDF file"
 msgstr "PDFファイル"
 
 msgid "Pending"
-msgstr ""
+msgstr "保留中"
 
 msgid "Permission denied to write in the selected class"
 msgstr "選択したクラスへの書き込みを拒否されました"
@@ -1817,7 +1817,7 @@ msgid "Permission settings"
 msgstr ""
 
 msgid "Plain text"
-msgstr "プレーンテキスト"
+msgstr "テキスト"
 
 msgid "Play"
 msgstr "再生"
@@ -1862,16 +1862,16 @@ msgid "Please download the video and view offline."
 msgstr "ビデオをダウンロードしてオフラインで見てください"
 
 msgid "Please give a message to your commit"
-msgstr "あなたのコミットにメッセージをお願いします"
+msgstr "コミットする際のメッセージを入力してください。"
 
 msgid "Please provide a reason"
-msgstr "その理由を記入してください"
+msgstr "理由をご記入ください"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "バグの報告やアイデア，コメントなどTAOフォーラムにフィードバックしてください"
 
 msgid "Please select a language."
-msgstr ""
+msgstr "言語を選択してください."
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr ""
@@ -1922,10 +1922,10 @@ msgid "Previous page"
 msgstr "前のページ"
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "プライバシーポリシー"
 
 msgid "Proceed"
-msgstr "開始"
+msgstr "続行"
 
 #, tao-public
 msgid "Properties"
@@ -1935,10 +1935,10 @@ msgid "Provided URL is not valid"
 msgstr "指定されたURLは有効ではありません"
 
 msgid "Publish"
-msgstr "作成"
+msgstr "公開"
 
 msgid "Publish the test"
-msgstr "テスト作成"
+msgstr "テストを公開"
 
 msgid "Queued"
 msgstr "待機中"
@@ -1974,7 +1974,7 @@ msgid "RealMedia file"
 msgstr "RealMediaファイル"
 
 msgid "Refresh"
-msgstr "リフレッシュ"
+msgstr "更新"
 
 msgid "Reject all"
 msgstr ""
@@ -2016,7 +2016,7 @@ msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
-msgstr "メッセージ削除"
+msgstr "メッセージを削除"
 
 msgid "Remove the translated item"
 msgstr ""
@@ -2049,7 +2049,7 @@ msgid "require notification ID"
 msgstr "通知のためのIDが必要です"
 
 msgid "required"
-msgstr "必須"
+msgstr "選択必須"
 
 msgid "required length"
 msgstr "長さは必須です"
@@ -2070,7 +2070,7 @@ msgid "Resource copied"
 msgstr "リソースをコピーしました"
 
 msgid "Resource deleted"
-msgstr "リソースを削除しました"
+msgstr "リソースが削除されました"
 
 msgid "Resource Identifier"
 msgstr "リソース識別子"
@@ -2124,7 +2124,7 @@ msgid "Role saved"
 msgstr "ロールは保存されました"
 
 msgid "Roles"
-msgstr "ロール"
+msgstr "権限"
 
 #, tao-public
 msgid "Roles library"
@@ -2146,7 +2146,7 @@ msgid "Row %s"
 msgstr "列 %s"
 
 msgid "Running task %s"
-msgstr "実行中のタスク %s"
+msgstr "実行中： %s"
 
 msgid "Save"
 msgstr "保存"
@@ -2216,7 +2216,7 @@ msgid "Selected file:"
 msgstr "選択済みファイル:"
 
 msgid "Selection saved successfully"
-msgstr "選択は保存されました"
+msgstr "選択が正常に保存されました"
 
 msgid "self-locked"
 msgstr "セルフロック"
@@ -2265,7 +2265,7 @@ msgid "Some resources have not been moved: %s"
 msgstr "一部のリソースが移動されていません: %s"
 
 msgid "Something unexpected happened."
-msgstr "予期しない事象が発生しました"
+msgstr "予想外のエラーが発生しました。"
 
 msgid "Sources that can embed this platform in an iFrame"
 msgstr "このプラットフォームをiFrameに埋め込むためのソース"
@@ -2274,7 +2274,7 @@ msgid "Square root"
 msgstr "平方根"
 
 msgid "Start"
-msgstr ""
+msgstr "開 始"
 
 msgid "Start of document reached. Continuing from the end."
 msgstr "ドキュメントの開始点に到達しました。最後から続けます。"
@@ -2298,16 +2298,16 @@ msgid "Storing digital video data on a computer game"
 msgstr "ビデオデータをコンピュータゲームに保存する"
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
-msgstr ""
+msgstr "必須Cookieは常に有効にしておく必要があります。これにより、Cookie設定を保存できます。"
 
 msgid "string"
-msgstr "文字列"
+msgstr "文字列（string型）"
 
 msgid "Submit"
 msgstr "送信"
 
 msgid "Success"
-msgstr "完了しました"
+msgstr "完了"
 
 msgid "Successfully cloned instance as %s"
 msgstr "インスタンスが %s として正常にクローン化されました"
@@ -2394,7 +2394,7 @@ msgid "Task not found"
 msgstr "タスクが見つかりません"
 
 msgid "Task not returned any report."
-msgstr "タスクはレポートを返しませんでした"
+msgstr "タスクからの報告はありません"
 
 msgid "Term"
 msgstr "期間"
@@ -2541,7 +2541,7 @@ msgid "Title"
 msgstr "タイトル"
 
 msgid "to"
-msgstr "→"
+msgstr "ー"
 
 msgid "To change your preferences, click Manage preferences."
 msgstr ""
@@ -2604,13 +2604,13 @@ msgid "Translation Type"
 msgstr ""
 
 msgid "Translations"
-msgstr ""
+msgstr "翻訳"
 
 msgid "Transport Layer Security"
 msgstr "トランスポートレイヤーセキュリティ"
 
 msgid "Tree - Multiple node choice"
-msgstr ""
+msgstr "ツリー - 複数ノードの選択"
 
 msgid "Tree - Multiple node choice "
 msgstr "ツリー - 複数ノードの選択 "
@@ -2643,7 +2643,7 @@ msgid "Unable to delete %s"
 msgstr "%s を削除できません"
 
 msgid "Unable to delete the selected resource"
-msgstr "選択されたリソースを削除できません。"
+msgstr "選択したリソースを削除できません"
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
 msgstr ""
@@ -2658,7 +2658,7 @@ msgid "Unable to open file %s"
 msgstr "ファイルを開けません : %s"
 
 msgid "Unable to process your request"
-msgstr "リクエストを処理できません"
+msgstr "リクエストが処理できません"
 
 msgid "Unable to release the lock"
 msgstr "ロックを解除することができません"
@@ -2685,7 +2685,7 @@ msgid "Unable to upload file"
 msgstr "ファイルをアップロードできません"
 
 msgid "Unable to upload file %s : %s"
-msgstr "ファイル %s をアップロードできません : %s"
+msgstr "アップロードができません %s : %s"
 
 msgid "Unary operator +"
 msgstr "単項演算子(+)"
@@ -2813,7 +2813,7 @@ msgstr "ユーザ設定"
 
 #, tao-public
 msgid "Users"
-msgstr "ユーザ"
+msgstr "ユーザー"
 
 msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr "フィールド '％s' の検証に失敗しました。言語がシステムに存在しません。"
@@ -2925,7 +2925,7 @@ msgid "XML file"
 msgstr "XMLファイル"
 
 msgid "Yes"
-msgstr "はい"
+msgstr "Yes"
 
 msgid "You are encountering a prolonged connectivity loss."
 msgstr "長時間の接続障害が発生しています。"
@@ -2940,7 +2940,7 @@ msgid "You can choose which types of cookies you want to allow to improve your e
 msgstr ""
 
 msgid "You can read more about this in our"
-msgstr ""
+msgstr "詳細については、こちらをご覧ください。"
 
 msgid "You cannot delete the root node"
 msgstr "あなたは、ルートノードを削除することはできません"

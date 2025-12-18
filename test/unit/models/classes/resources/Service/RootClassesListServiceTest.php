@@ -24,7 +24,7 @@ namespace oat\tao\test\unit\model\resources\Service;
 
 use oat\tao\model\menu\Tree;
 use core_kernel_classes_Class;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\menu\Section;
 use oat\tao\model\menu\Perspective;
 use oat\generis\model\data\Ontology;

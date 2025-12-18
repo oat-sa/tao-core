@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:56\n"
+"PO-Revision-Date: 2025-12-05 15:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-GB\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: lt\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
-"X-Crowdin-File-ID: 617\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
 "Language-Team: Lithuanian\n"
 
 msgid ""
@@ -87,7 +87,7 @@ msgid "%s classes"
 msgstr "%s klasės"
 
 msgid "%s completed"
-msgstr ""
+msgstr "%s atlikta"
 
 msgid "%s Confirmation"
 msgstr "%s Patvirtinimas"
@@ -168,7 +168,7 @@ msgid "AAC audio"
 msgstr ""
 
 msgid "About"
-msgstr ""
+msgstr "Apie"
 
 msgid "abs"
 msgstr ""
@@ -214,7 +214,7 @@ msgid "Add / Edit lists"
 msgstr ""
 
 msgid "Add a CSV file"
-msgstr "Pridėti CSV failą"
+msgstr ""
 
 #, tao-public
 msgid "Add a user"
@@ -269,7 +269,7 @@ msgid "All data will be removed in %s"
 msgstr "Visi duomenys bus panaikinti po %s"
 
 msgid "All fields are required"
-msgstr "Visi laukai yra privalomi"
+msgstr ""
 
 msgid "all images"
 msgstr ""
@@ -371,7 +371,7 @@ msgid "Assign Users"
 msgstr "Paskirti vartotojus"
 
 msgid "Audio Video Interleave"
-msgstr ""
+msgstr "Garso ir vaizdo įrašas"
 
 msgid "Auth type"
 msgstr ""
@@ -383,19 +383,19 @@ msgid "Author Item"
 msgstr "Kurti klausimą"
 
 msgid "Authoring"
-msgstr "Tvarkymas"
+msgstr "Redagavimas"
 
 msgid "auto unlocked in %s"
 msgstr "automatiškai atrakinta po %s"
 
 msgid "Available"
-msgstr "Galimi testai"
+msgstr ""
 
 msgid "Available Extensions"
 msgstr "Galimi plėtiniai"
 
 msgid "Back"
-msgstr "Grį-ti"
+msgstr "Grįžti"
 
 msgid "Back to listing"
 msgstr "Grįžti į sąrašą"
@@ -425,7 +425,7 @@ msgid "Binary operator modulo"
 msgstr "Dvejetainis operatorius modulo"
 
 msgid "Bitmap image"
-msgstr ""
+msgstr "Bitmap vaizdas"
 
 msgid "boolean"
 msgstr ""
@@ -443,13 +443,13 @@ msgid "C"
 msgstr ""
 
 msgid "C file"
-msgstr ""
+msgstr "C byla"
 
 msgid "C++ file"
 msgstr ""
 
 msgid "C++ file (.cpp)"
-msgstr ""
+msgstr "C++ byla (.cpp)"
 
 msgid "Calc speadsheet (Staroffice)"
 msgstr ""
@@ -467,7 +467,7 @@ msgid "cancel"
 msgstr "atšaukti"
 
 msgid "cancel the action"
-msgstr "atšaukti veiksmą"
+msgstr ""
 
 msgid "Cancelled"
 msgstr "Atšaukta"
@@ -479,7 +479,7 @@ msgid "Cannot divide by zero"
 msgstr "Negalima padalinti iš nulio"
 
 msgid "Cascading Style Sheets"
-msgstr ""
+msgstr "Kaskadiniai stiliaus lapai"
 
 msgid "Case sensitive"
 msgstr "Skiriamos didžiosios-mažosios raidės"
@@ -488,7 +488,7 @@ msgid "ceil"
 msgstr ""
 
 msgid "Center"
-msgstr ""
+msgstr "Centras"
 
 #, tao-public
 msgid "Change password"
@@ -510,7 +510,7 @@ msgid "Check-in"
 msgstr "Pasižymėti"
 
 msgid "choices:"
-msgstr ""
+msgstr "pasirinkimai:"
 
 msgid "Choose a type for your property first"
 msgstr ""
@@ -597,7 +597,7 @@ msgid "comment..."
 msgstr "komentaras..."
 
 msgid "Commit"
-msgstr "Patvirtinti"
+msgstr "Paskirti"
 
 msgid "Completed"
 msgstr "Atlikta"
@@ -672,7 +672,7 @@ msgid "CSV"
 msgstr ""
 
 msgid "CSV file"
-msgstr ""
+msgstr "CSV byla"
 
 msgid "CSV Options"
 msgstr "CSV Pasirinkimai"
@@ -729,7 +729,7 @@ msgid "Default search"
 msgstr "Numatyta paieška"
 
 msgid "default:"
-msgstr ""
+msgstr "numatytas:"
 
 msgid "Define the default values"
 msgstr "Nustatyti numatytas reikšmes"
@@ -843,7 +843,7 @@ msgid "Drop the files to upload"
 msgstr "Tempti failus, kad įkeltum"
 
 msgid "Edit"
-msgstr "Redaguoti"
+msgstr "Keisti"
 
 #, tao-public
 msgid "Edit a user"
@@ -877,7 +877,7 @@ msgid "End of document reached. Continuing from the beginning."
 msgstr "Dokumento pabaiga pasiekta. Tęsiama nuo pradžios."
 
 msgid "Enhanced metafile"
-msgstr ""
+msgstr "Patobulintas meta byla"
 
 msgid "Enter"
 msgstr "Įeiti į"
@@ -889,7 +889,7 @@ msgid "Error adding search index for %s with message %s"
 msgstr "Klaida pridedant paieškos indeksą %s su pranešimu %s"
 
 msgid "Error during file import"
-msgstr "Klaida importuojant failą"
+msgstr "Klaida failo importavimo metu"
 
 msgid "Error in result"
 msgstr "Klaida rezultate"
@@ -1020,7 +1020,7 @@ msgid "Fit to width"
 msgstr "Tilpti į plotį"
 
 msgid "Flash video"
-msgstr ""
+msgstr "Flash vaizdo įrašas"
 
 msgid "floor"
 msgstr ""
@@ -1041,7 +1041,7 @@ msgid "Forgot your password?"
 msgstr "Pamiršote slaptažodį?"
 
 msgid "Form"
-msgstr ""
+msgstr "Forma"
 
 msgid "Form data not saved."
 msgstr ""
@@ -1059,7 +1059,7 @@ msgid "Generis Form"
 msgstr "Generis forma"
 
 msgid "Geogebra data file"
-msgstr ""
+msgstr "Geogebra duomenų failas"
 
 msgid "Get History"
 msgstr "Gauti Istroriją"
@@ -1080,7 +1080,7 @@ msgid "GZip Compressed Archive"
 msgstr ""
 
 msgid "Header file with extensionsLabels"
-msgstr ""
+msgstr "Antraštės failas su plėtiniais"
 
 msgid "Height"
 msgstr "Aukštis"
@@ -1092,7 +1092,7 @@ msgid "Hide detailed report"
 msgstr "Slėpti detalią ataskaitą"
 
 msgid "Hide password"
-msgstr ""
+msgstr "Slėpti slaptažodį"
 
 msgid "Highlight all"
 msgstr "Pažymėti visus"
@@ -1196,7 +1196,7 @@ msgstr ""
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "Indeksas"
 
 msgid "Index has been deleted for %s"
 msgstr "Indeksas buvo pašalintas iš %s"
@@ -1235,7 +1235,7 @@ msgid "Installing extension %s..."
 msgstr "Įdiegiamas plėtinys %s..."
 
 msgid "Instance saved"
-msgstr "Instancija išsaugota"
+msgstr "Instanciją išsaugota"
 
 msgid "Interface language"
 msgstr "Sąsajos kalba"
@@ -1301,7 +1301,7 @@ msgid "invalid regular expression"
 msgstr "neteisinga įprasta išraiška"
 
 msgid "Invalid value"
-msgstr ""
+msgstr "Neteisinga reikšmė"
 
 msgid "Invalid values:"
 msgstr ""
@@ -1669,7 +1669,7 @@ msgid "Node duplication has failed"
 msgstr ""
 
 msgid "none"
-msgstr ""
+msgstr "nėra"
 
 msgid "Not enough arguments following: %s"
 msgstr ""
@@ -1751,10 +1751,10 @@ msgid "OpenDocument Presentation"
 msgstr ""
 
 msgid "OpenDocument spreadsheet document"
-msgstr ""
+msgstr "OpenDocument skaičiuoklės dokumentas"
 
 msgid "OpenDocument text document"
-msgstr ""
+msgstr "OpenDocument tekstinis dokumentas"
 
 msgid "OpenDocument Text Template"
 msgstr ""
@@ -1763,7 +1763,7 @@ msgid "Operated By "
 msgstr "Valdo "
 
 msgid "or"
-msgstr "arba"
+msgstr ""
 
 msgid "Original"
 msgstr ""
@@ -1781,7 +1781,7 @@ msgid "Pascal file"
 msgstr ""
 
 msgid "Pascal file (.pas)"
-msgstr ""
+msgstr "Pascal byla (.pas)"
 
 msgid "Password"
 msgstr "Slaptažodis"
@@ -1817,10 +1817,10 @@ msgid "Permission settings"
 msgstr ""
 
 msgid "Plain text"
-msgstr ""
+msgstr "Paprastas tekstas"
 
 msgid "Play"
-msgstr "Paleisti"
+msgstr "Leisti"
 
 msgid "Please confirm deletion"
 msgstr "Prašome patvirtinti ištrynimą"
@@ -1850,7 +1850,7 @@ msgid "Please contact your administrator."
 msgstr "Prašome susisiekti su jūsų administratoriumi."
 
 msgid "Please contact your system administrator."
-msgstr ""
+msgstr "Susisiekite su sistemos administratoriumi."
 
 msgid "Please define your search in the search panel."
 msgstr ""
@@ -1862,10 +1862,10 @@ msgid "Please download the video and view offline."
 msgstr "Prašome atsisiųsti video, kad peržiūrėtumėte neprisijungę."
 
 msgid "Please give a message to your commit"
-msgstr "Perduokite pranešimą patvirtinimui"
+msgstr "Aprašykite savo paskyrimą"
 
 msgid "Please provide a reason"
-msgstr "Prašome pateikti priežastį"
+msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Klaidas ir komentarus prašome registruoti TAO forume."
@@ -1892,7 +1892,8 @@ msgid "PNG image"
 msgstr ""
 
 msgid "Position"
-msgstr ""
+msgstr "Pozicija\n"
+"Padėtis "
 
 msgid "Positionals:"
 msgstr ""
@@ -1922,7 +1923,7 @@ msgid "Previous page"
 msgstr "Ankstesnis puslapis"
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Privatumo politika"
 
 msgid "Proceed"
 msgstr "Tęsti"
@@ -2016,7 +2017,7 @@ msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
-msgstr "Ištrinti Pranešimą"
+msgstr "Pašalinti Pranešimą"
 
 msgid "Remove the translated item"
 msgstr ""
@@ -2049,7 +2050,7 @@ msgid "require notification ID"
 msgstr "reikalauja pranešimo ID"
 
 msgid "required"
-msgstr ""
+msgstr "reikalaujama"
 
 msgid "required length"
 msgstr "reikalaujamas ilgis"
@@ -2155,7 +2156,7 @@ msgid "Saved."
 msgstr ""
 
 msgid "Scientific Calculator"
-msgstr "Mokslinis Skaičiuotuvas"
+msgstr "Mokslinis skaičiuotuvas"
 
 msgid "Scope"
 msgstr "Apimtis"
@@ -2235,10 +2236,10 @@ msgid "Settings updated"
 msgstr "Nustatymai atnaujinti"
 
 msgid "Show detailed report"
-msgstr "Rodytį detalią ataskaitą"
+msgstr "Rodyti detalią ataskaitą"
 
 msgid "Show password"
-msgstr ""
+msgstr "Rodyti slaptažodį"
 
 msgid "Sibelius music notation"
 msgstr ""
@@ -2271,10 +2272,10 @@ msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
-msgstr "Kvadratinės šaknis"
+msgstr "Kvadratinė šaknis"
 
 msgid "Start"
-msgstr ""
+msgstr "Pradėti"
 
 msgid "Start of document reached. Continuing from the end."
 msgstr "Pasiekta dokumento pradžia. Tęsiama nuo pabaigos."
@@ -2304,7 +2305,7 @@ msgid "string"
 msgstr ""
 
 msgid "Submit"
-msgstr ""
+msgstr "Pateikti"
 
 msgid "Success"
 msgstr "Pavyko"
@@ -2532,7 +2533,7 @@ msgid "This site uses cookies to improve your browsing experience and to perform
 msgstr ""
 
 msgid "time"
-msgstr ""
+msgstr "laikas"
 
 msgid "Time zone"
 msgstr "Laiko zona"
