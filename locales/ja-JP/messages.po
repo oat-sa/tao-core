@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-12 13:49\n"
+"PO-Revision-Date: 2025-12-18 23:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -2195,7 +2195,7 @@ msgid "Select a class"
 msgstr "クラスを選択"
 
 msgid "Select a destination"
-msgstr "コピー先を選択"
+msgstr "指定先を選択"
 
 msgid "Select a language"
 msgstr "言語を選択"
