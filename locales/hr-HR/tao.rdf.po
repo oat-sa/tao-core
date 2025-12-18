@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2024.12\n"
-"PO-Revision-Date: 2024-11-14T17:17:42\n"
+"Project-Id-Version: TAO 2026.01\n"
+"PO-Revision-Date: 2025-12-18T14:33:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hr-HR\n"
@@ -188,6 +188,38 @@ msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Right-to-left language orientation"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Vertical writing mode enum"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Vertical writing mode enum, for languages which support vertical writing"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Vertical writing mode property"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Vertical writing mode property of a language"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Vertical-right-to-left writing mode"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Vertical-right-to-left language writing mode"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Vertical-left-to-right writing mode"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Vertical-left-to-right language writing mode"
 msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -484,5 +516,13 @@ msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Translation Progress"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Translated Into Languages"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Translated Into Languages"
 msgstr ""
 
