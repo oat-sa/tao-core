@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-12 13:49\n"
+"PO-Revision-Date: 2025-12-19 23:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl\n"
@@ -2258,6 +2258,9 @@ msgstr "sinh"
 msgid "Size"
 msgstr "Grootte"
 
+msgid "Some items could not be deleted"
+msgstr "Sommige items konden niet worden verwijderd"
+
 msgid "Some of resources has not be deleted"
 msgstr "Sommige bronnen zijn niet verwijderd"
 
@@ -2635,6 +2638,9 @@ msgstr "Kunt u geen toegang krijgen tot uw account?"
 
 msgid "Unable to change passwords in demo mode"
 msgstr "U kunt geen wachtwoorden wijzigen in demo modus"
+
+msgid "Unable to clone the resource"
+msgstr "Kan de bron niet klonen"
 
 msgid "Unable to copy the resource"
 msgstr "Niet in staat om de resource te kopiëren"
