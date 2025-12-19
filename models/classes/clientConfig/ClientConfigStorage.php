@@ -28,6 +28,7 @@ use common_ext_Extension;
 use common_ext_ExtensionException;
 use common_ext_ExtensionsManager;
 use Exception;
+use oat\generis\model\user\UserRdf;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
@@ -38,6 +39,7 @@ use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\session\Context\UserDataSessionContext;
 use Psr\Log\LoggerInterface;
 use tao_helpers_Date;
 use tao_helpers_Mode;
@@ -170,6 +172,7 @@ class ClientConfigStorage
                         'shownStructure' => $this->getShownStructure($query),
                         'bundle' => $this->modeHelper->isMode(tao_helpers_Mode::PRODUCTION),
                         'featureFlags' => $this->featureFlagRepository->list(),
+                        'currentUser' => $this->getUserData($this->sessionService->getCurrentSession()),
                     ]
                 ),
             ],
@@ -259,5 +262,35 @@ class ClientConfigStorage
 
             return '';
         }
+    }
+
+    private function getUserData(\common_session_Session $currentSession): array
+    {
+        $uri = $currentSession->getUserUri();
+        $id = $uri;
+        $login = $currentSession->getUserLabel();
+
+        foreach ($currentSession->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN) as $rdfLogin) {
+            if (!empty($rdfLogin)) {
+                $login = $rdfLogin;
+            }
+        }
+
+        /** @var UserDataSessionContext $context */
+        foreach ($currentSession->getContexts(UserDataSessionContext::class) as $context) {
+            if ($context->getUserId()) {
+                $id = $context->getUserId();
+            }
+
+            if ($context->getUserLogin()) {
+                $login = $context->getUserLogin();
+            }
+        }
+
+        return [
+            'id' => $id,
+            'uri' => $uri,
+            'login' => $login,
+        ];
     }
 }
