@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 14:27\n"
+"PO-Revision-Date: 2025-12-19 23:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: no\n"
@@ -2256,6 +2256,9 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
+msgid "Some items could not be deleted"
+msgstr "Noen elementer kunne ikke slettes"
+
 msgid "Some of resources has not be deleted"
 msgstr ""
 
@@ -2633,6 +2636,9 @@ msgstr ""
 
 msgid "Unable to change passwords in demo mode"
 msgstr ""
+
+msgid "Unable to clone the resource"
+msgstr "Ikke mulig å klone ressursen"
 
 msgid "Unable to copy the resource"
 msgstr ""
