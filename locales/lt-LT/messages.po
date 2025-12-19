@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 20:11\n"
+"PO-Revision-Date: 2025-12-19 23:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt\n"
@@ -2259,6 +2259,9 @@ msgstr ""
 msgid "Size"
 msgstr "Dydis"
 
+msgid "Some items could not be deleted"
+msgstr ""
+
 msgid "Some of resources has not be deleted"
 msgstr ""
 
@@ -2636,6 +2639,9 @@ msgstr "Napvyksta pasiekti savo paskyros?"
 
 msgid "Unable to change passwords in demo mode"
 msgstr "Negalima keisti slaptažodžio, dirbant demonstravimo režimu"
+
+msgid "Unable to clone the resource"
+msgstr ""
 
 msgid "Unable to copy the resource"
 msgstr "Nepavyko nukopijuoti resurso"
