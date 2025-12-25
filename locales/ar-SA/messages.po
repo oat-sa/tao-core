@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-19 23:36\n"
+"PO-Revision-Date: 2025-12-25 13:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -180,7 +180,7 @@ msgid "AC"
 msgstr "AC"
 
 msgid "Accept all"
-msgstr "قبول الكل"
+msgstr "قَبُول الكل"
 
 msgid "Access Denied"
 msgstr "رفض الدخول"
@@ -230,7 +230,7 @@ msgid "Add file(s)"
 msgstr "أضف ملفات"
 
 msgid "Add index"
-msgstr "إضافة فهرس"
+msgstr "إضافة فِهْرِس"
 
 msgid "Add property"
 msgstr "أضف خاصيات"
@@ -340,13 +340,13 @@ msgid "Are you sure you want to delete it?"
 msgstr "هل أنت متأكد أنك تريد حذف ذلك؟"
 
 msgid "Are you sure you want to delete the translation for this language?"
-msgstr "هل أنت متأكد من أنك تريد حذف الترجمة لهذه اللغة؟"
+msgstr "هل أنت متحقِّق من أنك تريد حذف التَّرْجَمَةً لهذه اللغة؟"
 
 msgid "Are you sure you want to start the translation for this language?"
-msgstr "هل أنت متأكد من أنك تريد بدء الترجمة لهذه اللغة؟"
+msgstr "هل أنت متحقِّق من أنك تريد بَدْء التَّرْجَمَةً لهذه اللغة؟"
 
 msgid "Are you sure you wish to delete it"
-msgstr "هل أنت متأكد من رغبتك في حذفه"
+msgstr "هل أنت متحقِّق من رغبتك في حذفه"
 
 msgid "Argument check failed: %s"
 msgstr "تعذر التحقق من الحجج: %s"
@@ -446,7 +446,7 @@ msgid "C file"
 msgstr "ملف C"
 
 msgid "C++ file"
-msgstr "ملف C++"
+msgstr "مِلَفّ C++"
 
 msgid "C++ file (.cpp)"
 msgstr "C++ ملف (.cpp)"
@@ -657,7 +657,7 @@ msgid "Create instance of "
 msgstr "إنشاء مثيل من "
 
 msgid "Create translation"
-msgstr "إنشاء ترجمة"
+msgstr "إنشاء تَرْجَمَة"
 
 msgid "Created"
 msgstr "تم الإنشاء"
@@ -960,7 +960,7 @@ msgid "Failed"
 msgstr "فشل"
 
 msgid "Failed to copy class."
-msgstr "فشل في نسخ الصف."
+msgstr "أخفق نسخ الصف."
 
 msgid "Failed to delete index for %s"
 msgstr "فشل حذف فهرس ل  %s"
@@ -1171,7 +1171,7 @@ msgid "Imported resource \"%s"
 msgstr "المورد المستورد \"%s"
 
 msgid "Imported successfully finished!"
-msgstr "تم الاستيراد بنجاح !"
+msgstr "تم الاستيراد بنجاح!"
 
 msgid "impossible to update task status"
 msgstr "من المستحيل تحديث حالة المهمة "
@@ -1295,7 +1295,7 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr "معلومات الدخول خاطئة او كلمة المرور خاطئة. تم إغلاق حسابك ، يرجى الاتصال بالمسؤول."
 
 msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
-msgstr "مسار غير صالح للمصدر \"%s\". المسار يجب أن يشير إلى الملف الموجود داخل الحزمة."
+msgstr "مسار غير صالح للمصدر \"%s\". المسار يجب أن يشير إلى المِلَفّ الموجود داخل الحُزْمَة."
 
 msgid "invalid regular expression"
 msgstr "تعبير عادي غير مضبوط"
@@ -1319,7 +1319,7 @@ msgid "JPEG image"
 msgstr "صورة JPEG"
 
 msgid "Keep the original permissions"
-msgstr "الاحتفاظ بالأذونات الأصلية"
+msgstr "الاحتفاظ بالمأذونات الأصلية"
 
 msgid "Label"
 msgstr "اسم"
@@ -1586,13 +1586,13 @@ msgid "Multiply the value by 10^x"
 msgstr "اضرب القيمة بـ 10^x"
 
 msgid "Must include at least one letter"
-msgstr "يجب أن يتضمن حرف واحد على الأقل"
+msgstr "يجب أن يتضمن حرف واحد في الأقل"
 
 msgid "Must include at least one number"
-msgstr "يجب أن يتضمن رقم واحد على الأقل"
+msgstr "يجب أن يتضمن رَقَم واحد في الأقل"
 
 msgid "Must include at least one special letter"
-msgstr "يجب أن يتضمن حرف خاص واحد على الأقل"
+msgstr "يجب أن يتضمن حرف خاص واحد في الأقل"
 
 msgid "Must include lower case letters"
 msgstr "يجب أن تتضمن أحرف صغيرة"
@@ -1769,7 +1769,7 @@ msgid "Original"
 msgstr "الأصل"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
-msgstr "خلاف ذلك، النقر على قبول جميع ملفات تعريف الارتباط يشير إلى أنك توافق على استخدامنا لكعكات على جهازك. النقر على رفض جميع ملفات تعريف الارتباط يعني أنك لا توافق على استخدامنا لملفات تعريف الارتباط غير الضرورية على جهازك."
+msgstr "خلاف ذلك، النقر على قَبُول جميع ملفات تعريف الارتباط يشير إلى أنك توافق على استخدامنا لكعكات على جهازك. النقر على رفض جميع ملفات تعريف الارتباط يعني أنك لا توافق على استخدامنا لملفات تعريف الارتباط غير الضرورية على جهازك."
 
 msgid "Outlook on the next Synchronization"
 msgstr "توقعات بشأن التزامن التالي"
@@ -1778,7 +1778,7 @@ msgid "Page"
 msgstr "صفحة"
 
 msgid "Pascal file"
-msgstr "ملف باسكال"
+msgstr "مِلَفّ Pascal"
 
 msgid "Pascal file (.pas)"
 msgstr "ملف باسكال (.pas)"
@@ -1874,7 +1874,7 @@ msgid "Please select a language."
 msgstr "الرجاء تحديد لغة."
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "الرجاء تحديد ملف صورة من مدير الموارد. يمكنك إضافة ملفات من جهاز الكمبيوتر الخاص بك مع زر \"إضافة ملف/ملفات\"."
+msgstr "الرجاء تحديد مِلَفّ صورة من مدير الموارد. يمكنك إضافة ملفات من جهاز الحاسوب الخاص بك مع زر \"إضافة \"مِلَفّ (ملفات)\"."
 
 msgid "Please set 'min' and/or 'max' options!"
 msgstr "الرجاء تعيين خيارات 'دقيقة' و/أو 'حد أقصى'!"
@@ -1968,7 +1968,7 @@ msgid "RDF"
 msgstr "إطار توصيف الموارد"
 
 msgid "Ready for Translation"
-msgstr "جاهز للترجمة"
+msgstr "محضَر للترجمة"
 
 msgid "RealMedia file"
 msgstr "ملف RealMedia"
@@ -2013,7 +2013,7 @@ msgid "Remove criteria"
 msgstr "إزالة المعيار"
 
 msgid "remove index"
-msgstr "إزالة الفهرس"
+msgstr "إزالة الفِهْرِس"
 
 msgid "Remove Message"
 msgstr "قم بإزالة هذه الرسالة"
@@ -2283,7 +2283,7 @@ msgid "Start of document reached. Continuing from the end."
 msgstr "بداية المستند المتاح. استمرار من النهاية."
 
 msgid "Start translation"
-msgstr "بدء الترجمة"
+msgstr "بَدْء التَّرْجَمَةً"
 
 msgid "Status"
 msgstr "حالة"
@@ -2379,7 +2379,7 @@ msgid "TAO platform is under maintenance since %s"
 msgstr "منصة TAO تحت الصيانة منذ %s"
 
 msgid "Tao WebHooks"
-msgstr "تاو WebHooks"
+msgstr "Tao WebHooks"
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr "تم إلغاء المهام %s، الرسالة لم يتم معالجتها"
@@ -2484,7 +2484,7 @@ msgid "There is nothing to list!"
 msgstr "لا يوجد شيء لإضافته للقائمة!"
 
 msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
-msgstr "تتيح لنا ملفات تعريف الارتباط هذه إحصاء الزيارات ومختلف البيانات التحليلية الأخرى حتى نتمكن من قياس وتحسين أداء موقعنا. إذا كنت لا تسمح لهذه ملفات تعريف الارتباط فلن نعرف متى قمت بزيارة موقعنا، ولن تكون قادرة على رصد أدائها."
+msgstr "تتيح لنا ملفات تعريف الارتباط هذا إحصاء الزيارات ومختلف البيانات التحليلية الأخرى حتى نتمكن من قياس وتحسين أداء موقعنا. إذا كنت لا تسمح لهذه ملفات تعريف الارتباط فلن نعرف متى زيارة موقعنا، ولن تكون قادرة على رصد أدائها."
 
 msgid "This %s is currently checked out"
 msgstr "تم سحب %s هذا حالياً"
@@ -2520,7 +2520,7 @@ msgid "This resource is locked"
 msgstr "هذا المورد مقفل"
 
 msgid "This resource is not ready for translation."
-msgstr "هذا المورد غير جاهز للترجمة."
+msgstr "هذا المورد غير محضَر للترجمة."
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
 msgstr "لا يزال هذا الدور يعطى لمستخدم واحد أو أكثر. يرجى إزالة الدور لهؤلاء المستخدمين أولاً."
@@ -2532,7 +2532,7 @@ msgid "This should not equal %s"
 msgstr "يجب ألا يساوي هذا %s"
 
 msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
-msgstr "يستخدم هذا الموقع ملفات تعريف الارتباط لتحسين تجربة التصفح الخاصة بك ولإجراء التحليلات والبحوث."
+msgstr "يستخدم هذا الموقع ملفات تعريف الارتباط لتحسين تجرِبة التصفح الخاصة بك ولإجراء التحليلات والبحوث."
 
 msgid "time"
 msgstr "زمن"
@@ -2586,25 +2586,25 @@ msgid "Translated"
 msgstr "مترجم"
 
 msgid "Translating"
-msgstr "الترجمة"
+msgstr "التَّرْجَمَةً"
 
 msgid "Translation"
-msgstr "الترجمة"
+msgstr "التَّرْجَمَةً"
 
 msgid "Translation parameters"
 msgstr "اعدادات الترجمة"
 
 msgid "Translation Progress"
-msgstr "تقدم الترجمة"
+msgstr "تقدم التَّرْجَمَةً"
 
 msgid "Translation saved"
 msgstr "حفظ الترجمة"
 
 msgid "Translation Status"
-msgstr "حالة الترجمة"
+msgstr "حالة التَّرْجَمَةً"
 
 msgid "Translation Type"
-msgstr "نوع الترجمة"
+msgstr "نوع التَّرْجَمَةً"
 
 msgid "Translations"
 msgstr "الترجمات"
@@ -2943,7 +2943,7 @@ msgid "You are not authorised to remove this lock"
 msgstr "غير مصرح لك بإزالة هذا القفل"
 
 msgid "You can choose which types of cookies you want to allow to improve your experience."
-msgstr "يمكنك اختيار أنواع ملفات تعريف الارتباط التي تريد السماح بها لتحسين تجربتك."
+msgstr "يمكنك اختيار أنواع ملفات تعريف الارتباط الذي تريد السماح بها لتحسين تجربتك."
 
 msgid "You can read more about this in our"
 msgstr "يمكنك قراءة المزيد عن هذا في منطقتنا"
