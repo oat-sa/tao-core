@@ -26,16 +26,14 @@
 namespace oat\tao\test;
 
 use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
-use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\service\ServiceManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Prophecy\Argument;
 use oat\generis\test\KeyValueMockTrait;
 
 /**
@@ -94,49 +92,26 @@ abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements 
      * $service must be a ConfigurableService
      *
      * @param ConfigurableService[] $options
-     * @return ServiceLocatorInterface as Prophecy
+     * @return ServiceLocatorInterface|MockObject as Prophecy
      */
     public function getServiceManagerProphecy(array $options = null)
     {
-        if (empty($options)) {
-            return ServiceManager::getServiceManager();
-        }
-
-        $smProphecy = $this->prophesize(ServiceLocatorInterface::class);
-        foreach ($options as $key => $service) {
-            $smProphecy->get($key)->willReturn($service);
-        }
-        return $smProphecy->reveal();
+        return $this->traitGetServiceManagerMock(empty($options) ? [] : $options);
     }
 
     /**
      * Returns a persistence Manager with a mocked kv persistence
      *
      * @param string $key identifier of the persistence
-     * @return \common_persistence_Manager
+     * @return \common_persistence_Manager|MockObject
      */
     public function getKvMock($key)
     {
         if (!extension_loaded('pdo_sqlite')) {
             $this->markTestSkipped('sqlite not found, tests skipped.');
         }
-        $driver = new \common_persistence_InMemoryKvDriver();
-        $persistence = $driver->connect($key, []);
-        $pmProphecy = $this->prophesize(\common_persistence_Manager::class);
-        $pmProphecy->setServiceLocator(Argument::any())->willReturn(null);
-        $pmProphecy->getPersistenceById($key)->willReturn($persistence);
-        return $pmProphecy->reveal();
-    }
 
-    /**
-     * Returns a persistence Manager with a mocked sql persistence
-     *
-     * @param string $key identifier of the persistence
-     * @return \common_persistence_Manager
-     */
-    public function getSqlMock($key): PersistenceManager
-    {
-        return parent::getSqlMock($key);
+        return $this->getKeyValueMock($key);
     }
 
     /**

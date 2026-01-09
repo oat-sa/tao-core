@@ -3,7 +3,7 @@
 namespace oat\tao\test\unit\auth;
 
 use GuzzleHttp\Psr7\Request;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
 use oat\tao\model\auth\BasicType;
 

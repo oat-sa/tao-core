@@ -61,7 +61,7 @@ class CliController implements ServiceManagerAwareInterface
                 $shortName = (new \ReflectionClass($action))->getName();
                 $report = new \common_report_Report(
                     \common_report_Report::TYPE_INFO,
-                    "Action '${shortName}' ended gracefully with no report returned."
+                    "Action '{$shortName}' ended gracefully with no report returned."
                 );
             }
         } catch (\Exception $e) {

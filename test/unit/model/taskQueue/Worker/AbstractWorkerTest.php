@@ -15,9 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\taskQueue\Worker;
 
@@ -28,12 +29,12 @@ use core_kernel_classes_Resource;
 use Exception;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\user\UserFactoryServiceInterface;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use common_report_Report as Report;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
-use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\QueuerInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\RemoteTaskSynchroniserInterface;
@@ -44,87 +45,23 @@ use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\taskQueue\Worker\AbstractWorker;
-use oat\tao\model\webhooks\task\WebhookTask;
-use oat\generis\test\MockObject;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AbstractWorkerTest extends TestCase
 {
-    /** @var QueuerInterface | MockObject */
-    private $queue;
+    use ServiceManagerMockTrait;
 
-    /** @var TaskLogInterface | MockObject */
-    private $taskLog;
-
-    /** @var DummyWorker */
-    private $subject;
-
-    /**
-     * @var ServiceLocatorInterface|MockObject
-     */
-    private $serviceLocatorMock;
-
-    /** @var TaskInterface | MockObject $task */
-    private $taskMock;
-
-    /**
-     * @var SessionService | MockObject
-     */
-    private $sessionServiceMock;
-
-    /**
-     * @var common_session_Session | MockObject
-     */
-    private $commonSession;
-    /**
-     * @var User | MockObject
-     */
-    private $userMock;
-    /**
-     * @var UserFactoryServiceInterface | MockObject
-     */
-    private $userFactoryServiceMock;
-
-    /**
-     * @var common_user_User | MockObject
-     */
-    private $commonUserMock;
-
-    /**
-     * @var Ontology | MockObject
-     */
-    private $modelMock;
-
-    /**
-     * @var core_kernel_classes_Resource | MockObject
-     */
-    private $userResourceMock;
-    /**
-     * @var LoggerService | MockObject
-     */
-    private $loggerServiceMock;
-
-    /**
-     * @var common_report_Report | MockObject
-     */
-    private $reportMock;
-    /**
-     * @var RemoteTaskSynchroniserInterface | MockObject
-     */
-    private $remoteTaskSynchroniserMock;
-
-    /**
-     * @var TaskLogBrokerInterface | MockObject
-     */
-    private $taskLogBrokerMock;
-
-    /**
-     * @var QueueDispatcherInterface | MockObject
-     */
-    private $queueDispatcherMock;
-
-    /** @var TaskLanguageLoaderInterface|MockObject */
-    private $taskLanguageLoader;
+    private QueuerInterface|MockObject $queue;
+    private TaskLogInterface|MockObject $taskLog;
+    private DummyWorker $subject;
+    private TaskInterface|MockObject $taskMock;
+    private SessionService|MockObject $sessionServiceMock;
+    private UserFactoryServiceInterface|MockObject $userFactoryServiceMock;
+    private Ontology|MockObject $modelMock;
+    private LoggerService|MockObject $loggerServiceMock;
+    private common_report_Report|MockObject $reportMock;
+    private RemoteTaskSynchroniserInterface|MockObject $remoteTaskSynchroniserMock;
+    private TaskLanguageLoaderInterface|MockObject $taskLanguageLoader;
 
     protected function setUp(): void
     {
@@ -137,7 +74,7 @@ class AbstractWorkerTest extends TestCase
         $this->loggerServiceMock = $this->createMock(LoggerService::class);
         $this->taskLanguageLoader = $this->createMock(TaskLanguageLoaderInterface::class);
 
-        $this->serviceLocatorMock = $this->getServiceLocatorMock([
+        $serviceLocatorMock = $this->getServiceManagerMock([
             SessionService::class => $this->sessionServiceMock,
             UserFactoryServiceInterface::SERVICE_ID => $this->userFactoryServiceMock,
             LoggerService::SERVICE_ID => $this->loggerServiceMock,
@@ -152,7 +89,7 @@ class AbstractWorkerTest extends TestCase
             ->willReturn('Task Label');
 
         $this->subject = new DummyWorker($this->queue, $this->taskLog);
-        $this->subject->setServiceLocator($this->serviceLocatorMock);
+        $this->subject->setServiceLocator($serviceLocatorMock);
         $this->subject->setModel($this->modelMock);
     }
 
@@ -208,8 +145,8 @@ class AbstractWorkerTest extends TestCase
         $this->remoteTaskSynchroniserMock->method('getRemoteStatus')->willReturn('created');
         $this->queue->method('enqueue')->willReturn(true);
         $this->taskMock->method('getCallable')->willReturn($this->remoteTaskSynchroniserMock);
-        $this->taskLogBrokerMock = $this->createMock(TaskLogBrokerInterface::class);
-        $this->taskLog->method('getBroker')->willReturn($this->taskLogBrokerMock);
+        $taskLogBrokerMock = $this->createMock(TaskLogBrokerInterface::class);
+        $this->taskLog->method('getBroker')->willReturn($taskLogBrokerMock);
         $this->taskLog->method('getStatus')->willReturn(TaskLogInterface::STATUS_RUNNING);
         $this->taskLog->method('setStatus')->willReturn(1);
         $this->reportMock->method('getType')->willReturn(\common_report_Report::TYPE_INFO);
@@ -217,7 +154,7 @@ class AbstractWorkerTest extends TestCase
         $this->taskMock->method('getId')->willReturn('someStringId');
 
         $this->queue->expects($this->once())->method('count');
-        $this->taskLogBrokerMock->expects($this->once())->method('deleteById');
+        $taskLogBrokerMock->expects($this->once())->method('deleteById');
         $this->queue->expects($this->once())->method('acknowledge');
         $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
 
@@ -342,16 +279,16 @@ class AbstractWorkerTest extends TestCase
     public function testProcessTaskStartUserSession()
     {
         $this->taskMock->method('getOwner')->willReturn('ownerString');
-        $this->commonSession = $this->createMock(common_session_Session::class);
-        $this->sessionServiceMock->method('getCurrentSession')->willReturn($this->commonSession);
-        $this->userMock = $this->createMock(User::class);
-        $this->commonSession->method('getUser')->willReturn($this->userMock);
-        $this->userMock->method('getIdentifier')->willReturn('userIdString');
-        $this->userResourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $commonSession = $this->createMock(common_session_Session::class);
+        $this->sessionServiceMock->method('getCurrentSession')->willReturn($commonSession);
+        $userMock = $this->createMock(User::class);
+        $commonSession->method('getUser')->willReturn($userMock);
+        $userMock->method('getIdentifier')->willReturn('userIdString');
+        $userResourceMock = $this->createMock(core_kernel_classes_Resource::class);
 
-        $this->modelMock->method('getResource')->willReturn($this->userResourceMock);
-        $this->commonUserMock = $this->createMock(common_user_User::class);
-        $this->userFactoryServiceMock->method('createUser')->willReturn($this->commonUserMock);
+        $this->modelMock->method('getResource')->willReturn($userResourceMock);
+        $commonUserMock = $this->createMock(common_user_User::class);
+        $this->userFactoryServiceMock->method('createUser')->willReturn($commonUserMock);
 
         $this->loggerServiceMock->expects($this->exactly(2))->method('info');
         $this->sessionServiceMock->expects($this->once())->method('setSession');

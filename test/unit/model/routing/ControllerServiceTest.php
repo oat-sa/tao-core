@@ -15,96 +15,89 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019  (original work) Open Assessment Technologies SA;
- *
- * @author Oleksandr Zagovorychev <zagovorichev@gmail.com>
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\test\model;
+declare(strict_types=1);
 
+namespace oat\tao\test\unit\model\routing;
+
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\routing\RouterException;
-use Prophecy\Argument;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 abstract class AbsCl
 {
 }
 
-/**
- * Class BlCl
- * @package oat\test\model
- */
 class BlCl
 {
 }
 
 class RouteAnnotationExample
 {
-    protected function protectedAction()
+    protected function protectedAction(): void
     {
     }
-    public function notFoundAnnotation()
+
+    public function notFoundAnnotation(): void
     {
     }
-    public function withoutAnnotation()
+
+    public function withoutAnnotation(): void
     {
     }
 }
 
 class ControllerServiceTest extends TestCase
 {
-    /**
-     * @var ControllerService
-     */
-    private $service;
+    use ServiceManagerMockTrait;
 
-    public function setUp(): void
+    private ControllerService $service;
+
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->service = new ControllerService();
 
-        $routeAnnotationServiceMock = $this->prophesize(RouteAnnotationService::class);
-        $routeAnnotationServiceMock->hasAccess(Argument::type('string'), Argument::type('string'))
-            ->will(function ($args) {
-                if ($args[0] === BlCl::class) {
-                    return false;
-                }
-                return true;
+        // RouteAnnotationService mock
+        $routeAnnotationService = $this->createMock(RouteAnnotationService::class);
+        $routeAnnotationService
+            ->method('hasAccess')
+            ->willReturnCallback(function (string $class, string $method) {
+                return $class !== BlCl::class;
             });
-        $routeAnnotationService = $routeAnnotationServiceMock->reveal();
 
-        /** @var ServiceLocatorInterface $serviceLocator */
-        $serviceLocator = $this->prophesize(ServiceLocatorInterface::class);
-        $serviceLocator->get(Argument::type('string'))->will(function ($args) use ($routeAnnotationService) {
-            if ($args[0] === RouteAnnotationService::SERVICE_ID) {
-                return $routeAnnotationService;
-            }
-        });
-        $this->service->setServiceLocator($serviceLocator->reveal());
+        $serviceManagerMock = $this->getServiceManagerMock([
+            RouteAnnotationService::SERVICE_ID => $routeAnnotationService,
+        ]);
+
+        $this->service->setServiceLocator($serviceManagerMock);
     }
 
-    public function testGetControllerAbstractClass()
+    public function testGetControllerAbstractClass(): void
     {
         $this->expectException(RouterException::class);
-        $this->expectExceptionMessage('Attempt to run an action from the Abstract class "oat\test\model\AbsCl"');
+        $this->expectExceptionMessage(
+            'Attempt to run an action from the Abstract class "oat\tao\test\unit\model\routing\AbsCl"'
+        );
         $this->service->checkController(AbsCl::class);
     }
 
-    public function testGetControllerBlockedByAnnotation()
+    public function testGetControllerBlockedByAnnotation(): void
     {
         $this->expectException(RouterException::class);
-        $this->expectExceptionMessage('Class \'oat\test\model\BlCl\' blocked by route annotation');
+        $this->expectExceptionMessage('Class \'oat\tao\test\unit\model\routing\BlCl\' blocked by route annotation');
         $this->service->checkController(BlCl::class);
     }
 
     /**
-     * @throws \oat\tao\model\routing\RouterException
+     * @throws RouterException
      */
-    public function testGetController()
+    public function testGetController(): void
     {
         $this->assertEquals(
             RouteAnnotationExample::class,
@@ -112,11 +105,12 @@ class ControllerServiceTest extends TestCase
         );
     }
 
-    public function testGetNonPublicAction()
+    public function testGetNonPublicAction(): void
     {
         $this->expectException(RouterException::class);
         $this->expectExceptionMessage(
-            'The method "protectedAction" is not public in the class "oat\test\model\RouteAnnotationExample"'
+            'The method "protectedAction" is not public in the class '
+            . '"oat\tao\test\unit\model\routing\RouteAnnotationExample"'
         );
         $this->service->getAction(RouteAnnotationExample::class, 'protectedAction');
     }
@@ -125,7 +119,7 @@ class ControllerServiceTest extends TestCase
      * @throws RouterException
      * @doesNotPerformAssertions
      */
-    public function testGetActionBlockedByAnnotation()
+    public function testGetActionBlockedByAnnotation(): void
     {
         $this->service->getAction(RouteAnnotationExample::class, 'notFoundAnnotation');
     }
@@ -134,15 +128,17 @@ class ControllerServiceTest extends TestCase
      * @throws RouterException
      * @doesNotPerformAssertions
      */
-    public function testGetAction()
+    public function testGetAction(): void
     {
         $this->service->getAction(RouteAnnotationExample::class, 'withoutAnnotation');
     }
 
-    public function testGetNonexistentAction()
+    public function testGetNonexistentAction(): void
     {
         $this->expectException(RouterException::class);
-        $this->expectExceptionMessage('Method oat\test\model\RouteAnnotationExample::methodNotExists() does not exist');
+        $this->expectExceptionMessage(
+            'Method oat\tao\test\unit\model\routing\RouteAnnotationExample::methodNotExists() does not exist'
+        );
         $this->service->getAction(RouteAnnotationExample::class, 'methodNotExists');
     }
 }

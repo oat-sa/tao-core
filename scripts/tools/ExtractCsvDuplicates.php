@@ -61,7 +61,7 @@ class ExtractCsvDuplicates extends AbstractIndexedCsv
 
         return new Report(
             Report::TYPE_INFO,
-            "${duplicateCount} duplicate records extracted in file '" . realpath($this->getDestination()) . "'."
+            "{$duplicateCount} duplicate records extracted in file '" . realpath($this->getDestination()) . "'."
         );
     }
 }

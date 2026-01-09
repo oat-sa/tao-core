@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\StatisticalMetadata\Import\Processor;
 
 use Iterator;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
 use core_kernel_classes_Property;

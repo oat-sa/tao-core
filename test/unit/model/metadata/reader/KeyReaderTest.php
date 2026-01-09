@@ -2,7 +2,7 @@
 
 namespace oat\tao\test\unit\model\metadata\import;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
 use oat\tao\model\metadata\reader\KeyReader;
 

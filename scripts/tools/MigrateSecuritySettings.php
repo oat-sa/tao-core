@@ -71,7 +71,7 @@ class MigrateSecuritySettings extends AbstractAction
 
         $this->report = new Report(
             Report::TYPE_INFO,
-            "Migrate Security Settings to the '$currentPersistence' persistence (${wetInfo} run)..."
+            "Migrate Security Settings to the '$currentPersistence' persistence ({$wetInfo} run)..."
         );
 
         try {

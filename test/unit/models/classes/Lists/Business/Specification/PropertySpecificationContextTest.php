@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\Business\Specification;
 
 use core_kernel_classes_Property;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\Lists\Business\Specification\PropertySpecificationContext;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -38,7 +38,7 @@ class PropertySpecificationContextTest extends TestCase
     /** @var array */
     private $data;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->property = $this->createMock(core_kernel_classes_Property::class);
         $this->data = [];

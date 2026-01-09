@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2025.06\n"
-"PO-Revision-Date: 2025-06-13T16:12:46\n"
+"Project-Id-Version: TAO 2026.01\n"
+"PO-Revision-Date: 2025-12-18T14:33:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-CA\n"
@@ -2251,6 +2251,9 @@ msgstr ""
 msgid "Size"
 msgstr "Taille"
 
+msgid "Some items could not be deleted"
+msgstr ""
+
 msgid "Some of resources has not be deleted"
 msgstr ""
 
@@ -2628,6 +2631,9 @@ msgstr ""
 
 msgid "Unable to change passwords in demo mode"
 msgstr "Impossible de changer les mots de passe en mode démonstration"
+
+msgid "Unable to clone the resource"
+msgstr ""
 
 msgid "Unable to copy the resource"
 msgstr ""

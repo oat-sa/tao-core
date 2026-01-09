@@ -25,7 +25,7 @@
 
  */
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\DateIntervalMS;
 
 class DurationHelperTest extends TestCase

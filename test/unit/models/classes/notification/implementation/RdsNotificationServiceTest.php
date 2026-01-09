@@ -15,32 +15,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\test\unit\model\notification\implementation;
+namespace oat\tao\test\unit\models\classes\notification\implementation;
 
 use common_persistence_SqlPersistence;
-use core_kernel_classes_Resource;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
-use oat\generis\model\data\Ontology;
 use oat\generis\persistence\PersistenceManager;
 use common_persistence_Persistence as Persistence;
 use oat\generis\persistence\sql\SchemaCollection;
 use oat\generis\test\OntologyMockTrait;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\notification\implementation\AbstractSqlNotificationService;
 use oat\tao\model\notification\implementation\RdsNotificationService;
 use oat\tao\model\notification\Notification;
-use oat\generis\test\MockObject;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class RdsNotificationServiceTest extends TestCase
 {
     use OntologyMockTrait;
+    use ServiceManagerMockTrait;
 
     private const NOTIFICATION_ID = 'someId';
     private const NOW_EXPRESSION = 'someStringWithCurrentDate';
@@ -73,47 +72,31 @@ class RdsNotificationServiceTest extends TestCase
     private const UPDATED_AT_EXAMPLE_2 = 'updated_at_example_2';
     private const NOTIFICATION_ID_EXAMPLE_2 = 'some_notification_id_2';
 
-    /** @var RdsNotificationService */
-    private $subject;
+    private RdsNotificationService $subject;
+    private Notification|MockObject $notificationMock;
+    private Persistence|MockObject $persistenceMock;
+    private AbstractPlatform|MockObject $platformMock;
 
-    /** @var Notification|MockObject */
-    private $notificationMock;
-
-    /** @var PersistenceManager|MockObject */
-    private $persistenceManagerMock;
-
-    /** @var ServiceLocatorAwareInterface */
-    private $serviceLocatorMock;
-
-    /** @var Persistence|MockObject */
-    private $persistanceMock;
-
-    /** @var AbstractPlatform|MockObject */
-    private $platformMock;
-
-    /** @var Ontology */
-    private $ontologyMock;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
-        $this->persistanceMock = $this->createMock(common_persistence_SqlPersistence::class);
+        $this->persistenceMock = $this->createMock(common_persistence_SqlPersistence::class);
         $this->notificationMock = $this->createMock(Notification::class);
 
-        $this->persistenceManagerMock = $this->createMock(PersistenceManager::class);
-        $this->persistenceManagerMock->method('getPersistenceById')->willReturn($this->persistanceMock);
+        $persistenceManagerMock = $this->createMock(PersistenceManager::class);
+        $persistenceManagerMock->method('getPersistenceById')->willReturn($this->persistenceMock);
 
         $this->platformMock = $this->createMock(AbstractPlatform::class);
-        $this->persistanceMock->method('getPlatForm')->willReturn($this->platformMock);
+        $this->persistenceMock->method('getPlatForm')->willReturn($this->platformMock);
 
-        $this->serviceLocatorMock = $this->getServiceLocatorMock([
-            PersistenceManager::SERVICE_ID => $this->persistenceManagerMock,
+        $serviceLocatorMock = $this->getServiceManagerMock([
+            PersistenceManager::SERVICE_ID => $persistenceManagerMock,
         ]);
 
-        $this->ontologyMock = $this->getOntologyMock();
+        $ontologyMock = $this->getOntologyMock();
 
         $this->subject = new RdsNotificationService();
-        $this->subject->setServiceLocator($this->serviceLocatorMock);
-        $this->subject->setModel($this->ontologyMock);
+        $this->subject->setServiceLocator($serviceLocatorMock);
+        $this->subject->setModel($ontologyMock);
     }
 
     public function testChangeStatus(): void
@@ -121,7 +104,7 @@ class RdsNotificationServiceTest extends TestCase
         $this->notificationMock->expects($this->once())->method('getStatus')->willReturn(Notification::DEFAULT_STATUS);
         $this->notificationMock->expects($this->once())->method('getId')->willReturn(self::NOTIFICATION_ID);
         $this->platformMock->expects($this->once())->method('getNowExpression')->willReturn(self::NOW_EXPRESSION);
-        $this->persistanceMock->expects($this->once())->method('exec')->with(
+        $this->persistenceMock->expects($this->once())->method('exec')->with(
             'UPDATE notifications SET updated_at = ? ,status = ?  WHERE id = ? ',
             [
                 self::NOW_EXPRESSION,
@@ -151,7 +134,7 @@ class RdsNotificationServiceTest extends TestCase
 
     public function testSendNotification(): void
     {
-        $this->persistanceMock->expects($this->once())->method('insert')->with(
+        $this->persistenceMock->expects($this->once())->method('insert')->with(
             AbstractSqlNotificationService::NOTIFICATION_TABLE,
             [
                 AbstractSqlNotificationService::NOTIFICATION_FIELD_RECIPIENT => self::RECIPIENT,
@@ -179,7 +162,7 @@ class RdsNotificationServiceTest extends TestCase
     public function testNotificationCount(): void
     {
         $statementMock = $this->createMock(Statement::class);
-        $this->persistanceMock->expects($this->once())->method('query')->with(
+        $this->persistenceMock->expects($this->once())->method('query')->with(
             'SELECT status , COUNT(id) as cpt FROM notifications WHERE recipient = ?   GROUP BY status',
             [self::EXAMPLE_USER_ID]
         )->willReturn($statementMock);
@@ -204,7 +187,7 @@ class RdsNotificationServiceTest extends TestCase
     public function testGetNotifications(): void
     {
         $statementMock = $this->createMock(Statement::class);
-        $this->persistanceMock->expects($this->once())->method('query')->with(
+        $this->persistenceMock->expects($this->once())->method('query')->with(
             'SELECT id , recipient , status , sender_id , sender_name , title , message , created_at , '
                 . 'updated_at FROM notifications WHERE recipient = ? ORDER BY created_at DESC LIMIT 20',
             [self::EXAMPLE_USER_ID]
@@ -245,7 +228,7 @@ class RdsNotificationServiceTest extends TestCase
     public function testGetNotification(): void
     {
         $statementMock = $this->createMock(Statement::class);
-        $this->persistanceMock->expects($this->once())->method('query')->with(
+        $this->persistenceMock->expects($this->once())->method('query')->with(
             'SELECT id , recipient , status , sender_id , sender_name , title , message , created_at , '
                 . 'updated_at FROM notifications WHERE id = ? ',
             [self::EXAMPLE_USER_ID]

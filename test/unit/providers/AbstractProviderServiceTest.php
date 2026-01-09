@@ -18,59 +18,38 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\test\unit\providers;
 
+use common_ext_Extension;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\modules\AbstractModuleRegistry;
 use oat\tao\model\providers\AbstractProviderService;
 use oat\tao\model\providers\ProviderModule;
-use Prophecy\Prophet;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Concrete class ProviderRegistry
- * @package oat\tao\test\unit\providers
- */
 class ProviderRegistry extends AbstractModuleRegistry
 {
-    /**
-     * @see \oat\oatbox\AbstractRegistry::getExtension()
-     */
-    protected function getExtension()
+    protected function getExtension(): common_ext_Extension
     {
-        $prophet = new Prophet();
-        $prophecy = $prophet->prophesize();
-        $prophecy->willExtend(\common_ext_Extension::class);
-
-        return $prophecy->reveal();
+        return new class extends common_ext_Extension {
+        };
     }
 
-    /**
-     * @see \oat\oatbox\AbstractRegistry::getConfigId()
-     */
-    protected function getConfigId()
+    protected function getConfigId(): string
     {
         return 'provider_registry';
     }
 }
 
-/**
- * Concrete class ProviderService
- * @package oat\tao\test\unit\providers
- */
 class ProviderService extends AbstractProviderService
 {
 }
 
-/**
- * Test the AbstractProviderService
- *
- * @author Bertrand Chevrier <bertrand@taotesting.com>
- * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
- */
 class AbstractProviderServiceTest extends TestCase
 {
-    //data to stub the registry content
+    // data to stub the registry content
     private static $providerData = [
         'my/wonderful/provider/foo1' => [
             'id' => 'foo1',
@@ -94,44 +73,37 @@ class AbstractProviderServiceTest extends TestCase
         ]
     ];
 
-
-    /**
-     * Get the service with the stubbed registry
-     * @return AbstractProviderService
-     */
-    protected function getProviderService()
+    protected function getProviderService(): AbstractProviderService
     {
-        $prophet = new Prophet();
-        $prophecy = $prophet->prophesize();
-        $prophecy->willExtend(ProviderRegistry::class);
-        $prophecy->getMap()->willReturn(self::$providerData);
+        // Partial mock ProviderRegistry: подменяем только getMap()
+        $registry = $this
+            ->getMockBuilder(ProviderRegistry::class)
+            ->onlyMethods(['getMap'])
+            ->getMock();
+        $registry
+            ->method('getMap')
+            ->willReturn(self::$providerData);
 
         $providerService = new ProviderService();
-        $providerService->setRegistry($prophecy->reveal());
+        $providerService->setRegistry($registry);
 
         return $providerService;
     }
 
-    /**
-     * Check the service is a service
-     */
-    public function testApi()
+    public function testApi(): void
     {
         $providerService = $this->getProviderService();
         $this->assertInstanceOf(AbstractProviderService::class, $providerService);
         $this->assertInstanceOf(ConfigurableService::class, $providerService);
     }
 
-    /**
-     * Test the method AbstractProviderService::getAllProviders
-     */
-    public function testGetAllProviders()
+    public function testGetAllProviders(): void
     {
         $providerService = $this->getProviderService();
 
         $providers = $providerService->getAllProviders();
 
-        $this->assertEquals(2, count($providers));
+        $this->assertCount(2, $providers);
 
         $provider0 = $providers['my/wonderful/provider/foo1'];
         $provider1 = $providers['my/wonderful/provider/foo2'];
@@ -149,10 +121,7 @@ class AbstractProviderServiceTest extends TestCase
         $this->assertTrue($provider1->isActive());
     }
 
-    /**
-     * Test the method AbstractProviderService::getProvider
-     */
-    public function testGetOneProvider()
+    public function testGetOneProvider(): void
     {
         $providerService = $this->getProviderService();
 

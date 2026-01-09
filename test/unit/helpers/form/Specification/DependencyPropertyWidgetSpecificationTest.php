@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\test\unit\helpers\form\Specification;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\Specification\DependencyPropertyWidgetSpecification;
 use tao_helpers_form_elements_Combobox;
@@ -32,7 +32,7 @@ class DependencyPropertyWidgetSpecificationTest extends TestCase
     /** @var DependencyPropertyWidgetSpecification */
     private $sut;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->sut = new DependencyPropertyWidgetSpecification();
     }

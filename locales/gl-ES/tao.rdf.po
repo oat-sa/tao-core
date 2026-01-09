@@ -1,21 +1,38 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-19 23:38\n"
+"Project-Id-Version: TAO 2026.01\n"
+"PO-Revision-Date: 2025-12-18T14:33:09\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: gl\n"
+"Language: gl-ES\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: gl-ES\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: gl\n"
-"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/tao.rdf.po\n"
-"X-Crowdin-File-ID: 1201\n"
-"Language-Team: Galician\n"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "A human-readable name for the subject."
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Alias"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Alias to be used when publishing a remote delivery"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Is language dependent?"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "is_language_dependent"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Label"
@@ -118,11 +135,11 @@ msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list dependency source uri path"
-msgstr "Ruta URI da fonte de dependencia de lista remota"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list dependency source uri path"
-msgstr "Ruta URI da fonte de dependencia de lista remota"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -136,11 +153,11 @@ msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Author"
-msgstr "Autor/a"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "User who authored the change"
-msgstr "Usuario que realizou o cambio"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#level
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -234,35 +251,35 @@ msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Vertical writing mode enum"
-msgstr "Enumeración do modo de escritura vertical"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Vertical writing mode enum, for languages which support vertical writing"
-msgstr "Enumeración do modo de escritura vertical, para linguaxes que admiten escritura vertical"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Vertical writing mode property"
-msgstr "Propiedade do modo de escritura vertical"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Vertical writing mode property of a language"
-msgstr "Propiedade do modo de escritura vertical dunha lingua"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Vertical-right-to-left writing mode"
-msgstr "Modo de escritura vertical de dereita a esquerda"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Vertical-right-to-left language writing mode"
-msgstr "Modo de escritura vertical de dereita a esquerda"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Vertical-left-to-right writing mode"
-msgstr "Modo de escritura vertical de esquerda a dereita"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Vertical-left-to-right language writing mode"
-msgstr "Modo de escritura vertical de esquerda a dereita"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#User
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -486,131 +503,131 @@ msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Translation Type"
-msgstr "Tipo de tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Translation Type"
-msgstr "Tipo de tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Original"
-msgstr "Orixinal"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Original"
-msgstr "Orixinal"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Translation"
-msgstr "Tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Translation"
-msgstr "Tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Translation Progress Statuses"
-msgstr "Estados de progreso da tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Translation Progress Statuses"
-msgstr "Estados de progreso da tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Pending"
-msgstr "Pendente"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Pending"
-msgstr "Pendente"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Translating"
-msgstr "Traducindo"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Translating"
-msgstr "Traducindo"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Translated"
-msgstr "Traducido"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Translated"
-msgstr "Traducido"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Translation Statuses"
-msgstr "Estados de tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Translation Statuses"
-msgstr "Estados de tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Not Ready for Translation"
-msgstr "Non está listo para a tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Not Ready for Translation"
-msgstr "Non está listo para a tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Ready for Translation"
-msgstr "Listo para a tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Ready for Translation"
-msgstr "Listo para a tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Original Resource"
-msgstr "Recurso orixinal"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Original Resource"
-msgstr "Recurso orixinal"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Equivalent Resource ID"
-msgstr "ID de recurso equivalente"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Equivalent Resource ID"
-msgstr "ID de recurso equivalente"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Language"
-msgstr "Lingua"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Language"
-msgstr "Lingua"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Translation Status"
-msgstr "Estado da tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Translation Status"
-msgstr "Estado da tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Translation Progress"
-msgstr "Progreso da tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Translation Progress"
-msgstr "Progreso da tradución"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Translated Into Languages"
-msgstr "Traducido a idiomas"
+msgstr ""
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Translated Into Languages"
-msgstr "Traducido a idiomas"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"

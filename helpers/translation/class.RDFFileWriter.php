@@ -85,7 +85,7 @@ class tao_helpers_translation_RDFFileWriter extends tao_helpers_translation_Tran
                     $namespace = $uri[0] . '#';
                     $qName = $uri[1];
                     if (($searchedNS = array_search($namespace, $semanticNamespaces)) !== false) {
-                        $tuNode = $targetFile->createElement("${searchedNS}:${qName}");
+                        $tuNode = $targetFile->createElement("{$searchedNS}:{$qName}");
                         $tuNode->setAttributeNS($xmlNS, 'xml:lang', $tu->getTargetLanguage());
                         $cdataValue = (($tu->getTarget() == '') ? $tu->getSource() : $tu->getTarget());
                         $tuNodeValue = $targetFile->createCDATASection($cdataValue);
@@ -94,7 +94,7 @@ class tao_helpers_translation_RDFFileWriter extends tao_helpers_translation_Tran
                         // Check if an rdf:Description exists for
                         // the target of the TranslationUnit.
                         $subject = $tu->getSubject();
-                        $result = $xPath->query("//rdf:Description[@rdf:about='${subject}']");
+                        $result = $xPath->query("//rdf:Description[@rdf:about='{$subject}']");
 
                         if ($result->length > 0) {
                             // Append to the existing rdf:Description.
@@ -127,7 +127,7 @@ class tao_helpers_translation_RDFFileWriter extends tao_helpers_translation_Tran
             $targetFile->save($targetPath);
         } catch (DOMException $e) {
             throw new tao_helpers_translation_TranslationException(
-                "An error occured while writing the RDF File at '${targetPath}'."
+                "An error occured while writing the RDF File at '{$targetPath}'."
             );
         }
     }

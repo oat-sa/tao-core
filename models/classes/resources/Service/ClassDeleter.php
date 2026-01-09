@@ -112,8 +112,8 @@ class ClassDeleter implements ClassDeleterInterface
 
         if ($class->exists()) {
             throw new PartialClassDeletionException(
-                'Some of resources has not be deleted',
-                __('Some of resources has not be deleted')
+                'Some items could not be deleted',
+                __('Some items could not be deleted')
             );
         }
     }
