@@ -83,7 +83,7 @@ abstract class AbstractFileExporter implements Exporter
             ->withHeader('Content-Type', $this->contentType)
             ->withHeader('Content-Disposition', 'attachment; fileName="' . $fileName . '"')
             ->withHeader('Content-Length', strlen($data))
-            ->withBody(\GuzzleHttp\Psr7\stream_for($data));
+            ->withBody(\GuzzleHttp\Psr7\Utils::streamFor($data));
     }
 
     /**
