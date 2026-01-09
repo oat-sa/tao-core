@@ -161,7 +161,7 @@ class StorageDirectoryTest extends TestCase
         $tmpFile = uniqid() . '.php';
 
         $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
-        $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
+        $streamFixture = \GuzzleHttp\Psr7\Utils::streamFor($resource);
 
         $file = $this->instance->getFile($tmpFile);
         $file->write($streamFixture);
@@ -198,7 +198,7 @@ class StorageDirectoryTest extends TestCase
 
         $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
         fseek($resource, 43);
-        $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
+        $streamFixture = \GuzzleHttp\Psr7\Utils::streamFor($resource);
 
         $file = $this->instance->getFile($tmpFile);
         $file->write($streamFixture);
@@ -217,7 +217,7 @@ class StorageDirectoryTest extends TestCase
 
         // @todo requesting example.com is not a good idea as test should ideally be isolated from external world
         $resource = fopen('http://example.com', 'r');
-        $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
+        $streamFixture = \GuzzleHttp\Psr7\Utils::streamFor($resource);
         $this->expectException(common_Exception::class);
         $this->instance->getFile($tmpFile)->write($streamFixture);
         fclose($resource);
@@ -243,7 +243,7 @@ class StorageDirectoryTest extends TestCase
         $tmpFile = uniqid() . '.php';
 
         $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
-        $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
+        $streamFixture = \GuzzleHttp\Psr7\Utils::streamFor($resource);
         $file = $this->instance->getFile($tmpFile);
         $file->write($streamFixture);
 
