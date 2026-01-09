@@ -185,7 +185,7 @@ msgid "Account status"
 msgstr "Konto status"
 
 msgid "Action"
-msgstr "Handling"
+msgstr ""
 
 msgid "Action %s - removed %s positions"
 msgstr "Handling %s - fjernet %s posisjoner"
@@ -381,13 +381,13 @@ msgid "auto unlocked in %s"
 msgstr "åpnes automatisk om %s"
 
 msgid "Available"
-msgstr "Tilgjengelig"
+msgstr ""
 
 msgid "Available Extensions"
 msgstr "Tilgjengelige utvidelser"
 
 msgid "Back"
-msgstr "Tilbake"
+msgstr ""
 
 msgid "Back to listing"
 msgstr "Tilbake til oversikt"
@@ -565,7 +565,7 @@ msgid "Close"
 msgstr "Lukk"
 
 msgid "Close dialog"
-msgstr "Lukk dialog"
+msgstr ""
 
 msgid "Close message"
 msgstr "Lukk melding"
@@ -586,7 +586,7 @@ msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
-msgstr "kommentar..."
+msgstr ""
 
 msgid "Commit"
 msgstr "Utføre"
@@ -610,7 +610,7 @@ msgid "Connect to the TAO platform"
 msgstr "Koble til TAO-plattformen"
 
 msgid "Continue"
-msgstr "Fortsett"
+msgstr ""
 
 msgid "Cookie Policy"
 msgstr ""
@@ -917,7 +917,7 @@ msgstr "Eksponent"
 
 #, tao-public
 msgid "Export"
-msgstr "Eksport"
+msgstr ""
 
 msgid "Export "
 msgstr "Eksport "
@@ -1412,7 +1412,7 @@ msgid "M4A audio"
 msgstr "M4A-lydfil"
 
 msgid "Main Menu"
-msgstr "Hovedmeny"
+msgstr ""
 
 msgid "Maintenance service is already installed."
 msgstr "Vedlikeholdstjenesten er allerede installert."
@@ -1519,7 +1519,7 @@ msgid "minimum %s"
 msgstr ""
 
 msgid "minutes"
-msgstr "minutter"
+msgstr ""
 
 msgid "missing config %s for the service %s"
 msgstr "mangler konfigurasjon %s for tjenesten %s"
@@ -1859,7 +1859,7 @@ msgid "Please give a message to your commit"
 msgstr "Gi en melding til"
 
 msgid "Please provide a reason"
-msgstr "Oppgi en grunn"
+msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Vennligst rapporter feil, ideer, kommentarer eller tilbakemeldinger på TAO Forum"
@@ -1919,11 +1919,11 @@ msgid "Privacy Policy"
 msgstr "Personvern"
 
 msgid "Proceed"
-msgstr "Fortsett"
+msgstr ""
 
 #, tao-public
 msgid "Properties"
-msgstr "Egenskaper"
+msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr "Oppgitt URL er ikke gyldig"
@@ -1932,7 +1932,7 @@ msgid "Publish"
 msgstr "Publiser"
 
 msgid "Publish the test"
-msgstr "Publiser prøven"
+msgstr ""
 
 msgid "Queued"
 msgstr "I kø"
@@ -2210,7 +2210,7 @@ msgid "Selected file:"
 msgstr "Valgt fil:"
 
 msgid "Selection saved successfully"
-msgstr "Valget ble lagret"
+msgstr ""
 
 msgid "self-locked"
 msgstr "selvlåst"
@@ -2229,7 +2229,7 @@ msgid "Settings updated"
 msgstr "Innstillinger oppdatert"
 
 msgid "Show detailed report"
-msgstr "Vis detaljert rapport"
+msgstr ""
 
 msgid "Show password"
 msgstr "Vis passord"
@@ -2622,7 +2622,7 @@ msgid "trunc"
 msgstr "trunk"
 
 msgid "Type"
-msgstr "Skriv"
+msgstr ""
 
 msgid "Type your search"
 msgstr "Skriv inn søket ditt"

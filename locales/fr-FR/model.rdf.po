@@ -33,7 +33,7 @@ msgstr "Statut du modèle"
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Stable"
-msgstr ""
+msgstr "Écurie"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"

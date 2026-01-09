@@ -13,60 +13,60 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Is locked?"
-msgstr ""
+msgstr "هل هو مقفل؟"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Shows account status, locked or not"
-msgstr ""
+msgstr "عرض حالة الحساب، مقفل أو غير مقفل"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Check Locked"
-msgstr ""
+msgstr "التحقق من مقفل"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Check Locked"
-msgstr ""
+msgstr "التحقق من مقفل"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Locked
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Yes"
-msgstr ""
+msgstr "نعم"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Locked
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Yes"
-msgstr ""
+msgstr "نعم"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Logon failures"
-msgstr ""
+msgstr "فشل تسجيل الدخول"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Count of user logon failures"
-msgstr ""
+msgstr "عدد أخطاء تسجيل الدخول للمستخدم"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Last logon failure"
-msgstr ""
+msgstr "فشل آخر تسجيل دخول"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Time when the last logon failure occurred"
-msgstr ""
+msgstr "الوقت الذي حدث فيه فشل تسجيل الدخول الأخير"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Locked by"
-msgstr ""
+msgstr "مقفل من قبل"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Indicates by which user current user was locked"
-msgstr ""
+msgstr "يشير إلى المستخدم الحالي الذي تم قفله"
 

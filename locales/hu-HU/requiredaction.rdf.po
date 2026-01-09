@@ -13,40 +13,40 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Required Action Time Rule"
-msgstr ""
+msgstr "Szükséges műveleti idő szabály"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Required Action Time Rule"
-msgstr ""
+msgstr "Szükséges műveleti idő szabály"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Required Action Name"
-msgstr ""
+msgstr "Kötelező művelet neve"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Name Of Required Action"
-msgstr ""
+msgstr "A szükséges művelet neve"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Executed At Date"
-msgstr ""
+msgstr "Végrehajtás dátuma"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Time of execution of required action"
-msgstr ""
+msgstr "A szükséges intézkedés végrehajtásának ideje"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Executed by"
-msgstr ""
+msgstr "Kivégezte"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Required action executed by user"
-msgstr ""
+msgstr "A felhasználó által végrehajtott kötelező művelet"
 

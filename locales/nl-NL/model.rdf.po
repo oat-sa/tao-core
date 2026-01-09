@@ -13,7 +13,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Abstract Model"
-msgstr ""
+msgstr "Samenvatting model"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -73,7 +73,7 @@ msgstr "Dit model is nog in ontwikkeling, maar u kunt het proberen en uw feedbac
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Status"
-msgstr ""
+msgstr "status"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -83,7 +83,7 @@ msgstr "De status van een model"
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Model"
-msgstr ""
+msgstr "Model"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"

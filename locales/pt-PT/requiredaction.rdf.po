@@ -13,40 +13,40 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Required Action Time Rule"
-msgstr ""
+msgstr "Ação Regra de Tempo Requerida"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Required Action Time Rule"
-msgstr ""
+msgstr "Ação Regra de Tempo Requerida"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Required Action Name"
-msgstr ""
+msgstr "Nome da ação requerida"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Name Of Required Action"
-msgstr ""
+msgstr "Nome da ação necessária"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Executed At Date"
-msgstr ""
+msgstr "Executado na Data"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Time of execution of required action"
-msgstr ""
+msgstr "Tempo de execução da ação necessária"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Executed by"
-msgstr ""
+msgstr "Executado por"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Required action executed by user"
-msgstr ""
+msgstr "Ação necessária executada pelo usuário"
 

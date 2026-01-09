@@ -34,6 +34,30 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "is_language_dependent"
 msgstr ""
 
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label"
+msgstr "Etichetta"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "A human-readable name for the subject."
+msgstr "Un nome leggibile dall'uomo per il soggetto."
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Alias"
+msgstr "Alias"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Alias to be used when publishing a remote delivery"
+msgstr "Alias da usare quando si pubblica una consegna remota"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Is language dependent?"
+msgstr "La lingua è dipendente?"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "is_language_dependent"
+msgstr "is_language_dependent"
+
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO User Object"

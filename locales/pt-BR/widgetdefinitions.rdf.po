@@ -13,7 +13,7 @@ msgstr ""
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Search Input"
-msgstr ""
+msgstr "Search Input"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"

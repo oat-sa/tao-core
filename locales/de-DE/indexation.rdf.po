@@ -13,7 +13,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Index"
-msgstr ""
+msgstr "Index"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -63,7 +63,7 @@ msgstr "Sollte diese Eigenschaft implizit in der Standard-Suche verwendet werden
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer"
-msgstr ""
+msgstr "Tokenizer"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -123,5 +123,5 @@ msgstr "Typ Index"
 # http://www.tao.lu/Ontologies/TAO.rdf#LoginIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Login Index"
-msgstr ""
+msgstr "Anmeldeindex"
 

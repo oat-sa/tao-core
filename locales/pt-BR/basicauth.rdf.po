@@ -18,7 +18,7 @@ msgstr "Credenciais de Autenticação Básicas"
 # http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Login"
-msgstr ""
+msgstr "Conectar-se"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"

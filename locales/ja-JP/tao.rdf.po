@@ -34,6 +34,30 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "is_language_dependent"
 msgstr ""
 
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label"
+msgstr "ラベル"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "A human-readable name for the subject."
+msgstr "人が読める題材の名前。"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Alias"
+msgstr "Alias"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Alias to be used when publishing a remote delivery"
+msgstr "リモート配信時に使用するエイリアス"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Is language dependent?"
+msgstr "言語は依存していますか?"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "is_language_dependent"
+msgstr "is_language_dependent"
+
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO User Object"
@@ -280,7 +304,7 @@ msgstr "ロールクラス管理"
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Back Office"
-msgstr ""
+msgstr "バックオフィス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -290,7 +314,7 @@ msgstr "Back Officeロール"
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Front Office"
-msgstr ""
+msgstr "フロントオフィス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -300,7 +324,7 @@ msgstr "Front Officeロール"
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Service"
-msgstr ""
+msgstr "サービス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -310,7 +334,7 @@ msgstr "Serviceロール"
 # http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO Manager"
-msgstr ""
+msgstr "TAOマネージャー"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -320,7 +344,7 @@ msgstr "TAO Managerロール"
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Metadata Manager Role"
-msgstr ""
+msgstr "メタデータマネージャロール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -330,7 +354,7 @@ msgstr "Metadata Managerロールは、クラスのプロパティを変更で�
 # http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Global Manager"
-msgstr ""
+msgstr "グローバルマネージャー"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -340,7 +364,7 @@ msgstr "Global Managerロール"
 # http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Lock Manager"
-msgstr ""
+msgstr "ロックマネージャー"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -350,7 +374,7 @@ msgstr "すべてのリソースのロックを解除することができるロ
 # http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "System Administrator"
-msgstr ""
+msgstr "システム管理者"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -360,7 +384,7 @@ msgstr "System Administratorロール"
 # http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Task Queue Manager"
-msgstr ""
+msgstr "タスクキューマネージャー"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -370,7 +394,7 @@ msgstr "Task Queue Managerロール"
 # http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "REST Publisher"
-msgstr ""
+msgstr "REST Publisher"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -380,7 +404,7 @@ msgstr "REST API Publishingロール"
 # http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Operational Administrator"
-msgstr ""
+msgstr "運用管理者"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -390,7 +414,7 @@ msgstr "Operational Administratorロール"
 # http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Test Taker"
-msgstr ""
+msgstr "受験者"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -618,30 +642,30 @@ msgstr "CBTに関するすべてのリソース"
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Worker"
-msgstr ""
+msgstr "Worker"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Worker Role Class"
-msgstr ""
+msgstr "ワーカーロールクラス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Workflow Participant"
-msgstr ""
+msgstr "ワークフロー参加者"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Workflow Participant Role"
-msgstr ""
+msgstr "ワークフロー参加者のロール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "WfUser"
-msgstr ""
+msgstr "WfUser"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Workflow User: sub class to group the workflow user, not deletable"
-msgstr ""
+msgstr "ワークフローユーザ: ワークフローユーザをグループ化するサブクラス、削除不可"
 
