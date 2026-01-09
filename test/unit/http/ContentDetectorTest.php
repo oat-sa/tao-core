@@ -56,7 +56,9 @@ class ContentDetectorTest extends TestCase
         } else {
             $this->markTestIncomplete('No ZLIB installed');
         }
-        $this->assertTrue($this->subject->isGzip(Utils::streamFor(Utils::streamFor(base64_decode(self::ENCODED_GZIP)))));
+        $this->assertTrue(
+            $this->subject->isGzip(Utils::streamFor(Utils::streamFor(base64_decode(self::ENCODED_GZIP)))),
+        );
     }
 
     public function testIsGzipableMime(): void
