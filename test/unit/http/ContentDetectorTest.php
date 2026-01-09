@@ -27,7 +27,7 @@ use oat\tao\model\http\ContentDetector;
 use Psr\Http\Message\StreamInterface;
 use tao_helpers_File;
 
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 
 class ContentDetectorTest extends TestCase
 {
@@ -49,15 +49,15 @@ class ContentDetectorTest extends TestCase
 
     public function testIsNotGzip(): void
     {
-        $this->assertFalse($this->subject->isGzip(stream_for('string')));
+        $this->assertFalse($this->subject->isGzip(Utils::streamFor('string')));
         $this->assertFalse($this->subject->isGzip($this->getFileStream(__FILE__)));
-        $this->assertFalse($this->subject->isGzip(stream_for(base64_decode(self::ENCODED_IMAGE))));
+        $this->assertFalse($this->subject->isGzip(Utils::streamFor(base64_decode(self::ENCODED_IMAGE))));
         if (function_exists('gzencode')) {
-            $this->assertTrue($this->subject->isGzip(stream_for(gzencode('string'))));
+            $this->assertTrue($this->subject->isGzip(Utils::streamFor(gzencode('string'))));
         } else {
             $this->markTestIncomplete('No ZLIB installed');
         }
-        $this->assertTrue($this->subject->isGzip(stream_for(stream_for(base64_decode(self::ENCODED_GZIP)))));
+        $this->assertTrue($this->subject->isGzip(Utils::streamFor(Utils::streamFor(base64_decode(self::ENCODED_GZIP)))));
     }
 
     public function testIsGzipableMime(): void
@@ -68,6 +68,6 @@ class ContentDetectorTest extends TestCase
 
     private function getFileStream($path): StreamInterface
     {
-        return stream_for(fopen($path, 'rb'));
+        return Utils::streamFor(fopen($path, 'rb'));
     }
 }

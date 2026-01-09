@@ -26,7 +26,7 @@ use oat\oatbox\service\ConfigurableService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 
 class ResponseFormatter extends ConfigurableService
 {
@@ -70,7 +70,7 @@ class ResponseFormatter extends ConfigurableService
      */
     public function withBody($body): self
     {
-        $this->body = stream_for(is_array($body) || $body instanceof JsonSerializable ? json_encode($body) : $body);
+        $this->body = Utils::streamFor(is_array($body) || $body instanceof JsonSerializable ? json_encode($body) : $body);
 
         return $this;
     }

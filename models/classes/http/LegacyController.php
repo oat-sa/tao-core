@@ -23,7 +23,6 @@ namespace oat\tao\model\http;
 
 use Context;
 
-use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Class LegacyController

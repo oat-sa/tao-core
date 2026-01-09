@@ -43,7 +43,7 @@ use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 
 /**
  * Top level controller
@@ -279,7 +279,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements
     {
         header(HTTPToolkit::statusCodeHeader($httpStatus));
         Context::getInstance()->getResponse()->setContentHeader('application/json');
-        $this->response = $this->getPsrResponse()->withBody(stream_for(json_encode($data)));
+        $this->response = $this->getPsrResponse()->withBody(Utils::streamFor(json_encode($data)));
     }
 
     /**
@@ -428,7 +428,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements
     {
         $response = parent::getPsrResponse();
         return $this->hasView()
-        ? $response->withBody(stream_for($this->getRenderer()->render()))
+        ? $response->withBody(Utils::streamFor($this->getRenderer()->render()))
         : $response;
     }
 
