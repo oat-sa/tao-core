@@ -13,7 +13,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Is locked?"
-msgstr ""
+msgstr "Is vergrendeld?"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -23,12 +23,12 @@ msgstr "Toont de accountstatus, vergrendeld of niet"
 # http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Check Locked"
-msgstr ""
+msgstr "Controleer vergrendeld"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Check Locked"
-msgstr ""
+msgstr "Controleer vergrendeld"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Locked
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"

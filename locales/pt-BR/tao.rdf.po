@@ -34,6 +34,30 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "is_language_dependent"
 msgstr ""
 
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label"
+msgstr "Descrição"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "A human-readable name for the subject."
+msgstr "Um nome legível para o assunto."
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Alias"
+msgstr "Alias"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Alias to be used when publishing a remote delivery"
+msgstr "Apelido a ser usado na publicação de uma entrega remota"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Is language dependent?"
+msgstr "O idioma é dependente?"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "is_language_dependent"
+msgstr "dependente_idioma_"
+
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO User Object"
@@ -290,7 +314,7 @@ msgstr "O Papel de Administração"
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Front Office"
-msgstr ""
+msgstr "Front Office"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -608,7 +632,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO Object"
-msgstr ""
+msgstr "TAO Object"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -628,7 +652,7 @@ msgstr "A classe Função dos Trabalhadores"
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Workflow Participant"
-msgstr ""
+msgstr "Workflow Participant"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -638,7 +662,7 @@ msgstr "Função de Participante do Workflow"
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "WfUser"
-msgstr ""
+msgstr "WfUser"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"

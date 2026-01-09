@@ -1605,7 +1605,7 @@ msgid "My settings (%s)"
 msgstr "Le mie impostazioni (%s)"
 
 msgid "Name"
-msgstr "Nome"
+msgstr ""
 
 msgid "Natural logarithm"
 msgstr ""

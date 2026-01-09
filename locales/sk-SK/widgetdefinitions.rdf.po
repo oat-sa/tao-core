@@ -13,120 +13,120 @@ msgstr ""
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Search Input"
-msgstr ""
+msgstr "Vyhľadávací vstup"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "One may select 0 to N values from a defined list"
-msgstr ""
+msgstr "Z definovaného zoznamu je možné vybrať 0 až N hodnôt"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Search Dropdown"
-msgstr ""
+msgstr "Rozbaľovacia ponuka vyhľadávania"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "One may select 1 value from a defined list"
-msgstr ""
+msgstr "Je možné vybrať 1 hodnotu z definovaného zoznamu"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Text Label"
-msgstr ""
+msgstr "Textový štítok"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Content is read only"
-msgstr ""
+msgstr "Obsah je len na čítanie"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Hidden Box"
-msgstr ""
+msgstr "Skrytá krabica"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Content is hidden, but visibility can be toggled"
-msgstr ""
+msgstr "Obsah je skrytý, ale viditeľnosť sa dá prepínať"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Calendar"
-msgstr ""
+msgstr "Kalendár"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Dynamic Calendar for easy date selecting"
-msgstr ""
+msgstr "Dynamický kalendár pre jednoduchý výber dátumu"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Authoring"
-msgstr ""
+msgstr "Autorstvo"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Open a tool to edit special content"
-msgstr ""
+msgstr "Otvoriť nástroj na úpravu špeciálneho obsahu"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "VersionedFile"
-msgstr ""
+msgstr "Verzionovaný súbor"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Manage your versioned file"
-msgstr ""
+msgstr "Spravujte svoj verziovaný súbor"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "File"
-msgstr ""
+msgstr "Súbor"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Upload and download file"
-msgstr ""
+msgstr "Nahrať a stiahnuť súbor"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Readonly"
-msgstr ""
+msgstr "Iba na čítanie"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Display a constant and uneditable value"
-msgstr ""
+msgstr "Zobraziť konštantnú a neupraviteľnú hodnotu"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Literal Readonly"
-msgstr ""
+msgstr "Doslovné iba na čítanie"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Display a literal constant and uneditable value"
-msgstr ""
+msgstr "Zobraziť doslovnú konštantu a neupraviteľnú hodnotu"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "A Tree Box"
-msgstr ""
+msgstr "Stromček"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "A particular tree box"
-msgstr ""
+msgstr "Špeciálna stromová debnička"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Json Object"
-msgstr ""
+msgstr "Objekt Json"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Display a Json Object stored as a literal value as a collection of key/value pairs."
-msgstr ""
+msgstr "Zobraziť objekt Json uložený ako literálna hodnota ako kolekciu párov kľúč/hodnota."
 

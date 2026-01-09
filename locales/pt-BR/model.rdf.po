@@ -63,7 +63,7 @@ msgstr "esse modelo não foi testado em um ambiente de produção, recomendamos 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Experimental"
-msgstr ""
+msgstr "Experimental"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"

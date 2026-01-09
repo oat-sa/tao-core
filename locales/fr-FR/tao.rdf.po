@@ -34,6 +34,30 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "is_language_dependent"
 msgstr ""
 
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label"
+msgstr "Étiquette"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "A human-readable name for the subject."
+msgstr "Un nom lisible par l'homme pour le sujet."
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Alias"
+msgstr "Alias"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Alias to be used when publishing a remote delivery"
+msgstr "Alias à utiliser lors de la publication d'une livraison à distance"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Is language dependent?"
+msgstr "La langue est-elle dépendante ?"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "is_language_dependent"
+msgstr "est dépendant de la langue"
+
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO User Object"
@@ -62,52 +86,60 @@ msgstr "Liste"
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list source"
-msgstr ""
+msgstr "Source de la liste distante"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list source"
-msgstr ""
+msgstr "Source de la liste distante"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list source uri path"
-msgstr ""
+msgstr "Chemin uri source de la liste distante"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list source uri path"
-msgstr ""
+msgstr "Chemin uri source de la liste distante"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list source label path"
-msgstr ""
+msgstr "Chemin du label source de la liste distante"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list source label path"
-msgstr ""
+msgstr "Chemin du label source de la liste distante"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListType
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "List type"
-msgstr ""
+msgstr "Type de liste"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListType
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "List type"
-msgstr ""
+msgstr "Type de liste"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list type"
-msgstr ""
+msgstr "Type de liste distante"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list type"
-msgstr ""
+msgstr "Type de liste distante"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list dependency source uri path"
+msgstr "Chemin de l'uri de la liste distante source des dépendances"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list dependency source uri path"
+msgstr "Chemin de l'uri de la liste distante source des dépendances"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list dependency source uri path"
@@ -198,7 +230,7 @@ msgstr "Classe d'orientation du langage"
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Orientation"
-msgstr ""
+msgstr "Orientation"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -280,7 +312,7 @@ msgstr "La gestion des catégories de rôles"
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Back Office"
-msgstr ""
+msgstr "Back-Office"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -300,7 +332,7 @@ msgstr "Le rôle du service administratif"
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Service"
-msgstr ""
+msgstr "Service"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -440,7 +472,7 @@ msgstr "Règles de validation pour les valeurs de cette propriété"
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Validation"
-msgstr ""
+msgstr "Validation"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"

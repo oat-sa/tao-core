@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.01\n"
-"PO-Revision-Date: 2025-12-18T14:31:42\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-12 13:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-SA\n"
@@ -13,115 +13,115 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Index"
-msgstr ""
+msgstr "الفهرس"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Index class"
-msgstr ""
+msgstr "فهرس الصف"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Identifier"
-msgstr ""
+msgstr "Identifier"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Humanreadable identifier of the index"
-msgstr ""
+msgstr "تعريف المؤشر الذي يمكن أن يصلح للإنسان"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer of index"
-msgstr ""
+msgstr "ترميز الفهرس"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer to be used to extract search strings"
-msgstr ""
+msgstr "توكينيزر لاستخراج مقاطع البحث"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Fuzzy matching"
-msgstr ""
+msgstr "Fuzzy matching"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Should the string matching be exact or fuzzy"
-msgstr ""
+msgstr "إذا كانت مطابقة السلسلة بالضبط أو غامضة"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Use by default"
-msgstr ""
+msgstr "الاستخدام بشكل افتراضي"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Should this property be used implicitly in the defautl search"
-msgstr ""
+msgstr "إذا استخدمت هذه الممتلكات ضمناً في البحث عن العيوب"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer"
-msgstr ""
+msgstr "توكينيزر"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer class"
-msgstr ""
+msgstr "فئة توكينيزر"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer implementation"
-msgstr ""
+msgstr "تنفيذ توكينيزر"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Classname of the tokenizer implementation"
-msgstr ""
+msgstr "اسم الصف لتنفيذ الرمز المميز"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Property Indexation"
-msgstr ""
+msgstr "فهرسة الممتلكات"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "How a property should be indexed"
-msgstr ""
+msgstr "كيف ينبغي فهرسة الخاصية"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Raw Value Tokenizer"
-msgstr ""
+msgstr "توكينيزر القيمة الخام"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer using the raw property value"
-msgstr ""
+msgstr "توكينيزر باستخدام قيمة الخاصية الخام"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Label Tokenizer"
-msgstr ""
+msgstr "ترميز التسمية"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer using the resource labels"
-msgstr ""
+msgstr "توكينيزر باستخدام تسميات الموارد"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Label Index"
-msgstr ""
+msgstr "فهرس التسمية"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TypeIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Type Index"
-msgstr ""
+msgstr "فهرس النوع"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LoginIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Login Index"
-msgstr ""
+msgstr "فهرس الدخول"
 

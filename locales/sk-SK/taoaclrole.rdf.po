@@ -13,10 +13,10 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Base User"
-msgstr ""
+msgstr "Základný používateľ"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Base User Role"
-msgstr ""
+msgstr "Základná používateľská rola"
 

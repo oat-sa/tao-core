@@ -13,20 +13,20 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#WebServiceUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Web Service Url"
-msgstr ""
+msgstr "URL Servicii Web"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WebServiceUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Web Service Url"
-msgstr ""
+msgstr "URL Servicii Web"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceWebService
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Web Service"
-msgstr ""
+msgstr "Serviciu Web"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceWebService
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Embed a generic web service accessible via url in an iframe"
-msgstr ""
+msgstr "Încorporează un serviciu generic web accesibil prin url într-un iframe"
 

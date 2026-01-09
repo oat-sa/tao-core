@@ -34,6 +34,30 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "is_language_dependent"
 msgstr ""
 
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label"
+msgstr "Label"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "A human-readable name for the subject."
+msgstr "Ein menschlich lesbarer Name für das Thema."
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Alias"
+msgstr "Alias"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Alias to be used when publishing a remote delivery"
+msgstr "Alias zum Veröffentlichen einer Remote-Zustellung"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Is language dependent?"
+msgstr "Ist die Sprache abhängig?"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "is_language_dependent"
+msgstr "is_sprache_abhängig"
+
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO User Object"
@@ -62,52 +86,60 @@ msgstr "Liste"
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list source"
-msgstr ""
+msgstr "Quelle der Remote-Liste"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list source"
-msgstr ""
+msgstr "Quelle der Remote-Liste"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list source uri path"
-msgstr ""
+msgstr "URi-Pfad für Remote-Listenquelle"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list source uri path"
-msgstr ""
+msgstr "URi-Pfad für Remote-Listenquelle"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list source label path"
-msgstr ""
+msgstr "Quellenbezeichnungspfad der Remote-Liste"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list source label path"
-msgstr ""
+msgstr "Quellenbezeichnungspfad der Remote-Liste"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListType
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "List type"
-msgstr ""
+msgstr "Listentyp"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListType
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "List type"
-msgstr ""
+msgstr "Listentyp"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list type"
-msgstr ""
+msgstr "Entfernter Listentyp"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list type"
-msgstr ""
+msgstr "Entfernter Listentyp"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list dependency source uri path"
+msgstr "URi-Pfad für externe Liste der Abhängigkeitsquellen"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list dependency source uri path"
+msgstr "URi-Pfad für externe Liste der Abhängigkeitsquellen"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list dependency source uri path"
@@ -120,12 +152,20 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Updated"
-msgstr ""
+msgstr "Aktualisiert"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Last updated date"
-msgstr ""
+msgstr "Zuletzt aktualisiert am"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Author"
+msgstr "Autor"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "User who authored the change"
+msgstr "Benutzer, der die Änderung geschrieben hat"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Author"
@@ -280,7 +320,7 @@ msgstr "Die Management-Rollen Klasse"
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Back Office"
-msgstr ""
+msgstr "Back Office"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -290,7 +330,7 @@ msgstr "Die BackOffice Rolle"
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Front Office"
-msgstr ""
+msgstr "Front Office"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -310,7 +350,7 @@ msgstr "Die Dienst Rolle"
 # http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO Manager"
-msgstr ""
+msgstr "TAO-Manager"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -360,32 +400,32 @@ msgstr "Die System-Administrator Rolle"
 # http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Task Queue Manager"
-msgstr ""
+msgstr "Aufgaben-Warteschlange Manager"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Task Queue Manager Role"
-msgstr ""
+msgstr "Die Aufgabe Warteschlange Manager Rolle"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "REST Publisher"
-msgstr ""
+msgstr "REST-Publisher"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The REST API Publishing Role"
-msgstr ""
+msgstr "Die REST API Publishing Rolle"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Operational Administrator"
-msgstr ""
+msgstr "Operativer Administrator"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Operational Administrator role"
-msgstr ""
+msgstr "Die operative Administratorrolle"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -430,27 +470,27 @@ msgstr "Sperrinformationen für diese Ressource"
 # http://www.tao.lu/Ontologies/generis.rdf#validationRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Validation Rules"
-msgstr ""
+msgstr "Validierungsregeln"
 
 # http://www.tao.lu/Ontologies/generis.rdf#validationRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Validation rules for the values of this property"
-msgstr ""
+msgstr "Validierungsregeln für die Werte dieser Eigenschaft"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Validation"
-msgstr ""
+msgstr "Validierung"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Select the validation rules"
-msgstr ""
+msgstr "Wählen Sie die Validierungsregeln"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "LastExtensionUsed"
-msgstr ""
+msgstr "Letzte Erweiterung verwendet"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -470,12 +510,140 @@ msgstr "Ist der Benutzer das erste mal mit TAO verbunden?"
 # http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "assessmentObject"
-msgstr ""
+msgstr "bewertungsobjekt"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Object to represent assessment contents"
-msgstr ""
+msgstr "Objekt um den Inhalt der Bewertung zu repräsentieren"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Translation Type"
+msgstr "Übersetzungsart"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Translation Type"
+msgstr "Übersetzungsart"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Original"
+msgstr "Original"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Original"
+msgstr "Original"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Translation"
+msgstr "Übersetzung"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Translation"
+msgstr "Übersetzung"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Translation Progress Statuses"
+msgstr "Übersetzungsfortschrittsstatus"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Translation Progress Statuses"
+msgstr "Übersetzungsfortschrittsstatus"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Pending"
+msgstr "Ausstehend"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Pending"
+msgstr "Ausstehend"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Translating"
+msgstr "Übersetzen"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Translating"
+msgstr "Übersetzen"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Translated"
+msgstr "Übersetzt"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Translated"
+msgstr "Übersetzt"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Translation Statuses"
+msgstr "Übersetzungsstatus"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Translation Statuses"
+msgstr "Übersetzungsstatus"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Not Ready for Translation"
+msgstr "Nicht bereit für die Übersetzung"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Not Ready for Translation"
+msgstr "Nicht bereit für die Übersetzung"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Ready for Translation"
+msgstr "Bereit zur Übersetzung"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Ready for Translation"
+msgstr "Bereit zur Übersetzung"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Original Resource"
+msgstr "Ursprüngliche Ressource"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Original Resource"
+msgstr "Ursprüngliche Ressource"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Equivalent Resource ID"
+msgstr "Äquivalente Ressourcen-ID"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Equivalent Resource ID"
+msgstr "Äquivalente Ressourcen-ID"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Language"
+msgstr "Sprache"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Language"
+msgstr "Sprache"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Translation Status"
+msgstr "Übersetzungsstatus"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Translation Status"
+msgstr "Übersetzungsstatus"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Translation Progress"
+msgstr "Übersetzungsfortschritt"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Translation Progress"
+msgstr "Übersetzungsfortschritt"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Translated Into Languages"
+msgstr "In Sprachen übersetzt"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Translated Into Languages"
+msgstr "In Sprachen übersetzt"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Translation Type"
@@ -638,7 +806,7 @@ msgstr "Die Workflowteilnehmer-Rolle"
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "WfUser"
-msgstr ""
+msgstr "WfUser"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"

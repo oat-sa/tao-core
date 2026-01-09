@@ -13,80 +13,80 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Abstract Model"
-msgstr ""
+msgstr "نموذج الخلاصة"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "An abstract model to differentiate implementations of resources of the same type"
-msgstr ""
+msgstr "نموذج تجريدي للتمييز بين تنفيذ الموارد من نفس النوع"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelImplementation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Model implementation"
-msgstr ""
+msgstr "التنفيذ النموذجي"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Model Status"
-msgstr ""
+msgstr "حالة النموذج"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Stable"
-msgstr ""
+msgstr "اسطبل"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "This model can be used in production"
-msgstr ""
+msgstr "يمكن استخدام هذا النموذج في الإنتاج"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Deprecated"
-msgstr ""
+msgstr "مهمل"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "This model is not supported anymore, we advise to migrate"
-msgstr ""
+msgstr "لم يعد هذا النموذج مدعوماً بعد الآن، ننصح بالهجرة"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Development"
-msgstr ""
+msgstr "التطوير"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "this model has not been tested in a production environment, we advise to be carefull with it"
-msgstr ""
+msgstr "لم يتم اختبار هذا النموذج في بيئة الإنتاج، وننصح بتوخي الحذر فيه"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Experimental"
-msgstr ""
+msgstr "تجريبي"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "this model is still in conception, but you can try it, give your feedback and it will be improved."
-msgstr ""
+msgstr "لا يزال هذا النموذج في مرحلة التصميم، ولكن يمكنك تجربته، وإعطاء تعليقاتك وسيتم تحسينه."
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Status"
-msgstr ""
+msgstr "الحالة"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The status of a model"
-msgstr ""
+msgstr "ألف - حالة النموذج"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Model"
-msgstr ""
+msgstr "الموديل"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Select the associated model"
-msgstr ""
+msgstr "حدد النموذج المرتبط"
 

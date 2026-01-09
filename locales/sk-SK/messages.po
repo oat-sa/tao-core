@@ -173,7 +173,7 @@ msgid "AC"
 msgstr "Klimatizácia"
 
 msgid "Accept all"
-msgstr ""
+msgstr "Prijať všetko"
 
 msgid "Access Denied"
 msgstr "Prístup zamietnutý"
@@ -223,7 +223,7 @@ msgid "Add file(s)"
 msgstr "Pridať súbor(y)"
 
 msgid "Add index"
-msgstr ""
+msgstr "Pridať index"
 
 msgid "Add property"
 msgstr "Pridať nehnuteľnosť"
@@ -298,7 +298,7 @@ msgid "an instance"
 msgstr "inštancia"
 
 msgid "Analytics cookies"
-msgstr ""
+msgstr "Analytické súbory cookie"
 
 msgid "and"
 msgstr "a"
@@ -333,13 +333,13 @@ msgid "Are you sure you want to delete it?"
 msgstr "Naozaj to chcete odstrániť?"
 
 msgid "Are you sure you want to delete the translation for this language?"
-msgstr ""
+msgstr "Naozaj chcete odstrániť preklad pre tento jazyk?"
 
 msgid "Are you sure you want to start the translation for this language?"
-msgstr ""
+msgstr "Naozaj chcete spustiť preklad do tohto jazyka?"
 
 msgid "Are you sure you wish to delete it"
-msgstr ""
+msgstr "Naozaj to chcete odstrániť"
 
 msgid "Argument check failed: %s"
 msgstr "Kontrola argumentu zlyhala: %s"
@@ -367,7 +367,7 @@ msgid "Audio Video Interleave"
 msgstr "Prekladanie zvuku a videa"
 
 msgid "Auth type"
-msgstr ""
+msgstr "Typ autorizácie"
 
 msgid "Author"
 msgstr "Autor"
@@ -394,7 +394,7 @@ msgid "Back to listing"
 msgstr "Späť na zoznam"
 
 msgid "Back to Portal"
-msgstr ""
+msgstr "Späť na portál"
 
 msgid "Base-10 logarithm"
 msgstr "Desiatkový logaritmus"
@@ -427,7 +427,7 @@ msgid "Browse folders:"
 msgstr "Prehliadať priečinky:"
 
 msgid "Browse resources"
-msgstr ""
+msgstr "Prehliadať zdroje"
 
 msgid "Browse..."
 msgstr "Prehliadať..."
@@ -506,7 +506,7 @@ msgid "choices:"
 msgstr "možnosti:"
 
 msgid "Choose a type for your property first"
-msgstr ""
+msgstr "Najprv si vyberte typ svojej nehnuteľnosti"
 
 msgid "Choose a value..."
 msgstr "Vyberte hodnotu..."
@@ -560,7 +560,7 @@ msgid "Click to reload."
 msgstr "Kliknite pre opätovné načítanie."
 
 msgid "Click to start"
-msgstr ""
+msgstr "Kliknite pre začiatok"
 
 msgid "Close"
 msgstr "Zatvoriť"
@@ -617,7 +617,7 @@ msgid "Cookie Policy"
 msgstr "Zásady používania súborov cookie"
 
 msgid "Cookies Preferences"
-msgstr ""
+msgstr "Nastavenia súborov cookie"
 
 msgid "Copy"
 msgstr "Kopírovať"
@@ -644,13 +644,13 @@ msgid "Create"
 msgstr "Vytvoriť"
 
 msgid "Create instance"
-msgstr ""
+msgstr "Vytvoriť inštanciu"
 
 msgid "Create instance of "
 msgstr "Vytvoriť inštanciu "
 
 msgid "Create translation"
-msgstr ""
+msgstr "Vytvoriť preklad"
 
 msgid "Created"
 msgstr "Vytvorené"
@@ -680,7 +680,7 @@ msgid "Current playback position"
 msgstr "Aktuálna pozícia prehrávania"
 
 msgid "currently has a dependency established with "
-msgstr ""
+msgstr "má v súčasnosti vytvorenú závislosť s "
 
 msgid "Data imported"
 msgstr "Importované údaje"
@@ -753,16 +753,16 @@ msgid "Deleting search index for %s"
 msgstr "Odstraňuje sa index vyhľadávania pre %s"
 
 msgid "Deleting this property will also remove the dependency"
-msgstr ""
+msgstr "Odstránením tejto vlastnosti sa odstráni aj závislosť"
 
 msgid "Demo Sandbox"
 msgstr "Demo sandbox"
 
 msgid "Dependency URI Path"
-msgstr ""
+msgstr "Cesta URI závislosti"
 
 msgid "Depends on property"
-msgstr ""
+msgstr "Závisí od nehnuteľnosti"
 
 msgid "Did you mean %s?"
 msgstr "Mali ste na mysli %s?"
@@ -801,7 +801,7 @@ msgid "Disabled %s"
 msgstr "Zakázané %s"
 
 msgid "Do you want to override \"%s\"?"
-msgstr ""
+msgstr "Chcete prepísať „%s“?"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -858,7 +858,7 @@ msgid "Email"
 msgstr "E-mail"
 
 msgid "Empty resources cannot be translated."
-msgstr ""
+msgstr "Prázdne zdroje nie je možné preložiť."
 
 msgid "enabled"
 msgstr "povolené"
@@ -897,7 +897,7 @@ msgid "Error: %s"
 msgstr "Chyba: %s"
 
 msgid "Essential cookies (required)"
-msgstr ""
+msgstr "Základné súbory cookie (povinné)"
 
 msgid "Examples:"
 msgstr "Príklady:"
@@ -953,7 +953,7 @@ msgid "Failed"
 msgstr "Neúspešné"
 
 msgid "Failed to copy class."
-msgstr ""
+msgstr "Kopírovanie triedy zlyhalo."
 
 msgid "Failed to delete index for %s"
 msgstr "Nepodarilo sa odstrániť index pre %s"
@@ -1149,7 +1149,7 @@ msgstr "Importovať metadáta zo súboru RDF"
 
 #, tao-public
 msgid "Import statistical analysis metadata"
-msgstr ""
+msgstr "Importovať metadáta štatistickej analýzy"
 
 msgid "Import succeeded."
 msgstr "Import bol úspešný."
@@ -1164,7 +1164,7 @@ msgid "Imported resource \"%s"
 msgstr "Importovaný zdroj „%s“"
 
 msgid "Imported successfully finished!"
-msgstr ""
+msgstr "Import úspešne dokončený!"
 
 msgid "impossible to update task status"
 msgstr "nemožné aktualizovať stav úlohy"
@@ -1176,13 +1176,13 @@ msgid "In progress"
 msgstr "Prebieha"
 
 msgid "Include all"
-msgstr ""
+msgstr "Zahrnúť všetky"
 
 msgid "Include any"
-msgstr ""
+msgstr "Zahrnúť akékoľvek"
 
 msgid "Include none"
-msgstr ""
+msgstr "Žiadne nezahrnúť"
 
 msgid "Inclusive (AND)"
 msgstr "Inkluzívne (A)"
@@ -1198,7 +1198,7 @@ msgid "Infinity"
 msgstr "Nekonečno"
 
 msgid "Inherit the permission of the parent folder"
-msgstr ""
+msgstr "Zdediť povolenie nadradeného priečinka"
 
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr "Injektor musí obsahovať platné pole „destination“."
@@ -1237,7 +1237,7 @@ msgid "Interface Language"
 msgstr "Jazyk rozhrania"
 
 msgid "Interface Mode"
-msgstr ""
+msgstr "Režim rozhrania"
 
 msgid "Invalid CSP header."
 msgstr "Neplatná hlavička CSP."
@@ -1288,7 +1288,7 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr "Neplatné prihlasovacie meno alebo heslo. Váš účet bol uzamknutý, kontaktujte, prosím, svojho administrátora."
 
 msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
-msgstr ""
+msgstr "Neplatná cesta k zdroju „%s“. Cesta musí ukazovať na existujúci súbor v balíku."
 
 msgid "invalid regular expression"
 msgstr "neplatný regulárny výraz"
@@ -1300,7 +1300,7 @@ msgid "Invalid values:"
 msgstr "Neplatné hodnoty:"
 
 msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
-msgstr ""
+msgstr "Zdá sa, že sa vyskytli nejaké problémy a vašu žiadosť sme nedokázali spracovať. V prípade potreby môžete kontaktovať svojho správcu TAO. Prípadne:"
 
 msgid "items per page"
 msgstr "položiek na stránku"
@@ -1312,7 +1312,7 @@ msgid "JPEG image"
 msgstr "Obrázok JPEG"
 
 msgid "Keep the original permissions"
-msgstr ""
+msgstr "Zachovať pôvodné povolenia"
 
 msgid "Label"
 msgstr "Štítok"
@@ -1345,7 +1345,7 @@ msgid "List"
 msgstr "Zoznam"
 
 msgid "List \"%s\" has duplicated values."
-msgstr ""
+msgstr "Zoznam „%s“ obsahuje duplicitné hodnoty."
 
 msgid "List - Multiple choice - Check box"
 msgstr "Zoznam - Viaceré možnosti - Zaškrtávacie políčko"
@@ -1435,7 +1435,7 @@ msgid "Manage class schema"
 msgstr "Spravovať schému triedy"
 
 msgid "manage columns"
-msgstr ""
+msgstr "spravovať stĺpce"
 
 msgid "Manage data list"
 msgstr "Spravovať zoznam údajov"
@@ -1461,7 +1461,7 @@ msgid "Map the properties to the CSV columns"
 msgstr "Priradiť vlastnosti k stĺpcom CSV"
 
 msgid "maximum %s"
-msgstr ""
+msgstr "maximálne %s"
 
 msgid "Maximum selection reached"
 msgstr "Dosiahnutý maximálny výber"
@@ -1518,7 +1518,7 @@ msgid "Mind mapping software application (free mind open source)"
 msgstr "Softvérová aplikácia na mapovanie mysle (bezplatná open source aplikácia)"
 
 msgid "minimum %s"
-msgstr ""
+msgstr "minimálne %s"
 
 msgid "minutes"
 msgstr "minúty"
@@ -1579,19 +1579,19 @@ msgid "Multiply the value by 10^x"
 msgstr "Vynásobte hodnotu číslom 10^x"
 
 msgid "Must include at least one letter"
-msgstr ""
+msgstr "Musí obsahovať aspoň jedno písmeno"
 
 msgid "Must include at least one number"
-msgstr ""
+msgstr "Musí obsahovať aspoň jedno číslo"
 
 msgid "Must include at least one special letter"
-msgstr ""
+msgstr "Musí obsahovať aspoň jedno špeciálne písmeno"
 
 msgid "Must include lower case letters"
-msgstr ""
+msgstr "Musí obsahovať malé písmená"
 
 msgid "Must include upper case letters"
-msgstr ""
+msgstr "Musí obsahovať veľké písmená"
 
 msgid "Mute"
 msgstr "Stlmiť"
@@ -1671,13 +1671,13 @@ msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr "Nedostatok argumentov bez možnosti: mám %s, potrebujem aspoň %s"
 
 msgid "Not Ready for Translation"
-msgstr ""
+msgstr "Nie je pripravené na preklad"
 
 msgid "Not started"
 msgstr "Nezačaté"
 
 msgid "NotEmpty"
-msgstr ""
+msgstr "Nie je prázdne"
 
 msgid "Nothing imported"
 msgstr "Nič sa neimportovalo"
@@ -1738,7 +1738,7 @@ msgid "Only one of the field must have value %s"
 msgstr "Iba jedno z polí musí mať hodnotu %s"
 
 msgid "Open the item for editing"
-msgstr ""
+msgstr "Otvoriť položku na úpravu"
 
 msgid "OpenDocument Database"
 msgstr "Databáza OpenDocument"
@@ -1765,7 +1765,7 @@ msgid "Original"
 msgstr "Pôvodný"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
-msgstr ""
+msgstr "V opačnom prípade kliknutím na tlačidlo Prijať všetky súbory cookie súhlasíte s používaním súborov cookie vo vašom zariadení. Kliknutím na tlačidlo Odmietnuť všetky súbory cookie nesúhlasíte s používaním súborov cookie, ktoré nie sú nevyhnutne potrebné, vo vašom zariadení."
 
 msgid "Outlook on the next Synchronization"
 msgstr "Výhľad na ďalšiu synchronizáciu"
@@ -1810,7 +1810,7 @@ msgid "Permission denied to write in the selected class"
 msgstr "Zápis do vybranej triedy bol zamietnutý."
 
 msgid "Permission settings"
-msgstr ""
+msgstr "Nastavenia povolení"
 
 msgid "Plain text"
 msgstr "Obyčajný text"
@@ -1870,13 +1870,13 @@ msgid "Please select a language."
 msgstr "Vyberte jazyk."
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Vyberte súbor s obrázkom zo správcu zdrojov. Súbory z počítača môžete pridať pomocou tlačidla „Pridať súbor(y)“."
 
 msgid "Please set 'min' and/or 'max' options!"
-msgstr ""
+msgstr "Prosím, nastavte možnosti „min“ a/alebo „max“!"
 
 msgid "Please try in %s."
-msgstr ""
+msgstr "Skúste to v %s."
 
 msgid "Please wait"
 msgstr "Prosím, počkajte"
@@ -1964,7 +1964,7 @@ msgid "RDF"
 msgstr "RDF"
 
 msgid "Ready for Translation"
-msgstr ""
+msgstr "Pripravené na preklad"
 
 msgid "RealMedia file"
 msgstr "Súbor RealMedia"
@@ -1973,7 +1973,7 @@ msgid "Refresh"
 msgstr "Obnoviť"
 
 msgid "Reject all"
-msgstr ""
+msgstr "Odmietnuť všetko"
 
 msgid "Release"
 msgstr "Uvoľnenie"
@@ -2009,13 +2009,13 @@ msgid "Remove criteria"
 msgstr "Odstrániť kritériá"
 
 msgid "remove index"
-msgstr ""
+msgstr "odstrániť index"
 
 msgid "Remove Message"
 msgstr "Odstrániť správu"
 
 msgid "Remove the translated item"
-msgstr ""
+msgstr "Odstrániť preloženú položku"
 
 msgid "Remove this file"
 msgstr "Odstrániť tento súbor"
@@ -2258,7 +2258,7 @@ msgid "Some items could not be deleted"
 msgstr ""
 
 msgid "Some of resources has not be deleted"
-msgstr ""
+msgstr "Niektoré zdroje neboli odstránené"
 
 msgid "Some resources have not been moved: %s"
 msgstr "Niektoré zdroje neboli presunuté: %s"
@@ -2279,7 +2279,7 @@ msgid "Start of document reached. Continuing from the end."
 msgstr "Dosiahnutý začiatok dokumentu. Pokračovanie od konca."
 
 msgid "Start translation"
-msgstr ""
+msgstr "Začať preklad"
 
 msgid "Status"
 msgstr "Stav"
@@ -2375,7 +2375,7 @@ msgid "TAO platform is under maintenance since %s"
 msgstr "Platforma TAO je v údržbe od %s"
 
 msgid "Tao WebHooks"
-msgstr ""
+msgstr "Tao WebHooks"
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr "Úloha %s bola zrušená, správa nebola spracovaná."
@@ -2414,7 +2414,7 @@ msgid "Text document file format (Staroffice)"
 msgstr "Formát súboru textového dokumentu (Staroffice)"
 
 msgid "Text to translate"
-msgstr ""
+msgstr "Text na preklad"
 
 msgid "The action will be applied to"
 msgstr "Akcia sa bude vzťahovať na"
@@ -2429,13 +2429,13 @@ msgid "The action will not be applied to the following"
 msgstr "Táto akcia sa nebude vzťahovať na nasledujúce"
 
 msgid "The class has been copied."
-msgstr ""
+msgstr "Trieda bola skopírovaná."
 
 msgid "The column "
 msgstr "Stĺpec "
 
 msgid "The field \"List\" is disabled because the property is part of a dependency"
-msgstr ""
+msgstr "Pole „Zoznam“ je neaktívne, pretože vlastnosť je súčasťou závislosti"
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
 msgstr "Nasledujúce kritériá sa nevzťahujú na vybranú triedu a boli odstránené z vyhľadávania."
@@ -2456,7 +2456,7 @@ msgid "The properties of the source class will be replaced by those of the desti
 msgstr "Vlastnosti zdrojovej triedy budú nahradené vlastnosťami cieľovej triedy. To môže viesť k strate metadát. Chcete aj tak pokračovať?"
 
 msgid "The selected value(s) must be compatible with the primary property."
-msgstr ""
+msgstr "Vybraná hodnota (hodnoty) musí (musia) byť kompatibilné s primárnou vlastnosťou."
 
 msgid "The server has sent an empty response"
 msgstr "Server odoslal prázdnu odpoveď"
@@ -2480,7 +2480,7 @@ msgid "There is nothing to list!"
 msgstr "Nie je čo vymenovať!"
 
 msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
-msgstr ""
+msgstr "Tieto súbory cookie nám umožňujú počítať návštevy a rôzne ďalšie analytické údaje, aby sme mohli merať a zlepšovať výkonnosť našej stránky. Ak tieto súbory cookie nepovolíte, nebudeme vedieť, kedy ste navštívili našu stránku, a nebudeme môcť monitorovať jej výkonnosť."
 
 msgid "This %s is currently checked out"
 msgstr "Toto %s je momentálne neaktívne"
@@ -2516,7 +2516,7 @@ msgid "This resource is locked"
 msgstr "Tento zdroj je uzamknutý"
 
 msgid "This resource is not ready for translation."
-msgstr ""
+msgstr "Tento zdroj nie je pripravený na preklad."
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
 msgstr "Táto rola je stále pridelená jednému alebo viacerým používateľom. Najprv ju týmto používateľom odoberte."
@@ -2528,7 +2528,7 @@ msgid "This should not equal %s"
 msgstr "Toto by sa nemalo rovnať %s"
 
 msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
-msgstr ""
+msgstr "Táto stránka používa súbory cookie na zlepšenie vášho prehliadania a na vykonávanie analytických a výskumných činností."
 
 msgid "time"
 msgstr "čas"
@@ -2543,7 +2543,7 @@ msgid "to"
 msgstr "k"
 
 msgid "To change your preferences, click Manage preferences."
-msgstr ""
+msgstr "Ak chcete zmeniť svoje preferencie, kliknite na položku Spravovať preferencie."
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr "Ak chcete obnoviť heslo, kliknite na odkaz nižšie alebo ho vložte do prehliadača. Následne budete vyzvaní na vytvorenie nového hesla."
@@ -2579,28 +2579,28 @@ msgid "Translate to"
 msgstr "Preložiť do"
 
 msgid "Translated"
-msgstr ""
+msgstr "Preložené"
 
 msgid "Translating"
-msgstr ""
+msgstr "Prekladanie"
 
 msgid "Translation"
-msgstr ""
+msgstr "Preklad"
 
 msgid "Translation parameters"
 msgstr "Parametre prekladu"
 
 msgid "Translation Progress"
-msgstr ""
+msgstr "Priebeh prekladu"
 
 msgid "Translation saved"
 msgstr "Preklad uložený"
 
 msgid "Translation Status"
-msgstr ""
+msgstr "Stav prekladu"
 
 msgid "Translation Type"
-msgstr ""
+msgstr "Typ prekladu"
 
 msgid "Translations"
 msgstr "Preklady"
@@ -2648,7 +2648,7 @@ msgid "Unable to delete the selected resource"
 msgstr "Vybraný zdroj sa nepodarilo odstrániť"
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
-msgstr ""
+msgstr "Vybraný zdroj sa nedá odstrániť, pretože nemáte potrebné práva na odstránenie časti jeho obsahu."
 
 msgid "Unable to delete the selected resources"
 msgstr "Vybrané zdroje sa nepodarilo odstrániť"
@@ -2678,7 +2678,7 @@ msgid "Unable to send the password reset request"
 msgstr "Žiadosť o obnovenie hesla sa nepodarilo odoslať"
 
 msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
-msgstr ""
+msgstr "Nepodarilo sa synchronizovať štatistické údaje. Pre viac informácií kontaktujte správcu systému."
 
 msgid "Unable to update the asset service"
 msgstr "Nepodarilo sa aktualizovať službu aktív"
@@ -2696,7 +2696,7 @@ msgid "Unary operator -"
 msgstr "Unárny operátor -"
 
 msgid "Unauthorized files have been removed"
-msgstr ""
+msgstr "Neautorizované súbory boli odstránené"
 
 msgid "Uncheck All"
 msgstr "Zrušiť začiarknutie všetkých"
@@ -2711,7 +2711,7 @@ msgid "Undefined amount of the totalPages for pagination"
 msgstr "Nedefinovaný počet stránok z celkového počtu strán"
 
 msgid "Undefined Instance can not be saved"
-msgstr ""
+msgstr "Nedefinovanú inštanciu nie je možné uložiť"
 
 msgid "Undo"
 msgstr "Späť"
@@ -2726,7 +2726,7 @@ msgid "Uninstalled %s"
 msgstr "Odinštalované %s"
 
 msgid "Unique Identifier"
-msgstr ""
+msgstr "Jedinečný identifikátor"
 
 msgid "UNIX Compressed Archive File"
 msgstr "Komprimovaný archívny súbor UNIX"
@@ -2875,11 +2875,11 @@ msgid "WAV audio"
 msgstr "Zvuk vo formáte WAV"
 
 msgid "WebHook auth configuration can not be loaded"
-msgstr ""
+msgstr "Konfiguráciu autorizácie WebHook nie je možné načítať"
 
 #, tao-public
 msgid "WebHooks"
-msgstr ""
+msgstr "WebHooky"
 
 msgid "WebM audio"
 msgstr "Zvuk WebM"
@@ -2906,7 +2906,7 @@ msgid "Windows Media video"
 msgstr "Video vo Windows Media"
 
 msgid "with"
-msgstr ""
+msgstr "s"
 
 msgid "Wrap image left"
 msgstr "Zalomiť obrázok doľava"
@@ -2939,7 +2939,7 @@ msgid "You are not authorised to remove this lock"
 msgstr "Nie ste oprávnený odstrániť tento zámok"
 
 msgid "You can choose which types of cookies you want to allow to improve your experience."
-msgstr ""
+msgstr "Môžete si vybrať, ktoré typy súborov cookie chcete povoliť pre zlepšenie vášho zážitku."
 
 msgid "You can read more about this in our"
 msgstr "Viac si o tom môžete prečítať v našom"

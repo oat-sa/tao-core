@@ -26,7 +26,7 @@ msgid " has been deleted successfully"
 msgstr " a fost șters cu succes"
 
 msgid " is "
-msgstr ""
+msgstr " este "
 
 msgid " next"
 msgstr " următor"
@@ -35,13 +35,13 @@ msgid " Remove criteria"
 msgstr " Înlătură criteriul"
 
 msgid " requires a subgrid adapter"
-msgstr ""
+msgstr " necesită un adaptor de subgrilă"
 
 msgid "%1$s expected but %2$s detected"
-msgstr ""
+msgstr "%1$s așteptat, dar %2$s detectat"
 
 msgid "%d attempts left before your account is locked."
-msgstr ""
+msgstr "%d încercări rămase înainte ca contul tău să fie blocat."
 
 msgid "%d day"
 msgstr "%d zi"
@@ -68,10 +68,10 @@ msgid "%m months"
 msgstr "%m luni"
 
 msgid "%s %s selected"
-msgstr ""
+msgstr "%s %s selectat"
 
 msgid "%s (%s kb)"
-msgstr ""
+msgstr "%s (%s kb)"
 
 msgid "%s Class saved"
 msgstr "%s Clasă salvată"
@@ -80,37 +80,37 @@ msgid "%s classes"
 msgstr "%s clase"
 
 msgid "%s completed"
-msgstr ""
+msgstr "%s finalizat"
 
 msgid "%s Confirmation"
 msgstr "%s Confirmare"
 
 msgid "%s could not be released"
-msgstr ""
+msgstr "%s nu a putut fi lansat"
 
 msgid "%s created"
-msgstr ""
+msgstr "%s creat"
 
 msgid "%s extension(s) to install."
-msgstr ""
+msgstr "%s extensii de instalat."
 
 msgid "%s has been deleted"
-msgstr ""
+msgstr "%s a fost șters"
 
 msgid "%s has been released"
-msgstr ""
+msgstr "%s a fost lansat"
 
 msgid "%s instances"
-msgstr ""
+msgstr "%s instanțe"
 
 msgid "%s is of a type that cannot be published"
-msgstr ""
+msgstr "%s este de tip care nu poate fi publicat"
 
 msgid "%s Locked"
-msgstr ""
+msgstr "%s blocat"
 
 msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
-msgstr ""
+msgstr "%s\" nu este un identificator de index valid. Trebuie să înceapă cu o literă și să conțină doar litere, numere sau underscore"
 
 msgid "%y year"
 msgstr "%y an"
@@ -134,28 +134,28 @@ msgid "<del>Options</del>"
 msgstr "<del>Opțiuni</del>"
 
 msgid "<strong> %s </strong> has been moved to the background."
-msgstr ""
+msgstr "<strong> %s </strong> a fost mutat în fundal."
 
 msgid "> Extension %s succesfully installed."
-msgstr ""
+msgstr "> Extensia %s instalată cu succes."
 
 msgid "> Installation done."
-msgstr ""
+msgstr "> Instalare efectuata."
 
 msgid "a class"
 msgstr "o clasă"
 
 msgid "A date has to be a Datetime or timestamp"
-msgstr ""
+msgstr "Data trebuie să fie data sau marcajul de timp"
 
 msgid "A fatal error occured during the installation process."
-msgstr ""
+msgstr "A apărut o eroare fatală în timpul procesului de instalare."
 
 msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
-msgstr ""
+msgstr "Un status de întreţinere trebuie să aibă un STATUS: \"%s\" sau \"%s"
 
 msgid "A message with further instructions has been sent to your email address: %s"
-msgstr ""
+msgstr "Un mesaj cu instrucţiuni suplimentare a fost trimis la adresa dumneavoastră de e-mail: %s"
 
 msgid "AAC audio"
 msgstr "Audio AAC"
@@ -173,84 +173,84 @@ msgid "AC"
 msgstr "AC"
 
 msgid "Accept all"
-msgstr ""
+msgstr "Acceptă toate"
 
 msgid "Access Denied"
-msgstr ""
+msgstr "Acces refuzat"
 
 msgid "Access denied. Please renew your authentication!"
-msgstr ""
+msgstr "Acces refuzat. Vă rugăm să reînnoiți autentificarea!"
 
 msgid "Account status"
-msgstr ""
+msgstr "Starea contului"
 
 msgid "Action"
-msgstr ""
+msgstr "Acțiune"
 
 msgid "Action %s - removed %s positions"
-msgstr ""
+msgstr "Acțiune %s - a eliminat pozițiile %s"
 
 msgid "Action `%s` is not configured in the action queue service"
-msgstr ""
+msgstr "Acţiunea `%s` nu este configurată în serviciul de coadă de acţiune"
 
 msgid "Action was not executed yet"
 msgstr "Acțiunea nu a fost executată deocamdată"
 
 msgid "Actions"
-msgstr ""
+msgstr "Acțiuni"
 
 #, tao-public
 msgid "Add"
-msgstr ""
+msgstr "Adăugare"
 
 msgid "Add / Edit lists"
 msgstr "Adaugă/Modifică liste"
 
 msgid "Add a CSV file"
-msgstr ""
+msgstr "Adauga un fisier CSV"
 
 #, tao-public
 msgid "Add a user"
 msgstr "Adaugă un utilizator"
 
 msgid "Add an RDF/XML file"
-msgstr ""
+msgstr "Adauga un fisier RDF/XML"
 
 msgid "add criteria"
 msgstr "adaugă un criteriu"
 
 msgid "Add file(s)"
-msgstr ""
+msgstr "Adaugă fișier(e)"
 
 msgid "Add index"
-msgstr ""
+msgstr "Adaugă index"
 
 msgid "Add property"
 msgstr "Adaugă o proprietate"
 
 msgid "Adding search index for %s"
-msgstr ""
+msgstr "Adăugarea indexului de căutare pentru %s"
 
 msgid "Adding search index for created resource"
-msgstr ""
+msgstr "Adăugarea indexului de căutare pentru resursele create"
 
 msgid "Adding the new class has failed"
-msgstr ""
+msgstr "Adăugarea noii clase a eșuat"
 
 msgid "Adding the new resource has failed"
-msgstr ""
+msgstr "Adăugarea noii resurse a eșuat"
 
 msgid "Adding/updating search index for updated resource"
-msgstr ""
+msgstr "Adăugarea/actualizarea indexului de căutare pentru resursa actualizată"
 
 msgid "Adobe Flash file"
 msgstr "Fişier Adobe Flash"
 
 msgid "Advanced search, add filters"
-msgstr ""
+msgstr "Căutare avansată, adăugare filtre"
 
 msgid "aliases:"
-msgstr ""
+msgstr "aliase:"
 
 msgid "all"
 msgstr "toate"
@@ -259,25 +259,25 @@ msgid "all audios"
 msgstr "toate audio-urile"
 
 msgid "All data will be removed in %s"
-msgstr ""
+msgstr "Toate datele vor fi șterse în %s"
 
 msgid "All fields are required"
-msgstr ""
+msgstr "Toate câmpurile sunt obligatorii"
 
 msgid "all images"
 msgstr "toate imaginile"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Toate drepturile rezervate."
 
 msgid "all videos"
 msgstr "toate videorile"
 
 msgid "Allow for all domains"
-msgstr ""
+msgstr "Permite pentru toate domeniile"
 
 msgid "Allow for the following domains"
-msgstr ""
+msgstr "Permite următoarele domenii"
 
 msgid "Alpha version"
 msgstr "Versiunea Alfa"
@@ -286,159 +286,160 @@ msgid "An email has been sent"
 msgstr "Un email a fost trimis"
 
 msgid "An error occurred during user deletion"
-msgstr ""
+msgstr "A aparut o eroare la stergerea utilizatorului"
 
 msgid "An error occurred!"
-msgstr ""
+msgstr "A apărut o eroare!"
 
 msgid "An exception occured while running \"%s"
-msgstr ""
+msgstr "A apărut o excepție în timpul rulării \"%s"
 
 msgid "an instance"
-msgstr ""
+msgstr "o instanță"
 
 msgid "Analytics cookies"
-msgstr ""
+msgstr "Cookie-uri analitice"
 
 msgid "and"
-msgstr ""
+msgstr "şi"
 
 msgid "Ans"
-msgstr ""
+msgstr "Ans"
 
 msgid "Apply"
 msgstr "Aplică"
 
 msgid "Apply date range"
-msgstr ""
+msgstr "Aplică intervalul de date"
 
 msgid "Arc cosine"
-msgstr ""
+msgstr "Cosinusină cu arc"
 
 msgid "Arc sine"
-msgstr ""
+msgstr "sinusul cu arc"
 
 msgid "Arc tangent"
-msgstr ""
+msgstr "Tangent Arc"
 
 msgid "Archived"
 msgstr "Arhivează"
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
+msgstr "Ești sigur că vrei să ștergi resursa versiune?\n"
+"Istoricul va fi pierdut de asemenea."
 
 msgid "Are you sure you want to delete it?"
-msgstr ""
+msgstr "Sunteţi sigur că doriţi să-l ştergeţi?"
 
 msgid "Are you sure you want to delete the translation for this language?"
-msgstr ""
+msgstr "Sunteţi sigur că doriţi să ştergeţi traducerea pentru această limbă?"
 
 msgid "Are you sure you want to start the translation for this language?"
-msgstr ""
+msgstr "Ești sigur că vrei să începi traducerea pentru această limbă?"
 
 msgid "Are you sure you wish to delete it"
-msgstr ""
+msgstr "Sunteţi sigur că doriţi să-l ştergeţi"
 
 msgid "Argument check failed: %s"
-msgstr ""
+msgstr "Verificarea argumentului a eșuat: %s"
 
 msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
+msgstr "Argumentele %s și %s se exclud reciproc"
 
 msgid "Arguments separator"
-msgstr ""
+msgstr "Separator de argumente"
 
 msgid "array"
-msgstr ""
+msgstr "matrice"
 
 msgid "Assign"
 msgstr "Atribuiți"
 
 msgid "Assign User to role"
-msgstr ""
+msgstr "Atribuiţi utilizatorului la rol"
 
 #, tao-public
 msgid "Assign Users"
-msgstr ""
+msgstr "Asignează Utilizatori"
 
 msgid "Audio Video Interleave"
 msgstr "Interconcesie audio video"
 
 msgid "Auth type"
-msgstr ""
+msgstr "Tip autentificare"
 
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 msgid "Author Item"
-msgstr ""
+msgstr "Element Autor"
 
 msgid "Authoring"
-msgstr ""
+msgstr "Autorizare"
 
 msgid "auto unlocked in %s"
-msgstr ""
+msgstr "deblocare automată în %s"
 
 msgid "Available"
-msgstr ""
+msgstr "Disponibil"
 
 msgid "Available Extensions"
-msgstr ""
+msgstr "Extensii disponibile"
 
 msgid "Back"
-msgstr ""
+msgstr "Înapoi"
 
 msgid "Back to listing"
-msgstr ""
+msgstr "Înapoi la listare"
 
 msgid "Back to Portal"
-msgstr ""
+msgstr "Înapoi la Portal"
 
 msgid "Base-10 logarithm"
-msgstr ""
+msgstr "Base-10 logarithm"
 
 msgid "Beta version"
-msgstr ""
+msgstr "Versiune beta"
 
 msgid "Binary operator *"
-msgstr ""
+msgstr "Operator binar"
 
 msgid "Binary operator +"
-msgstr ""
+msgstr "Operator binar +"
 
 msgid "Binary operator -"
-msgstr ""
+msgstr "Operator binar -"
 
 msgid "Binary operator /"
-msgstr ""
+msgstr "Operator binar /"
 
 msgid "Binary operator modulo"
-msgstr ""
+msgstr "Modulul operatorului binar"
 
 msgid "Bitmap image"
 msgstr "Imagine Bitmap"
 
 msgid "boolean"
-msgstr ""
+msgstr "boolean"
 
 msgid "Browse folders:"
-msgstr ""
+msgstr "Navigare dosare:"
 
 msgid "Browse resources"
-msgstr ""
+msgstr "Caută resurse"
 
 msgid "Browse..."
-msgstr ""
+msgstr "Răsfoire..."
 
 msgid "C"
-msgstr ""
+msgstr "C"
 
 msgid "C file"
 msgstr "Fişier C"
 
 msgid "C++ file"
-msgstr ""
+msgstr "Fișier C++"
 
 msgid "C++ file (.cpp)"
 msgstr "Fișier C++ (.cpp)"
@@ -447,182 +448,182 @@ msgid "Calc speadsheet (Staroffice)"
 msgstr "Foaie de difuzare Calc (Stilou)"
 
 msgid "Calculator"
-msgstr ""
+msgstr "Calculator"
 
 msgid "Calendar"
-msgstr ""
+msgstr "Calendar"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Anulează"
 
 msgid "cancel"
-msgstr ""
+msgstr "anulează"
 
 msgid "cancel the action"
-msgstr ""
+msgstr "anulează acțiunea"
 
 msgid "Cancelled"
-msgstr ""
+msgstr "Anulat"
 
 msgid "Cannot be edited"
-msgstr ""
+msgstr "Nu poate fi editat"
 
 msgid "Cannot divide by zero"
-msgstr ""
+msgstr "Nu se poate împărți la zero"
 
 msgid "Cascading Style Sheets"
 msgstr "Foi de stil cascadă"
 
 msgid "Case sensitive"
-msgstr ""
+msgstr "Sensibil la caz"
 
 msgid "ceil"
-msgstr ""
+msgstr "cepă"
 
 msgid "Center"
-msgstr ""
+msgstr "Centru"
 
 #, tao-public
 msgid "Change password"
 msgstr "Schimbă parola"
 
 msgid "Change the password"
-msgstr ""
+msgstr "Schimbă parola"
 
 msgid "Change the sign of the current operand"
-msgstr ""
+msgstr "Schimbă semnul operei curente și"
 
 msgid "Check All"
-msgstr ""
+msgstr "Bifează tot"
 
 msgid "Check all"
-msgstr ""
+msgstr "Bifează tot"
 
 msgid "Check-in"
-msgstr ""
+msgstr "Verificare"
 
 msgid "choices:"
-msgstr ""
+msgstr "alegeri:"
 
 msgid "Choose a type for your property first"
-msgstr ""
+msgstr "Alegeți mai întâi un tip pentru proprietatea dvs."
 
 msgid "Choose a value..."
-msgstr ""
+msgstr "Alegeți o valoare..."
 
 msgid "Choose export format"
-msgstr ""
+msgstr "Alegeți formatul de export"
 
 msgid "Choose import format"
-msgstr ""
+msgstr "Alegeți formatul de import"
 
 msgid "class selected"
-msgstr ""
+msgstr "clasă selectată"
 
 msgid "Class uri provided is not a valid class."
-msgstr ""
+msgstr "Clasa uri furnizată nu este o clasă validă."
 
 msgid "Cleaning up tmp space complete"
-msgstr ""
+msgstr "Curățarea spațiului Tmp completă"
 
 msgid "Cleaning up tmp space started"
-msgstr ""
+msgstr "Curățarea spațiului tmp a început"
 
 msgid "Clear"
-msgstr ""
+msgstr "Curăță"
 
 msgid "Clear All"
-msgstr ""
+msgstr "Șterge tot"
 
 msgid "Clear all data"
-msgstr ""
+msgstr "Ștergeți toate datele"
 
 msgid "Clear expression"
-msgstr ""
+msgstr "Șterge expresia"
 
 msgid "Clear History"
-msgstr ""
+msgstr "Curăță Istoria"
 
 msgid "Clear history"
-msgstr ""
+msgstr "Ștergeți istoricul"
 
 msgid "Clear selection"
-msgstr ""
+msgstr "Ștergeți selecția"
 
 msgid "Clear the date time picker"
-msgstr ""
+msgstr "Șterge selectorul de dată"
 
 msgid "Clear the stored variables"
-msgstr ""
+msgstr "Ştergeţi variabilele stocate"
 
 msgid "Click to reload."
-msgstr ""
+msgstr "Click pentru a reîncărca."
 
 msgid "Click to start"
-msgstr ""
+msgstr "Clic pentru a începe"
 
 msgid "Close"
-msgstr ""
+msgstr "Inchide"
 
 msgid "Close dialog"
-msgstr ""
+msgstr "Închide dialogul"
 
 msgid "Close message"
-msgstr ""
+msgstr "Închide mesajul"
 
 msgid "Code Version"
-msgstr ""
+msgstr "Versiune cod"
 
 msgid "Collecting of abandoned actions in the action queue ..."
-msgstr ""
+msgstr "Colectarea acțiunilor abandonate în coada de acțiune ..."
 
 msgid "Column"
 msgstr "Coloana"
 
 msgid "command"
-msgstr ""
+msgstr "comandă"
 
 msgid "Commands:"
-msgstr ""
+msgstr "Comenzi"
 
 msgid "comment..."
-msgstr ""
+msgstr "comentariu..."
 
 msgid "Commit"
-msgstr ""
+msgstr "Comite"
 
 msgid "Completed"
-msgstr ""
+msgstr "Completat"
 
 msgid "Completed - Error"
-msgstr ""
+msgstr "Completat - Eroare"
 
 msgid "Compressed tar file"
 msgstr "Fișier tar comprimat"
 
 msgid "Compute the expression"
-msgstr ""
+msgstr "Calculează expresia"
 
 msgid "Confirm"
 msgstr "Confirmare"
 
 msgid "Connect to the TAO platform"
-msgstr ""
+msgstr "Conectează-te la platforma TAO"
 
 msgid "Continue"
-msgstr ""
+msgstr "Continuă"
 
 msgid "Cookie Policy"
-msgstr ""
+msgstr "Politica privind cookie-urile"
 
 msgid "Cookies Preferences"
-msgstr ""
+msgstr "Preferințe cookie-uri"
 
 msgid "Copy"
-msgstr ""
+msgstr "Copiază"
 
 msgid "Copy to"
-msgstr ""
+msgstr "Copiază în"
 
 msgid "Copy to clipboard"
 msgstr "Copiază în clipboard"
@@ -634,238 +635,239 @@ msgid "cosh"
 msgstr "cosh"
 
 msgid "Cosine"
-msgstr ""
+msgstr "Cosine"
 
 msgid "count"
-msgstr ""
+msgstr "număra"
 
 msgid "Create"
 msgstr "Crează"
 
 msgid "Create instance"
-msgstr ""
+msgstr "Crează instanță"
 
 msgid "Create instance of "
-msgstr ""
+msgstr "Crează instanța lui "
 
 msgid "Create translation"
-msgstr ""
+msgstr "Crează traducere"
 
 msgid "Created"
-msgstr ""
+msgstr "Creat"
 
 msgid "Creating report ..."
-msgstr ""
+msgstr "Se creează raportul..."
 
 msgid "CSP Header settings were saved successfully!"
-msgstr ""
+msgstr "Setările de antet CSP au fost salvate cu succes!"
 
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 msgid "CSV file"
 msgstr "Fișier CSV"
 
 msgid "CSV Options"
-msgstr ""
+msgstr "Opțiuni CSV"
 
 msgid "Cube root"
-msgstr ""
+msgstr "Rădăcină Cub"
 
 msgid "Current language"
-msgstr ""
+msgstr "Limba curentă"
 
 msgid "Current playback position"
-msgstr ""
+msgstr "Poziția curentă de redare"
 
 msgid "currently has a dependency established with "
-msgstr ""
+msgstr "în prezent există o dependență cu: "
 
 msgid "Data imported"
-msgstr ""
+msgstr "Date importate"
 
 msgid "Data imported successfully"
-msgstr ""
+msgstr "Date importate cu succes"
 
 msgid "Data imported. Some records are invalid."
-msgstr ""
+msgstr "Date importate. Unele înregistrări nu sunt valide."
 
 msgid "Data language"
-msgstr ""
+msgstr "Limba datelor"
 
 msgid "Data Language"
-msgstr ""
+msgstr "Limba datelor"
 
 msgid "Data not imported. All records are invalid."
-msgstr ""
+msgstr "Datele nu au fost importate. Toate înregistrările nu sunt valide."
 
 msgid "Data source URI"
-msgstr ""
+msgstr "URI sursă date"
 
 msgid "Database file"
 msgstr "Fișier bază de date"
 
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 msgid "date range"
-msgstr ""
+msgstr "date range"
 
 msgid "date time"
-msgstr ""
+msgstr "dată dată"
 
 msgid "date time range"
-msgstr ""
+msgstr "interval de timp"
 
 msgid "Default search"
-msgstr ""
+msgstr "Căutare implicită"
 
 msgid "default:"
 msgstr "implicit:"
 
 msgid "Define the default values"
-msgstr ""
+msgstr "Definiți valorile implicite"
 
 msgid "Deg"
-msgstr ""
+msgstr "Deg"
 
 msgid "Degree"
-msgstr ""
+msgstr "Gradul"
 
 #, tao-public
 msgid "Delete"
-msgstr ""
+msgstr "Ștergere"
 
 msgid "Delete Left"
-msgstr ""
+msgstr "Șterge stânga"
 
 msgid "Delete Right"
-msgstr ""
+msgstr "Sterge dreapta"
 
 msgid "Delete the term on the left side of the cursor"
-msgstr ""
+msgstr "Șterge termenul de pe partea stângă a cursorului"
 
 msgid "Delete the term on the right side of the cursor"
-msgstr ""
+msgstr "Ștergeți termenul de pe partea dreaptă a cursorului"
 
 msgid "Deleting search index for %s"
-msgstr ""
+msgstr "Ştergerea indexului de căutare pentru %s"
 
 msgid "Deleting this property will also remove the dependency"
-msgstr ""
+msgstr "Ștergerea acestei proprietăți va elimina și dependența"
 
 msgid "Demo Sandbox"
-msgstr ""
+msgstr "Cutie de nisip demo"
 
 msgid "Dependency URI Path"
-msgstr ""
+msgstr "Cale URI de dependență"
 
 msgid "Depends on property"
-msgstr ""
+msgstr "Depinde de proprietate"
 
 msgid "Did you mean %s?"
-msgstr ""
+msgstr "Ai vrut să spui %s?"
 
 msgid "Digit 0"
-msgstr ""
+msgstr "Digit 0"
 
 msgid "Digit 1"
-msgstr ""
+msgstr "Digit 1"
 
 msgid "Digit 2"
-msgstr ""
+msgstr "Digit 2"
 
 msgid "Digit 3"
-msgstr ""
+msgstr "Digit 3"
 
 msgid "Digit 4"
-msgstr ""
+msgstr "Digit 4"
 
 msgid "Digit 5"
-msgstr ""
+msgstr "Digit 5"
 
 msgid "Digit 6"
-msgstr ""
+msgstr "Digit 6"
 
 msgid "Digit 7"
-msgstr ""
+msgstr "Digit 7"
 
 msgid "Digit 8"
-msgstr ""
+msgstr "Digit 8"
 
 msgid "Digit 9"
-msgstr ""
+msgstr "Digit 9"
 
 msgid "Disabled %s"
-msgstr ""
+msgstr "Dezactivat %s"
 
 msgid "Do you want to override \"%s\"?"
-msgstr ""
+msgstr "Vrei să suprascrii \"%s\"?"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr ""
+msgstr "Doriți să instalați următoarele extensii:\n"
+"%s?"
 
 msgid "Document templates (Staroffice)"
 msgstr "Şabloane de documente (Staroffice)"
 
 msgid "does not match"
-msgstr ""
+msgstr "nu se potriveste"
 
 msgid "Don't set"
-msgstr ""
+msgstr "Nu setați"
 
 msgid "Dot"
-msgstr ""
+msgstr "Punct"
 
 msgid "Download"
-msgstr ""
+msgstr "Descărcare"
 
 msgid "Download this file"
-msgstr ""
+msgstr "Descarcă acest fișier"
 
 msgid "Drag file here"
-msgstr ""
+msgstr "Trage fișierul aici"
 
 msgid "Drag files here"
-msgstr ""
+msgstr "Trage fișierele aici"
 
 msgid "Drop the files to upload"
-msgstr ""
+msgstr "Trage fişierele de încărcat"
 
 msgid "Edit"
-msgstr ""
+msgstr "Editare"
 
 #, tao-public
 msgid "Edit a user"
-msgstr ""
+msgstr "Editați un utilizator"
 
 msgid "Edit class %s"
-msgstr ""
+msgstr "Editează clasa %s"
 
 msgid "Edit Instance"
-msgstr ""
+msgstr "Editează Instanța"
 
 msgid "Element"
-msgstr ""
+msgstr "Element"
 
 msgid "Element deleted."
-msgstr ""
+msgstr "Element șters."
 
 msgid "Email"
 msgstr "E-mail"
 
 msgid "Empty resources cannot be translated."
-msgstr ""
+msgstr "Resursele goale nu pot fi traduse."
 
 msgid "enabled"
 msgstr "activat"
 
 msgid "Enabled %s"
-msgstr ""
+msgstr "Activat %s"
 
 msgid "End of document reached. Continuing from the beginning."
-msgstr ""
+msgstr "Sfârșitul documentului a fost atins. Continuă de la început."
 
 msgid "Enhanced metafile"
 msgstr "Metafil îmbunătățit"
@@ -874,129 +876,129 @@ msgid "Enter"
 msgstr "Introducere"
 
 msgid "Error"
-msgstr ""
+msgstr "Eroare"
 
 msgid "Error adding search index for %s with message %s"
-msgstr ""
+msgstr "Eroare la adăugarea indexului de căutare pentru %s cu mesajul %s"
 
 msgid "Error during file import"
-msgstr ""
+msgstr "Eroare în timpul importării fișierului"
 
 msgid "Error in result"
-msgstr ""
+msgstr "Eroare în rezultat"
 
 msgid "Error in syntax"
-msgstr ""
+msgstr "Eroare în sintaxă"
 
 msgid "Error in value"
-msgstr ""
+msgstr "Eroare în valoare"
 
 msgid "Error: %s"
-msgstr ""
+msgstr "Eroare: %s"
 
 msgid "Essential cookies (required)"
-msgstr ""
+msgstr "Cookie-uri esențiale (necesare)"
 
 msgid "Examples:"
-msgstr ""
+msgstr "Exemple:"
 
 msgid "Exclusive (OR)"
-msgstr ""
+msgstr "Exclusiv (SAU)"
 
 msgid "Execute"
-msgstr ""
+msgstr "Execută"
 
 msgid "Executing task %s failed"
-msgstr ""
+msgstr "Executarea sarcinii %s a eșuat"
 
 msgid "exp"
 msgstr "exp"
 
 msgid "Exponent"
-msgstr ""
+msgstr "Exponent"
 
 #, tao-public
 msgid "Export"
-msgstr ""
+msgstr "Exportă"
 
 msgid "Export "
 msgstr "Exportă "
 
 msgid "Export \"%s\" in %s"
-msgstr ""
+msgstr "Exportă \"%s\" în %s"
 
 msgid "Export CSV"
-msgstr ""
+msgstr "Exportă CSV"
 
 msgid "Export failed."
 msgstr "Exportul a eșuat."
 
 msgid "Export Metadata as RDF/XML file"
-msgstr ""
+msgstr "Exportă metadatele ca fișier RDF/XML"
 
 msgid "Export succeeded."
-msgstr ""
+msgstr "Exportare reușită."
 
 msgid "Extension \"%s\" has been installed"
-msgstr ""
+msgstr "Extensia \"%s\" a fost instalată"
 
 #, tao-public
 msgid "Extensions manager"
-msgstr ""
+msgstr "Manager extensii"
 
 msgid "Factorial"
-msgstr ""
+msgstr "Factorial"
 
 msgid "Failed"
-msgstr ""
+msgstr "Eșuat"
 
 msgid "Failed to copy class."
-msgstr ""
+msgstr "Copierea clasei a eșuat."
 
 msgid "Failed to delete index for %s"
-msgstr ""
+msgstr "Ștergerea indexului pentru %s a eșuat"
 
 msgid "False"
-msgstr ""
+msgstr "Fals"
 
 msgid "Field delimiter"
-msgstr ""
+msgstr "Delimitator câmp"
 
 msgid "Field encloser"
-msgstr ""
+msgstr "Camp inchis"
 
 msgid "Fields must match"
-msgstr ""
+msgstr "Câmpurile trebuie să corespundă"
 
 msgid "File"
-msgstr ""
+msgstr "Fişier"
 
 msgid "File download failed"
-msgstr ""
+msgstr "Descărcarea fișierului a eșuat"
 
 msgid "File name"
-msgstr ""
+msgstr "Nume fișier"
 
 msgid "File Properties"
-msgstr ""
+msgstr "Proprietăți fișier"
 
 msgid "file selected"
-msgstr ""
+msgstr "fișier selectat"
 
 msgid "File Uploader"
-msgstr ""
+msgstr "Încărcare fișier"
 
 msgid "files selected"
-msgstr ""
+msgstr "fișiere selectate"
 
 msgid "Filter"
-msgstr ""
+msgstr "Filtrare"
 
 msgid "Filter by value"
-msgstr ""
+msgstr "Filtrare după valoare"
 
 msgid "Filtering mode"
-msgstr ""
+msgstr "Mod filtrare"
 
 msgid "First Name"
 msgstr "Prenume"
@@ -1005,67 +1007,67 @@ msgid "First page"
 msgstr "Prima pagină"
 
 msgid "First row column names"
-msgstr ""
+msgstr "Numele coloanelor pentru prima linie"
 
 msgid "Fit to width"
-msgstr ""
+msgstr "Potrivire la lățime"
 
 msgid "Flash video"
 msgstr "Flash video"
 
 msgid "floor"
-msgstr ""
+msgstr "etaj"
 
 msgid "Flowchart-based programming environment & TI Interactive Workbook"
 msgstr "Calendar de programare bazat pe Flowcharts & TI Interactive Workbook"
 
 msgid "Forbid for all domains"
-msgstr ""
+msgstr "Interzis pentru toate domeniile"
 
 msgid "Force HTTPS on this platform"
-msgstr ""
+msgstr "Forțează HTTPS pe această platformă"
 
 msgid "Force Release"
-msgstr ""
+msgstr "Lansare forţată"
 
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Ți-ai uitat parola?"
 
 msgid "Form"
 msgstr "Formular"
 
 msgid "Form data not saved."
-msgstr ""
+msgstr "Datele din formular nu au fost salvate."
 
 msgid "From"
 msgstr "De la"
 
 msgid "Fuzzy Matching"
-msgstr ""
+msgstr "Fuzzy Matching"
 
 msgid "generated-value"
-msgstr ""
+msgstr "valoare generată"
 
 msgid "Generis Form"
-msgstr ""
+msgstr "Generis Form"
 
 msgid "Geogebra data file"
 msgstr "Fișier de date Geogebra"
 
 msgid "Get History"
-msgstr ""
+msgstr "Obține istoricul"
 
 msgid "Get the history list"
-msgstr ""
+msgstr "Obțineți lista de istoric"
 
 msgid "GIF image"
 msgstr "Imagine GIF"
 
 msgid "Go Back"
-msgstr ""
+msgstr "Mergi înapoi"
 
 msgid "go back to home page"
-msgstr ""
+msgstr "mergi înapoi la pagina principală"
 
 msgid "GZip Compressed Archive"
 msgstr "Arhiva GZip comprimată"
@@ -1074,234 +1076,234 @@ msgid "Header file with extensionsLabels"
 msgstr "Fișier antet cu extensiiEtichete"
 
 msgid "Height"
-msgstr ""
+msgstr "Înălțime"
 
 msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
-msgstr ""
+msgstr "Bună, %s<br>Ați indicat că ați uitat parola TAO."
 
 msgid "Hide detailed report"
-msgstr ""
+msgstr "Ascunde raportul detaliat"
 
 msgid "Hide password"
 msgstr "Ascunde parola"
 
 msgid "Highlight all"
-msgstr ""
+msgstr "Evidențiază toate"
 
 msgid "hours"
-msgstr ""
+msgstr "ore"
 
 msgid "Hyperbolic arc cosine"
-msgstr ""
+msgstr "Cosinusină hiperbolică cu arc"
 
 msgid "Hyperbolic arc sine"
-msgstr ""
+msgstr "sinusul cu arc hiperbolic"
 
 msgid "Hyperbolic arc tangent"
-msgstr ""
+msgstr "Tangenta hiperbolică cu arc"
 
 msgid "Hyperbolic cosine"
-msgstr ""
+msgstr "Cosinusină hiperbolică"
 
 msgid "Hyperbolic sine"
-msgstr ""
+msgstr "Hyperbolic sine"
 
 msgid "Hyperbolic tangent"
-msgstr ""
+msgstr "Hyperbolic tangent"
 
 msgid "Hypertext markup language"
 msgstr "Limba marcajului hipertext"
 
 msgid "I understand that this action is permanent."
-msgstr ""
+msgstr "Înţeleg că această acţiune este permanentă."
 
 msgid "Identifier"
-msgstr ""
+msgstr "Identifier"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr ""
+msgstr "Dacă nu doriți să vă resetați parola, ignorați acest e-mail și parola va rămâne aceeași."
 
 msgid "Implications failed:"
-msgstr ""
+msgstr "Implicații eșuate:"
 
 msgid "Import"
-msgstr ""
+msgstr "Importă"
 
 msgid "Import "
-msgstr ""
+msgstr "Importă "
 
 msgid "Import a %s into \"%s"
-msgstr ""
+msgstr "Importă un %s în%s"
 
 msgid "Import Completed"
-msgstr ""
+msgstr "Import finalizat"
 
 msgid "Import failed."
-msgstr ""
+msgstr "Importare eșuată."
 
 msgid "Import Metadata from CSV file"
-msgstr ""
+msgstr "Importă metadate din fișierul CSV"
 
 msgid "Import Metadata from RDF file"
-msgstr ""
+msgstr "Importă metadate din fișierul RDF"
 
 #, tao-public
 msgid "Import statistical analysis metadata"
-msgstr ""
+msgstr "Importă metadate de analiză statistică"
 
 msgid "Import succeeded."
-msgstr ""
+msgstr "Import cu succes."
 
 msgid "Imported %1$d/%2$d. Some records are invalid."
-msgstr ""
+msgstr "Importat %1$d/%2$d. Unele înregistrări sunt invalide."
 
 msgid "Imported %d resources"
-msgstr ""
+msgstr "Resurse %d importate"
 
 msgid "Imported resource \"%s"
-msgstr ""
+msgstr "Resursa importată \"%s"
 
 msgid "Imported successfully finished!"
-msgstr ""
+msgstr "Importat cu succes!"
 
 msgid "impossible to update task status"
-msgstr ""
+msgstr "imposibilă actualizarea stării sarcinii"
 
 msgid "In Progress"
-msgstr ""
+msgstr "În curs"
 
 msgid "In progress"
-msgstr ""
+msgstr "În curs"
 
 msgid "Include all"
-msgstr ""
+msgstr "Include toate"
 
 msgid "Include any"
-msgstr ""
+msgstr "Include orice"
 
 msgid "Include none"
-msgstr ""
+msgstr "Nu include nimic"
 
 msgid "Inclusive (AND)"
-msgstr ""
+msgstr "Inclusiv (AND)"
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "Indice"
 
 msgid "Index has been deleted for %s"
-msgstr ""
+msgstr "Indicele a fost șters pentru %s"
 
 msgid "Infinity"
-msgstr ""
+msgstr "Infinitate"
 
 msgid "Inherit the permission of the parent folder"
-msgstr ""
+msgstr "Moștenește permisiunea dosarului părinte"
 
 msgid "Injector has to contains a valid \"destination\" field."
-msgstr ""
+msgstr "Injectorul trebuie să conţină un câmp valid de \"destinaţie\"."
 
 msgid "Injector has to contains a valid \"source\" field."
-msgstr ""
+msgstr "Injectorul trebuie să conțină un câmp valid \"sursă\"."
 
 msgid "Inline"
-msgstr ""
+msgstr "Inline"
 
 msgid "Install"
-msgstr ""
+msgstr "Instalează"
 
 msgid "Installation done."
-msgstr ""
+msgstr "Instalare efectuată."
 
 msgid "Installation..."
-msgstr ""
+msgstr "Instalare..."
 
 msgid "Installed Extensions"
-msgstr ""
+msgstr "Extensii instalate"
 
 msgid "Installed Version"
-msgstr ""
+msgstr "Versiunea instalată"
 
 msgid "Installing extension %s..."
-msgstr ""
+msgstr "Instalare extensie %s..."
 
 msgid "Instance saved"
-msgstr ""
+msgstr "Instanță salvată"
 
 msgid "Interface language"
 msgstr "Limba interfeței"
 
 msgid "Interface Language"
-msgstr ""
+msgstr "Limba interfeței"
 
 msgid "Interface Mode"
-msgstr ""
+msgstr "Mod Interfață"
 
 msgid "Invalid CSP header."
-msgstr ""
+msgstr "Header CSP invalid."
 
 msgid "Invalid date range (must be after or the same as: %s)"
-msgstr ""
+msgstr "Interval de dată nevalid (trebuie să fie după sau la fel ca: %s)"
 
 msgid "Invalid date range (must be after: %s)"
-msgstr ""
+msgstr "Intervalul de date invalid (trebuie să fie după: %s)"
 
 msgid "Invalid date range (must be before or the same as: %s)"
-msgstr ""
+msgstr "Intervalul de dată nevalid (trebuie să fie înainte sau identic ca: %s)"
 
 msgid "Invalid date range (must be before: %s)"
-msgstr ""
+msgstr "Intervalul de date invalid (trebuie să fie înainte: %s)"
 
 msgid "Invalid field length"
-msgstr ""
+msgstr "Lungime câmp nevalidă"
 
 msgid "Invalid field range (maximum value: %s)"
-msgstr ""
+msgstr "Domeniu câmp nevalid (valoare maximă: %s)"
 
 msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
-msgstr ""
+msgstr "Domeniu câmp nevalid (valoare minimă: %1$s, valoare maximă: %2$s)"
 
 msgid "Invalid field range (minimum value: %s)"
-msgstr ""
+msgstr "Domeniu câmp nevalid (valoare minimă: %s)"
 
 msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
-msgstr ""
+msgstr "Dimensiune fișier nevalidă (minim %1$s octeți, maxim %2$s octeți)"
 
 msgid "Invalid file type!"
-msgstr ""
+msgstr "Tip de fișier invalid!"
 
 msgid "Invalid input"
-msgstr ""
+msgstr "Invalid input"
 
 msgid "Invalid input for function"
-msgstr ""
+msgstr "Intrare nevalidă pentru funcție"
 
 msgid "Invalid JSON config file: %s"
-msgstr ""
+msgstr "Fișier de configurare JSON nevalid: %s"
 
 msgid "Invalid login or password. Please try again."
-msgstr ""
+msgstr "Nume de conectare sau parolă incorecte. Vă rugăm să încercaţi din nou."
 
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
-msgstr ""
+msgstr "Nume de conectare sau parolă incorecte. Contul dvs. a fost blocat, vă rugăm să contactaţi administratorul."
 
 msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
-msgstr ""
+msgstr "Calea nevalidă a unei surse \"%s\". Calea trebuie să indice către fişierul existent în interiorul pachetului."
 
 msgid "invalid regular expression"
-msgstr ""
+msgstr "expresie regulată nevalidă"
 
 msgid "Invalid value"
 msgstr "Valoare nevalidă"
 
 msgid "Invalid values:"
-msgstr ""
+msgstr "Valori invalide:"
 
 msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
-msgstr ""
+msgstr "Se pare că au fost unele probleme și nu am putut procesa solicitarea dvs. Puteți contacta administratorul TAO, dacă este necesar. Sau, alternativ:"
 
 msgid "items per page"
-msgstr ""
+msgstr "articole pe pagină"
 
 msgid "Javascript code"
 msgstr "Cod Javascript"
@@ -1310,19 +1312,19 @@ msgid "JPEG image"
 msgstr "Imagine JPEG"
 
 msgid "Keep the original permissions"
-msgstr ""
+msgstr "Păstrează permisiunile originale"
 
 msgid "Label"
-msgstr ""
+msgstr "Etichetă"
 
 msgid "Label Path"
-msgstr ""
+msgstr "Calea etichetei"
 
 msgid "Language"
-msgstr ""
+msgstr "Limba"
 
 msgid "Last attempt before your account is locked."
-msgstr ""
+msgstr "Ultima încercare înainte ca contul să fie blocat."
 
 msgid "Last Name"
 msgstr "Nume de familie"
@@ -1334,147 +1336,147 @@ msgid "Last result"
 msgstr "Ultimul rezultat"
 
 msgid "Left parenthesis"
-msgstr ""
+msgstr "Paranteză stângă"
 
 msgid "less than a minute"
 msgstr "mai puțin de un minut"
 
 msgid "List"
-msgstr ""
+msgstr "Listă"
 
 msgid "List \"%s\" has duplicated values."
-msgstr ""
+msgstr "Lista%sa duplicat valorile."
 
 msgid "List - Multiple choice - Check box"
-msgstr ""
+msgstr "Listă - Alegere multiplă - Caseta de selectare"
 
 msgid "List - Multiple choice - Search input"
-msgstr ""
+msgstr "Listă - Alegere multiplă - Căutare intrare"
 
 msgid "List - Single choice - Drop down"
-msgstr ""
+msgstr "Listă - Alegere unică - Renunțați jos"
 
 msgid "List - Single choice - Radio button"
-msgstr ""
+msgstr "Listă - Alegere unică - Buton radio"
 
 msgid "List - Single choice - Search input"
-msgstr ""
+msgstr "Listă - Alegere unică - Intrare căutare"
 
 msgid "List item URI duplications found"
-msgstr ""
+msgstr "S-au găsit duplicări URI elemente listă"
 
 msgid "List values"
-msgstr ""
+msgstr "Listează valorile"
 
 msgid "Load more"
 msgstr "Încarcă mai mult"
 
 msgid "Loaded"
-msgstr ""
+msgstr "Încărcat"
 
 msgid "Loaded at Startup"
-msgstr ""
+msgstr "Încărcat la pornire"
 
 msgid "Loading"
-msgstr ""
+msgstr "Încărcare"
 
 msgid "Loading status"
-msgstr ""
+msgstr "Starea de încărcare"
 
 msgid "Loading task status ..."
-msgstr ""
+msgstr "Se încarcă starea sarcinii..."
 
 msgid "locked by %s"
-msgstr ""
+msgstr "blocat de %s"
 
 msgid "Log in"
-msgstr ""
+msgstr "Autentificare"
 
 msgid "Log Out"
-msgstr ""
+msgstr "Ieșire din cont"
 
 msgid "Login"
-msgstr ""
+msgstr "Autentificare"
 
 msgid "Login available"
-msgstr ""
+msgstr "Autentificare disponibilă"
 
 msgid "Login is already in use."
-msgstr ""
+msgstr "Autentificarea este deja folosită."
 
 msgid "Login is empty."
-msgstr ""
+msgstr "Autentificarea este goală."
 
 msgid "Logout"
-msgstr ""
+msgstr "Deconectare"
 
 msgid "M4A audio"
 msgstr "Audio M4A"
 
 msgid "Main Menu"
-msgstr ""
+msgstr "Meniul principal"
 
 msgid "Maintenance service is already installed."
-msgstr ""
+msgstr "Serviciul de întreţinere este deja instalat."
 
 msgid "Maintenance service must have a persistence option."
-msgstr ""
+msgstr "Serviciul de întreţinere trebuie să aibă o opţiune de persistenţă."
 
 msgid "Maintenance service was installed. Platform is disabled."
-msgstr ""
+msgstr "Serviciul de întreţinere a fost instalat. Platforma este dezactivată."
 
 msgid "Maintenance service was installed. Platform is enabled."
-msgstr ""
+msgstr "Serviciul de întreţinere a fost instalat. Platforma este activată."
 
 msgid "Maintenance storage driver is not set"
-msgstr ""
+msgstr "Conținutul stocării nu este setat"
 
 msgid "Manage class schema"
-msgstr ""
+msgstr "Gestionează schema claselor"
 
 msgid "manage columns"
-msgstr ""
+msgstr "Gestionare coloane"
 
 msgid "Manage data list"
-msgstr ""
+msgstr "Gestionați lista de date"
 
 msgid "Manage Preferences"
-msgstr ""
+msgstr "Gestionare preferințe"
 
 #, tao-public
 msgid "Manage roles"
-msgstr ""
+msgstr "Gestionează rolurile"
 
 msgid "Manage Roles and apply them to users."
-msgstr ""
+msgstr "Gestionați rolurile și aplicați-le utilizatorilor."
 
 #, tao-public
 msgid "Manage users"
-msgstr ""
+msgstr "Gestionați utilizatorii"
 
 msgid "Manage Versioned File"
-msgstr ""
+msgstr "Gestionare fișier versionat"
 
 msgid "Map the properties to the CSV columns"
-msgstr ""
+msgstr "Harta proprietăților la coloanele CSV"
 
 msgid "maximum %s"
-msgstr ""
+msgstr "maxim %s"
 
 msgid "Maximum selection reached"
-msgstr ""
+msgstr "Selecție maximă atinsă"
 
 msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
-msgstr ""
+msgstr "Media redimensionează împreună cu recipientul lor, de exemplu 50% înseamnă jumătate din mărimea containerului, nu jumătate din dimensiunea mediană."
 
 msgid "Message"
-msgstr ""
+msgstr "Mesaj"
 
 msgid "Messages"
 msgstr "Mesaje"
 
 msgid "Metadata export is not available for the selected resource."
-msgstr ""
+msgstr "Exportul de metadate nu este disponibil pentru resursa selectată."
 
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
@@ -1516,47 +1518,47 @@ msgid "Mind mapping software application (free mind open source)"
 msgstr "Mind mapping aplicație (sursă deschisă gratuită pentru mentă)"
 
 msgid "minimum %s"
-msgstr ""
+msgstr "minim %s"
 
 msgid "minutes"
-msgstr ""
+msgstr "minute"
 
 msgid "missing config %s for the service %s"
-msgstr ""
+msgstr "lipsește configurația %s pentru serviciul %s"
 
 msgid "Missing Parameters"
-msgstr ""
+msgstr "Parametri lipsă"
 
 msgid "modulo"
 msgstr "modulo"
 
 msgid "More"
-msgstr ""
+msgstr "Mai"
 
 msgid "Move"
-msgstr ""
+msgstr "Mutare"
 
 msgid "Move Left"
-msgstr ""
+msgstr "Mută la stânga"
 
 msgid "Move Right"
-msgstr ""
+msgstr "Mută la dreapta"
 
 #, tao-public
 msgid "Move role"
-msgstr ""
+msgstr "Mutați rolul"
 
 msgid "Move the cursor one step on the left"
-msgstr ""
+msgstr "Mută cursorul cu un pas în stânga"
 
 msgid "Move the cursor one step on the right"
-msgstr ""
+msgstr "Mută cursorul cu un pas în dreapta"
 
 msgid "Move to"
-msgstr ""
+msgstr "Mutare în"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
-msgstr ""
+msgstr "Mutarea acestui element va înlocui proprietăţile clasei anterioare cu cele ale clasei de destinaţie:"
 
 msgid "MP4 video"
 msgstr "Videoclip MP4"
@@ -1571,120 +1573,120 @@ msgid "MPEG-4 audio file"
 msgstr "Fișier audio MPEG-4"
 
 msgid "Multiple values delimiter"
-msgstr ""
+msgstr "Delimitator de valori multiple"
 
 msgid "Multiply the value by 10^x"
-msgstr ""
+msgstr "Multiplică valoarea cu 10^x"
 
 msgid "Must include at least one letter"
-msgstr ""
+msgstr "Trebuie să includă cel puțin o literă"
 
 msgid "Must include at least one number"
-msgstr ""
+msgstr "Trebuie să includă cel puțin un număr"
 
 msgid "Must include at least one special letter"
-msgstr ""
+msgstr "Trebuie să includă cel puțin o literă specială"
 
 msgid "Must include lower case letters"
-msgstr ""
+msgstr "Trebuie să includă litere mici"
 
 msgid "Must include upper case letters"
-msgstr ""
+msgstr "Trebuie să includă majuscule"
 
 msgid "Mute"
-msgstr ""
+msgstr "Amuțit"
 
 msgid "My custom text translation"
-msgstr ""
+msgstr "Traducerea mea personalizată a textului"
 
 #, tao-public
 msgid "My settings"
 msgstr "Setările mele"
 
 msgid "My settings (%s)"
-msgstr ""
+msgstr "Setările mele (%s)"
 
 msgid "Name"
-msgstr ""
+msgstr "Nume"
 
 msgid "Natural logarithm"
-msgstr ""
+msgstr "logaritm natural"
 
 msgid "New password"
 msgstr "Parola nouă"
 
 #, tao-public
 msgid "New role"
-msgstr ""
+msgstr "Rol nou"
 
 msgid "Next"
-msgstr ""
+msgstr "Următoarea"
 
 msgid "Next match"
-msgstr ""
+msgstr "Următorul meci"
 
 msgid "Next page"
 msgstr "Pagina următoare"
 
 msgid "No"
-msgstr ""
+msgstr "Nr"
 
 msgid "No action specified"
-msgstr ""
+msgstr "Nici o acţiune specificată"
 
 msgid "No client translation bundles updated"
-msgstr ""
+msgstr "Nici un pachet de traducere client actualizat"
 
 msgid "No extensions available."
-msgstr ""
+msgstr "Nici o extensie disponibilă."
 
 msgid "no file not found in this location"
-msgstr ""
+msgstr "nici un fişier nu a fost găsit în această locaţie"
 
 msgid "No file selected"
-msgstr ""
+msgstr "Niciun fișier selectat"
 
 msgid "No files"
-msgstr ""
+msgstr "Niciun fișier"
 
 msgid "No item found. Please try other search criteria."
-msgstr ""
+msgstr "Niciun element găsit. Vă rugăm să încercați alte criterii de căutare."
 
 msgid "no label"
-msgstr ""
+msgstr "fără etichetă"
 
 msgid "No Task yet"
-msgstr ""
+msgstr "Nicio sarcină încă"
 
 msgid "Node duplication has failed"
-msgstr ""
+msgstr "Duplicarea modulului a eșuat"
 
 msgid "none"
-msgstr ""
+msgstr "niciunul"
 
 msgid "Not enough arguments following: %s"
-msgstr ""
+msgstr "Nu sunt suficiente argumente următoarele: %s"
 
 msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
+msgstr "Nu sunt suficiente argumente pentru lipsa opțiunilor: a primit %s, are nevoie de cel puțin %s"
 
 msgid "Not Ready for Translation"
-msgstr ""
+msgstr "Nu este gata pentru traducere"
 
 msgid "Not started"
 msgstr "Neinceput"
 
 msgid "NotEmpty"
-msgstr ""
+msgstr "Notă goală"
 
 msgid "Nothing imported"
-msgstr ""
+msgstr "Nimic importat"
 
 msgid "Nothing to install !"
-msgstr ""
+msgstr "Nimic de instalat!"
 
 msgid "Nothing to list!"
-msgstr ""
+msgstr "Nimic de listat!"
 
 #, tao-public
 msgid "Notifications"
@@ -1694,19 +1696,19 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr ""
+msgstr "șoferii notificărilor nu sunt persistenți. Utilizați un șofer persistent pentru stocarea bazei de date"
 
 msgid "Nth root"
-msgstr ""
+msgstr "A N-a rădăcină"
 
 msgid "number"
-msgstr ""
+msgstr "număr"
 
 msgid "Number of elements"
-msgstr ""
+msgstr "Număr de elemente"
 
 msgid "of"
-msgstr ""
+msgstr "din"
 
 msgid "Off"
 msgstr "Dezactivat"
@@ -1718,25 +1720,25 @@ msgid "Ogg Vorbis video"
 msgstr "Video Ogg Vorbis"
 
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 msgid "OK"
-msgstr ""
+msgstr "Ok"
 
 msgid "Old Password"
-msgstr ""
+msgstr "Parola veche"
 
 msgid "On"
 msgstr "Activat"
 
 msgid "Only allow for my own domain (%s)"
-msgstr ""
+msgstr "Permite numai pentru domeniul meu (%s)"
 
 msgid "Only one of the field must have value %s"
-msgstr ""
+msgstr "Doar unul dintre câmpuri trebuie să aibă valoarea %s"
 
 msgid "Open the item for editing"
-msgstr ""
+msgstr "Deschideți elementul pentru editare"
 
 msgid "OpenDocument Database"
 msgstr "Baza de date OpenDocument"
@@ -1754,25 +1756,25 @@ msgid "OpenDocument Text Template"
 msgstr "Sabloane Text OpenDocument"
 
 msgid "Operated By "
-msgstr ""
+msgstr "Funcționat de "
 
 msgid "or"
-msgstr ""
+msgstr "sau"
 
 msgid "Original"
 msgstr "Originală"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
-msgstr ""
+msgstr "Altfel, apăsând pe Acceptați toate cookie-urile indică faptul că sunteți de acord cu utilizarea cookie-urilor pe dispozitivul dvs. Apăsând pe Respingere toate cookie-urile înseamnă că nu ești de acord cu folosirea cookie-urilor non-strict necesare pe dispozitivul tău."
 
 msgid "Outlook on the next Synchronization"
-msgstr ""
+msgstr "Perspective la următoarea sincronizare"
 
 msgid "Page"
 msgstr "Pagină"
 
 msgid "Pascal file"
-msgstr ""
+msgstr "Fisier Pascal"
 
 msgid "Pascal file (.pas)"
 msgstr "Pascal file (.pas)"
@@ -1781,22 +1783,22 @@ msgid "Password"
 msgstr "Parolă"
 
 msgid "Password changed"
-msgstr ""
+msgstr "Parolă schimbată"
 
 msgid "Password is empty."
-msgstr ""
+msgstr "Parola este goală."
 
 msgid "Password reset"
-msgstr ""
+msgstr "Resetare parolă"
 
 msgid "Password successfully changed"
-msgstr ""
+msgstr "Parola a fost schimbată"
 
 msgid "Passwords are not matching"
-msgstr ""
+msgstr "Parolele nu corespund"
 
 msgid "Pause"
-msgstr ""
+msgstr "Întrerupeți"
 
 msgid "PDF file"
 msgstr "Fişier PDF"
@@ -1805,40 +1807,40 @@ msgid "Pending"
 msgstr "In asteptare"
 
 msgid "Permission denied to write in the selected class"
-msgstr ""
+msgstr "Permisiune refuzată de a scrie în clasa selectată"
 
 msgid "Permission settings"
-msgstr ""
+msgstr "Setări permisiuni"
 
 msgid "Plain text"
-msgstr ""
+msgstr "Text simplu"
 
 msgid "Play"
-msgstr ""
+msgstr "Redare"
 
 msgid "Please confirm deletion"
-msgstr ""
+msgstr "Vă rugăm să confirmați ștergerea"
 
 msgid "Please confirm deletion of %s."
-msgstr ""
+msgstr "Vă rugăm să confirmați ștergerea %s."
 
 msgid "Please confirm deletion of user %s"
-msgstr ""
+msgstr "Vă rugăm să confirmați ștergerea utilizatorului %s"
 
 msgid "Please confirm locking of account %s"
-msgstr ""
+msgstr "Vă rugăm să confirmaţi blocarea contului %s"
 
 msgid "Please confirm property deletion!"
-msgstr ""
+msgstr "Confirmați ștergerea proprietății!"
 
 msgid "Please confirm this operation."
-msgstr ""
+msgstr "Vă rugăm să confirmați această operațiune."
 
 msgid "Please confirm unlocking of account %s"
-msgstr ""
+msgstr "Vă rugăm să confirmați deblocarea contului %s"
 
 msgid "Please contact %s or an administrator to release it"
-msgstr ""
+msgstr "Vă rugăm să contactați %s sau un administrator pentru a-l elibera"
 
 msgid "Please contact your administrator."
 msgstr "Vă rugăm să contactaţi administratorul."
@@ -1847,40 +1849,40 @@ msgid "Please contact your system administrator."
 msgstr "Vă rugăm să contactaţi administratorul de sistem."
 
 msgid "Please define your search in the search panel."
-msgstr ""
+msgstr "Vă rugăm să definiți căutarea în panoul de căutare."
 
 msgid "Please download the track and listen offline."
-msgstr ""
+msgstr "Te rugăm să descarci piesa și să asculți offline."
 
 msgid "Please download the video and view offline."
-msgstr ""
+msgstr "Vă rugăm să descărcați videoclipul și să vizualizați offline."
 
 msgid "Please give a message to your commit"
-msgstr ""
+msgstr "Vă rugăm să trimiteți un mesaj la comiterea dvs."
 
 msgid "Please provide a reason"
-msgstr ""
+msgstr "Vă rugăm să furnizați un motiv"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
+msgstr "Vă rugăm să raportați erorile, ideile, comentariile sau feedback-ul pe Forumul TAO"
 
 msgid "Please select a language."
 msgstr "Vă rugăm să selectați o limbă."
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Vă rugăm să selectați o imagine din managerul de resurse. Puteți adăuga fișiere din computerul dvs cu butonul \"Adăugați fișiere(e)\"."
 
 msgid "Please set 'min' and/or 'max' options!"
-msgstr ""
+msgstr "Vă rugăm să setați opțiunea \"min\" și/sau \"max\"!"
 
 msgid "Please try in %s."
-msgstr ""
+msgstr "Te rugăm să încerci în %s."
 
 msgid "Please wait"
-msgstr ""
+msgstr "Vă rugăm așteptați"
 
 msgid "Please wait while ..."
-msgstr ""
+msgstr "Te rog asteapta cat timp ..."
 
 msgid "PNG image"
 msgstr "Imagine PNG"
@@ -1889,270 +1891,270 @@ msgid "Position"
 msgstr "Poziția"
 
 msgid "Positionals:"
-msgstr ""
+msgstr "Pozitiale:"
 
 msgid "Post install processing"
-msgstr ""
+msgstr "Postaţi procesarea instalării"
 
 msgid "Power of"
-msgstr ""
+msgstr "Puterea de"
 
 msgid "Power of 10"
-msgstr ""
+msgstr "Putere de 10"
 
 msgid "Preparing installation..."
-msgstr ""
+msgstr "Se pregătește instalarea..."
 
 msgid "Preview"
-msgstr ""
+msgstr "Previzualizare"
 
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 msgid "Previous match"
-msgstr ""
+msgstr "Meci anterior"
 
 msgid "Previous page"
-msgstr ""
+msgstr "Pagina precedentă"
 
 msgid "Privacy Policy"
 msgstr "Politica de confidenţialitate"
 
 msgid "Proceed"
-msgstr ""
+msgstr "Continuă"
 
 #, tao-public
 msgid "Properties"
-msgstr ""
+msgstr "Proprietăți"
 
 msgid "Provided URL is not valid"
-msgstr ""
+msgstr "URL-ul furnizat nu este valid"
 
 msgid "Publish"
-msgstr ""
+msgstr "Publică"
 
 msgid "Publish the test"
-msgstr ""
+msgstr "Publicați testul"
 
 msgid "Queued"
-msgstr ""
+msgstr "În aşteptare"
 
 msgid "Quicktime video"
 msgstr "Video rapid"
 
 msgid "Rad"
-msgstr ""
+msgstr "Rostit"
 
 msgid "Radian"
-msgstr ""
+msgstr "Radian"
 
 msgid "random"
-msgstr ""
+msgstr "aleator"
 
 msgid "Random value"
-msgstr ""
+msgstr "Valoare aleatorie"
 
 msgid "Range field is required"
-msgstr ""
+msgstr "Câmpul de gamă este necesar"
 
 msgid "RAR archive"
 msgstr "Arhivă RAR"
 
 msgid "RDF"
-msgstr ""
+msgstr "RDF"
 
 msgid "Ready for Translation"
-msgstr ""
+msgstr "Gata de traducere"
 
 msgid "RealMedia file"
 msgstr "Fișier RealMedia"
 
 msgid "Refresh"
-msgstr ""
+msgstr "Împrospătează"
 
 msgid "Reject all"
-msgstr ""
+msgstr "Respinge toate"
 
 msgid "Release"
-msgstr ""
+msgstr "Eliberează"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
+msgstr "Lansarea blocajului poate duce la pierderea lucrării în curs de către %s."
 
 msgid "Reload"
-msgstr ""
+msgstr "Reload"
 
 msgid "Remind"
-msgstr ""
+msgstr "Reamintire"
 
 msgid "Remind Last"
-msgstr ""
+msgstr "Amintește-ți ultimul"
 
 msgid "Remind the last value"
-msgstr ""
+msgstr "Reaminteşte ultima valoare"
 
 msgid "Remind the next expression in the history"
-msgstr ""
+msgstr "Amintește-ți următoarea expresie din istoric"
 
 msgid "Remind the previous expression in the history"
-msgstr ""
+msgstr "Reaminteşte expresia anterioară din istoric"
 
 msgid "Remind the recorded value"
-msgstr ""
+msgstr "Reaminteşte valoarea înregistrată"
 
 msgid "Remove"
-msgstr ""
+msgstr "Elimină"
 
 msgid "Remove criteria"
 msgstr "Înlătură criteriul"
 
 msgid "remove index"
-msgstr ""
+msgstr "elimină indexul"
 
 msgid "Remove Message"
-msgstr ""
+msgstr "Elimină mesajul"
 
 msgid "Remove the translated item"
-msgstr ""
+msgstr "Elimină elementul tradus"
 
 msgid "Remove this file"
-msgstr ""
+msgstr "Elimină acest fișier"
 
 msgid "Removed %s directories"
-msgstr ""
+msgstr "%s a fost eliminat"
 
 msgid "Removed %s files"
-msgstr ""
+msgstr "S-au eliminat fişierele %s"
 
 msgid "Removing: %s"
-msgstr ""
+msgstr "Eliminare: %s"
 
 msgid "Rename"
-msgstr ""
+msgstr "Redenumire"
 
 msgid "Repeat new password"
-msgstr ""
+msgstr "Repetă parola nouă"
 
 msgid "Repeat password"
-msgstr ""
+msgstr "Repetă parola"
 
 msgid "Request a password reset via Email."
-msgstr ""
+msgstr "Solicită resetarea parolei prin E-Mail."
 
 msgid "require notification ID"
-msgstr ""
+msgstr "necesită ID notificare"
 
 msgid "required"
-msgstr ""
+msgstr "necesar"
 
 msgid "required length"
-msgstr ""
+msgstr "lungimea necesară"
 
 msgid "Requires"
-msgstr ""
+msgstr "Necesită"
 
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 msgid "Reset the range values"
-msgstr ""
+msgstr "Resetează valorile intervalului"
 
 msgid "Resource"
-msgstr ""
+msgstr "Resursă"
 
 msgid "Resource copied"
-msgstr ""
+msgstr "Resursă copiată"
 
 msgid "Resource deleted"
-msgstr ""
+msgstr "Resursă ștearsă"
 
 msgid "Resource Identifier"
-msgstr ""
+msgstr "Identificator resurse"
 
 msgid "Resource Identifier could not be copied to the clipboard"
-msgstr ""
+msgstr "Identificatorul de resurse nu a putut fi copiat în clipboard"
 
 msgid "Resource Identifier has been copied to the clipboard"
-msgstr ""
+msgstr "Identificatorul de resurse a fost copiat în clipboard"
 
 msgid "Resource not imported due to multiple super classes"
-msgstr ""
+msgstr "Resurse neimportate datorită mai multor superclase"
 
 msgid "Resource not imported due to multiple types"
-msgstr ""
+msgstr "Resursa nu este importată datorită mai multor tipuri"
 
 msgid "Resource saved"
-msgstr ""
+msgstr "Resursă salvată"
 
 msgid "resources"
-msgstr ""
+msgstr "resurse"
 
 msgid "Resources moved"
-msgstr ""
+msgstr "Resurse mutate"
 
 msgid "Resources successfully indexed"
-msgstr ""
+msgstr "Resurse indexate cu succes"
 
 msgid "Resources was not indexed"
-msgstr ""
+msgstr "Resursele nu au fost indexate"
 
 msgid "Responsive mode"
-msgstr ""
+msgstr "Mod Responsive"
 
 msgid "Restore sound"
-msgstr ""
+msgstr "Restabilire sunet"
 
 msgid "Return to sign in page"
-msgstr ""
+msgstr "Înapoi la pagina de autentificare"
 
 msgid "Rich Text Format file"
 msgstr "Fișier format text îmbogățit"
 
 msgid "Right click the tree to manage your lists"
-msgstr ""
+msgstr "Faceți clic dreapta pe arbore pentru a vă gestiona listele"
 
 msgid "Right parenthesis"
-msgstr ""
+msgstr "Paranteză dreapta"
 
 msgid "Role saved"
-msgstr ""
+msgstr "Rol salvat"
 
 msgid "Roles"
-msgstr ""
+msgstr "Roluri"
 
 #, tao-public
 msgid "Roles library"
-msgstr ""
+msgstr "Roluri librarie"
 
 msgid "round"
-msgstr ""
+msgstr "rotunjire"
 
 msgid "Round to closest whole number"
-msgstr ""
+msgstr "Rotunjire pentru cel mai apropiat număr întreg"
 
 msgid "Round to lower whole number"
-msgstr ""
+msgstr "Rotunjire la un număr întreg mai mic"
 
 msgid "Round to upper whole number"
-msgstr ""
+msgstr "Rotunjire la numărul întreg"
 
 msgid "Row %s"
-msgstr ""
+msgstr "Rând %s"
 
 msgid "Running task %s"
-msgstr ""
+msgstr "Se execută sarcina %s"
 
 msgid "Save"
-msgstr ""
+msgstr "Salvează"
 
 msgid "Saved."
 msgstr "Salvat."
 
 msgid "Scientific Calculator"
-msgstr ""
+msgstr "Calculator științific"
 
 msgid "Scope"
-msgstr ""
+msgstr "Domeniu"
 
 msgid "Search"
 msgstr "Căutare"
@@ -2161,75 +2163,75 @@ msgid "Search %s"
 msgstr "Căutare %s"
 
 msgid "Search by properties"
-msgstr ""
+msgstr "Căutare după proprietăți"
 
 msgid "Search sub-classes"
-msgstr ""
+msgstr "Căutare sub-clase"
 
 msgid "second"
-msgstr ""
+msgstr "secundă"
 
 msgid "seconds"
-msgstr ""
+msgstr "secunde"
 
 #, tao-public
 msgid "Security"
 msgstr "Securitate"
 
 msgid "Security settings"
-msgstr ""
+msgstr "Setări de securitate"
 
 msgid "Select"
-msgstr ""
+msgstr "Selectare"
 
 msgid "select"
 msgstr "selectare"
 
 msgid "Select a class"
-msgstr ""
+msgstr "Selectează o clasă"
 
 msgid "Select a destination"
-msgstr ""
+msgstr "Selectează o destinație"
 
 msgid "Select a language"
-msgstr ""
+msgstr "Selectaţi o limbă"
 
 msgid "Select loaded %s"
-msgstr ""
+msgstr "Selectați %s încărcat"
 
 msgid "Select this file"
-msgstr ""
+msgstr "Selectează acest fișier"
 
 msgid "select..."
-msgstr ""
+msgstr "selectează..."
 
 msgid "Selected"
-msgstr ""
+msgstr "Selectate"
 
 msgid "Selected file:"
-msgstr ""
+msgstr "Fişier selectat:"
 
 msgid "Selection saved successfully"
-msgstr ""
+msgstr "Selecţie salvată cu succes"
 
 msgid "self-locked"
-msgstr ""
+msgstr "auto-blocat"
 
 msgid "Set the trigonometric function to work in degrees"
-msgstr ""
+msgstr "Setați funcția trigonometrică să funcționeze în grade"
 
 msgid "Set the trigonometric function to work in radians"
-msgstr ""
+msgstr "Setați funcția trigonometrică să funcționeze în radiani"
 
 #, tao-public
 msgid "Settings"
-msgstr ""
+msgstr "Setări"
 
 msgid "Settings updated"
-msgstr ""
+msgstr "Setări actualizate"
 
 msgid "Show detailed report"
-msgstr ""
+msgstr "Arată raportul detaliat"
 
 msgid "Show password"
 msgstr "Arată parola"
@@ -2238,13 +2240,13 @@ msgid "Sibelius music notation"
 msgstr "Notația muzicii Sibelius"
 
 msgid "Sign change"
-msgstr ""
+msgstr "Schimbarea semnului"
 
 msgid "sin"
 msgstr "păcat"
 
 msgid "Sine"
-msgstr ""
+msgstr "Sâmbătă"
 
 msgid "sinh"
 msgstr "sinh"
@@ -2256,76 +2258,76 @@ msgid "Some items could not be deleted"
 msgstr ""
 
 msgid "Some of resources has not be deleted"
-msgstr ""
+msgstr "Unele resurse nu au fost șterse"
 
 msgid "Some resources have not been moved: %s"
-msgstr ""
+msgstr "Unele resurse nu au fost mutate: %s"
 
 msgid "Something unexpected happened."
-msgstr ""
+msgstr "S-a întâmplat ceva neașteptat."
 
 msgid "Sources that can embed this platform in an iFrame"
-msgstr ""
+msgstr "Surse care pot încorpora această platformă într-un iFrame"
 
 msgid "Square root"
-msgstr ""
+msgstr "Rădăcină pătrată"
 
 msgid "Start"
-msgstr ""
+msgstr "Pornire"
 
 msgid "Start of document reached. Continuing from the end."
-msgstr ""
+msgstr "Începutul documentului a fost atins. Continuă de la sfârșit."
 
 msgid "Start translation"
-msgstr ""
+msgstr "Începe traducerea"
 
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 msgid "Status of"
-msgstr ""
+msgstr "Statutul lui"
 
 msgid "Store"
-msgstr ""
+msgstr "Magazin"
 
 msgid "Store the value a variable"
-msgstr ""
+msgstr "Salvează valoarea o variabilă"
 
 msgid "Storing digital video data on a computer game"
 msgstr "Stocarea de date video digitale pe un joc de calculator"
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
-msgstr ""
+msgstr "Cookie strict necesar ar trebui să fie activat în orice moment, astfel încât să putem salva preferințele dvs. pentru setările cookie."
 
 msgid "string"
-msgstr ""
+msgstr "şir"
 
 msgid "Submit"
-msgstr ""
+msgstr "Trimiteți"
 
 msgid "Success"
-msgstr ""
+msgstr "Succes"
 
 msgid "Successfully cloned instance as %s"
-msgstr ""
+msgstr "Instanță clonată cu succes ca %s"
 
 msgid "Successfully deleted %s"
-msgstr ""
+msgstr "Eliminat cu succes %s"
 
 msgid "Successfully imported \"%s"
-msgstr ""
+msgstr "Importat cu succes \"%s"
 
 msgid "Successfully imported %s tripples"
-msgstr ""
+msgstr "Tripluri %s importate cu succes"
 
 msgid "Successfully imported class \"%s"
-msgstr ""
+msgstr "Clasa importată cu succes \"%s"
 
 msgid "Successfully updated %s client translation bundles"
-msgstr ""
+msgstr "Actualizare cu succes %s pachete de traducere client"
 
 msgid "Supported export formats"
-msgstr ""
+msgstr "Formate de export acceptate"
 
 msgid "SVG image"
 msgstr "SVG image"
@@ -2340,391 +2342,394 @@ msgid "tan"
 msgstr "tan"
 
 msgid "Tangent"
-msgstr ""
+msgstr "Tangent"
 
 msgid "tanh"
 msgstr "tanh"
 
 msgid "Tao Default Theme"
-msgstr ""
+msgstr "Tema implicita Tao"
 
 msgid "TAO Home"
 msgstr "Acasă TAO"
 
 msgid "TAO Login"
-msgstr ""
+msgstr "TAO Login"
 
 msgid "TAO platform is already on live mode since %s"
-msgstr ""
+msgstr "Platforma TAO este deja în modul live de la %s"
 
 msgid "TAO platform is already on maintenance mode since %s"
-msgstr ""
+msgstr "Platforma TAO este deja în modul de întreținere deoarece %s"
 
 msgid "TAO platform is live since %s."
-msgstr ""
+msgstr "Platforma TAO este live de la %s."
 
 msgid "TAO platform is now live. It was in maintenance since %s"
-msgstr ""
+msgstr "Platforma TAO este acum live. A fost în întreţinere de la %s"
 
 msgid "TAO platform is now under maintenance. It was in maintenance since %s"
-msgstr ""
+msgstr "Platforma TAO este acum în întreținere. Este în mentenanță de la %s"
 
 msgid "TAO platform is under maintenance since %s"
-msgstr ""
+msgstr "Platforma TAO este în întreținere din momentul %s"
 
 msgid "Tao WebHooks"
-msgstr ""
+msgstr "Tao WebHooks"
 
 msgid "Task %s has been cancelled, message was not processed."
-msgstr ""
+msgstr "Sarcina %s a fost anulată, mesajul nu a fost procesat."
 
 msgid "task created"
-msgstr ""
+msgstr "sarcină creată"
 
 msgid "Task Listing"
-msgstr ""
+msgstr "Listare sarcini"
 
 msgid "Task Name"
-msgstr ""
+msgstr "Nume sarcină"
 
 msgid "Task not found"
-msgstr ""
+msgstr "Sarcina nu a fost găsită"
 
 msgid "Task not returned any report."
-msgstr ""
+msgstr "Sarcina nu a returnat niciun raport."
 
 msgid "Term"
-msgstr ""
+msgstr "Termen"
 
 msgid "TeX file"
 msgstr "Fișier TeX"
 
 msgid "Text - Long - Box"
-msgstr ""
+msgstr "Text - Lung - Cutie"
 
 msgid "Text - Long - HTML editor"
-msgstr ""
+msgstr "Text - Editor lung - HTML"
 
 msgid "Text - Short - Field"
-msgstr ""
+msgstr "Text - Scurt - Câmp"
 
 msgid "Text document file format (Staroffice)"
 msgstr "Format fișier document text (Staroffice)"
 
 msgid "Text to translate"
-msgstr ""
+msgstr "Text de tradus"
 
 msgid "The action will be applied to"
-msgstr ""
+msgstr "Acţiunea va fi aplicată la:"
 
 msgid "The action will be applied to the following"
-msgstr ""
+msgstr "Acțiunea va fi aplicată următoarelor"
 
 msgid "The action will not be applied to "
-msgstr ""
+msgstr "Acțiunea nu va fi aplicată la "
 
 msgid "The action will not be applied to the following"
-msgstr ""
+msgstr "Acțiunea nu va fi aplicată următoarelor"
 
 msgid "The class has been copied."
-msgstr ""
+msgstr "Clasa a fost copiată."
 
 msgid "The column "
-msgstr ""
+msgstr "Coloana "
 
 msgid "The field \"List\" is disabled because the property is part of a dependency"
-msgstr ""
+msgstr "Câmpul \"Listă\" este dezactivat deoarece proprietatea face parte dintr-o dependență"
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
-msgstr ""
+msgstr "Următoarele criterii nu sunt aplicabile clasei selectate și au fost eliminate din căutare"
 
 msgid "The format of this field is not valid."
-msgstr ""
+msgstr "Formatul acestui câmp nu este valid."
 
 msgid "The imported file is not properly UTF-8 encoded."
-msgstr ""
+msgstr "Fișierul importat nu este codificat corect UTF-8."
 
 msgid "The index identifier should not be empty"
-msgstr ""
+msgstr "Identificatorul indexului nu trebuie să fie gol"
 
 msgid "The lock has been released"
-msgstr ""
+msgstr "Blocarea a fost lansată"
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
-msgstr ""
+msgstr "Proprietățile clasei sursă vor fi înlocuite de cele din clasa de destinație. Acest lucru ar putea duce la pierderea metadatelor. Continuați oricum?"
 
 msgid "The selected value(s) must be compatible with the primary property."
-msgstr ""
+msgstr "Valoarea (valorii) selectată(e) trebuie să fie compatibilă cu proprietatea primară."
 
 msgid "The server has sent an empty response"
-msgstr ""
+msgstr "Serverul a trimis un răspuns gol"
 
 msgid "The uploaded file is too large (maximum %s bytes)"
-msgstr ""
+msgstr "Fişierul încărcat este prea mare (maxim %s bytes)"
 
 msgid "The value for the property \"%s\" must be unique."
-msgstr ""
+msgstr "Valoarea pentru proprietatea \"%s\" trebuie să fie unică."
 
 msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
-msgstr ""
+msgstr "Valoarea acestui câmp trebuie să fie un format de dată valid. ex. AAAA-LL-ZZ"
 
 msgid "The value of this field must be an integer"
-msgstr ""
+msgstr "Valoarea acestui câmp trebuie să fie un număr întreg"
 
 msgid "The value of this field must be numeric"
-msgstr ""
+msgstr "Valoarea acestui câmp trebuie să fie numerică"
 
 msgid "There is nothing to list!"
-msgstr ""
+msgstr "Nu este nimic de listat!"
 
 msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
-msgstr ""
+msgstr "Aceste cookie-uri ne permit să numărăm vizite și diverse alte date analitice pentru a putea măsura și îmbunătăți performanța site-ului nostru. Dacă nu permiteți aceste cookie-uri, nu vom ști când ați vizitat site-ul nostru, şi nu va putea monitoriza performanţele acestuia."
 
 msgid "This %s is currently checked out"
-msgstr ""
+msgstr "Acest %s este în prezent verificat"
 
 msgid "This field is required"
 msgstr "Acest câmp este necesar"
 
 msgid "This field is too long"
-msgstr ""
+msgstr "Acest câmp este prea lung"
 
 msgid "This field is too short"
-msgstr ""
+msgstr "Acest câmp este prea scurt"
 
 msgid "This is not a valid email address."
-msgstr ""
+msgstr "Aceasta nu este o adresă de e-mail validă."
 
 msgid "this is required"
-msgstr ""
+msgstr "acest lucru este necesar"
 
 msgid "This Login is already in use"
-msgstr ""
+msgstr "Această autentificare este deja în uz"
 
 msgid "This media cannot be played!"
-msgstr ""
+msgstr "Acest fișier media nu poate fi redat!"
 
 msgid "This or one of %s must have a value"
-msgstr ""
+msgstr "Aceasta sau una din %s trebuie să aibă o valoare"
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
-msgstr ""
+msgstr "Acest link de resetare a parolei nu mai este valid. Este posibil să fi fost deja folosit. Dacă încă dorești să îți resetezi parola, te rugăm să soliciți un link nou"
 
 msgid "This resource is locked"
-msgstr ""
+msgstr "Această resursă este blocată"
 
 msgid "This resource is not ready for translation."
-msgstr ""
+msgstr "Această resursă nu este gata pentru traducere."
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
-msgstr ""
+msgstr "Acest rol este în continuare dat unuia sau mai multor utilizatori. Vă rugăm să eliminați rolul acestor utilizatori mai întâi."
 
 msgid "This should equal %s"
-msgstr ""
+msgstr "Acest lucru ar trebui să fie egal cu %s"
 
 msgid "This should not equal %s"
-msgstr ""
+msgstr "Acest lucru nu trebuie să fie egal cu %s"
 
 msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
-msgstr ""
+msgstr "Acest site folosește cookie-uri pentru a vă îmbunătăți experiența de navigare și pentru a efectua analize și cercetare."
 
 msgid "time"
 msgstr "timp"
 
 msgid "Time zone"
-msgstr ""
+msgstr "Fus orar"
 
 msgid "Title"
-msgstr ""
+msgstr "Titlu"
 
 msgid "to"
-msgstr ""
+msgstr "către"
 
 msgid "To change your preferences, click Manage preferences."
-msgstr ""
+msgstr "Pentru a vă schimba preferințele, faceți clic pe Gestionare preferințe."
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
-msgstr ""
+msgstr "Pentru a reseta parola, faceţi clic pe link-ul de mai jos sau inseraţi-l în browser-ul dvs. Vi se va solicita apoi să creaţi o parolă nouă."
 
 msgid "to translate"
-msgstr ""
+msgstr "a traduce"
 
 msgid "Toggle multiple/single selection"
-msgstr ""
+msgstr "Comută selecția multiplă/unică"
 
 msgid "Toggle the date time picker"
-msgstr ""
+msgstr "Comută selectorul de dată"
 
 msgid "Tokenizer"
-msgstr ""
+msgstr "Tokenizer"
 
 msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
+msgstr "Prea multe argumente fără opțiune: a obținut %s, maxim %s"
 
 msgid "Too many suggestions match your query. Only a few are listed"
-msgstr ""
+msgstr "Prea multe sugestii se potrivesc interogării dvs. Doar câteva sunt listate"
 
 msgid "Total duration"
-msgstr ""
+msgstr "Durată totală"
 
 msgid "Total:"
 msgstr "Total:"
 
 msgid "Translate"
-msgstr ""
+msgstr "Tradu"
 
 msgid "Translate to"
-msgstr ""
+msgstr "Tradu în"
 
 msgid "Translated"
-msgstr ""
+msgstr "Tradus"
 
 msgid "Translating"
-msgstr ""
+msgstr "Traducere"
 
 msgid "Translation"
-msgstr ""
+msgstr "Traducere"
 
 msgid "Translation parameters"
-msgstr ""
+msgstr "Parametrii de traducere"
 
 msgid "Translation Progress"
-msgstr ""
+msgstr "Progresul traducerii"
 
 msgid "Translation saved"
-msgstr ""
+msgstr "Traducere salvată"
 
 msgid "Translation Status"
-msgstr ""
+msgstr "Status traducere"
 
 msgid "Translation Type"
-msgstr ""
+msgstr "Tip traducere"
 
 msgid "Translations"
 msgstr "Traduceri"
 
 msgid "Transport Layer Security"
-msgstr ""
+msgstr "Securitatea nivelului de transport"
 
 msgid "Tree - Multiple node choice"
-msgstr ""
+msgstr "Copac - alegere multiplă a nodului"
 
 msgid "Tree - Multiple node choice "
-msgstr ""
+msgstr "Copac - alegere multiplă a nodului "
 
 msgid "Tree values"
-msgstr ""
+msgstr "Valori copac"
 
 msgid "True"
-msgstr ""
+msgstr "Adevărat"
 
 msgid "trunc"
-msgstr ""
+msgstr "trunc"
 
 msgid "Type"
-msgstr ""
+msgstr "Tip"
 
 msgid "Type your search"
-msgstr ""
+msgstr "Introduceți căutarea"
 
 msgid "Unable to access your account?"
-msgstr ""
+msgstr "Imposibil de accesat contul?"
 
 msgid "Unable to change passwords in demo mode"
-msgstr ""
+msgstr "Imposibil de modificat parolele în modul demo"
+
+msgid "Unable to clone the resource"
+msgstr "Imposibil de clonat resursa"
 
 msgid "Unable to clone the resource"
 msgstr ""
 
 msgid "Unable to copy the resource"
-msgstr ""
+msgstr "Imposibil de copiat resursa"
 
 msgid "Unable to delete %s"
-msgstr ""
+msgstr "Imposibil de șters %s"
 
 msgid "Unable to delete the selected resource"
-msgstr ""
+msgstr "Imposibil de șters resursa selectată"
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
-msgstr ""
+msgstr "Imposibil de șters resursa selectată, deoarece nu aveți drepturile necesare pentru a șterge o parte din conținutul său."
 
 msgid "Unable to delete the selected resources"
-msgstr ""
+msgstr "Imposibil de șters resursele selectate"
 
 msgid "Unable to move the resources"
-msgstr ""
+msgstr "Imposibil de mutat resursele"
 
 msgid "Unable to open file %s"
-msgstr ""
+msgstr "Imposibil de deschis fișierul %s"
 
 msgid "Unable to process your request"
-msgstr ""
+msgstr "Solicitarea dvs. nu poate fi procesată"
 
 msgid "Unable to release the lock"
-msgstr ""
+msgstr "Imposibil de deblocat blocarea"
 
 msgid "Unable to remove the property."
-msgstr ""
+msgstr "Imposibil de eliminat proprietatea."
 
 msgid "Unable to save resource."
-msgstr ""
+msgstr "Imposibil de salvat resursa."
 
 msgid "unable to search into notification."
-msgstr ""
+msgstr "nu se poate căuta notificarea."
 
 msgid "Unable to send the password reset request"
-msgstr ""
+msgstr "Imposibil de trimis solicitarea de resetare a parolei"
 
 msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
-msgstr ""
+msgstr "Imposibil de sincronizat datele statistice. Vă rugăm să contactaţi administratorul de sistem pentru mai multe detalii"
 
 msgid "Unable to update the asset service"
-msgstr ""
+msgstr "Imposibil de actualizat serviciul de active"
 
 msgid "Unable to upload file"
-msgstr ""
+msgstr "Imposibil de încărcat fișierul"
 
 msgid "Unable to upload file %s : %s"
-msgstr ""
+msgstr "Imposibil de încărcat fișierul %s : %s"
 
 msgid "Unary operator +"
-msgstr ""
+msgstr "Unary operator +"
 
 msgid "Unary operator -"
-msgstr ""
+msgstr "Operator fără legătură -"
 
 msgid "Unauthorized files have been removed"
-msgstr ""
+msgstr "Fișierele neautorizate au fost eliminate"
 
 msgid "Uncheck All"
-msgstr ""
+msgstr "Debifează tot"
 
 msgid "Uncheck all"
-msgstr ""
+msgstr "Debifează tot"
 
 msgid "Undefined amount of the pages for pagination"
-msgstr ""
+msgstr "Numărul nedefinit de pagini pentru paginare"
 
 msgid "Undefined amount of the totalPages for pagination"
-msgstr ""
+msgstr "Suma nedefinită a totalPages pentru paginare"
 
 msgid "Undefined Instance can not be saved"
-msgstr ""
+msgstr "Instanța nedefinită nu poate fi salvată"
 
 msgid "Undo"
-msgstr ""
+msgstr "Anulează"
 
 msgid "Unexpected error. Please contact administrator"
-msgstr ""
+msgstr "Eroare neașteptată. Contactați administratorul"
 
 msgid "Uninstall of %s failed"
-msgstr ""
+msgstr "Dezinstalarea %s a eșuat"
 
 msgid "Uninstalled %s"
-msgstr ""
+msgstr "Dezinstalat %s"
 
 msgid "Unique Identifier"
-msgstr ""
+msgstr "Unique Identifier"
 
 msgid "UNIX Compressed Archive File"
 msgstr "Fișier arhivă comprimat UNIX"
@@ -2736,76 +2741,76 @@ msgid "Unknown Error"
 msgstr "Eroare necunoscută"
 
 msgid "unkown task id %s"
-msgstr ""
+msgstr "unkown task id %s"
 
 msgid "Update"
 msgstr "Actualizare"
 
 msgid "Update ID : %s"
-msgstr ""
+msgstr "ID actualizare : %s"
 
 msgid "Updating search index"
-msgstr ""
+msgstr "Actualizarea indexului de căutare"
 
 msgid "Upload"
-msgstr ""
+msgstr "Incarca"
 
 msgid "Upload into:"
-msgstr ""
+msgstr "Încarcă în:"
 
 msgid "URI Path"
-msgstr ""
+msgstr "URI Path"
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
-msgstr ""
+msgstr "Utilizare: ImportRdf RDF_FILE [MODEL_ID]"
 
 msgid "USAGE: please provide a valid extension id as second parameter"
-msgstr ""
+msgstr "USAGE: vă rugăm să furnizaţi un ID de extensie valid ca al doilea parametru"
 
 msgid "USAGE: please provide a valid service name as first parameter"
-msgstr ""
+msgstr "USAGE: vă rugăm să furnizați un nume de serviciu valid ca prim parametru"
 
 msgid "USAGE: please provide the service name as first parameter"
-msgstr ""
+msgstr "USAGE: vă rugăm să furnizaţi numele serviciului ca prim parametru"
 
 msgid "Use a term"
-msgstr ""
+msgstr "Utilizați un termen"
 
 msgid "Use a variable"
-msgstr ""
+msgstr "Folosește o variabilă"
 
 msgid "Use default value"
-msgstr ""
+msgstr "Folosește valoarea implicită"
 
 msgid "User"
-msgstr ""
+msgstr "Utilizator"
 
 msgid "User %s can not be locked"
-msgstr ""
+msgstr "Utilizatorul %s nu poate fi blocat"
 
 msgid "User %s can not be unlocked"
-msgstr ""
+msgstr "Utilizatorul %s nu poate fi deblocat"
 
 msgid "User %s successfully locked"
-msgstr ""
+msgstr "Utilizator %s blocat cu succes"
 
 msgid "User %s successfully unlocked"
-msgstr ""
+msgstr "Utilizator %s deblocat cu succes"
 
 msgid "User added"
-msgstr ""
+msgstr "Utilizator adăugat"
 
 msgid "User deleted successfully"
-msgstr ""
+msgstr "Utilizator șters cu succes"
 
 msgid "User deletion not permitted on a demo instance"
-msgstr ""
+msgstr "Ștergerea utilizatorului nu este permisă într-o instanță demonstrativă"
 
 msgid "User not found"
-msgstr ""
+msgstr "Utilizator negăsit"
 
 msgid "User saved"
-msgstr ""
+msgstr "Utilizator salvat"
 
 #, tao-public
 msgid "User Settings"
@@ -2813,71 +2818,71 @@ msgstr "Setări utilizator"
 
 #, tao-public
 msgid "Users"
-msgstr ""
+msgstr "Utilizatori"
 
 msgid "Validation for field '%s' has failed. Language does not exist in the system"
-msgstr ""
+msgstr "Validarea pentru câmpul '%s' a eșuat. Limba nu există în sistem"
 
 msgid "Validation for field '%s' has failed. List of values expected"
-msgstr ""
+msgstr "Validarea pentru câmpul '%s' a eșuat. Lista valorilor așteptate"
 
 msgid "Validation for field '%s' has failed. Should not be empty"
-msgstr ""
+msgstr "Validarea pentru câmpul '%sa eșuat. Nu ar trebui să fie gol"
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
-msgstr ""
+msgstr "Validarea pentru câmpul '%s' a eșuat. Se așteaptă roluri valide. Dărui: %s"
 
 msgid "Validation for field '%s' has failed. Valid URI expected"
-msgstr ""
+msgstr "Validarea pentru câmpul '%s' a eșuat. URI valid așteptat"
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
-msgstr ""
+msgstr "Validarea pentru câmpul '%s' a eșuat. Se aștepta URI. Dărui: %s"
 
 msgid "Value ellipsis"
-msgstr ""
+msgstr "Valoare elipsă"
 
 msgid "Value of E"
-msgstr ""
+msgstr "Valoarea E"
 
 msgid "Value of PI"
-msgstr ""
+msgstr "Valoarea PI"
 
 msgid "Variable"
-msgstr ""
+msgstr "Variabilă"
 
 msgid "Variable %s"
-msgstr ""
+msgstr "Variabilă %s"
 
 msgid "Version"
-msgstr ""
+msgstr "Versiune"
 
 msgid "View"
-msgstr ""
+msgstr "Vizualizare"
 
 msgid "View report"
 msgstr "Vizualizați raportul"
 
 msgid "View resources as a list"
-msgstr ""
+msgstr "Vezi resursele ca o listă"
 
 msgid "View resources as a tree"
-msgstr ""
+msgstr "Vezi resursele ca un copac"
 
 msgid "Wait is over"
-msgstr ""
+msgstr "Așteptați terminat"
 
 msgid "Waiting"
-msgstr ""
+msgstr "Aşteptare"
 
 msgid "WAV audio"
 msgstr "WAV audio"
 
 msgid "WebHook auth configuration can not be loaded"
-msgstr ""
+msgstr "Configurația WebHook auth nu poate fi încărcată"
 
 #, tao-public
 msgid "WebHooks"
-msgstr ""
+msgstr "WebHooks"
 
 msgid "WebM audio"
 msgstr "Audio WebM"
@@ -2886,10 +2891,10 @@ msgid "WebM video"
 msgstr "Video WebM"
 
 msgid "Whole number part"
-msgstr ""
+msgstr "Număr întreg parte"
 
 msgid "Width"
-msgstr ""
+msgstr "Width"
 
 msgid "Windows help file"
 msgstr "Fisier de ajutor Windows"
@@ -2904,85 +2909,85 @@ msgid "Windows Media video"
 msgstr "Windows Media video"
 
 msgid "with"
-msgstr ""
+msgstr "cu"
 
 msgid "Wrap image left"
-msgstr ""
+msgstr "Wrap image left"
 
 msgid "Wrap image right"
-msgstr ""
+msgstr "Încadrează imaginea la dreapta"
 
 msgid "Write Document"
 msgstr "Scrie Document"
 
 msgid "Wrong or missing parameter extension, module or action"
-msgstr ""
+msgstr "Extensia parametrului este greșită sau lipsește sau modul sau acțiunea"
 
 msgid "Wrong parameter shownExtension"
-msgstr ""
+msgstr "Extensie de afisare parametru greşită"
 
 msgid "XML file"
 msgstr "Fișier XML"
 
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 msgid "You are encountering a prolonged connectivity loss."
-msgstr ""
+msgstr "Te confrunți cu o pierdere de conectivitate prelungită."
 
 msgid "You are not allowed to write in the class %s"
-msgstr ""
+msgstr "Nu aveţi permisiunea să scrieţi în clasa %s"
 
 msgid "You are not authorised to remove this lock"
-msgstr ""
+msgstr "Nu sunteți autorizat să eliminați această blocare"
 
 msgid "You can choose which types of cookies you want to allow to improve your experience."
-msgstr ""
+msgstr "Puteți alege tipurile de cookie-uri pe care doriți să le permiteți să vă îmbunătățiți experiența."
 
 msgid "You can read more about this in our"
-msgstr ""
+msgstr "Puteți citi mai multe despre acest lucru în"
 
 msgid "You cannot delete the root node"
-msgstr ""
+msgstr "Nu se poate șterge modulul rădăcină"
 
 msgid "You cannot move the selected resources in the class %s"
-msgstr ""
+msgstr "Nu puteți muta resursele selectate în clasa %s"
 
 msgid "You currently have no access to the platform"
-msgstr ""
+msgstr "Momentan nu ai acces la platformă"
 
 msgid "You do not have the required rights to edit this resource."
-msgstr ""
+msgstr "Nu ai drepturile necesare pentru a edita această resursă."
 
 msgid "You have been locked due to too many failed login attempts. "
-msgstr ""
+msgstr "Ați fost blocat din cauza prea multor încercări de conectare eșuate. "
 
 msgid "You have been logged out. Please login again"
-msgstr ""
+msgstr "Ai fost deconectat. Te rugăm să te autentifici din nou"
 
 msgid "You must activate JavaScript in your browser to run this application."
-msgstr ""
+msgstr "Trebuie să activați JavaScript în browser pentru a rula această aplicație."
 
 msgid "Your account has been locked, please contact your administrator."
-msgstr ""
+msgstr "Contul dumneavoastră a fost blocat, vă rugăm să contactaţi administratorul."
 
 msgid "Your browser does not meet the technical requirements to run TAO."
-msgstr ""
+msgstr "Browserul dvs. nu îndeplinește cerințele tehnice pentru a rula TAO."
 
 msgid "Your browser does not support copying to the clipboard"
-msgstr ""
+msgstr "Browserul dvs. nu acceptă copierea în clipboard"
 
 msgid "Your browser doesn’t support the audio player."
-msgstr ""
+msgstr "Browserul tău nu acceptă playerul audio."
 
 msgid "Your browser doesn’t support the video player."
-msgstr ""
+msgstr "Browserul tău nu suportă player-ul video."
 
 msgid "Your mail"
-msgstr ""
+msgstr "E-mailul tău"
 
 msgid "Your TAO Password"
-msgstr ""
+msgstr "Parola ta TAO"
 
 msgid "ZIP archive"
 msgstr "Arhivă ZIP"
