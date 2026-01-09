@@ -26,7 +26,6 @@ use PHPUnit\Framework\TestCase;
 use oat\tao\model\http\ContentDetector;
 use Psr\Http\Message\StreamInterface;
 use tao_helpers_File;
-
 use GuzzleHttp\Psr7\Utils;
 
 class ContentDetectorTest extends TestCase

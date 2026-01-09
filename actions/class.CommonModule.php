@@ -42,7 +42,6 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
-
 use GuzzleHttp\Psr7\Utils;
 
 /**

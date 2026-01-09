@@ -23,7 +23,6 @@ namespace oat\tao\model\http;
 
 use Context;
 
-
 /**
  * Class LegacyController
  * @package oat\tao\model\http
