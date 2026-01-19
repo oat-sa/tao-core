@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rdf:RDF
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-	xml:base="http://www.tao.lu/Ontologies/TAO.rdf#"
-	xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
->
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xml:base="http://www.tao.lu/Ontologies/TAO.rdf#">
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Langes-CO">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Spanish (Colombia)]]></rdfs:label>
+    <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:lang="en-US"><![CDATA[]]></rdfs:label>
     <rdf:value><![CDATA[es-CO]]></rdf:value>
-    <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>
-    <tao:LanguageOrientation rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight"/>
+    <tao:LanguageUsages xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#" rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI"/>
+    <tao:LanguageUsages xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#" rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>
+    <tao:LanguageOrientation xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#" rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight"/>
   </rdf:Description>
 </rdf:RDF>

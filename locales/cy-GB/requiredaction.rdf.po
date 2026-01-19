@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 2026.02 LTS\n"
+"PO-Revision-Date: 2026-01-19T13:59:38\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: cy-GB\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: cy-GB\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Required Action Time Rule"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Required Action Time Rule"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Required Action Name"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Name Of Required Action"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Executed At Date"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Time of execution of required action"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Executed by"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Required action executed by user"
+msgstr ""
+

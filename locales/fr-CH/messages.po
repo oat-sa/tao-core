@@ -1,0 +1,2572 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 2026.02 LTS\n"
+"PO-Revision-Date: 2026-01-19T13:45:52\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: fr-CH\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: fr-CH\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid ""
+msgstr ""
+
+msgid " and "
+msgstr ""
+
+msgid " AND "
+msgstr ""
+
+msgid " has been deleted successfully"
+msgstr ""
+
+msgid " is "
+msgstr ""
+
+msgid " next"
+msgstr ""
+
+msgid " Remove criteria"
+msgstr ""
+
+msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "%1$s expected but %2$s detected"
+msgstr ""
+
+msgid "%d attempts left before your account is locked."
+msgstr ""
+
+msgid "%d day"
+msgstr ""
+
+msgid "%d days"
+msgstr ""
+
+msgid "%h hour"
+msgstr ""
+
+msgid "%h hours"
+msgstr ""
+
+msgid "%i minute"
+msgstr ""
+
+msgid "%i minutes"
+msgstr ""
+
+msgid "%m month"
+msgstr ""
+
+msgid "%m months"
+msgstr ""
+
+msgid "%s %s selected"
+msgstr ""
+
+msgid "%s (%s kb)"
+msgstr ""
+
+msgid "%s Class saved"
+msgstr ""
+
+msgid "%s classes"
+msgstr ""
+
+msgid "%s completed"
+msgstr ""
+
+msgid "%s Confirmation"
+msgstr ""
+
+msgid "%s could not be released"
+msgstr ""
+
+msgid "%s created"
+msgstr ""
+
+msgid "%s extension(s) to install."
+msgstr ""
+
+msgid "%s has been deleted"
+msgstr ""
+
+msgid "%s has been released"
+msgstr ""
+
+msgid "%s instances"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr ""
+
+msgid "%s Locked"
+msgstr ""
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
+msgstr ""
+
+msgid "%y year"
+msgstr ""
+
+msgid "%y years"
+msgstr ""
+
+msgid "(empty)"
+msgstr ""
+
+msgid "... reloading page."
+msgstr ""
+
+msgid "7-zip archive"
+msgstr ""
+
+msgid "<del>Filters</del>"
+msgstr ""
+
+msgid "<del>Options</del>"
+msgstr ""
+
+msgid "<strong> %s </strong> has been moved to the background."
+msgstr ""
+
+msgid "> Extension %s succesfully installed."
+msgstr ""
+
+msgid "> Installation done."
+msgstr ""
+
+msgid "a class"
+msgstr ""
+
+msgid "A date has to be a Datetime or timestamp"
+msgstr ""
+
+msgid "A fatal error occured during the installation process."
+msgstr ""
+
+msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
+msgstr ""
+
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
+
+msgid "AAC audio"
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "abs"
+msgstr ""
+
+msgid "AC"
+msgstr ""
+
+msgid "Accept all"
+msgstr ""
+
+msgid "Access Denied"
+msgstr ""
+
+msgid "Access denied. Please renew your authentication!"
+msgstr ""
+
+msgid "Account status"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Action %s - removed %s positions"
+msgstr ""
+
+msgid "Action `%s` is not configured in the action queue service"
+msgstr ""
+
+msgid "Action was not executed yet"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+#, tao-public
+msgid "Add"
+msgstr ""
+
+msgid "Add a CSV file"
+msgstr ""
+
+#, tao-public
+msgid "Add a user"
+msgstr ""
+
+msgid "Add an RDF/XML file"
+msgstr ""
+
+msgid "add criteria"
+msgstr ""
+
+msgid "Add file(s)"
+msgstr ""
+
+msgid "Add index"
+msgstr ""
+
+msgid "Add property"
+msgstr ""
+
+msgid "Adding search index for %s"
+msgstr ""
+
+msgid "Adding search index for created resource"
+msgstr ""
+
+msgid "Adding the new class has failed"
+msgstr ""
+
+msgid "Adding the new resource has failed"
+msgstr ""
+
+msgid "Adding/updating search index for updated resource"
+msgstr ""
+
+msgid "Adobe Flash file"
+msgstr ""
+
+msgid "Advanced search, add filters"
+msgstr ""
+
+msgid "all"
+msgstr ""
+
+msgid "all audios"
+msgstr ""
+
+msgid "All data will be removed in %s"
+msgstr ""
+
+msgid "All fields are required"
+msgstr ""
+
+msgid "all images"
+msgstr ""
+
+msgid "All rights reserved."
+msgstr ""
+
+msgid "all videos"
+msgstr ""
+
+msgid "Allow for all domains"
+msgstr ""
+
+msgid "Allow for the following domains"
+msgstr ""
+
+msgid "Alpha version"
+msgstr ""
+
+msgid "An email has been sent"
+msgstr ""
+
+msgid "An error occurred during user deletion"
+msgstr ""
+
+msgid "An error occurred!"
+msgstr ""
+
+msgid "An exception occured while running \"%s"
+msgstr ""
+
+msgid "an instance"
+msgstr ""
+
+msgid "Analytics cookies"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "Ans"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Apply date range"
+msgstr ""
+
+msgid "Archived"
+msgstr ""
+
+msgid "Are you sure to delete the versioned resource?\n"
+"The history will be lost as well."
+msgstr ""
+
+msgid "Are you sure you want to delete it?"
+msgstr ""
+
+msgid "Are you sure you want to delete the translation for this language?"
+msgstr ""
+
+msgid "Are you sure you want to start the translation for this language?"
+msgstr ""
+
+msgid "Are you sure you wish to delete it"
+msgstr ""
+
+msgid "Assign User to role"
+msgstr ""
+
+#, tao-public
+msgid "Assign Users"
+msgstr ""
+
+msgid "Audio Video Interleave"
+msgstr ""
+
+msgid "Auth type"
+msgstr ""
+
+msgid "Author"
+msgstr ""
+
+msgid "Author Item"
+msgstr ""
+
+msgid "Authoring"
+msgstr ""
+
+msgid "auto unlocked in %s"
+msgstr ""
+
+msgid "Available"
+msgstr ""
+
+msgid "Available Extensions"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Back to listing"
+msgstr ""
+
+msgid "Back to Portal"
+msgstr ""
+
+msgid "Beta version"
+msgstr ""
+
+msgid "Bitmap image"
+msgstr ""
+
+msgid "Browse folders:"
+msgstr ""
+
+msgid "Browse resources"
+msgstr ""
+
+msgid "Browse..."
+msgstr ""
+
+msgid "C"
+msgstr ""
+
+msgid "C file"
+msgstr ""
+
+msgid "C++ file"
+msgstr ""
+
+msgid "Calc speadsheet (Staroffice)"
+msgstr ""
+
+msgid "Calculator"
+msgstr ""
+
+msgid "Calendar"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "cancel"
+msgstr ""
+
+msgid "cancel the action"
+msgstr ""
+
+msgid "Cancelled"
+msgstr ""
+
+msgid "Cannot be edited"
+msgstr ""
+
+msgid "Cannot divide by zero"
+msgstr ""
+
+msgid "Cascading Style Sheets"
+msgstr ""
+
+msgid "Case sensitive"
+msgstr ""
+
+msgid "ceil"
+msgstr ""
+
+msgid "Center"
+msgstr ""
+
+#, tao-public
+msgid "Change password"
+msgstr ""
+
+msgid "Change the password"
+msgstr ""
+
+msgid "Check All"
+msgstr ""
+
+msgid "Check all"
+msgstr ""
+
+msgid "Check-in"
+msgstr ""
+
+msgid "Choose a type for your property first"
+msgstr ""
+
+msgid "Choose a value..."
+msgstr ""
+
+msgid "Choose export format"
+msgstr ""
+
+msgid "Choose import format"
+msgstr ""
+
+msgid "class selected"
+msgstr ""
+
+msgid "Class uri provided is not a valid class."
+msgstr ""
+
+msgid "Cleaning up tmp space complete"
+msgstr ""
+
+msgid "Cleaning up tmp space started"
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the date time picker"
+msgstr ""
+
+msgid "Click to reload."
+msgstr ""
+
+msgid "Click to start"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Close dialog"
+msgstr ""
+
+msgid "Close message"
+msgstr ""
+
+msgid "Code Version"
+msgstr ""
+
+msgid "Collecting of abandoned actions in the action queue ..."
+msgstr ""
+
+msgid "Column"
+msgstr ""
+
+msgid "comment..."
+msgstr ""
+
+msgid "Commit"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+msgid "Completed - Error"
+msgstr ""
+
+msgid "Compressed tar file"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Connect to the TAO platform"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+msgid "Cookie Policy"
+msgstr ""
+
+msgid "Copy"
+msgstr ""
+
+msgid "Copy to"
+msgstr ""
+
+msgid "Copy to clipboard"
+msgstr ""
+
+msgid "cos"
+msgstr ""
+
+msgid "cosh"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Create instance"
+msgstr ""
+
+msgid "Create instance of "
+msgstr ""
+
+msgid "Create translation"
+msgstr ""
+
+msgid "Created"
+msgstr ""
+
+msgid "Creating report ..."
+msgstr ""
+
+msgid "CSP Header settings were saved successfully!"
+msgstr ""
+
+msgid "CSV"
+msgstr ""
+
+msgid "CSV file"
+msgstr ""
+
+msgid "CSV Options"
+msgstr ""
+
+msgid "Current language"
+msgstr ""
+
+msgid "Current playback position"
+msgstr ""
+
+msgid "currently has a dependency established with "
+msgstr ""
+
+msgid "Data imported"
+msgstr ""
+
+msgid "Data imported successfully"
+msgstr ""
+
+msgid "Data imported. Some records are invalid."
+msgstr ""
+
+msgid "Data language"
+msgstr ""
+
+msgid "Data Language"
+msgstr ""
+
+msgid "Data not imported. All records are invalid."
+msgstr ""
+
+msgid "Data source URI"
+msgstr ""
+
+msgid "Database file"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "date range"
+msgstr ""
+
+msgid "date time"
+msgstr ""
+
+msgid "date time range"
+msgstr ""
+
+msgid "Default search"
+msgstr ""
+
+msgid "Define the default values"
+msgstr ""
+
+msgid "Deg"
+msgstr ""
+
+#, tao-public
+msgid "Delete"
+msgstr ""
+
+msgid "Deleting search index for %s"
+msgstr ""
+
+msgid "Deleting this property will also remove the dependency"
+msgstr ""
+
+msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Dependency URI Path"
+msgstr ""
+
+msgid "Depends on property"
+msgstr ""
+
+msgid "Disabled %s"
+msgstr ""
+
+msgid "Do you want to override \"%s\"?"
+msgstr ""
+
+msgid "Do you wish to install the following extension(s):\n"
+"%s?"
+msgstr ""
+
+msgid "Document templates (Staroffice)"
+msgstr ""
+
+msgid "does not match"
+msgstr ""
+
+msgid "Don't set"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Download this file"
+msgstr ""
+
+msgid "Drag file here"
+msgstr ""
+
+msgid "Drag files here"
+msgstr ""
+
+msgid "Drop the files to upload"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+#, tao-public
+msgid "Edit a user"
+msgstr ""
+
+msgid "Edit class %s"
+msgstr ""
+
+msgid "Edit Instance"
+msgstr ""
+
+msgid "Element"
+msgstr ""
+
+msgid "Element deleted."
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Empty resources cannot be translated."
+msgstr ""
+
+msgid "enabled"
+msgstr ""
+
+msgid "Enabled %s"
+msgstr ""
+
+msgid "End of document reached. Continuing from the beginning."
+msgstr ""
+
+msgid "Enhanced metafile"
+msgstr ""
+
+msgid "Enter"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Error adding search index for %s with message %s"
+msgstr ""
+
+msgid "Error during file import"
+msgstr ""
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Essential cookies (required)"
+msgstr ""
+
+msgid "Exclusive (OR)"
+msgstr ""
+
+msgid "Executing task %s failed"
+msgstr ""
+
+msgid "exp"
+msgstr ""
+
+#, tao-public
+msgid "Export"
+msgstr ""
+
+msgid "Export \"%s\" in %s"
+msgstr ""
+
+msgid "Export CSV"
+msgstr ""
+
+msgid "Export failed."
+msgstr ""
+
+msgid "Export Metadata as RDF/XML file"
+msgstr ""
+
+msgid "Export succeeded."
+msgstr ""
+
+msgid "Extension \"%s\" has been installed"
+msgstr ""
+
+#, tao-public
+msgid "Extensions manager"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+msgid "Failed to copy class."
+msgstr ""
+
+msgid "Failed to delete index for %s"
+msgstr ""
+
+msgid "False"
+msgstr ""
+
+msgid "Field delimiter"
+msgstr ""
+
+msgid "Field encloser"
+msgstr ""
+
+msgid "Fields must match"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "File download failed"
+msgstr ""
+
+msgid "File name"
+msgstr ""
+
+msgid "File Properties"
+msgstr ""
+
+msgid "file selected"
+msgstr ""
+
+msgid "File Uploader"
+msgstr ""
+
+msgid "files selected"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Filter by value"
+msgstr ""
+
+msgid "Filtering mode"
+msgstr ""
+
+msgid "First Name"
+msgstr ""
+
+msgid "First page"
+msgstr ""
+
+msgid "First row column names"
+msgstr ""
+
+msgid "Fit to width"
+msgstr ""
+
+msgid "Flash video"
+msgstr ""
+
+msgid "floor"
+msgstr ""
+
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
+msgstr ""
+
+msgid "Forbid for all domains"
+msgstr ""
+
+msgid "Force HTTPS on this platform"
+msgstr ""
+
+msgid "Force Release"
+msgstr ""
+
+msgid "Forgot your password?"
+msgstr ""
+
+msgid "Form"
+msgstr ""
+
+msgid "Form data not saved."
+msgstr ""
+
+msgid "From"
+msgstr ""
+
+msgid "Fuzzy Matching"
+msgstr ""
+
+msgid "Generis Form"
+msgstr ""
+
+msgid "Geogebra data file"
+msgstr ""
+
+msgid "GIF image"
+msgstr ""
+
+msgid "Go Back"
+msgstr ""
+
+msgid "go back to home page"
+msgstr ""
+
+msgid "GZip Compressed Archive"
+msgstr ""
+
+msgid "Header file with extensionsLabels"
+msgstr ""
+
+msgid "Height"
+msgstr ""
+
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
+msgstr ""
+
+msgid "Hide detailed report"
+msgstr ""
+
+msgid "Hide password"
+msgstr ""
+
+msgid "Highlight all"
+msgstr ""
+
+msgid "hours"
+msgstr ""
+
+msgid "Hypertext markup language"
+msgstr ""
+
+msgid "I understand that this action is permanent."
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import a %s into \"%s"
+msgstr ""
+
+msgid "Import Completed"
+msgstr ""
+
+msgid "Import failed."
+msgstr ""
+
+msgid "Import Metadata from CSV file"
+msgstr ""
+
+msgid "Import Metadata from RDF file"
+msgstr ""
+
+#, tao-public
+msgid "Import statistical analysis metadata"
+msgstr ""
+
+msgid "Import succeeded."
+msgstr ""
+
+msgid "Imported %1$d/%2$d. Some records are invalid."
+msgstr ""
+
+msgid "Imported %d resources"
+msgstr ""
+
+msgid "Imported resource \"%s"
+msgstr ""
+
+msgid "Imported successfully finished!"
+msgstr ""
+
+msgid "impossible to update task status"
+msgstr ""
+
+msgid "In Progress"
+msgstr ""
+
+msgid "In progress"
+msgstr ""
+
+msgid "Include all"
+msgstr ""
+
+msgid "Include any"
+msgstr ""
+
+msgid "Include none"
+msgstr ""
+
+msgid "Inclusive (AND)"
+msgstr ""
+
+#, tao-public
+msgid "Index"
+msgstr ""
+
+msgid "Index has been deleted for %s"
+msgstr ""
+
+msgid "Infinity"
+msgstr ""
+
+msgid "Inherit the permission of the parent folder"
+msgstr ""
+
+msgid "Injector has to contains a valid \"destination\" field."
+msgstr ""
+
+msgid "Injector has to contains a valid \"source\" field."
+msgstr ""
+
+msgid "Inline"
+msgstr ""
+
+msgid "Install"
+msgstr ""
+
+msgid "Installation done."
+msgstr ""
+
+msgid "Installation..."
+msgstr ""
+
+msgid "Installed Extensions"
+msgstr ""
+
+msgid "Installed Version"
+msgstr ""
+
+msgid "Installing extension %s..."
+msgstr ""
+
+msgid "Instance saved"
+msgstr ""
+
+msgid "Interface language"
+msgstr ""
+
+msgid "Interface Language"
+msgstr ""
+
+msgid "Interface Mode"
+msgstr ""
+
+msgid "Invalid CSP header."
+msgstr ""
+
+msgid "Invalid date range (must be after or the same as: %s)"
+msgstr ""
+
+msgid "Invalid date range (must be after: %s)"
+msgstr ""
+
+msgid "Invalid date range (must be before or the same as: %s)"
+msgstr ""
+
+msgid "Invalid date range (must be before: %s)"
+msgstr ""
+
+msgid "Invalid field length"
+msgstr ""
+
+msgid "Invalid field range (maximum value: %s)"
+msgstr ""
+
+msgid "Invalid field range (minimum value: %s)"
+msgstr ""
+
+msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
+msgstr ""
+
+msgid "Invalid file type!"
+msgstr ""
+
+msgid "Invalid input"
+msgstr ""
+
+msgid "Invalid input for function"
+msgstr ""
+
+msgid "Invalid login or password. Please try again."
+msgstr ""
+
+msgid "Invalid login or password. Your account has been locked, please contact your administrator."
+msgstr ""
+
+msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
+msgstr ""
+
+msgid "invalid regular expression"
+msgstr ""
+
+msgid "Invalid value"
+msgstr ""
+
+msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
+msgstr ""
+
+msgid "items per page"
+msgstr ""
+
+msgid "Javascript code"
+msgstr ""
+
+msgid "JPEG image"
+msgstr ""
+
+msgid "Keep the original permissions"
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Label Path"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Last attempt before your account is locked."
+msgstr ""
+
+msgid "Last Name"
+msgstr ""
+
+msgid "Last page"
+msgstr ""
+
+msgid "less than a minute"
+msgstr ""
+
+msgid "List"
+msgstr ""
+
+msgid "List \"%s\" has duplicated values."
+msgstr ""
+
+msgid "List - Multiple choice - Check box"
+msgstr ""
+
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
+msgid "List - Single choice - Drop down"
+msgstr ""
+
+msgid "List - Single choice - Radio button"
+msgstr ""
+
+msgid "List - Single choice - Search input"
+msgstr ""
+
+msgid "List values"
+msgstr ""
+
+msgid "Load more"
+msgstr ""
+
+msgid "Loaded"
+msgstr ""
+
+msgid "Loaded at Startup"
+msgstr ""
+
+msgid "Loading"
+msgstr ""
+
+msgid "Loading status"
+msgstr ""
+
+msgid "Loading task status ..."
+msgstr ""
+
+msgid "locked by %s"
+msgstr ""
+
+msgid "Log in"
+msgstr ""
+
+msgid "Log Out"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Login available"
+msgstr ""
+
+msgid "Login is already in use."
+msgstr ""
+
+msgid "Login is empty."
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "M4A audio"
+msgstr ""
+
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
+msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
+msgstr ""
+
+msgid "Maintenance storage driver is not set"
+msgstr ""
+
+msgid "Manage class schema"
+msgstr ""
+
+msgid "manage columns"
+msgstr ""
+
+msgid "Manage Preferences"
+msgstr ""
+
+#, tao-public
+msgid "Manage roles"
+msgstr ""
+
+msgid "Manage Roles and apply them to users."
+msgstr ""
+
+#, tao-public
+msgid "Manage users"
+msgstr ""
+
+msgid "Manage Versioned File"
+msgstr ""
+
+msgid "Map the properties to the CSV columns"
+msgstr ""
+
+msgid "maximum %s"
+msgstr ""
+
+msgid "Maximum selection reached"
+msgstr ""
+
+msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Messages"
+msgstr ""
+
+msgid "Metadata export is not available for the selected resource."
+msgstr ""
+
+msgid "Microsoft Excel"
+msgstr ""
+
+msgid "Microsoft Excel binary format"
+msgstr ""
+
+msgid "Microsoft Office Document Imaging"
+msgstr ""
+
+msgid "Microsoft Powerpoint"
+msgstr ""
+
+msgid "Microsoft Powerpoint slideshow"
+msgstr ""
+
+msgid "Microsoft Project file"
+msgstr ""
+
+msgid "Microsoft Visio file"
+msgstr ""
+
+msgid "Microsoft Word"
+msgstr ""
+
+msgid "Microsoft Word template"
+msgstr ""
+
+msgid "Microsoft Works file"
+msgstr ""
+
+msgid "Microsoft XPS file"
+msgstr ""
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr ""
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr ""
+
+msgid "minimum %s"
+msgstr ""
+
+msgid "minutes"
+msgstr ""
+
+msgid "missing config %s for the service %s"
+msgstr ""
+
+msgid "Missing Parameters"
+msgstr ""
+
+msgid "modulo"
+msgstr ""
+
+msgid "More"
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+#, tao-public
+msgid "Move role"
+msgstr ""
+
+msgid "Move to"
+msgstr ""
+
+msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
+msgstr ""
+
+msgid "MP4 video"
+msgstr ""
+
+msgid "MPEG audio"
+msgstr ""
+
+msgid "MPEG video"
+msgstr ""
+
+msgid "MPEG-4 audio file"
+msgstr ""
+
+msgid "Must include at least one letter"
+msgstr ""
+
+msgid "Must include at least one number"
+msgstr ""
+
+msgid "Must include at least one special letter"
+msgstr ""
+
+msgid "Must include lower case letters"
+msgstr ""
+
+msgid "Must include upper case letters"
+msgstr ""
+
+msgid "Mute"
+msgstr ""
+
+msgid "My custom text translation"
+msgstr ""
+
+#, tao-public
+msgid "My settings"
+msgstr ""
+
+msgid "My settings (%s)"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "New password"
+msgstr ""
+
+#, tao-public
+msgid "New role"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Next match"
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "No action specified"
+msgstr ""
+
+msgid "No client translation bundles updated"
+msgstr ""
+
+msgid "No extensions available."
+msgstr ""
+
+msgid "no file not found in this location"
+msgstr ""
+
+msgid "No file selected"
+msgstr ""
+
+msgid "No files"
+msgstr ""
+
+msgid "No item found. Please try other search criteria."
+msgstr ""
+
+msgid "no label"
+msgstr ""
+
+msgid "No Task yet"
+msgstr ""
+
+msgid "Node duplication has failed"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "Not Ready for Translation"
+msgstr ""
+
+msgid "Not started"
+msgstr ""
+
+msgid "NotEmpty"
+msgstr ""
+
+msgid "Nothing imported"
+msgstr ""
+
+msgid "Nothing to install !"
+msgstr ""
+
+msgid "Nothing to list!"
+msgstr ""
+
+#, tao-public
+msgid "Notifications"
+msgstr ""
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgstr ""
+
+msgid "Number of elements"
+msgstr ""
+
+msgid "of"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "Ogg Vorbis audio"
+msgstr ""
+
+msgid "Ogg Vorbis video"
+msgstr ""
+
+msgid "Ok"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
+msgid "Old Password"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Only allow for my own domain (%s)"
+msgstr ""
+
+msgid "Only one of the field must have value %s"
+msgstr ""
+
+msgid "Open the item for editing"
+msgstr ""
+
+msgid "OpenDocument Database"
+msgstr ""
+
+msgid "OpenDocument Presentation"
+msgstr ""
+
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
+msgid "OpenDocument Text Template"
+msgstr ""
+
+msgid "Operated By "
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid "Original"
+msgstr ""
+
+msgid "Outlook on the next Synchronization"
+msgstr ""
+
+msgid "Page"
+msgstr ""
+
+msgid "Pascal file"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Password changed"
+msgstr ""
+
+msgid "Password is empty."
+msgstr ""
+
+msgid "Password reset"
+msgstr ""
+
+msgid "Password successfully changed"
+msgstr ""
+
+msgid "Passwords are not matching"
+msgstr ""
+
+msgid "Pause"
+msgstr ""
+
+msgid "PDF file"
+msgstr ""
+
+msgid "Pending"
+msgstr ""
+
+msgid "Permission denied to write in the selected class"
+msgstr ""
+
+msgid "Permission settings"
+msgstr ""
+
+msgid "Plain text"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Please confirm deletion"
+msgstr ""
+
+msgid "Please confirm deletion of %s."
+msgstr ""
+
+msgid "Please confirm deletion of user %s"
+msgstr ""
+
+msgid "Please confirm locking of account %s"
+msgstr ""
+
+msgid "Please confirm property deletion!"
+msgstr ""
+
+msgid "Please confirm this operation."
+msgstr ""
+
+msgid "Please confirm unlocking of account %s"
+msgstr ""
+
+msgid "Please contact %s or an administrator to release it"
+msgstr ""
+
+msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please contact your system administrator."
+msgstr ""
+
+msgid "Please define your search in the search panel."
+msgstr ""
+
+msgid "Please download the track and listen offline."
+msgstr ""
+
+msgid "Please download the video and view offline."
+msgstr ""
+
+msgid "Please give a message to your commit"
+msgstr ""
+
+msgid "Please provide a reason"
+msgstr ""
+
+msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
+msgstr ""
+
+msgid "Please select a language."
+msgstr ""
+
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please set 'min' and/or 'max' options!"
+msgstr ""
+
+msgid "Please try in %s."
+msgstr ""
+
+msgid "Please wait"
+msgstr ""
+
+msgid "Please wait while ..."
+msgstr ""
+
+msgid "PNG image"
+msgstr ""
+
+msgid "Position"
+msgstr ""
+
+msgid "Post install processing"
+msgstr ""
+
+msgid "Preparing installation..."
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Previous match"
+msgstr ""
+
+msgid "Previous page"
+msgstr ""
+
+msgid "Privacy Policy"
+msgstr ""
+
+msgid "Proceed"
+msgstr ""
+
+#, tao-public
+msgid "Properties"
+msgstr ""
+
+msgid "Provided URL is not valid"
+msgstr ""
+
+msgid "Publish"
+msgstr ""
+
+msgid "Publish the test"
+msgstr ""
+
+msgid "Queued"
+msgstr ""
+
+msgid "Quicktime video"
+msgstr ""
+
+msgid "Rad"
+msgstr ""
+
+msgid "random"
+msgstr ""
+
+msgid "Range field is required"
+msgstr ""
+
+msgid "RAR archive"
+msgstr ""
+
+msgid "RDF"
+msgstr ""
+
+msgid "Ready for Translation"
+msgstr ""
+
+msgid "RealMedia file"
+msgstr ""
+
+msgid "Refresh"
+msgstr ""
+
+msgid "Reject all"
+msgstr ""
+
+msgid "Release"
+msgstr ""
+
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "Reload"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Remove criteria"
+msgstr ""
+
+msgid "remove index"
+msgstr ""
+
+msgid "Remove Message"
+msgstr ""
+
+msgid "Remove the translated item"
+msgstr ""
+
+msgid "Remove this file"
+msgstr ""
+
+msgid "Removed %s directories"
+msgstr ""
+
+msgid "Removed %s files"
+msgstr ""
+
+msgid "Removing: %s"
+msgstr ""
+
+msgid "Repeat new password"
+msgstr ""
+
+msgid "Repeat password"
+msgstr ""
+
+msgid "Request a password reset via Email."
+msgstr ""
+
+msgid "require notification ID"
+msgstr ""
+
+msgid "required length"
+msgstr ""
+
+msgid "Requires"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Reset the range values"
+msgstr ""
+
+msgid "Resource"
+msgstr ""
+
+msgid "Resource copied"
+msgstr ""
+
+msgid "Resource deleted"
+msgstr ""
+
+msgid "Resource Identifier"
+msgstr ""
+
+msgid "Resource Identifier could not be copied to the clipboard"
+msgstr ""
+
+msgid "Resource Identifier has been copied to the clipboard"
+msgstr ""
+
+msgid "Resource not imported due to multiple super classes"
+msgstr ""
+
+msgid "Resource not imported due to multiple types"
+msgstr ""
+
+msgid "Resource saved"
+msgstr ""
+
+msgid "resources"
+msgstr ""
+
+msgid "Resources moved"
+msgstr ""
+
+msgid "Responsive mode"
+msgstr ""
+
+msgid "Restore sound"
+msgstr ""
+
+msgid "Return to sign in page"
+msgstr ""
+
+msgid "Rich Text Format file"
+msgstr ""
+
+msgid "Role saved"
+msgstr ""
+
+msgid "Roles"
+msgstr ""
+
+#, tao-public
+msgid "Roles library"
+msgstr ""
+
+msgid "round"
+msgstr ""
+
+msgid "Row %s"
+msgstr ""
+
+msgid "Running task %s"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Saved."
+msgstr ""
+
+msgid "Scientific Calculator"
+msgstr ""
+
+msgid "Scope"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Search %s"
+msgstr ""
+
+msgid "Search by properties"
+msgstr ""
+
+msgid "Search sub-classes"
+msgstr ""
+
+msgid "second"
+msgstr ""
+
+msgid "seconds"
+msgstr ""
+
+#, tao-public
+msgid "Security"
+msgstr ""
+
+msgid "Security settings"
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+msgid "select"
+msgstr ""
+
+msgid "Select a class"
+msgstr ""
+
+msgid "Select a destination"
+msgstr ""
+
+msgid "Select a language"
+msgstr ""
+
+msgid "Select loaded %s"
+msgstr ""
+
+msgid "Select this file"
+msgstr ""
+
+msgid "select..."
+msgstr ""
+
+msgid "Selected"
+msgstr ""
+
+msgid "Selected file:"
+msgstr ""
+
+msgid "Selection saved successfully"
+msgstr ""
+
+msgid "self-locked"
+msgstr ""
+
+#, tao-public
+msgid "Settings"
+msgstr ""
+
+msgid "Settings updated"
+msgstr ""
+
+msgid "Show detailed report"
+msgstr ""
+
+msgid "Show password"
+msgstr ""
+
+msgid "Sibelius music notation"
+msgstr ""
+
+msgid "sin"
+msgstr ""
+
+msgid "sinh"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Some items could not be deleted"
+msgstr ""
+
+msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Something unexpected happened."
+msgstr ""
+
+msgid "Sources that can embed this platform in an iFrame"
+msgstr ""
+
+msgid "Start"
+msgstr ""
+
+msgid "Start of document reached. Continuing from the end."
+msgstr ""
+
+msgid "Start translation"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Status of"
+msgstr ""
+
+msgid "Storing digital video data on a computer game"
+msgstr ""
+
+msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Successfully cloned instance as %s"
+msgstr ""
+
+msgid "Successfully deleted %s"
+msgstr ""
+
+msgid "Successfully imported \"%s"
+msgstr ""
+
+msgid "Successfully imported %s tripples"
+msgstr ""
+
+msgid "Successfully imported class \"%s"
+msgstr ""
+
+msgid "Successfully updated %s client translation bundles"
+msgstr ""
+
+msgid "Supported export formats"
+msgstr ""
+
+msgid "SVG image"
+msgstr ""
+
+msgid "Syntax error"
+msgstr ""
+
+msgid "Tagged image file"
+msgstr ""
+
+msgid "tan"
+msgstr ""
+
+msgid "tanh"
+msgstr ""
+
+msgid "Tao Default Theme"
+msgstr ""
+
+msgid "TAO Home"
+msgstr ""
+
+msgid "TAO Login"
+msgstr ""
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
+
+msgid "Tao WebHooks"
+msgstr ""
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
+
+msgid "task created"
+msgstr ""
+
+msgid "Task Listing"
+msgstr ""
+
+msgid "Task Name"
+msgstr ""
+
+msgid "Task not found"
+msgstr ""
+
+msgid "Task not returned any report."
+msgstr ""
+
+msgid "TeX file"
+msgstr ""
+
+msgid "Text - Long - Box"
+msgstr ""
+
+msgid "Text - Long - HTML editor"
+msgstr ""
+
+msgid "Text - Short - Field"
+msgstr ""
+
+msgid "Text document file format (Staroffice)"
+msgstr ""
+
+msgid "Text to translate"
+msgstr ""
+
+msgid "The action will be applied to"
+msgstr ""
+
+msgid "The action will be applied to the following"
+msgstr ""
+
+msgid "The action will not be applied to "
+msgstr ""
+
+msgid "The action will not be applied to the following"
+msgstr ""
+
+msgid "The class has been copied."
+msgstr ""
+
+msgid "The column "
+msgstr ""
+
+msgid "The field \"List\" is disabled because the property is part of a dependency"
+msgstr ""
+
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
+
+msgid "The format of this field is not valid."
+msgstr ""
+
+msgid "The imported file is not properly UTF-8 encoded."
+msgstr ""
+
+msgid "The index identifier should not be empty"
+msgstr ""
+
+msgid "The lock has been released"
+msgstr ""
+
+msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
+msgstr ""
+
+msgid "The selected value(s) must be compatible with the primary property."
+msgstr ""
+
+msgid "The server has sent an empty response"
+msgstr ""
+
+msgid "The uploaded file is too large (maximum %s bytes)"
+msgstr ""
+
+msgid "The value for the property \"%s\" must be unique."
+msgstr ""
+
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
+msgstr ""
+
+msgid "The value of this field must be an integer"
+msgstr ""
+
+msgid "The value of this field must be numeric"
+msgstr ""
+
+msgid "There is nothing to list!"
+msgstr ""
+
+msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
+msgstr ""
+
+msgid "This %s is currently checked out"
+msgstr ""
+
+msgid "This field is required"
+msgstr ""
+
+msgid "This field is too long"
+msgstr ""
+
+msgid "This field is too short"
+msgstr ""
+
+msgid "This is not a valid email address."
+msgstr ""
+
+msgid "this is required"
+msgstr ""
+
+msgid "This Login is already in use"
+msgstr ""
+
+msgid "This media cannot be played!"
+msgstr ""
+
+msgid "This or one of %s must have a value"
+msgstr ""
+
+msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
+msgstr ""
+
+msgid "This resource is locked"
+msgstr ""
+
+msgid "This resource is not ready for translation."
+msgstr ""
+
+msgid "This role is still given to one or more users. Please remove the role to these users first."
+msgstr ""
+
+msgid "This should equal %s"
+msgstr ""
+
+msgid "This should not equal %s"
+msgstr ""
+
+msgid "time"
+msgstr ""
+
+msgid "Time zone"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
+msgstr ""
+
+msgid "to translate"
+msgstr ""
+
+msgid "Toggle multiple/single selection"
+msgstr ""
+
+msgid "Toggle the date time picker"
+msgstr ""
+
+msgid "Tokenizer"
+msgstr ""
+
+msgid "Too many suggestions match your query. Only a few are listed"
+msgstr ""
+
+msgid "Total duration"
+msgstr ""
+
+msgid "Total:"
+msgstr ""
+
+msgid "Translate"
+msgstr ""
+
+msgid "Translate to"
+msgstr ""
+
+msgid "Translated"
+msgstr ""
+
+msgid "Translating"
+msgstr ""
+
+msgid "Translation"
+msgstr ""
+
+msgid "Translation parameters"
+msgstr ""
+
+msgid "Translation Progress"
+msgstr ""
+
+msgid "Translation saved"
+msgstr ""
+
+msgid "Translation Status"
+msgstr ""
+
+msgid "Translation Type"
+msgstr ""
+
+msgid "Translations"
+msgstr ""
+
+msgid "Transport Layer Security"
+msgstr ""
+
+msgid "Tree - Multiple node choice"
+msgstr ""
+
+msgid "Tree values"
+msgstr ""
+
+msgid "True"
+msgstr ""
+
+msgid "trunc"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Type your search"
+msgstr ""
+
+msgid "Unable to access your account?"
+msgstr ""
+
+msgid "Unable to change passwords in demo mode"
+msgstr ""
+
+msgid "Unable to clone the resource"
+msgstr ""
+
+msgid "Unable to copy the resource"
+msgstr ""
+
+msgid "Unable to delete the selected resource"
+msgstr ""
+
+msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
+msgstr ""
+
+msgid "Unable to delete the selected resources"
+msgstr ""
+
+msgid "Unable to open file %s"
+msgstr ""
+
+msgid "Unable to process your request"
+msgstr ""
+
+msgid "Unable to release the lock"
+msgstr ""
+
+msgid "Unable to remove the property."
+msgstr ""
+
+msgid "Unable to save resource."
+msgstr ""
+
+msgid "unable to search into notification."
+msgstr ""
+
+msgid "Unable to send the password reset request"
+msgstr ""
+
+msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
+msgstr ""
+
+msgid "Unable to update the asset service"
+msgstr ""
+
+msgid "Unable to upload file"
+msgstr ""
+
+msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "Unauthorized files have been removed"
+msgstr ""
+
+msgid "Uncheck All"
+msgstr ""
+
+msgid "Uncheck all"
+msgstr ""
+
+msgid "Undefined amount of the pages for pagination"
+msgstr ""
+
+msgid "Undefined amount of the totalPages for pagination"
+msgstr ""
+
+msgid "Undefined Instance can not be saved"
+msgstr ""
+
+msgid "Undo"
+msgstr ""
+
+msgid "Unexpected error. Please contact administrator"
+msgstr ""
+
+msgid "Uninstall of %s failed"
+msgstr ""
+
+msgid "Uninstalled %s"
+msgstr ""
+
+msgid "Unique Identifier"
+msgstr ""
+
+msgid "UNIX Compressed Archive File"
+msgstr ""
+
+msgid "unknown"
+msgstr ""
+
+msgid "Unknown Error"
+msgstr ""
+
+msgid "unkown task id %s"
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+msgid "Update ID : %s"
+msgstr ""
+
+msgid "Updating search index"
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "Upload into:"
+msgstr ""
+
+msgid "URI Path"
+msgstr ""
+
+msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr ""
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
+msgstr ""
+
+msgid "Use default value"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "User %s can not be locked"
+msgstr ""
+
+msgid "User %s can not be unlocked"
+msgstr ""
+
+msgid "User %s successfully locked"
+msgstr ""
+
+msgid "User %s successfully unlocked"
+msgstr ""
+
+msgid "User added"
+msgstr ""
+
+msgid "User deleted successfully"
+msgstr ""
+
+msgid "User deletion not permitted on a demo instance"
+msgstr ""
+
+msgid "User not found"
+msgstr ""
+
+msgid "User saved"
+msgstr ""
+
+#, tao-public
+msgid "User Settings"
+msgstr ""
+
+#, tao-public
+msgid "Users"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Should not be empty"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr ""
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "View report"
+msgstr ""
+
+msgid "View resources as a list"
+msgstr ""
+
+msgid "View resources as a tree"
+msgstr ""
+
+msgid "Wait is over"
+msgstr ""
+
+msgid "Waiting"
+msgstr ""
+
+msgid "WAV audio"
+msgstr ""
+
+msgid "WebHook auth configuration can not be loaded"
+msgstr ""
+
+#, tao-public
+msgid "WebHooks"
+msgstr ""
+
+msgid "WebM audio"
+msgstr ""
+
+msgid "WebM video"
+msgstr ""
+
+msgid "Width"
+msgstr ""
+
+msgid "Windows help file"
+msgstr ""
+
+msgid "Windows Media audio"
+msgstr ""
+
+msgid "Windows Media file (metafile)"
+msgstr ""
+
+msgid "Windows Media video"
+msgstr ""
+
+msgid "with"
+msgstr ""
+
+msgid "Wrap image left"
+msgstr ""
+
+msgid "Wrap image right"
+msgstr ""
+
+msgid "Write Document"
+msgstr ""
+
+msgid "Wrong or missing parameter extension, module or action"
+msgstr ""
+
+msgid "Wrong parameter shownExtension"
+msgstr ""
+
+msgid "XML file"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "You are encountering a prolonged connectivity loss."
+msgstr ""
+
+msgid "You are not allowed to write in the class %s"
+msgstr ""
+
+msgid "You are not authorised to remove this lock"
+msgstr ""
+
+msgid "You can choose which types of cookies you want to allow to improve your experience."
+msgstr ""
+
+msgid "You can read more about this in our"
+msgstr ""
+
+msgid "You cannot delete the root node"
+msgstr ""
+
+msgid "You cannot move the selected resources in the class %s"
+msgstr ""
+
+msgid "You currently have no access to the platform"
+msgstr ""
+
+msgid "You do not have the required rights to edit this resource."
+msgstr ""
+
+msgid "You have been locked due to too many failed login attempts. "
+msgstr ""
+
+msgid "You have been logged out. Please login again"
+msgstr ""
+
+msgid "You must activate JavaScript in your browser to run this application."
+msgstr ""
+
+msgid "Your account has been locked, please contact your administrator."
+msgstr ""
+
+msgid "Your browser does not meet the technical requirements to run TAO."
+msgstr ""
+
+msgid "Your browser does not support copying to the clipboard"
+msgstr ""
+
+msgid "Your browser doesn’t support the audio player."
+msgstr ""
+
+msgid "Your browser doesn’t support the video player."
+msgstr ""
+
+msgid "Your mail"
+msgstr ""
+
+msgid "Your TAO Password"
+msgstr ""
+
+msgid "ZIP archive"
+msgstr ""
+
