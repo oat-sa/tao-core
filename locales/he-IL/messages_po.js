@@ -1,1 +1,1 @@
-[]
+{"Password":"\u05e1\u05d9\u05e1\u05de\u05d4"}

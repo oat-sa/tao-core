@@ -1,1 +1,1 @@
-[]
+{"Manage Access Rights":"Qu\u1ea3n l\u00fd quy\u1ec1n truy c\u1eadp","Manage test takers":"Manage test-takers","Record and manage test takers.":"Record and manage test-takers.","Test takers library":"Test-takers library","Users":"Ng\u01b0\u1eddi d\u00f9ng"}
