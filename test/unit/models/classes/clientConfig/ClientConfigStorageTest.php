@@ -105,6 +105,11 @@ class ClientConfigStorageTest extends TestCase
 
     protected function setUp(): void
     {
+        // Define ROOT_URL constant if not already defined
+        if (!defined('ROOT_URL')) {
+            define('ROOT_URL', 'http://demo.taotesting.com/');
+        }
+
         $this->tokenService = $this->createMock(TokenService::class);
         $this->clientLibRegistry = $this->createMock(ClientLibRegistry::class);
         $this->featureFlagConfigSwitcher = $this->createMock(FeatureFlagConfigSwitcher::class);
@@ -372,7 +377,8 @@ class ClientConfigStorageTest extends TestCase
                         ],
                         'cookiePolicy' => [
                             'privacyPolicyUrl' => 'https://privacyPolicyUrl.taotesting.com',
-                            'cookiePolicyUrl' => 'https://cookiePolicyUrl.taotesting.com'
+                            'cookiePolicyUrl' => 'https://cookiePolicyUrl.taotesting.com',
+                            'display' => true
                         ],
                         'currentUser' => [
                             'id' => 'myUserId',
