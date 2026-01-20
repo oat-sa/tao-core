@@ -53,7 +53,7 @@ function initAnalytics() {
       const userCookieName = await getUserCookieName();
 
       // Check if banner should be displayed based on configuration
-      // If display is false, don't show the banner at all
+      // If display is false, don't show the banner
       const cookiePolicyConfig = context.cookiePolicy || {};
       if (cookiePolicyConfig.display === false) {
         return; // Exit early - don't show banner
