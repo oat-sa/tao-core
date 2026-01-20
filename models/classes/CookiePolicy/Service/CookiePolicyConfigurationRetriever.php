@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2024 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2024-2026 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -51,6 +51,12 @@ class CookiePolicyConfigurationRetriever
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new InvalidArgumentException(
                     sprintf('Invalid CookiePolicy JSON configuration: %s', json_last_error_msg())
+                );
+            }
+
+            if (array_key_exists('display', $cookiePolicyJsonConfig) && !is_bool($cookiePolicyJsonConfig['display'])) {
+                throw new InvalidArgumentException(
+                'Invalid CookiePolicy JSON configuration: "display" must be boolean'
                 );
             }
 

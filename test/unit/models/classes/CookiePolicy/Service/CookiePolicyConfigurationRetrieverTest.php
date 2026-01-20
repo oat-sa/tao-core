@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2025 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2025-2026 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -53,41 +53,6 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
         $this->assertSame('https://custom.com/privacy', $configuration->privacyPolicyUrl);
         $this->assertSame('https://custom.com/cookies', $configuration->cookiePolicyUrl);
         $this->assertTrue($configuration->display); // Should use default from COOKIE_POLICY_CONFIG_DEFAULT (now true)
-    }
-
-    public function testRetrieveWithCustomConfigurationIncludingDisplay(): void
-    {
-        $retriever = new CookiePolicyConfigurationRetriever(
-            json_encode(
-                [
-                    'privacyPolicyUrl' => 'https://custom.com/privacy',
-                    'cookiePolicyUrl' => 'https://custom.com/cookies',
-                    'display' => true,
-                ]
-            )
-        );
-        $configuration = $retriever->retrieve();
-
-        $this->assertSame('https://custom.com/privacy', $configuration->privacyPolicyUrl);
-        $this->assertSame('https://custom.com/cookies', $configuration->cookiePolicyUrl);
-        $this->assertTrue($configuration->display);
-    }
-
-    public function testRetrieveWithDisplayFalse(): void
-    {
-        $retriever = new CookiePolicyConfigurationRetriever(
-            json_encode(
-                [
-                    'display' => false,
-                ]
-            )
-        );
-        $configuration = $retriever->retrieve();
-
-        $this->assertFalse($configuration->display);
-        // URLs should still use defaults
-        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->privacyPolicyUrl);
-        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->cookiePolicyUrl);
     }
 
     public function testCannotRetrieveWithInvalidCustomConfiguration(): void

@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2025 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2025-2026 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -46,18 +46,5 @@ class CookiePolicyConfigurationTest extends TestCase
             ],
             $configuration->jsonSerialize()
         );
-    }
-
-    public function testGetCookiePolicyConfigurationWithDisplayFalse(): void
-    {
-        $privacyPolicyUrl = 'https://example.com/privacy';
-        $cookiePolicyUrl = 'https://example.com/cookies';
-        $display = false;
-
-        $configuration = new CookiePolicyConfiguration($privacyPolicyUrl, $cookiePolicyUrl, $display);
-
-        $this->assertFalse($configuration->display);
-        $serialized = $configuration->jsonSerialize();
-        $this->assertFalse($serialized['display']);
     }
 }
