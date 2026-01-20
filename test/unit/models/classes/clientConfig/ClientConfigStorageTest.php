@@ -230,7 +230,8 @@ class ClientConfigStorageTest extends TestCase
             ->willReturn(
                 new CookiePolicyConfiguration(
                     'https://privacyPolicyUrl.taotesting.com',
-                    'https://cookiePolicyUrl.taotesting.com'
+                    'https://cookiePolicyUrl.taotesting.com',
+                    true
                 )
             );
 
