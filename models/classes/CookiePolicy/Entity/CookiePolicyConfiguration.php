@@ -28,7 +28,8 @@ class CookiePolicyConfiguration implements JsonSerializable
 {
     public function __construct(
         public readonly string $privacyPolicyUrl,
-        public readonly string $cookiePolicyUrl
+        public readonly string $cookiePolicyUrl,
+        public readonly bool $display
     ) {
     }
 
@@ -37,6 +38,7 @@ class CookiePolicyConfiguration implements JsonSerializable
         return [
             'privacyPolicyUrl' => $this->privacyPolicyUrl,
             'cookiePolicyUrl' => $this->cookiePolicyUrl,
+            'display' => $this->display,
         ];
     }
 }

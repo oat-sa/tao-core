@@ -52,6 +52,14 @@ function initAnalytics() {
       const $toggleBannerMessage = $("#cookies-preferences-link");
       const userCookieName = await getUserCookieName();
 
+      // Check if banner should be displayed based on configuration
+      // If display is false, don't show the banner at all
+      const cookiePolicyConfig = context.cookiePolicy || {};
+      if (cookiePolicyConfig.display === false) {
+        return; // Exit early - don't show banner
+      }
+
+      // Check if user already has cookie preferences saved
       if (userCookieName) {
         const cookieValue = cookieStorage.getItem(userCookieName);
         if (cookieValue) {
@@ -59,7 +67,7 @@ function initAnalytics() {
           if (isAnalyticsEnabled) {
             initAnalytics();
           }
-          return; // Don't show banner
+          return; // Don't show banner - user already made choice
         }
       }
 

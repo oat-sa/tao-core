@@ -31,6 +31,7 @@ class CookiePolicyConfigurationRetriever
     public const COOKIE_POLICY_CONFIG_DEFAULT = [
         'privacyPolicyUrl' => 'https://www.taotesting.com/about/privacy/',
         'cookiePolicyUrl' => 'https://www.taotesting.com/about/privacy/',
+        'display' => true,
     ];
 
     private ?string $cookiePolicyJsonConfig;
@@ -56,6 +57,6 @@ class CookiePolicyConfigurationRetriever
             $config = array_merge($config, $cookiePolicyJsonConfig);
         }
 
-        return new CookiePolicyConfiguration($config['privacyPolicyUrl'], $config['cookiePolicyUrl']);
+        return new CookiePolicyConfiguration($config['privacyPolicyUrl'], $config['cookiePolicyUrl'], $config['display']);
     }
 }

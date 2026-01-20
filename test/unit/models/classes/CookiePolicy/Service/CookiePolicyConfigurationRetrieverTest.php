@@ -35,6 +35,7 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
 
         $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->privacyPolicyUrl);
         $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->cookiePolicyUrl);
+        $this->assertTrue($configuration->display); // Default is now true
     }
 
     public function testRetrieveWithCustomConfiguration(): void
@@ -51,6 +52,42 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
 
         $this->assertSame('https://custom.com/privacy', $configuration->privacyPolicyUrl);
         $this->assertSame('https://custom.com/cookies', $configuration->cookiePolicyUrl);
+        $this->assertTrue($configuration->display); // Should use default from COOKIE_POLICY_CONFIG_DEFAULT (now true)
+    }
+
+    public function testRetrieveWithCustomConfigurationIncludingDisplay(): void
+    {
+        $retriever = new CookiePolicyConfigurationRetriever(
+            json_encode(
+                [
+                    'privacyPolicyUrl' => 'https://custom.com/privacy',
+                    'cookiePolicyUrl' => 'https://custom.com/cookies',
+                    'display' => true,
+                ]
+            )
+        );
+        $configuration = $retriever->retrieve();
+
+        $this->assertSame('https://custom.com/privacy', $configuration->privacyPolicyUrl);
+        $this->assertSame('https://custom.com/cookies', $configuration->cookiePolicyUrl);
+        $this->assertTrue($configuration->display);
+    }
+
+    public function testRetrieveWithDisplayFalse(): void
+    {
+        $retriever = new CookiePolicyConfigurationRetriever(
+            json_encode(
+                [
+                    'display' => false,
+                ]
+            )
+        );
+        $configuration = $retriever->retrieve();
+
+        $this->assertFalse($configuration->display);
+        // URLs should still use defaults
+        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->privacyPolicyUrl);
+        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->cookiePolicyUrl);
     }
 
     public function testCannotRetrieveWithInvalidCustomConfiguration(): void
