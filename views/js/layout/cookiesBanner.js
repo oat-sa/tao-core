@@ -50,6 +50,9 @@ function initAnalytics() {
       const $cookiesPreferencesBlock = $("#cookies-preferences");
       const $cookiesMessageBlock = $("#cookies-message");
       const $toggleBannerMessage = $("#cookies-preferences-link");
+      const $links = $('#cookies-message a');
+      const privacyPolicyUrl = $links.eq(0);
+      const cookiePolicyUrl = $links.eq(1);
       const userCookieName = await getUserCookieName();
 
       // Check if banner should be displayed based on configuration
@@ -59,6 +62,10 @@ function initAnalytics() {
         return; // Exit early - don't show banner
       }
 
+      // Apply links to the template
+      privacyPolicyUrl.attr('href', cookiePolicyConfig.privacyPolicyUrl);
+      cookiePolicyUrl.attr('href', cookiePolicyConfig.cookiePolicyUrl);
+
       // Check if user already has cookie preferences saved
       if (userCookieName) {
         const cookieValue = cookieStorage.getItem(userCookieName);
@@ -67,7 +74,7 @@ function initAnalytics() {
           if (isAnalyticsEnabled) {
             initAnalytics();
           }
-          return; // Don't show banner - user already made choice
+          return; // Don't show banner
         }
       }
 
