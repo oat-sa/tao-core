@@ -234,8 +234,8 @@ class ClientConfigStorageTest extends TestCase
             ->method('retrieve')
             ->willReturn(
                 new CookiePolicyConfiguration(
-                    'https://privacyPolicyUrl.taotesting.com',
-                    'https://cookiePolicyUrl.taotesting.com',
+                    'https://privacyPolicyLink.taotesting.com',
+                    'https://cookiePolicyLink.taotesting.com',
                     true
                 )
             );
@@ -376,8 +376,8 @@ class ClientConfigStorageTest extends TestCase
                             'FEATURE_FLAG' => false,
                         ],
                         'cookiePolicy' => [
-                            'privacyPolicyUrl' => 'https://privacyPolicyUrl.taotesting.com',
-                            'cookiePolicyUrl' => 'https://cookiePolicyUrl.taotesting.com',
+                            'privacyPolicyLink' => 'https://privacyPolicyLink.taotesting.com',
+                            'cookiePolicyLink' => 'https://cookiePolicyLink.taotesting.com',
                             'display' => true
                         ],
                         'currentUser' => [

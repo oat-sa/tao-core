@@ -27,8 +27,8 @@ use JsonSerializable;
 class CookiePolicyConfiguration implements JsonSerializable
 {
     public function __construct(
-        public readonly string $privacyPolicyUrl,
-        public readonly string $cookiePolicyUrl,
+        public readonly string $privacyPolicyLink,
+        public readonly string $cookiePolicyLink,
         public readonly bool $display
     ) {
     }
@@ -36,8 +36,8 @@ class CookiePolicyConfiguration implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'privacyPolicyUrl' => $this->privacyPolicyUrl,
-            'cookiePolicyUrl' => $this->cookiePolicyUrl,
+            'privacyPolicyLink' => $this->privacyPolicyLink,
+            'cookiePolicyLink' => $this->cookiePolicyLink,
             'display' => $this->display,
         ];
     }
