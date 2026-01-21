@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2025 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2025-2026 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -35,6 +35,7 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
 
         $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->privacyPolicyUrl);
         $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->cookiePolicyUrl);
+        $this->assertTrue($configuration->display); // Default: true
     }
 
     public function testRetrieveWithCustomConfiguration(): void
@@ -51,6 +52,7 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
 
         $this->assertSame('https://custom.com/privacy', $configuration->privacyPolicyUrl);
         $this->assertSame('https://custom.com/cookies', $configuration->cookiePolicyUrl);
+        $this->assertTrue($configuration->display);
     }
 
     public function testCannotRetrieveWithInvalidCustomConfiguration(): void
