@@ -54,12 +54,6 @@ class CookiePolicyConfigurationRetriever
                 );
             }
 
-            if (array_key_exists('display', $cookiePolicyJsonConfig) && !is_bool($cookiePolicyJsonConfig['display'])) {
-                throw new InvalidArgumentException(
-                    'Invalid CookiePolicy JSON configuration: "display" must be boolean'
-                );
-            }
-
             $config = array_merge($config, $cookiePolicyJsonConfig);
         }
 

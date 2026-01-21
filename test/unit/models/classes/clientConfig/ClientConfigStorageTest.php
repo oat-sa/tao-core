@@ -105,11 +105,6 @@ class ClientConfigStorageTest extends TestCase
 
     protected function setUp(): void
     {
-        // Define ROOT_URL constant if not already defined
-        if (!defined('ROOT_URL')) {
-            define('ROOT_URL', 'http://demo.taotesting.com/');
-        }
-
         $this->tokenService = $this->createMock(TokenService::class);
         $this->clientLibRegistry = $this->createMock(ClientLibRegistry::class);
         $this->featureFlagConfigSwitcher = $this->createMock(FeatureFlagConfigSwitcher::class);
