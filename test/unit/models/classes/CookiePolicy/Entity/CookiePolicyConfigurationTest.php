@@ -29,19 +29,19 @@ class CookiePolicyConfigurationTest extends TestCase
 {
     public function testGetCookiePolicyConfiguration(): void
     {
-        $privacyPolicyLink = 'https://example.com/privacy';
-        $cookiePolicyLink = 'https://example.com/cookies';
+        $privacyPolicyUrl = 'https://example.com/privacy';
+        $cookiePolicyUrl = 'https://example.com/cookies';
         $display = true;
 
-        $configuration = new CookiePolicyConfiguration($privacyPolicyLink, $cookiePolicyLink, $display);
+        $configuration = new CookiePolicyConfiguration($privacyPolicyUrl, $cookiePolicyUrl, $display);
 
-        $this->assertSame($privacyPolicyLink, $configuration->privacyPolicyLink);
-        $this->assertSame($cookiePolicyLink, $configuration->cookiePolicyLink);
+        $this->assertSame($privacyPolicyUrl, $configuration->privacyPolicyUrl);
+        $this->assertSame($cookiePolicyUrl, $configuration->cookiePolicyUrl);
         $this->assertSame($display, $configuration->display);
         $this->assertSame(
             [
-                'privacyPolicyLink' => $privacyPolicyLink,
-                'cookiePolicyLink' => $cookiePolicyLink,
+                'privacyPolicyUrl' => $privacyPolicyUrl,
+                'cookiePolicyUrl' => $cookiePolicyUrl,
                 'display' => $display,
             ],
             $configuration->jsonSerialize()

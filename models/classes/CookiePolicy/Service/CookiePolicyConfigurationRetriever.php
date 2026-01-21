@@ -29,8 +29,8 @@ class CookiePolicyConfigurationRetriever
 {
     public const COOKIE_POLICY_CONFIG = 'COOKIE_POLICY_CONFIG';
     public const COOKIE_POLICY_CONFIG_DEFAULT = [
-        'cookiePolicyLink' => 'https://www.taotesting.com/about/privacy/',
-        'privacyPolicyLink' => 'https://www.taotesting.com/about/privacy/',
+        'privacyPolicyUrl' => 'https://www.taotesting.com/about/privacy/',
+        'cookiePolicyUrl' => 'https://www.taotesting.com/about/privacy/',
         'display' => true,
     ];
 
@@ -64,8 +64,8 @@ class CookiePolicyConfigurationRetriever
         }
 
         return new CookiePolicyConfiguration(
-            $config['privacyPolicyLink'],
-            $config['cookiePolicyLink'],
+            $config['privacyPolicyUrl'],
+            $config['cookiePolicyUrl'],
             $config['display']
         );
     }

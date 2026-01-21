@@ -33,8 +33,8 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
         $retriever = new CookiePolicyConfigurationRetriever();
         $configuration = $retriever->retrieve();
 
-        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->cookiePolicyLink);
-        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->privacyPolicyLink);
+        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->privacyPolicyUrl);
+        $this->assertSame('https://www.taotesting.com/about/privacy/', $configuration->cookiePolicyUrl);
         $this->assertTrue($configuration->display); // Default is now true
     }
 
@@ -43,15 +43,15 @@ class CookiePolicyConfigurationRetrieverTest extends TestCase
         $retriever = new CookiePolicyConfigurationRetriever(
             json_encode(
                 [
-                    'cookiePolicyLink' => 'https://custom.com/cookies',
-                    'privacyPolicyLink' => 'https://custom.com/privacy',
+                    'privacyPolicyUrl' => 'https://custom.com/privacy',
+                    'cookiePolicyUrl' => 'https://custom.com/cookies',
                 ]
             )
         );
         $configuration = $retriever->retrieve();
 
-        $this->assertSame('https://custom.com/cookies', $configuration->cookiePolicyLink);
-        $this->assertSame('https://custom.com/privacy', $configuration->privacyPolicyLink);
+        $this->assertSame('https://custom.com/privacy', $configuration->privacyPolicyUrl);
+        $this->assertSame('https://custom.com/cookies', $configuration->cookiePolicyUrl);
         $this->assertTrue($configuration->display); // Should use default from COOKIE_POLICY_CONFIG_DEFAULT (now true)
     }
 
