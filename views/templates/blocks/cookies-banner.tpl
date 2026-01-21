@@ -12,9 +12,9 @@
       </p>
       <p>
         <?= __('You can read more about this in our') ?>
-        <a href="<?= get_data('privacyPolicyLink') ?: 'https://www.taotesting.com/about/privacy/' ?>" target="_blank"><?= __('Privacy Policy') ?></a>
+        <a id="privacy-policy-link" target="_blank"><?= __('Privacy Policy') ?></a>
         <?= __('and') ?>
-        <a href="<?= get_data('cookiePolicyLink') ?: 'https://www.taotesting.com/about/privacy/' ?>" target="_blank"><?= __('Cookie Policy') ?></a>
+        <a id="cookie-policy-link" target="_blank"><?= __('Cookie Policy') ?></a>
       </p>
     </div>
 

@@ -68,9 +68,8 @@ function initAnalytics() {
       const $cookiesPreferencesBlock = $("#cookies-preferences");
       const $cookiesMessageBlock = $("#cookies-message");
       const $toggleBannerMessage = $("#cookies-preferences-link");
-      const $links = $('#cookies-message a');
-      const privacyPolicyUrl = $links.eq(0);
-      const cookiePolicyUrl = $links.eq(1);
+      const privacyPolicyUrl = $('#privacy-policy-link');
+      const cookiePolicyUrl = $('#cookie-policy-link');
       const userCookieName = await getUserCookieName();
 
       // Check if banner should be displayed based on configuration
