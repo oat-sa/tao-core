@@ -60,38 +60,6 @@ function initAnalytics() {
     }
   }
 
-  /**
-   * Get cookie policy config, waiting if needed for production builds
-   * @returns {Promise<object>} The cookie policy configuration
-   */
-  function getCookiePolicyConfig() {
-    return new Promise((resolve) => {
-      // Check immediately (works in dev, and if config is already ready)
-      if (context.cookiePolicy) {
-        resolve(context.cookiePolicy);
-        return;
-      }
-      
-      // In production, config may load asynchronously - wait briefly
-      let attempts = 0;
-      const check = () => {
-        if (context.cookiePolicy) {
-          resolve(context.cookiePolicy);
-        } else if (attempts++ < 10) {
-          setTimeout(check, 50);
-        } else {
-          // Fallback to defaults
-          resolve({
-            privacyPolicyUrl: 'https://www.taotesting.com/about/privacy/',
-            cookiePolicyUrl: 'https://www.taotesting.com/about/privacy/',
-            display: true
-          });
-        }
-      };
-      check();
-    });
-  }
-
   return {
     init: async function () {
       const $banner = $("#cookies-banner");
@@ -104,21 +72,16 @@ function initAnalytics() {
       const cookiePolicyUrl = $('#cookie-policy-link');
       const userCookieName = await getUserCookieName();
 
-      const cookiePolicyConfig = await getCookiePolicyConfig();
-      
       // Check if banner should be displayed based on configuration
       // If display is false, don't show the banner
+      const cookiePolicyConfig = context.cookiePolicy || {};
       if (cookiePolicyConfig.display === false) {
         return; // Exit early - don't show banner
       }
 
       // Apply links to the template
-      if (cookiePolicyConfig.privacyPolicyUrl) {
-        privacyPolicyUrl.attr('href', cookiePolicyConfig.privacyPolicyUrl);
-      }
-      if (cookiePolicyConfig.cookiePolicyUrl) {
-        cookiePolicyUrl.attr('href', cookiePolicyConfig.cookiePolicyUrl);
-      }
+      privacyPolicyUrl.attr('href', cookiePolicyConfig.privacyPolicyUrl);
+      cookiePolicyUrl.attr('href', cookiePolicyConfig.cookiePolicyUrl);
 
       // Check if user already has cookie preferences saved
       if (userCookieName) {
