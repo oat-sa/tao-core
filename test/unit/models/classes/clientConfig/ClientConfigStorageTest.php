@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2023-2024 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2023-2026 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -230,7 +230,8 @@ class ClientConfigStorageTest extends TestCase
             ->willReturn(
                 new CookiePolicyConfiguration(
                     'https://privacyPolicyUrl.taotesting.com',
-                    'https://cookiePolicyUrl.taotesting.com'
+                    'https://cookiePolicyUrl.taotesting.com',
+                    true
                 )
             );
 
@@ -371,7 +372,8 @@ class ClientConfigStorageTest extends TestCase
                         ],
                         'cookiePolicy' => [
                             'privacyPolicyUrl' => 'https://privacyPolicyUrl.taotesting.com',
-                            'cookiePolicyUrl' => 'https://cookiePolicyUrl.taotesting.com'
+                            'cookiePolicyUrl' => 'https://cookiePolicyUrl.taotesting.com',
+                            'display' => true
                         ],
                         'currentUser' => [
                             'id' => 'myUserId',
