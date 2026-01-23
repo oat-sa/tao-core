@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2025 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2025-2026 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -31,15 +31,18 @@ class CookiePolicyConfigurationTest extends TestCase
     {
         $privacyPolicyUrl = 'https://example.com/privacy';
         $cookiePolicyUrl = 'https://example.com/cookies';
+        $display = true;
 
-        $configuration = new CookiePolicyConfiguration($privacyPolicyUrl, $cookiePolicyUrl);
+        $configuration = new CookiePolicyConfiguration($privacyPolicyUrl, $cookiePolicyUrl, $display);
 
         $this->assertSame($privacyPolicyUrl, $configuration->privacyPolicyUrl);
         $this->assertSame($cookiePolicyUrl, $configuration->cookiePolicyUrl);
+        $this->assertSame($display, $configuration->display);
         $this->assertSame(
             [
                 'privacyPolicyUrl' => $privacyPolicyUrl,
                 'cookiePolicyUrl' => $cookiePolicyUrl,
+                'display' => $display,
             ],
             $configuration->jsonSerialize()
         );

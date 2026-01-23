@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2025-2026 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -28,7 +28,8 @@ class CookiePolicyConfiguration implements JsonSerializable
 {
     public function __construct(
         public readonly string $privacyPolicyUrl,
-        public readonly string $cookiePolicyUrl
+        public readonly string $cookiePolicyUrl,
+        public readonly bool $display
     ) {
     }
 
@@ -37,6 +38,7 @@ class CookiePolicyConfiguration implements JsonSerializable
         return [
             'privacyPolicyUrl' => $this->privacyPolicyUrl,
             'cookiePolicyUrl' => $this->cookiePolicyUrl,
+            'display' => $this->display,
         ];
     }
 }
