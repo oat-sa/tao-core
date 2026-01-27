@@ -122,14 +122,18 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
         $guiUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
         $guiOptions = [];
         foreach ($langService->getAvailableLanguagesByUsage($guiUsage) as $lang) {
-            $guiOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
+            if ($lang->getLabel()) {
+                $guiOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
+            }
         }
 
         // Retrieve languages available for a Data usage.
         $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
         $dataOptions = [];
         foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
-            $dataOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
+            if ($lang->getLabel()) {
+                $dataOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
+            }
         }
 
         $uiLangElement = tao_helpers_form_FormFactory::getElement('ui_lang', 'Combobox');
