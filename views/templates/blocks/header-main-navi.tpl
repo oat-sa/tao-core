@@ -104,16 +104,15 @@ $taoAsATool   = get_data('taoAsATool');
 
                     <?php endforeach ?>
 
-                <?php elseif(!empty($userLabel)): ?>
-
+                <?php else: ?>
+                    <?php $displayName = !empty($userLabel) ? $userLabel : __('User'); ?>
                     <li class="infoControl user-label-outside-menu">
                         <span class="a">
                             <span class="icon-user"></span>
-                            <span><?=$userLabel?></span>
+                            <span><?= $displayName ?></span>
                         </span>
                     </li>
                 <?php endif; ?>
-
                 <?php if(has_data('unread-notification')): ?>
                     <li data-env="user" class="li-logout">
                         <a id="logout" href="<?= get_data('notification-url') ?>" title="<?= __('Messages') ?>">
