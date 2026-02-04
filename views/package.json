@@ -13,7 +13,7 @@
         "@oat-sa/tao-core-libs": "^1.1.0",
         "@oat-sa/tao-core-sdk": "^3.5.0",
         "@oat-sa/tao-core-shared-libs": "^1.11.0",
-        "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#fix/integration-INF-429-INF-426",
+        "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#fix/INF-429/vertical-underline-fix",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
         "gamp": "0.2.1",
