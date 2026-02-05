@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2024 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2024-2026 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -31,6 +31,7 @@ class CookiePolicyConfigurationRetriever
     public const COOKIE_POLICY_CONFIG_DEFAULT = [
         'privacyPolicyUrl' => 'https://www.taotesting.com/about/privacy/',
         'cookiePolicyUrl' => 'https://www.taotesting.com/about/privacy/',
+        'display' => true,
     ];
 
     private ?string $cookiePolicyJsonConfig;
@@ -56,6 +57,10 @@ class CookiePolicyConfigurationRetriever
             $config = array_merge($config, $cookiePolicyJsonConfig);
         }
 
-        return new CookiePolicyConfiguration($config['privacyPolicyUrl'], $config['cookiePolicyUrl']);
+        return new CookiePolicyConfiguration(
+            $config['privacyPolicyUrl'],
+            $config['cookiePolicyUrl'],
+            $config['display']
+        );
     }
 }
