@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-01-19 13:17\n"
+"PO-Revision-Date: 2026-02-05 16:06\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -1205,7 +1205,7 @@ msgid "Infinity"
 msgstr "∞"
 
 msgid "Inherit the permission of the parent folder"
-msgstr "親フォルダの権限を継承する"
+msgstr "親フォルダのアクセス権を継承する"
 
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr "インジェクターには、有効な\"destination\"フィールドが含まれている必要があります。"
@@ -1319,7 +1319,7 @@ msgid "JPEG image"
 msgstr "JPEG画像"
 
 msgid "Keep the original permissions"
-msgstr "元の権限を維持する"
+msgstr "元のアクセス権を維持する"
 
 msgid "Label"
 msgstr "ラベル"
@@ -1814,7 +1814,7 @@ msgid "Permission denied to write in the selected class"
 msgstr "選択したクラスへの書き込みを拒否されました"
 
 msgid "Permission settings"
-msgstr "権限の設定"
+msgstr "アクセス権の設定"
 
 msgid "Plain text"
 msgstr "テキスト"
