@@ -13,7 +13,7 @@
         "@oat-sa/tao-core-libs": "^1.1.0",
         "@oat-sa/tao-core-sdk": "^3.5.0",
         "@oat-sa/tao-core-shared-libs": "^1.11.0",
-        "@oat-sa/tao-core-ui": "^3.17.0",
+        "@oat-sa/tao-core-ui": "^3.18.0",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
         "gamp": "0.2.1",
