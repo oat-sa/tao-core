@@ -37,6 +37,11 @@ class LegacyRoute extends AbstractRoute
         $relativeUrl = \tao_helpers_Request::getRelativeUrl($request->getRequestTarget());
         $parts = explode('/', ltrim($relativeUrl, '/'));
         if ($parts[0] == $this->getId()) {
+            // Do not resolve static asset paths (e.g. views/node_modules/..., *.js.map)
+            $pathAfterExt = isset($parts[1]) ? implode('/', array_slice($parts, 1)) : '';
+            if (strpos($pathAfterExt, 'node_modules') !== false || preg_match('/\.(js|css|map|woff2?|ttf|eot|ico|png|jpe?g|gif|svg)(\?|$)/', $pathAfterExt)) {
+                return null;
+            }
             $controllerShortName = isset($parts[1]) && !empty($parts[1]) ? $parts[1] : DEFAULT_MODULE_NAME;
             $controller          = $this->getExtension()->getId() . '_actions_' . $controllerShortName;
             $action              = isset($parts[2]) && !empty($parts[2]) ? $parts[2] : DEFAULT_ACTION_NAME;

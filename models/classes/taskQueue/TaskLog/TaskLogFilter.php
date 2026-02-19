@@ -207,13 +207,14 @@ class TaskLogFilter
         foreach ($this->getFilters() as $filter) {
             $withParentheses = is_array($filter['value']) ? true : false;
             $type = is_array($filter['value']) ? Connection::PARAM_STR_ARRAY : null;
+            $paramName = ltrim($filter['columnSqlTranslate'], ':');
 
             $qb
                 ->andWhere(
                     $filter['column'] . ' ' . $filter['operator'] . ' ' . ($withParentheses ? '(' : '')
                         . $filter['columnSqlTranslate'] . ($withParentheses ? ')' : '')
                 )
-                ->setParameter($filter['columnSqlTranslate'], $filter['value'], $type);
+                ->setParameter($paramName, $filter['value'], $type);
         }
 
         return $qb;
