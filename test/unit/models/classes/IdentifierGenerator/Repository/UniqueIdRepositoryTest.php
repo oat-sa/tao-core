@@ -291,7 +291,7 @@ class UniqueIdRepositoryTest extends TestCase
         ];
 
         $driverException = $this->createMock(DriverException::class);
-        $exception = new UniqueConstraintViolationException($driverException);
+        $exception = new UniqueConstraintViolationException($driverException, 'Duplicate entry');
 
         $this->platform->expects($this->once())
             ->method('beginTransaction');
