@@ -58,7 +58,6 @@
     "require": {
         "ext-json": "*",
         "ext-mbstring": "*",
-        "doctrine/dbal": "^2.10",
         "ezyang/htmlpurifier": "^4.9",
         "guzzlehttp/guzzle": "^7.0",
         "guzzlehttp/psr7": "^2.0",
