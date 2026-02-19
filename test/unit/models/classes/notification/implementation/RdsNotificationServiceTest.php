@@ -21,7 +21,7 @@
 namespace oat\tao\test\unit\models\classes\notification\implementation;
 
 use common_persistence_SqlPersistence;
-use Doctrine\DBAL\Driver\Statement;
+use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
@@ -161,13 +161,13 @@ class RdsNotificationServiceTest extends TestCase
 
     public function testNotificationCount(): void
     {
-        $statementMock = $this->createMock(Statement::class);
+        $resultMock = $this->createMock(Result::class);
         $this->persistenceMock->expects($this->once())->method('query')->with(
             'SELECT status , COUNT(id) as cpt FROM notifications WHERE recipient = ?   GROUP BY status',
             [self::EXAMPLE_USER_ID]
-        )->willReturn($statementMock);
+        )->willReturn($resultMock);
 
-        $statementMock->expects($this->once())->method('fetchAll')->willReturn([
+        $resultMock->expects($this->once())->method('fetchAllAssociative')->willReturn([
             [
                 'cpt' => 0,
                 'status' => 1,
@@ -186,14 +186,14 @@ class RdsNotificationServiceTest extends TestCase
 
     public function testGetNotifications(): void
     {
-        $statementMock = $this->createMock(Statement::class);
+        $resultMock = $this->createMock(Result::class);
         $this->persistenceMock->expects($this->once())->method('query')->with(
             'SELECT id , recipient , status , sender_id , sender_name , title , message , created_at , '
                 . 'updated_at FROM notifications WHERE recipient = ? ORDER BY created_at DESC LIMIT 20',
             [self::EXAMPLE_USER_ID]
-        )->willReturn($statementMock);
+        )->willReturn($resultMock);
 
-        $statementMock->method('fetchAll')->willReturn([
+        $resultMock->method('fetchAllAssociative')->willReturn([
             [
                 'recipient' => self::RECIPIENT_EXAMPLE_1,
                 'title' => self::TITLE_EXAMPLE_1,
@@ -227,14 +227,14 @@ class RdsNotificationServiceTest extends TestCase
 
     public function testGetNotification(): void
     {
-        $statementMock = $this->createMock(Statement::class);
+        $resultMock = $this->createMock(Result::class);
         $this->persistenceMock->expects($this->once())->method('query')->with(
             'SELECT id , recipient , status , sender_id , sender_name , title , message , created_at , '
                 . 'updated_at FROM notifications WHERE id = ? ',
             [self::EXAMPLE_USER_ID]
-        )->willReturn($statementMock);
+        )->willReturn($resultMock);
 
-        $statementMock->expects($this->once())->method('fetch')->willReturn([
+        $resultMock->expects($this->once())->method('fetchAssociative')->willReturn([
             'recipient' => self::RECIPIENT_EXAMPLE_1,
             'title' => self::TITLE_EXAMPLE_1,
             'status' => self::STATUS_EXAMPLE_1,

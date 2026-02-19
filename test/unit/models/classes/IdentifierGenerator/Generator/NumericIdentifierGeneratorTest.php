@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\IdentifierGenerator\Generator;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\DBAL\Driver\DriverException;
+use Doctrine\DBAL\Driver\Exception as DriverException;
 use Exception;
 use InvalidArgumentException;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
