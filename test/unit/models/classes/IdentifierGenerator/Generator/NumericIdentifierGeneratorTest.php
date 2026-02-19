@@ -198,7 +198,7 @@ class NumericIdentifierGeneratorTest extends TestCase
             });
 
         $driverException = $this->createMock(DriverException::class);
-        $exception = new UniqueConstraintViolationException($driverException, 'Duplicate entry');
+        $exception = new UniqueConstraintViolationException($driverException, null);
 
         $this->uniqueIdRepository
             ->method('save')
@@ -238,7 +238,7 @@ class NumericIdentifierGeneratorTest extends TestCase
             });
 
         $driverException = $this->createMock(DriverException::class);
-        $exception = new UniqueConstraintViolationException($driverException, 'Duplicate entry');
+        $exception = new UniqueConstraintViolationException($driverException, null);
 
         $this->uniqueIdRepository
             ->method('save')
