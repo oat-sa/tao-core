@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 15:13\n"
+"PO-Revision-Date: 2026-02-05 16:06\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -180,7 +180,7 @@ msgid "AC"
 msgstr "AC"
 
 msgid "Accept all"
-msgstr ""
+msgstr "すべて承認"
 
 msgid "Access Denied"
 msgstr "アクセスが拒否されました"
@@ -230,7 +230,7 @@ msgid "Add file(s)"
 msgstr "ファイル追加"
 
 msgid "Add index"
-msgstr ""
+msgstr "インデックスを追加"
 
 msgid "Add property"
 msgstr "プロパティ追加"
@@ -305,7 +305,7 @@ msgid "an instance"
 msgstr "インスタンス"
 
 msgid "Analytics cookies"
-msgstr ""
+msgstr "クッキーの分析"
 
 msgid "and"
 msgstr "と"
@@ -340,13 +340,13 @@ msgid "Are you sure you want to delete it?"
 msgstr "削除してよろしいですか？"
 
 msgid "Are you sure you want to delete the translation for this language?"
-msgstr ""
+msgstr "この言語の翻訳を削除してもよろしいですか？"
 
 msgid "Are you sure you want to start the translation for this language?"
-msgstr ""
+msgstr "この言語の翻訳を開始してもよろしいですか？"
 
 msgid "Are you sure you wish to delete it"
-msgstr ""
+msgstr "削除してもよろしいですか？"
 
 msgid "Argument check failed: %s"
 msgstr "引数のチェックに失敗しました: %s"
@@ -374,7 +374,7 @@ msgid "Audio Video Interleave"
 msgstr "オーディオ・ビデオ・インターリーブ"
 
 msgid "Auth type"
-msgstr ""
+msgstr "認証タイプ"
 
 msgid "Author"
 msgstr "作成者"
@@ -401,7 +401,7 @@ msgid "Back to listing"
 msgstr "リストに戻る"
 
 msgid "Back to Portal"
-msgstr ""
+msgstr "ポータルに戻る"
 
 msgid "Base-10 logarithm"
 msgstr "常用対数"
@@ -434,7 +434,7 @@ msgid "Browse folders:"
 msgstr "フォルダを参照"
 
 msgid "Browse resources"
-msgstr ""
+msgstr "リソースを参照"
 
 msgid "Browse..."
 msgstr "参照..."
@@ -513,7 +513,7 @@ msgid "choices:"
 msgstr "選択肢:"
 
 msgid "Choose a type for your property first"
-msgstr ""
+msgstr "最初にあなたのプロパティの種類を選択してください"
 
 msgid "Choose a value..."
 msgstr "値を選択..."
@@ -567,7 +567,7 @@ msgid "Click to reload."
 msgstr "クリックで再読み込み"
 
 msgid "Click to start"
-msgstr ""
+msgstr "クリックして開始"
 
 msgid "Close"
 msgstr "閉じる"
@@ -624,7 +624,7 @@ msgid "Cookie Policy"
 msgstr "Cookieポリシー"
 
 msgid "Cookies Preferences"
-msgstr ""
+msgstr "Cookie の設定"
 
 msgid "Copy"
 msgstr "コピー"
@@ -651,13 +651,13 @@ msgid "Create"
 msgstr "作成"
 
 msgid "Create instance"
-msgstr ""
+msgstr "インスタンスを作成"
 
 msgid "Create instance of "
 msgstr "のインスタンスを作成します"
 
 msgid "Create translation"
-msgstr ""
+msgstr "翻訳を作成"
 
 msgid "Created"
 msgstr "作成されました"
@@ -687,7 +687,7 @@ msgid "Current playback position"
 msgstr "現在の再生位置"
 
 msgid "currently has a dependency established with "
-msgstr ""
+msgstr "現在依存関係が確立され "
 
 msgid "Data imported"
 msgstr "データをインポートしました。"
@@ -760,16 +760,16 @@ msgid "Deleting search index for %s"
 msgstr "%s の検索インデックスを削除します。"
 
 msgid "Deleting this property will also remove the dependency"
-msgstr ""
+msgstr "このプロパティを削除すると依存関係も削除されます"
 
 msgid "Demo Sandbox"
 msgstr "サンドボックス"
 
 msgid "Dependency URI Path"
-msgstr ""
+msgstr "依存関係の URI パス"
 
 msgid "Depends on property"
-msgstr ""
+msgstr "プロパティに依存します"
 
 msgid "Did you mean %s?"
 msgstr "%s のことですか？"
@@ -808,7 +808,7 @@ msgid "Disabled %s"
 msgstr "%s　無効"
 
 msgid "Do you want to override \"%s\"?"
-msgstr ""
+msgstr "\"%s\" を上書きしますか？"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -865,7 +865,7 @@ msgid "Email"
 msgstr "Eメール"
 
 msgid "Empty resources cannot be translated."
-msgstr ""
+msgstr "空のリソースは翻訳できません。"
 
 msgid "enabled"
 msgstr "有効にしました"
@@ -904,7 +904,7 @@ msgid "Error: %s"
 msgstr "%s エラー"
 
 msgid "Essential cookies (required)"
-msgstr ""
+msgstr "必須クッキー (必須)"
 
 msgid "Examples:"
 msgstr "例"
@@ -960,7 +960,7 @@ msgid "Failed"
 msgstr "エラー"
 
 msgid "Failed to copy class."
-msgstr ""
+msgstr "クラスのコピーに失敗しました。"
 
 msgid "Failed to delete index for %s"
 msgstr "%s のインデックスを削除できませんでした。"
@@ -1156,7 +1156,7 @@ msgstr "メタデータをRDF形式でインポート"
 
 #, tao-public
 msgid "Import statistical analysis metadata"
-msgstr ""
+msgstr "統計解析メタデータをインポート"
 
 msgid "Import succeeded."
 msgstr "インポートが完了しました"
@@ -1171,7 +1171,7 @@ msgid "Imported resource \"%s"
 msgstr "\"%s リソースをインポート"
 
 msgid "Imported successfully finished!"
-msgstr ""
+msgstr "インポートが完了しました！"
 
 msgid "impossible to update task status"
 msgstr "タスクステータスを更新できません"
@@ -1183,13 +1183,13 @@ msgid "In progress"
 msgstr "実施中"
 
 msgid "Include all"
-msgstr ""
+msgstr "すべて含める"
 
 msgid "Include any"
-msgstr ""
+msgstr "いずれかを含める"
 
 msgid "Include none"
-msgstr ""
+msgstr "含めない"
 
 msgid "Inclusive (AND)"
 msgstr "包括（AND)"
@@ -1205,7 +1205,7 @@ msgid "Infinity"
 msgstr "∞"
 
 msgid "Inherit the permission of the parent folder"
-msgstr ""
+msgstr "親フォルダのアクセス権を継承する"
 
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr "インジェクターには、有効な\"destination\"フィールドが含まれている必要があります。"
@@ -1244,7 +1244,7 @@ msgid "Interface Language"
 msgstr "インタフェース言語"
 
 msgid "Interface Mode"
-msgstr ""
+msgstr "インターフェイスモード"
 
 msgid "Invalid CSP header."
 msgstr "CSPヘッダーが無効です"
@@ -1295,7 +1295,7 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr "ログイン名またはパスワードが無効です。アカウントはロックされています。管理者に問合せてください。"
 
 msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
-msgstr ""
+msgstr "ソース \"%s\" のパスが無効です。パスはパッケージ内に存在するファイルを指す必要があります。"
 
 msgid "invalid regular expression"
 msgstr "無効な正規表現です"
@@ -1307,7 +1307,7 @@ msgid "Invalid values:"
 msgstr "無効な値:"
 
 msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
-msgstr ""
+msgstr "問題があったようで、リクエストを処理できませんでした。必要に応じてTAO管理者に連絡してください。または、代わりに："
 
 msgid "items per page"
 msgstr "件／ページ"
@@ -1319,7 +1319,7 @@ msgid "JPEG image"
 msgstr "JPEG画像"
 
 msgid "Keep the original permissions"
-msgstr ""
+msgstr "元のアクセス権を維持する"
 
 msgid "Label"
 msgstr "ラベル"
@@ -1352,7 +1352,7 @@ msgid "List"
 msgstr "リスト"
 
 msgid "List \"%s\" has duplicated values."
-msgstr ""
+msgstr "リスト \"%s\" は重複した値を持っています。"
 
 msgid "List - Multiple choice - Check box"
 msgstr "リスト-多肢選択-チェックボックス"
@@ -1442,7 +1442,7 @@ msgid "Manage class schema"
 msgstr "クラススキーマ管理"
 
 msgid "manage columns"
-msgstr ""
+msgstr "列の管理"
 
 msgid "Manage data list"
 msgstr "データ一覧の管理"
@@ -1468,7 +1468,7 @@ msgid "Map the properties to the CSV columns"
 msgstr "CSVの列にプロパティをマッピング"
 
 msgid "maximum %s"
-msgstr ""
+msgstr "最大 %s"
 
 msgid "Maximum selection reached"
 msgstr "これ以上選択できません"
@@ -1525,7 +1525,7 @@ msgid "Mind mapping software application (free mind open source)"
 msgstr "マインドマップ・アプリ (free mind open source)"
 
 msgid "minimum %s"
-msgstr ""
+msgstr "最小 %s"
 
 msgid "minutes"
 msgstr "分"
@@ -1586,19 +1586,19 @@ msgid "Multiply the value by 10^x"
 msgstr "値に10^xを乗算します。"
 
 msgid "Must include at least one letter"
-msgstr ""
+msgstr "少なくとも 1 文字を含める必要があります"
 
 msgid "Must include at least one number"
-msgstr ""
+msgstr "少なくとも1つの数字を含める必要があります"
 
 msgid "Must include at least one special letter"
-msgstr ""
+msgstr "少なくとも1つの特殊文字を含める必要があります"
 
 msgid "Must include lower case letters"
-msgstr ""
+msgstr "小文字を含める必要があります"
 
 msgid "Must include upper case letters"
-msgstr ""
+msgstr "大文字を含める必要があります"
 
 msgid "Mute"
 msgstr "ミュート"
@@ -1678,13 +1678,13 @@ msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr "オプション以外の引数が不足しています: %sを取得しました, 少なくとも %s が必要"
 
 msgid "Not Ready for Translation"
-msgstr ""
+msgstr "翻訳準備ができていません"
 
 msgid "Not started"
 msgstr "開始していません"
 
 msgid "NotEmpty"
-msgstr ""
+msgstr "NotEmpty"
 
 msgid "Nothing imported"
 msgstr "何もインポートされていません"
@@ -1742,7 +1742,7 @@ msgid "Only one of the field must have value %s"
 msgstr "どちらか一方のフィールドだけが値%sを持つ必要があります"
 
 msgid "Open the item for editing"
-msgstr ""
+msgstr "編集するアイテムを開く"
 
 msgid "OpenDocument Database"
 msgstr "OpenDocumentデータベース"
@@ -1769,7 +1769,7 @@ msgid "Original"
 msgstr "元のサイズ"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
-msgstr ""
+msgstr "それ以外の場合は、「すべてのクッキーを受諾」をクリックすると、お客様のデバイスで当社がクッキーを使用することに同意したことになります。 「すべてのクッキーを拒否」をクリックすると、お客様のデバイスで当社が必要とされないクッキーを使用することに同意しないことを意味します。"
 
 msgid "Outlook on the next Synchronization"
 msgstr "次の同期の見通し"
@@ -1814,7 +1814,7 @@ msgid "Permission denied to write in the selected class"
 msgstr "選択したクラスへの書き込みを拒否されました"
 
 msgid "Permission settings"
-msgstr ""
+msgstr "アクセス権の設定"
 
 msgid "Plain text"
 msgstr "テキスト"
@@ -1874,13 +1874,13 @@ msgid "Please select a language."
 msgstr "言語を選択してください."
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Please select an image file from the resource manager. You can add files from your PC with the button \"Add file(s)\"."
 
 msgid "Please set 'min' and/or 'max' options!"
-msgstr ""
+msgstr "'min' または 'max' オプションを設定してください！"
 
 msgid "Please try in %s."
-msgstr ""
+msgstr "%s でお試しください。"
 
 msgid "Please wait"
 msgstr "お待ちください"
@@ -1968,7 +1968,7 @@ msgid "RDF"
 msgstr "RDF"
 
 msgid "Ready for Translation"
-msgstr ""
+msgstr "翻訳の準備"
 
 msgid "RealMedia file"
 msgstr "RealMediaファイル"
@@ -1977,7 +1977,7 @@ msgid "Refresh"
 msgstr "更新"
 
 msgid "Reject all"
-msgstr ""
+msgstr "すべて拒否"
 
 msgid "Release"
 msgstr "リリース"
@@ -2013,13 +2013,13 @@ msgid "Remove criteria"
 msgstr "条件削除"
 
 msgid "remove index"
-msgstr ""
+msgstr "インデックスを削除"
 
 msgid "Remove Message"
 msgstr "メッセージを削除"
 
 msgid "Remove the translated item"
-msgstr ""
+msgstr "翻訳されたアイテムを削除"
 
 msgid "Remove this file"
 msgstr "このファイルを削除"
@@ -2195,7 +2195,7 @@ msgid "Select a class"
 msgstr "クラスを選択"
 
 msgid "Select a destination"
-msgstr "コピー先を選択"
+msgstr "指定先を選択"
 
 msgid "Select a language"
 msgstr "言語を選択"
@@ -2258,8 +2258,11 @@ msgstr "sinh"
 msgid "Size"
 msgstr "サイズ"
 
+msgid "Some items could not be deleted"
+msgstr "いくつかのアイテムを削除できませんでした"
+
 msgid "Some of resources has not be deleted"
-msgstr ""
+msgstr "いくつかのリソースは削除されていません"
 
 msgid "Some resources have not been moved: %s"
 msgstr "一部のリソースが移動されていません: %s"
@@ -2280,7 +2283,7 @@ msgid "Start of document reached. Continuing from the end."
 msgstr "ドキュメントの開始点に到達しました。最後から続けます。"
 
 msgid "Start translation"
-msgstr ""
+msgstr "翻訳を開始"
 
 msgid "Status"
 msgstr "ステータス"
@@ -2376,7 +2379,7 @@ msgid "TAO platform is under maintenance since %s"
 msgstr "TAOプラットフォームは、%s以降メンテナンス中となっています。"
 
 msgid "Tao WebHooks"
-msgstr ""
+msgstr "Tao WebHooks"
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr "タスク %s はキャンセルされました。"
@@ -2415,7 +2418,7 @@ msgid "Text document file format (Staroffice)"
 msgstr "テキストファイル (Staroffice)"
 
 msgid "Text to translate"
-msgstr ""
+msgstr "翻訳するテキスト"
 
 msgid "The action will be applied to"
 msgstr "操作が適用されます："
@@ -2430,13 +2433,13 @@ msgid "The action will not be applied to the following"
 msgstr "操作は適用されません："
 
 msgid "The class has been copied."
-msgstr ""
+msgstr "クラスがコピーされました。"
 
 msgid "The column "
 msgstr "行"
 
 msgid "The field \"List\" is disabled because the property is part of a dependency"
-msgstr ""
+msgstr "プロパティが依存関係の一部であるため、「リスト」フィールドは無効になっています"
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
 msgstr "以下の条件は、選択されたクラスに適用されないため、検索対象から除外されています。"
@@ -2457,7 +2460,7 @@ msgid "The properties of the source class will be replaced by those of the desti
 msgstr "元のクラスプロパティは，移動先のクラスプロパティに置き換えられます。これにより、メタデータが失われる可能性があります。続けますか？"
 
 msgid "The selected value(s) must be compatible with the primary property."
-msgstr ""
+msgstr "選択した値はプライマリプロパティと互換性がなければなりません。"
 
 msgid "The server has sent an empty response"
 msgstr "サーバは空のレスポンスを送信しました。"
@@ -2481,7 +2484,7 @@ msgid "There is nothing to list!"
 msgstr "リストがありません！"
 
 msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
-msgstr ""
+msgstr "これらのクッキーは、当社が当社のサイトのパフォーマンスを測定し、改善することができるように訪問やその他の様々な分析データをカウントすることができます。 お客様がこれらのクッキーを許可しない場合、お客様がいつ当社サイトにアクセスしたかは当社には分かりません。 その性能を監視することはできません。"
 
 msgid "This %s is currently checked out"
 msgstr "この%sはチェックアウトされています"
@@ -2517,7 +2520,7 @@ msgid "This resource is locked"
 msgstr "このリソースはロックされています"
 
 msgid "This resource is not ready for translation."
-msgstr ""
+msgstr "このリソースは翻訳の準備ができていません。"
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
 msgstr "このロールは、1人または複数のユーザに与えられています。まず、これらのユーザのロールを削除してください。"
@@ -2529,7 +2532,7 @@ msgid "This should not equal %s"
 msgstr "これは、%sと等しくてはいけません"
 
 msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
-msgstr ""
+msgstr "本サイトでは、お客様の閲覧体験を向上させ、分析や研究を行うためにクッキーを使用しています。"
 
 msgid "time"
 msgstr "時間"
@@ -2544,7 +2547,7 @@ msgid "to"
 msgstr "ー"
 
 msgid "To change your preferences, click Manage preferences."
-msgstr ""
+msgstr "設定を変更するには、format@@0環境設定をクリックします。"
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr "パスワードをリセットするには、下記リンクをクリックしてください。またはリンクをブラウザにペーストしてください。新規パスワード作成のページが表示されます。"
@@ -2580,28 +2583,28 @@ msgid "Translate to"
 msgstr "翻訳先言語"
 
 msgid "Translated"
-msgstr ""
+msgstr "翻訳済み"
 
 msgid "Translating"
-msgstr ""
+msgstr "翻訳"
 
 msgid "Translation"
-msgstr ""
+msgstr "翻訳"
 
 msgid "Translation parameters"
 msgstr "翻訳パラメータ"
 
 msgid "Translation Progress"
-msgstr ""
+msgstr "翻訳の進捗状況"
 
 msgid "Translation saved"
 msgstr "翻訳は保存されました"
 
 msgid "Translation Status"
-msgstr ""
+msgstr "翻訳ステータス"
 
 msgid "Translation Type"
-msgstr ""
+msgstr "翻訳タイプ"
 
 msgid "Translations"
 msgstr "翻訳"
@@ -2636,6 +2639,9 @@ msgstr "アカウントに接続できません"
 msgid "Unable to change passwords in demo mode"
 msgstr "デモモードではパスワードの変更ができません。"
 
+msgid "Unable to clone the resource"
+msgstr "リソースを複製できません"
+
 msgid "Unable to copy the resource"
 msgstr "リソースをコピーできません"
 
@@ -2646,7 +2652,7 @@ msgid "Unable to delete the selected resource"
 msgstr "選択したリソースを削除できません"
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
-msgstr ""
+msgstr "コンテンツの一部を削除するために必要な権限がないため、選択したリソースを削除できません。"
 
 msgid "Unable to delete the selected resources"
 msgstr "選択されたリソースを削除できません。"
@@ -2676,7 +2682,7 @@ msgid "Unable to send the password reset request"
 msgstr "パスワードのリセットをリクエストできません"
 
 msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
-msgstr ""
+msgstr "統計データを同期できませんでした。詳細についてはシステム管理者にお問い合わせください。"
 
 msgid "Unable to update the asset service"
 msgstr "アセットサービスの更新ができません"
@@ -2694,7 +2700,7 @@ msgid "Unary operator -"
 msgstr "単項演算子(-)"
 
 msgid "Unauthorized files have been removed"
-msgstr ""
+msgstr "権限のないファイルが削除されました"
 
 msgid "Uncheck All"
 msgstr "全てチェックを外す"
@@ -2709,7 +2715,7 @@ msgid "Undefined amount of the totalPages for pagination"
 msgstr "ページネーションのための総ページの未定義数"
 
 msgid "Undefined Instance can not be saved"
-msgstr ""
+msgstr "未定義のインスタンスを保存できません"
 
 msgid "Undo"
 msgstr "取り消し"
@@ -2724,7 +2730,7 @@ msgid "Uninstalled %s"
 msgstr "アンインストールが完了しました : %s"
 
 msgid "Unique Identifier"
-msgstr ""
+msgstr "Unique Identifier"
 
 msgid "UNIX Compressed Archive File"
 msgstr "UNIX圧縮アーカイブファイル"
@@ -2873,11 +2879,11 @@ msgid "WAV audio"
 msgstr "WAVオーディオ"
 
 msgid "WebHook auth configuration can not be loaded"
-msgstr ""
+msgstr "WebHook認証設定を読み込むことができません"
 
 #, tao-public
 msgid "WebHooks"
-msgstr ""
+msgstr "WebHooks"
 
 msgid "WebM audio"
 msgstr "WebMオーディオ"
@@ -2904,7 +2910,7 @@ msgid "Windows Media video"
 msgstr "Windows Mediaビデオ"
 
 msgid "with"
-msgstr ""
+msgstr "with"
 
 msgid "Wrap image left"
 msgstr "画像配置｜左"
@@ -2937,7 +2943,7 @@ msgid "You are not authorised to remove this lock"
 msgstr "あなたはこのロックを解除する権限がありません"
 
 msgid "You can choose which types of cookies you want to allow to improve your experience."
-msgstr ""
+msgstr "体験を向上させたいクッキーの種類を選択できます。"
 
 msgid "You can read more about this in our"
 msgstr "詳細については、こちらをご覧ください。"
