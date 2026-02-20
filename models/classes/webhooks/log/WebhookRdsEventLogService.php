@@ -22,7 +22,7 @@ namespace oat\tao\model\webhooks\log;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\task\WebhookTaskContext;
-use Slim\Http\StatusCode;
+use oat\tao\model\mvc\error\HttpStatusCode;
 
 class WebhookRdsEventLogService extends ConfigurableService implements WebhookEventLogInterface
 {
@@ -64,7 +64,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     public function storeInvalidBodyFormat(WebhookTaskContext $webhookTaskContext, $responseBody = null)
     {
         $record = $this->applyContext($webhookTaskContext)
-            ->setHttpStatusCode(StatusCode::HTTP_OK)
+            ->setHttpStatusCode(HttpStatusCode::HTTP_OK)
             ->setResultMessage(sprintf('Invalid body format'))
             ->setResponseBody($responseBody)
             ->setResult(WebhookEventLogRecord::RESULT_INVALID_BODY_FORMAT);
@@ -82,7 +82,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
         $actualAcknowledgement = null
     ) {
         $record = $this->applyContext($webhookTaskContext)
-            ->setHttpStatusCode(StatusCode::HTTP_OK)
+            ->setHttpStatusCode(HttpStatusCode::HTTP_OK)
             ->setResponseBody($responseBody)
             ->setAcknowledgementStatus($actualAcknowledgement)
             ->setResultMessage(sprintf('Acknowledgement "%s" unexpected', $actualAcknowledgement))
@@ -98,7 +98,7 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
     public function storeSuccessfulLog(WebhookTaskContext $webhookTaskContext, $responseBody, $acknowledgement)
     {
         $record = $this->applyContext($webhookTaskContext)
-            ->setHttpStatusCode(StatusCode::HTTP_OK)
+            ->setHttpStatusCode(HttpStatusCode::HTTP_OK)
             ->setResponseBody($responseBody)
             ->setAcknowledgementStatus($acknowledgement)
             ->setResultMessage('OK')

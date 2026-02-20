@@ -25,8 +25,8 @@ namespace oat\tao\test\unit\models\classes\task\migration\service;
 use common_persistence_sql_Platform;
 use common_persistence_SqlPersistence;
 use core_kernel_persistence_smoothsql_SmoothModel;
-use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Result;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\OntologyMockTrait;
 use PHPUnit\Framework\TestCase;
@@ -51,8 +51,8 @@ class StatementLastIdRetrieverTest extends TestCase
     /** @var QueryBuilder|MockObject */
     private $queryBuilderMock;
 
-    /** @var Statement|MockObject */
-    private $statementMock;
+    /** @var Result|MockObject */
+    private $resultMock;
 
     protected function setUp(): void
     {
@@ -61,7 +61,7 @@ class StatementLastIdRetrieverTest extends TestCase
         $this->persistenceMock = $this->createMock(common_persistence_SqlPersistence::class);
         $this->platformMock = $this->createMock(common_persistence_sql_Platform::class);
         $this->queryBuilderMock = $this->createMock(QueryBuilder::class);
-        $this->statementMock = $this->createMock(Statement::class);
+        $this->resultMock = $this->createMock(Result::class);
         $this->subject->setModel($this->ontologyMock);
     }
 
@@ -94,12 +94,12 @@ class StatementLastIdRetrieverTest extends TestCase
 
         $this->queryBuilderMock
             ->expects($this->once())
-            ->method('execute')
-            ->willReturn($this->statementMock);
+            ->method('executeQuery')
+            ->willReturn($this->resultMock);
 
-        $this->statementMock
+        $this->resultMock
             ->expects($this->once())
-            ->method('fetchColumn')
+            ->method('fetchOne')
             ->willReturn(1);
 
         $result = $this->subject->retrieve();

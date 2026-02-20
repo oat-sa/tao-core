@@ -21,10 +21,10 @@
 
 namespace oat\tao\test\unit\datatable;
 
+use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use oat\tao\model\datatable\implementation\DatatableRequest;
-use Slim\Http\Environment;
-use Slim\Http\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class DatatableRequestTest
@@ -39,98 +39,73 @@ class DatatableRequestTest extends TestCase
     }
 
     /**
-     * @dataProvider environmentsProvider
-     * @preserveGlobalState disabled
-     *
-     * @param Environment $env
+     * @dataProvider requestsProvider
+     * @param ServerRequestInterface $request
      * @param array $result expected results
      */
-    public function testGetRows($env, $result)
+    public function testGetRows(ServerRequestInterface $request, array $result): void
     {
-        $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
-
         $this->assertEquals($result['rows'], $datatableRequest->getRows());
     }
 
     /**
-     * @dataProvider environmentsProvider
-     * @preserveGlobalState disabled
-     *
-     * @param Environment $env
+     * @dataProvider requestsProvider
+     * @param ServerRequestInterface $request
      * @param array $result expected results
      */
-    public function testGetPage($env, $result)
+    public function testGetPage(ServerRequestInterface $request, array $result): void
     {
-        $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
-
         $this->assertEquals($result['page'], $datatableRequest->getPage());
     }
 
     /**
-     * @dataProvider environmentsProvider
-     * @preserveGlobalState disabled
-     *
-     * @param Environment $env
+     * @dataProvider requestsProvider
+     * @param ServerRequestInterface $request
      * @param array $result expected results
      */
-    public function testGetSortBy($env, $result)
+    public function testGetSortBy(ServerRequestInterface $request, array $result): void
     {
-
-        $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
-
         $this->assertEquals($result['sortby'], $datatableRequest->getSortBy());
     }
 
     /**
-     * @dataProvider environmentsProvider
-     * @preserveGlobalState disabled
-     *
-     * @param Environment $env
+     * @dataProvider requestsProvider
+     * @param ServerRequestInterface $request
      * @param array $result expected results
      */
-    public function testGetSortOrder($env, $result)
+    public function testGetSortOrder(ServerRequestInterface $request, array $result): void
     {
-
-        $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
-
         $this->assertEquals($result['sortorder'], $datatableRequest->getSortOrder());
     }
 
     /**
-     * @dataProvider environmentsProvider
-     * @preserveGlobalState disabled
-     *
-     * @param Environment $env
+     * @dataProvider requestsProvider
+     * @param ServerRequestInterface $request
      * @param array $result expected results
      */
-    public function testGetFilters($env, $result)
+    public function testGetFilters(ServerRequestInterface $request, array $result): void
     {
-
-        $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
-
         $this->assertEquals($result['filters'], $datatableRequest->getFilters());
     }
 
-    public function environmentsProvider()
+    public function requestsProvider(): array
     {
+        $baseUri = 'http://localhost';
         return [
             [
-                'env' => Environment::mock([
-                    'QUERY_STRING' => http_build_query([
-                        'rows' => '5',
-                        'page' => '1',
-                        'sortby' => 'id',
-                        'sortorder' => 'asc',
-                        'filtercolumns' => ['lastname' => 'John'],
-                    ]),
-                    'REQUEST_METHOD' => 'GET',
+                (new ServerRequest('GET', $baseUri))->withQueryParams([
+                    'rows' => '5',
+                    'page' => '1',
+                    'sortby' => 'id',
+                    'sortorder' => 'asc',
+                    'filtercolumns' => ['lastname' => 'John'],
                 ]),
-                'result' => [
+                [
                     'rows' => 5,
                     'page' => 1,
                     'sortby' => 'id',
@@ -139,17 +114,14 @@ class DatatableRequestTest extends TestCase
                 ],
             ],
             [
-                'env' => Environment::mock([
-                    'QUERY_STRING' => http_build_query([
-                        'rows' => '5',
-                        'page' => '1',
-                        'sortby' => 'id',
-                        'sortorder' => 'DESC',
-                        'filtercolumns' => ['lastname' => 'John', 'firstname' => 'Doe'],
-                    ]),
-                    'REQUEST_METHOD' => 'GET',
+                (new ServerRequest('GET', $baseUri))->withQueryParams([
+                    'rows' => '5',
+                    'page' => '1',
+                    'sortby' => 'id',
+                    'sortorder' => 'DESC',
+                    'filtercolumns' => ['lastname' => 'John', 'firstname' => 'Doe'],
                 ]),
-                'result' => [
+                [
                     'rows' => 5,
                     'page' => 1,
                     'sortby' => 'id',
@@ -158,14 +130,11 @@ class DatatableRequestTest extends TestCase
                 ],
             ],
             [
-                'env' => Environment::mock([
-                    'QUERY_STRING' => http_build_query([
-                        'rows' => 25,
-                        'sortby' => 'id',
-                    ]),
-                    'REQUEST_METHOD' => 'GET',
+                (new ServerRequest('GET', $baseUri))->withQueryParams([
+                    'rows' => 25,
+                    'sortby' => 'id',
                 ]),
-                'result' => [
+                [
                     'rows' => 25,
                     'page' => 1,
                     'sortby' => 'id',
@@ -174,16 +143,13 @@ class DatatableRequestTest extends TestCase
                 ],
             ],
             [
-                'env' => Environment::mock([
-                    'QUERY_STRING' => http_build_query([
-                        'rows' => 25,
-                        'page' => 2,
-                        'sortby' => 'id',
-                        'sortorder' => 'abc',
-                    ]),
-                    'REQUEST_METHOD' => 'GET',
+                (new ServerRequest('GET', $baseUri))->withQueryParams([
+                    'rows' => 25,
+                    'page' => 2,
+                    'sortby' => 'id',
+                    'sortorder' => 'abc',
                 ]),
-                'result' => [
+                [
                     'rows' => 25,
                     'page' => 2,
                     'sortby' => 'id',

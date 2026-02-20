@@ -25,7 +25,6 @@ namespace oat\tao\model\notification\implementation;
 use common_exception_NotFound;
 use common_persistence_Persistence as Persistence;
 use common_persistence_SqlPersistence;
-use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\persistence\PersistenceManager;
@@ -85,7 +84,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
             $userId
         ];
 
-        $result = $persistence->query($selectQuery, $params)->fetchAll();
+        $result = $persistence->query($selectQuery, $params)->fetchAllAssociative();
 
         foreach ($result as $notificationDetail) {
             $notification[] = $this->createNotification($notificationDetail);
@@ -125,7 +124,7 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
             $id,
         ];
 
-        $notificationDetail = $persistence->query($selectQuery, $params)->fetch();
+        $notificationDetail = $persistence->query($selectQuery, $params)->fetchAssociative();
 
         if ($notificationDetail) {
             return $this->createNotification($notificationDetail);
@@ -168,10 +167,10 @@ abstract class AbstractSqlNotificationService extends AbstractNotificationServic
             $userId,
         ];
 
-        /** @var Statement $statement */
-        $statement = $persistence->query($selectQuery, $params);
+        $resultSet = $persistence->query($selectQuery, $params);
+        $result = $resultSet->fetchAllAssociative();
 
-        if (($result = $statement->fetchAll()) !== false) {
+        if ($result !== []) {
             foreach ($result as $statusCount) {
                 $count[$statusCount[self::NOTIFICATION_FIELD_STATUS]] = $statusCount['cpt'];
             }

@@ -25,7 +25,7 @@ namespace oat\tao\test\unit\models\classes\IdentifierGenerator\Repository;
 use common_persistence_SqlPersistence;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\DBAL\Driver\DriverException;
+use Doctrine\DBAL\Driver\Exception as DriverException;
 use common_persistence_sql_Platform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
@@ -291,7 +291,7 @@ class UniqueIdRepositoryTest extends TestCase
         ];
 
         $driverException = $this->createMock(DriverException::class);
-        $exception = new UniqueConstraintViolationException('Duplicate entry', $driverException);
+        $exception = new UniqueConstraintViolationException($driverException, null);
 
         $this->platform->expects($this->once())
             ->method('beginTransaction');

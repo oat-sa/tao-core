@@ -21,11 +21,11 @@
 
 namespace oat\tao\helpers\test;
 
+use GuzzleHttp\Psr7\ServerRequest;
+use GuzzleHttp\Psr7\Stream;
 use oat\tao\test\TaoPhpUnitTestRunner;
+use Psr\Http\Message\ServerRequestInterface;
 use tao_helpers_Http;
-use Slim\Http\Stream;
-use Slim\Http\Environment;
-use Slim\Http\Request;
 
 // phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
@@ -46,26 +46,21 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * @dataProvider environmentsProvider
+     * @dataProvider requestsProvider
      * @runInSeparateProcess
      * @preserveGlobalState disabled
-     *
-     * @param Environment $env
+     * @param ServerRequestInterface $request
      * @param string $output
      */
-    public function testReturnStream($env, $output)
+    public function testReturnStream(ServerRequestInterface $request, string $output): void
     {
-        $request = Request::createFromEnvironment($env);
         ob_start();
         tao_helpers_Http::returnStream($this->getStream(), null, $request);
         $result = ob_get_clean();
         $this->assertEquals($output, $result);
     }
 
-    /**
-     * @return Stream
-     */
-    private function getStream()
+    private function getStream(): Stream
     {
         $resource = fopen('php://memory', 'r+');
         fwrite($resource, $this->string);
@@ -73,70 +68,36 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
         return new Stream($resource);
     }
 
-    public function environmentsProvider()
+    public function requestsProvider(): array
     {
         return [
             [
-                'env' => Environment::mock([
-                    'SCRIPT_NAME' => '/index.php',
-                    'REQUEST_URI' => '/foo',
-                    'REQUEST_METHOD' => 'POST',
-                ]),
-                'output' => $this->string,
+                new ServerRequest('POST', '/foo'),
+                $this->string,
             ],
             [
-                'env' => Environment::mock([
-                    'SCRIPT_NAME' => '/index.php',
-                    'REQUEST_URI' => '/foo',
-                    'REQUEST_METHOD' => 'POST',
-                    'HTTP_RANGE' => 'bytes=0-5',
-                ]),
-                'output' => '012345',
+                new ServerRequest('POST', '/foo', ['Range' => 'bytes=0-5']),
+                '012345',
             ],
             [
-                'env' => Environment::mock([
-                    'SCRIPT_NAME' => '/index.php',
-                    'REQUEST_URI' => '/foo',
-                    'REQUEST_METHOD' => 'POST',
-                    'HTTP_RANGE' => 'bytes=3-7',
-                ]),
-                'output' => '34567',
+                new ServerRequest('POST', '/foo', ['Range' => 'bytes=3-7']),
+                '34567',
             ],
             [
-                'env' => Environment::mock([
-                    'SCRIPT_NAME' => '/index.php',
-                    'REQUEST_URI' => '/foo',
-                    'REQUEST_METHOD' => 'POST',
-                    'HTTP_RANGE' => 'bytes=4-',
-                ]),
-                'output' => '456789',
+                new ServerRequest('POST', '/foo', ['Range' => 'bytes=4-']),
+                '456789',
             ],
             [
-                'env' => Environment::mock([
-                    'SCRIPT_NAME' => '/index.php',
-                    'REQUEST_URI' => '/foo',
-                    'REQUEST_METHOD' => 'POST',
-                    'HTTP_RANGE' => 'bytes=-3',
-                ]),
-                'output' => '789',
+                new ServerRequest('POST', '/foo', ['Range' => 'bytes=-3']),
+                '789',
             ],
             [
-                'env' => Environment::mock([
-                    'SCRIPT_NAME' => '/index.php',
-                    'REQUEST_URI' => '/foo',
-                    'REQUEST_METHOD' => 'POST',
-                    'HTTP_RANGE' => 'bytes=0-0',
-                ]),
-                'output' => '0',
+                new ServerRequest('POST', '/foo', ['Range' => 'bytes=0-0']),
+                '0',
             ],
             [
-                'env' => Environment::mock([
-                    'SCRIPT_NAME' => '/index.php',
-                    'REQUEST_URI' => '/foo',
-                    'REQUEST_METHOD' => 'POST',
-                    'HTTP_RANGE' => 'bytes=0-1,8-9',
-                ]),
-                'output' => '0189',
+                new ServerRequest('POST', '/foo', ['Range' => 'bytes=0-1,8-9']),
+                '0189',
             ],
         ];
     }
