@@ -27,7 +27,7 @@ use Exception;
 use common_exception_MissingParameter;
 use common_exception_BadRequest;
 use common_exception_ResourceNotFound;
-use Slim\Http\StatusCode;
+use oat\tao\model\mvc\error\HttpStatusCode;
 use tao_models_classes_MissingRequestParameterException;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -90,7 +90,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface
         $this->responseClassName = 'MainResponse';
 
         if ($this->exception instanceof common_exception_RestApi) {
-            $this->returnHttpCode = $this->exception->getCode() ?: StatusCode::HTTP_BAD_REQUEST;
+            $this->returnHttpCode = $this->exception->getCode() ?: HttpStatusCode::HTTP_BAD_REQUEST;
 
             return $this;
         }
@@ -101,29 +101,29 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface
             case common_exception_MissingParameter::class:
             case common_exception_BadRequest::class:
             case common_exception_ValidationFailed::class:
-                $this->returnHttpCode = StatusCode::HTTP_BAD_REQUEST;
+                $this->returnHttpCode = HttpStatusCode::HTTP_BAD_REQUEST;
                 break;
             case 'tao_models_classes_AccessDeniedException':
             case 'ResolverException':
-                $this->returnHttpCode    = StatusCode::HTTP_FORBIDDEN;
+                $this->returnHttpCode    = HttpStatusCode::HTTP_FORBIDDEN;
                 $this->responseClassName = 'RedirectResponse';
                 break;
             case 'tao_models_classes_UserException':
-                $this->returnHttpCode = StatusCode::HTTP_FORBIDDEN;
+                $this->returnHttpCode = HttpStatusCode::HTTP_FORBIDDEN;
                 break;
             case 'ActionEnforcingException':
             case 'tao_models_classes_FileNotFoundException':
             case common_exception_ResourceNotFound::class:
-                $this->returnHttpCode = StatusCode::HTTP_NOT_FOUND;
+                $this->returnHttpCode = HttpStatusCode::HTTP_NOT_FOUND;
                 break;
             case common_exception_MethodNotAllowed::class:
-                $this->returnHttpCode = StatusCode::HTTP_METHOD_NOT_ALLOWED;
+                $this->returnHttpCode = HttpStatusCode::HTTP_METHOD_NOT_ALLOWED;
                 /** @var common_exception_MethodNotAllowed $exception */
                 $exception = $this->exception;
                 $this->allowedRequestMethods = $exception->getAllowedMethods();
                 break;
             default:
-                $this->returnHttpCode = StatusCode::HTTP_INTERNAL_SERVER_ERROR;
+                $this->returnHttpCode = HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR;
                 break;
         }
         return $this;

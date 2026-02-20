@@ -81,7 +81,7 @@ class RequiredActionServiceTest extends TestCase
 
     private function getMockServiceManager()
     {
-        $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
+        $config = new \common_persistence_KeyValuePersistence(new \common_persistence_InMemoryKvDriver(), []);
         $config->set(\common_persistence_Manager::SERVICE_ID, $this->getPersistenceManager());
         return new ServiceManager($config);
     }

@@ -57,7 +57,7 @@ class UpdateExtensionsTest extends TestCase
     public function testInvoke()
     {
 
-        $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
+        $config = new \common_persistence_KeyValuePersistence(new \common_persistence_InMemoryKvDriver(), []);
         ServiceManager::setServiceManager(new ServiceManager($config));
         $config->set(ExtensionsManager::SERVICE_ID, $this->getExtensionManagerMock());
         $config->set(MigrationsService::SERVICE_ID, $this->getMigrationsServiceMock());

@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Connection;
 use InvalidArgumentException;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -78,8 +77,8 @@ class DependencyRepository implements DependencyRepositoryInterface
                 $options[self::OPTION_PARENT_LIST_VALUES],
                 Connection::PARAM_STR_ARRAY
             )
-            ->execute()
-            ->fetchAll(FetchMode::COLUMN);
+            ->executeQuery()
+            ->fetchFirstColumn();
     }
 
     public function findAll(array $options): DependencyCollection
@@ -106,7 +105,7 @@ class DependencyRepository implements DependencyRepositoryInterface
 
         $collection = new DependencyCollection();
 
-        foreach ($query->execute()->fetchAll(FetchMode::COLUMN) as $column) {
+        foreach ($query->executeQuery()->fetchFirstColumn() as $column) {
             $collection->append(new Dependency($column));
         }
 
@@ -142,8 +141,8 @@ class DependencyRepository implements DependencyRepositoryInterface
             )
             ->setParameter('list_uri', $options[self::OPTION_PARENT_LIST_URI])
             ->groupBy(RdsValueCollectionRepository::FIELD_ITEM_LIST_URI)
-            ->execute()
-            ->fetchAll(FetchMode::COLUMN);
+            ->executeQuery()
+            ->fetchFirstColumn();
     }
 
     /**
@@ -177,8 +176,8 @@ class DependencyRepository implements DependencyRepositoryInterface
                 )
             )
             ->setParameter('child_list_ids', $childListIds, Connection::PARAM_STR_ARRAY)
-            ->execute()
-            ->fetchAll(FetchMode::COLUMN);
+            ->executeQuery()
+            ->fetchFirstColumn();
     }
 
     private function getQueryBuilder(): QueryBuilder

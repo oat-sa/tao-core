@@ -20,6 +20,7 @@ class GenerateCommand extends DoctrineCommand
     protected function configure(): void
     {
         $this
+            ->setName('migrations:generate')
             ->setAliases(['generate'])
             ->setDescription('Generate a blank migration class.')
             ->addOption(
