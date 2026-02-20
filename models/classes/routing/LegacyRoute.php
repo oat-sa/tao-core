@@ -38,11 +38,14 @@ class LegacyRoute extends AbstractRoute
         $parts = explode('/', ltrim($relativeUrl, '/'));
         if ($parts[0] == $this->getId()) {
             // Do not resolve static asset paths (e.g. views/node_modules/..., *.js.map)
-            $pathAfterExt = isset($parts[1]) ? implode('/', array_slice($parts, 1)) : '';
-            if (
-                strpos($pathAfterExt, 'node_modules') !== false
-                || preg_match('/\.(js|css|map|woff2?|ttf|eot|ico|png|jpe?g|gif|svg)(\?|$)/', $pathAfterExt)
-            ) {
+            $pathAfterExt = $parts[1] ?? '';
+            $restPath = $pathAfterExt ? implode('/', array_slice($parts, 1)) : '';
+            $pathOnly = parse_url($restPath, PHP_URL_PATH) ?? $restPath;
+            $ext = strtolower(pathinfo($pathOnly, PATHINFO_EXTENSION));
+            $assetExts = [
+                'js','css','map','woff','woff2','ttf','eot','ico','png','jpg','jpeg','gif','svg'
+            ];
+            if (str_contains($pathOnly, 'node_modules/') || in_array($ext, $assetExts, true)) {
                 return null;
             }
             $controllerShortName = isset($parts[1]) && !empty($parts[1]) ? $parts[1] : DEFAULT_MODULE_NAME;

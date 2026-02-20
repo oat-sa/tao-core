@@ -45,10 +45,12 @@ class NamespaceRoute extends AbstractRoute
             $rest = substr($relativeUrl, $slash + 1);
             if (!empty($rest)) {
                 // Do not resolve static asset paths (e.g. views/node_modules/..., *.js.map)
-                if (
-                    strpos($rest, 'node_modules') !== false
-                    || preg_match('/\.(js|css|map|woff2?|ttf|eot|ico|png|jpe?g|gif|svg)(\?|$)/', $rest)
-                ) {
+                $pathOnly = parse_url($rest, PHP_URL_PATH) ?? $rest;
+                $ext = strtolower(pathinfo($pathOnly, PATHINFO_EXTENSION));
+                $assetExts = [
+                    'js', 'css', 'map', 'woff', 'woff2', 'ttf', 'eot', 'ico', 'png', 'jpg', 'jpeg', 'gif', 'svg'
+                ];
+                if (str_contains($pathOnly, 'node_modules/') || in_array($ext, $assetExts, true)) {
                     return null;
                 }
                 $parts = explode('/', $rest, 3);
