@@ -96,7 +96,7 @@ class RdsLockoutStorage extends LockoutStorageAbstract
             ->from(self::TABLE_NAME)
             ->where(sprintf('%s = ?', self::FIELD_ID));
 
-        $entries = $this->getPersistence()->query($queryBuilder->getSQL(), [$id])->fetchAll();
+        $entries = $this->getPersistence()->query($queryBuilder->getSQL(), [$id])->fetchAllAssociative();
 
         return reset($entries);
     }
@@ -118,7 +118,7 @@ class RdsLockoutStorage extends LockoutStorageAbstract
 
         $found = $this->getPersistence()
             ->query($queryBuilder->getSQL(), [ip2long($ip), time()])
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         if (count($found)) {
             $found = reset($found);

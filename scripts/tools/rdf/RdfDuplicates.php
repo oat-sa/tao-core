@@ -70,7 +70,7 @@ class RdfDuplicates extends AbstractAction
             AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language
             AND s.modelid=s1.modelid';
         $stmt = $this->getPersistence()->query($sql);
-        $total = $stmt->fetchAll()[0]['count'];
+        $total = $stmt->fetchAllAssociative()[0]['count'];
         if (!$total) {
             $report->add(Report::createSuccess('Duplicates not found. Everything is fine!'));
         } else {
@@ -80,7 +80,7 @@ class RdfDuplicates extends AbstractAction
                         AND s.id!=s1.id AND s.predicate=s1.predicate AND s.object=s1.object
                         AND s.l_language=s1.l_language AND s.modelid=s1.modelid LIMIT 1';
                     $stmt = $this->getPersistence()->query($sql);
-                    $res = $stmt->fetchAll();
+                    $res = $stmt->fetchAllAssociative();
                     $id = 0;
                     if (isset($res[0]) && isset($res[0]['source'])) {
                         $id = $res[0]['source'];
@@ -91,7 +91,7 @@ class RdfDuplicates extends AbstractAction
                             AND s.l_language=s1.l_language AND s.modelid=s1.modelid
                           WHERE s.id=?';
                         $stmt = $this->getPersistence()->query($sql, [$id]);
-                        $duplicates = array_column($stmt->fetchAll(), 'id');
+                        $duplicates = array_column($stmt->fetchAllAssociative(), 'id');
 
                         if (count($duplicates)) {
                             $sql = 'DELETE FROM statements WHERE id IN (' . implode(',', $duplicates) . ')';

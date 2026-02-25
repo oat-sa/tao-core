@@ -95,7 +95,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
                     'to' => $to->format('Y-m-d H:i:s')
                 ]);
 
-            $results = $qb->execute();
+            $results = $qb->executeQuery();
 
             while (($row = $results->fetchAssociative()) !== false) {
                 if (empty($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT])) {
@@ -224,7 +224,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
                 ->setParameter('status_prev', (string) $prevStatus);
         }
 
-        return $qb->execute();
+        return $qb->executeStatement();
     }
 
     /**
@@ -243,7 +243,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
             ->setParameter('status_new', (string) $newStatus)
             ->setParameter('updated_at', $this->getPersistence()->getPlatForm()->getNowExpression());
 
-        return $qb->execute();
+        return $qb->executeStatement();
     }
 
     /**
@@ -271,7 +271,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
 
         $filter->applyFilters($qb);
 
-        $row = $qb->execute()->fetch();
+        $row = $qb->executeQuery()->fetchAssociative();
 
         return TasksLogsStats::buildFromArray($row);
     }
@@ -321,7 +321,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
                 ->where(self::COLUMN_ID . ' = :id')
                 ->setParameter('id', $taskId);
 
-            $qb->execute();
+            $qb->executeStatement();
             $this->getPersistence()->getPlatform()->commit();
         } catch (Exception $e) {
             $this->getPersistence()->getPlatform()->rollBack();
@@ -384,7 +384,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
                 ->setParameter('status_new', (string) $status)
                 ->setParameter('updated_at', $this->getPersistence()->getPlatForm()->getNowExpression());
 
-            $exec = $qb->execute();
+            $exec = $qb->executeStatement();
             $this->getPersistence()->getPlatform()->commit();
         } catch (Exception $e) {
             $this->getPersistence()->getPlatform()->rollBack();
