@@ -368,9 +368,9 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
     /**
      * @param CollectionInterface $collection
      * @param string $status
-     * @return int Number of rows updated
+     * @return int Number of rows updated (0 on exception after rollback)
      */
-    private function updateCollectionStatus(CollectionInterface $collection, $status)
+    private function updateCollectionStatus(CollectionInterface $collection, string $status): int
     {
         $this->getPersistence()->getPlatform()->beginTransaction();
 
@@ -381,19 +381,19 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
                 ->set(self::COLUMN_UPDATED_AT, ':updated_at')
                 ->where(self::COLUMN_ID . ' IN(:id)')
                 ->setParameter('id', $collection->getIds(), Connection::PARAM_STR_ARRAY)
-                ->setParameter('status_new', (string) $status)
+                ->setParameter('status_new', $status)
                 ->setParameter('updated_at', $this->getPersistence()->getPlatForm()->getNowExpression());
 
             $exec = $qb->executeStatement();
             $this->getPersistence()->getPlatform()->commit();
+
+            return $exec;
         } catch (Exception $e) {
             $this->getPersistence()->getPlatform()->rollBack();
-            $this->logDebug($e->getMessage());
+            $this->logError('updateCollectionStatus failed: ' . $e->getMessage());
 
-            return false;
+            return 0;
         }
-
-        return $exec;
     }
 
     protected function getPersistence(): Persistence

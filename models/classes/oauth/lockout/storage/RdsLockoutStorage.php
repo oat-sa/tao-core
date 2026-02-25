@@ -114,19 +114,15 @@ class RdsLockoutStorage extends LockoutStorageAbstract
             ->select('*')
             ->from(self::TABLE_NAME)
             ->where(sprintf('%s = ?', self::FIELD_ID))
-            ->andWhere(sprintf('%s > ?', self::FIELD_EXPIRE_AT));
+            ->andWhere(sprintf('%s > ?', self::FIELD_EXPIRE_AT))
+            ->setParameter(1, ip2long($ip))
+            ->setParameter(2, time());
 
-        $found = $this->getPersistence()
-            ->query($queryBuilder->getSQL(), [ip2long($ip), time()])
-            ->fetchAllAssociative();
+        $found = $queryBuilder->executeQuery()->fetchAllAssociative();
 
         if (count($found)) {
             $found = reset($found);
-            if (time() > $found[self::FIELD_EXPIRE_AT]) {
-                $this->resetIp($ip);
-            } else {
-                $attempts = $found[self::FIELD_ATTEMPTS];
-            }
+            $attempts = (int) $found[self::FIELD_ATTEMPTS];
         }
         return $attempts;
     }
@@ -140,10 +136,10 @@ class RdsLockoutStorage extends LockoutStorageAbstract
     {
         $queryBuilder = $this->getQueryBuilder()
             ->delete(self::TABLE_NAME)
-            ->where(sprintf('%s = ?', self::FIELD_ID));
+            ->where(sprintf('%s = ?', self::FIELD_ID))
+            ->setParameter(1, ip2long($ip));
 
-        return $this->getPersistence()
-            ->query($queryBuilder->getSQL(), [ip2long($ip)])->execute();
+        return (bool) $queryBuilder->executeStatement();
     }
 
     /**
