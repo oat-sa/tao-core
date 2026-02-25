@@ -271,7 +271,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
 
         $filter->applyFilters($qb);
 
-        $row = $qb->executeQuery()->fetchAssociative();
+        $row = $qb->executeQuery()->fetchAssociative() ?: [];
 
         return TasksLogsStats::buildFromArray($row);
     }
