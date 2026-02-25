@@ -122,7 +122,11 @@ class RdsLockoutStorage extends LockoutStorageAbstract
 
         if (count($found)) {
             $found = reset($found);
-            $attempts = (int) $found[self::FIELD_ATTEMPTS];
+            if (time() > $found[self::FIELD_EXPIRE_AT]) {
+                $this->resetIp($ip);
+            } else {
+                $attempts = (int) $found[self::FIELD_ATTEMPTS];
+            }
         }
         return $attempts;
     }
