@@ -115,8 +115,8 @@ class RdsLockoutStorage extends LockoutStorageAbstract
             ->from(self::TABLE_NAME)
             ->where(sprintf('%s = ?', self::FIELD_ID))
             ->andWhere(sprintf('%s > ?', self::FIELD_EXPIRE_AT))
-            ->setParameter(1, ip2long($ip))
-            ->setParameter(2, time());
+            ->setParameter(0, ip2long($ip))
+            ->setParameter(1, time());
 
         $found = $queryBuilder->executeQuery()->fetchAllAssociative();
 
@@ -137,7 +137,7 @@ class RdsLockoutStorage extends LockoutStorageAbstract
         $queryBuilder = $this->getQueryBuilder()
             ->delete(self::TABLE_NAME)
             ->where(sprintf('%s = ?', self::FIELD_ID))
-            ->setParameter(1, ip2long($ip));
+            ->setParameter(0, ip2long($ip));
 
         return (bool) $queryBuilder->executeStatement();
     }
