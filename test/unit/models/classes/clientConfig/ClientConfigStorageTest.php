@@ -105,6 +105,10 @@ class ClientConfigStorageTest extends TestCase
 
     protected function setUp(): void
     {
+        if (!defined('ROOT_URL')) {
+            define('ROOT_URL', 'http://demo.taotesting.com/');
+        }
+
         $this->tokenService = $this->createMock(TokenService::class);
         $this->clientLibRegistry = $this->createMock(ClientLibRegistry::class);
         $this->featureFlagConfigSwitcher = $this->createMock(FeatureFlagConfigSwitcher::class);
@@ -353,7 +357,7 @@ class ClientConfigStorageTest extends TestCase
                 'context' => json_encode(
                     [
                         'tenantId' => '777',
-                        'root_url' => 'http://demo.taotesting.com/',
+                        'root_url' => \ROOT_URL,
                         'base_url' => 'baseUrl',
                         'taobase_www' => 'JsBaseWww',
                         'base_www' => 'JsBaseWww',

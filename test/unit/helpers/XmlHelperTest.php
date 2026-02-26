@@ -47,7 +47,11 @@ class XmlHelperTest extends TestCase
             $this->fail('Should not be here, exceptions only');
         } catch (common_exception_Error $e) {
             $this->assertSame($expected['exception']['class'], get_class($e));
-            $this->assertSame($expected['exception']['message'], $e->getMessage());
+            if (isset($expected['exception']['messageContains'])) {
+                $this->assertStringContainsString($expected['exception']['messageContains'], $e->getMessage());
+            } else {
+                $this->assertSame($expected['exception']['message'], $e->getMessage());
+            }
         }
     }
 
@@ -125,8 +129,8 @@ class XmlHelperTest extends TestCase
                 [
                     'exception' => [
                         'class' => common_exception_Error::class,
-                        'message' => "error parsing attribute name [1]\nattributes construct error [1]\nCouldn't find "
-                            . "end of Start Tag aasdf line 1 [1]\nExtra content at the end of the document [1]"
+                        // Message varies by libxml version; assert key part that identifies this parse error
+                        'messageContains' => "Couldn't find end of Start Tag aasdf line 1"
                     ]
                 ]
             ]

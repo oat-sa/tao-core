@@ -24,9 +24,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use Doctrine\DBAL\Driver\ResultStatement;
+use Doctrine\DBAL\Result;
 use Throwable;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Connection;
 use core_kernel_classes_Class;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -102,7 +101,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
         $values = [];
 
-        foreach ($query->execute()->fetchAll() as $rawValue) {
+        foreach ($query->executeQuery()->fetchAllAssociative() as $rawValue) {
             $value = new Value(
                 (int) $rawValue[self::FIELD_ITEM_ID],
                 $rawValue[self::FIELD_ITEM_URI],
@@ -173,7 +172,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $query->delete(self::TABLE_LIST_ITEMS)
             ->where($query->expr()->eq(self::FIELD_ITEM_LIST_URI, ':list_uri'))
             ->setParameter('list_uri', $valueCollectionUri)
-            ->execute();
+            ->executeStatement();
     }
 
     public function count(ValueCollectionSearchRequest $searchRequest): int
@@ -183,9 +182,9 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithInitialCondition($query);
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
 
-        $result = $query->select('count(items.id) AS c')->execute();
+        $result = $query->select('count(items.id) AS c')->executeQuery();
 
-        $row = $result->fetch(FetchMode::NUMERIC);
+        $row = $result->fetchNumeric();
         return (int) ($row[0] ?? 0);
     }
 
@@ -207,7 +206,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                     'label' => $value->getLabel(),
                     'listUri' => $valueCollection->getUri(),
                 ])
-                ->execute();
+                ->executeStatement();
 
             $this->insertListItemsDependency($qb, $value);
 
@@ -270,8 +269,8 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             ->setParameter('listUri', $valueCollection->getUri())
             ->setParameter('uris', $valueCollection->getUris(), Connection::PARAM_STR_ARRAY)
             ->setMaxResults(5)
-            ->execute()
-            ->fetchAll(FetchMode::COLUMN);
+            ->executeQuery()
+            ->fetchFirstColumn();
 
         if (!empty($existingUris)) {
             $existingUrisList = implode('", "', $existingUris);
@@ -393,14 +392,14 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                 ->select(self::FIELD_ITEM_ID)
                 ->where($query->expr()->eq('items.' . self::FIELD_ITEM_LIST_URI, ':list_uri'))
                 ->setParameter('list_uri', $valueCollectionUri)
-                ->execute()
-                ->fetchAll(FetchMode::COLUMN);
+                ->executeQuery()
+                ->fetchFirstColumn();
 
             if (!empty($ids)) {
                 $query->delete(self::TABLE_LIST_ITEMS_DEPENDENCIES)
                     ->where($query->expr()->in(self::FIELD_LIST_ITEM_ID, ':list_items_ids'))
                     ->setParameter('list_items_ids', $ids, Connection::PARAM_STR_ARRAY)
-                    ->execute();
+                    ->executeStatement();
             }
         }
     }
@@ -419,7 +418,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                     'field' => 'uri',
                     'value' => $value->getDependencyUri(),
                 ])
-                ->execute();
+                ->executeStatement();
         }
     }
 

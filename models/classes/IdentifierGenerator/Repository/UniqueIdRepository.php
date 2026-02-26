@@ -61,7 +61,7 @@ class UniqueIdRepository
 
         $queryBuilder->setMaxResults(1);
 
-        return $queryBuilder->execute()->fetchAssociative() ?: null;
+        return $queryBuilder->executeQuery()->fetchAssociative() ?: null;
     }
 
     public function save(array $data): void
@@ -90,7 +90,7 @@ class UniqueIdRepository
                     'createdAt' => date('Y-m-d H:i:s')
                 ]);
 
-            $queryBuilder->execute();
+            $queryBuilder->executeStatement();
             $platform->commit();
         } catch (UniqueConstraintViolationException $e) {
             $platform->rollback();
