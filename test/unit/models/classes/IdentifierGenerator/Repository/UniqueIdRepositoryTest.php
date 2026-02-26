@@ -114,7 +114,7 @@ class UniqueIdRepositoryTest extends TestCase
             ->willReturn($this->queryBuilder);
 
         $this->queryBuilder->expects($this->once())
-            ->method('execute')
+            ->method('executeQuery')
             ->willReturn($this->result);
 
         $this->result->expects($this->once())
@@ -163,7 +163,7 @@ class UniqueIdRepositoryTest extends TestCase
             ->willReturn($this->queryBuilder);
 
         $this->queryBuilder->expects($this->once())
-            ->method('execute')
+            ->method('executeQuery')
             ->willReturn($this->result);
 
         $this->result->expects($this->once())
@@ -187,7 +187,7 @@ class UniqueIdRepositoryTest extends TestCase
         $this->queryBuilder->method('andWhere')->willReturn($this->queryBuilder);
         $this->queryBuilder->method('setParameter')->willReturn($this->queryBuilder);
         $this->queryBuilder->method('setMaxResults')->willReturn($this->queryBuilder);
-        $this->queryBuilder->method('execute')->willReturn($this->result);
+        $this->queryBuilder->method('executeQuery')->willReturn($this->result);
 
         $this->result->expects($this->once())
             ->method('fetchAssociative')
@@ -229,7 +229,7 @@ class UniqueIdRepositoryTest extends TestCase
             ->willReturn($this->queryBuilder);
 
         $this->queryBuilder->expects($this->once())
-            ->method('execute');
+            ->method('executeStatement');
 
         $this->repository->save($data);
     }
@@ -302,7 +302,7 @@ class UniqueIdRepositoryTest extends TestCase
         $this->queryBuilder->method('insert')->willReturn($this->queryBuilder);
         $this->queryBuilder->method('values')->willReturn($this->queryBuilder);
         $this->queryBuilder->method('setParameters')->willReturn($this->queryBuilder);
-        $this->queryBuilder->method('execute')->willThrowException($exception);
+        $this->queryBuilder->method('executeStatement')->willThrowException($exception);
 
         $this->expectException(UniqueConstraintViolationException::class);
 
@@ -331,7 +331,7 @@ class UniqueIdRepositoryTest extends TestCase
         $this->queryBuilder->method('insert')->willReturn($this->queryBuilder);
         $this->queryBuilder->method('values')->willReturn($this->queryBuilder);
         $this->queryBuilder->method('setParameters')->willReturn($this->queryBuilder);
-        $this->queryBuilder->method('execute')->willThrowException($exception);
+        $this->queryBuilder->method('executeStatement')->willThrowException($exception);
 
         $this->logger->expects($this->once())
             ->method('warning')
@@ -360,7 +360,7 @@ class UniqueIdRepositoryTest extends TestCase
         $this->platform->method('commit');
         $this->queryBuilder->method('insert')->willReturn($this->queryBuilder);
         $this->queryBuilder->method('values')->willReturn($this->queryBuilder);
-        $this->queryBuilder->method('execute');
+        $this->queryBuilder->method('executeStatement');
 
         $this->queryBuilder->expects($this->once())
             ->method('setParameters')
