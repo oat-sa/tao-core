@@ -32,7 +32,7 @@ class IdentifierGeneratorServiceProvider implements ContainerServiceProviderInte
         $parameters = $configurator->parameters();
 
         $parameters->set(self::PARAM_MAX_RETRIES, 100);
-        $parameters->set(self::PARAM_SHOULD_CHECK_STATEMENTS, false);
+        $parameters->set(self::PARAM_SHOULD_CHECK_STATEMENTS, true);
         $parameters->set(self::PARAM_ID_START, 1);
 
         $services->set(UniqueIdRepository::class, UniqueIdRepository::class)
