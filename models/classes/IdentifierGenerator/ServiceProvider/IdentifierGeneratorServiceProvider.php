@@ -33,9 +33,9 @@ class IdentifierGeneratorServiceProvider implements ContainerServiceProviderInte
             ->args([
                 service(UniqueIdRepository::class),
                 service(ComplexSearchService::class),
-                env('TAO_ID_GENERATOR_MAX_RETRIES')->default('')->int(),
+                env('TAO_ID_GENERATOR_MAX_RETRIES')->default('100')->int(),
                 env('TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS')->default('')->bool(),
-                env('TAO_ID_GENERATOR_ID_START')->default('')->int(),
+                env('TAO_ID_GENERATOR_ID_START')->default('1')->int(),
             ]);
 
         $services

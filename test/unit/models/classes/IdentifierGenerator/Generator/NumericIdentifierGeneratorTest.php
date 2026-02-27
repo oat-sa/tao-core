@@ -453,4 +453,55 @@ class NumericIdentifierGeneratorTest extends TestCase
         $startIdProperty->setAccessible(true);
         $this->assertEquals(100000000, $startIdProperty->getValue($generator));
     }
+
+    public function testMaxRetriesFallsBackTo100WhenNull(): void
+    {
+        $generator = new NumericIdentifierGenerator(
+            $this->uniqueIdRepository,
+            $this->complexSearch,
+            null,
+            null,
+            null
+        );
+
+        $reflection = new \ReflectionClass($generator);
+        $maxRetriesProperty = $reflection->getProperty('maxRetries');
+        $maxRetriesProperty->setAccessible(true);
+
+        $this->assertEquals(100, $maxRetriesProperty->getValue($generator));
+    }
+
+    public function testMaxRetriesFallsBackTo100WhenZero(): void
+    {
+        $generator = new NumericIdentifierGenerator(
+            $this->uniqueIdRepository,
+            $this->complexSearch,
+            0,
+            null,
+            null
+        );
+
+        $reflection = new \ReflectionClass($generator);
+        $maxRetriesProperty = $reflection->getProperty('maxRetries');
+        $maxRetriesProperty->setAccessible(true);
+
+        $this->assertEquals(100, $maxRetriesProperty->getValue($generator));
+    }
+
+    public function testMaxRetriesFallsBackTo100WhenNegative(): void
+    {
+        $generator = new NumericIdentifierGenerator(
+            $this->uniqueIdRepository,
+            $this->complexSearch,
+            -5,
+            null,
+            null
+        );
+
+        $reflection = new \ReflectionClass($generator);
+        $maxRetriesProperty = $reflection->getProperty('maxRetries');
+        $maxRetriesProperty->setAccessible(true);
+
+        $this->assertEquals(100, $maxRetriesProperty->getValue($generator));
+    }
 }
