@@ -136,6 +136,11 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         ], [
             'like' => false
         ]);
+
+        // Filter out languages without a label in case of adding specific locales
+        $returnValue = array_values(array_filter($returnValue, function ($lang) {
+            return (bool) $lang->getLabel();
+        }));
         return (array) $returnValue;
     }
 
