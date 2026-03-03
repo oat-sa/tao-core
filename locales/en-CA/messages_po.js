@@ -1,1 +1,0 @@
-{"Manage test takers":"Manage test-takers","Record and manage test takers.":"Record and manage test-takers.","Test takers library":"Test-takers library"}
