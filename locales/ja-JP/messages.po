@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-05 16:06\n"
+"PO-Revision-Date: 2026-03-05 08:40\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -1122,7 +1122,7 @@ msgid "Hypertext markup language"
 msgstr "ハイパーテキストマークアップ言語"
 
 msgid "I understand that this action is permanent."
-msgstr "削除を再確認"
+msgstr "削除の継続を確認しました"
 
 msgid "Identifier"
 msgstr "識別子"
