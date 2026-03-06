@@ -93,7 +93,7 @@ class TempFlyStorageAssociationTest extends TestCase
         $persistenceManagerMock
             ->method('getPersistenceById')
             ->with('default_kv')
-            ->willReturn(new common_persistence_KeyValuePersistence([], new common_persistence_InMemoryKvDriver()));
+            ->willReturn(new common_persistence_KeyValuePersistence(new common_persistence_InMemoryKvDriver(), []));
 
         $serviceManagerMock = $this->getServiceManagerMock([
             PersistenceManager::SERVICE_ID => $persistenceManagerMock,

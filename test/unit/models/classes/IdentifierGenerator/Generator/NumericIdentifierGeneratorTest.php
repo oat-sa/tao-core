@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\IdentifierGenerator\Generator;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\DBAL\Driver\DriverException;
+use Doctrine\DBAL\Driver\Exception as DriverException;
 use Exception;
 use InvalidArgumentException;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
@@ -198,7 +198,7 @@ class NumericIdentifierGeneratorTest extends TestCase
             });
 
         $driverException = $this->createMock(DriverException::class);
-        $exception = new UniqueConstraintViolationException('Duplicate entry', $driverException);
+        $exception = new UniqueConstraintViolationException($driverException, null);
 
         $this->uniqueIdRepository
             ->method('save')
@@ -238,7 +238,7 @@ class NumericIdentifierGeneratorTest extends TestCase
             });
 
         $driverException = $this->createMock(DriverException::class);
-        $exception = new UniqueConstraintViolationException('Duplicate entry', $driverException);
+        $exception = new UniqueConstraintViolationException($driverException, null);
 
         $this->uniqueIdRepository
             ->method('save')
@@ -452,5 +452,56 @@ class NumericIdentifierGeneratorTest extends TestCase
         $startIdProperty = $reflection->getProperty('startId');
         $startIdProperty->setAccessible(true);
         $this->assertEquals(100000000, $startIdProperty->getValue($generator));
+    }
+
+    public function testMaxRetriesFallsBackTo100WhenNull(): void
+    {
+        $generator = new NumericIdentifierGenerator(
+            $this->uniqueIdRepository,
+            $this->complexSearch,
+            null,
+            null,
+            null
+        );
+
+        $reflection = new \ReflectionClass($generator);
+        $maxRetriesProperty = $reflection->getProperty('maxRetries');
+        $maxRetriesProperty->setAccessible(true);
+
+        $this->assertEquals(100, $maxRetriesProperty->getValue($generator));
+    }
+
+    public function testMaxRetriesFallsBackTo100WhenZero(): void
+    {
+        $generator = new NumericIdentifierGenerator(
+            $this->uniqueIdRepository,
+            $this->complexSearch,
+            0,
+            null,
+            null
+        );
+
+        $reflection = new \ReflectionClass($generator);
+        $maxRetriesProperty = $reflection->getProperty('maxRetries');
+        $maxRetriesProperty->setAccessible(true);
+
+        $this->assertEquals(100, $maxRetriesProperty->getValue($generator));
+    }
+
+    public function testMaxRetriesFallsBackTo100WhenNegative(): void
+    {
+        $generator = new NumericIdentifierGenerator(
+            $this->uniqueIdRepository,
+            $this->complexSearch,
+            -5,
+            null,
+            null
+        );
+
+        $reflection = new \ReflectionClass($generator);
+        $maxRetriesProperty = $reflection->getProperty('maxRetries');
+        $maxRetriesProperty->setAccessible(true);
+
+        $this->assertEquals(100, $maxRetriesProperty->getValue($generator));
     }
 }

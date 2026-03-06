@@ -52,7 +52,7 @@ class FormContainerTest extends GenerisTestCase
      */
     protected function setUp(): void
     {
-        $config = new common_persistence_KeyValuePersistence([], new common_persistence_InMemoryKvDriver());
+        $config = new common_persistence_KeyValuePersistence(new common_persistence_InMemoryKvDriver(), []);
         $config->set(ApplicationService::SERVICE_ID, $this->createApplicationServiceTestDouble());
         $config->set(PersistenceManager::SERVICE_ID, $this->createPersistenceManagerTestDouble());
         $config->set(TokenService::SERVICE_ID, $this->createTokenServiceTestDouble());

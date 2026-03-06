@@ -40,9 +40,9 @@ class NumericIdentifierGenerator implements IdentifierGeneratorInterface
         private ?bool $shouldCheckStatements,
         private ?int $startId,
     ) {
-        $this->maxRetries = $this->maxRetries ?? 100;
+        $this->maxRetries = ($this->maxRetries !== null && $this->maxRetries > 0) ? $this->maxRetries : 100;
         $this->shouldCheckStatements = $this->shouldCheckStatements ?? true;
-        $this->startId = $this->startId ?? 1;
+        $this->startId = ($this->startId !== null && $this->startId > 0) ? $this->startId : 1;
     }
 
     /**

@@ -21,11 +21,10 @@
 
 namespace oat\tao\test\integration\datatable;
 
+use GuzzleHttp\Psr7\ServerRequest;
 use oat\tao\model\datatable\implementation\AbstractDatatablePayload;
 use oat\tao\model\datatable\implementation\DatatableRequest;
 use oat\tao\test\TaoPhpUnitTestRunner;
-use Slim\Http\Environment;
-use Slim\Http\Request;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use Prophecy\Argument;
 
@@ -42,14 +41,11 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * @dataProvider environmentsProvider
-     * @preserveGlobalState disabled
-     *
-     * @param Environment $env
+     * @dataProvider requestsProvider
+     * @param ServerRequest $request
      */
-    public function testGetPayload($env)
+    public function testGetPayload(ServerRequest $request)
     {
-        $request = Request::createFromEnvironment($env);
         $datatableRequest = new DatatableRequest($request);
 
         $datatablePayload = new ConcreteDatatablePayload($datatableRequest);
@@ -60,19 +56,16 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
     }
 
 
-    public function environmentsProvider()
+    public function requestsProvider(): array
     {
         return [
             [
-                'env' => Environment::mock([
-                    'QUERY_STRING' => http_build_query([
-                        'rows' => '5',
-                        'page' => '1',
-                        'sortby' => 'id',
-                        'sortorder' => 'asc',
-                        'filtercolumns' => ['lastname' => 'John'],
-                    ]),
-                    'REQUEST_METHOD' => 'GET',
+                (new ServerRequest('GET', 'http://localhost'))->withQueryParams([
+                    'rows' => '5',
+                    'page' => '1',
+                    'sortby' => 'id',
+                    'sortorder' => 'asc',
+                    'filtercolumns' => ['lastname' => 'John'],
                 ]),
             ],
         ];

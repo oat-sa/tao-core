@@ -665,7 +665,7 @@ class Layout
         $data = get_data($key);
 
         usort($data, function ($a, $b) {
-            return $a->getWeight() < $b->getWeight();
+            return $a->getWeight() <=> $b->getWeight();
         });
 
         return $data;
