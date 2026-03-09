@@ -154,7 +154,7 @@ class InstantActionTest extends TaoPhpUnitTestRunner
                 ]
             ]
         ]);
-        $config = new common_persistence_KeyValuePersistence([], new common_persistence_InMemoryKvDriver());
+        $config = new common_persistence_KeyValuePersistence(new common_persistence_InMemoryKvDriver(), []);
         $config->set(common_persistence_Manager::SERVICE_ID, $persistenceManager);
         $serviceManager = new ServiceManager($config);
         $result->setServiceManager($serviceManager);
