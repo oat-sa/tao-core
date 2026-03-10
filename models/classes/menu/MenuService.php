@@ -167,7 +167,7 @@ class MenuService
         foreach (array_keys($sorted) as $extId) {
             $file = self::getStructuresFilePath($extId);
             if (!is_null($file)) {
-                $xmlStructures = new SimpleXMLElement($file, null, true);
+                $xmlStructures = new SimpleXMLElement($file, 0, true);
                 $extStructures = $xmlStructures->xpath('/structures/structure');
                 foreach ($extStructures as $xmlStructure) {
                     $perspective = Perspective::fromSimpleXMLElement($xmlStructure, $extId);

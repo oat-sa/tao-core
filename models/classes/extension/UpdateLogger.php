@@ -39,10 +39,10 @@ class UpdateLogger extends ConfigurableService implements LoggerInterface
 
     /**
      * @param mixed $level
-     * @param string $message
+     * @param string|\Stringable $message
      * @param array $context
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         $service = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
         $filesystem = $service->getFileSystem($this->getOption(self::OPTION_FILESYSTEM));

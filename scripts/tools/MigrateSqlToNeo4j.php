@@ -353,8 +353,8 @@ CYPHER,
 SQL);
 
         $subjectList = [];
-        while ($r = $result->fetchColumn()) {
-            $subjectList[] = $r;
+        while (($row = $result->fetchAssociative()) !== false) {
+            $subjectList[] = $row['subject'];
 
             if (count($subjectList) >= $neo4jChunkSize) {
                 $systemNode = Query::node('Resource');

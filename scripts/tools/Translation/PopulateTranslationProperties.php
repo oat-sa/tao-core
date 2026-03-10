@@ -194,7 +194,7 @@ class PopulateTranslationProperties extends ScriptAction
             ]
         );
 
-        return array_column($statement->fetchAll(), 'subject');
+        return array_column($statement->fetchAllAssociative(), 'subject');
     }
 
     private function populateProperties(array $resourceIds): void

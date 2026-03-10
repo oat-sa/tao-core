@@ -41,7 +41,7 @@ class DisplayHelperTest extends TestCase
      */
     protected function init(): void
     {
-        $config = new common_persistence_KeyValuePersistence([], new common_persistence_InMemoryKvDriver());
+        $config = new common_persistence_KeyValuePersistence(new common_persistence_InMemoryKvDriver(), []);
         $config->set(ApplicationService::SERVICE_ID, $this->createApplicationServiceMock());
 
         ServiceManager::setServiceManager(new ServiceManager($config));

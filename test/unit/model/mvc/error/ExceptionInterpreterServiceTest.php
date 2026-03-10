@@ -44,7 +44,7 @@ class ExceptionInterpreterServiceTest extends TestCase
                 DEx::class => DExInt::class,
             ]
         ]);
-        $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
+        $config = new \common_persistence_KeyValuePersistence(new \common_persistence_InMemoryKvDriver(), []);
         $service->setServiceLocator(new ServiceManager($config));
         $this->assertEquals(
             ExceptionInterpretor::class,

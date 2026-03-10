@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\DataAccess\Repository;
 
 use PHPUnit\Framework\TestCase;
-use Doctrine\DBAL\Driver\Statement;
+use Doctrine\DBAL\Result;
 use common_persistence_sql_Platform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use common_persistence_SqlPersistence;
@@ -75,8 +75,8 @@ class DependencyRepositoryTest extends TestCase
             ->method('expr')
             ->willReturn($this->getExpressionBuilderMock());
         $this->queryBuilder
-            ->method('execute')
-            ->willReturn($this->createStatementMock(['uri']));
+            ->method('executeQuery')
+            ->willReturn($this->createResultMock(['uri']));
         $this->configureQueryBuilderSerfMethods(
             [
                 'select',
@@ -105,8 +105,8 @@ class DependencyRepositoryTest extends TestCase
             ->method('expr')
             ->willReturn($this->getExpressionBuilderMock());
         $this->queryBuilder
-            ->method('execute')
-            ->willReturn($this->createStatementMock($expectedChildIds));
+            ->method('executeQuery')
+            ->willReturn($this->createResultMock($expectedChildIds));
         $this->configureQueryBuilderSerfMethods(
             [
                 'select',
@@ -136,8 +136,8 @@ class DependencyRepositoryTest extends TestCase
             ->method('expr')
             ->willReturn($this->getExpressionBuilderMock());
         $this->queryBuilder
-            ->method('execute')
-            ->willReturn($this->createStatementMock($childUriList));
+            ->method('executeQuery')
+            ->willReturn($this->createResultMock($childUriList));
         $this->configureQueryBuilderSerfMethods(
             [
                 'select',
@@ -185,8 +185,8 @@ class DependencyRepositoryTest extends TestCase
             ->method('expr')
             ->willReturn($this->getExpressionBuilderMock());
         $this->queryBuilder
-            ->method('execute')
-            ->willReturn($this->createStatementMock($expected));
+            ->method('executeQuery')
+            ->willReturn($this->createResultMock($expected));
         $this->configureQueryBuilderSerfMethods(
             [
                 'select',
@@ -201,14 +201,14 @@ class DependencyRepositoryTest extends TestCase
         $this->assertSame($expected, $this->sut->findChildListItemsUris($context));
     }
 
-    private function createStatementMock(array $expected): Statement
+    private function createResultMock(array $expected): Result
     {
-        $statement = $this->createMock(Statement::class);
-        $statement
-            ->method('fetchAll')
+        $result = $this->createMock(Result::class);
+        $result
+            ->method('fetchFirstColumn')
             ->willReturn($expected);
 
-        return $statement;
+        return $result;
     }
 
     private function getExpressionBuilderMock(): ExpressionBuilder

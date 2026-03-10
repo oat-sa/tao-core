@@ -164,7 +164,7 @@ class ClientConfigStorage
                 'context' => $this->getEncodedValue(
                     [
                         'tenantId' => $this->sessionService->getTenantId(),
-                        'root_url' => ROOT_URL,
+                        'root_url' => \ROOT_URL,
                         'base_url' => $this->getExtension($extensionId)->getConstant('BASE_URL'),
                         'taobase_www' => $taoBaseWww,
                         'base_www' => $this->assetService->getJsBaseWww($extensionId),

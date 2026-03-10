@@ -66,7 +66,7 @@ abstract class AbstractTaskLogBroker implements
             ->andWhere(self::COLUMN_ID . ' = :id')
             ->setParameter('id', $taskId);
 
-        return (string)$qb->execute()->fetchColumn();
+        return (string)$qb->executeQuery()->fetchOne();
     }
 
     /**
@@ -102,7 +102,7 @@ abstract class AbstractTaskLogBroker implements
             ->setParameter('id', $taskId);
 
         if (
-            ($reportJson = $qb->execute()->fetchColumn())
+            ($reportJson = $qb->executeQuery()->fetchOne())
             && ($reportData = json_decode($reportJson, true)) !== null
             && json_last_error() === JSON_ERROR_NONE
         ) {
@@ -121,7 +121,7 @@ abstract class AbstractTaskLogBroker implements
         try {
             $qb = $this->getSearchQuery($filter);
             $collection = TaskLogCollection::createFromArray(
-                $qb->execute()->fetchAll(),
+                $qb->executeQuery()->fetchAllAssociative(),
                 $this->getPersistence()->getPlatForm()->getDateTimeFormatString()
             );
         } catch (Exception $exception) {
@@ -139,8 +139,8 @@ abstract class AbstractTaskLogBroker implements
     {
         try {
             return (int)$this->getCountQuery($filter)
-                ->execute()
-                ->fetchColumn();
+                ->executeQuery()
+                ->fetchOne();
         } catch (Exception $e) {
             $this->logError('Counting task logs failed with MSG: ' . $e->getMessage());
         }
@@ -153,8 +153,12 @@ abstract class AbstractTaskLogBroker implements
         $qb = $this->getQueryBuilder()
             ->select($filter->getColumns())
             ->from($this->getTableName())
-            ->setMaxResults($filter->getLimit())
-            ->setFirstResult($filter->getOffset());
+            ->setFirstResult($filter->getOffset() ?? 0);
+
+        $limit = $filter->getLimit();
+        if ($limit !== null) {
+            $qb->setMaxResults($limit);
+        }
 
         if ($filter->getSortBy()) {
             $qb->orderBy($filter->getSortBy(), $filter->getSortOrder());

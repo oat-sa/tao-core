@@ -19,9 +19,9 @@
  *
  */
 
+use GuzzleHttp\Psr7\Stream;
 use oat\tao\model\stream\StreamRange;
 use oat\tao\model\stream\StreamRangeException;
-use Slim\Http\Stream;
 
 /**
  * Class StreamRangeTest
@@ -127,10 +127,7 @@ class StreamRangeTest extends TestCase
         ];
     }
 
-    /**
-     * @return Stream
-     */
-    private function getStream($string)
+    private function getStream(string $string): Stream
     {
         $resource = fopen('php://memory', 'r+');
         fwrite($resource, $string);
