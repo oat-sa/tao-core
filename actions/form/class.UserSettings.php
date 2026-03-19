@@ -134,6 +134,7 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 
         $uiLangElement = tao_helpers_form_FormFactory::getElement('ui_lang', 'Combobox');
         $uiLangElement->setDescription(__('Interface language'));
+        uasort($guiOptions, 'strcasecmp');
         $uiLangElement->setOptions($guiOptions);
 
         $this->form->addElement($uiLangElement);
