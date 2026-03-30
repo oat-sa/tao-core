@@ -168,6 +168,7 @@ class tao_actions_form_Users extends SignedFormInstance
         foreach ($langService->getAvailableLanguagesByUsage($guiUsage) as $lang) {
             $guiOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
         }
+        uasort($guiOptions, 'strcasecmp');
         $uiLangElt->setOptions($guiOptions);
 
         // roles field
