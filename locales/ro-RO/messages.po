@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-01-19 13:15\n"
+"PO-Revision-Date: 2026-03-28 09:55\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -1974,7 +1974,7 @@ msgid "RealMedia file"
 msgstr "Fișier RealMedia"
 
 msgid "Refresh"
-msgstr "Împrospătează"
+msgstr "Reîmprospătează"
 
 msgid "Reject all"
 msgstr "Respinge toate"
