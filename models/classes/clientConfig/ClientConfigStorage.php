@@ -150,6 +150,7 @@ class ClientConfigStorage
         $langCode = $currentSession->getInterfaceLanguage();
         $timeout = $this->getClientTimeout();
         $extensionId = $resolver->getExtensionId();
+        $previewerExternalFeUrl = isset($_ENV['PREVIEWER_EXTERNAL_FE_URL']) ? $_ENV['PREVIEWER_EXTERNAL_FE_URL'] : null;
 
         $this->config = array_merge_recursive(
             [
@@ -181,6 +182,7 @@ class ClientConfigStorage
                         'featureFlags' => $this->featureFlagRepository->list(),
                         'cookiePolicy' => $this->cookiePolicyConfigurationRetriever->retrieve()->jsonSerialize(),
                         'currentUser' => $this->getUserData($currentSession),
+                        'previewerExternalFeUrl' => $previewerExternalFeUrl,
                     ]
                 ),
             ],
