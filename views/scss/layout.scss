@@ -369,3 +369,8 @@ ul.group-list {
         -webkit-border-radius: 3px;
     }
 }
+
+.cke_screen_reader_only.cke_copyformatting_notification {
+    position: fixed;
+    left: -9999px;
+}
