@@ -71,10 +71,10 @@ define([
     function getContainerHeight($scope) {
         var winHeight = $window.innerHeight(),
             footerHeight = $footer.outerHeight(),
-            headerHeight = $('header.dark-bar').outerHeight() + ($versionWarning.length ? $versionWarning.outerHeight() : 0),
+            headerHeight = $('header.main-header').outerHeight() + ($versionWarning.length ? $versionWarning.outerHeight() : 0),
             actionBarHeight = $scope.find('.content-container .action-bar').outerHeight(),
             $tabs = $('.section-container > .tab-container:visible'),
-            tabHeight = $tabs.length ? $tabs.outerHeight() : 0;
+            tabHeight = $tabs.length ? $tabs.outerHeight() : 1; // 1 is fallback for hiding redundant scroll
 
         return winHeight - headerHeight - footerHeight - actionBarHeight - tabHeight;
     }
