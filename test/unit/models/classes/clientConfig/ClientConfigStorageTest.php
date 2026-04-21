@@ -383,7 +383,8 @@ class ClientConfigStorageTest extends TestCase
                             'id' => 'myUserId',
                             'uri' => 'https://user.taotesting.com',
                             'login' => 'adminLogin'
-                        ]
+                        ],
+                        'previewerExternalFeUrl' => null
                     ],
                     JSON_THROW_ON_ERROR
                 ),
