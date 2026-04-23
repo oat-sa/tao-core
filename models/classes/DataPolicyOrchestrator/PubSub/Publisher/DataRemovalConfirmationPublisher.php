@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\DataPolicyOrchestrator\PubSub\Publisher;
 
+use oat\tao\model\DataPolicyOrchestrator\Exception\DataPolicyException;
 use oat\tao\model\Observer\GCP\PubSubClientFactory;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -55,13 +56,13 @@ class DataRemovalConfirmationPublisher
                     ]
                 );
         } catch (Throwable $exception) {
-            $this->logger->error(
-                sprintf(
-                    'Failed to publish confirmation to topic "%s": %s',
-                    $topicName,
-                    $exception->getMessage()
-                )
+            $message = sprintf(
+                'Failed to publish confirmation to topic "%s": %s',
+                $topicName,
+                $exception->getMessage()
             );
+            $this->logger->error($message);
+            throw new DataPolicyException($message, 400, $exception);
         }
     }
 }

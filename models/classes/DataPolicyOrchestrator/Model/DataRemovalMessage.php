@@ -24,16 +24,16 @@ namespace oat\tao\model\DataPolicyOrchestrator\Model;
 
 readonly class DataRemovalMessage extends DataPolicyMessage
 {
-    public ?string $uniqueId;
-    public ?string $name;
-    public ?string $storageType;
+    public string $uniqueId;
+    public string $name;
+    public string $storageType;
 
     public function __construct(array $data)
     {
         parent::__construct($data);
 
-        $this->uniqueId = $data['uniqueId'] ?? null;
-        $this->name = $data['name'] ?? null;
-        $this->storageType = $data['storageType'] ?? null;
+        $this->uniqueId = $data['uniqueId'];
+        $this->name = $data['name'];
+        $this->storageType = $data['storageType'];
     }
 }

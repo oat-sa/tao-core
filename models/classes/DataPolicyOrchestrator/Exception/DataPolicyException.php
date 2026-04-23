@@ -23,8 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\model\DataPolicyOrchestrator\Exception;
 
 use Exception;
-use JetBrains\PhpStorm\Pure;
-use Throwable;
 
 class DataPolicyException extends Exception
 {

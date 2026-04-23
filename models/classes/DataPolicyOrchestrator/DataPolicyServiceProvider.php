@@ -29,7 +29,7 @@ use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalListener;
 use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalCheckListener;
 use oat\tao\model\DataPolicyOrchestrator\PubSub\Publisher\DataRemovalConfirmationPublisher;
 use oat\tao\model\DataPolicyOrchestrator\Handler\DataRemovalHandlerProxy;
-use oat\tao\model\DataPolicyOrchestrator\HAndler\FullDataRemovalHandlerProxy;
+use oat\tao\model\DataPolicyOrchestrator\Handler\FullDataRemovalHandlerProxy;
 use oat\tao\model\DataPolicyOrchestrator\Handler\FullDataRemovalHandler;
 use oat\tao\model\DataPolicyOrchestrator\Handler\DataRemovalHandler;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -38,10 +38,11 @@ use tao_models_classes_UserService;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
+// phpcs:disable Generic.Files.LineLength
 class DataPolicyServiceProvider implements ContainerServiceProviderInterface
 {
     private const PARAM_REMOVAL_SUBSCRIPTION_DEFAULT = 'DATA_POLICY_REMOVAL_SUBSCRIPTION_DEFAULT';
-    private const PARAM_REMOVAL_CONFIRMATION_DEFAULT = 'DATA_POLICY_REMOVAL_CONFIRMATION_SUBSCRIPTION_DEFAULT';
+    private const PARAM_FULL_REMOVAL_CONFIRMATION_SUBSCRIPTION_DEFAULT = 'DATA_POLICY_REMOVAL_CONFIRMATION_SUBSCRIPTION_DEFAULT';
     private const PARAM_REMOVAL_CONFIRMATION_TOPIC_DEFAULT = 'DATA_POLICY_REMOVAL_CONFIRMATION_TOPIC_DEFAULT';
     private const PARAM_FULL_REMOVAL_CONFIRMATION_TOPIC_DEFAULT = 'DATA_POLICY_FULL_REMOVAL_CONFIRMATION_TOPIC_DEFAULT';
 
@@ -51,7 +52,10 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
         $parameters = $configurator->parameters();
 
         $parameters->set(self::PARAM_REMOVAL_SUBSCRIPTION_DEFAULT, 'data_policy_removal_subscription');
-        $parameters->set(self::PARAM_REMOVAL_CONFIRMATION_DEFAULT, 'data_policy_removal_confirmation_subscription');
+        $parameters->set(
+            self::PARAM_FULL_REMOVAL_CONFIRMATION_SUBSCRIPTION_DEFAULT,
+            'data_policy_removal_confirmation_subscription'
+        );
         $parameters->set(self::PARAM_REMOVAL_CONFIRMATION_TOPIC_DEFAULT, 'data_policy_removal_confirmation_topic');
         $parameters->set(
             self::PARAM_FULL_REMOVAL_CONFIRMATION_TOPIC_DEFAULT,
@@ -135,8 +139,8 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
                     service(PubSubClientFactory::class),
                     service(FullDataRemovalHandlerProxy::class),
                     service(LoggerService::SERVICE_ID),
-                    env('DATA_POLICY_REMOVAL_CONFIRMATION_SUBSCRIPTION')
-                        ->default(self::PARAM_REMOVAL_CONFIRMATION_TOPIC_DEFAULT)
+                    env('DATA_POLICY_FULL_REMOVAL_CONFIRMATION_SUBSCRIPTION')
+                        ->default(self::PARAM_FULL_REMOVAL_CONFIRMATION_SUBSCRIPTION_DEFAULT)
                         ->string(),
                 ]
             )

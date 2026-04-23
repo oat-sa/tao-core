@@ -22,13 +22,22 @@ declare(strict_types=1);
 
 namespace oat\tao\scripts\tools\DataPolicyOrchestrator;
 
+use common_ext_ExtensionsManager;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalCheckListener;
 use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalListener;
 
+/**
+ * @example php index.php 'oat\tao\scripts\tools\DataPolicyOrchestrator\ListenDataPolicyOrchestrator'
+ *          -t removal
+ *          [[ --max-messages=10 ]]
+ *          [[ --wait-seconds=5 ]]
+ *          [[ --max-iterations=0 ]]
+ */
 class ListenDataPolicyOrchestrator extends ScriptAction
 {
+    private const REQUIRED_EXTENSIONS = ['tao', 'taoEventLog'];
     private const LISTENERS_BY_TYPE = [
         'removal' => DataRemovalListener::class,
         'removal-check' => DataRemovalCheckListener::class,
@@ -84,7 +93,7 @@ class ListenDataPolicyOrchestrator extends ScriptAction
     {
         $type = $this->getOption(self::OPTION_TYPE);
 
-        if (array_key_exists($type, self::LISTENERS_BY_TYPE)) {
+        if (!array_key_exists($type, self::LISTENERS_BY_TYPE)) {
             return Report::createError(
                 sprintf(
                     'Provided type "%s" is not allowed. Allowed types are: %s',
@@ -94,6 +103,9 @@ class ListenDataPolicyOrchestrator extends ScriptAction
             );
         }
 
+        $report = Report::createInfo('Start listening for data policy orchestrator topics.');
+        $report->add($this->logMissingRequiredExtensions());
+
         $listener = $this->getServiceManager()->getContainer()->get(self::LISTENERS_BY_TYPE[$type]);
         $listener->run(
             $this->getOption(self::OPTION_MAX_MESSAGES),
@@ -101,6 +113,30 @@ class ListenDataPolicyOrchestrator extends ScriptAction
             $this->getOption(self::OPTION_MAX_ITERATIONS)
         );
 
-        return Report::createSuccess('Pub/Sub data policy listener has finished.');
+        return $report->add(Report::createSuccess('Pub/Sub data policy listener has finished.'));
+    }
+
+    private function logMissingRequiredExtensions(): Report
+    {
+        $report = Report::createInfo('Checking required extensions for data policy orchestrator.');
+        $extensionManager = $this->getServiceManager()->getContainer()->get(common_ext_ExtensionsManager::SERVICE_ID);
+
+        foreach (self::REQUIRED_EXTENSIONS as $extensionId) {
+            if ($extensionManager->isInstalled($extensionId)) {
+                continue;
+            }
+
+            $report->add(
+                Report::createWarning(
+                    sprintf(
+                        'Extension "%s" is not installed. User data handled by this extension cannot be removed '
+                        . 'automatically and should be removed manually if needed.',
+                        $extensionId
+                    )
+                )
+            );
+        }
+
+        return $report;
     }
 }

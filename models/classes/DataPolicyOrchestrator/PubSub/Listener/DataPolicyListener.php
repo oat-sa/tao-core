@@ -68,7 +68,7 @@ abstract class DataPolicyListener
         }
     }
 
-    abstract protected function parseMessage(Message $message): DataPolicyMessage;
+    abstract protected function parseMessage(Message $message): ?DataPolicyMessage;
 
     private function consumeProcess(PubSubClient $pubSubClient, int $maxMessages): void
     {

@@ -28,7 +28,7 @@ use oat\tao\model\DataPolicyOrchestrator\Model\DataRemovalConfirmationMessage;
 
 class DataRemovalCheckListener extends DataPolicyListener
 {
-    protected function parseMessage(Message $message): DataPolicyMessage
+    protected function parseMessage(Message $message): ?DataPolicyMessage
     {
         return DataRemovalConfirmationMessage::fromPayload($message->data());
     }
