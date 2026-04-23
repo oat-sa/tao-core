@@ -20,14 +20,20 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\scripts\tools\PubSub;
+namespace oat\tao\scripts\tools\DataPolicyOrchestrator;
 
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\Observer\GCP\UserDataRemoval\PubSubUserDataPolicyListener;
+use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalCheckListener;
+use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalListener;
 
-class ListenUserDataPolicy extends ScriptAction
+class ListenDataPolicyOrchestrator extends ScriptAction
 {
+    private const LISTENERS_BY_TYPE = [
+        'removal' => DataRemovalListener::class,
+        'removal-check' => DataRemovalCheckListener::class,
+    ];
+    private const OPTION_TYPE = 'type';
     private const OPTION_MAX_MESSAGES = 'max-messages';
     private const OPTION_WAIT_SECONDS = 'wait-seconds';
     private const OPTION_MAX_ITERATIONS = 'max-iterations';
@@ -35,6 +41,13 @@ class ListenUserDataPolicy extends ScriptAction
     protected function provideOptions(): array
     {
         return [
+            self::OPTION_TYPE => [
+                'prefix' => 't',
+                'longPrefix' => self::OPTION_TYPE,
+                'description' => 'Pub/Sub subscription type',
+                'required' => true,
+                'cast' => 'string'
+            ],
             self::OPTION_MAX_MESSAGES => [
                 'prefix' => 'm',
                 'longPrefix' => self::OPTION_MAX_MESSAGES,
@@ -69,7 +82,19 @@ class ListenUserDataPolicy extends ScriptAction
 
     protected function run(): Report
     {
-        $listener = $this->getServiceManager()->getContainer()->get(PubSubUserDataPolicyListener::class);
+        $type = $this->getOption(self::OPTION_TYPE);
+
+        if (array_key_exists($type, self::LISTENERS_BY_TYPE)) {
+            return Report::createError(
+                sprintf(
+                    'Provided type "%s" is not allowed. Allowed types are: %s',
+                    $type,
+                    implode(', ', array_keys(self::LISTENERS_BY_TYPE))
+                )
+            );
+        }
+
+        $listener = $this->getServiceManager()->getContainer()->get(self::LISTENERS_BY_TYPE[$type]);
         $listener->run(
             $this->getOption(self::OPTION_MAX_MESSAGES),
             $this->getOption(self::OPTION_WAIT_SECONDS),

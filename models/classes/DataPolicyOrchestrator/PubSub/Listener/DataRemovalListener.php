@@ -20,9 +20,16 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Observer\GCP\UserDataRemoval;
+namespace oat\tao\model\DataPolicyOrchestrator\PubSub\Listener;
 
-interface UserDataPolicyHandlerInterface
+use Google\Cloud\PubSub\Message;
+use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessage;
+use oat\tao\model\DataPolicyOrchestrator\Model\DataRemovalMessage;
+
+class DataRemovalListener extends DataPolicyListener
 {
-    public function handle(UserDataPolicyMessage $message): bool;
+    protected function parseMessage(Message $message): DataPolicyMessage
+    {
+        return DataRemovalMessage::fromPayload($message->data());
+    }
 }

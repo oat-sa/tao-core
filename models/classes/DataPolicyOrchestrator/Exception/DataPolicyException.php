@@ -15,23 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2026 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Observer\ServiceProvider;
+namespace oat\tao\model\DataPolicyOrchestrator\Exception;
 
-use oat\tao\model\Observer\GCP\PubSubClientFactory;
-use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Exception;
+use JetBrains\PhpStorm\Pure;
+use Throwable;
 
-class ObserverServiceProvider implements ContainerServiceProviderInterface
+class DataPolicyException extends Exception
 {
-    public function __invoke(ContainerConfigurator $configurator): void
-    {
-        $services = $configurator->services();
-
-        $services->set(PubSubClientFactory::class, PubSubClientFactory::class);
-    }
 }

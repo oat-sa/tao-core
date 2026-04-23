@@ -20,13 +20,13 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Observer\GCP\UserDataRemoval;
+namespace oat\tao\model\DataPolicyOrchestrator\PubSub\Publisher;
 
 use oat\tao\model\Observer\GCP\PubSubClientFactory;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class UserDataPolicyConfirmationPublisher
+class DataRemovalConfirmationPublisher
 {
     public function __construct(
         private readonly PubSubClientFactory $pubSubClientFactory,
@@ -37,7 +37,7 @@ class UserDataPolicyConfirmationPublisher
     public function publishPayload(string $topicName, array $payload): void
     {
         if ($topicName === '') {
-            $this->logger->warning('Data policy confirmation topic is empty, skipping publish.');
+            $this->logger->warning('Data policy topic is empty, skipping publish.');
 
             return;
         }
@@ -48,12 +48,10 @@ class UserDataPolicyConfirmationPublisher
                 ->topic($topicName)
                 ->publish(
                     [
-                        'data' => json_encode(
-                            [
-                                'header' => ['type' => $topicName],
-                                'body' => json_encode($payload),
-                            ]
-                        ),
+                        'data' => json_encode([
+                            'header' => ['type' => $topicName],
+                            'body' => json_encode($payload),
+                        ]),
                     ]
                 );
         } catch (Throwable $exception) {

@@ -15,23 +15,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2026 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Observer\ServiceProvider;
+namespace oat\tao\model\DataPolicyOrchestrator\PubSub\Listener;
 
-use oat\tao\model\Observer\GCP\PubSubClientFactory;
-use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Google\Cloud\PubSub\Message;
+use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessage;
+use oat\tao\model\DataPolicyOrchestrator\Model\DataRemovalConfirmationMessage;
 
-class ObserverServiceProvider implements ContainerServiceProviderInterface
+class DataRemovalCheckListener extends DataPolicyListener
 {
-    public function __invoke(ContainerConfigurator $configurator): void
+    protected function parseMessage(Message $message): DataPolicyMessage
     {
-        $services = $configurator->services();
-
-        $services->set(PubSubClientFactory::class, PubSubClientFactory::class);
+        return DataRemovalConfirmationMessage::fromPayload($message->data());
     }
 }
