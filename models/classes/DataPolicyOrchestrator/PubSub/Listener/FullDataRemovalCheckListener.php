@@ -20,11 +20,16 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\DataPolicyOrchestrator\Handler;
+namespace oat\tao\model\DataPolicyOrchestrator\PubSub\Listener;
 
+use Google\Cloud\PubSub\Message;
 use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessageInterface;
+use oat\tao\model\DataPolicyOrchestrator\Model\FullDataRemovalCheckMessage;
 
-interface DataPolicyHandlerInterface
+class FullDataRemovalCheckListener extends AbstractDataPolicyListener
 {
-    public function handle(DataPolicyMessageInterface $message): void;
+    protected function createDataPolicyMessage(array $body): DataPolicyMessageInterface
+    {
+        return new FullDataRemovalCheckMessage($body);
+    }
 }

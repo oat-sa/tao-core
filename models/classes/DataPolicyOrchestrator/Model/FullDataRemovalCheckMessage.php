@@ -20,16 +20,27 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\DataPolicyOrchestrator\PubSub\Listener;
+namespace oat\tao\model\DataPolicyOrchestrator\Model;
 
-use Google\Cloud\PubSub\Message;
-use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessage;
-use oat\tao\model\DataPolicyOrchestrator\Model\DataRemovalConfirmationMessage;
-
-class DataRemovalCheckListener extends DataPolicyListener
+readonly class FullDataRemovalCheckMessage implements DataPolicyMessageInterface
 {
-    protected function parseMessage(Message $message): ?DataPolicyMessage
+    public string $dataSubjectRawId;
+    public string $ownerApp;
+    public string $tenantId;
+    public string $policyId;
+    public string $policyVersion;
+
+    public function __construct(array $data)
     {
-        return DataRemovalConfirmationMessage::fromPayload($message->data());
+        $this->dataSubjectRawId = $data['dataSubjectRawId'];
+        $this->ownerApp = $data['ownerApp'];
+        $this->tenantId = $data['tenantId'];
+        $this->policyId = $data['policyId'];
+        $this->policyVersion = $data['policyVersion'];
+    }
+
+    public function jsonSerialize(): array
+    {
+        return get_object_vars($this);
     }
 }

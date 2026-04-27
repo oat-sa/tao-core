@@ -25,7 +25,7 @@ namespace oat\tao\scripts\tools\DataPolicyOrchestrator;
 use common_ext_ExtensionsManager;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalCheckListener;
+use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\FullDataRemovalCheckListener;
 use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalListener;
 
 /**
@@ -35,12 +35,12 @@ use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalListener;
  *          [[ --wait-seconds=5 ]]
  *          [[ --max-iterations=0 ]]
  */
-class ListenDataPolicyOrchestrator extends ScriptAction
+class DataPolicyOrchestratorWorker extends ScriptAction
 {
     private const REQUIRED_EXTENSIONS = ['tao', 'taoEventLog'];
     private const LISTENERS_BY_TYPE = [
         'removal' => DataRemovalListener::class,
-        'removal-check' => DataRemovalCheckListener::class,
+        'removal-check' => FullDataRemovalCheckListener::class,
     ];
     private const OPTION_TYPE = 'type';
     private const OPTION_MAX_MESSAGES = 'max-messages';

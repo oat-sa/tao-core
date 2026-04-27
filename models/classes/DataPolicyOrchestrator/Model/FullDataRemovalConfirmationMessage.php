@@ -22,61 +22,25 @@ declare(strict_types=1);
 
 namespace oat\tao\model\DataPolicyOrchestrator\Model;
 
-use InvalidArgumentException;
-
-abstract readonly class DataPolicyMessage
+readonly class FullDataRemovalConfirmationMessage implements DataPolicyMessageInterface
 {
-    private const BACKOFFICE_APP = 'backoffice';
-
     public string $dataSubjectRawId;
     public string $ownerApp;
+    public string $tenantId;
     public string $policyId;
     public string $policyVersion;
-    public string $tenantId;
 
     public function __construct(array $data)
     {
-        foreach (get_class_vars(static::class) as $property => $value) {
-            if (!isset($data[$property])) {
-                throw new InvalidArgumentException(sprintf('Required property %s is missing', $property));
-            }
-        }
-
         $this->dataSubjectRawId = $data['dataSubjectRawId'];
         $this->ownerApp = $data['ownerApp'];
+        $this->tenantId = $data['tenantId'];
         $this->policyId = $data['policyId'];
         $this->policyVersion = $data['policyVersion'];
-        $this->tenantId = $data['tenantId'];
     }
 
-    public static function fromPayload(string $payload): ?self
+    public function jsonSerialize(): array
     {
-        $decodedPayload = json_decode($payload, true);
-
-        if (!is_array($decodedPayload)) {
-            return null;
-        }
-
-        $body = $decodedPayload['body'] ?? $decodedPayload;
-
-        if (is_string($body)) {
-            $body = json_decode($body, true);
-        }
-
-        if (!is_array($body)) {
-            return null;
-        }
-
-        return new static($body);
-    }
-
-    public function isBackofficeApp(): bool
-    {
-        return $this->ownerApp === self::BACKOFFICE_APP;
-    }
-
-    public function toMessage($additionalData = []): array
-    {
-        return array_merge(get_object_vars($this), $additionalData);
+        return get_object_vars($this);
     }
 }

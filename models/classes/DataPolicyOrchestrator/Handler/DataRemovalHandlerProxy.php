@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\DataPolicyOrchestrator\Handler;
 
-use oat\tao\model\DataPolicyOrchestrator\Config\ConfirmationStatus;
 use oat\tao\model\DataPolicyOrchestrator\Exception\DataPolicyException;
-use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessage;
+use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessageInterface;
+use oat\tao\model\DataPolicyOrchestrator\Model\DataRemovalConfirmationMessage;
 use oat\tao\model\DataPolicyOrchestrator\PubSub\Publisher\DataRemovalConfirmationPublisher;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -47,7 +47,7 @@ class DataRemovalHandlerProxy implements DataPolicyHandlerInterface
         $this->handlers[$policyId][] = $handler;
     }
 
-    public function handle(DataPolicyMessage $message): void
+    public function handle(DataPolicyMessageInterface $message): void
     {
         $policyHandlers = $this->handlers[$message->policyId] ?? [];
 
@@ -70,10 +70,7 @@ class DataRemovalHandlerProxy implements DataPolicyHandlerInterface
 
         $this->confirmationPublisher->publishPayload(
             $this->dataRemovalConfirmationTopicName,
-            $message->toMessage([
-                'status' => ConfirmationStatus::byErrors($errors),
-                'errors' => $errors,
-            ])
+            new DataRemovalConfirmationMessage($message->jsonSerialize(), $errors)
         );
     }
 }

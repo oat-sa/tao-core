@@ -20,11 +20,11 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\DataPolicyOrchestrator\Handler;
+namespace oat\tao\model\DataPolicyOrchestrator\Model;
 
-use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessageInterface;
+use InvalidArgumentException;
+use JsonSerializable;
 
-interface DataPolicyHandlerInterface
+interface DataPolicyMessageInterface extends JsonSerializable
 {
-    public function handle(DataPolicyMessageInterface $message): void;
 }

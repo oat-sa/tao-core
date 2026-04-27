@@ -23,13 +23,13 @@ declare(strict_types=1);
 namespace oat\tao\model\DataPolicyOrchestrator\PubSub\Listener;
 
 use Google\Cloud\PubSub\Message;
-use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessage;
+use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessageInterface;
 use oat\tao\model\DataPolicyOrchestrator\Model\DataRemovalMessage;
 
-class DataRemovalListener extends DataPolicyListener
+class DataRemovalListener extends AbstractDataPolicyListener
 {
-    protected function parseMessage(Message $message): ?DataPolicyMessage
+    protected function createDataPolicyMessage(array $body): ?DataPolicyMessageInterface
     {
-        return DataRemovalMessage::fromPayload($message->data());
+        return new DataRemovalMessage($body);
     }
 }

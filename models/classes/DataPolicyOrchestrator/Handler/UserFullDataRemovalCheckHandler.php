@@ -12,16 +12,16 @@ declare(strict_types=1);
 namespace oat\tao\model\DataPolicyOrchestrator\Handler;
 
 use oat\tao\model\DataPolicyOrchestrator\Exception\DataPolicyException;
-use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessage;
+use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessageInterface;
 use tao_models_classes_UserService;
 
-class FullDataRemovalHandler implements DataPolicyHandlerInterface
+class UserFullDataRemovalCheckHandler implements DataPolicyHandlerInterface
 {
     public function __construct(private readonly tao_models_classes_UserService $userService)
     {
     }
 
-    public function handle(DataPolicyMessage $message): void
+    public function handle(DataPolicyMessageInterface $message): void
     {
         $login = $message->dataSubjectRawId;
         $user = $this->userService->getOneUser($login);

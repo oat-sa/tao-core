@@ -22,18 +22,33 @@ declare(strict_types=1);
 
 namespace oat\tao\model\DataPolicyOrchestrator\Model;
 
-readonly class DataRemovalMessage extends DataPolicyMessage
+readonly class DataRemovalMessage implements DataPolicyMessageInterface
 {
+    public string $dataSubjectRawId;
+    public string $ownerApp;
+    public string $policyId;
+    public string $policyVersion;
+    public string $tenantId;
     public string $uniqueId;
     public string $name;
     public string $storageType;
+    public array $metadata;
 
     public function __construct(array $data)
     {
-        parent::__construct($data);
-
+        $this->dataSubjectRawId = $data['dataSubjectRawId'];
+        $this->ownerApp = $data['ownerApp'];
+        $this->policyId = $data['policyId'];
+        $this->policyVersion = $data['policyVersion'];
+        $this->tenantId = $data['tenantId'];
         $this->uniqueId = $data['uniqueId'];
         $this->name = $data['name'];
         $this->storageType = $data['storageType'];
+        $this->metadata = $data['metadata'];
+    }
+
+    public function jsonSerialize(): array
+    {
+        return get_object_vars($this);
     }
 }

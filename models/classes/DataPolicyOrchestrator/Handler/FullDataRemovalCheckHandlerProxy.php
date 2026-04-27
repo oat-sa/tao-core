@@ -23,12 +23,13 @@ declare(strict_types=1);
 namespace oat\tao\model\DataPolicyOrchestrator\Handler;
 
 use oat\tao\model\DataPolicyOrchestrator\Exception\DataPolicyException;
-use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessage;
+use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessageInterface;
+use oat\tao\model\DataPolicyOrchestrator\Model\FullDataRemovalConfirmationMessage;
 use oat\tao\model\DataPolicyOrchestrator\PubSub\Publisher\DataRemovalConfirmationPublisher;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class FullDataRemovalHandlerProxy implements DataPolicyHandlerInterface
+class FullDataRemovalCheckHandlerProxy implements DataPolicyHandlerInterface
 {
     /** @var array<string, DataPolicyHandlerInterface[]> */
     private array $handlers = [];
@@ -46,7 +47,7 @@ class FullDataRemovalHandlerProxy implements DataPolicyHandlerInterface
         $this->handlers[$policyId][] = $handler;
     }
 
-    public function handle(DataPolicyMessage $message): void
+    public function handle(DataPolicyMessageInterface $message): void
     {
         $policyHandlers = $this->handlers[$message->policyId] ?? [];
 
@@ -63,7 +64,7 @@ class FullDataRemovalHandlerProxy implements DataPolicyHandlerInterface
 
             $this->confirmationPublisher->publishPayload(
                 $this->fullDataRemovalConfirmationTopicName,
-                $message->toMessage()
+                new FullDataRemovalConfirmationMessage($message->jsonSerialize())
             );
 
             $this->logger->info('[Data policy - full data removal] All data was successfully removed');

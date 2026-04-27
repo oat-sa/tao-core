@@ -22,18 +22,20 @@ declare(strict_types=1);
 
 namespace oat\tao\model\DataPolicyOrchestrator\PubSub\Listener;
 
-use ErrorException;
 use Google\Cloud\PubSub\PubSubClient;
 use Google\Cloud\PubSub\Subscription;
 use Google\Cloud\PubSub\Message;
+use oat\tao\model\DataPolicyOrchestrator\Exception\DataPolicyException;
 use oat\tao\model\DataPolicyOrchestrator\Handler\DataPolicyHandlerInterface;
-use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessage;
+use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessageInterface;
 use oat\tao\model\Observer\GCP\PubSubClientFactory;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-abstract class DataPolicyListener
+abstract class AbstractDataPolicyListener
 {
+    private const OWNER_APP = 'authoring';
+
     public function __construct(
         private readonly PubSubClientFactory $pubSubClientFactory,
         private readonly DataPolicyHandlerInterface $dataPolicyHandlerProxy,
@@ -42,14 +44,11 @@ abstract class DataPolicyListener
     ) {
     }
 
-    public function run(
-        int $maxMessages = 10,
-        int $waitSeconds = 5,
-        int $maxIterations = 0
-    ): void {
+    public function run(int $maxMessages = 10, int $waitSeconds = 5, int $maxIterations = 0): void
+    {
         try {
             $pubSubClient = $this->pubSubClientFactory->create();
-        } catch (ErrorException | Throwable $exception) {
+        } catch (Throwable $exception) {
             $this->logger->error('Pub/Sub listener failed to initialize client: ' . $exception->getMessage());
 
             return;
@@ -68,7 +67,7 @@ abstract class DataPolicyListener
         }
     }
 
-    abstract protected function parseMessage(Message $message): ?DataPolicyMessage;
+    abstract protected function createDataPolicyMessage(array $body): ?DataPolicyMessageInterface;
 
     private function consumeProcess(PubSubClient $pubSubClient, int $maxMessages): void
     {
@@ -82,9 +81,9 @@ abstract class DataPolicyListener
 
         foreach ($messages as $message) {
             try {
-                $parsedMessage = $this->parseMessage($message);
+                $parsedMessage = $this->createDataPolicyMessage($this->parseMessageBody($message));
 
-                if ($parsedMessage?->isBackofficeApp()) {
+                if (self::OWNER_APP === $parsedMessage->ownerApp) {
                     $this->dataPolicyHandlerProxy->handle($parsedMessage);
                 }
 
@@ -99,5 +98,26 @@ abstract class DataPolicyListener
                 );
             }
         }
+    }
+
+    private function parseMessageBody(Message $message): ?array
+    {
+        $decodedPayload = json_decode($message->getData(), true);
+
+        if (!is_array($decodedPayload)) {
+            throw new DataPolicyException('Invalid message payload', 400);
+        }
+
+        $body = $decodedPayload['body'] ?? $decodedPayload;
+
+        if (is_string($body)) {
+            $body = json_decode($body, true);
+        }
+
+        if (!is_array($body)) {
+            throw new DataPolicyException('Invalid message payload', 400);
+        }
+
+        return $body;
     }
 }

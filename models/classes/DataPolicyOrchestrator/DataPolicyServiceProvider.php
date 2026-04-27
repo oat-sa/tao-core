@@ -26,12 +26,12 @@ use oat\oatbox\log\LoggerService;
 use oat\tao\model\Observer\GCP\PubSubClientFactory;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalListener;
-use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalCheckListener;
+use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\FullDataRemovalCheckListener;
 use oat\tao\model\DataPolicyOrchestrator\PubSub\Publisher\DataRemovalConfirmationPublisher;
 use oat\tao\model\DataPolicyOrchestrator\Handler\DataRemovalHandlerProxy;
-use oat\tao\model\DataPolicyOrchestrator\Handler\FullDataRemovalHandlerProxy;
-use oat\tao\model\DataPolicyOrchestrator\Handler\FullDataRemovalHandler;
-use oat\tao\model\DataPolicyOrchestrator\Handler\DataRemovalHandler;
+use oat\tao\model\DataPolicyOrchestrator\Handler\FullDataRemovalCheckHandlerProxy;
+use oat\tao\model\DataPolicyOrchestrator\Handler\UserFullDataRemovalCheckHandler;
+use oat\tao\model\DataPolicyOrchestrator\Handler\UserDataRemovalHandler;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_UserService;
 
@@ -72,7 +72,7 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->set(DataRemovalHandler::class, DataRemovalHandler::class)
+            ->set(UserDataRemovalHandler::class, UserDataRemovalHandler::class)
             ->args([
                 service(LoggerService::SERVICE_ID),
                 service(tao_models_classes_UserService::SERVICE_ID),
@@ -92,7 +92,7 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
             ->get(DataRemovalHandlerProxy::class)
             ->call(
                 'addHandler',
-                ['remove-deactivated-administrative-profile', service(DataRemovalHandler::class)]
+                ['remove-deactivated-administrative-profile', service(UserDataRemovalHandler::class)]
             );
 
         $services
@@ -110,13 +110,13 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
             ->public();
 
         $services
-            ->set(FullDataRemovalHandler::class, FullDataRemovalHandler::class)
+            ->set(UserFullDataRemovalCheckHandler::class, UserFullDataRemovalCheckHandler::class)
             ->args([
                 service(tao_models_classes_UserService::SERVICE_ID),
             ]);
 
         $services
-            ->set(FullDataRemovalHandlerProxy::class, FullDataRemovalHandlerProxy::class)
+            ->set(FullDataRemovalCheckHandlerProxy::class, FullDataRemovalCheckHandlerProxy::class)
             ->args([
                 service(LoggerService::class),
                 service(DataRemovalConfirmationPublisher::class),
@@ -126,18 +126,18 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
             ]);
 
         $services
-            ->get(FullDataRemovalHandlerProxy::class)
+            ->get(FullDataRemovalCheckHandlerProxy::class)
             ->call(
                 'addHandler',
-                ['remove-deactivated-administrative-profile', service(FullDataRemovalHandler::class)]
+                ['remove-deactivated-administrative-profile', service(UserFullDataRemovalCheckHandler::class)]
             );
 
         $services
-            ->set(DataRemovalCheckListener::class, DataRemovalCheckListener::class)
+            ->set(FullDataRemovalCheckListener::class, FullDataRemovalCheckListener::class)
             ->args(
                 [
                     service(PubSubClientFactory::class),
-                    service(FullDataRemovalHandlerProxy::class),
+                    service(FullDataRemovalCheckHandlerProxy::class),
                     service(LoggerService::SERVICE_ID),
                     env('DATA_POLICY_FULL_REMOVAL_CONFIRMATION_SUBSCRIPTION')
                         ->default(self::PARAM_FULL_REMOVAL_CONFIRMATION_SUBSCRIPTION_DEFAULT)
