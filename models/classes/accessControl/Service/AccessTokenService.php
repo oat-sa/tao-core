@@ -42,9 +42,9 @@ class AccessTokenService
 
     public function fetchTokens(): array
     {
-        $authUri = getEnv('ENV_AUTH_URI');
-        $clientId = getEnv('ENV_CLIENT_ID');
-        $clientSecret = getEnv('ENV_CLIENT_SECRET');
+        $authUri = $_ENV['ENV_AUTH_URI'] ?? getenv('ENV_AUTH_URI');
+        $clientId = $_ENV['ENV_CLIENT_ID'] ?? getenv('ENV_CLIENT_ID');
+        $clientSecret = $_ENV['ENV_CLIENT_SECRET'] ?? getenv('ENV_CLIENT_SECRET');
 
         if (!$authUri || !$clientId || !$clientSecret) {
             throw new RuntimeException('OAuth2 credentials not found.', 404);

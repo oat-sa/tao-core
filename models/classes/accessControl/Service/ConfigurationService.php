@@ -39,7 +39,7 @@ class ConfigurationService
 
     public function fetchConfiguration(string $configurationKey, ?string $tenantId = null): mixed
     {
-        $uri = getenv('ENV_CONFIG_URI');
+        $uri = $_ENV['ENV_CONFIG_URI'] ?? getenv('ENV_CONFIG_URI');
         if (!$uri) {
             throw new RuntimeException('Configuration not found.', 404);
         }
