@@ -42,7 +42,7 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 class DataPolicyServiceProvider implements ContainerServiceProviderInterface
 {
     private const PARAM_REMOVAL_SUBSCRIPTION_DEFAULT = 'DATA_POLICY_REMOVAL_SUBSCRIPTION_DEFAULT';
-    private const PARAM_FULL_REMOVAL_CONFIRMATION_SUBSCRIPTION_DEFAULT = 'DATA_POLICY_REMOVAL_CONFIRMATION_SUBSCRIPTION_DEFAULT';
+    private const PARAM_FULL_REMOVAL_CHECK_SUBSCRIPTION_DEFAULT = 'DATA_POLICY_REMOVAL_CHECK_SUBSCRIPTION_DEFAULT';
     private const PARAM_REMOVAL_CONFIRMATION_TOPIC_DEFAULT = 'DATA_POLICY_REMOVAL_CONFIRMATION_TOPIC_DEFAULT';
     private const PARAM_FULL_REMOVAL_CONFIRMATION_TOPIC_DEFAULT = 'DATA_POLICY_FULL_REMOVAL_CONFIRMATION_TOPIC_DEFAULT';
 
@@ -53,8 +53,8 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
 
         $parameters->set(self::PARAM_REMOVAL_SUBSCRIPTION_DEFAULT, 'data_policy_removal_subscription');
         $parameters->set(
-            self::PARAM_FULL_REMOVAL_CONFIRMATION_SUBSCRIPTION_DEFAULT,
-            'data_policy_removal_confirmation_subscription'
+            self::PARAM_FULL_REMOVAL_CHECK_SUBSCRIPTION_DEFAULT,
+            'data_policy_full_removal_check_subscription'
         );
         $parameters->set(self::PARAM_REMOVAL_CONFIRMATION_TOPIC_DEFAULT, 'data_policy_removal_confirmation_topic');
         $parameters->set(
@@ -83,7 +83,7 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
             ->args([
                 service(LoggerService::class),
                 service(DataRemovalConfirmationPublisher::class),
-                env('DATA_DELETION_CONFIRMATION_PUB_SUB_TOPIC')
+                env('DATA_POLICY_REMOVAL_CONFIRMATION_PUB_SUB_TOPIC')
                     ->default(self::PARAM_REMOVAL_CONFIRMATION_TOPIC_DEFAULT)
                     ->string(),
             ]);
@@ -120,7 +120,7 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
             ->args([
                 service(LoggerService::class),
                 service(DataRemovalConfirmationPublisher::class),
-                env('DATA_DELETION_CONFIRMATION_PUB_SUB_TOPIC')
+                env('DATA_POLICY_FULL_REMOVAL_CONFIRMATION_PUB_SUB_TOPIC')
                     ->default(self::PARAM_FULL_REMOVAL_CONFIRMATION_TOPIC_DEFAULT)
                     ->string(),
             ]);
@@ -139,8 +139,8 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
                     service(PubSubClientFactory::class),
                     service(FullDataRemovalCheckHandlerProxy::class),
                     service(LoggerService::SERVICE_ID),
-                    env('DATA_POLICY_FULL_REMOVAL_CONFIRMATION_SUBSCRIPTION')
-                        ->default(self::PARAM_FULL_REMOVAL_CONFIRMATION_SUBSCRIPTION_DEFAULT)
+                    env('DATA_POLICY_FULL_REMOVAL_CHECK_SUBSCRIPTION')
+                        ->default(self::PARAM_FULL_REMOVAL_CHECK_SUBSCRIPTION_DEFAULT)
                         ->string(),
                 ]
             )
