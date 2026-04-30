@@ -89,6 +89,8 @@ require.config({
     }],
    shim : {
         'jqueryui'              : { deps : ['jquery'] },
+        'select2-origin/select2': { deps : ['jquery'] },
+        'select2'               : { deps : ['select2-origin/select2'] },
         'moment'                : { exports : 'moment' },
         'handlebars'            : { exports : 'Handlebars' },
         'ckeditor'              : { exports : 'CKEDITOR' },

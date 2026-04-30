@@ -50,6 +50,12 @@
   }],
 
   "shim": {
+    "select2-origin/select2": {
+      "deps": ["jquery"]
+    },
+    "select2": {
+      "deps": ["select2-origin/select2"]
+    },
     "moment": {
       "exports": "moment"
     },
