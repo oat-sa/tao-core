@@ -102,7 +102,7 @@ abstract class AbstractDataPolicyListener
 
     private function parseMessageBody(Message $message): ?array
     {
-        $decodedPayload = json_decode($message->getData(), true);
+        $decodedPayload = json_decode($message->data(), true);
 
         if (!is_array($decodedPayload)) {
             throw new DataPolicyException('Invalid message payload', 400);
