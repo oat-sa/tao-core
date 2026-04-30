@@ -25,15 +25,16 @@ namespace oat\tao\scripts\tools\DataPolicyOrchestrator;
 use common_ext_ExtensionsManager;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
+use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\AbstractDataPolicyListener;
 use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\FullDataRemovalCheckListener;
 use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalListener;
 
 /**
  * @example php index.php 'oat\tao\scripts\tools\DataPolicyOrchestrator\ListenDataPolicyOrchestrator'
- *          -t removal
- *          [[ --max-messages=10 ]]
- *          [[ --wait-seconds=5 ]]
- *          [[ --max-iterations=0 ]]
+ *          --type removal
+ *          [[ --max-messages 10 ]]
+ *          [[ --wait-seconds 5 ]]
+ *          [[ --max-iterations 0 ]]
  */
 class DataPolicyOrchestratorWorker extends ScriptAction
 {
@@ -103,9 +104,10 @@ class DataPolicyOrchestratorWorker extends ScriptAction
             );
         }
 
-        $report = Report::createInfo('Start listening for data policy orchestrator topics.');
+        $report = Report::createInfo(sprintf('[%s] Start listening for data policy orchestrator topics.', $type));
         $report->add($this->logMissingRequiredExtensions());
 
+        /** @var AbstractDataPolicyListener $listener */
         $listener = $this->getServiceManager()->getContainer()->get(self::LISTENERS_BY_TYPE[$type]);
         $listener->run(
             $this->getOption(self::OPTION_MAX_MESSAGES),
@@ -113,7 +115,7 @@ class DataPolicyOrchestratorWorker extends ScriptAction
             $this->getOption(self::OPTION_MAX_ITERATIONS)
         );
 
-        return $report->add(Report::createSuccess('Pub/Sub data policy listener has finished.'));
+        return $report->add(Report::createSuccess(sprintf('[%s] Pub/Sub data policy listener has finished.', $type)));
     }
 
     private function logMissingRequiredExtensions(): Report

@@ -49,9 +49,9 @@ abstract class AbstractDataPolicyListener
         try {
             $pubSubClient = $this->pubSubClientFactory->create();
         } catch (Throwable $exception) {
-            $this->logger->error('Pub/Sub listener failed to initialize client: ' . $exception->getMessage());
-
-            return;
+            $errorMessage = 'Pub/Sub listener failed to initialize client: ' . $exception->getMessage();
+            $this->logger->error($errorMessage);
+            throw new DataPolicyException($errorMessage, 400);
         }
 
         $iteration = 0;
