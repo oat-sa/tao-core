@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\DataPolicyOrchestrator;
 
+use oat\generis\model\data\Ontology;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\Observer\GCP\PubSubClientFactory;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
@@ -75,6 +76,7 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
             ->set(UserDataRemovalHandler::class, UserDataRemovalHandler::class)
             ->args([
                 service(LoggerService::SERVICE_ID),
+                service(Ontology::SERVICE_ID),
                 service(tao_models_classes_UserService::SERVICE_ID),
             ]);
 
@@ -112,7 +114,7 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
         $services
             ->set(UserFullDataRemovalCheckHandler::class, UserFullDataRemovalCheckHandler::class)
             ->args([
-                service(tao_models_classes_UserService::SERVICE_ID),
+                service(Ontology::SERVICE_ID),
             ]);
 
         $services

@@ -22,8 +22,12 @@ declare(strict_types=1);
 
 namespace oat\tao\model\DataPolicyOrchestrator\Handler;
 
+use core_kernel_classes_Resource;
+use oat\generis\model\data\Ontology;
+use oat\generis\model\user\UserRdf;
 use oat\tao\model\DataPolicyOrchestrator\Exception\DataPolicyException;
 use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessageInterface;
+use oat\tao\model\TaoOntology;
 use Psr\Log\LoggerInterface;
 use tao_models_classes_UserService;
 
@@ -31,6 +35,7 @@ class UserDataRemovalHandler implements DataPolicyHandlerInterface
 {
     public function __construct(
         private readonly LoggerInterface $logger,
+        private readonly Ontology $ontology,
         private readonly tao_models_classes_UserService $userService,
     ) {
     }
@@ -38,7 +43,7 @@ class UserDataRemovalHandler implements DataPolicyHandlerInterface
     public function handle(DataPolicyMessageInterface $message): void
     {
         $login = $message->dataSubjectRawId;
-        $user = $this->userService->getOneUser($login);
+        $user = $this->findUserResourceByLogin($login);
 
         if (!$user) {
             $this->logger->info(sprintf('No user data found for login "%s".', $login));
@@ -59,5 +64,30 @@ class UserDataRemovalHandler implements DataPolicyHandlerInterface
                 $result ? 'success' : 'failed'
             )
         );
+    }
+
+    private function findUserResourceByLogin(string $login): ?core_kernel_classes_Resource
+    {
+        $users = $this->ontology
+            ->getClass(TaoOntology::CLASS_URI_TAO_USER)
+            ->searchInstances(
+                [UserRdf::PROPERTY_LOGIN => $login],
+                ['like' => false, 'recursive' => true]
+            );
+
+        $usersCount = count($users);
+        if ($usersCount === 0) {
+            return null;
+        }
+
+        if ($usersCount > 1) {
+            throw new DataPolicyException(
+                sprintf('More than one user was found for login "%s".', $login)
+            );
+        }
+
+        $user = reset($users);
+
+        return $user instanceof core_kernel_classes_Resource ? $user : null;
     }
 }
