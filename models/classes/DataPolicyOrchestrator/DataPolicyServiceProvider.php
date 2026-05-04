@@ -94,7 +94,7 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
             ->get(DataRemovalHandlerProxy::class)
             ->call(
                 'addHandler',
-                ['remove-deactivated-administrative-profile', service(UserDataRemovalHandler::class)]
+                ['remove-deactivated-administrative-user-peripheral-data', service(UserDataRemovalHandler::class)]
             );
 
         $services
@@ -131,7 +131,7 @@ class DataPolicyServiceProvider implements ContainerServiceProviderInterface
             ->get(FullDataRemovalCheckHandlerProxy::class)
             ->call(
                 'addHandler',
-                ['remove-deactivated-administrative-profile', service(UserFullDataRemovalCheckHandler::class)]
+                ['remove-deactivated-administrative-user-peripheral-data', service(UserFullDataRemovalCheckHandler::class)]
             );
 
         $services
