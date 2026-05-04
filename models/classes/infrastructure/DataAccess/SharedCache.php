@@ -26,7 +26,7 @@ use oat\oatbox\cache\KeyValueCache;
 
 class SharedCache extends KeyValueCache
 {
-    public function __construct(string $persistenceId = 'redis')
+    public function __construct(string $persistenceId = 'default_kv')
     {
         parent::__construct([static::OPTION_PERSISTENCE => $persistenceId]);
     }
