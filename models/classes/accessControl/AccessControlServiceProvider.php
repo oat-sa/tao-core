@@ -59,7 +59,8 @@ class AccessControlServiceProvider implements ContainerServiceProviderInterface
             ->args([[]]);
 
         $services->set(AccessTokenService::class, AccessTokenService::class)
-            ->public();
+            ->public()
+            ->args([service(SharedCache::class)]);
 
         $services->set(ConfigurationService::class, ConfigurationService::class)
             ->public()

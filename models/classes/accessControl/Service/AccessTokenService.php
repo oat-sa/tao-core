@@ -25,19 +25,27 @@ namespace oat\tao\model\accessControl\Service;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
+use Psr\SimpleCache\CacheInterface;
 use RuntimeException;
 
 class AccessTokenService
 {
+    private CacheInterface $cache;
+    private int $cacheMargin;
     private array $clientConfig;
 
     /**
      * @see Client
      * @param array $clientConfig
      */
-    public function __construct(array $clientConfig = ['timeout' => 5.0, 'connect_timeout' => 2.0])
-    {
+    public function __construct(
+        CacheInterface $cache,
+        int $cacheMargin = 60,
+        array $clientConfig = ['timeout' => 5.0, 'connect_timeout' => 2.0]
+    ) {
         $this->clientConfig = $clientConfig;
+        $this->cache = $cache;
+        $this->cacheMargin = $cacheMargin;
     }
 
     public function fetchTokens(): array
@@ -48,6 +56,11 @@ class AccessTokenService
 
         if (!$authUri || !$clientId || !$clientSecret) {
             throw new RuntimeException('OAuth2 credentials not found.', 404);
+        }
+        $key = "$authUri/$clientId";
+        $value = $this->cache->get($key);
+        if ($value !== null) {
+            return json_decode($value, true);
         }
 
         $client = new Client($this->clientConfig);
@@ -66,13 +79,18 @@ class AccessTokenService
 
         $statusCode = $response->getStatusCode();
         $content = $response->getBody()->getContents();
-        $content = json_decode($content, true);
+        $payload = json_decode($content, true);
 
-        if ($statusCode !== 200 || !isset($content['access_token'])) {
+        if ($statusCode !== 200 || !isset($payload['access_token'])) {
             throw new RuntimeException('Failed to fetch Auth tokens.', 424);
         }
+        $accessToken = $this->parseAccessToken($payload['access_token']);
+        $cacheTtl = (int)($accessToken['exp'] ?? 0) - time() - $this->cacheMargin;
+        if ($cacheTtl > 0) {
+            $this->cache->set($key, $content, $cacheTtl);
+        }
 
-        return $content;
+        return $payload;
     }
 
     public function extractAccessTokenFromRequest(): string
@@ -83,7 +101,14 @@ class AccessTokenService
 
     public function extractAccessTokenPayloadFromRequest(): array
     {
-        @[$_, $payload] = explode('.', $this->extractAccessTokenFromRequest());
+        return $this->parseAccessToken(
+            $this->extractAccessTokenFromRequest()
+        );
+    }
+
+    public function parseAccessToken(string $accessToken): array
+    {
+        @[$_, $payload] = explode('.', $accessToken);
         $rawToken = base64_decode(strtr($payload ?? '', '-_', '+/'));
         $token = json_decode($rawToken, true);
         if (empty($token['tenant_id'])) {
