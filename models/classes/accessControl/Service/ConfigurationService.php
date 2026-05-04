@@ -26,15 +26,20 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use JsonException;
+use Psr\SimpleCache\CacheInterface;
 use RuntimeException;
 
 class ConfigurationService
 {
     private AccessTokenService $accessTokenService;
+    private CacheInterface $cache;
+    private int $cacheTtl;
 
-    public function __construct(AccessTokenService $accessTokenService)
+    public function __construct(AccessTokenService $accessTokenService, CacheInterface $cache, int $cacheTtl = 300)
     {
         $this->accessTokenService = $accessTokenService;
+        $this->cache = $cache;
+        $this->cacheTtl = $cacheTtl;
     }
 
     public function fetchConfiguration(string $configurationKey, ?string $tenantId = null): mixed
@@ -47,11 +52,14 @@ class ConfigurationService
             $token = $this->accessTokenService->extractAccessTokenPayloadFromRequest();
             $tenantId = $token['tenant_id'];
         }
+        $key = "$uri/api/v1/tenants/{$tenantId}/configurations/$configurationKey";
+        $value = $this->cache->get($key);
+        if ($value !== null) {
+            return json_decode($value, true);
+        }
+
         $client = new Client();
-        $configRequest = new Request(
-            'GET',
-            "$uri/api/v1/tenants/{$tenantId}/configurations/$configurationKey"
-        );
+        $configRequest = new Request('GET', $key);
         try {
             $response = json_decode(
                 $client->send($configRequest)->getBody()->getContents(),
@@ -64,6 +72,7 @@ class ConfigurationService
                     404
                 );
             }
+            $this->cache->set($key, json_encode($response['value']), $this->cacheTtl);
             return $response['value'];
         } catch (GuzzleException | JsonException $exception) {
             throw new RuntimeException(

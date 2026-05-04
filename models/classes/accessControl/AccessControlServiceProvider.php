@@ -27,6 +27,7 @@ use oat\tao\model\accessControl\Service\AccessTokenService;
 use oat\tao\model\accessControl\Service\ConfigurationService;
 use oat\tao\model\accessControl\Service\DeleteRoleService;
 use oat\tao\model\accessControl\Service\InternalRoleSpecification;
+use oat\tao\model\infrastructure\DataAccess\SharedCache;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_RoleService;
 
@@ -49,7 +50,7 @@ class AccessControlServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(InternalRoleSpecification::class),
-                    service(tao_models_classes_RoleService::class)
+                    service(tao_models_classes_RoleService::class),
                 ]
             );
 
@@ -62,6 +63,11 @@ class AccessControlServiceProvider implements ContainerServiceProviderInterface
 
         $services->set(ConfigurationService::class, ConfigurationService::class)
             ->public()
-            ->args([service(AccessTokenService::class)]);
+            ->args(
+                [
+                    service(AccessTokenService::class),
+                    service(SharedCache::class),
+                ]
+            );
     }
 }

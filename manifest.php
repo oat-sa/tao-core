@@ -47,6 +47,7 @@ use oat\tao\model\form\DataProvider\FormDataProviderServiceProvider;
 use oat\tao\model\form\ServiceProvider\FormServiceProvider as TaoFormServiceProvider;
 use oat\tao\model\IdentifierGenerator\ServiceProvider\IdentifierGeneratorServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
+use oat\tao\model\infrastructure\ServiceProvider\InfrastructureServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
 use oat\tao\model\listener\PropertyServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
@@ -432,7 +433,8 @@ return [
         TranslationServiceProvider::class,
         TaoFormServiceProvider::class,
         IdentifierGeneratorServiceProvider::class,
-        CookiePolicyServiceProvider::class
+        CookiePolicyServiceProvider::class,
+        InfrastructureServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
