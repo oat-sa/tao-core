@@ -34,12 +34,18 @@ class ConfigurationService
     private AccessTokenService $accessTokenService;
     private CacheInterface $cache;
     private int $cacheTtl;
+    private array $clientConfig;
 
-    public function __construct(AccessTokenService $accessTokenService, CacheInterface $cache, int $cacheTtl = 300)
-    {
+    public function __construct(
+        AccessTokenService $accessTokenService,
+        CacheInterface $cache,
+        int $cacheTtl = 300,
+        array $clientConfig = ['timeout' => 5.0, 'connect_timeout' => 2.0]
+    ) {
         $this->accessTokenService = $accessTokenService;
         $this->cache = $cache;
         $this->cacheTtl = $cacheTtl;
+        $this->clientConfig = $clientConfig;
     }
 
     public function fetchConfiguration(string $configurationKey, ?string $tenantId = null): mixed
@@ -58,7 +64,7 @@ class ConfigurationService
             return json_decode($value, true);
         }
 
-        $client = new Client();
+        $client = new Client($this->clientConfig);
         $configRequest = new Request('GET', $key);
         try {
             $response = json_decode(
