@@ -43,6 +43,7 @@ module.exports = function (grunt) {
             tao: {
                 options: {
                     extension: 'tao',
+                    babelPreTransform: { enabled: true },
                     bundles: [
                         {
                             name: 'vendor',
