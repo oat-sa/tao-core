@@ -96,11 +96,12 @@ abstract class AbstractDataPolicyListener
                         $exception->getMessage()
                     )
                 );
+                $subscription->modifyAckDeadline($message, 0);
             }
         }
     }
 
-    private function parseMessageBody(Message $message): ?array
+    private function parseMessageBody(Message $message): array
     {
         $decodedPayload = json_decode($message->data(), true);
 

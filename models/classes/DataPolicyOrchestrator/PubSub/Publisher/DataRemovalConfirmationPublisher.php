@@ -50,10 +50,13 @@ class DataRemovalConfirmationPublisher
                 ->topic($topicName)
                 ->publish(
                     [
-                        'data' => json_encode([
-                            'header' => ['type' => $topicName],
-                            'body' => json_encode($message),
-                        ]),
+                        'data' => json_encode(
+                            [
+                                'header' => ['type' => $topicName],
+                                'body' => json_encode($message, JSON_THROW_ON_ERROR),
+                            ],
+                            JSON_THROW_ON_ERROR
+                        ),
                     ]
                 );
         } catch (Throwable $exception) {

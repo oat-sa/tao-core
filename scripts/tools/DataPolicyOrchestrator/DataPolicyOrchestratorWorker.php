@@ -38,7 +38,7 @@ use oat\tao\model\DataPolicyOrchestrator\PubSub\Listener\DataRemovalListener;
  */
 class DataPolicyOrchestratorWorker extends ScriptAction
 {
-    private const REQUIRED_EXTENSIONS = ['tao', 'taoEventLog'];
+    private const ENV_REQUIRED_EXTENSIONS = 'DATA_POLICY_REQUIRED_EXTENSIONS';
     private const LISTENERS_BY_TYPE = [
         'removal' => DataRemovalListener::class,
         'removal-check' => FullDataRemovalCheckListener::class,
@@ -123,7 +123,7 @@ class DataPolicyOrchestratorWorker extends ScriptAction
         $report = Report::createInfo('Checking required extensions for data policy orchestrator.');
         $extensionManager = $this->getServiceManager()->getContainer()->get(common_ext_ExtensionsManager::SERVICE_ID);
 
-        foreach (self::REQUIRED_EXTENSIONS as $extensionId) {
+        foreach ($this->getRequiredExtensions() as $extensionId) {
             if ($extensionManager->isInstalled($extensionId)) {
                 continue;
             }
@@ -140,5 +140,21 @@ class DataPolicyOrchestratorWorker extends ScriptAction
         }
 
         return $report;
+    }
+
+    private function getRequiredExtensions(): array
+    {
+        $requiredExtensions = getenv('DATA_POLICY_REQUIRED_EXTENSIONS');
+
+        if ($requiredExtensions === false) {
+            return ['tao'];
+        }
+
+        $extensions = array_filter(
+            array_map('trim', explode(',', $requiredExtensions)),
+            static fn (string $extensionId): bool => !empty($extensionId)
+        );
+
+        return array_unique($extensions);
     }
 }

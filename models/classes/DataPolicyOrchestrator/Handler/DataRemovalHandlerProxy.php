@@ -64,7 +64,7 @@ class DataRemovalHandlerProxy implements DataPolicyHandlerInterface
                 $policyHandler->handle($message);
             } catch (Throwable $e) {
                 $this->logger->error(sprintf('[Data policy - removal] %s', $e->getMessage()));
-                $errors[] = $e;
+                $errors[] = $e->getMessage();
             }
         }
 

@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\DataPolicyOrchestrator\PubSub\Listener;
 
-use Google\Cloud\PubSub\Message;
 use oat\tao\model\DataPolicyOrchestrator\Model\DataPolicyMessageInterface;
 use oat\tao\model\DataPolicyOrchestrator\Model\DataRemovalMessage;
 
