@@ -24,18 +24,18 @@ namespace oat\tao\model\DataPolicyOrchestrator\Model;
 
 use oat\tao\model\DataPolicyOrchestrator\Config\ConfirmationStatus;
 
-readonly class DataRemovalConfirmationMessage implements DataPolicyMessageInterface
+class DataRemovalConfirmationMessage implements DataPolicyMessageInterface
 {
-    public string $dataSubjectRawId;
-    public string $ownerApp;
-    public string $policyId;
-    public string $policyVersion;
-    public string $tenantId;
-    public string $uniqueId;
-    public string $name;
-    public string $storageType;
-    public array $errors;
-    public string $status;
+    public readonly string $dataSubjectRawId;
+    public readonly string $ownerApp;
+    public readonly string $policyId;
+    public readonly string $policyVersion;
+    public readonly string $tenantId;
+    public readonly string $uniqueId;
+    public readonly string $name;
+    public readonly string $storageType;
+    public readonly array $errors;
+    public readonly string $status;
 
     public function __construct(array $data, array $errors)
     {

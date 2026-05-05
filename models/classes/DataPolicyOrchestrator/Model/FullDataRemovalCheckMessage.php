@@ -22,13 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\DataPolicyOrchestrator\Model;
 
-readonly class FullDataRemovalCheckMessage implements DataPolicyMessageInterface
+class FullDataRemovalCheckMessage implements DataPolicyMessageInterface
 {
-    public string $dataSubjectRawId;
-    public string $ownerApp;
-    public string $tenantId;
-    public string $policyId;
-    public string $policyVersion;
+    public readonly string $dataSubjectRawId;
+    public readonly string $ownerApp;
+    public readonly string $tenantId;
+    public readonly string $policyId;
+    public readonly string $policyVersion;
 
     public function __construct(array $data)
     {

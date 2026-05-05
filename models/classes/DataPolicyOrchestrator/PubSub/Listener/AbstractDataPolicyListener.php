@@ -83,7 +83,7 @@ abstract class AbstractDataPolicyListener
             try {
                 $parsedMessage = $this->createDataPolicyMessage($this->parseMessageBody($message));
 
-                if (self::OWNER_APP === $parsedMessage->ownerApp) {
+                if (self::OWNER_APP === $parsedMessage?->ownerApp) {
                     $this->dataPolicyHandlerProxy->handle($parsedMessage);
                 }
 
