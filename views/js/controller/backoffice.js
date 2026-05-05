@@ -90,7 +90,7 @@ define([
 
                 try {
                     ajaxResponse = $.parseJSON(request.responseText);
-                } catch (err) {
+                } catch {
                     errorMessage = `${request.status}: ${request.responseText}`;
                 }
 

@@ -93,9 +93,8 @@ define(['jquery'],
              * @param {Boolean} [covered = true] - - whether overlay HTML element should be added (disable GUI).
              */
             start: function (covered) {
-                if (typeof covered === 'undefined') {
-                    covered = true;
-                }
+                covered ??= true;
+
                 if ($loadingBar.hasClass('loading')) {
                     $loadingBar.stop();
                 }
