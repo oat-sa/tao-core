@@ -31,7 +31,7 @@ use RuntimeException;
 class AccessTokenService
 {
     private CacheInterface $cache;
-    private int $cacheMargin;
+    private float $ttlScale;
     private array $clientConfig;
 
     /**
@@ -40,12 +40,12 @@ class AccessTokenService
      */
     public function __construct(
         CacheInterface $cache,
-        int $cacheMargin = 60,
+        float $ttlScale = 0.5,
         array $clientConfig = ['timeout' => 5.0, 'connect_timeout' => 2.0]
     ) {
         $this->clientConfig = $clientConfig;
         $this->cache = $cache;
-        $this->cacheMargin = $cacheMargin;
+        $this->ttlScale = $ttlScale;
     }
 
     public function fetchTokens(): array
@@ -85,7 +85,7 @@ class AccessTokenService
             throw new RuntimeException('Failed to fetch Auth tokens.', 424);
         }
         $accessToken = $this->parseAccessToken($payload['access_token']);
-        $cacheTtl = (int)($accessToken['exp'] ?? 0) - time() - $this->cacheMargin;
+        $cacheTtl = (int)(((int)($accessToken['exp'] ?? 0) - time()) * $this->ttlScale);
         if ($cacheTtl > 0) {
             $this->cache->set($key, $content, $cacheTtl);
         }
