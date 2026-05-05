@@ -55,6 +55,8 @@ class PubSubClientFactory
 
     private function getPubSubFilePath(): ?string
     {
-        return $this->environmentVars['GOOGLE_APPLICATION_CREDENTIALS'] ?? null;
+        return $this->environmentVars['GOOGLE_APPLICATION_CREDENTIALS']
+            ?? getenv('GOOGLE_APPLICATION_CREDENTIALS')
+            ?? null;
     }
 }

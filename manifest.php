@@ -35,6 +35,7 @@ use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\AccessControlServiceProvider;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\CookiePolicy\ServiceProvider\CookiePolicyServiceProvider;
+use oat\tao\model\DataPolicyOrchestrator\DataPolicyServiceProvider;
 use oat\tao\model\DynamicConfig\DynamicConfigServiceProvider;
 use oat\tao\model\clientConfig\ClientConfigServiceProvider;
 use oat\tao\model\configurationMarkers\ConfigurationMarkersProvider;
@@ -432,7 +433,8 @@ return [
         TranslationServiceProvider::class,
         TaoFormServiceProvider::class,
         IdentifierGeneratorServiceProvider::class,
-        CookiePolicyServiceProvider::class
+        CookiePolicyServiceProvider::class,
+        DataPolicyServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
