@@ -54,7 +54,7 @@ class ConfigurationService
         }
         $key = "$uri/api/v1/tenants/{$tenantId}/configurations/$configurationKey";
         $value = $this->cache->get($key);
-        if ($value !== null) {
+        if ($value) {
             return json_decode($value, true);
         }
 

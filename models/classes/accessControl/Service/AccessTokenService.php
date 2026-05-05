@@ -59,7 +59,7 @@ class AccessTokenService
         }
         $key = "$authUri/$clientId";
         $value = $this->cache->get($key);
-        if ($value !== null) {
+        if ($value) {
             return json_decode($value, true);
         }
 
