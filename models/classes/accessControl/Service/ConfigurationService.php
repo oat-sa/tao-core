@@ -74,7 +74,7 @@ class ConfigurationService
             );
             if (!isset($response['value'])) {
                 throw new RuntimeException(
-                    "Tenant $tenantId configuration $configurationKey not found.",
+                    "Configuration $configurationKey not found.",
                     404
                 );
             }
@@ -82,7 +82,7 @@ class ConfigurationService
             return $response['value'];
         } catch (GuzzleException | JsonException $exception) {
             throw new RuntimeException(
-                "Failed to fetch tenant $tenantId configuration $configurationKey. {$exception->getMessage()}",
+                "Failed to fetch configuration $configurationKey. {$exception->getMessage()}",
                 424,
                 $exception
             );
