@@ -324,7 +324,20 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
             return $translations;
         }
 
-        return $processor->process($translations, $langCode);
+        try {
+            return $processor->process($translations, $langCode);
+        } catch (\Throwable $e) {
+            common_Logger::e(
+                sprintf(
+                    'TranslationBundleProcessor (%s) failed for locale %s: %s',
+                    TranslationBundleProcessorInterface::SERVICE_ID,
+                    $langCode,
+                    $e->getMessage()
+                )
+            );
+
+            return $translations;
+        }
     }
 
     /**

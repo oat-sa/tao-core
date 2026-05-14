@@ -77,6 +77,22 @@ class LanguageServiceTranslationBundleProcessingTest extends TestCase
         $this->assertSame($translations, $sut->exposeApplyTranslationBundleProcessing($translations, 'en-US'));
     }
 
+    public function testApplyTranslationBundleProcessingReturnsInputWhenProcessThrows(): void
+    {
+        $translations = ['a' => 'b'];
+
+        /** @var TranslationBundleProcessorInterface|MockObject $processor */
+        $processor = $this->createMock(TranslationBundleProcessorInterface::class);
+        $processor->expects($this->once())
+            ->method('process')
+            ->with($translations, 'en-US')
+            ->willThrowException(new \RuntimeException('processor boom'));
+
+        $sut = $this->createLanguageServiceWithMockLocator($processor);
+
+        $this->assertSame($translations, $sut->exposeApplyTranslationBundleProcessing($translations, 'en-US'));
+    }
+
     private function createLanguageServiceWithMockLocator(
         TranslationBundleProcessorInterface $processor
     ): LanguageServiceTranslationBundleTestDouble {
