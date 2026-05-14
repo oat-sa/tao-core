@@ -1,7 +1,8 @@
 define(['json!i18ntr/messages.json', 'core/format'], function(i18nTr, format){
     'use strict';
 
-    var translations = i18nTr.translations;
+    const translations = i18nTr.translations;
+    const rubyTags = /\{(ruby|rt|rb|rp)\}|\{\/(ruby|rt|rb|rp)\}/g;
 
     /**
      * Common translation method.
@@ -11,10 +12,15 @@ define(['json!i18ntr/messages.json', 'core/format'], function(i18nTr, format){
      * @returns {String} translated message
      */
     return function __(message){
-        var localized =  translations[message] || message;
+        let localized = translations[message] || message;
 
         if(arguments.length > 1){
             localized = format.apply(null, [localized].concat([].slice.call(arguments, 1)));
+        }
+        if (rubyTags.test(localized)) {
+            return localized.replace(rubyTags, (match, open, close) => {
+                return open ? `<${open}>` : `</${close}>`;
+            });
         }
 
         return localized;

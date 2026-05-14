@@ -10,7 +10,7 @@
     "scripts": {},
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
-        "@oat-sa/tao-core-libs": "^1.1.0",
+        "@oat-sa/tao-core-libs": "github:oat-sa/tao-core-libs-fe#feat/INF-493/ruby-placeholder-parse",
         "@oat-sa/tao-core-sdk": "^3.5.0",
         "@oat-sa/tao-core-shared-libs": "^1.11.3",
         "@oat-sa/tao-core-ui": "^3.19.1",

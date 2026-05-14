@@ -43,11 +43,12 @@ class DefaultTranslationBundleProcessorTest extends TestCase
         yield 'null' => [null, null];
         yield 'empty string' => ['', ''];
         yield 'plain text unchanged' => ['Hello', 'Hello'];
-        yield 'r tags' => ['{r}漢{/r}', '<ruby>漢</ruby>'];
+        yield 'ruby tags' => ['{ruby}漢{/ruby}', '<ruby>漢</ruby>'];
         yield 'rt tags' => ['{rt}かん{/rt}', '<rt>かん</rt>'];
         yield 'rp tags' => ['{rp}x{/rp}', '<rp>x</rp>'];
+        yield 'rb tags' => ['{rb}字{/rb}', '<rb>字</rb>'];
         yield 'combined fragment' => [
-            '{r}字{/r}{rt}じ{/rt}{rp}(じ){/rp}',
+            '{ruby}字{/ruby}{rt}じ{/rt}{rp}(じ){/rp}',
             '<ruby>字</ruby><rt>じ</rt><rp>(じ)</rp>',
         ];
     }
@@ -63,7 +64,7 @@ class DefaultTranslationBundleProcessorTest extends TestCase
     public function testProcessConvertsMsgstrValuesOnlyAndPreservesKeys(): void
     {
         $input = [
-            'Source {r}A{/r}' => 'Target {r}B{/r}',
+            'Source {ruby}A{/ruby}' => 'Target {ruby}B{/ruby}',
             'Plain' => 'Still plain',
         ];
 
@@ -71,7 +72,7 @@ class DefaultTranslationBundleProcessorTest extends TestCase
 
         $this->assertSame(
             [
-                'Source {r}A{/r}' => 'Target <ruby>B</ruby>',
+                'Source {ruby}A{/ruby}' => 'Target <ruby>B</ruby>',
                 'Plain' => 'Still plain',
             ],
             $result
@@ -91,7 +92,7 @@ class DefaultTranslationBundleProcessorTest extends TestCase
 
     public function testProcessPassesLangCodeWithoutAlteringOutput(): void
     {
-        $input = ['x' => '{r}y{/r}'];
+        $input = ['x' => '{ruby}y{/ruby}'];
         $this->assertSame(['x' => '<ruby>y</ruby>'], $this->sut->process($input, 'en-US'));
         $this->assertSame(['x' => '<ruby>y</ruby>'], $this->sut->process($input, 'ar-arb'));
     }

@@ -39,7 +39,8 @@ final class DefaultTranslationBundleProcessor extends ConfigurableService implem
 
     /**
      * Convert custom ruby wrappers to HTML ruby tags:
-     * {r} -> <ruby>, {/r} -> </ruby>, {rt} -> <rt>, {/rt} -> </rt>, {rp} -> <rp>, {/rp} -> </rp>
+     * {ruby} -> <ruby>, {/ruby} -> </ruby>, {rt} -> <rt>, {/rt} -> </rt>,
+     * {rp} -> <rp>, {/rp} -> </rp>, {rb} -> <rb>, {/rb} -> </rb>
      */
     public static function convertRubyTags(?string $text): ?string
     {
@@ -48,8 +49,8 @@ final class DefaultTranslationBundleProcessor extends ConfigurableService implem
         }
 
         return str_replace(
-            ['{r}', '{/r}', '{rt}', '{/rt}', '{rp}', '{/rp}'],
-            ['<ruby>', '</ruby>', '<rt>', '</rt>', '<rp>', '</rp>'],
+            ['{ruby}', '{/ruby}', '{rt}', '{/rt}', '{rp}', '{/rp}', '{rb}', '{/rb}'],
+            ['<ruby>', '</ruby>', '<rt>', '</rt>', '<rp>', '</rp>', '<rb>', '</rb>'],
             $text
         );
     }
