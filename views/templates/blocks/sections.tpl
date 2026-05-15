@@ -62,14 +62,16 @@ $sections = get_data('sections');
                         <ul class="plain action-bar tree-action-bar vertical-action-bar">
                         <?php
                             Template::inc('blocks/actions.tpl', 'tao', array(
-                                'actions' => $section->getActionsByGroup('tree')
+                                'actions' => $section->getActionsByGroup('tree'),
+                                'sort_by_weight' => false
                             ));
                         ?>
                         </ul>
                         <ul class="hidden action-bar">
                         <?php
                             Template::inc('blocks/actions.tpl', 'tao', array(
-                                'actions' => $section->getActionsByGroup('none')
+                                'actions' => $section->getActionsByGroup('none'),
+                                'sort_by_weight' => false
                             ));
                         ?>
                         </ul>
