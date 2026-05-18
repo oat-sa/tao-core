@@ -23,11 +23,14 @@ namespace oat\tao\test\unit\model\mvc\error;
 use ActionEnforcingException;
 use Exception;
 use oat\oatbox\user\LoginFailedException;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
 use PHPUnit\Framework\TestCase;
 use ResolverException;
 use tao_models_classes_FileNotFoundException;
 use tao_models_classes_UserException;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * test for ExceptionInterpretor
@@ -107,6 +110,35 @@ class ExceptionInterpreterTest extends TestCase
         $ExceptionInterpretor = new ExceptionInterpretor();
         $this->setInaccessibleProperty($ExceptionInterpretor, 'responseClassName', $fixtureClassName);
         $this->assertEquals($expected, $ExceptionInterpretor->getResponseClassName());
+    }
+
+    public function testInterpretErrorUsesResolverRedirectResponseWhenFeatureFlagEnabled(): void
+    {
+        $featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
+        $featureFlagChecker->expects($this->once())
+            ->method('isEnabled')
+            ->with(FeatureFlagCheckerInterface::FEATURE_FLAG_RESOLVER_PORTAL_REDIRECT_ENABLED)
+            ->willReturn(true);
+
+        $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
+        $serviceLocator->expects($this->once())
+            ->method('has')
+            ->with(FeatureFlagChecker::class)
+            ->willReturn(true);
+        $serviceLocator->expects($this->once())
+            ->method('get')
+            ->with(FeatureFlagChecker::class)
+            ->willReturn($featureFlagChecker);
+
+        $exceptionInterpreter = new ExceptionInterpretor();
+        $exceptionInterpreter->setServiceLocator($serviceLocator);
+        $this->setInaccessibleProperty($exceptionInterpreter, 'exception', new ResolverException('test message'));
+
+        $this->assertSame($exceptionInterpreter, $this->invokeProtectedMethod($exceptionInterpreter, 'interpretError'));
+        $this->assertSame(
+            'ResolverRedirectResponse',
+            $this->getInaccessibleProperty($exceptionInterpreter, 'responseClassName')
+        );
     }
 
     /**

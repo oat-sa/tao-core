@@ -27,6 +27,8 @@ use Exception;
 use common_exception_MissingParameter;
 use common_exception_BadRequest;
 use common_exception_ResourceNotFound;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\mvc\error\HttpStatusCode;
 use tao_models_classes_MissingRequestParameterException;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -104,9 +106,14 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface
                 $this->returnHttpCode = HttpStatusCode::HTTP_BAD_REQUEST;
                 break;
             case 'tao_models_classes_AccessDeniedException':
-            case 'ResolverException':
                 $this->returnHttpCode    = HttpStatusCode::HTTP_FORBIDDEN;
                 $this->responseClassName = 'RedirectResponse';
+                break;
+            case 'ResolverException':
+                $this->returnHttpCode    = HttpStatusCode::HTTP_FORBIDDEN;
+                $this->responseClassName = $this->isResolverPortalRedirectEnabled()
+                    ? 'ResolverRedirectResponse'
+                    : 'RedirectResponse';
                 break;
             case 'tao_models_classes_UserException':
                 $this->returnHttpCode = HttpStatusCode::HTTP_FORBIDDEN;
@@ -127,6 +134,19 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface
                 break;
         }
         return $this;
+    }
+
+    private function isResolverPortalRedirectEnabled(): bool
+    {
+        $serviceLocator = $this->getServiceLocator();
+
+        if ($serviceLocator === null || !$serviceLocator->has(FeatureFlagChecker::class)) {
+            return false;
+        }
+
+        return $serviceLocator->get(FeatureFlagChecker::class)->isEnabled(
+            FeatureFlagCheckerInterface::FEATURE_FLAG_RESOLVER_PORTAL_REDIRECT_ENABLED
+        );
     }
 
     public function getTrace()

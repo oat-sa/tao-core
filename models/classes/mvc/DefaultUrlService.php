@@ -22,7 +22,6 @@ namespace oat\tao\model\mvc;
 
 use common_Exception;
 use common_exception_Error;
-use common_Logger;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
@@ -59,9 +58,12 @@ class DefaultUrlService extends ConfigurableService
      */
     public function getLoginUrl(array $params = []): ?string
     {
-        return $this->getDynamicConfigProvider()->getConfigByName(
+        $dynamicLoginUrl = $this->getDynamicConfigProvider()->getConfigByName(
             DynamicConfigProviderInterface::LOGIN_URL_CONFIG_NAME
-        ) ?? $this->getUrl('login', $params);
+        );
+        $fallbackLoginUrl = $this->getUrl('login', $params);
+
+        return $dynamicLoginUrl ?? $fallbackLoginUrl;
     }
 
     /**
@@ -80,6 +82,36 @@ class DefaultUrlService extends ConfigurableService
     public function getDefaultUrl(array $params = [])
     {
         return $this->getUrl('default', $params);
+    }
+
+    public function getRootEntryUrl(bool $isAnonymous): string
+    {
+        $platformUrl = $this->getDynamicConfigProvider()->getConfigByName(
+            DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME
+        );
+
+        if ($platformUrl !== null) {
+            return $platformUrl;
+        }
+
+        if ($isAnonymous) {
+            return $this->getLoginUrl() ?? $this->getUrl('login');
+        }
+
+        return _url('entry', 'Main', 'tao');
+    }
+
+    public function getResolverExceptionRedirectUrl(bool $isAnonymous): string
+    {
+        if ($isAnonymous) {
+            $platformUrl = $this->getDynamicConfigProvider()->getConfigByName(
+                DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME
+            );
+
+            return $platformUrl ?? ($this->getLoginUrl() ?? $this->getUrl('login'));
+        }
+
+        return _url('entry', 'Main', 'tao');
     }
 
     /**
@@ -169,7 +201,6 @@ class DefaultUrlService extends ConfigurableService
     public function createRedirect($redirect)
     {
         if (is_string($redirect) && filter_var($redirect, FILTER_VALIDATE_URL)) {
-            common_Logger::w('deprecated usage or redirect');
             return $redirect;
         }
         return $this->resolveRedirect($redirect);
@@ -204,7 +235,7 @@ class DefaultUrlService extends ConfigurableService
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    private function getDynamicConfigProvider(): DynamicConfigProviderInterface
+    protected function getDynamicConfigProvider(): DynamicConfigProviderInterface
     {
         return $this->getServiceManager()->getContainer()->get(DynamicConfigProviderInterface::class);
     }
