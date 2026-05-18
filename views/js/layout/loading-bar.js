@@ -35,7 +35,7 @@ define(['jquery'],
                 $versionWarning: $contentWrap.find('.version-warning'),
                 $header: $contentWrap.find('header:first()')
             },
-            headerHeight = getHeaderHeight(headerElements);
+            headerHeight = getHeaderHeight({ ...headerElements });
 
         /**
          * the TAO header can have three different forms
@@ -49,7 +49,7 @@ define(['jquery'],
             var $element;
             headerHeight = 0;
             for ($element in headerElements) {
-                if (headerElements[$element].length && headerElements[$element].is(':visible')) {
+                if (headerElements?.[$element]?.is(':visible')) {
                     headerHeight += headerElements[$element].outerHeight();
                 }
             }
