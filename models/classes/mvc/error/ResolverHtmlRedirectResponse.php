@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\mvc\error;
 
+use HTTPToolkit;
 use common_session_SessionManager;
 use oat\tao\model\mvc\DefaultUrlService;
 
@@ -33,7 +34,7 @@ class ResolverHtmlRedirectResponse extends LoginResponse
         $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
 
         header(
-            \HTTPToolkit::locationHeader(
+            HTTPToolkit::locationHeader(
                 $urlRouteService->getResolverExceptionRedirectUrl(common_session_SessionManager::isAnonymous())
             )
         );
