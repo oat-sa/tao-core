@@ -24,6 +24,7 @@
  */
 
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\i18n\DefaultTranslationBundleProcessor;
 use oat\tao\model\service\ApplicationService;
 
 /**
@@ -105,7 +106,30 @@ class tao_helpers_Display
         return htmlentities($input ?? '', ENT_COMPAT, self::getEncoding());
     }
 
+    /**
+     * Like htmlize(), but preserves ruby annotation tags (HTML or {ruby} placeholders).
+     */
+    public static function htmlizeAllowingRubyTags(?string $input): string
+    {
+        if ($input === null || $input === '') {
+            return (string) $input;
+        }
 
+        $input = DefaultTranslationBundleProcessor::convertRubyTags($input);
+
+        $rubyHtmlTags = [];
+        foreach (['ruby', 'rt', 'rp', 'rb'] as $tag) {
+            foreach (['<' . $tag . '>', '</' . $tag . '>'] as $htmlTag) {
+                $placeholder = "\u{E000}RUBY" . count($rubyHtmlTags) . "\u{E001}";
+                $rubyHtmlTags[$placeholder] = $htmlTag;
+                $input = str_replace($htmlTag, $placeholder, $input);
+            }
+        }
+
+        $htmlized = self::htmlize($input);
+
+        return str_replace(array_keys($rubyHtmlTags), array_values($rubyHtmlTags), $htmlized);
+    }
 
     /**
      *  Convert special characters to HTML entities

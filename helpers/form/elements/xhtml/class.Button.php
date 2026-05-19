@@ -70,7 +70,7 @@ class tao_helpers_form_elements_xhtml_Button extends tao_helpers_form_elements_B
     {
         $returnValue = $this->renderLabel();
 
-        $content = _dh($this->value);
+        $content = \tao_helpers_Display::htmlizeAllowingRubyTags($this->value);
 
         if ($this->icon) {
             $content = $this->iconPosition === 'before' ? $this->icon . ' ' . $content : $content . ' ' . $this->icon;
