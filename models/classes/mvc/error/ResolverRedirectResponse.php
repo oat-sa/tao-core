@@ -25,9 +25,9 @@ namespace oat\tao\model\mvc\error;
 class ResolverRedirectResponse extends RedirectResponse
 {
     protected $rendererClassList = [
-        'html' => 'ResolverHtmlRedirectResponse',
-        'json' => 'JsonResponse',
-        'none' => 'NonAcceptable',
-        'ajax' => 'AjaxResponse',
+        'html' => ResolverHtmlRedirectResponse::class,
+        'json' => JsonResponse::class,
+        'none' => NonAcceptable::class,
+        'ajax' => AjaxResponse::class,
     ];
 }
