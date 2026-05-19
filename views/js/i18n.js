@@ -17,12 +17,9 @@ define(['json!i18ntr/messages.json', 'core/format'], function(i18nTr, format){
         if(arguments.length > 1){
             localized = format.apply(null, [localized].concat([].slice.call(arguments, 1)));
         }
-        if (rubyTags.test(localized)) {
-            return localized.replace(rubyTags, (match, open, close) => {
-                return open ? `<${open}>` : `</${close}>`;
-            });
-        }
 
-        return localized;
+        return localized.replace(rubyTags, (match, open, close) => {
+            return open ? `<${open}>` : `</${close}>`;
+        });
     };
 });
