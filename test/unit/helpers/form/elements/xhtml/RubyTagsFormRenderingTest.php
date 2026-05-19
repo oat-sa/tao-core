@@ -26,6 +26,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\service\ApplicationService;
 use PHPUnit\Framework\TestCase;
 use tao_helpers_form_elements_xhtml_Button;
+
 class RubyTagsFormRenderingTest extends TestCase
 {
     protected function setUp(): void
