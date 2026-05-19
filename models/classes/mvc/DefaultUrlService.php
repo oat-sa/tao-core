@@ -85,6 +85,9 @@ class DefaultUrlService extends ConfigurableService
         return $this->getUrl('default', $params);
     }
 
+    /**
+     * Resolve the root-entry redirect target for the current session state.
+     */
     public function getRootEntryUrl(bool $isAnonymous): string
     {
         $platformUrl = $this->getDynamicConfigProvider()->getConfigByName(
@@ -96,7 +99,7 @@ class DefaultUrlService extends ConfigurableService
         }
 
         if ($isAnonymous) {
-            return $this->getLoginUrl() ?? $this->getUrl('login');
+            return $this->getLoginUrl();
         }
 
         return _url('entry', 'Main', 'tao');
@@ -109,7 +112,7 @@ class DefaultUrlService extends ConfigurableService
                 DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME
             );
 
-            return $platformUrl ?? ($this->getLoginUrl() ?? $this->getUrl('login'));
+            return $platformUrl ?? $this->getLoginUrl();
         }
 
         return _url('entry', 'Main', 'tao');
