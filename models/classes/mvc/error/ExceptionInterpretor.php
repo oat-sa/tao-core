@@ -28,6 +28,7 @@ use common_exception_MissingParameter;
 use common_exception_BadRequest;
 use common_exception_ResourceNotFound;
 use oat\tao\model\mvc\error\HttpStatusCode;
+use tao_models_classes_AccessDeniedException;
 use tao_models_classes_MissingRequestParameterException;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -103,11 +104,8 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface
             case common_exception_ValidationFailed::class:
                 $this->returnHttpCode = HttpStatusCode::HTTP_BAD_REQUEST;
                 break;
-            case 'tao_models_classes_AccessDeniedException':
-                $this->returnHttpCode    = HttpStatusCode::HTTP_FORBIDDEN;
-                $this->responseClassName = 'RedirectResponse';
-                break;
             case 'ResolverException':
+            case tao_models_classes_AccessDeniedException::class:
                 $this->returnHttpCode    = HttpStatusCode::HTTP_FORBIDDEN;
                 $this->responseClassName = 'ResolverRedirectResponse';
                 break;
