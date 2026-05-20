@@ -29,14 +29,24 @@ use tao_helpers_form_elements_xhtml_Button;
 
 class RubyTagsFormRenderingTest extends TestCase
 {
+    private ?ServiceManager $previousServiceManager = null;
     protected function setUp(): void
     {
         parent::setUp();
+        $this->previousServiceManager = ServiceManager::getServiceManager();
 
         $config = new \common_persistence_KeyValuePersistence(new \common_persistence_InMemoryKvDriver(), []);
         $config->set(ApplicationService::SERVICE_ID, $this->createApplicationServiceMock());
 
         ServiceManager::setServiceManager(new ServiceManager($config));
+    }
+
+    protected function tearDown(): void
+    {
+        if ($this->previousServiceManager !== null) {
+            ServiceManager::setServiceManager($this->previousServiceManager);
+        }
+        parent::tearDown();
     }
 
     public function testButtonRenderPreservesRubyHtmlInButtonBody(): void
