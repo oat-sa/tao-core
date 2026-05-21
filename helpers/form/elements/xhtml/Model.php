@@ -47,7 +47,8 @@ class Model extends AbstractModel
             if ($this->value == $optionId) {
                 $returnValue .= " checked='checked' ";
             }
-            $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>" . \tao_helpers_Display::htmlizeAllowingRubyTags($optionLabel)
+            $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>"
+                . \tao_helpers_Display::htmlizeAllowingRubyTags($optionLabel)
                 . "</label><br />";
             $i++;
         }

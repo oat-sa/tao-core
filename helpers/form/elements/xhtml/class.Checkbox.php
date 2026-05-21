@@ -95,7 +95,9 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
             }
             $returnValue .= ' />';
             $returnValue .= '</div><div class="col-10">';
-            $returnValue .= "<label class='elt_desc' for='{$this->name}_{$i}'>" . \tao_helpers_Display::htmlizeAllowingRubyTags($optionLabel) . "</label>";
+            $returnValue .= "<label class='elt_desc' for='{$this->name}_{$i}'>"
+                . \tao_helpers_Display::htmlizeAllowingRubyTags($optionLabel)
+                . "</label>";
             $returnValue .= '</div><div class="col-1">';
             if ($readOnly) {
                 $readOnlyReason = $readOnlyOptions[$optionId];
