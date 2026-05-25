@@ -32,6 +32,7 @@ use oat\tao\model\taskQueue\Task\TaskLanguageLoader;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\tao\model\taskQueue\Telemetry\TaskQueueTelemetry;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\generis\model\user\UserFactoryServiceInterface;
@@ -68,6 +69,17 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
      * @throws \common_exception_NotFound
      */
     public function processTask(TaskInterface $task)
+    {
+        return TaskQueueTelemetry::traceProcessTask($task, function () use ($task) {
+            return $this->doProcessTask($task);
+        });
+    }
+
+    /**
+     * @return string
+     * @throws \common_exception_NotFound
+     */
+    private function doProcessTask(TaskInterface $task)
     {
         if (!$this->isTaskCancelled($task)) {
             $report = Report::createInfo(__('Running task %s', $task->getId()));

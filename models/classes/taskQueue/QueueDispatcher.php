@@ -31,6 +31,7 @@ use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\QueueAssociableInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\TaskLogAwareInterface;
+use oat\tao\model\taskQueue\Telemetry\TaskQueueTelemetry;
 use oat\tao\model\taskQueue\Worker\OneTimeWorker;
 
 /**
@@ -356,7 +357,14 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
     public function enqueue(TaskInterface $task, $label = null)
     {
         $queue = $this->getQueueForTask($task);
-        $isEnqueued = $queue->enqueue($task, $label);
+
+        $isEnqueued = TaskQueueTelemetry::traceEnqueue(
+            $queue,
+            $task,
+            static function () use ($queue, $task, $label) {
+                return $queue->enqueue($task, $label);
+            }
+        );
 
         // if we need to run the task straightaway, then run a worker on-the-fly for one round.
         if ($isEnqueued && $queue->isSync()) {
