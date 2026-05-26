@@ -84,7 +84,7 @@ define([
          */
         _load: function (selector, url, data) {
 
-            url = url ?? '';
+            url = url || '';
 
             if (data) {
                 data.nc = new Date().getTime();

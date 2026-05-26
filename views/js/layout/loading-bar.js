@@ -35,7 +35,7 @@ define(['jquery'],
                 $versionWarning: $contentWrap.find('.version-warning'),
                 $header: $contentWrap.find('header:first()')
             },
-            headerHeight = getHeaderHeight({ ...headerElements });
+            headerHeight = getHeaderHeight(headerElements);
 
         /**
          * the TAO header can have three different forms
@@ -49,7 +49,7 @@ define(['jquery'],
             var $element;
             headerHeight = 0;
             for ($element in headerElements) {
-                if (headerElements?.[$element]?.is(':visible')) {
+                if (headerElements[$element].length && headerElements[$element].is(':visible')) {
                     headerHeight += headerElements[$element].outerHeight();
                 }
             }
@@ -93,7 +93,9 @@ define(['jquery'],
              * @param {Boolean} [covered = true] - - whether overlay HTML element should be added (disable GUI).
              */
             start: function (covered) {
-                covered ??= true;
+                if (typeof covered === 'undefined') {
+                    covered = true;
+                }
 
                 if ($loadingBar.hasClass('loading')) {
                     $loadingBar.stop();
