@@ -35,6 +35,7 @@ use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\AccessControlServiceProvider;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\CookiePolicy\ServiceProvider\CookiePolicyServiceProvider;
+use oat\tao\model\DataPolicyOrchestrator\DataPolicyServiceProvider;
 use oat\tao\model\DynamicConfig\DynamicConfigServiceProvider;
 use oat\tao\model\clientConfig\ClientConfigServiceProvider;
 use oat\tao\model\configurationMarkers\ConfigurationMarkersProvider;
@@ -47,6 +48,7 @@ use oat\tao\model\form\DataProvider\FormDataProviderServiceProvider;
 use oat\tao\model\form\ServiceProvider\FormServiceProvider as TaoFormServiceProvider;
 use oat\tao\model\IdentifierGenerator\ServiceProvider\IdentifierGeneratorServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
+use oat\tao\model\infrastructure\ServiceProvider\InfrastructureServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
 use oat\tao\model\listener\PropertyServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
@@ -369,9 +371,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2026.05 LTS',
+        'TAO_VERSION' => '2026.06',
         #TAO version label
-        'TAO_VERSION_NAME' => '2026.05 LTS',
+        'TAO_VERSION_NAME' => '2026.06',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -432,7 +434,9 @@ return [
         TranslationServiceProvider::class,
         TaoFormServiceProvider::class,
         IdentifierGeneratorServiceProvider::class,
-        CookiePolicyServiceProvider::class
+        CookiePolicyServiceProvider::class,
+        DataPolicyServiceProvider::class,
+        InfrastructureServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,

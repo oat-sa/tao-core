@@ -121,3 +121,7 @@ Check more information about actions/controllers and [routing here](./models/cla
 # Observer implementations
 
 Check the current [observer implementations here](./models/classes/Observer/README.md)
+
+# Data Policy Orchestrator handlers
+
+Check the current [Data Policy Orchestrator handlers doc here](./models/classes/DataPolicyOrchestrator/README.md)
