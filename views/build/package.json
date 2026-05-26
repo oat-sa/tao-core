@@ -19,7 +19,7 @@
         "@babel/preset-env": "^7.21.5",
         "@oat-sa/browserslist-config-tao": "^1.0.1",
         "@oat-sa/eslint-config-tao": "^3.0.0",
-        "@oat-sa/grunt-tao-bundle": "oat-sa/grunt-tao-bundle#feature/bundler-pre-transform-modern-syntax",
+        "@oat-sa/grunt-tao-bundle": "^1.1.0",
         "@oat-sa/prettier-config": "^0.1.1",
         "almond": "^0.3.3",
         "eslint": "^8.39.0",
