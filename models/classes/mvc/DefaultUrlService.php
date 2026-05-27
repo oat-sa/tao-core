@@ -13,7 +13,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *  Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  *  Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
@@ -22,7 +22,6 @@ namespace oat\tao\model\mvc;
 
 use common_Exception;
 use common_exception_Error;
-use common_Logger;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
@@ -59,9 +58,13 @@ class DefaultUrlService extends ConfigurableService
      */
     public function getLoginUrl(array $params = []): ?string
     {
-        return $this->getDynamicConfigProvider()->getConfigByName(
+        // Dynamic config can override the static login route for env- or launch-specific flows.
+        $dynamicLoginUrl = $this->getDynamicConfigProvider()->getConfigByName(
             DynamicConfigProviderInterface::LOGIN_URL_CONFIG_NAME
-        ) ?? $this->getUrl('login', $params);
+        );
+        $fallbackLoginUrl = $this->getUrl('login', $params);
+
+        return $dynamicLoginUrl ?? $fallbackLoginUrl;
     }
 
     /**
@@ -80,6 +83,39 @@ class DefaultUrlService extends ConfigurableService
     public function getDefaultUrl(array $params = [])
     {
         return $this->getUrl('default', $params);
+    }
+
+    /**
+     * Resolve the root-entry redirect target for the current session state.
+     */
+    public function getRootEntryUrl(bool $isAnonymous): string
+    {
+        $platformUrl = $this->getDynamicConfigProvider()->getConfigByName(
+            DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME
+        );
+
+        if ($platformUrl !== null) {
+            return $platformUrl;
+        }
+
+        if ($isAnonymous) {
+            return $this->getLoginUrl();
+        }
+
+        return _url('entry', 'Main', 'tao');
+    }
+
+    public function getResolverExceptionRedirectUrl(bool $isAnonymous): string
+    {
+        if ($isAnonymous) {
+            $platformUrl = $this->getDynamicConfigProvider()->getConfigByName(
+                DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME
+            );
+
+            return $platformUrl ?? $this->getLoginUrl();
+        }
+
+        return _url('entry', 'Main', 'tao');
     }
 
     /**
@@ -169,7 +205,6 @@ class DefaultUrlService extends ConfigurableService
     public function createRedirect($redirect)
     {
         if (is_string($redirect) && filter_var($redirect, FILTER_VALIDATE_URL)) {
-            common_Logger::w('deprecated usage or redirect');
             return $redirect;
         }
         return $this->resolveRedirect($redirect);
@@ -204,7 +239,7 @@ class DefaultUrlService extends ConfigurableService
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    private function getDynamicConfigProvider(): DynamicConfigProviderInterface
+    protected function getDynamicConfigProvider(): DynamicConfigProviderInterface
     {
         return $this->getServiceManager()->getContainer()->get(DynamicConfigProviderInterface::class);
     }
