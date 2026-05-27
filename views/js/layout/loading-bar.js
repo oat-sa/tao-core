@@ -96,6 +96,7 @@ define(['jquery'],
                 if (typeof covered === 'undefined') {
                     covered = true;
                 }
+
                 if ($loadingBar.hasClass('loading')) {
                     $loadingBar.stop();
                 }

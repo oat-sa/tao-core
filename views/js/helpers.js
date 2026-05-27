@@ -41,7 +41,7 @@ define([
         getMainContainerSelector: function ($tabs) {
             console.warn('deprecated, use section instead');
             var $container = this.getMainContainer();
-            if ($container && $container.length > 0) {
+            if ($container?.length > 0) {
                 return $container.selector;
             }
             return false;
