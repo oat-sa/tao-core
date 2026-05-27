@@ -26,7 +26,7 @@ const { URL } = require('url');
  * Main configuration to run tests
  *
  * grunt connect:test qunit:extension --extension=taoQtiTest
- * grunt connect:test qunit:single --text=/taoQtiTest/views/js/test/runner/qti/test.html
+ * grunt connect:test qunit:single --test=/taoQtiTest/views/js/test/runner/qti/test.html
  *
  * @param {Object} grunt - grunt instance
  * @returns {void}
@@ -165,6 +165,15 @@ module.exports = function(grunt) {
                         if (/\/tao\/ClientConfig\/config/.test(req.url)){
                             res.writeHead(200, { 'Content-Type' : 'application/javascript'});
                             return res.end(`require.config(${JSON.stringify(rjsConfig)})`);
+                        }
+                        return next();
+                    });
+
+                    // mock favicon to avoid 404s in console
+                    middlewares.unshift(function(req, res, next) {
+                        if (/\/favicon.ico$/.test(req.url)){
+                            res.writeHead(200);
+                            return res.end('');
                         }
                         return next();
                     });

@@ -133,7 +133,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
             assert.equal($(treeContainerSelectorPaginated + ' '+ '.leaf').length, 12, 'all received items were rendered + pagination buttons as tree leafs');
 
             done();
-        });
+        }, 5);
 
     });
 
@@ -188,7 +188,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
             assert.ok($(itemSelector + ' > a.checked').length === 2, 'several items are able to be selected');
 
             done();
-        });
+        }, 5);
 
     });
 
@@ -257,10 +257,9 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
                 _.delay(function () {
                     assert.equal($(itemSelector).length, 1000, 'all items rendered as expected ');
                     done();
-                });
-
-            });
-        });
+                }, 5);
+            }, 5);
+        }, 5);
 
     });
 
