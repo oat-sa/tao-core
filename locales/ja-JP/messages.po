@@ -1,5 +1,5 @@
 msgid ""
-msgstr ""
+msgstr " {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 "Project-Id-Version: tao-open-source\n"
 "PO-Revision-Date: 2026-03-05 08:40\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
@@ -21,2975 +21,2975 @@ msgstr ""
 "Language-Team: Japanese\n"
 
 msgid ""
-msgstr ""
+msgstr " {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid " and "
-msgstr " と "
+msgstr " と  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid " AND "
-msgstr "と"
+msgstr "と {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid " has been deleted successfully"
-msgstr " 削除しました。"
+msgstr " 削除しました。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid " is "
-msgstr "："
+msgstr "： {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid " next"
-msgstr " 次"
+msgstr " 次 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid " Remove criteria"
-msgstr "基準・条件を削除"
+msgstr "基準・条件を削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid " requires a subgrid adapter"
-msgstr " サブグリッドアダプタが必要です"
+msgstr " サブグリッドアダプタが必要です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%1$s expected but %2$s detected"
-msgstr "%1$s予想、%2$sを検出しました"
+msgstr "%1$s予想、%2$sを検出しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%d attempts left before your account is locked."
-msgstr "アカウントがロックされる前に%d 回，受験されました。"
+msgstr "アカウントがロックされる前に%d 回，受験されました。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%d day"
-msgstr "%d 日"
+msgstr "%d 日 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%d days"
-msgstr "%d日"
+msgstr "%d日 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%h hour"
-msgstr "%h時間"
+msgstr "%h時間 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%h hours"
-msgstr "%h 時間"
+msgstr "%h 時間 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%i minute"
-msgstr "%i分"
+msgstr "%i分 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%i minutes"
-msgstr "%i 分"
+msgstr "%i 分 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%m month"
-msgstr "%m 月"
+msgstr "%m 月 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%m months"
-msgstr "%m ヶ月"
+msgstr "%m ヶ月 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s %s selected"
-msgstr "%s %s が選択されました"
+msgstr "%s %s が選択されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s (%s kb)"
-msgstr "%s (%s kb)"
+msgstr "%s (%s kb) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s Class saved"
-msgstr "%s を保存しました"
+msgstr "%s を保存しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s classes"
-msgstr "%s クラス"
+msgstr "%s クラス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s completed"
-msgstr "%s 完了"
+msgstr "%s 完了 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s Confirmation"
-msgstr "%s 確認"
+msgstr "%s 確認 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s could not be released"
-msgstr "%s は公開できません"
+msgstr "%s は公開できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s created"
-msgstr "%s が作成されました"
+msgstr "%s が作成されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s extension(s) to install."
-msgstr "%s 拡張機能をインストール"
+msgstr "%s 拡張機能をインストール {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s has been deleted"
-msgstr "%s は削除されました"
+msgstr "%s は削除されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s has been released"
-msgstr "%s　は公開されました"
+msgstr "%s　は公開されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s instances"
-msgstr "%s インスタンス"
+msgstr "%s インスタンス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s is of a type that cannot be published"
-msgstr "%s は公開できないタイプです"
+msgstr "%s は公開できないタイプです {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s Locked"
-msgstr "%sはロックされています"
+msgstr "%sはロックされています {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
-msgstr "%s\"は有効なインデックス識別子ではありません。識別子は英文字で始まり、英文字、数字、アンダースコアを使用します"
+msgstr "%s\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%y year"
-msgstr "%y 年"
+msgstr "%y 年 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%y years"
-msgstr "%y 年間"
+msgstr "%y 年間 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "(empty)"
-msgstr "(空)"
+msgstr "(空) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "... reloading page."
-msgstr "...リロード中"
+msgstr "...リロード中 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "7-zip archive"
-msgstr "7-zipアーカイブ"
+msgstr "7-zipアーカイブ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "<del>Filters</del>"
-msgstr "<del>フィルタ</del>"
+msgstr "<del>フィルタ</del> {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "<del>Options</del>"
-msgstr "<del>オプション</del>"
+msgstr "<del>オプション</del> {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "<strong> %s </strong> has been moved to the background."
-msgstr "<strong> %s </strong> はバックグラウンド処理中です。"
+msgstr "<strong> %s </strong> はバックグラウンド処理中です。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "> Extension %s succesfully installed."
-msgstr ">　拡張機能　%s のインストールが終了しました"
+msgstr ">　拡張機能　%s のインストールが終了しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "> Installation done."
-msgstr ">　インストール完了"
+msgstr ">　インストール完了 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "a class"
-msgstr "フォルダ"
+msgstr "フォルダ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "A date has to be a Datetime or timestamp"
-msgstr "日付は Datetime または timestamp にしてください"
+msgstr "日付は Datetime または timestamp にしてください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "A fatal error occured during the installation process."
-msgstr "致命的なエラーがインストール中に発生しました"
+msgstr "致命的なエラーがインストール中に発生しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
-msgstr "メンテナンス・ステータスはSTATUSが必要です: \"%s\" or \"%s"
+msgstr "メンテナンス・ステータスはSTATUSが必要です: \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "A message with further instructions has been sent to your email address: %s"
-msgstr "詳しい手順があなたのメールアドレスに送信されました：%s"
+msgstr "詳しい手順があなたのメールアドレスに送信されました：%s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "AAC audio"
-msgstr "AACオーディオ"
+msgstr "AACオーディオ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "About"
-msgstr "　"
+msgstr "　 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "abs"
-msgstr "ABS"
+msgstr "ABS {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Absolute value"
-msgstr "絶対値"
+msgstr "絶対値 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "AC"
-msgstr "AC"
+msgstr "AC {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Accept all"
-msgstr "すべて承認"
+msgstr "すべて承認 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Access Denied"
-msgstr "アクセスが拒否されました"
+msgstr "アクセスが拒否されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Access denied. Please renew your authentication!"
-msgstr "アクセスが拒否されました。あなたの認証を更新してください！"
+msgstr "アクセスが拒否されました。あなたの認証を更新してください！ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Account status"
-msgstr "アカウント状況"
+msgstr "アカウント状況 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Action"
-msgstr "処理"
+msgstr "処理 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Action %s - removed %s positions"
-msgstr "％s-％sを削除しました"
+msgstr "％s-％sを削除しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Action `%s` is not configured in the action queue service"
-msgstr "操作 `％s`は，設定されていません"
+msgstr "操作 `％s`は，設定されていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Action was not executed yet"
-msgstr "操作はまだ実行されていません"
+msgstr "操作はまだ実行されていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Actions"
-msgstr "アクション"
+msgstr "アクション {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Add"
-msgstr "追加"
+msgstr "追加 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add / Edit lists"
-msgstr "リストの追加/編集"
+msgstr "リストの追加/編集 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add a CSV file"
-msgstr "CSVファイルを追加"
+msgstr "CSVファイルを追加 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Add a user"
-msgstr "ユーザ追加"
+msgstr "ユーザ追加 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add an RDF/XML file"
-msgstr "RDF/XMLファイル追加"
+msgstr "RDF/XMLファイル追加 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "add criteria"
-msgstr "条件・基準を追加"
+msgstr "条件・基準を追加 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add file(s)"
-msgstr "ファイル追加"
+msgstr "ファイル追加 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add index"
-msgstr "インデックスを追加"
+msgstr "インデックスを追加 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add property"
-msgstr "プロパティ追加"
+msgstr "プロパティ追加 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Adding search index for %s"
-msgstr "%sの検索インデックスを追加します。"
+msgstr "%sの検索インデックスを追加します。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Adding search index for created resource"
-msgstr "作成したリソースの検索インデックスを追加"
+msgstr "作成したリソースの検索インデックスを追加 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Adding the new class has failed"
-msgstr "新規クラスの追加に失敗しました"
+msgstr "新規クラスの追加に失敗しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Adding the new resource has failed"
-msgstr "新規リソースの追加に失敗しました"
+msgstr "新規リソースの追加に失敗しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Adding/updating search index for updated resource"
-msgstr "更新されたリソースの検索インデックスの追加・更新"
+msgstr "更新されたリソースの検索インデックスの追加・更新 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Adobe Flash file"
-msgstr "Adobe Flashファイル"
+msgstr "Adobe Flashファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Advanced search, add filters"
-msgstr "高度な検索（フィルタ追加）"
+msgstr "高度な検索（フィルタ追加） {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "aliases:"
-msgstr "エイリアス:"
+msgstr "エイリアス: {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "all"
-msgstr "すべて"
+msgstr "すべて {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "all audios"
-msgstr "全ての音声"
+msgstr "全ての音声 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "All data will be removed in %s"
-msgstr "すべてのデータは%sから移動されました"
+msgstr "すべてのデータは%sから移動されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "All fields are required"
-msgstr "すべての項目が必須です"
+msgstr "すべての項目が必須です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "all images"
-msgstr "全ての画像"
+msgstr "全ての画像 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "All rights reserved."
-msgstr "All rights reserved."
+msgstr "All rights reserved. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "all videos"
-msgstr "全ての動画"
+msgstr "全ての動画 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Allow for all domains"
-msgstr "すべてのドメインを許可"
+msgstr "すべてのドメインを許可 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Allow for the following domains"
-msgstr "以下のドメインを許可します"
+msgstr "以下のドメインを許可します {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Alpha version"
-msgstr "αバージョン"
+msgstr "αバージョン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An email has been sent"
-msgstr "eメールを送信しました"
+msgstr "eメールを送信しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An error occurred during user deletion"
-msgstr "ユーザ削除中にエラーが発生しました"
+msgstr "ユーザ削除中にエラーが発生しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An error occurred!"
-msgstr "エラーが発生しました!"
+msgstr "エラーが発生しました! {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An exception occured while running \"%s"
-msgstr "\"%s\" の実行中に例外が発生しました"
+msgstr "\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "an instance"
-msgstr "インスタンス"
+msgstr "インスタンス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Analytics cookies"
-msgstr "クッキーの分析"
+msgstr "クッキーの分析 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "and"
-msgstr "と"
+msgstr "と {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Ans"
-msgstr "Ans"
+msgstr "Ans {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Apply"
-msgstr "適用"
+msgstr "適用 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Apply date range"
-msgstr "日付を適用"
+msgstr "日付を適用 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Arc cosine"
-msgstr "アークコサイン"
+msgstr "アークコサイン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Arc sine"
-msgstr "アークサイン"
+msgstr "アークサイン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Arc tangent"
-msgstr "アークタンジェント(タンジェント)"
+msgstr "アークタンジェント(タンジェント) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Archived"
-msgstr "アーカイブ"
+msgstr "アーカイブ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr "バージョン管理リソースを削除してもよろしいですか？\n"
+msgstr "バージョン管理リソースを削除してもよろしいですか？\n {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 "履歴も一緒に削除されます"
 
 msgid "Are you sure you want to delete it?"
-msgstr "削除してよろしいですか？"
+msgstr "削除してよろしいですか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Are you sure you want to delete the translation for this language?"
-msgstr "この言語の翻訳を削除してもよろしいですか？"
+msgstr "この言語の翻訳を削除してもよろしいですか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Are you sure you want to start the translation for this language?"
-msgstr "この言語の翻訳を開始してもよろしいですか？"
+msgstr "この言語の翻訳を開始してもよろしいですか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Are you sure you wish to delete it"
-msgstr "削除してもよろしいですか？"
+msgstr "削除してもよろしいですか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Argument check failed: %s"
-msgstr "引数のチェックに失敗しました: %s"
+msgstr "引数のチェックに失敗しました: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Arguments %s and %s are mutually exclusive"
-msgstr "引数 %s と %s は互いに排他的です"
+msgstr "引数 %s と %s は互いに排他的です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Arguments separator"
-msgstr "引数の区切り"
+msgstr "引数の区切り {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "array"
-msgstr "配列"
+msgstr "配列 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Assign"
-msgstr "割り当て"
+msgstr "割り当て {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Assign User to role"
-msgstr "ユーザへのロール割当て"
+msgstr "ユーザへのロール割当て {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Assign Users"
-msgstr "ユーザ割当て"
+msgstr "ユーザ割当て {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Audio Video Interleave"
-msgstr "オーディオ・ビデオ・インターリーブ"
+msgstr "オーディオ・ビデオ・インターリーブ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Auth type"
-msgstr "認証タイプ"
+msgstr "認証タイプ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Author"
-msgstr "作成者"
+msgstr "作成者 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Author Item"
-msgstr "編集アイテム"
+msgstr "編集アイテム {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Authoring"
-msgstr "オーサリング"
+msgstr "オーサリング {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "auto unlocked in %s"
-msgstr "％sで自動ロック解除"
+msgstr "％sで自動ロック解除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Available"
-msgstr "実施可能"
+msgstr "実施可能 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Available Extensions"
-msgstr "利用可能な拡張機能"
+msgstr "利用可能な拡張機能 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Back"
-msgstr "戻る"
+msgstr "戻る {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Back to listing"
-msgstr "リストに戻る"
+msgstr "リストに戻る {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Back to Portal"
-msgstr "ポータルに戻る"
+msgstr "ポータルに戻る {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Base-10 logarithm"
-msgstr "常用対数"
+msgstr "常用対数 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Beta version"
-msgstr "βバージョン"
+msgstr "βバージョン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Binary operator *"
-msgstr "バイナリオペレーション　*"
+msgstr "バイナリオペレーション　* {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Binary operator +"
-msgstr "バイナリオペレーション　+"
+msgstr "バイナリオペレーション　+ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Binary operator -"
-msgstr "バイナリオペレーション　-"
+msgstr "バイナリオペレーション　- {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Binary operator /"
-msgstr "バイナリオペレーション　/"
+msgstr "バイナリオペレーション　/ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Binary operator modulo"
-msgstr "バイナリオペレーション　モジュロ"
+msgstr "バイナリオペレーション　モジュロ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Bitmap image"
-msgstr "ビットマップ画像"
+msgstr "ビットマップ画像 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "boolean"
-msgstr "boolean"
+msgstr "boolean {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Browse folders:"
-msgstr "フォルダを参照"
+msgstr "フォルダを参照 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Browse resources"
-msgstr "リソースを参照"
+msgstr "リソースを参照 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Browse..."
-msgstr "参照..."
+msgstr "参照... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "C"
-msgstr "C"
+msgstr "C {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "C file"
-msgstr "Cファイル"
+msgstr "Cファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "C++ file"
-msgstr "C++ ファイル"
+msgstr "C++ ファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "C++ file (.cpp)"
-msgstr "C++ ファイル (.cpp)"
+msgstr "C++ ファイル (.cpp) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Calc speadsheet (Staroffice)"
-msgstr "スプレッドシート (Staroffice)"
+msgstr "スプレッドシート (Staroffice) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Calculator"
-msgstr "電卓"
+msgstr "電卓 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Calendar"
-msgstr "カレンダー"
+msgstr "カレンダー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cancel"
-msgstr "キャンセル"
+msgstr "キャンセル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "cancel"
-msgstr "キャンセル"
+msgstr "キャンセル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "cancel the action"
-msgstr "操作をキャンセル"
+msgstr "操作をキャンセル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cancelled"
-msgstr "キャンセルされました"
+msgstr "キャンセルされました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cannot be edited"
-msgstr "編集できません"
+msgstr "編集できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cannot divide by zero"
-msgstr "0で除算できません"
+msgstr "0で除算できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cascading Style Sheets"
-msgstr "CSS"
+msgstr "CSS {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Case sensitive"
-msgstr "大/小文字を区別"
+msgstr "大/小文字を区別 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "ceil"
-msgstr "CEIL"
+msgstr "CEIL {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Center"
-msgstr "センター"
+msgstr "センター {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Change password"
-msgstr "パスワードを変更"
+msgstr "パスワードを変更 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Change the password"
-msgstr "＜パスワード変更＞"
+msgstr "＜パスワード変更＞ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Change the sign of the current operand"
-msgstr "現在の演算子を変更します。"
+msgstr "現在の演算子を変更します。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Check All"
-msgstr "全てにチェック"
+msgstr "全てにチェック {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Check all"
-msgstr "全てにチェック"
+msgstr "全てにチェック {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Check-in"
-msgstr "チェックイン"
+msgstr "チェックイン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "choices:"
-msgstr "選択肢:"
+msgstr "選択肢: {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Choose a type for your property first"
-msgstr "最初にあなたのプロパティの種類を選択してください"
+msgstr "最初にあなたのプロパティの種類を選択してください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Choose a value..."
-msgstr "値を選択..."
+msgstr "値を選択... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Choose export format"
-msgstr "エクスポート形式"
+msgstr "エクスポート形式 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Choose import format"
-msgstr "インポート形式"
+msgstr "インポート形式 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "class selected"
-msgstr "選択されたクラス"
+msgstr "選択されたクラス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Class uri provided is not a valid class."
-msgstr "指定されたクラスuriは有効ではありません。"
+msgstr "指定されたクラスuriは有効ではありません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cleaning up tmp space complete"
-msgstr "tmpスペースのクリーンアップ完了"
+msgstr "tmpスペースのクリーンアップ完了 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cleaning up tmp space started"
-msgstr "tmpスペースのクリーンアップを開始"
+msgstr "tmpスペースのクリーンアップを開始 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Clear"
-msgstr "クリア"
+msgstr "クリア {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Clear All"
-msgstr "すべてクリア"
+msgstr "すべてクリア {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Clear all data"
-msgstr "すべてのデータをクリア"
+msgstr "すべてのデータをクリア {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Clear expression"
-msgstr "表示をクリア"
+msgstr "表示をクリア {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Clear History"
-msgstr "履歴をクリア"
+msgstr "履歴をクリア {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Clear history"
-msgstr "履歴をクリア"
+msgstr "履歴をクリア {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Clear selection"
-msgstr "選択をクリア"
+msgstr "選択をクリア {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Clear the date time picker"
-msgstr "デートタイムピッカーをクリア"
+msgstr "デートタイムピッカーをクリア {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Clear the stored variables"
-msgstr "保存された変数の消去"
+msgstr "保存された変数の消去 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Click to reload."
-msgstr "クリックで再読み込み"
+msgstr "クリックで再読み込み {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Click to start"
-msgstr "クリックして開始"
+msgstr "クリックして開始 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Close"
-msgstr "閉じる"
+msgstr "閉じる {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Close dialog"
-msgstr "ダイアログを閉じる"
+msgstr "ダイアログを閉じる {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Close message"
-msgstr "メッセージ終了"
+msgstr "メッセージ終了 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Code Version"
-msgstr "コードバージョン"
+msgstr "コードバージョン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Collecting of abandoned actions in the action queue ..."
-msgstr "操作キューに放棄された操作の収集..."
+msgstr "操作キューに放棄された操作の収集... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Column"
-msgstr "列"
+msgstr "列 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "command"
-msgstr "(Command)"
+msgstr "(Command) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Commands:"
-msgstr "コマンド:"
+msgstr "コマンド: {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "comment..."
-msgstr "コメント"
+msgstr "コメント {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Commit"
-msgstr "コミット"
+msgstr "コミット {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Completed"
-msgstr "完了"
+msgstr "完了 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Completed - Error"
-msgstr "完了 - エラー"
+msgstr "完了 - エラー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Compressed tar file"
-msgstr "圧縮tarファイル"
+msgstr "圧縮tarファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Compute the expression"
-msgstr "計算する"
+msgstr "計算する {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Confirm"
-msgstr "確認"
+msgstr "確認 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Connect to the TAO platform"
-msgstr "CBTプラットホームへ接続"
+msgstr "CBTプラットホームへ接続 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Continue"
-msgstr "続行"
+msgstr "続行 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cookie Policy"
-msgstr "Cookieポリシー"
+msgstr "Cookieポリシー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cookies Preferences"
-msgstr "Cookie の設定"
+msgstr "Cookie の設定 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Copy"
-msgstr "コピー"
+msgstr "コピー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Copy to"
-msgstr "指定コピー"
+msgstr "指定コピー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Copy to clipboard"
-msgstr "クリップボードにコピー"
+msgstr "クリップボードにコピー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "cos"
-msgstr "cos"
+msgstr "cos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "cosh"
-msgstr "cosh"
+msgstr "cosh {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cosine"
-msgstr "cos"
+msgstr "cos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "count"
-msgstr "カウント"
+msgstr "カウント {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create"
-msgstr "作成"
+msgstr "作成 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create instance"
-msgstr "インスタンスを作成"
+msgstr "インスタンスを作成 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create instance of "
-msgstr "のインスタンスを作成します"
+msgstr "のインスタンスを作成します {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create translation"
-msgstr "翻訳を作成"
+msgstr "翻訳を作成 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Created"
-msgstr "作成されました"
+msgstr "作成されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Creating report ..."
-msgstr "レポートを作成 ..."
+msgstr "レポートを作成 ... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "CSP Header settings were saved successfully!"
-msgstr "CSPヘッダの設定が正常に保存されました"
+msgstr "CSPヘッダの設定が正常に保存されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "CSV"
-msgstr "CSV"
+msgstr "CSV {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "CSV file"
-msgstr "CSVファイル"
+msgstr "CSVファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "CSV Options"
-msgstr "CSVオプション"
+msgstr "CSVオプション {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cube root"
-msgstr "立方根"
+msgstr "立方根 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Current language"
-msgstr "現在の言語"
+msgstr "現在の言語 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Current playback position"
-msgstr "現在の再生位置"
+msgstr "現在の再生位置 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "currently has a dependency established with "
-msgstr "現在依存関係が確立され "
+msgstr "現在依存関係が確立され  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Data imported"
-msgstr "データをインポートしました。"
+msgstr "データをインポートしました。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Data imported successfully"
-msgstr "インポートが完了しました"
+msgstr "インポートが完了しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Data imported. Some records are invalid."
-msgstr "データをインポートしました。一部のレコードは無効です。"
+msgstr "データをインポートしました。一部のレコードは無効です。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Data language"
-msgstr "データ言語"
+msgstr "データ言語 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Data Language"
-msgstr "データ言語"
+msgstr "データ言語 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Data not imported. All records are invalid."
-msgstr "データはインポートされませんでした。すべてのレコードは無効です。"
+msgstr "データはインポートされませんでした。すべてのレコードは無効です。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Data source URI"
-msgstr "データソースURI"
+msgstr "データソースURI {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Database file"
-msgstr "データベースファイル"
+msgstr "データベースファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Date"
-msgstr "日付"
+msgstr "日付 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "date range"
-msgstr "日付範囲"
+msgstr "日付範囲 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "date time"
-msgstr "日付時間"
+msgstr "日付時間 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "date time range"
-msgstr "日付時間範囲"
+msgstr "日付時間範囲 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Default search"
-msgstr "デフォルト検索"
+msgstr "デフォルト検索 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "default:"
-msgstr "デフォルト:"
+msgstr "デフォルト: {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Define the default values"
-msgstr "デフォルト値を定義します"
+msgstr "デフォルト値を定義します {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Deg"
-msgstr "Deg"
+msgstr "Deg {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Degree"
-msgstr "レベル"
+msgstr "レベル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Delete"
-msgstr "削除"
+msgstr "削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Delete Left"
-msgstr "左を削除"
+msgstr "左を削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Delete Right"
-msgstr "右を削除"
+msgstr "右を削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Delete the term on the left side of the cursor"
-msgstr "カーソルの左部分を削除します"
+msgstr "カーソルの左部分を削除します {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Delete the term on the right side of the cursor"
-msgstr "カーソルの右部分を削除します"
+msgstr "カーソルの右部分を削除します {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Deleting search index for %s"
-msgstr "%s の検索インデックスを削除します。"
+msgstr "%s の検索インデックスを削除します。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Deleting this property will also remove the dependency"
-msgstr "このプロパティを削除すると依存関係も削除されます"
+msgstr "このプロパティを削除すると依存関係も削除されます {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Demo Sandbox"
-msgstr "サンドボックス"
+msgstr "サンドボックス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Dependency URI Path"
-msgstr "依存関係の URI パス"
+msgstr "依存関係の URI パス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Depends on property"
-msgstr "プロパティに依存します"
+msgstr "プロパティに依存します {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Did you mean %s?"
-msgstr "%s のことですか？"
+msgstr "%s のことですか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Digit 0"
-msgstr "Digit 0"
+msgstr "Digit 0 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Digit 1"
-msgstr "Digit 1"
+msgstr "Digit 1 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Digit 2"
-msgstr "Digit 2"
+msgstr "Digit 2 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Digit 3"
-msgstr "Digit 3"
+msgstr "Digit 3 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Digit 4"
-msgstr "Digit 4"
+msgstr "Digit 4 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Digit 5"
-msgstr "Digit 5"
+msgstr "Digit 5 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Digit 6"
-msgstr "Digit 6"
+msgstr "Digit 6 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Digit 7"
-msgstr "Digit 7"
+msgstr "Digit 7 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Digit 8"
-msgstr "Digit 8"
+msgstr "Digit 8 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Digit 9"
-msgstr "Digit 9"
+msgstr "Digit 9 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Disabled %s"
-msgstr "%s　無効"
+msgstr "%s　無効 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Do you want to override \"%s\"?"
-msgstr "\"%s\" を上書きしますか？"
+msgstr "\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr "この拡張機能をインストールしますか:\n"
+msgstr "この拡張機能をインストールしますか:\n {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 "%s?"
 
 msgid "Document templates (Staroffice)"
-msgstr "ドキュメントテンプレート(Staroffice)"
+msgstr "ドキュメントテンプレート(Staroffice) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "does not match"
-msgstr "不一致"
+msgstr "不一致 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Don't set"
-msgstr "設定しないでください"
+msgstr "設定しないでください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Dot"
-msgstr "点"
+msgstr "点 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Download"
-msgstr "ダウンロード"
+msgstr "ダウンロード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Download this file"
-msgstr "このファイルをダウンロード"
+msgstr "このファイルをダウンロード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Drag file here"
-msgstr "ファイルをここにドラッグ"
+msgstr "ファイルをここにドラッグ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Drag files here"
-msgstr "ファイルをここにドラッグ"
+msgstr "ファイルをここにドラッグ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Drop the files to upload"
-msgstr "ファイルをドロップしてアップロード"
+msgstr "ファイルをドロップしてアップロード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Edit"
-msgstr "編集"
+msgstr "編集 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Edit a user"
-msgstr "ユーザの編集"
+msgstr "ユーザの編集 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Edit class %s"
-msgstr "クラス編集：%s"
+msgstr "クラス編集：%s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Edit Instance"
-msgstr "インスタンス編集"
+msgstr "インスタンス編集 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Element"
-msgstr "エレメント"
+msgstr "エレメント {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Element deleted."
-msgstr "エレメントが削除されました"
+msgstr "エレメントが削除されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Email"
-msgstr "Eメール"
+msgstr "Eメール {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Empty resources cannot be translated."
-msgstr "空のリソースは翻訳できません。"
+msgstr "空のリソースは翻訳できません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "enabled"
-msgstr "有効にしました"
+msgstr "有効にしました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Enabled %s"
-msgstr "%s を有効にしました"
+msgstr "%s を有効にしました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "End of document reached. Continuing from the beginning."
-msgstr "文書の終わりに達しました。最初に戻ります。"
+msgstr "文書の終わりに達しました。最初に戻ります。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Enhanced metafile"
-msgstr "拡張メタファイル"
+msgstr "拡張メタファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Enter"
-msgstr "　"
+msgstr "　 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error"
-msgstr "エラー"
+msgstr "エラー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error adding search index for %s with message %s"
-msgstr "メッセージ %s で %s の検索インデックスを追加するとエラーが発生します。"
+msgstr "メッセージ %s で %s の検索インデックスを追加するとエラーが発生します。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error during file import"
-msgstr "ファイルインポート中のエラー"
+msgstr "ファイルインポート中のエラー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error in result"
-msgstr "結果のエラー"
+msgstr "結果のエラー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error in syntax"
-msgstr "構文のエラー"
+msgstr "構文のエラー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error in value"
-msgstr "値のエラー"
+msgstr "値のエラー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error: %s"
-msgstr "%s エラー"
+msgstr "%s エラー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Essential cookies (required)"
-msgstr "必須クッキー (必須)"
+msgstr "必須クッキー (必須) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Examples:"
-msgstr "例"
+msgstr "例 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Exclusive (OR)"
-msgstr "排他的(OR)"
+msgstr "排他的(OR) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Execute"
-msgstr "実行"
+msgstr "実行 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Executing task %s failed"
-msgstr "タスク%sの実行に失敗しました"
+msgstr "タスク%sの実行に失敗しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "exp"
-msgstr "Exp"
+msgstr "Exp {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Exponent"
-msgstr "指数"
+msgstr "指数 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Export"
-msgstr "エクスポート"
+msgstr "エクスポート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export "
-msgstr "エクスポート "
+msgstr "エクスポート  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export \"%s\" in %s"
-msgstr "\"%s\" を %s にエクスポート"
+msgstr "\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export CSV"
-msgstr "エクスポートCSV"
+msgstr "エクスポートCSV {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export failed."
-msgstr "エクスポートに失敗しました"
+msgstr "エクスポートに失敗しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export Metadata as RDF/XML file"
-msgstr "メタデータをRDF/XMLでエクスポート"
+msgstr "メタデータをRDF/XMLでエクスポート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export succeeded."
-msgstr "エクスポート完了"
+msgstr "エクスポート完了 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Extension \"%s\" has been installed"
-msgstr "拡張機能 \"%s\"がインストールされました。"
+msgstr "拡張機能 \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Extensions manager"
-msgstr "拡張機能の設定"
+msgstr "拡張機能の設定 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Factorial"
-msgstr "階乗"
+msgstr "階乗 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Failed"
-msgstr "エラー"
+msgstr "エラー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Failed to copy class."
-msgstr "クラスのコピーに失敗しました。"
+msgstr "クラスのコピーに失敗しました。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Failed to delete index for %s"
-msgstr "%s のインデックスを削除できませんでした。"
+msgstr "%s のインデックスを削除できませんでした。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "False"
-msgstr "False"
+msgstr "False {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Field delimiter"
-msgstr "フィールド区切り記号"
+msgstr "フィールド区切り記号 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Field encloser"
-msgstr "フィールド枠"
+msgstr "フィールド枠 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Fields must match"
-msgstr "フィールドは一致する必要があります。"
+msgstr "フィールドは一致する必要があります。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "File"
-msgstr "ファイル"
+msgstr "ファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "File download failed"
-msgstr "ダウンロードに失敗しました"
+msgstr "ダウンロードに失敗しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "File name"
-msgstr "ファイル名"
+msgstr "ファイル名 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "File Properties"
-msgstr "ファイルのプロパティ"
+msgstr "ファイルのプロパティ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "file selected"
-msgstr "ファイル選択"
+msgstr "ファイル選択 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "File Uploader"
-msgstr "ファイルのアップロード"
+msgstr "ファイルのアップロード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "files selected"
-msgstr "ファイル選択"
+msgstr "ファイル選択 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Filter"
-msgstr "フィルタ"
+msgstr "フィルタ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Filter by value"
-msgstr "値でフィルタリング"
+msgstr "値でフィルタリング {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Filtering mode"
-msgstr "フィルタリングモード"
+msgstr "フィルタリングモード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "First Name"
-msgstr "名前１"
+msgstr "名前１ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "First page"
-msgstr "最初のページ"
+msgstr "最初のページ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "First row column names"
-msgstr "最初の行列名"
+msgstr "最初の行列名 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Fit to width"
-msgstr "幅にフィット"
+msgstr "幅にフィット {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Flash video"
-msgstr "Flash動画"
+msgstr "Flash動画 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "floor"
-msgstr "フロア"
+msgstr "フロア {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Flowchart-based programming environment & TI Interactive Workbook"
-msgstr "フローチャートベースのプログラミング環境とTIインタラクティブ・ワークブック"
+msgstr "フローチャートベースのプログラミング環境とTIインタラクティブ・ワークブック {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Forbid for all domains"
-msgstr "すべてのドメインを禁止"
+msgstr "すべてのドメインを禁止 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Force HTTPS on this platform"
-msgstr "このプラットフォームで HTTPS を強制的に使用"
+msgstr "このプラットフォームで HTTPS を強制的に使用 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Force Release"
-msgstr "強制リリース"
+msgstr "強制リリース {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Forgot your password?"
-msgstr "パスワードをお忘れですか?"
+msgstr "パスワードをお忘れですか? {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Form"
-msgstr "フォーム"
+msgstr "フォーム {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Form data not saved."
-msgstr "フォームデータは保存されませんでした"
+msgstr "フォームデータは保存されませんでした {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "From"
-msgstr "　"
+msgstr "　 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Fuzzy Matching"
-msgstr "あいまい検索"
+msgstr "あいまい検索 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "generated-value"
-msgstr "生成値"
+msgstr "生成値 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Generis Form"
-msgstr "ジェネリスフォーム"
+msgstr "ジェネリスフォーム {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Geogebra data file"
-msgstr "Geogebraデータファイル"
+msgstr "Geogebraデータファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Get History"
-msgstr "履歴を表示"
+msgstr "履歴を表示 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Get the history list"
-msgstr "履歴リストを表示"
+msgstr "履歴リストを表示 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "GIF image"
-msgstr "GIF画像"
+msgstr "GIF画像 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Go Back"
-msgstr "前に戻る"
+msgstr "前に戻る {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "go back to home page"
-msgstr "ホームに戻る"
+msgstr "ホームに戻る {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "GZip Compressed Archive"
-msgstr "GZip圧縮アーカイブ"
+msgstr "GZip圧縮アーカイブ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Header file with extensionsLabels"
-msgstr "拡張子を含むヘッダーファイルLabels"
+msgstr "拡張子を含むヘッダーファイルLabels {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Height"
-msgstr "高さ"
+msgstr "高さ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
-msgstr "%s さん<br>TAOのパスワードをお忘れですね"
+msgstr "%s さん<br>TAOのパスワードをお忘れですね {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hide detailed report"
-msgstr "詳細報告を非表示"
+msgstr "詳細報告を非表示 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hide password"
-msgstr "パスワード非表示"
+msgstr "パスワード非表示 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Highlight all"
-msgstr "すべてを強調する"
+msgstr "すべてを強調する {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "hours"
-msgstr "時間"
+msgstr "時間 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hyperbolic arc cosine"
-msgstr "双曲線アークコサイン"
+msgstr "双曲線アークコサイン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hyperbolic arc sine"
-msgstr "双曲線arc-cosine"
+msgstr "双曲線arc-cosine {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hyperbolic arc tangent"
-msgstr "双曲線arc-tangent"
+msgstr "双曲線arc-tangent {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hyperbolic cosine"
-msgstr "双曲線cos"
+msgstr "双曲線cos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hyperbolic sine"
-msgstr "双曲線sin"
+msgstr "双曲線sin {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hyperbolic tangent"
-msgstr "双曲線tan"
+msgstr "双曲線tan {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hypertext markup language"
-msgstr "ハイパーテキストマークアップ言語"
+msgstr "ハイパーテキストマークアップ言語 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "I understand that this action is permanent."
-msgstr "削除の継続を確認しました"
+msgstr "削除の継続を確認しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Identifier"
-msgstr "識別子"
+msgstr "識別子 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr "パスワードをリセットしたくない場合は、このメールを無視してください。パスワードは変更されません。"
+msgstr "パスワードをリセットしたくない場合は、このメールを無視してください。パスワードは変更されません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Implications failed:"
-msgstr "影響に失敗しました:"
+msgstr "影響に失敗しました: {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import"
-msgstr "インポート"
+msgstr "インポート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import "
-msgstr "インポート"
+msgstr "インポート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import a %s into \"%s"
-msgstr "%s を\"%sにインポート"
+msgstr "%s を\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import Completed"
-msgstr "インポートが完了しました"
+msgstr "インポートが完了しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import failed."
-msgstr "インポートに失敗しました"
+msgstr "インポートに失敗しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import Metadata from CSV file"
-msgstr "メタデータをCSV形式でインポート"
+msgstr "メタデータをCSV形式でインポート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import Metadata from RDF file"
-msgstr "メタデータをRDF形式でインポート"
+msgstr "メタデータをRDF形式でインポート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Import statistical analysis metadata"
-msgstr "統計解析メタデータをインポート"
+msgstr "統計解析メタデータをインポート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import succeeded."
-msgstr "インポートが完了しました"
+msgstr "インポートが完了しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Imported %1$d/%2$d. Some records are invalid."
-msgstr "%1$d/%2$d がインポートされました。一部のレコードが無効です。"
+msgstr "%1$d/%2$d がインポートされました。一部のレコードが無効です。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Imported %d resources"
-msgstr "%d リソースをインポート"
+msgstr "%d リソースをインポート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Imported resource \"%s"
-msgstr "\"%s リソースをインポート"
+msgstr "\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Imported successfully finished!"
-msgstr "インポートが完了しました！"
+msgstr "インポートが完了しました！ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "impossible to update task status"
-msgstr "タスクステータスを更新できません"
+msgstr "タスクステータスを更新できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "In Progress"
-msgstr "実施中"
+msgstr "実施中 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "In progress"
-msgstr "実施中"
+msgstr "実施中 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Include all"
-msgstr "すべて含める"
+msgstr "すべて含める {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Include any"
-msgstr "いずれかを含める"
+msgstr "いずれかを含める {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Include none"
-msgstr "含めない"
+msgstr "含めない {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Inclusive (AND)"
-msgstr "包括（AND)"
+msgstr "包括（AND) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Index"
-msgstr "インデックス"
+msgstr "インデックス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Index has been deleted for %s"
-msgstr "インデックスが %s で削除されました。"
+msgstr "インデックスが %s で削除されました。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Infinity"
-msgstr "∞"
+msgstr "∞ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Inherit the permission of the parent folder"
-msgstr "親フォルダのアクセス権を継承する"
+msgstr "親フォルダのアクセス権を継承する {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Injector has to contains a valid \"destination\" field."
-msgstr "インジェクターには、有効な\"destination\"フィールドが含まれている必要があります。"
+msgstr "インジェクターには、有効な\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Injector has to contains a valid \"source\" field."
-msgstr "インジェクターには、有効な\"source\"フィールドが含まれている必要があります。"
+msgstr "インジェクターには、有効な\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Inline"
-msgstr "インライン"
+msgstr "インライン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Install"
-msgstr "インストール"
+msgstr "インストール {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Installation done."
-msgstr "インストール終了"
+msgstr "インストール終了 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Installation..."
-msgstr "インストール中..."
+msgstr "インストール中... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Installed Extensions"
-msgstr "インストール済み拡張機能"
+msgstr "インストール済み拡張機能 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Installed Version"
-msgstr "インストールバージョン"
+msgstr "インストールバージョン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Installing extension %s..."
-msgstr "%s拡張機能をインストールしています..."
+msgstr "%s拡張機能をインストールしています... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Instance saved"
-msgstr "インスタンスが保存されました"
+msgstr "インスタンスが保存されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Interface language"
-msgstr "インタフェース言語"
+msgstr "インタフェース言語 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Interface Language"
-msgstr "インタフェース言語"
+msgstr "インタフェース言語 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Interface Mode"
-msgstr "インターフェイスモード"
+msgstr "インターフェイスモード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid CSP header."
-msgstr "CSPヘッダーが無効です"
+msgstr "CSPヘッダーが無効です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid date range (must be after or the same as: %s)"
-msgstr "日付の範囲が無効（%s以降か同じにしてください）"
+msgstr "日付の範囲が無効（%s以降か同じにしてください） {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid date range (must be after: %s)"
-msgstr "日付の範囲が無効（%s以降にしてください）"
+msgstr "日付の範囲が無効（%s以降にしてください） {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid date range (must be before or the same as: %s)"
-msgstr "日付の範囲が無効（%s以前か同じにしてください）"
+msgstr "日付の範囲が無効（%s以前か同じにしてください） {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid date range (must be before: %s)"
-msgstr "日付の範囲が無効（%s以前にしてください）"
+msgstr "日付の範囲が無効（%s以前にしてください） {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid field length"
-msgstr "不正なフィールド長"
+msgstr "不正なフィールド長 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid field range (maximum value: %s)"
-msgstr "無効なフィールドの範囲（最大値：%s）"
+msgstr "無効なフィールドの範囲（最大値：%s） {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
-msgstr "無効なフィールドの範囲（最小値：%1$s,最大値：%2$s）"
+msgstr "無効なフィールドの範囲（最小値：%1$s,最大値：%2$s） {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid field range (minimum value: %s)"
-msgstr "無効なフィールドの範囲（最小値：%s）"
+msgstr "無効なフィールドの範囲（最小値：%s） {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
-msgstr "無効なファイルサイズ（最小値：%1$sバイト、最大値：%2$sバイト）"
+msgstr "無効なファイルサイズ（最小値：%1$sバイト、最大値：%2$sバイト） {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid file type!"
-msgstr "不正なファイルタイプです"
+msgstr "不正なファイルタイプです {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid input"
-msgstr "不正な入力です"
+msgstr "不正な入力です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid input for function"
-msgstr "関数の入力が無効"
+msgstr "関数の入力が無効 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid JSON config file: %s"
-msgstr "無効な JSON 設定ファイル: %s"
+msgstr "無効な JSON 設定ファイル: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid login or password. Please try again."
-msgstr "ログイン名またはパスワードが無効です。再度やり直してください。"
+msgstr "ログイン名またはパスワードが無効です。再度やり直してください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
-msgstr "ログイン名またはパスワードが無効です。アカウントはロックされています。管理者に問合せてください。"
+msgstr "ログイン名またはパスワードが無効です。アカウントはロックされています。管理者に問合せてください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
-msgstr "ソース \"%s\" のパスが無効です。パスはパッケージ内に存在するファイルを指す必要があります。"
+msgstr "ソース \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "invalid regular expression"
-msgstr "無効な正規表現です"
+msgstr "無効な正規表現です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid value"
-msgstr "無効な値"
+msgstr "無効な値 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid values:"
-msgstr "無効な値:"
+msgstr "無効な値: {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
-msgstr "問題があったようで、リクエストを処理できませんでした。必要に応じてTAO管理者に連絡してください。または、代わりに："
+msgstr "問題があったようで、リクエストを処理できませんでした。必要に応じてTAO管理者に連絡してください。または、代わりに： {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "items per page"
-msgstr "件／ページ"
+msgstr "件／ページ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Javascript code"
-msgstr "Javascriptコード"
+msgstr "Javascriptコード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "JPEG image"
-msgstr "JPEG画像"
+msgstr "JPEG画像 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Keep the original permissions"
-msgstr "元のアクセス権を維持する"
+msgstr "元のアクセス権を維持する {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Label"
-msgstr "ラベル"
+msgstr "ラベル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Label Path"
-msgstr "ラベルパス"
+msgstr "ラベルパス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Language"
-msgstr "言語"
+msgstr "言語 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Last attempt before your account is locked."
-msgstr "あなたのアカウントがロックされる前の最終の受験です。"
+msgstr "あなたのアカウントがロックされる前の最終の受験です。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Last Name"
-msgstr "名前２"
+msgstr "名前２ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Last page"
-msgstr "最終ページ"
+msgstr "最終ページ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Last result"
-msgstr "最終結果"
+msgstr "最終結果 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Left parenthesis"
-msgstr "左括弧"
+msgstr "左括弧 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "less than a minute"
-msgstr "1分未満"
+msgstr "1分未満 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "List"
-msgstr "リスト"
+msgstr "リスト {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "List \"%s\" has duplicated values."
-msgstr "リスト \"%s\" は重複した値を持っています。"
+msgstr "リスト \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "List - Multiple choice - Check box"
-msgstr "リスト-多肢選択-チェックボックス"
+msgstr "リスト-多肢選択-チェックボックス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "List - Multiple choice - Search input"
-msgstr "リスト-多肢選択-検索入力"
+msgstr "リスト-多肢選択-検索入力 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "List - Single choice - Drop down"
-msgstr "リスト-択一-ドロップダウン"
+msgstr "リスト-択一-ドロップダウン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "List - Single choice - Radio button"
-msgstr "リスト-択一-ラジオボタン"
+msgstr "リスト-択一-ラジオボタン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "List - Single choice - Search input"
-msgstr "リスト-択一-検索入力"
+msgstr "リスト-択一-検索入力 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "List item URI duplications found"
-msgstr "リスト項目URIの重複が見つかりました"
+msgstr "リスト項目URIの重複が見つかりました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "List values"
-msgstr "リスト値"
+msgstr "リスト値 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Load more"
-msgstr "再読み込み"
+msgstr "再読み込み {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Loaded"
-msgstr "読み込み完了"
+msgstr "読み込み完了 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Loaded at Startup"
-msgstr "起動時に読み込み"
+msgstr "起動時に読み込み {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Loading"
-msgstr "読み込み"
+msgstr "読み込み {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Loading status"
-msgstr "読込中"
+msgstr "読込中 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Loading task status ..."
-msgstr "読込中..."
+msgstr "読込中... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "locked by %s"
-msgstr "％sによってロックされています"
+msgstr "％sによってロックされています {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Log in"
-msgstr "ログイン"
+msgstr "ログイン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Log Out"
-msgstr "ログアウト"
+msgstr "ログアウト {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Login"
-msgstr "ログイン"
+msgstr "ログイン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Login available"
-msgstr "ログイン可能"
+msgstr "ログイン可能 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Login is already in use."
-msgstr "このログインIDは，既に使われています"
+msgstr "このログインIDは，既に使われています {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Login is empty."
-msgstr "ログインIDを入力してください"
+msgstr "ログインIDを入力してください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Logout"
-msgstr "ログアウト"
+msgstr "ログアウト {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "M4A audio"
-msgstr "M4A音声"
+msgstr "M4A音声 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Main Menu"
-msgstr "メインメニュー"
+msgstr "メインメニュー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Maintenance service is already installed."
-msgstr "メンテナンスサービスは，すでにインストールされています"
+msgstr "メンテナンスサービスは，すでにインストールされています {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Maintenance service must have a persistence option."
-msgstr "メンテナンスサービスには永続化オプションが必要です"
+msgstr "メンテナンスサービスには永続化オプションが必要です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Maintenance service was installed. Platform is disabled."
-msgstr "メンテナンスサービスを導入しました。プラットフォームが無効化されています"
+msgstr "メンテナンスサービスを導入しました。プラットフォームが無効化されています {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Maintenance service was installed. Platform is enabled."
-msgstr "メンテナンスサービスを導入しました。プラットフォームが有効になりました"
+msgstr "メンテナンスサービスを導入しました。プラットフォームが有効になりました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Maintenance storage driver is not set"
-msgstr "メンテナンス用ストレージドライバが設定されていません"
+msgstr "メンテナンス用ストレージドライバが設定されていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Manage class schema"
-msgstr "クラススキーマ管理"
+msgstr "クラススキーマ管理 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "manage columns"
-msgstr "列の管理"
+msgstr "列の管理 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Manage data list"
-msgstr "データ一覧の管理"
+msgstr "データ一覧の管理 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Manage Preferences"
-msgstr "設定の管理"
+msgstr "設定の管理 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Manage roles"
-msgstr "ロール管理"
+msgstr "ロール管理 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Manage Roles and apply them to users."
-msgstr "ロール管理とユーザへの適用"
+msgstr "ロール管理とユーザへの適用 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Manage users"
-msgstr "ユーザ管理"
+msgstr "ユーザ管理 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Manage Versioned File"
-msgstr "バージョンファイル管理"
+msgstr "バージョンファイル管理 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Map the properties to the CSV columns"
-msgstr "CSVの列にプロパティをマッピング"
+msgstr "CSVの列にプロパティをマッピング {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "maximum %s"
-msgstr "最大 %s"
+msgstr "最大 %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Maximum selection reached"
-msgstr "これ以上選択できません"
+msgstr "これ以上選択できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
-msgstr "メディアのサイズをコンテナと一緒に変更します。例：50%とは、メディアサイズが50％ではなく、コンテナサイズが50％を意味します。"
+msgstr "メディアのサイズをコンテナと一緒に変更します。例：50%とは、メディアサイズが50％ではなく、コンテナサイズが50％を意味します。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Message"
-msgstr "記録"
+msgstr "記録 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Messages"
-msgstr "記録"
+msgstr "記録 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Metadata export is not available for the selected resource."
-msgstr "選択したリソースのメタデータのエクスポートはできません"
+msgstr "選択したリソースのメタデータのエクスポートはできません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
+msgstr "Microsoft Excel {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Microsoft Excel binary format"
-msgstr "Microsoft Excel バイナリ形式"
+msgstr "Microsoft Excel バイナリ形式 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Microsoft Office Document Imaging"
-msgstr "Microsoft Officeドキュメントイメージング"
+msgstr "Microsoft Officeドキュメントイメージング {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Microsoft Powerpoint"
-msgstr "Microsoft Powerpoint"
+msgstr "Microsoft Powerpoint {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Microsoft Powerpoint slideshow"
-msgstr "Microsoft Powerpointスライドショウ"
+msgstr "Microsoft Powerpointスライドショウ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Microsoft Project file"
-msgstr "Microsoft Projectファイル"
+msgstr "Microsoft Projectファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Microsoft Visio file"
-msgstr "Microsoft Visioファイル"
+msgstr "Microsoft Visioファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Microsoft Word"
-msgstr "Microsoft Word"
+msgstr "Microsoft Word {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Microsoft Word template"
-msgstr "Microsoft Wordテンプレート"
+msgstr "Microsoft Wordテンプレート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Microsoft Works file"
-msgstr "Microsoft Wordファイル"
+msgstr "Microsoft Wordファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Microsoft XPS file"
-msgstr "Microsoft XPSファイル"
+msgstr "Microsoft XPSファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "MIME encapsulation of aggregate HTML documents"
-msgstr "HTML文書の集合体のMIMEカプセル化"
+msgstr "HTML文書の集合体のMIMEカプセル化 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Mind mapping software application (free mind open source)"
-msgstr "マインドマップ・アプリ (free mind open source)"
+msgstr "マインドマップ・アプリ (free mind open source) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "minimum %s"
-msgstr "最小 %s"
+msgstr "最小 %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "minutes"
-msgstr "分"
+msgstr "分 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "missing config %s for the service %s"
-msgstr "サービス %s のconfig %s が見つかりません。"
+msgstr "サービス %s のconfig %s が見つかりません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Missing Parameters"
-msgstr "パラメータがありません"
+msgstr "パラメータがありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "modulo"
-msgstr "モジュロ"
+msgstr "モジュロ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "More"
-msgstr "更に表示"
+msgstr "更に表示 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Move"
-msgstr "移動"
+msgstr "移動 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Move Left"
-msgstr "左に移動"
+msgstr "左に移動 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Move Right"
-msgstr "右に移動"
+msgstr "右に移動 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Move role"
-msgstr "ロールの移動"
+msgstr "ロールの移動 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Move the cursor one step on the left"
-msgstr "カーソルを左に１移動"
+msgstr "カーソルを左に１移動 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Move the cursor one step on the right"
-msgstr "カーソルを右に１移動"
+msgstr "カーソルを右に１移動 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Move to"
-msgstr "移動"
+msgstr "移動 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
-msgstr "このエレメントを移動すると以前のクラスのプロパティを置き換えます："
+msgstr "このエレメントを移動すると以前のクラスのプロパティを置き換えます： {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "MP4 video"
-msgstr "MP4動画"
+msgstr "MP4動画 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "MPEG audio"
-msgstr "MPEG音声"
+msgstr "MPEG音声 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "MPEG video"
-msgstr "MPEG動画"
+msgstr "MPEG動画 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "MPEG-4 audio file"
-msgstr "MPEG-4音声ファイル"
+msgstr "MPEG-4音声ファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Multiple values delimiter"
-msgstr "複数の値の区切り文字"
+msgstr "複数の値の区切り文字 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Multiply the value by 10^x"
-msgstr "値に10^xを乗算します。"
+msgstr "値に10^xを乗算します。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Must include at least one letter"
-msgstr "少なくとも 1 文字を含める必要があります"
+msgstr "少なくとも 1 文字を含める必要があります {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Must include at least one number"
-msgstr "少なくとも1つの数字を含める必要があります"
+msgstr "少なくとも1つの数字を含める必要があります {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Must include at least one special letter"
-msgstr "少なくとも1つの特殊文字を含める必要があります"
+msgstr "少なくとも1つの特殊文字を含める必要があります {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Must include lower case letters"
-msgstr "小文字を含める必要があります"
+msgstr "小文字を含める必要があります {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Must include upper case letters"
-msgstr "大文字を含める必要があります"
+msgstr "大文字を含める必要があります {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Mute"
-msgstr "ミュート"
+msgstr "ミュート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "My custom text translation"
-msgstr "カスタムテキスト翻訳"
+msgstr "カスタムテキスト翻訳 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "My settings"
-msgstr "ユーザ設定 "
+msgstr "ユーザ設定  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "My settings (%s)"
-msgstr "ユーザ設定(%s)"
+msgstr "ユーザ設定(%s) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Name"
-msgstr "名称"
+msgstr "名称 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Natural logarithm"
-msgstr "自然対数"
+msgstr "自然対数 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "New password"
-msgstr "新パスワード"
+msgstr "新パスワード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "New role"
-msgstr "新規ロール"
+msgstr "新規ロール {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Next"
-msgstr "次へ"
+msgstr "次へ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Next match"
-msgstr "次の検索結果"
+msgstr "次の検索結果 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Next page"
-msgstr "次ページ"
+msgstr "次ページ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No"
-msgstr "いいえ"
+msgstr "いいえ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No action specified"
-msgstr "指定された操作はありません"
+msgstr "指定された操作はありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No client translation bundles updated"
-msgstr "クライアント翻訳バンドルは更新されません"
+msgstr "クライアント翻訳バンドルは更新されません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No extensions available."
-msgstr "利用可能な拡張機能はありません"
+msgstr "利用可能な拡張機能はありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "no file not found in this location"
-msgstr "この場所には、ファイルがありません"
+msgstr "この場所には、ファイルがありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No file selected"
-msgstr "ファイルが未選択"
+msgstr "ファイルが未選択 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No files"
-msgstr "ファイルがありません"
+msgstr "ファイルがありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No item found. Please try other search criteria."
-msgstr "該当するアイテムがありません。他の検索条件をお試しください。"
+msgstr "該当するアイテムがありません。他の検索条件をお試しください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "no label"
-msgstr "ラベルがありません"
+msgstr "ラベルがありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No Task yet"
-msgstr "タスクがありません"
+msgstr "タスクがありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Node duplication has failed"
-msgstr "ノードのコピーに失敗しました"
+msgstr "ノードのコピーに失敗しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "none"
-msgstr "なし"
+msgstr "なし {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Not enough arguments following: %s"
-msgstr "以下の引数が足りません: %s"
+msgstr "以下の引数が足りません: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr "オプション以外の引数が不足しています: %sを取得しました, 少なくとも %s が必要"
+msgstr "オプション以外の引数が不足しています: %sを取得しました, 少なくとも %s が必要 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Not Ready for Translation"
-msgstr "翻訳準備ができていません"
+msgstr "翻訳準備ができていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Not started"
-msgstr "開始していません"
+msgstr "開始していません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "NotEmpty"
-msgstr "NotEmpty"
+msgstr "NotEmpty {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Nothing imported"
-msgstr "何もインポートされていません"
+msgstr "何もインポートされていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Nothing to install !"
-msgstr "何もインストールされていません！"
+msgstr "何もインストールされていません！ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Nothing to list!"
-msgstr "リストがありません！"
+msgstr "リストがありません！ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Notifications"
-msgstr "通知"
+msgstr "通知 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr "通知ドライバは永続的ではありません。続的なデータベースストレージドライバを使用します"
+msgstr "通知ドライバは永続的ではありません。続的なデータベースストレージドライバを使用します {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Nth root"
-msgstr "N番目のルート"
+msgstr "N番目のルート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "number"
-msgstr "数値"
+msgstr "数値 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Number of elements"
-msgstr "エレメント数"
+msgstr "エレメント数 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "of"
-msgstr "／"
+msgstr "／ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Off"
-msgstr "オフ"
+msgstr "オフ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Ogg Vorbis audio"
-msgstr "Ogg Vorbis音声"
+msgstr "Ogg Vorbis音声 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Ogg Vorbis video"
-msgstr "Ogg Vorbis動画"
+msgstr "Ogg Vorbis動画 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Ok"
-msgstr "OK"
+msgstr "OK {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "OK"
-msgstr "OK"
+msgstr "OK {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Old Password"
-msgstr "旧パスワード"
+msgstr "旧パスワード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "On"
-msgstr "オン"
+msgstr "オン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Only allow for my own domain (%s)"
-msgstr "自分自身のドメインのみ許可 (%s)"
+msgstr "自分自身のドメインのみ許可 (%s) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Only one of the field must have value %s"
-msgstr "どちらか一方のフィールドだけが値%sを持つ必要があります"
+msgstr "どちらか一方のフィールドだけが値%sを持つ必要があります {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Open the item for editing"
-msgstr "編集するアイテムを開く"
+msgstr "編集するアイテムを開く {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "OpenDocument Database"
-msgstr "OpenDocumentデータベース"
+msgstr "OpenDocumentデータベース {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "OpenDocument Presentation"
-msgstr "OpenDocumentプレゼンテーション"
+msgstr "OpenDocumentプレゼンテーション {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "OpenDocument spreadsheet document"
-msgstr "OpenDocument スプレッドシート"
+msgstr "OpenDocument スプレッドシート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "OpenDocument text document"
-msgstr "OpenDocument テキスト文書"
+msgstr "OpenDocument テキスト文書 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "OpenDocument Text Template"
-msgstr "OpenDocument Text テンプレート"
+msgstr "OpenDocument Text テンプレート {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Operated By "
-msgstr "運営元"
+msgstr "運営元 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "or"
-msgstr "｜"
+msgstr "｜ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Original"
-msgstr "元のサイズ"
+msgstr "元のサイズ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Otherwise, clicking Accept all cookies indicates you agree to our use of cookies on your device. Clicking Reject all cookies means you do not agree to our use of non-strictly necessary cookies on your device."
-msgstr "それ以外の場合は、「すべてのクッキーを受諾」をクリックすると、お客様のデバイスで当社がクッキーを使用することに同意したことになります。 「すべてのクッキーを拒否」をクリックすると、お客様のデバイスで当社が必要とされないクッキーを使用することに同意しないことを意味します。"
+msgstr "それ以外の場合は、「すべてのクッキーを受諾」をクリックすると、お客様のデバイスで当社がクッキーを使用することに同意したことになります。 「すべてのクッキーを拒否」をクリックすると、お客様のデバイスで当社が必要とされないクッキーを使用することに同意しないことを意味します。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Outlook on the next Synchronization"
-msgstr "次の同期の見通し"
+msgstr "次の同期の見通し {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Page"
-msgstr "ページ"
+msgstr "ページ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Pascal file"
-msgstr "Pascalファイル"
+msgstr "Pascalファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Pascal file (.pas)"
-msgstr "Pascalファイル(.pas)"
+msgstr "Pascalファイル(.pas) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Password"
-msgstr "パスワード"
+msgstr "パスワード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Password changed"
-msgstr "パスワードを変更しました。"
+msgstr "パスワードを変更しました。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Password is empty."
-msgstr "パスワードが入力されていません"
+msgstr "パスワードが入力されていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Password reset"
-msgstr "パスワードのリセット"
+msgstr "パスワードのリセット {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Password successfully changed"
-msgstr "パスワードの変更が完了しました"
+msgstr "パスワードの変更が完了しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Passwords are not matching"
-msgstr "パスワードが一致しません"
+msgstr "パスワードが一致しません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Pause"
-msgstr "一時停止"
+msgstr "一時停止 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "PDF file"
-msgstr "PDFファイル"
+msgstr "PDFファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Pending"
-msgstr "保留中"
+msgstr "保留中 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Permission denied to write in the selected class"
-msgstr "選択したクラスへの書き込みを拒否されました"
+msgstr "選択したクラスへの書き込みを拒否されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Permission settings"
-msgstr "アクセス権の設定"
+msgstr "アクセス権の設定 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Plain text"
-msgstr "テキスト"
+msgstr "テキスト {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Play"
-msgstr "再生"
+msgstr "再生 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please confirm deletion"
-msgstr "削除してもよろしいですか？"
+msgstr "削除してもよろしいですか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please confirm deletion of %s."
-msgstr "％sを削除してよろしいですか？"
+msgstr "％sを削除してよろしいですか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please confirm deletion of user %s"
-msgstr "ユーザ ％s を削除してよろしいですか？"
+msgstr "ユーザ ％s を削除してよろしいですか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please confirm locking of account %s"
-msgstr "アカウント％sをロックしてもよろしいですか"
+msgstr "アカウント％sをロックしてもよろしいですか {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please confirm property deletion!"
-msgstr "プロパティを削除してもよろしいですか？"
+msgstr "プロパティを削除してもよろしいですか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please confirm this operation."
-msgstr "この操作を行ってもよろしいですか？"
+msgstr "この操作を行ってもよろしいですか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please confirm unlocking of account %s"
-msgstr "アカウント %s のロックを解除してもよろしいですか？"
+msgstr "アカウント %s のロックを解除してもよろしいですか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please contact %s or an administrator to release it"
-msgstr "それをリリースするには、%sまたは管理者にお問い合わせください"
+msgstr "それをリリースするには、%sまたは管理者にお問い合わせください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please contact your administrator."
-msgstr "管理者にお問い合わせください"
+msgstr "管理者にお問い合わせください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please contact your system administrator."
-msgstr "システム管理者にお問い合わせください"
+msgstr "システム管理者にお問い合わせください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please define your search in the search panel."
-msgstr "検索パネルで定義してください。"
+msgstr "検索パネルで定義してください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please download the track and listen offline."
-msgstr "音声トラックをダウンロードしてオフラインで聞いてください"
+msgstr "音声トラックをダウンロードしてオフラインで聞いてください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please download the video and view offline."
-msgstr "ビデオをダウンロードしてオフラインで見てください"
+msgstr "ビデオをダウンロードしてオフラインで見てください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please give a message to your commit"
-msgstr "コミットする際のメッセージを入力してください。"
+msgstr "コミットする際のメッセージを入力してください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please provide a reason"
-msgstr "理由をご記入ください"
+msgstr "理由をご記入ください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr "バグの報告やアイデア，コメントなどTAOフォーラムにフィードバックしてください"
+msgstr "バグの報告やアイデア，コメントなどTAOフォーラムにフィードバックしてください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please select a language."
-msgstr "言語を選択してください."
+msgstr "言語を選択してください. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Please select an image file from the resource manager. You can add files from your PC with the button \"Add file(s)\"."
+msgstr "Please select an image file from the resource manager. You can add files from your PC with the button \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please set 'min' and/or 'max' options!"
-msgstr "'min' または 'max' オプションを設定してください！"
+msgstr "'min' または 'max' オプションを設定してください！ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please try in %s."
-msgstr "%s でお試しください。"
+msgstr "%s でお試しください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please wait"
-msgstr "お待ちください"
+msgstr "お待ちください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please wait while ..."
-msgstr "しばらくお待ちください ..."
+msgstr "しばらくお待ちください ... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "PNG image"
-msgstr "PNG画僧"
+msgstr "PNG画僧 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Position"
-msgstr "画像位置"
+msgstr "画像位置 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Positionals:"
-msgstr "位置:"
+msgstr "位置: {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Post install processing"
-msgstr "インストール後の処理"
+msgstr "インストール後の処理 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Power of"
-msgstr "累乗"
+msgstr "累乗 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Power of 10"
-msgstr "10の累乗"
+msgstr "10の累乗 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Preparing installation..."
-msgstr "インストールの準備をしています..."
+msgstr "インストールの準備をしています... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Preview"
-msgstr "プレビュー"
+msgstr "プレビュー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Previous"
-msgstr "前へ"
+msgstr "前へ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Previous match"
-msgstr "前の検索結果"
+msgstr "前の検索結果 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Previous page"
-msgstr "前のページ"
+msgstr "前のページ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Privacy Policy"
-msgstr "プライバシーポリシー"
+msgstr "プライバシーポリシー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Proceed"
-msgstr "続行"
+msgstr "続行 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Properties"
-msgstr "プロパティ"
+msgstr "プロパティ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Provided URL is not valid"
-msgstr "指定されたURLは有効ではありません"
+msgstr "指定されたURLは有効ではありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Publish"
-msgstr "公開"
+msgstr "公開 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Publish the test"
-msgstr "テストを公開"
+msgstr "テストを公開 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Queued"
-msgstr "待機中"
+msgstr "待機中 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Quicktime video"
-msgstr "Quicktimeビデオ"
+msgstr "Quicktimeビデオ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Rad"
-msgstr "ラッド"
+msgstr "ラッド {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Radian"
-msgstr "ラジアン"
+msgstr "ラジアン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "random"
-msgstr "ランダム"
+msgstr "ランダム {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Random value"
-msgstr "ランダム値"
+msgstr "ランダム値 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Range field is required"
-msgstr "範囲フィールドは必須です"
+msgstr "範囲フィールドは必須です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "RAR archive"
-msgstr "RARアーカイブ"
+msgstr "RARアーカイブ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "RDF"
-msgstr "RDF"
+msgstr "RDF {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Ready for Translation"
-msgstr "翻訳の準備"
+msgstr "翻訳の準備 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "RealMedia file"
-msgstr "RealMediaファイル"
+msgstr "RealMediaファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Refresh"
-msgstr "更新"
+msgstr "更新 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Reject all"
-msgstr "すべて拒否"
+msgstr "すべて拒否 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Release"
-msgstr "リリース"
+msgstr "リリース {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr "ロックを解除すると、%sによって実施中の作業が失われる可能性があります。"
+msgstr "ロックを解除すると、%sによって実施中の作業が失われる可能性があります。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Reload"
-msgstr "リロード"
+msgstr "リロード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remind"
-msgstr "リマインド"
+msgstr "リマインド {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remind Last"
-msgstr "最後にリマインドする"
+msgstr "最後にリマインドする {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remind the last value"
-msgstr "最後の値をリマインド"
+msgstr "最後の値をリマインド {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remind the next expression in the history"
-msgstr "履歴の次の表示をリマインド"
+msgstr "履歴の次の表示をリマインド {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remind the previous expression in the history"
-msgstr "履歴の前の表示をリマインド"
+msgstr "履歴の前の表示をリマインド {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remind the recorded value"
-msgstr "記録された値をリマインド"
+msgstr "記録された値をリマインド {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove"
-msgstr "削除"
+msgstr "削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove criteria"
-msgstr "条件削除"
+msgstr "条件削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "remove index"
-msgstr "インデックスを削除"
+msgstr "インデックスを削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove Message"
-msgstr "メッセージを削除"
+msgstr "メッセージを削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove the translated item"
-msgstr "翻訳されたアイテムを削除"
+msgstr "翻訳されたアイテムを削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove this file"
-msgstr "このファイルを削除"
+msgstr "このファイルを削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Removed %s directories"
-msgstr "ディレクトリ %s を削除"
+msgstr "ディレクトリ %s を削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Removed %s files"
-msgstr "ファイル %s を削除"
+msgstr "ファイル %s を削除 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Removing: %s"
-msgstr "削除中: %s"
+msgstr "削除中: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Rename"
-msgstr "名前の変更"
+msgstr "名前の変更 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Repeat new password"
-msgstr "新パスワード(再入力)"
+msgstr "新パスワード(再入力) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Repeat password"
-msgstr "パスワード再入力"
+msgstr "パスワード再入力 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Request a password reset via Email."
-msgstr "eメールでパスワードのリセットを要求します"
+msgstr "eメールでパスワードのリセットを要求します {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "require notification ID"
-msgstr "通知のためのIDが必要です"
+msgstr "通知のためのIDが必要です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "required"
-msgstr "選択必須"
+msgstr "選択必須 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "required length"
-msgstr "長さは必須です"
+msgstr "長さは必須です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Requires"
-msgstr "必要"
+msgstr "必要 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Reset"
-msgstr "リセット"
+msgstr "リセット {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Reset the range values"
-msgstr "範囲値をリセット"
+msgstr "範囲値をリセット {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resource"
-msgstr "リソース"
+msgstr "リソース {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resource copied"
-msgstr "リソースをコピーしました"
+msgstr "リソースをコピーしました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resource deleted"
-msgstr "リソースが削除されました"
+msgstr "リソースが削除されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resource Identifier"
-msgstr "リソース識別子"
+msgstr "リソース識別子 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resource Identifier could not be copied to the clipboard"
-msgstr "リソース識別子をクリップボードにコピーできません"
+msgstr "リソース識別子をクリップボードにコピーできません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resource Identifier has been copied to the clipboard"
-msgstr "リソース識別子がクリップボードにコピーされました"
+msgstr "リソース識別子がクリップボードにコピーされました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resource not imported due to multiple super classes"
-msgstr "複数のスーパークラスがあるため、リソースがインポートされません"
+msgstr "複数のスーパークラスがあるため、リソースがインポートされません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resource not imported due to multiple types"
-msgstr "複数のタイプがあるため、リソースがインポートされません"
+msgstr "複数のタイプがあるため、リソースがインポートされません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resource saved"
-msgstr "リソースは保存されました"
+msgstr "リソースは保存されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "resources"
-msgstr "リソース"
+msgstr "リソース {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resources moved"
-msgstr "リソースの移動"
+msgstr "リソースの移動 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resources successfully indexed"
-msgstr "リソースが正常にインデックス化されました"
+msgstr "リソースが正常にインデックス化されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resources was not indexed"
-msgstr "リソースはインデックス化されていません"
+msgstr "リソースはインデックス化されていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Responsive mode"
-msgstr "レスポンシブモード"
+msgstr "レスポンシブモード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Restore sound"
-msgstr "音声の復元"
+msgstr "音声の復元 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Return to sign in page"
-msgstr "ログインページに戻る"
+msgstr "ログインページに戻る {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Rich Text Format file"
-msgstr "リッチテキストファイル"
+msgstr "リッチテキストファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Right click the tree to manage your lists"
-msgstr "リストを管理するためにツリーを右クリックしてください"
+msgstr "リストを管理するためにツリーを右クリックしてください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Right parenthesis"
-msgstr "右括弧"
+msgstr "右括弧 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Role saved"
-msgstr "ロールは保存されました"
+msgstr "ロールは保存されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Roles"
-msgstr "権限"
+msgstr "権限 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Roles library"
-msgstr "ロールライブラリ"
+msgstr "ロールライブラリ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "round"
-msgstr "丸め"
+msgstr "丸め {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Round to closest whole number"
-msgstr "最小の整数に丸める"
+msgstr "最小の整数に丸める {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Round to lower whole number"
-msgstr "小さい方の整数に丸める"
+msgstr "小さい方の整数に丸める {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Round to upper whole number"
-msgstr "大きい方の整数に丸める"
+msgstr "大きい方の整数に丸める {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Row %s"
-msgstr "列 %s"
+msgstr "列 %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Running task %s"
-msgstr "実行中： %s"
+msgstr "実行中： %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Save"
-msgstr "保存"
+msgstr "保存 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Saved."
-msgstr "保存しました"
+msgstr "保存しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Scientific Calculator"
-msgstr "関数電卓"
+msgstr "関数電卓 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Scope"
-msgstr "範囲"
+msgstr "範囲 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Search"
-msgstr "検索"
+msgstr "検索 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Search %s"
-msgstr "%sを検索"
+msgstr "%sを検索 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Search by properties"
-msgstr "プロパティで検索"
+msgstr "プロパティで検索 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Search sub-classes"
-msgstr "サブクラスを検索"
+msgstr "サブクラスを検索 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "second"
-msgstr "秒"
+msgstr "秒 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "seconds"
-msgstr "秒"
+msgstr "秒 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Security"
-msgstr "セキュリティ"
+msgstr "セキュリティ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Security settings"
-msgstr "セキュリティ設定"
+msgstr "セキュリティ設定 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select"
-msgstr "選択"
+msgstr "選択 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "select"
-msgstr "選択"
+msgstr "選択 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select a class"
-msgstr "クラスを選択"
+msgstr "クラスを選択 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select a destination"
-msgstr "指定先を選択"
+msgstr "指定先を選択 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select a language"
-msgstr "言語を選択"
+msgstr "言語を選択 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select loaded %s"
-msgstr "ロードされた %s を選択します。"
+msgstr "ロードされた %s を選択します。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select this file"
-msgstr "このファイルを選択"
+msgstr "このファイルを選択 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "select..."
-msgstr "選択..."
+msgstr "選択... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Selected"
-msgstr "選択済み"
+msgstr "選択済み {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Selected file:"
-msgstr "選択済みファイル:"
+msgstr "選択済みファイル: {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Selection saved successfully"
-msgstr "選択が正常に保存されました"
+msgstr "選択が正常に保存されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "self-locked"
-msgstr "セルフロック"
+msgstr "セルフロック {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Set the trigonometric function to work in degrees"
-msgstr "角度で機能するように三角関数を設定する"
+msgstr "角度で機能するように三角関数を設定する {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Set the trigonometric function to work in radians"
-msgstr "角度で機能するように三角関数を設定する"
+msgstr "角度で機能するように三角関数を設定する {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Settings"
-msgstr "設定"
+msgstr "設定 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Settings updated"
-msgstr "設定を更新"
+msgstr "設定を更新 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Show detailed report"
-msgstr "詳細レポートを表示"
+msgstr "詳細レポートを表示 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Show password"
-msgstr "パスワード表示"
+msgstr "パスワード表示 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Sibelius music notation"
-msgstr "Sibelius楽譜の表示"
+msgstr "Sibelius楽譜の表示 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Sign change"
-msgstr "符号入れ替え"
+msgstr "符号入れ替え {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "sin"
-msgstr "sin"
+msgstr "sin {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Sine"
-msgstr "sin"
+msgstr "sin {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "sinh"
-msgstr "sinh"
+msgstr "sinh {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Size"
-msgstr "サイズ"
+msgstr "サイズ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Some items could not be deleted"
-msgstr "いくつかのアイテムを削除できませんでした"
+msgstr "いくつかのアイテムを削除できませんでした {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Some of resources has not be deleted"
-msgstr "いくつかのリソースは削除されていません"
+msgstr "いくつかのリソースは削除されていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Some resources have not been moved: %s"
-msgstr "一部のリソースが移動されていません: %s"
+msgstr "一部のリソースが移動されていません: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Something unexpected happened."
-msgstr "予想外のエラーが発生しました。"
+msgstr "予想外のエラーが発生しました。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Sources that can embed this platform in an iFrame"
-msgstr "このプラットフォームをiFrameに埋め込むためのソース"
+msgstr "このプラットフォームをiFrameに埋め込むためのソース {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Square root"
-msgstr "平方根"
+msgstr "平方根 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Start"
-msgstr "開 始"
+msgstr "開 始 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Start of document reached. Continuing from the end."
-msgstr "ドキュメントの開始点に到達しました。最後から続けます。"
+msgstr "ドキュメントの開始点に到達しました。最後から続けます。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Start translation"
-msgstr "翻訳を開始"
+msgstr "翻訳を開始 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Status"
-msgstr "ステータス"
+msgstr "ステータス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Status of"
-msgstr "ステータス："
+msgstr "ステータス： {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Store"
-msgstr "格納"
+msgstr "格納 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Store the value a variable"
-msgstr "値を変数に格納する"
+msgstr "値を変数に格納する {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Storing digital video data on a computer game"
-msgstr "ビデオデータをコンピュータゲームに保存する"
+msgstr "ビデオデータをコンピュータゲームに保存する {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings."
-msgstr "必須Cookieは常に有効にしておく必要があります。これにより、Cookie設定を保存できます。"
+msgstr "必須Cookieは常に有効にしておく必要があります。これにより、Cookie設定を保存できます。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "string"
-msgstr "文字列（string型）"
+msgstr "文字列（string型） {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Submit"
-msgstr "送信"
+msgstr "送信 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Success"
-msgstr "完了"
+msgstr "完了 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Successfully cloned instance as %s"
-msgstr "インスタンスが %s として正常にクローン化されました"
+msgstr "インスタンスが %s として正常にクローン化されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Successfully deleted %s"
-msgstr "%s が正常に削除されました"
+msgstr "%s が正常に削除されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Successfully imported \"%s"
-msgstr "\"%s のインポートが完了しました"
+msgstr "\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Successfully imported %s tripples"
-msgstr "%s トリプルのインポートが完了しました"
+msgstr "%s トリプルのインポートが完了しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Successfully imported class \"%s"
-msgstr "\"%sクラスのインポートが完了しました"
+msgstr "\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Successfully updated %s client translation bundles"
-msgstr "%s クライアント翻訳バンドルが正常に更新されました"
+msgstr "%s クライアント翻訳バンドルが正常に更新されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Supported export formats"
-msgstr "対応エクスポート形式"
+msgstr "対応エクスポート形式 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "SVG image"
-msgstr "SVG画像"
+msgstr "SVG画像 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Syntax error"
-msgstr "構文エラー"
+msgstr "構文エラー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tagged image file"
-msgstr "タグ付き画像"
+msgstr "タグ付き画像 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "tan"
-msgstr "tan"
+msgstr "tan {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tangent"
-msgstr "tan"
+msgstr "tan {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "tanh"
-msgstr "tanh"
+msgstr "tanh {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tao Default Theme"
-msgstr "TAOデフォルトのテーマ"
+msgstr "TAOデフォルトのテーマ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "TAO Home"
-msgstr "TAOホーム"
+msgstr "TAOホーム {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "TAO Login"
-msgstr "TAOログイン"
+msgstr "TAOログイン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "TAO platform is already on live mode since %s"
-msgstr "TAOプラットフォームは %s 以降、すでに公開モードになっています。"
+msgstr "TAOプラットフォームは %s 以降、すでに公開モードになっています。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "TAO platform is already on maintenance mode since %s"
-msgstr "TAOプラットフォームは %s 以降、すでにメンテナンスモードになっています。"
+msgstr "TAOプラットフォームは %s 以降、すでにメンテナンスモードになっています。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "TAO platform is live since %s."
-msgstr "TAOプラットフォームは %s から稼働しています。"
+msgstr "TAOプラットフォームは %s から稼働しています。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "TAO platform is now live. It was in maintenance since %s"
-msgstr "TAOプラットフォームは，%s以来メンテナンス中となっていましたが，現在稼働中です。"
+msgstr "TAOプラットフォームは，%s以来メンテナンス中となっていましたが，現在稼働中です。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "TAO platform is now under maintenance. It was in maintenance since %s"
-msgstr "TAOプラットフォームは，%s以来，現在もメンテナンス中です。"
+msgstr "TAOプラットフォームは，%s以来，現在もメンテナンス中です。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "TAO platform is under maintenance since %s"
-msgstr "TAOプラットフォームは、%s以降メンテナンス中となっています。"
+msgstr "TAOプラットフォームは、%s以降メンテナンス中となっています。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tao WebHooks"
-msgstr "Tao WebHooks"
+msgstr "Tao WebHooks {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Task %s has been cancelled, message was not processed."
-msgstr "タスク %s はキャンセルされました。"
+msgstr "タスク %s はキャンセルされました。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "task created"
-msgstr "タスクが作成されました"
+msgstr "タスクが作成されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Task Listing"
-msgstr "タスク一覧"
+msgstr "タスク一覧 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Task Name"
-msgstr "タスク名"
+msgstr "タスク名 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Task not found"
-msgstr "タスクが見つかりません"
+msgstr "タスクが見つかりません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Task not returned any report."
-msgstr "タスクからの報告はありません"
+msgstr "タスクからの報告はありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Term"
-msgstr "期間"
+msgstr "期間 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "TeX file"
-msgstr "TeXファイル"
+msgstr "TeXファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Text - Long - Box"
-msgstr "テキスト-ロング-ボックス"
+msgstr "テキスト-ロング-ボックス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Text - Long - HTML editor"
-msgstr "テキスト-ロング-HTMLエディタ"
+msgstr "テキスト-ロング-HTMLエディタ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Text - Short - Field"
-msgstr "テキスト-ショート-フィールド"
+msgstr "テキスト-ショート-フィールド {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Text document file format (Staroffice)"
-msgstr "テキストファイル (Staroffice)"
+msgstr "テキストファイル (Staroffice) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Text to translate"
-msgstr "翻訳するテキスト"
+msgstr "翻訳するテキスト {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The action will be applied to"
-msgstr "操作が適用されます："
+msgstr "操作が適用されます： {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The action will be applied to the following"
-msgstr "以下に操作が適用されます"
+msgstr "以下に操作が適用されます {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The action will not be applied to "
-msgstr "操作は適用されません："
+msgstr "操作は適用されません： {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The action will not be applied to the following"
-msgstr "操作は適用されません："
+msgstr "操作は適用されません： {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The class has been copied."
-msgstr "クラスがコピーされました。"
+msgstr "クラスがコピーされました。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The column "
-msgstr "行"
+msgstr "行 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The field \"List\" is disabled because the property is part of a dependency"
-msgstr "プロパティが依存関係の一部であるため、「リスト」フィールドは無効になっています"
+msgstr "プロパティが依存関係の一部であるため、「リスト」フィールドは無効になっています {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
-msgstr "以下の条件は、選択されたクラスに適用されないため、検索対象から除外されています。"
+msgstr "以下の条件は、選択されたクラスに適用されないため、検索対象から除外されています。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The format of this field is not valid."
-msgstr "このフィールドの形式は有効ではありません"
+msgstr "このフィールドの形式は有効ではありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The imported file is not properly UTF-8 encoded."
-msgstr "インポートされたファイルが正しくUTF-8でエンコードされていません"
+msgstr "インポートされたファイルが正しくUTF-8でエンコードされていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The index identifier should not be empty"
-msgstr "インデックス識別子は，空であってはなりません"
+msgstr "インデックス識別子は，空であってはなりません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The lock has been released"
-msgstr "ロックが解除されました"
+msgstr "ロックが解除されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
-msgstr "元のクラスプロパティは，移動先のクラスプロパティに置き換えられます。これにより、メタデータが失われる可能性があります。続けますか？"
+msgstr "元のクラスプロパティは，移動先のクラスプロパティに置き換えられます。これにより、メタデータが失われる可能性があります。続けますか？ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The selected value(s) must be compatible with the primary property."
-msgstr "選択した値はプライマリプロパティと互換性がなければなりません。"
+msgstr "選択した値はプライマリプロパティと互換性がなければなりません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The server has sent an empty response"
-msgstr "サーバは空のレスポンスを送信しました。"
+msgstr "サーバは空のレスポンスを送信しました。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The uploaded file is too large (maximum %s bytes)"
-msgstr "アップロードされたファイルは大きすぎます（最大%sバイト）"
+msgstr "アップロードされたファイルは大きすぎます（最大%sバイト） {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The value for the property \"%s\" must be unique."
-msgstr "プロパティ\"%s\"は一意である必要があります"
+msgstr "プロパティ\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
-msgstr "このフィールドは次の形式にしてください：YYYY-MM-DD"
+msgstr "このフィールドは次の形式にしてください：YYYY-MM-DD {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The value of this field must be an integer"
-msgstr "このフィールドの値は整数でなければなりません"
+msgstr "このフィールドの値は整数でなければなりません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The value of this field must be numeric"
-msgstr "このフィールドの値は数値でなければなりません"
+msgstr "このフィールドの値は数値でなければなりません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "There is nothing to list!"
-msgstr "リストがありません！"
+msgstr "リストがありません！ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "These cookies allow us to count visits and various other analytical data so we can measure and improve the performance of our site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
-msgstr "これらのクッキーは、当社が当社のサイトのパフォーマンスを測定し、改善することができるように訪問やその他の様々な分析データをカウントすることができます。 お客様がこれらのクッキーを許可しない場合、お客様がいつ当社サイトにアクセスしたかは当社には分かりません。 その性能を監視することはできません。"
+msgstr "これらのクッキーは、当社が当社のサイトのパフォーマンスを測定し、改善することができるように訪問やその他の様々な分析データをカウントすることができます。 お客様がこれらのクッキーを許可しない場合、お客様がいつ当社サイトにアクセスしたかは当社には分かりません。 その性能を監視することはできません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This %s is currently checked out"
-msgstr "この%sはチェックアウトされています"
+msgstr "この%sはチェックアウトされています {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This field is required"
-msgstr "この項目は必須です"
+msgstr "この項目は必須です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This field is too long"
-msgstr "このフィールドは長すぎます"
+msgstr "このフィールドは長すぎます {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This field is too short"
-msgstr "このフィールドは短すぎます"
+msgstr "このフィールドは短すぎます {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This is not a valid email address."
-msgstr "メールアドレスが正しくありません"
+msgstr "メールアドレスが正しくありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "this is required"
-msgstr "これは必須項目です"
+msgstr "これは必須項目です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This Login is already in use"
-msgstr "このログインIDは，既に使用されています"
+msgstr "このログインIDは，既に使用されています {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This media cannot be played!"
-msgstr "メディアが再生できませんでした！"
+msgstr "メディアが再生できませんでした！ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This or one of %s must have a value"
-msgstr "これ自身または%sのいずれかが値を持つ必要があります。"
+msgstr "これ自身または%sのいずれかが値を持つ必要があります。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
-msgstr "このパスワードのリセットリンクは、有効ではありません。これは、すでに使用されています。パスワードをリセットしたい場合は、新規リンクをリクエストしてください"
+msgstr "このパスワードのリセットリンクは、有効ではありません。これは、すでに使用されています。パスワードをリセットしたい場合は、新規リンクをリクエストしてください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This resource is locked"
-msgstr "このリソースはロックされています"
+msgstr "このリソースはロックされています {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This resource is not ready for translation."
-msgstr "このリソースは翻訳の準備ができていません。"
+msgstr "このリソースは翻訳の準備ができていません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
-msgstr "このロールは、1人または複数のユーザに与えられています。まず、これらのユーザのロールを削除してください。"
+msgstr "このロールは、1人または複数のユーザに与えられています。まず、これらのユーザのロールを削除してください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This should equal %s"
-msgstr "これは、%sと等しくなければなりません"
+msgstr "これは、%sと等しくなければなりません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This should not equal %s"
-msgstr "これは、%sと等しくてはいけません"
+msgstr "これは、%sと等しくてはいけません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This site uses cookies to improve your browsing experience and to perform analytics and research."
-msgstr "本サイトでは、お客様の閲覧体験を向上させ、分析や研究を行うためにクッキーを使用しています。"
+msgstr "本サイトでは、お客様の閲覧体験を向上させ、分析や研究を行うためにクッキーを使用しています。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "time"
-msgstr "時間"
+msgstr "時間 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Time zone"
-msgstr "タイムゾーン"
+msgstr "タイムゾーン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Title"
-msgstr "タイトル"
+msgstr "タイトル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "to"
-msgstr "ー"
+msgstr "ー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "To change your preferences, click Manage preferences."
-msgstr "設定を変更するには、format@@0環境設定をクリックします。"
+msgstr "設定を変更するには、format@@0環境設定をクリックします。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
-msgstr "パスワードをリセットするには、下記リンクをクリックしてください。またはリンクをブラウザにペーストしてください。新規パスワード作成のページが表示されます。"
+msgstr "パスワードをリセットするには、下記リンクをクリックしてください。またはリンクをブラウザにペーストしてください。新規パスワード作成のページが表示されます。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "to translate"
-msgstr "翻訳"
+msgstr "翻訳 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Toggle multiple/single selection"
-msgstr "複数選択/択一選択の切り替え"
+msgstr "複数選択/択一選択の切り替え {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Toggle the date time picker"
-msgstr "日付のタイムピッカーを切り替える"
+msgstr "日付のタイムピッカーを切り替える {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tokenizer"
-msgstr "トークナイザ"
+msgstr "トークナイザ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr "オプション以外の引数が多すぎます: %sを取得しました, 最大 %s"
+msgstr "オプション以外の引数が多すぎます: %sを取得しました, 最大 %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Too many suggestions match your query. Only a few are listed"
-msgstr "候補が多すぎるため候補の一部が表示されます"
+msgstr "候補が多すぎるため候補の一部が表示されます {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Total duration"
-msgstr "合計時間"
+msgstr "合計時間 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Total:"
-msgstr "合計："
+msgstr "合計： {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translate"
-msgstr "翻訳"
+msgstr "翻訳 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translate to"
-msgstr "翻訳先言語"
+msgstr "翻訳先言語 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translated"
-msgstr "翻訳済み"
+msgstr "翻訳済み {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translating"
-msgstr "翻訳"
+msgstr "翻訳 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translation"
-msgstr "翻訳"
+msgstr "翻訳 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translation parameters"
-msgstr "翻訳パラメータ"
+msgstr "翻訳パラメータ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translation Progress"
-msgstr "翻訳の進捗状況"
+msgstr "翻訳の進捗状況 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translation saved"
-msgstr "翻訳は保存されました"
+msgstr "翻訳は保存されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translation Status"
-msgstr "翻訳ステータス"
+msgstr "翻訳ステータス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translation Type"
-msgstr "翻訳タイプ"
+msgstr "翻訳タイプ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translations"
-msgstr "翻訳"
+msgstr "翻訳 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Transport Layer Security"
-msgstr "トランスポートレイヤーセキュリティ"
+msgstr "トランスポートレイヤーセキュリティ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tree - Multiple node choice"
-msgstr "ツリー - 複数ノードの選択"
+msgstr "ツリー - 複数ノードの選択 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tree - Multiple node choice "
-msgstr "ツリー - 複数ノードの選択 "
+msgstr "ツリー - 複数ノードの選択  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tree values"
-msgstr "ツリーバリュー"
+msgstr "ツリーバリュー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "True"
-msgstr "True"
+msgstr "True {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "trunc"
-msgstr "trunc"
+msgstr "trunc {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Type"
-msgstr "タイプ"
+msgstr "タイプ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Type your search"
-msgstr "検索条件を入力"
+msgstr "検索条件を入力 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to access your account?"
-msgstr "アカウントに接続できません"
+msgstr "アカウントに接続できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to change passwords in demo mode"
-msgstr "デモモードではパスワードの変更ができません。"
+msgstr "デモモードではパスワードの変更ができません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to clone the resource"
-msgstr "リソースを複製できません"
+msgstr "リソースを複製できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to copy the resource"
-msgstr "リソースをコピーできません"
+msgstr "リソースをコピーできません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to delete %s"
-msgstr "%s を削除できません"
+msgstr "%s を削除できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to delete the selected resource"
-msgstr "選択したリソースを削除できません"
+msgstr "選択したリソースを削除できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
-msgstr "コンテンツの一部を削除するために必要な権限がないため、選択したリソースを削除できません。"
+msgstr "コンテンツの一部を削除するために必要な権限がないため、選択したリソースを削除できません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to delete the selected resources"
-msgstr "選択されたリソースを削除できません。"
+msgstr "選択されたリソースを削除できません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to move the resources"
-msgstr "リソースを移動できません。"
+msgstr "リソースを移動できません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to open file %s"
-msgstr "ファイルを開けません : %s"
+msgstr "ファイルを開けません : %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to process your request"
-msgstr "リクエストが処理できません"
+msgstr "リクエストが処理できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to release the lock"
-msgstr "ロックを解除することができません"
+msgstr "ロックを解除することができません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to remove the property."
-msgstr "プロパティを削除できません"
+msgstr "プロパティを削除できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to save resource."
-msgstr "リソースを保存できません"
+msgstr "リソースを保存できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "unable to search into notification."
-msgstr "通知の検索ができません"
+msgstr "通知の検索ができません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to send the password reset request"
-msgstr "パスワードのリセットをリクエストできません"
+msgstr "パスワードのリセットをリクエストできません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
-msgstr "統計データを同期できませんでした。詳細についてはシステム管理者にお問い合わせください。"
+msgstr "統計データを同期できませんでした。詳細についてはシステム管理者にお問い合わせください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to update the asset service"
-msgstr "アセットサービスの更新ができません"
+msgstr "アセットサービスの更新ができません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to upload file"
-msgstr "ファイルをアップロードできません"
+msgstr "ファイルをアップロードできません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to upload file %s : %s"
-msgstr "アップロードができません %s : %s"
+msgstr "アップロードができません %s : %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unary operator +"
-msgstr "単項演算子(+)"
+msgstr "単項演算子(+) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unary operator -"
-msgstr "単項演算子(-)"
+msgstr "単項演算子(-) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unauthorized files have been removed"
-msgstr "権限のないファイルが削除されました"
+msgstr "権限のないファイルが削除されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Uncheck All"
-msgstr "全てチェックを外す"
+msgstr "全てチェックを外す {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Uncheck all"
-msgstr "全てチェックを外す"
+msgstr "全てチェックを外す {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Undefined amount of the pages for pagination"
-msgstr "ページネーションのための未定義のページ数"
+msgstr "ページネーションのための未定義のページ数 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Undefined amount of the totalPages for pagination"
-msgstr "ページネーションのための総ページの未定義数"
+msgstr "ページネーションのための総ページの未定義数 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Undefined Instance can not be saved"
-msgstr "未定義のインスタンスを保存できません"
+msgstr "未定義のインスタンスを保存できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Undo"
-msgstr "取り消し"
+msgstr "取り消し {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unexpected error. Please contact administrator"
-msgstr "予期しないエラーです。管理者に問合せてください。"
+msgstr "予期しないエラーです。管理者に問合せてください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Uninstall of %s failed"
-msgstr "アンインストールに失敗しました : %s"
+msgstr "アンインストールに失敗しました : %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Uninstalled %s"
-msgstr "アンインストールが完了しました : %s"
+msgstr "アンインストールが完了しました : %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unique Identifier"
-msgstr "Unique Identifier"
+msgstr "Unique Identifier {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "UNIX Compressed Archive File"
-msgstr "UNIX圧縮アーカイブファイル"
+msgstr "UNIX圧縮アーカイブファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "unknown"
-msgstr "不明"
+msgstr "不明 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unknown Error"
-msgstr "不明なエラー"
+msgstr "不明なエラー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "unkown task id %s"
-msgstr "不明なタスクID : %s"
+msgstr "不明なタスクID : %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Update"
-msgstr "更新"
+msgstr "更新 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Update ID : %s"
-msgstr "更新ID : %s"
+msgstr "更新ID : %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Updating search index"
-msgstr "検索インデックス更新"
+msgstr "検索インデックス更新 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Upload"
-msgstr "アップロード"
+msgstr "アップロード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Upload into:"
-msgstr "アップロード先:"
+msgstr "アップロード先: {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "URI Path"
-msgstr "URIパス"
+msgstr "URIパス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
-msgstr "使用法：ImportRdf RDF_FILE [MODEL_ID]"
+msgstr "使用法：ImportRdf RDF_FILE [MODEL_ID] {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "USAGE: please provide a valid extension id as second parameter"
-msgstr "使用法: 2番目のパラメータとして有効な拡張子IDを提供してください。"
+msgstr "使用法: 2番目のパラメータとして有効な拡張子IDを提供してください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "USAGE: please provide a valid service name as first parameter"
-msgstr "使用法: 最初のパラメータとして有効なサービス名を提供してください"
+msgstr "使用法: 最初のパラメータとして有効なサービス名を提供してください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "USAGE: please provide the service name as first parameter"
-msgstr "使用法: 最初のパラメータとしてサービス名を提供してください"
+msgstr "使用法: 最初のパラメータとしてサービス名を提供してください {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Use a term"
-msgstr "用語を使用する"
+msgstr "用語を使用する {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Use a variable"
-msgstr "変数を使用する"
+msgstr "変数を使用する {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Use default value"
-msgstr "既定値を使用する"
+msgstr "既定値を使用する {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "User"
-msgstr "ユーザ"
+msgstr "ユーザ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "User %s can not be locked"
-msgstr "ユーザ %s をロック（無効化）することはできません"
+msgstr "ユーザ %s をロック（無効化）することはできません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "User %s can not be unlocked"
-msgstr "ユーザ %s のロック（無効化）を解除できません"
+msgstr "ユーザ %s のロック（無効化）を解除できません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "User %s successfully locked"
-msgstr "ユーザ %s は正常にロック（無効化）されました"
+msgstr "ユーザ %s は正常にロック（無効化）されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "User %s successfully unlocked"
-msgstr "ユーザ %s は正常にロック（無効化）が解除されました"
+msgstr "ユーザ %s は正常にロック（無効化）が解除されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "User added"
-msgstr "ユーザの追加"
+msgstr "ユーザの追加 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "User deleted successfully"
-msgstr "ユーザを削除しました"
+msgstr "ユーザを削除しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "User deletion not permitted on a demo instance"
-msgstr "デモサイトではユーザの削除が許可されていません"
+msgstr "デモサイトではユーザの削除が許可されていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "User not found"
-msgstr "ユーザが見つかりません"
+msgstr "ユーザが見つかりません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "User saved"
-msgstr "ユーザを保存しました"
+msgstr "ユーザを保存しました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "User Settings"
-msgstr "ユーザ設定"
+msgstr "ユーザ設定 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Users"
-msgstr "ユーザー"
+msgstr "ユーザー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Validation for field '%s' has failed. Language does not exist in the system"
-msgstr "フィールド '％s' の検証に失敗しました。言語がシステムに存在しません。"
+msgstr "フィールド '％s' の検証に失敗しました。言語がシステムに存在しません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Validation for field '%s' has failed. List of values expected"
-msgstr "フィールド '%s' の検証に失敗しました。値のリストが必要です。"
+msgstr "フィールド '%s' の検証に失敗しました。値のリストが必要です。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Validation for field '%s' has failed. Should not be empty"
-msgstr "フィールド '%s' の検証に失敗しました。空になっています。"
+msgstr "フィールド '%s' の検証に失敗しました。空になっています。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
-msgstr "フィールド '%s' の検証に失敗しました。有効なロールが必要です。指定: %s"
+msgstr "フィールド '%s' の検証に失敗しました。有効なロールが必要です。指定: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Validation for field '%s' has failed. Valid URI expected"
-msgstr "フィールド '%s' の検証に失敗しました。有効な URI が必要です"
+msgstr "フィールド '%s' の検証に失敗しました。有効な URI が必要です {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
-msgstr "フィールド '%s' の検証に失敗しました。有効な URI が必要です。指定: %s"
+msgstr "フィールド '%s' の検証に失敗しました。有効な URI が必要です。指定: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Value ellipsis"
-msgstr "値の省略記号"
+msgstr "値の省略記号 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Value of E"
-msgstr "Eの値"
+msgstr "Eの値 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Value of PI"
-msgstr "PIの値"
+msgstr "PIの値 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Variable"
-msgstr "変数"
+msgstr "変数 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Variable %s"
-msgstr "変数：%s"
+msgstr "変数：%s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Version"
-msgstr "バージョン"
+msgstr "バージョン {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "View"
-msgstr "ビュー"
+msgstr "ビュー {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "View report"
-msgstr "レポートを見る"
+msgstr "レポートを見る {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "View resources as a list"
-msgstr "リソース一覧表示"
+msgstr "リソース一覧表示 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "View resources as a tree"
-msgstr "リソースツリー表示"
+msgstr "リソースツリー表示 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Wait is over"
-msgstr "待機終了"
+msgstr "待機終了 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Waiting"
-msgstr "待機中"
+msgstr "待機中 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "WAV audio"
-msgstr "WAVオーディオ"
+msgstr "WAVオーディオ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "WebHook auth configuration can not be loaded"
-msgstr "WebHook認証設定を読み込むことができません"
+msgstr "WebHook認証設定を読み込むことができません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "WebHooks"
-msgstr "WebHooks"
+msgstr "WebHooks {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "WebM audio"
-msgstr "WebMオーディオ"
+msgstr "WebMオーディオ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "WebM video"
-msgstr "WebMビデオ"
+msgstr "WebMビデオ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Whole number part"
-msgstr "整数部分"
+msgstr "整数部分 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Width"
-msgstr "幅"
+msgstr "幅 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Windows help file"
-msgstr "Windows helpファイル"
+msgstr "Windows helpファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Windows Media audio"
-msgstr "Windows Mediaオーディア"
+msgstr "Windows Mediaオーディア {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Windows Media file (metafile)"
-msgstr "Windows Mediaファイル (metafile)"
+msgstr "Windows Mediaファイル (metafile) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Windows Media video"
-msgstr "Windows Mediaビデオ"
+msgstr "Windows Mediaビデオ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "with"
-msgstr "with"
+msgstr "with {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Wrap image left"
-msgstr "画像配置｜左"
+msgstr "画像配置｜左 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Wrap image right"
-msgstr "画像配置｜右"
+msgstr "画像配置｜右 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Write Document"
-msgstr "文書を書く"
+msgstr "文書を書く {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Wrong or missing parameter extension, module or action"
-msgstr "パラメータ拡張子、モジュール、または操作が間違っているか、欠落しています"
+msgstr "パラメータ拡張子、モジュール、または操作が間違っているか、欠落しています {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Wrong parameter shownExtension"
-msgstr "間違ったパラメータが表示されました"
+msgstr "間違ったパラメータが表示されました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "XML file"
-msgstr "XMLファイル"
+msgstr "XMLファイル {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Yes"
-msgstr "Yes"
+msgstr "Yes {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You are encountering a prolonged connectivity loss."
-msgstr "長時間の接続障害が発生しています。"
+msgstr "長時間の接続障害が発生しています。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You are not allowed to write in the class %s"
-msgstr "フォルダー ％s に書き込むことは許可されていません"
+msgstr "フォルダー ％s に書き込むことは許可されていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You are not authorised to remove this lock"
-msgstr "あなたはこのロックを解除する権限がありません"
+msgstr "あなたはこのロックを解除する権限がありません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You can choose which types of cookies you want to allow to improve your experience."
-msgstr "体験を向上させたいクッキーの種類を選択できます。"
+msgstr "体験を向上させたいクッキーの種類を選択できます。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You can read more about this in our"
-msgstr "詳細については、こちらをご覧ください。"
+msgstr "詳細については、こちらをご覧ください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You cannot delete the root node"
-msgstr "あなたは、ルートノードを削除することはできません"
+msgstr "あなたは、ルートノードを削除することはできません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You cannot move the selected resources in the class %s"
-msgstr "クラス %s で選択したリソースを移動することはできません。"
+msgstr "クラス %s で選択したリソースを移動することはできません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You currently have no access to the platform"
-msgstr "あなたは、現在のプラットフォームにアクセスできません"
+msgstr "あなたは、現在のプラットフォームにアクセスできません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You do not have the required rights to edit this resource."
-msgstr "あなたはこのリソースを編集するための権限を持っていません"
+msgstr "あなたはこのリソースを編集するための権限を持っていません {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You have been locked due to too many failed login attempts. "
-msgstr "誤ったログインが複数回おこなわれたため，ロックされました"
+msgstr "誤ったログインが複数回おこなわれたため，ロックされました {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You have been logged out. Please login again"
-msgstr "ログアウトしています。再度ログインしてください。"
+msgstr "ログアウトしています。再度ログインしてください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You must activate JavaScript in your browser to run this application."
-msgstr "このアプリケーションを実行するには、ブラウザーのJavaScriptを有効にする必要があります"
+msgstr "このアプリケーションを実行するには、ブラウザーのJavaScriptを有効にする必要があります {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Your account has been locked, please contact your administrator."
-msgstr "アカウントがロックされていますので、管理者に問合せてください。"
+msgstr "アカウントがロックされていますので、管理者に問合せてください。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Your browser does not meet the technical requirements to run TAO."
-msgstr "お使いのブラウザはTAOを実行するための技術的要件を満たしていません。"
+msgstr "お使いのブラウザはTAOを実行するための技術的要件を満たしていません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Your browser does not support copying to the clipboard"
-msgstr "お使いのブラウザはクリップボードへのコピーをサポートしていません。"
+msgstr "お使いのブラウザはクリップボードへのコピーをサポートしていません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Your browser doesn’t support the audio player."
-msgstr "お使いのブラウザがオーディオプレイヤーをサポートしていません。"
+msgstr "お使いのブラウザがオーディオプレイヤーをサポートしていません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Your browser doesn’t support the video player."
-msgstr "お使いのブラウザーがビデオプレーヤーをサポートしていません。"
+msgstr "お使いのブラウザーがビデオプレーヤーをサポートしていません。 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Your mail"
-msgstr "メールアドレス"
+msgstr "メールアドレス {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Your TAO Password"
-msgstr "TAOパスワード"
+msgstr "TAOパスワード {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "ZIP archive"
-msgstr "ZIPアーカイブ"
+msgstr "ZIPアーカイブ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
