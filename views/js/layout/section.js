@@ -21,12 +21,14 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'context',
     'util/url',
     'layout/generisRouter'
 ], function(
     $,
     _,
+    __,
     context,
     url,
     generisRouter
@@ -385,7 +387,7 @@ define([
                 if(data.contentBlock === true){
                     $sectionPanel.append('<section class="content-container"><ul class="plain action-bar content-action-bar horizontal-action-bar"></ul><div class="content-block"></div></section>');
                 }
-                $sectionOpener = $(`<li class="small ${  !data.visible ? 'hidden' : '' }"><a title="${data.name}" data-url="${data.url}" href="#panel-${  data.id }">${data.name}</a></li>`);
+                $sectionOpener = $(`<li class="small ${  !data.visible ? 'hidden' : '' }"><a title="${data.name}" data-url="${data.url}" href="#panel-${  data.id }">${__(data.name)}</a></li>`);
                 $openersContainer.append($sectionOpener);
                 this.scope.append($sectionPanel);
 
