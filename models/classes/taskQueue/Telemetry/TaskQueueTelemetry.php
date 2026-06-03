@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\taskQueue\Telemetry;
 
+use oat\oatbox\log\LoggerService;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\taskQueue\QueueInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
@@ -41,6 +43,12 @@ final class TaskQueueTelemetry
     public const METADATA_TRACE_CONTEXT_KEY = '__otel_trace_context__';
 
     private const TRACER_NAME = 'tao-task-queue';
+
+    private const ERROR_STATUS_ENQUEUE = 'task enqueue error';
+
+    private const ERROR_STATUS_PROCESS = 'task processing error';
+
+    private const EXCEPTION_MESSAGE_MAX_LENGTH = 500;
 
     public static function isEnabled(): bool
     {
@@ -89,8 +97,7 @@ final class TaskQueueTelemetry
 
             return $result;
         } catch (Throwable $exception) {
-            $span->recordException($exception);
-            $span->setStatus(StatusCode::STATUS_ERROR, $exception->getMessage());
+            self::markSpanFailed($span, $exception, 'enqueue');
 
             throw $exception;
         } finally {
@@ -136,8 +143,7 @@ final class TaskQueueTelemetry
 
             return $status;
         } catch (Throwable $exception) {
-            $span->recordException($exception);
-            $span->setStatus(StatusCode::STATUS_ERROR, $exception->getMessage());
+            self::markSpanFailed($span, $exception, 'process');
 
             throw $exception;
         } finally {
@@ -195,6 +201,54 @@ final class TaskQueueTelemetry
         }
 
         return TraceContextPropagator::getInstance()->extract($carrier);
+    }
+
+    private static function markSpanFailed($span, Throwable $exception, string $operation): void
+    {
+        $span->recordException($exception);
+        $span->setStatus(
+            StatusCode::STATUS_ERROR,
+            $operation === 'enqueue' ? self::ERROR_STATUS_ENQUEUE : self::ERROR_STATUS_PROCESS
+        );
+        self::logException($exception, $operation);
+    }
+
+    private static function logException(Throwable $exception, string $operation): void
+    {
+        try {
+            $logger = ServiceManager::getServiceManager()->get(LoggerService::SERVICE_ID);
+            $logger->error(
+                sprintf(
+                    'Task queue telemetry %s failed [%s]: %s',
+                    $operation,
+                    get_class($exception),
+                    self::sanitizeExceptionMessage($exception)
+                ),
+                [
+                    'exception_class' => get_class($exception),
+                    'exception_code' => $exception->getCode(),
+                ]
+            );
+        } catch (Throwable) {
+            // Logging must not break task processing.
+        }
+    }
+
+    private static function sanitizeExceptionMessage(Throwable $exception): string
+    {
+        $message = $exception->getMessage();
+
+        if ($message === '') {
+            return '';
+        }
+
+        $message = preg_replace('/\S+@\S+\.\S+/', '[redacted]', $message) ?? $message;
+
+        if (strlen($message) > self::EXCEPTION_MESSAGE_MAX_LENGTH) {
+            return substr($message, 0, self::EXCEPTION_MESSAGE_MAX_LENGTH) . '...';
+        }
+
+        return $message;
     }
 
     private static function forceFlush(): void

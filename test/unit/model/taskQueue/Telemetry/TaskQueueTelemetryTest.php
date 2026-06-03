@@ -35,10 +35,23 @@ class TaskQueueTelemetryTest extends TestCase
 {
     private QueueInterface|MockObject $queue;
 
+    private bool $otelAutoloadEnvModified = false;
+
+    private string|false $otelAutoloadOriginalValue = false;
+
+    private bool $otelAutoloadOriginalExists = false;
+
     protected function setUp(): void
     {
         $this->queue = $this->createMock(QueueInterface::class);
         $this->queue->method('getName')->willReturn('test-queue');
+    }
+
+    protected function tearDown(): void
+    {
+        $this->restoreOtelAutoloadEnv();
+
+        parent::tearDown();
     }
 
     public function testIsEnabledWithoutExtension(): void
@@ -53,7 +66,7 @@ class TaskQueueTelemetryTest extends TestCase
     public function testTraceEnqueuePassthroughWhenDisabled(): void
     {
         if (extension_loaded('opentelemetry')) {
-            putenv('OTEL_PHP_AUTOLOAD_ENABLED=false');
+            $this->disableOtelAutoload();
         }
 
         $task = $this->createMock(TaskInterface::class);
@@ -73,7 +86,7 @@ class TaskQueueTelemetryTest extends TestCase
     public function testTraceProcessTaskPassthroughWhenDisabled(): void
     {
         if (extension_loaded('opentelemetry')) {
-            putenv('OTEL_PHP_AUTOLOAD_ENABLED=false');
+            $this->disableOtelAutoload();
         }
 
         $task = $this->createMock(TaskInterface::class);
@@ -110,5 +123,35 @@ class TaskQueueTelemetryTest extends TestCase
         $task = new CallbackTask('id-2', 'owner');
 
         $this->assertSame(CallbackTask::class, TaskQueueTelemetry::resolveTaskClassName($task));
+    }
+
+    private function disableOtelAutoload(): void
+    {
+        $previous = getenv('OTEL_PHP_AUTOLOAD_ENABLED');
+        $this->otelAutoloadOriginalExists = $previous !== false;
+        $this->otelAutoloadOriginalValue = $previous;
+        $this->otelAutoloadEnvModified = true;
+
+        putenv('OTEL_PHP_AUTOLOAD_ENABLED=false');
+        $_ENV['OTEL_PHP_AUTOLOAD_ENABLED'] = 'false';
+        $_SERVER['OTEL_PHP_AUTOLOAD_ENABLED'] = 'false';
+    }
+
+    private function restoreOtelAutoloadEnv(): void
+    {
+        if (!$this->otelAutoloadEnvModified) {
+            return;
+        }
+
+        if ($this->otelAutoloadOriginalExists) {
+            putenv('OTEL_PHP_AUTOLOAD_ENABLED=' . $this->otelAutoloadOriginalValue);
+            $_ENV['OTEL_PHP_AUTOLOAD_ENABLED'] = $this->otelAutoloadOriginalValue;
+            $_SERVER['OTEL_PHP_AUTOLOAD_ENABLED'] = $this->otelAutoloadOriginalValue;
+        } else {
+            putenv('OTEL_PHP_AUTOLOAD_ENABLED');
+            unset($_ENV['OTEL_PHP_AUTOLOAD_ENABLED'], $_SERVER['OTEL_PHP_AUTOLOAD_ENABLED']);
+        }
+
+        $this->otelAutoloadEnvModified = false;
     }
 }
