@@ -22,33 +22,32 @@ declare(strict_types=1);
 
 namespace oat\tao\model\taskQueue\Telemetry;
 
-use oat\oatbox\log\LoggerService;
-use oat\oatbox\service\ServiceManager;
+use oat\oatbox\reporting\Report;
+use oat\oatbox\reporting\ReportInterface;
 use oat\tao\model\taskQueue\QueueInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use OpenTelemetry\API\Globals;
 use OpenTelemetry\API\Trace\Propagation\TraceContextPropagator;
 use OpenTelemetry\API\Trace\SpanKind;
 use OpenTelemetry\API\Trace\StatusCode;
 use OpenTelemetry\Context\Context;
+use OpenTelemetry\Context\ScopeInterface;
 use OpenTelemetry\SDK\Sdk;
 use Throwable;
 
 /**
  * Propagates W3C trace context through task queue metadata and creates enqueue/process spans.
+ *
+ * Must not throw and must not alter operation results.
  */
 final class TaskQueueTelemetry
 {
-    public const METADATA_TRACE_CONTEXT_KEY = '__otel_trace_context__';
-
-    private const TRACER_NAME = 'tao-task-queue';
-
-    private const ERROR_STATUS_ENQUEUE = 'task enqueue error';
-
-    private const ERROR_STATUS_PROCESS = 'task processing error';
-
-    private const EXCEPTION_MESSAGE_MAX_LENGTH = 500;
+    public const string METADATA_TRACE_CONTEXT_KEY = '__otel_trace_context__';
+    private const string TRACER_NAME = 'tao-task-queue';
+    private const string ERROR_STATUS_PROCESS = 'task processing error';
+    private const int FAILURE_SUMMARY_MAX_LENGTH = 500;
 
     public static function isEnabled(): bool
     {
@@ -72,85 +71,41 @@ final class TaskQueueTelemetry
             return $enqueue();
         }
 
-        $taskClass = self::resolveTaskClassName($task);
-        $queueName = $queue->getName();
-        $tracer = Globals::tracerProvider()->getTracer(self::TRACER_NAME);
+        return self::runInSpan(
+            static fn (): array => self::startEnqueueSpan($queue, $task),
+            static function () use ($task, $enqueue) {
+                self::safeInjectTraceContextIntoTask($task);
 
-        $span = $tracer
-            ->spanBuilder(sprintf('ENQUEUE %s', $taskClass))
-            ->setSpanKind(SpanKind::KIND_PRODUCER)
-            ->setAttribute('messaging.system', 'tao_task_queue')
-            ->setAttribute('messaging.operation', 'publish')
-            ->setAttribute('messaging.destination.name', $queueName)
-            ->setAttribute('task.class', $taskClass)
-            ->setAttribute('task.id', $task->getId())
-            ->startSpan();
-
-        $scope = $span->activate();
-
-        try {
-            self::injectTraceContextIntoTask($task);
-
-            $result = $enqueue();
-
-            $span->setStatus(StatusCode::STATUS_OK);
-
-            return $result;
-        } catch (Throwable $exception) {
-            self::markSpanFailed($span, $exception, 'enqueue');
-
-            throw $exception;
-        } finally {
-            $span->end();
-            $scope->detach();
-            self::forceFlush();
-        }
+                return $enqueue();
+            },
+            static function ($span, mixed $result): void {
+                self::safeSetSpanOk($span);
+            }
+        );
     }
 
     /**
-     * @param callable(): string $processor
+     * @param callable(): array{status: string, report: ?Report} $processor
+     *
+     * @return array{status: string, report: ?Report}
      */
-    public static function traceProcessTask(TaskInterface $task, callable $processor): string
+    public static function traceProcessTask(TaskInterface $task, callable $processor): array
     {
         if (!self::isEnabled()) {
             return $processor();
         }
 
-        $taskClass = self::resolveTaskClassName($task);
-        $tracer = Globals::tracerProvider()->getTracer(self::TRACER_NAME);
-        $parentContext = self::extractContextFromTask($task);
-
-        $spanBuilder = $tracer
-            ->spanBuilder(sprintf('PROCESS %s', $taskClass))
-            ->setSpanKind(SpanKind::KIND_CONSUMER)
-            ->setAttribute('messaging.system', 'tao_task_queue')
-            ->setAttribute('messaging.operation', 'process')
-            ->setAttribute('task.class', $taskClass)
-            ->setAttribute('task.id', $task->getId());
-
-        if ($task->getMetadata(self::METADATA_TRACE_CONTEXT_KEY)) {
-            $spanBuilder = $spanBuilder->setParent($parentContext);
-        }
-
-        $span = $spanBuilder->startSpan();
-        $scope = $span->activate();
-
-        try {
-            $status = $processor();
-
-            $span->setAttribute('task.status', (string) $status);
-            $span->setStatus(StatusCode::STATUS_OK);
-
-            return $status;
-        } catch (Throwable $exception) {
-            self::markSpanFailed($span, $exception, 'process');
-
-            throw $exception;
-        } finally {
-            $span->end();
-            $scope->detach();
-            self::forceFlush();
-        }
+        return self::runInSpan(
+            static fn (): array => self::startProcessSpan($task),
+            $processor,
+            static function ($span, array $outcome): void {
+                self::safeAnnotateProcessSpan(
+                    $span,
+                    (string) ($outcome['status'] ?? ''),
+                    $outcome['report'] ?? null
+                );
+            }
+        );
     }
 
     public static function resolveTaskClassName(TaskInterface $task): string
@@ -180,16 +135,98 @@ final class TaskQueueTelemetry
         return get_class($task);
     }
 
-    private static function injectTraceContextIntoTask(TaskInterface $task): void
+    /**
+     * @param callable(): array{0: object|null, 1: ScopeInterface|null} $startSpan
+     * @param callable(): mixed $operation
+     * @param callable(object|null, mixed): void|null $annotate
+     */
+    private static function runInSpan(callable $startSpan, callable $operation, ?callable $annotate = null): mixed
     {
-        $carrier = [];
-        TraceContextPropagator::getInstance()->inject($carrier);
+        $span = null;
+        $scope = null;
 
-        if ($carrier === []) {
-            return;
+        try {
+            [$span, $scope] = $startSpan();
+        } catch (Throwable) {
+            return $operation();
         }
 
-        $task->setMetadata(self::METADATA_TRACE_CONTEXT_KEY, $carrier);
+        try {
+            $result = $operation();
+
+            if ($annotate !== null) {
+                try {
+                    $annotate($span, $result);
+                } catch (Throwable) {
+                }
+            }
+
+            return $result;
+        } finally {
+            self::safeEndSpan($span, $scope);
+        }
+    }
+
+    /**
+     * @return array{0: object|null, 1: ScopeInterface|null}
+     */
+    private static function startEnqueueSpan(QueueInterface $queue, TaskInterface $task): array
+    {
+        $taskClass = self::resolveTaskClassName($task);
+        $tracer = Globals::tracerProvider()->getTracer(self::TRACER_NAME);
+
+        $span = $tracer
+            ->spanBuilder(sprintf('ENQUEUE %s', $taskClass))
+            ->setSpanKind(SpanKind::KIND_PRODUCER)
+            ->setAttribute('messaging.system', 'tao_task_queue')
+            ->setAttribute('messaging.operation', 'publish')
+            ->setAttribute('messaging.destination.name', $queue->getName())
+            ->setAttribute('task.class', $taskClass)
+            ->setAttribute('task.id', $task->getId())
+            ->startSpan();
+
+        return [$span, $span->activate()];
+    }
+
+    /**
+     * @return array{0: object|null, 1: ScopeInterface|null}
+     */
+    private static function startProcessSpan(TaskInterface $task): array
+    {
+        $taskClass = self::resolveTaskClassName($task);
+        $tracer = Globals::tracerProvider()->getTracer(self::TRACER_NAME);
+        $parentContext = self::extractContextFromTask($task);
+
+        $spanBuilder = $tracer
+            ->spanBuilder(sprintf('PROCESS %s', $taskClass))
+            ->setSpanKind(SpanKind::KIND_CONSUMER)
+            ->setAttribute('messaging.system', 'tao_task_queue')
+            ->setAttribute('messaging.operation', 'process')
+            ->setAttribute('task.class', $taskClass)
+            ->setAttribute('task.id', $task->getId());
+
+        if ($task->getMetadata(self::METADATA_TRACE_CONTEXT_KEY)) {
+            $spanBuilder = $spanBuilder->setParent($parentContext);
+        }
+
+        $span = $spanBuilder->startSpan();
+
+        return [$span, $span->activate()];
+    }
+
+    private static function safeInjectTraceContextIntoTask(TaskInterface $task): void
+    {
+        try {
+            $carrier = [];
+            TraceContextPropagator::getInstance()->inject($carrier);
+
+            if ($carrier === []) {
+                return;
+            }
+
+            $task->setMetadata(self::METADATA_TRACE_CONTEXT_KEY, $carrier);
+        } catch (Throwable) {
+        }
     }
 
     private static function extractContextFromTask(TaskInterface $task): Context
@@ -203,60 +240,109 @@ final class TaskQueueTelemetry
         return TraceContextPropagator::getInstance()->extract($carrier);
     }
 
-    private static function markSpanFailed($span, Throwable $exception, string $operation): void
+    private static function safeAnnotateProcessSpan($span, string $status, ?Report $report): void
     {
-        $span->recordException($exception);
-        $span->setStatus(
-            StatusCode::STATUS_ERROR,
-            $operation === 'enqueue' ? self::ERROR_STATUS_ENQUEUE : self::ERROR_STATUS_PROCESS
-        );
-        self::logException($exception, $operation);
-    }
+        if ($span === null) {
+            return;
+        }
 
-    private static function logException(Throwable $exception, string $operation): void
-    {
         try {
-            $logger = ServiceManager::getServiceManager()->get(LoggerService::SERVICE_ID);
-            $logger->error(
-                sprintf(
-                    'Task queue telemetry %s failed [%s]: %s',
-                    $operation,
-                    get_class($exception),
-                    self::sanitizeExceptionMessage($exception)
-                ),
-                [
-                    'exception_class' => get_class($exception),
-                    'exception_code' => $exception->getCode(),
-                ]
-            );
+            $span->setAttribute('task.status', $status);
+
+            if ($status !== TaskLogInterface::STATUS_FAILED) {
+                $span->setStatus(StatusCode::STATUS_OK);
+
+                return;
+            }
+
+            $span->setStatus(StatusCode::STATUS_ERROR, self::ERROR_STATUS_PROCESS);
+
+            $failureSummary = self::extractFailureSummaryFromReport($report);
+
+            if ($failureSummary !== null) {
+                $span->setAttribute('task.failure.summary', self::sanitizeFailureSummary($failureSummary));
+            }
         } catch (Throwable) {
-            // Logging must not break task processing.
         }
     }
 
-    private static function sanitizeExceptionMessage(Throwable $exception): string
+    private static function extractFailureSummaryFromReport(?Report $report): ?string
     {
-        $message = $exception->getMessage();
+        if ($report === null || ($report->getType() !== ReportInterface::TYPE_ERROR && !$report->containsError())) {
+            return null;
+        }
 
-        if ($message === '') {
+        $messages = [];
+
+        foreach ($report->getErrors(true) as $errorReport) {
+            $message = trim($errorReport->getMessage());
+
+            if ($message !== '') {
+                $messages[] = $message;
+            }
+        }
+
+        if ($report->getType() === ReportInterface::TYPE_ERROR) {
+            $rootMessage = trim($report->getMessage());
+
+            if ($rootMessage !== '' && !in_array($rootMessage, $messages, true)) {
+                array_unshift($messages, $rootMessage);
+            }
+        }
+
+        if ($messages === []) {
+            return null;
+        }
+
+        return implode(' | ', array_slice(array_unique($messages), 0, 5));
+    }
+
+    private static function sanitizeFailureSummary(string $summary): string
+    {
+        if ($summary === '') {
             return '';
         }
 
-        $message = preg_replace('/\S+@\S+\.\S+/', '[redacted]', $message) ?? $message;
+        $summary = preg_replace('/\S+@\S+\.\S+/', '[redacted]', $summary) ?? $summary;
 
-        if (strlen($message) > self::EXCEPTION_MESSAGE_MAX_LENGTH) {
-            return substr($message, 0, self::EXCEPTION_MESSAGE_MAX_LENGTH) . '...';
+        if (strlen($summary) > self::FAILURE_SUMMARY_MAX_LENGTH) {
+            return substr($summary, 0, self::FAILURE_SUMMARY_MAX_LENGTH) . '...';
         }
 
-        return $message;
+        return $summary;
     }
 
-    private static function forceFlush(): void
+    private static function safeSetSpanOk($span): void
     {
+        if ($span === null) {
+            return;
+        }
+
+        try {
+            $span->setStatus(StatusCode::STATUS_OK);
+        } catch (Throwable) {
+        }
+    }
+
+    private static function safeEndSpan($span, ?ScopeInterface $scope): void
+    {
+        try {
+            if ($scope !== null) {
+                $scope->detach();
+            }
+        } catch (Throwable) {
+        }
+
+        try {
+            if ($span !== null) {
+                $span->end();
+            }
+        } catch (Throwable) {
+        }
+
         try {
             Globals::tracerProvider()->forceFlush();
         } catch (Throwable) {
-            // Export must not break task processing.
         }
     }
 }

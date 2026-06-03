@@ -70,13 +70,15 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
      */
     public function processTask(TaskInterface $task)
     {
-        return TaskQueueTelemetry::traceProcessTask($task, function () use ($task) {
+        $processOutcome = TaskQueueTelemetry::traceProcessTask($task, function () use ($task) {
             return $this->doProcessTask($task);
         });
+
+        return $processOutcome['status'];
     }
 
     /**
-     * @return string
+     * @return array{status: string, report: ?Report}
      * @throws \common_exception_NotFound
      */
     private function doProcessTask(TaskInterface $task)
@@ -112,7 +114,10 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                         ),
                         $this->getLogContext()
                     );
-                    return TaskLogInterface::STATUS_UNKNOWN;
+                    return [
+                        'status' => TaskLogInterface::STATUS_UNKNOWN,
+                        'report' => null,
+                    ];
                 }
 
                 // let the task know that it is called from a worker
@@ -231,21 +236,31 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                 }
             }
 
+            $processResult = [
+                'status' => $status,
+                'report' => $report,
+            ];
             unset($report);
         } else {
+            $report = Report::createInfo(
+                __('Task %s has been cancelled, message was not processed.', $task->getId())
+            );
             $this->taskLog->setReport(
                 $task->getId(),
-                Report::createInfo(__('Task %s has been cancelled, message was not processed.', $task->getId())),
+                $report,
                 TaskLogInterface::STATUS_CANCELLED
             );
 
-            $status = TaskLogInterface::STATUS_CANCELLED;
+            $processResult = [
+                'status' => TaskLogInterface::STATUS_CANCELLED,
+                'report' => $report,
+            ];
         }
 
         // delete message from queue
         $this->queuer->acknowledge($task);
 
-        return $status;
+        return $processResult;
     }
 
     protected function formatTaskLabel(TaskInterface $task): string

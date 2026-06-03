@@ -91,12 +91,13 @@ class TaskQueueTelemetryTest extends TestCase
 
         $task = $this->createMock(TaskInterface::class);
 
-        $status = TaskQueueTelemetry::traceProcessTask(
+        $outcome = TaskQueueTelemetry::traceProcessTask(
             $task,
-            static fn (): string => 'finished'
+            static fn (): array => ['status' => 'finished', 'report' => null]
         );
 
-        $this->assertSame('finished', $status);
+        $this->assertSame('finished', $outcome['status']);
+        $this->assertNull($outcome['report']);
     }
 
     public function testResolveTaskClassNameForCallbackTask(): void
