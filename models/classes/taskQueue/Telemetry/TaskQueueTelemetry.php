@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\taskQueue\Telemetry;
 
-use oat\oatbox\reporting\Report;
+use common_report_Report;
 use oat\oatbox\reporting\ReportInterface;
 use oat\tao\model\taskQueue\QueueInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
@@ -85,9 +85,9 @@ final class TaskQueueTelemetry
     }
 
     /**
-     * @param callable(): array{status: string, report: ?Report} $processor
+     * @param callable(): array{status: string, report: ?ReportInterface} $processor
      *
-     * @return array{status: string, report: ?Report}
+     * @return array{status: string, report: ?ReportInterface}
      */
     public static function traceProcessTask(TaskInterface $task, callable $processor): array
     {
@@ -240,7 +240,7 @@ final class TaskQueueTelemetry
         return TraceContextPropagator::getInstance()->extract($carrier);
     }
 
-    private static function safeAnnotateProcessSpan($span, string $status, ?Report $report): void
+    private static function safeAnnotateProcessSpan($span, string $status, ?ReportInterface $report): void
     {
         if ($span === null) {
             return;
@@ -266,9 +266,13 @@ final class TaskQueueTelemetry
         }
     }
 
-    private static function extractFailureSummaryFromReport(?Report $report): ?string
+    private static function extractFailureSummaryFromReport(?ReportInterface $report): ?string
     {
-        if ($report === null || ($report->getType() !== ReportInterface::TYPE_ERROR && !$report->containsError())) {
+        if ($report === null || !$report instanceof common_report_Report) {
+            return null;
+        }
+
+        if ($report->getType() !== ReportInterface::TYPE_ERROR && !$report->containsError()) {
             return null;
         }
 

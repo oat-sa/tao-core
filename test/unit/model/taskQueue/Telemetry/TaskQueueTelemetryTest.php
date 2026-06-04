@@ -26,10 +26,13 @@ use oat\tao\model\taskQueue\QueueInterface;
 use oat\tao\model\taskQueue\Task\CallbackTask;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
+use common_report_Report as Report;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\taskQueue\Telemetry\TaskQueueTelemetry;
 use oat\tao\test\Asset\CallableFixture;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class TaskQueueTelemetryTest extends TestCase
 {
@@ -124,6 +127,64 @@ class TaskQueueTelemetryTest extends TestCase
         $task = new CallbackTask('id-2', 'owner');
 
         $this->assertSame(CallbackTask::class, TaskQueueTelemetry::resolveTaskClassName($task));
+    }
+
+    public function testExtractFailureSummaryFromNestedCommonReport(): void
+    {
+        $root = Report::createInfo('Running task https://example.test/task');
+        $child = Report::createInfo('Starting remote publication creation.');
+        $child->add(Report::createFailure('No response from the server, connection cannot be established.'));
+        $child->add(Report::createFailure('Publication on remote Deliver error.'));
+        $root->add($child);
+
+        $summary = $this->invokeExtractFailureSummaryFromReport($root);
+
+        $this->assertSame(
+            'No response from the server, connection cannot be established. | Publication on remote Deliver error.',
+            $summary
+        );
+    }
+
+    public function testSafeAnnotateProcessSpanAcceptsCommonReport(): void
+    {
+        $report = Report::createInfo('Running task');
+        $report->add(Report::createFailure('Task failed'));
+
+        $span = new class () {
+            public array $attributes = [];
+
+            public array $status = [];
+
+            public function setAttribute(string $key, mixed $value): void
+            {
+                $this->attributes[$key] = $value;
+            }
+
+            public function setStatus(mixed $code, ?string $description = null): void
+            {
+                $this->status = [$code, $description];
+            }
+        };
+
+        $this->invokeSafeAnnotateProcessSpan($span, TaskLogInterface::STATUS_FAILED, $report);
+
+        $this->assertSame(TaskLogInterface::STATUS_FAILED, $span->attributes['task.status']);
+        $this->assertSame('Task failed', $span->attributes['task.failure.summary']);
+    }
+
+    private function invokeExtractFailureSummaryFromReport(?Report $report): ?string
+    {
+        $method = (new ReflectionClass(TaskQueueTelemetry::class))->getMethod('extractFailureSummaryFromReport');
+        $method->setAccessible(true);
+
+        return $method->invoke(null, $report);
+    }
+
+    private function invokeSafeAnnotateProcessSpan(object $span, string $status, ?Report $report): void
+    {
+        $method = (new ReflectionClass(TaskQueueTelemetry::class))->getMethod('safeAnnotateProcessSpan');
+        $method->setAccessible(true);
+        $method->invoke(null, $span, $status, $report);
     }
 
     private function disableOtelAutoload(): void
