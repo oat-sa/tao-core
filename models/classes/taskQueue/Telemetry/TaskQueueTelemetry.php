@@ -44,10 +44,10 @@ use Throwable;
  */
 final class TaskQueueTelemetry
 {
-    public const string METADATA_TRACE_CONTEXT_KEY = '__otel_trace_context__';
-    private const string TRACER_NAME = 'tao-task-queue';
-    private const string ERROR_STATUS_PROCESS = 'task processing error';
-    private const int FAILURE_SUMMARY_MAX_LENGTH = 500;
+    public const METADATA_TRACE_CONTEXT_KEY = '__otel_trace_context__';
+    private const TRACER_NAME = 'tao-task-queue';
+    private const ERROR_STATUS_PROCESS = 'task processing error';
+    private const FAILURE_SUMMARY_MAX_LENGTH = 500;
 
     public static function isEnabled(): bool
     {
