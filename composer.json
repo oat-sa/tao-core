@@ -80,7 +80,12 @@
         "flow/jsonpath": "~0.5",
         "jtl-software/opsgenie-client": "^2.0.2",
         "league/openapi-psr7-validator": "~0.18",
-        "league/csv": "^9.6"
+        "league/csv": "^9.6",
+        "open-telemetry/api": "^1.0",
+        "open-telemetry/sdk": "^1.0"
+    },
+    "suggest": {
+        "ext-opentelemetry": "Required at runtime to export task-queue traces (TaskQueueTelemetry is a no-op without it)"
     },
     "autoload": {
         "psr-4": {
