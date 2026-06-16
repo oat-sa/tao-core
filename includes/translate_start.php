@@ -26,54 +26,61 @@
  * Intended for CI environments such as GitHub Actions where extensions are
  * installed via Composer.
  *
- * Optional variables that may be set before including this file:
- * - $taoTranslateRootPath: absolute path to the TAO platform root directory
+ * @param string|null $rootPath absolute path to the TAO platform root directory
  */
+function taoTranslateStandaloneBootstrap($rootPath = null)
+{
+    if (!defined('TAO_TRANSLATE_STANDALONE_MODE')) {
+        define('TAO_TRANSLATE_STANDALONE_MODE', true);
+    }
 
-if (!defined('TAO_TRANSLATE_STANDALONE_MODE')) {
-    define('TAO_TRANSLATE_STANDALONE_MODE', true);
+    if (PHP_SAPI === 'cli') {
+        $_SERVER['HTTP_HOST'] = 'http://localhost';
+    }
+
+    $platformRoot = null;
+    $explicitRootPath = is_string($rootPath) && $rootPath !== '';
+
+    if ($explicitRootPath) {
+        $platformRoot = realpath($rootPath);
+    }
+
+    if ($platformRoot === false || $platformRoot === null) {
+        if ($explicitRootPath) {
+            fwrite(STDERR, "Unable to resolve the TAO platform root path '{$rootPath}'.\n");
+            exit(1);
+        }
+
+        $platformRoot = realpath(dirname(__DIR__, 2));
+    }
+
+    if ($platformRoot === false) {
+        fwrite(STDERR, "Unable to resolve the TAO platform root path.\n");
+        exit(1);
+    }
+
+    if (!defined('ROOT_PATH')) {
+        define('ROOT_PATH', $platformRoot . DIRECTORY_SEPARATOR);
+    }
+
+    if (!defined('DEFAULT_LANG')) {
+        define('DEFAULT_LANG', 'en-US');
+    }
+
+    if (!defined('CONFIG_PATH')) {
+        define('CONFIG_PATH', ROOT_PATH . 'config' . DIRECTORY_SEPARATOR);
+    }
+
+    if (!defined('TAO_DEFAULT_ENCODING')) {
+        define('TAO_DEFAULT_ENCODING', 'UTF-8');
+    }
+
+    $autoloadPath = $platformRoot . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+    if (!is_readable($autoloadPath)) {
+        fwrite(STDERR, "Composer autoload not found at '{$autoloadPath}'.\n");
+        exit(1);
+    }
+
+    require_once $autoloadPath;
 }
-
-if (PHP_SAPI === 'cli') {
-    $_SERVER['HTTP_HOST'] = 'http://localhost';
-}
-
-$platformRoot = null;
-
-if (isset($taoTranslateRootPath) && is_string($taoTranslateRootPath) && $taoTranslateRootPath !== '') {
-    $platformRoot = realpath($taoTranslateRootPath);
-}
-
-if ($platformRoot === false || $platformRoot === null) {
-    $platformRoot = realpath(dirname(__DIR__, 2));
-}
-
-if ($platformRoot === false) {
-    fwrite(STDERR, "Unable to resolve the TAO platform root path.\n");
-    exit(1);
-}
-
-if (!defined('ROOT_PATH')) {
-    define('ROOT_PATH', $platformRoot . DIRECTORY_SEPARATOR);
-}
-
-if (!defined('DEFAULT_LANG')) {
-    define('DEFAULT_LANG', 'en-US');
-}
-
-if (!defined('CONFIG_PATH')) {
-    define('CONFIG_PATH', ROOT_PATH . 'config' . DIRECTORY_SEPARATOR);
-}
-
-if (!defined('TAO_DEFAULT_ENCODING')) {
-    define('TAO_DEFAULT_ENCODING', 'UTF-8');
-}
-
-$autoloadPath = $platformRoot . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-
-if (!is_readable($autoloadPath)) {
-    fwrite(STDERR, "Composer autoload not found at '{$autoloadPath}'.\n");
-    exit(1);
-}
-
-require_once $autoloadPath;
