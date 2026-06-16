@@ -24,7 +24,45 @@
  *
  */
 
-require_once dirname(__FILE__) . '/../includes/raw_start.php';
+$standaloneActions = ['compile', 'compileall'];
+
+/**
+ * Resolve the action name from CLI arguments before bootstrapping TAO.
+ *
+ * @param array $argv
+ * @return string|null
+ */
+function taoTranslateResolveAction(array $argv)
+{
+    for ($i = 1, $count = count($argv); $i < $count; $i++) {
+        $arg = trim($argv[$i]);
+
+        if (preg_match('/^-{1,2}a(?:ction)?=(.+)$/', $arg, $matches)) {
+            return strtolower($matches[1]);
+        }
+
+        if (in_array($arg, ['-a', '--action'], true) && isset($argv[$i + 1])) {
+            return strtolower(trim($argv[$i + 1]));
+        }
+    }
+
+    return null;
+}
+
+$action = taoTranslateResolveAction($_SERVER['argv'] ?? []);
+$options = getopt('p:', ['root:', 'rootPath:']);
+$taoTranslateRootPath = $options['p'] ?? $options['root'] ?? $options['rootPath'] ?? null;
+$standaloneMode = getenv('TAO_TRANSLATE_STANDALONE');
+$useStandaloneBootstrap = in_array($action, $standaloneActions, true)
+    && $standaloneMode !== false
+    && $standaloneMode !== ''
+    && $standaloneMode !== '0';
+
+if ($useStandaloneBootstrap) {
+    require_once dirname(__FILE__) . '/../includes/translate_start.php';
+} else {
+    require_once dirname(__FILE__) . '/../includes/raw_start.php';
+}
 
 new tao_scripts_TaoTranslate(
     [
@@ -108,6 +146,12 @@ new tao_scripts_TaoTranslate(
             'type' => 'boolean',
             'shortcut' => 'ct',
             'description' => 'Clear translations entry when there is not translation proposal'
+        ],
+        [
+            'name' => 'rootPath',
+            'type' => 'string',
+            'shortcut' => 'p',
+            'description' => 'TAO platform root path (used for compile actions without installation)'
         ]
     ]
     ]
