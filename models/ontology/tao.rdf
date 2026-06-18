@@ -257,6 +257,12 @@
     <rdfs:comment xml:lang="en-US"><![CDATA[The Operational Administrator role]]></rdfs:comment>
     <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"/>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#MetadataImportAdministrator">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Metadata Import Administrator]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[The Metadata Import Administrator role]]></rdfs:comment>
+    <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"/>
+  </rdf:Description>
   <!-- FrontOffice Sub Roles -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>

@@ -1,6 +1,8 @@
 <?php
 
-/**
+declare(strict_types=1);
+
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -28,6 +30,8 @@ interface TaoRoles
     public const BACK_OFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole';
     public const SYSTEM_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole';
     public const OPERATIONAL_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator';
+    public const METADATA_IMPORT_ADMINISTRATOR =
+        'http://www.tao.lu/Ontologies/TAO.rdf#MetadataImportAdministrator';
     public const GLOBAL_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole';
     public const DELIVERY = 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole';
     public const TAO_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole';
