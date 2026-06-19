@@ -21,7 +21,7 @@ final class Version202606190959222234_tao extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Repair MetadataImport ACL grant for MetadataImportAdministrator';
+        return 'Apply MetadataImport ACL grant for MetadataImportAdministrator';
     }
 
     public function up(Schema $schema): void
@@ -34,7 +34,7 @@ final class Version202606190959222234_tao extends AbstractMigration
 
         $this->addReport(
             Report::createSuccess(
-                'Repaired MetadataImport access for ' . TaoRoles::METADATA_IMPORT_ADMINISTRATOR
+                'Applied MetadataImport access for ' . TaoRoles::METADATA_IMPORT_ADMINISTRATOR
             )
         );
     }
