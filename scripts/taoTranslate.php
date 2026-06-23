@@ -24,7 +24,17 @@
  *
  */
 
-require_once dirname(__FILE__) . '/../includes/raw_start.php';
+require_once dirname(__FILE__) . '/../includes/translate_bootstrap.php';
+
+$options = getopt('r:', ['root:', 'rootPath:']);
+$taoTranslateRootPath = $options['r'] ?? $options['root'] ?? $options['rootPath'] ?? null;
+
+if (taoTranslateShouldUseStandaloneBootstrap($_SERVER['argv'] ?? [])) {
+    require_once dirname(__FILE__) . '/../includes/translate_start.php';
+    taoTranslateStandaloneBootstrap($taoTranslateRootPath);
+} else {
+    require_once dirname(__FILE__) . '/../includes/raw_start.php';
+}
 
 new tao_scripts_TaoTranslate(
     [
@@ -108,6 +118,12 @@ new tao_scripts_TaoTranslate(
             'type' => 'boolean',
             'shortcut' => 'ct',
             'description' => 'Clear translations entry when there is not translation proposal'
+        ],
+        [
+            'name' => 'rootPath',
+            'type' => 'string',
+            'shortcut' => 'r',
+            'description' => 'TAO platform root path (used for compile actions without installation)'
         ]
     ]
     ]

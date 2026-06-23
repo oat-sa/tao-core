@@ -41,7 +41,7 @@ define(['module', 'core/logger'], function (module, loggerFactory) {
 
         try {
             return new RegExp(`^${lookupPath}$`);
-        } catch {
+        } catch (e) {
             logger.warn(`Lookup feature path ${lookupPath} was not found`);
             return new RegExp('^\0$');
         }
