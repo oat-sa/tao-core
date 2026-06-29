@@ -241,6 +241,15 @@ class tao_helpers_translation_POUtils
     //        Remove after injecting ApplicationService as a dependency.
     private static function getApplicationHelper()
     {
+        if (defined('TAO_TRANSLATE_STANDALONE_MODE') && TAO_TRANSLATE_STANDALONE_MODE) {
+            return new class {
+                public function getDefaultEncoding()
+                {
+                    return defined('TAO_DEFAULT_ENCODING') ? TAO_DEFAULT_ENCODING : 'UTF-8';
+                }
+            };
+        }
+
         return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID);
     }
 }

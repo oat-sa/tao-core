@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2017-2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
@@ -32,6 +32,7 @@ use oat\tao\model\taskQueue\Task\TaskLanguageLoader;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\tao\model\taskQueue\Telemetry\TaskQueueTelemetry;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\generis\model\user\UserFactoryServiceInterface;
@@ -69,6 +70,19 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
      */
     public function processTask(TaskInterface $task)
     {
+        $processOutcome = TaskQueueTelemetry::traceProcessTask($task, function () use ($task) {
+            return $this->doProcessTask($task);
+        });
+
+        return $processOutcome['status'];
+    }
+
+    /**
+     * @return array{status: string, report: ?Report}
+     * @throws \common_exception_NotFound
+     */
+    private function doProcessTask(TaskInterface $task)
+    {
         if (!$this->isTaskCancelled($task)) {
             $report = Report::createInfo(__('Running task %s', $task->getId()));
             try {
@@ -100,7 +114,10 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                         ),
                         $this->getLogContext()
                     );
-                    return TaskLogInterface::STATUS_UNKNOWN;
+                    return [
+                        'status' => TaskLogInterface::STATUS_UNKNOWN,
+                        'report' => null,
+                    ];
                 }
 
                 // let the task know that it is called from a worker
@@ -219,21 +236,31 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                 }
             }
 
+            $processResult = [
+                'status' => $status,
+                'report' => $report,
+            ];
             unset($report);
         } else {
+            $report = Report::createInfo(
+                __('Task %s has been cancelled, message was not processed.', $task->getId())
+            );
             $this->taskLog->setReport(
                 $task->getId(),
-                Report::createInfo(__('Task %s has been cancelled, message was not processed.', $task->getId())),
+                $report,
                 TaskLogInterface::STATUS_CANCELLED
             );
 
-            $status = TaskLogInterface::STATUS_CANCELLED;
+            $processResult = [
+                'status' => TaskLogInterface::STATUS_CANCELLED,
+                'report' => $report,
+            ];
         }
 
         // delete message from queue
         $this->queuer->acknowledge($task);
 
-        return $status;
+        return $processResult;
     }
 
     protected function formatTaskLabel(TaskInterface $task): string

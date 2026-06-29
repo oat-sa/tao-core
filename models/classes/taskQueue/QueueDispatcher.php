@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
@@ -31,6 +31,7 @@ use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\QueueAssociableInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\TaskLogAwareInterface;
+use oat\tao\model\taskQueue\Telemetry\TaskQueueTelemetry;
 use oat\tao\model\taskQueue\Worker\OneTimeWorker;
 
 /**
@@ -356,7 +357,14 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
     public function enqueue(TaskInterface $task, $label = null)
     {
         $queue = $this->getQueueForTask($task);
-        $isEnqueued = $queue->enqueue($task, $label);
+
+        $isEnqueued = TaskQueueTelemetry::traceEnqueue(
+            $queue,
+            $task,
+            static function () use ($queue, $task, $label) {
+                return $queue->enqueue($task, $label);
+            }
+        );
 
         // if we need to run the task straightaway, then run a worker on-the-fly for one round.
         if ($isEnqueued && $queue->isSync()) {

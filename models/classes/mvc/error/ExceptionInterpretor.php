@@ -13,7 +13,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *  Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  *  Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
@@ -28,6 +28,7 @@ use common_exception_MissingParameter;
 use common_exception_BadRequest;
 use common_exception_ResourceNotFound;
 use oat\tao\model\mvc\error\HttpStatusCode;
+use tao_models_classes_AccessDeniedException;
 use tao_models_classes_MissingRequestParameterException;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -103,10 +104,10 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface
             case common_exception_ValidationFailed::class:
                 $this->returnHttpCode = HttpStatusCode::HTTP_BAD_REQUEST;
                 break;
-            case 'tao_models_classes_AccessDeniedException':
             case 'ResolverException':
+            case tao_models_classes_AccessDeniedException::class:
                 $this->returnHttpCode    = HttpStatusCode::HTTP_FORBIDDEN;
-                $this->responseClassName = 'RedirectResponse';
+                $this->responseClassName = 'ResolverRedirectResponse';
                 break;
             case 'tao_models_classes_UserException':
                 $this->returnHttpCode = HttpStatusCode::HTTP_FORBIDDEN;
