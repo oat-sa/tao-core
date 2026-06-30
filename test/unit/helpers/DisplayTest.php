@@ -66,6 +66,26 @@ class DisplayTest extends TestCase
         $this->assertSame('Hello &amp; world', tao_helpers_Display::htmlizeAllowingRubyTags('Hello & world'));
     }
 
+    public function testPlainTextFromRubyTranslationStripsAnnotationForOptionText(): void
+    {
+        $this->assertSame(
+            'なし 6',
+            tao_helpers_Display::plainTextFromRubyTranslation(
+                'なし {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}'
+            )
+        );
+    }
+
+    public function testPlainTextFromRubyTranslationStripsHtmlRubyTags(): void
+    {
+        $this->assertSame(
+            '結果処理を行いません。既存のルールがあればそれを削除します。 6',
+            tao_helpers_Display::plainTextFromRubyTranslation(
+                '結果処理を行いません。既存のルールがあればそれを削除します。 <ruby><rb>6</rb><rt>7</rt></ruby>'
+            )
+        );
+    }
+
     /**
      * Data provider for testSanitizeXssHtml
      * @return array[] in the form of [input, expected]

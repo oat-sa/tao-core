@@ -64,7 +64,7 @@ class tao_helpers_form_elements_xhtml_Combobox extends tao_helpers_form_elements
             if ($encodedValue === $optionId) {
                 $returnValue .= " selected='selected' ";
             }
-            $returnValue .= '>' . _dh($optionLabel) . '</option>';
+            $returnValue .= '>' . _dh(\tao_helpers_Display::plainTextFromRubyTranslation($optionLabel)) . '</option>';
         }
         $returnValue .= '</select>';
 

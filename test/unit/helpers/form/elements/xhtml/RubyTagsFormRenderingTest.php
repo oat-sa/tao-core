@@ -104,6 +104,33 @@ class RubyTagsFormRenderingTest extends TestCase
         $this->assertStringContainsString('<ruby>字</ruby>', $html);
     }
 
+    public function testLabelInfoBoxPreservesRubyHtmlInValue(): void
+    {
+        $label = new \tao_helpers_form_elements_xhtml_Label('info');
+        $label->setValue('結果処理を行いません。 <ruby><rb>6</rb><rt>7</rt></ruby>');
+
+        $html = $label->render();
+
+        $this->assertStringContainsString('form-elt-info', $html);
+        $this->assertStringContainsString('<ruby><rb>6</rb><rt>7</rt></ruby>', $html);
+        $this->assertStringNotContainsString('&lt;ruby&gt;', $html);
+    }
+
+    public function testComboboxOptionUsesPlainTextWithoutRubyTags(): void
+    {
+        $combobox = new \tao_helpers_form_elements_xhtml_Combobox('outcomeProcessing');
+        $combobox->setAttribute('noLabel', true);
+        $combobox->setOptions([
+            'none' => 'なし {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}',
+        ]);
+
+        $html = $combobox->render();
+
+        $this->assertStringContainsString('>なし 6</option>', $html);
+        $this->assertStringNotContainsString('<ruby>', $html);
+        $this->assertStringNotContainsString('{ruby}', $html);
+    }
+
     private function createButton(string $value): tao_helpers_form_elements_xhtml_Button
     {
         $button = new tao_helpers_form_elements_xhtml_Button('submit');

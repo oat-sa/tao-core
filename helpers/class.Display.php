@@ -132,6 +132,27 @@ class tao_helpers_Display
     }
 
     /**
+     * Plain text for contexts that cannot render HTML ruby (e.g. option, placeholder).
+     * Keeps base text and rb content; drops rt/rp annotation and structural tags.
+     */
+    public static function plainTextFromRubyTranslation(?string $input): string
+    {
+        if ($input === null || $input === '') {
+            return (string) $input;
+        }
+
+        $text = DefaultTranslationBundleProcessor::convertRubyTags($input);
+        $text = preg_replace('/<rt[^>]*>.*?<\/rt>/is', '', $text) ?? $text;
+        $text = preg_replace('/\{rt\}.*?\{\/rt\}/s', '', $text) ?? $text;
+        $text = preg_replace('/<rp[^>]*>.*?<\/rp>/is', '', $text) ?? $text;
+        $text = preg_replace('/\{rp\}.*?\{\/rp\}/s', '', $text) ?? $text;
+        $text = strip_tags($text);
+        $text = preg_replace('/\s+/u', ' ', $text) ?? $text;
+
+        return trim($text);
+    }
+
+    /**
      *  Convert special characters to HTML entities
      */
     public static function htmlEscape($string): string
