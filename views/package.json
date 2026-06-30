@@ -10,10 +10,10 @@
     "scripts": {},
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
-        "@oat-sa/tao-core-libs": "github:oat-sa/tao-core-libs-fe#feat/INF-493/ruby-placeholder-parse",
+        "@oat-sa/tao-core-libs": "^1.2.1",
         "@oat-sa/tao-core-sdk": "^3.5.0",
-        "@oat-sa/tao-core-shared-libs": "github:oat-sa/tao-core-shared-libs-fe#feat/INF-494/deploy-clone",
-        "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#feat/INF-493/deploy-clone",
+        "@oat-sa/tao-core-shared-libs": "^1.12.0",
+        "@oat-sa/tao-core-ui": "^3.20.0",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
         "gamp": "0.2.1",
