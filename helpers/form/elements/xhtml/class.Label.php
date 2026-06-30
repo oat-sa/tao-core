@@ -64,7 +64,7 @@ class tao_helpers_form_elements_xhtml_Label extends tao_helpers_form_elements_La
 
         $returnValue .= "<span class='form_desc'>";
         if (! empty($this->description)) {
-            $returnValue .= _dh($this->getDescription());
+            $returnValue .= \tao_helpers_Display::htmlizeAllowingRubyTags($this->getDescription());
         }
         $returnValue .= "</span>";
         $returnValue .= "<span ";
@@ -72,7 +72,7 @@ class tao_helpers_form_elements_xhtml_Label extends tao_helpers_form_elements_La
         $returnValue .= " >";
         $returnValue .= isset($this->attributes['htmlentities']) && ! $this->attributes['htmlentities']
             ? $this->value
-            : _dh($this->value);
+            : \tao_helpers_Display::htmlizeAllowingRubyTags($this->value);
         $returnValue .= "</span>";
 
         return (string) $returnValue;
