@@ -22,10 +22,11 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert'], function (
+define(['jquery', 'lodash', 'i18n', 'context', 'util/url', 'ui/dialog/alert'], function (
     $,
     _,
     __,
+    context,
     url,
     alert
 ) {
@@ -33,7 +34,9 @@ define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert'], function (
 
     var defaults = {
         message: __('You have been logged out. Please login again'),
-        redirectUrl: url.route('logout', 'Main', 'tao')
+        redirectUrl: _.get(context, 'sessionRedirects.logoutUrl')
+            || _.get(context, 'sessionRedirects.loginUrl')
+            || url.route('logout', 'Main', 'tao')
     };
 
     /**

@@ -39,6 +39,7 @@ use oat\tao\model\CookiePolicy\Service\CookiePolicyConfigurationRetriever;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\session\Context\UserDataSessionContext;
@@ -63,6 +64,7 @@ class ClientConfigStorage
     private tao_helpers_Mode $modeHelper;
     private DateFormatterFactory $dateFormatterFactory;
     private MenuService $menuService;
+    private DefaultUrlService $defaultUrlService;
 
     private array $config = [];
     private CookiePolicyConfigurationRetriever $cookiePolicyConfigurationRetriever;
@@ -82,7 +84,8 @@ class ClientConfigStorage
         tao_helpers_Mode $modeHelper,
         DateFormatterFactory $dateFormatterFactory,
         MenuService $menuService,
-        CookiePolicyConfigurationRetriever $cookiePolicyConfigurationRetriever
+        CookiePolicyConfigurationRetriever $cookiePolicyConfigurationRetriever,
+        DefaultUrlService $defaultUrlService
     ) {
         $this->tokenService = $tokenService;
         $this->clientLibRegistry = $clientLibRegistry;
@@ -99,6 +102,7 @@ class ClientConfigStorage
         $this->dateFormatterFactory = $dateFormatterFactory;
         $this->menuService = $menuService;
         $this->cookiePolicyConfigurationRetriever = $cookiePolicyConfigurationRetriever;
+        $this->defaultUrlService = $defaultUrlService;
     }
 
     /**
@@ -182,6 +186,7 @@ class ClientConfigStorage
                         'featureFlags' => $this->featureFlagRepository->list(),
                         'cookiePolicy' => $this->cookiePolicyConfigurationRetriever->retrieve()->jsonSerialize(),
                         'currentUser' => $this->getUserData($currentSession),
+                        'sessionRedirects' => $this->getSessionRedirects(),
                         'previewerExternalFeUrl' => $previewerExternalFeUrl,
                     ]
                 ),
@@ -224,6 +229,46 @@ class ClientConfigStorage
             'uri' => $uri,
             'login' => $login,
         ];
+    }
+
+    private function getSessionRedirects(): array
+    {
+        return [
+            'logoutUrl' => $this->resolveRedirectUrl('logout'),
+            'loginUrl' => $this->resolveLoginUrl(),
+        ];
+    }
+
+    private function resolveRedirectUrl(string $routeName): ?string
+    {
+        try {
+            $url = $this->defaultUrlService->getRedirectUrl($routeName);
+
+            return $url === '' ? null : $url;
+        } catch (Throwable $exception) {
+            $this->logger->warning(
+                sprintf(
+                    'Unable to resolve client config redirect URL for route "%s": %s',
+                    $routeName,
+                    $exception->getMessage()
+                )
+            );
+
+            return null;
+        }
+    }
+
+    private function resolveLoginUrl(): ?string
+    {
+        try {
+            return $this->defaultUrlService->getLoginUrl();
+        } catch (Throwable $exception) {
+            $this->logger->warning(
+                sprintf('Unable to resolve client config login URL: %s', $exception->getMessage())
+            );
+
+            return null;
+        }
     }
 
     private function getClientTimeout(): int
