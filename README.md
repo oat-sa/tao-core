@@ -112,7 +112,8 @@ Here you can find the environment variables including feature flags
 | COOKIE_POLICY_CONFIG                     | JSON with CookiePolicy config. Example: `{"privacyPolicyUrl":"https://...","cookiePolicyUrl":"https://..."}`                         | -             |
 | TAO_ID_GENERATOR_MAX_RETRIES             | Maximum number of retry attempts for unique ID generation on collision                                                               | 10            |
 | TAO_ID_GENERATOR_SHOULD_CHECK_STATEMENTS | Enable statement checks during ID generation (set to 1 to enable)                                                                    | 0             |
-| TAO_ID_GENERATOR_ID_START                | Starting value for unique ID generation                                                                                               | 1             |
+| TAO_ID_GENERATOR_ID_START                | Starting value for unique ID generation                                                                                              | 1             |
+| FEATURE_FLAG_TAO_DUAL_PREVIEW_ENABLED    | Enables buttons to run secondary registered previewer                                                                                | 1             |
 
 # Routing
 
