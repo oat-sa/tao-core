@@ -81,7 +81,7 @@ define([
             var $field = $(this),
                 $fieldCopy = _cloneField($field),
                 $button = $('<span>', {class: 'icon-clipboard clipboard-command', title: __('Copy to clipboard')}),
-                $label = $('<span>', {class: 'form_desc', text: __('Resource Identifier')}),
+                $label = $('<span>', {class: 'form_desc'}).html(__('Resource Identifier')),
                 $fieldBox = $('<span>', {class: 'uri-container'}),
                 value = $field.val();
 
