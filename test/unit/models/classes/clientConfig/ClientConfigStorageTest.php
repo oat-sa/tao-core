@@ -44,6 +44,7 @@ use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
+use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
@@ -101,6 +102,9 @@ class ClientConfigStorageTest extends TestCase
     /** @var CookiePolicyConfigurationRetriever|MockObject */
     private CookiePolicyConfigurationRetriever $cookiePolicyConfigurationRetriever;
 
+    /** @var DefaultUrlService|MockObject */
+    private DefaultUrlService $defaultUrlService;
+
     private ClientConfigStorage $sut;
 
     protected function setUp(): void
@@ -124,6 +128,7 @@ class ClientConfigStorageTest extends TestCase
         $this->dateFormatterFactory = $this->createMock(DateFormatterFactory::class);
         $this->menuService = $this->createMock(MenuService::class);
         $this->cookiePolicyConfigurationRetriever = $this->createMock(CookiePolicyConfigurationRetriever::class);
+        $this->defaultUrlService = $this->createMock(DefaultUrlService::class);
 
         $this->sut = new ClientConfigStorage(
             $this->tokenService,
@@ -140,13 +145,15 @@ class ClientConfigStorageTest extends TestCase
             $this->modeHelper,
             $this->dateFormatterFactory,
             $this->menuService,
-            $this->cookiePolicyConfigurationRetriever
+            $this->cookiePolicyConfigurationRetriever,
+            $this->defaultUrlService
         );
     }
 
     public function testGetConfig(): void
     {
         $locale = 'en-US';
+        $previewerExternalFeUrl = isset($_ENV['PREVIEWER_EXTERNAL_FE_URL']) ? $_ENV['PREVIEWER_EXTERNAL_FE_URL'] : null;
 
         $query = $this->createMock(GetConfigQuery::class);
         $query
@@ -331,6 +338,17 @@ class ClientConfigStorageTest extends TestCase
                 'FEATURE_FLAG' => false,
             ]);
 
+        $this->defaultUrlService
+            ->expects($this->once())
+            ->method('getRedirectUrl')
+            ->with('logout')
+            ->willReturn('https://portal.ngs.test/logout');
+
+        $this->defaultUrlService
+            ->expects($this->once())
+            ->method('getLoginUrl')
+            ->willReturn('https://portal.ngs.test/login');
+
         $this->clientConfigService
             ->expects($this->once())
             ->method('getExtendedConfig')
@@ -384,7 +402,11 @@ class ClientConfigStorageTest extends TestCase
                             'uri' => 'https://user.taotesting.com',
                             'login' => 'adminLogin'
                         ],
-                        'previewerExternalFeUrl' => null
+                        'sessionRedirects' => [
+                            'logoutUrl' => 'https://portal.ngs.test/logout',
+                            'loginUrl' => 'https://portal.ngs.test/login',
+                        ],
+                        'previewerExternalFeUrl' => $previewerExternalFeUrl
                     ],
                     JSON_THROW_ON_ERROR
                 ),
