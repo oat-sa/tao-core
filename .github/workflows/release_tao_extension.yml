@@ -7,26 +7,48 @@ on:
     branches:
       - develop
     types: [closed]
+
+  workflow_dispatch:
+    inputs:
+      release_branch:
+        description: 'Branch to release from (use release branch for backports)'
+        required: false
+        default: develop
+        type: string
+      release_version:
+        description: 'Release version (e.g. 1.2.3). Leave empty for auto semver.'
+        required: false
+        type: string
+      build_fe:
+        description: 'Frontend build'
+        required: true
+        type: choice
+        options: [auto, yes, no]
+        default: auto
+      build_locale:
+        description: 'Locale build'
+        required: true
+        type: choice
+        options: [auto, yes, no]
+        default: auto
+      backport:
+        description: 'Backport release (never merges to main)'
+        required: false
+        default: false
+        type: boolean
+
 jobs:
   auto-release:
-    if: github.event.pull_request.merged == true
-    name: Automated Tao extension release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.SEMVER_GH_TOKEN }} #bypass branch protection rule
-
-      - name: Configure git user
-        #configuring git for runner
-        run: |
-          git config --global user.name "oat-github-bot"
-          git config --global user.email "oat-github-bot@taotesting.com"
-
-      - name: Release
-        uses: oat-sa/extension-release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.SEMVER_GH_TOKEN }}
-        with:
-          github_token: ${{ secrets.SEMVER_GH_TOKEN }}
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+    name: TAO extension release
+    uses: oat-sa/extension-release-action/.github/workflows/reuse-auto-release-tao-extension.yaml@v1
+    with:
+      ENABLED: true
+      TAO_EXTENSION_NAME: tao
+      SLACK_NOTIFICATION: true
+      TAO_BUILD_FE: ${{ github.event.inputs.build_fe || 'auto' }}
+      TAO_BUILD_LOCALE: ${{ github.event.inputs.build_locale || 'auto' }}
+      RELEASE_REF: ${{ github.event.inputs.release_branch || 'develop' }}
+      RELEASE_VERSION: ${{ github.event.inputs.release_version || '' }}
+      BACKPORT: ${{ github.event.inputs.backport == 'true' }}
+    secrets: inherit
