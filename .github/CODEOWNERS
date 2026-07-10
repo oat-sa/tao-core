@@ -1,0 +1,4 @@
+# For any changed file in any PR, assign these reviewers.
+# We don't use a granular approach because Authoring devs take care of the whole repo.
+# PR approval will not be mandatory to merge (this is configured in Github repo settings anyway).
+* @oat-sa/authoring-dev
