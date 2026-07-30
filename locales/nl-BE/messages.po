@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.01\n"
-"PO-Revision-Date: 2025-12-18T14:34:21\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-07-30 15:15\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl-BE\n"
+"Language: nl_BE\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: nl-BE\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: nl-BE\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1191\n"
+"Language-Team: Dutch, Belgium\n"
 
 msgid ""
 msgstr ""
@@ -128,7 +135,7 @@ msgid "7-zip archive"
 msgstr ""
 
 msgid "<del>Filters</del>"
-msgstr "<del>Filters</del>"
+msgstr ""
 
 msgid "<del>Options</del>"
 msgstr "<del>Opties</del>"
@@ -185,7 +192,7 @@ msgid "Account status"
 msgstr ""
 
 msgid "Action"
-msgstr "Handeling"
+msgstr ""
 
 msgid "Action %s - removed %s positions"
 msgstr ""
@@ -197,17 +204,17 @@ msgid "Action was not executed yet"
 msgstr ""
 
 msgid "Actions"
-msgstr "Handelingen"
+msgstr ""
 
 #, tao-public
 msgid "Add"
-msgstr "Toevoegen"
+msgstr ""
 
 msgid "Add / Edit lists"
 msgstr ""
 
 msgid "Add a CSV file"
-msgstr "Voeg een CSV bestand toe"
+msgstr ""
 
 #, tao-public
 msgid "Add a user"
@@ -262,13 +269,13 @@ msgid "All data will be removed in %s"
 msgstr "Alle data wordt verwijderd in %s"
 
 msgid "All fields are required"
-msgstr "Alle velden zijn verplicht"
+msgstr ""
 
 msgid "all images"
 msgstr ""
 
 msgid "All rights reserved."
-msgstr "Alle rechten voorbehouden"
+msgstr "Alle rechten voorbehouden."
 
 msgid "all videos"
 msgstr ""
@@ -289,7 +296,7 @@ msgid "An error occurred during user deletion"
 msgstr ""
 
 msgid "An error occurred!"
-msgstr ""
+msgstr "Er is een fout opgetreden!"
 
 msgid "An exception occured while running \"%s"
 msgstr ""
@@ -370,19 +377,19 @@ msgid "Auth type"
 msgstr ""
 
 msgid "Author"
-msgstr "Auteur"
+msgstr ""
 
 msgid "Author Item"
 msgstr "Auteur Item"
 
 msgid "Authoring"
-msgstr "Construeren"
+msgstr ""
 
 msgid "auto unlocked in %s"
 msgstr ""
 
 msgid "Available"
-msgstr "Beschikbaar"
+msgstr ""
 
 msgid "Available Extensions"
 msgstr "Beschikbare Extensies"
@@ -391,7 +398,7 @@ msgid "Back"
 msgstr ""
 
 msgid "Back to listing"
-msgstr "Terug naar vermeldingen"
+msgstr ""
 
 msgid "Back to Portal"
 msgstr ""
@@ -430,7 +437,7 @@ msgid "Browse resources"
 msgstr ""
 
 msgid "Browse..."
-msgstr "Bladeren…"
+msgstr ""
 
 msgid "C"
 msgstr ""
@@ -454,13 +461,13 @@ msgid "Calendar"
 msgstr "Kalender"
 
 msgid "Cancel"
-msgstr "Afbreken"
+msgstr ""
 
 msgid "cancel"
-msgstr "afbreken"
+msgstr ""
 
 msgid "cancel the action"
-msgstr "breek de actie af"
+msgstr ""
 
 msgid "Cancelled"
 msgstr ""
@@ -587,10 +594,10 @@ msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
-msgstr "Commentaar..."
+msgstr ""
 
 msgid "Commit"
-msgstr "Doorvoeren"
+msgstr ""
 
 msgid "Completed"
 msgstr ""
@@ -611,7 +618,7 @@ msgid "Connect to the TAO platform"
 msgstr "Verbind met het TAO platform"
 
 msgid "Continue"
-msgstr "Doorgaan"
+msgstr ""
 
 msgid "Cookie Policy"
 msgstr ""
@@ -662,7 +669,7 @@ msgid "CSP Header settings were saved successfully!"
 msgstr ""
 
 msgid "CSV"
-msgstr "CSV"
+msgstr ""
 
 msgid "CSV file"
 msgstr ""
@@ -735,7 +742,7 @@ msgstr ""
 
 #, tao-public
 msgid "Delete"
-msgstr "Verwijderen"
+msgstr ""
 
 msgid "Delete Left"
 msgstr ""
@@ -756,7 +763,7 @@ msgid "Deleting this property will also remove the dependency"
 msgstr ""
 
 msgid "Demo Sandbox"
-msgstr "Demo Sandbox"
+msgstr ""
 
 msgid "Dependency URI Path"
 msgstr ""
@@ -821,7 +828,7 @@ msgid "Dot"
 msgstr ""
 
 msgid "Download"
-msgstr "Download"
+msgstr ""
 
 msgid "Download this file"
 msgstr "Download dit bestand"
@@ -836,7 +843,7 @@ msgid "Drop the files to upload"
 msgstr "Drop de bestanden voor upload"
 
 msgid "Edit"
-msgstr "Aanpassen"
+msgstr ""
 
 #, tao-public
 msgid "Edit a user"
@@ -846,10 +853,10 @@ msgid "Edit class %s"
 msgstr "Pas klasse %s aan"
 
 msgid "Edit Instance"
-msgstr "Pas instantie aan"
+msgstr ""
 
 msgid "Element"
-msgstr "Element"
+msgstr ""
 
 msgid "Element deleted."
 msgstr "Element verwijderd"
@@ -873,16 +880,16 @@ msgid "Enhanced metafile"
 msgstr ""
 
 msgid "Enter"
-msgstr "Enter"
+msgstr ""
 
 msgid "Error"
-msgstr "Fout"
+msgstr "Foutmelding"
 
 msgid "Error adding search index for %s with message %s"
 msgstr ""
 
 msgid "Error during file import"
-msgstr "Fout bij het importeren"
+msgstr ""
 
 msgid "Error in result"
 msgstr ""
@@ -903,7 +910,7 @@ msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
-msgstr "Exclusive (OR)"
+msgstr ""
 
 msgid "Execute"
 msgstr ""
@@ -919,7 +926,7 @@ msgstr ""
 
 #, tao-public
 msgid "Export"
-msgstr "Exporteren"
+msgstr ""
 
 msgid "Export "
 msgstr "Exporteren"
@@ -928,7 +935,7 @@ msgid "Export \"%s\" in %s"
 msgstr ""
 
 msgid "Export CSV"
-msgstr ""
+msgstr "Exporteren als CSV"
 
 msgid "Export failed."
 msgstr ""
@@ -971,13 +978,13 @@ msgid "Fields must match"
 msgstr ""
 
 msgid "File"
-msgstr "Bestand"
+msgstr ""
 
 msgid "File download failed"
 msgstr ""
 
 msgid "File name"
-msgstr "Bestandsnaam"
+msgstr ""
 
 msgid "File Properties"
 msgstr "Bestandseigenschappen"
@@ -992,7 +999,7 @@ msgid "files selected"
 msgstr "geselecteerde bestanden"
 
 msgid "Filter"
-msgstr "Filter"
+msgstr ""
 
 msgid "Filter by value"
 msgstr ""
@@ -1076,7 +1083,7 @@ msgid "Header file with extensionsLabels"
 msgstr ""
 
 msgid "Height"
-msgstr "Hoogte"
+msgstr ""
 
 msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
 msgstr "Hallo, %s<br>U heeft aangegeven dat u uw TAO wachtwoord bent vergeten."
@@ -1091,7 +1098,7 @@ msgid "Highlight all"
 msgstr ""
 
 msgid "hours"
-msgstr "uren"
+msgstr ""
 
 msgid "Hyperbolic arc cosine"
 msgstr ""
@@ -1118,7 +1125,7 @@ msgid "I understand that this action is permanent."
 msgstr ""
 
 msgid "Identifier"
-msgstr "Naam"
+msgstr ""
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Als u uw wachtwoord niet wilt resetten, negeer dan deze e-mail en uw wachtwoord zal ongewijzigd blijven."
@@ -1127,10 +1134,10 @@ msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
-msgstr "Import"
+msgstr ""
 
 msgid "Import "
-msgstr "Importeer"
+msgstr ""
 
 msgid "Import a %s into \"%s"
 msgstr ""
@@ -1173,7 +1180,7 @@ msgid "In Progress"
 msgstr ""
 
 msgid "In progress"
-msgstr ""
+msgstr "Bezig"
 
 msgid "Include all"
 msgstr ""
@@ -1228,7 +1235,7 @@ msgid "Installing extension %s..."
 msgstr "Geïnstalleerde extensie %s..."
 
 msgid "Instance saved"
-msgstr "Instantie is opgeslagen"
+msgstr ""
 
 msgid "Interface language"
 msgstr "Taal van de omgeving"
@@ -1315,13 +1322,13 @@ msgid "Keep the original permissions"
 msgstr ""
 
 msgid "Label"
-msgstr "Label"
+msgstr ""
 
 msgid "Label Path"
 msgstr ""
 
 msgid "Language"
-msgstr "Taal"
+msgstr ""
 
 msgid "Last attempt before your account is locked."
 msgstr ""
@@ -1378,7 +1385,7 @@ msgid "Loaded at Startup"
 msgstr "Bij het starten geladen"
 
 msgid "Loading"
-msgstr "Bezig met laden"
+msgstr "Bezig met laden…"
 
 msgid "Loading status"
 msgstr ""
@@ -1408,7 +1415,7 @@ msgid "Login is empty."
 msgstr ""
 
 msgid "Logout"
-msgstr ""
+msgstr "Afmelden"
 
 msgid "M4A audio"
 msgstr ""
@@ -1470,7 +1477,7 @@ msgid "Media resize along with their container, e.g. 50% means half of the conta
 msgstr ""
 
 msgid "Message"
-msgstr "Bericht"
+msgstr ""
 
 msgid "Messages"
 msgstr ""
@@ -1521,7 +1528,7 @@ msgid "minimum %s"
 msgstr ""
 
 msgid "minutes"
-msgstr "minuten"
+msgstr ""
 
 msgid "missing config %s for the service %s"
 msgstr ""
@@ -1629,7 +1636,7 @@ msgid "Next page"
 msgstr ""
 
 msgid "No"
-msgstr "Nee"
+msgstr ""
 
 msgid "No action specified"
 msgstr "Geen handeling aangegeven"
@@ -1644,7 +1651,7 @@ msgid "no file not found in this location"
 msgstr "geen bestand gevonden op deze locatie"
 
 msgid "No file selected"
-msgstr "Geen bestand geselecteerd"
+msgstr ""
 
 msgid "No files"
 msgstr "Geen bestanden"
@@ -1692,7 +1699,7 @@ msgstr "Niets om te laten zien!"
 msgid "Notifications"
 msgstr ""
 
-msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "Nth root"
@@ -1705,7 +1712,7 @@ msgid "Number of elements"
 msgstr "Aantal segmenten"
 
 msgid "of"
-msgstr "van"
+msgstr ""
 
 msgid "Off"
 msgstr ""
@@ -1717,10 +1724,10 @@ msgid "Ogg Vorbis video"
 msgstr ""
 
 msgid "Ok"
-msgstr "Ok"
+msgstr ""
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "Old Password"
 msgstr "Oud wachtwoord"
@@ -1756,7 +1763,7 @@ msgid "Operated By "
 msgstr ""
 
 msgid "or"
-msgstr "of"
+msgstr ""
 
 msgid "Original"
 msgstr ""
@@ -1855,10 +1862,10 @@ msgid "Please download the video and view offline."
 msgstr ""
 
 msgid "Please give a message to your commit"
-msgstr "Geef a.u.b. een bericht bij u bevestiging"
+msgstr ""
 
 msgid "Please provide a reason"
-msgstr "Geef a.u.b. een reden"
+msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
@@ -1903,7 +1910,7 @@ msgid "Preparing installation..."
 msgstr "Installatie wordt voorbereid..."
 
 msgid "Preview"
-msgstr "Voorbeeld"
+msgstr ""
 
 msgid "Previous"
 msgstr "Vorige"
@@ -1922,16 +1929,16 @@ msgstr ""
 
 #, tao-public
 msgid "Properties"
-msgstr "Eigenschappen"
+msgstr ""
 
 msgid "Provided URL is not valid"
 msgstr "De gegeven URL is niet geldig"
 
 msgid "Publish"
-msgstr ""
+msgstr "Uitgeven"
 
 msgid "Publish the test"
-msgstr ""
+msgstr "Publiceer de test"
 
 msgid "Queued"
 msgstr ""
@@ -1958,7 +1965,7 @@ msgid "RAR archive"
 msgstr ""
 
 msgid "RDF"
-msgstr "RDF"
+msgstr ""
 
 msgid "Ready for Translation"
 msgstr ""
@@ -1967,7 +1974,7 @@ msgid "RealMedia file"
 msgstr ""
 
 msgid "Refresh"
-msgstr ""
+msgstr "Verversen"
 
 msgid "Reject all"
 msgstr ""
@@ -2009,7 +2016,7 @@ msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
-msgstr "Verwijder bericht"
+msgstr ""
 
 msgid "Remove the translated item"
 msgstr ""
@@ -2117,7 +2124,7 @@ msgid "Role saved"
 msgstr "Rol opgeslagen"
 
 msgid "Roles"
-msgstr "Rollen"
+msgstr ""
 
 #, tao-public
 msgid "Roles library"
@@ -2169,7 +2176,7 @@ msgid "second"
 msgstr ""
 
 msgid "seconds"
-msgstr "seconden"
+msgstr ""
 
 #, tao-public
 msgid "Security"
@@ -2179,7 +2186,7 @@ msgid "Security settings"
 msgstr ""
 
 msgid "Select"
-msgstr "Selecteren"
+msgstr ""
 
 msgid "select"
 msgstr "selecteren"
@@ -2209,7 +2216,7 @@ msgid "Selected file:"
 msgstr "Geselecteerd bestand:"
 
 msgid "Selection saved successfully"
-msgstr "Selectie is succesvol opgeslagen"
+msgstr "Selectie succesvol opgeslagen"
 
 msgid "self-locked"
 msgstr ""
@@ -2222,13 +2229,13 @@ msgstr ""
 
 #, tao-public
 msgid "Settings"
-msgstr "Instellingen"
+msgstr ""
 
 msgid "Settings updated"
 msgstr "Instellingen geupdate"
 
 msgid "Show detailed report"
-msgstr "Toon gedetailleerd rapport"
+msgstr ""
 
 msgid "Show password"
 msgstr ""
@@ -2303,7 +2310,7 @@ msgid "Submit"
 msgstr ""
 
 msgid "Success"
-msgstr "Succes"
+msgstr ""
 
 msgid "Successfully cloned instance as %s"
 msgstr ""
@@ -2555,7 +2562,7 @@ msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
-msgstr "Tokenizer"
+msgstr ""
 
 msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr ""
@@ -2642,7 +2649,7 @@ msgid "Unable to delete %s"
 msgstr "Kan %s niet verwijderen"
 
 msgid "Unable to delete the selected resource"
-msgstr "Kan de geselecteerde bron niet verwijderen"
+msgstr ""
 
 msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
 msgstr ""
@@ -2657,7 +2664,7 @@ msgid "Unable to open file %s"
 msgstr "Kan bestand %s niet openen"
 
 msgid "Unable to process your request"
-msgstr ""
+msgstr "Kan uw verzoek niet verwerken"
 
 msgid "Unable to release the lock"
 msgstr "Kan de blokkade niet vrijgeven"
@@ -2684,7 +2691,7 @@ msgid "Unable to upload file"
 msgstr "Kan het bestand niet uploaden"
 
 msgid "Unable to upload file %s : %s"
-msgstr "Kan het bestand %s : %s niet uploaden"
+msgstr ""
 
 msgid "Unary operator +"
 msgstr ""
@@ -2711,7 +2718,7 @@ msgid "Undefined Instance can not be saved"
 msgstr ""
 
 msgid "Undo"
-msgstr "Ongedaan maken"
+msgstr ""
 
 msgid "Unexpected error. Please contact administrator"
 msgstr ""
@@ -2777,7 +2784,7 @@ msgid "Use default value"
 msgstr "Gebruik standaardwaarde(n)"
 
 msgid "User"
-msgstr "Gebruiker"
+msgstr ""
 
 msgid "User %s can not be locked"
 msgstr ""
@@ -2812,7 +2819,7 @@ msgstr "Gebruikersinstellingen"
 
 #, tao-public
 msgid "Users"
-msgstr "Gebruikers"
+msgstr ""
 
 msgid "Validation for field '%s' has failed. Language does not exist in the system"
 msgstr ""
@@ -2888,7 +2895,7 @@ msgid "Whole number part"
 msgstr ""
 
 msgid "Width"
-msgstr "Breedte"
+msgstr ""
 
 msgid "Windows help file"
 msgstr ""
@@ -2924,7 +2931,7 @@ msgid "XML file"
 msgstr ""
 
 msgid "Yes"
-msgstr "Ja"
+msgstr ""
 
 msgid "You are encountering a prolonged connectivity loss."
 msgstr ""
