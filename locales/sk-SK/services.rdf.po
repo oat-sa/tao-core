@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-01-19 13:18\n"
+"PO-Revision-Date: 2026-07-30 15:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -30,12 +30,12 @@ msgstr "Definícia služieb"
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Support Services"
-msgstr "Podporné služby"
+msgstr "Služby podpory"
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Support Services"
-msgstr "Podporné služby"
+msgstr "Služby podpory"
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -50,10 +50,10 @@ msgstr "Webová služba"
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery Services"
-msgstr "Donáškové služby"
+msgstr "Služby Dodávky"
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Delivery Services"
-msgstr "Donáškové služby"
+msgstr "Služby Dodávky"
 
