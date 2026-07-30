@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-01-19 13:19\n"
+"PO-Revision-Date: 2026-07-30 15:18\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -50,7 +50,7 @@ msgstr "Obsah je len na čítanie"
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Hidden Box"
-msgstr "Skrytá krabica"
+msgstr "Skrytý box"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -70,7 +70,7 @@ msgstr "Dynamický kalendár pre jednoduchý výber dátumu"
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Authoring"
-msgstr "Autorstvo"
+msgstr "Tvorba"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -110,7 +110,7 @@ msgstr "Zobraziť konštantnú a neupraviteľnú hodnotu"
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Literal Readonly"
-msgstr "Doslovné iba na čítanie"
+msgstr "Doslovne, iba na čítanie"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -120,12 +120,12 @@ msgstr "Zobraziť doslovnú konštantu a neupraviteľnú hodnotu"
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "A Tree Box"
-msgstr "Stromček"
+msgstr "Box pre strom"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "A particular tree box"
-msgstr "Špeciálna stromová debnička"
+msgstr "Konkrétny Box pre strom"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -135,5 +135,5 @@ msgstr "Objekt Json"
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Display a Json Object stored as a literal value as a collection of key/value pairs."
-msgstr "Zobraziť objekt Json uložený ako literálna hodnota ako kolekciu párov kľúč/hodnota."
+msgstr "Zobraz objekt JSON uložený ako doslovná hodnota vo forme skupiny párov kľúč/hodnota."
 
