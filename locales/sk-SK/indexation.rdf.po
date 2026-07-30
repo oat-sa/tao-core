@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-01-19 13:18\n"
+"PO-Revision-Date: 2026-07-30 15:15\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -25,7 +25,7 @@ msgstr "Index"
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Index class"
-msgstr "Indexová trieda"
+msgstr "Trieda indexu"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -35,7 +35,7 @@ msgstr "Identifikátor"
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Humanreadable identifier of the index"
-msgstr "Človekom čitateľný identifikátor indexu"
+msgstr "Čitateľný identifikátor indexu"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -45,17 +45,17 @@ msgstr "Tokenizátor indexu"
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer to be used to extract search strings"
-msgstr "Tokenizátor, ktorý sa má použiť na extrakciu vyhľadávacích reťazcov"
+msgstr "Tokenizér, ktorý sa používa na extrakciu vyhľadávacích reťazcov"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Fuzzy matching"
-msgstr "Fuzzy párovanie"
+msgstr "Fuzzy zhoda"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Should the string matching be exact or fuzzy"
-msgstr "Malo by byť porovnávanie reťazcov presné alebo nejasné"
+msgstr "Má byť zhoda reťazcov presná alebo približná?"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -65,7 +65,7 @@ msgstr "Použiť ako predvolené"
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Should this property be used implicitly in the defautl search"
-msgstr "Mala by sa táto vlastnosť implicitne použiť v predvolenom vyhľadávaní"
+msgstr "Mala by sa táto vlastnosť používať implicitne pri predvolenom vyhľadávaní?"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -90,22 +90,22 @@ msgstr "Názov triedy implementácie tokenizátora"
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Property Indexation"
-msgstr "Indexácia nehnuteľností"
+msgstr "Indexácia vlastností"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "How a property should be indexed"
-msgstr "Ako by mala byť nehnuteľnosť indexovaná"
+msgstr "Ako by mala byť vlastnosť indexovaná"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Raw Value Tokenizer"
-msgstr "Tokenizátor surovej hodnoty"
+msgstr "Tokenizátor surových hodnôt"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer using the raw property value"
-msgstr "Tokenizátor používajúci hodnotu surovej vlastnosti"
+msgstr "Tokenizátor využívajúci hodnotu vlastnosti v surovom formáte"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
