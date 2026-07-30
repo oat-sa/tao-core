@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-01-19 13:18\n"
+"PO-Revision-Date: 2026-07-30 15:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -23,7 +23,7 @@ msgstr "Štítok"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "A human-readable name for the subject."
-msgstr "Človekom čitateľný názov subjektu."
+msgstr "Názov predmetu čitateľný pre človeka."
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Alias"
@@ -31,11 +31,11 @@ msgstr "Alias"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Alias to be used when publishing a remote delivery"
-msgstr "Alias, ktorý sa má použiť pri publikovaní vzdialeného doručenia"
+msgstr "Alias, ktorý sa má použiť pri zverejňovaní vzdialenej dodávky"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Is language dependent?"
-msgstr "Je jazyk závislý?"
+msgstr "Závisí od jazyka?"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "is_language_dependent"
@@ -44,7 +44,7 @@ msgstr "závisí_od_jazyka"
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO User Object"
-msgstr "Objekt používateľa TAO"
+msgstr "Objekt používateľa PET"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -74,7 +74,7 @@ msgstr "Zdroj vzdialeného zoznamu"
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list source"
-msgstr "Vzdialený zdroj zoznamu"
+msgstr "Zdroj vzdialeného zoznamu"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -89,12 +89,12 @@ msgstr "Cesta URI zdroja vzdialeného zoznamu"
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list source label path"
-msgstr "Cesta k označeniu zdroja vzdialeného zoznamu"
+msgstr "Cesta k štítku zdroja vzdialeného zoznamu"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list source label path"
-msgstr "Cesta k označeniu zdroja vzdialeného zoznamu"
+msgstr "Cesta k štítku zdroja vzdialeného zoznamu"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListType
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -160,27 +160,27 @@ msgstr "Použitie"
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Usage of a language"
-msgstr "Používanie jazyka"
+msgstr "Použitie jazyka"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Language Usage"
-msgstr "Používanie jazyka"
+msgstr "Použitie jazyka"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Language usage class"
-msgstr "Trieda používania jazyka"
+msgstr "Trieda použitia jazyka"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "GUI Usage"
-msgstr "Používanie grafického používateľského rozhrania"
+msgstr "Použitie grafického používateľského rozhrania (GUI)"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Graphical User Interface language usage"
-msgstr "Používanie jazyka grafického používateľského rozhrania"
+msgstr "Použitie jazyka grafického používateľského rozhrania (GUI)"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -190,7 +190,7 @@ msgstr "Spotreba dát"
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Data language usage"
-msgstr "Používanie dátového jazyka"
+msgstr "Použitie dátového jazyka"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -200,7 +200,7 @@ msgstr "Jazyková orientácia"
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Language orientation class"
-msgstr "Kurz jazykovej orientácie"
+msgstr "Trieda jazykovej orientácie"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -234,11 +234,11 @@ msgstr "Orientácia jazyka sprava doľava"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Vertical writing mode enum"
-msgstr "Výčet vertikálneho režimu písania"
+msgstr "Výpočetný zoznam režimov vertikálneho písania"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Vertical writing mode enum, for languages which support vertical writing"
-msgstr "Výčet režimov vertikálneho zápisu pre jazyky, ktoré podporujú vertikálne zápis"
+msgstr "Výpočetný zoznam režimov vertikálneho písania pre jazyky, ktoré podporujú vertikálne písanie"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Vertical writing mode property"
@@ -246,7 +246,7 @@ msgstr "Vlastnosť vertikálneho režimu písania"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Vertical writing mode property of a language"
-msgstr "Vlastnosť vertikálneho režimu písania jazyka"
+msgstr "Vlastnosť jazyka v režime vertikálneho písania"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Vertical-right-to-left writing mode"
@@ -272,7 +272,7 @@ msgstr "Používateľ"
 # http://www.tao.lu/Ontologies/TAO.rdf#User
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "TAO User Class"
-msgstr "Trieda používateľov TAO"
+msgstr "Trieda používateľov PET"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -292,17 +292,17 @@ msgstr "Back Office"
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The BackOffice Role"
-msgstr "Úloha BackOffice"
+msgstr "Rola BackOffice"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Front Office"
-msgstr "Recepcia"
+msgstr "Front Office"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The FrontOffice Role"
-msgstr "Úloha FrontOffice"
+msgstr "Rola FrontOffice"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -317,12 +317,12 @@ msgstr "Servisná rola"
 # http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO Manager"
-msgstr "Manažér TAO"
+msgstr "Správca PET"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The TAO Manager Role"
-msgstr "Úloha manažéra TAO"
+msgstr "Úloha správcu PET"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -337,17 +337,17 @@ msgstr "Rola Správca metadát vám umožňuje upravovať vlastnosti tried."
 # http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Global Manager"
-msgstr "Globálny manažér"
+msgstr "Globálny správca"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Global Manager Role"
-msgstr "Úloha globálneho manažéra"
+msgstr "Rola globálneho správcu"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Lock Manager"
-msgstr "Správca zámkov"
+msgstr "Správca blokovania"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -357,7 +357,7 @@ msgstr "Rola, ktorá dokáže odomknúť všetky zdroje"
 # http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "System Administrator"
-msgstr "Systémový administrátor"
+msgstr "Správca Systému"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -367,12 +367,12 @@ msgstr "Rola správcu systému"
 # http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Task Queue Manager"
-msgstr "Správca frontu úloh"
+msgstr "Správca úloh"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Task Queue Manager Role"
-msgstr "Rola Správcu frontu úloh"
+msgstr "Rola Správcu úloh"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -382,7 +382,7 @@ msgstr "Vydavateľ REST"
 # http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The REST API Publishing Role"
-msgstr "Publikačná úloha REST API"
+msgstr "Publikačná rola REST API"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -402,7 +402,7 @@ msgstr "Účastník testu"
 # http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Test Taker Role"
-msgstr "Úloha účastníka testu"
+msgstr "Rola účastníka testu"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -462,17 +462,17 @@ msgstr "Posledné použité rozšírenie"
 # http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Saves the last extension the user had visited."
-msgstr "Uloží poslednú príponu, ktorú používateľ navštívil."
+msgstr "Uloží posledné rozšírenie, ktoré používateľ navštívil."
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "First Time In Tao"
-msgstr "Prvýkrát v Tao"
+msgstr "Prvýkrát v PET"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Is it the first the user connects to TAO?"
-msgstr "Je to prvé pripojenie používateľa k TAO?"
+msgstr "Je to prvé pripojenie používateľa k PET?"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -494,11 +494,11 @@ msgstr "Typ prekladu"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Original"
-msgstr "Originál"
+msgstr "Pôvodný"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Original"
-msgstr "Originál"
+msgstr "Pôvodný"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Translation"
@@ -615,12 +615,12 @@ msgstr "Preložené do jazykov"
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO Object"
-msgstr "Objekt TAO"
+msgstr "Objekt PET"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Any resource related to etesting"
-msgstr "Akýkoľvek zdroj súvisiaci s testovaním"
+msgstr "Akýkoľvek zdroj súvisiaci s e-testovaním"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -630,7 +630,7 @@ msgstr "Pracovník"
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Worker Role Class"
-msgstr "Trieda rolí pracovníkov"
+msgstr "Trieda role pracovníka"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -640,7 +640,7 @@ msgstr "Účastník pracovného postupu"
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Workflow Participant Role"
-msgstr "Úloha účastníka pracovného postupu"
+msgstr "Rola účastníka pracovného postupu"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
