@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-01-19 13:19\n"
+"PO-Revision-Date: 2026-07-30 15:18\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -35,5 +35,5 @@ msgstr "Webová služba"
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceWebService
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Embed a generic web service accessible via url in an iframe"
-msgstr "Vložte generickú webovú službu prístupnú cez URL do prvku iframe"
+msgstr "Vložte všeobecnú webovú službu, ktorá je dostupná cez URL, do rámca iframe"
 
