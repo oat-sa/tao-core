@@ -19,6 +19,9 @@
  *
  */
 
+use oat\tao\model\FrontendAction\Service\FrontendActionEventLogger;
+use oat\tao\model\http\HttpJsonResponseTrait;
+
 /**
  * Class Log
  *
@@ -26,8 +29,10 @@
  *
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class tao_actions_Log extends \tao_actions_CommonModule
+class tao_actions_Log extends tao_actions_CommonModule
 {
+    use HttpJsonResponseTrait;
+
     /**
      * Log the message sent from client side
      */
@@ -45,6 +50,42 @@ class tao_actions_Log extends \tao_actions_CommonModule
             }
         }
         $this->returnJson($result);
+    }
+
+    public function logFrontendAction(): void
+    {
+        try {
+            $request = $this->getPsrRequest();
+
+            if ($request->getMethod() !== 'POST') {
+                $this->setErrorJsonResponse('Method not allowed', 0, [], 405);
+                return;
+            }
+
+            $this->validateCsrf();
+
+            $requestParams = $request->getParsedBody();
+
+            if (!is_array($requestParams)) {
+                $requestParams = [];
+            }
+
+            $action = (string) ($requestParams['action'] ?? '');
+            $resourceUri = (string) ($requestParams['resourceUri'] ?? '');
+
+            if (empty($action) || empty($resourceUri)) {
+                $this->setErrorJsonResponse(
+                    errorMessage: '"action" and "resourceUri" are required to log frontend action',
+                    statusCode: 400
+                );
+                return;
+            }
+
+            $this->getFrontendActionEventLogger()->logAction($action, new core_kernel_classes_Resource($resourceUri));
+            $this->setSuccessJsonResponse(['success' => true]);
+        } catch (Exception $exception) {
+            $this->setErrorJsonResponse($exception->getMessage(), $exception->getCode());
+        }
     }
 
     /**
@@ -77,5 +118,10 @@ class tao_actions_Log extends \tao_actions_CommonModule
                 break;
         }
         return $result;
+    }
+
+    private function getFrontendActionEventLogger(): FrontendActionEventLogger
+    {
+        return $this->getPsrContainer()->get(FrontendActionEventLogger::class);
     }
 }
