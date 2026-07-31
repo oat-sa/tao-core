@@ -46,6 +46,7 @@ use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\model\featureVisibility\FeatureVisibilityServiceProvider;
 use oat\tao\model\form\DataProvider\FormDataProviderServiceProvider;
 use oat\tao\model\form\ServiceProvider\FormServiceProvider as TaoFormServiceProvider;
+use oat\tao\model\FrontendAction\FrontendActionServiceProvider;
 use oat\tao\model\IdentifierGenerator\ServiceProvider\IdentifierGeneratorServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\infrastructure\ServiceProvider\InfrastructureServiceProvider;
@@ -315,6 +316,7 @@ return [
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'Notification']],
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'File', 'act' => 'accessFile']],
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'Log', 'act' => 'log']],
+        [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'Log', 'act' => 'logFrontendAction']],
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'TaskQueueWebApi']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'Languages', 'act' => 'index']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ResourceRelations', 'act' => 'index']],
@@ -442,6 +444,7 @@ return [
         CookiePolicyServiceProvider::class,
         DataPolicyServiceProvider::class,
         InfrastructureServiceProvider::class,
+        FrontendActionServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
