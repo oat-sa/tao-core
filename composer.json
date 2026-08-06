@@ -84,6 +84,9 @@
         "open-telemetry/api": "^1.0",
         "open-telemetry/sdk": "^1.0"
     },
+    "require-dev": {
+        "lcobucci/jwt": "~5"
+    },
     "suggest": {
         "ext-opentelemetry": "Required at runtime to export task-queue traces (TaskQueueTelemetry is a no-op without it)"
     },

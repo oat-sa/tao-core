@@ -24,6 +24,7 @@ namespace oat\tao\model\accessControl\Service;
 
 use common_session_SessionManager as SessionManager;
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use oat\generis\model\user\UserRdf;
@@ -33,24 +34,15 @@ use RuntimeException;
 
 class AccessTokenService
 {
-    private UserService $userService;
-    private Client $client;
-    private CacheInterface $cache;
-    private float $ttlScale;
+    private readonly ClientInterface $client;
 
-    /**
-     * @see Client
-     */
     public function __construct(
-        UserService $userService,
-        CacheInterface $cache,
-        float $ttlScale = 0.5,
-        array $clientConfig = ['timeout' => 5.0, 'connect_timeout' => 2.0]
+        private readonly UserService $userService,
+        private readonly CacheInterface $cache,
+        private readonly float $ttlScale = 0.5,
+        ?ClientInterface $client = null
     ) {
-        $this->userService = $userService;
-        $this->client = new Client($clientConfig);
-        $this->cache = $cache;
-        $this->ttlScale = $ttlScale;
+        $this->client = $client ?? new Client(['timeout' => 5.0, 'connect_timeout' => 2.0]);
     }
 
     public function fetchTokens(string $role = ''): array
