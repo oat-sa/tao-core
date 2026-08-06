@@ -55,7 +55,7 @@ class AccessTokenService
             throw new RuntimeException('OAuth2 credentials not found.', 404);
         }
         $userId = $this->getUserLogin();
-        $key = hash('sha256', "$authUri/$clientId/$userId/$role");
+        $key = hash('sha256', "{$this->getTenantId()}/$authUri/$clientId/$userId/$role");
         $value = $this->cache->get($key);
         if ($value) {
             return json_decode($value, true);
