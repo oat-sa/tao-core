@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\accessControl;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\oatbox\user\UserService;
 use oat\tao\model\accessControl\Service\AccessTokenService;
 use oat\tao\model\accessControl\Service\ConfigurationService;
 use oat\tao\model\accessControl\Service\DeleteRoleService;
@@ -60,7 +61,7 @@ class AccessControlServiceProvider implements ContainerServiceProviderInterface
 
         $services->set(AccessTokenService::class, AccessTokenService::class)
             ->public()
-            ->args([service(SharedCache::class)]);
+            ->args([service(UserService::class), service(SharedCache::class)]);
 
         $services->set(ConfigurationService::class, ConfigurationService::class)
             ->public()

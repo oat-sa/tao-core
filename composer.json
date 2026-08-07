@@ -67,7 +67,7 @@
         "oat-sa/jig": "~0.2",
         "oat-sa/composer-npm-bridge": "~0.4.2||dev-master",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-        "oat-sa/generis": ">=17.0.0",
+        "oat-sa/generis": ">=17.3.0",
         "composer/package-versions-deprecated": "^1.11",
         "paragonie/random_compat": "^2.0",
         "phpdocumentor/reflection-docblock": "^5.2",
@@ -83,6 +83,9 @@
         "league/csv": "^9.6",
         "open-telemetry/api": "^1.0",
         "open-telemetry/sdk": "^1.0"
+    },
+    "require-dev": {
+        "lcobucci/jwt": "~5"
     },
     "suggest": {
         "ext-opentelemetry": "Required at runtime to export task-queue traces (TaskQueueTelemetry is a no-op without it)"
