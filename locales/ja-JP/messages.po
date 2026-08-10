@@ -2992,4 +2992,3 @@ msgstr "TAOパスワード"
 
 msgid "ZIP archive"
 msgstr "ZIPアーカイブ"
-
