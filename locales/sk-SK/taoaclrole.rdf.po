@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-01-19 13:19\n"
+"PO-Revision-Date: 2026-07-30 15:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -25,5 +25,5 @@ msgstr "Základný používateľ"
 # http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Base User Role"
-msgstr "Základná používateľská rola"
+msgstr "Rola základného používateľa"
 

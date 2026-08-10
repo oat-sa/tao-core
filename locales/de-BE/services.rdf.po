@@ -1,59 +1,59 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-30 15:16\n"
+"PO-Revision-Date: 2026-07-30 15:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: sk\n"
+"Language: de_BE\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: sk\n"
+"X-Crowdin-Language: de-BE\n"
 "X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-US/services.rdf.po\n"
 "X-Crowdin-File-ID: 1199\n"
-"Language-Team: Slovak\n"
+"Language-Team: German, Belgium\n"
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Services Definition"
-msgstr "Definícia služieb"
+msgstr ""
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Services Definition"
-msgstr "Definícia služieb"
+msgstr ""
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Support Services"
-msgstr "Služby podpory"
+msgstr ""
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Support Services"
-msgstr "Služby podpory"
+msgstr ""
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Web Service"
-msgstr "Webová služba"
+msgstr ""
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Web Service"
-msgstr "Webová služba"
+msgstr ""
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery Services"
-msgstr "Služby Dodávky"
+msgstr ""
 
 # http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Delivery Services"
-msgstr "Služby Dodávky"
+msgstr ""
 

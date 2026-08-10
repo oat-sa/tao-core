@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-03-05 08:40\n"
+"PO-Revision-Date: 2026-07-30 15:15\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -2124,7 +2124,7 @@ msgid "Role saved"
 msgstr "ロールは保存されました"
 
 msgid "Roles"
-msgstr "権限"
+msgstr "ロール"
 
 #, tao-public
 msgid "Roles library"
@@ -2992,4 +2992,3 @@ msgstr "TAOパスワード"
 
 msgid "ZIP archive"
 msgstr "ZIPアーカイブ"
-
