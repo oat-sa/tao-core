@@ -41,7 +41,7 @@ jobs:
   auto-release:
     if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
     name: TAO extension release
-    uses: oat-sa/extension-release-action/.github/workflows/reuse-auto-release-tao-extension.yaml@v1
+    uses: oat-sa/extension-release-action/.github/workflows/reuse-auto-release-tao-extension.yaml@fix/AUT-4544/new-release-workflow-fix-path
     with:
       ENABLED: true
       TAO_EXTENSION_NAME: tao
