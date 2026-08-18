@@ -22,8 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\session\source\ServiceProvider;
 
-use Laminas\ServiceManager\ServiceLocatorAwareInterface;
-use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\session\source\SessionSourceMatcher;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -34,10 +32,8 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
  * @codeCoverageIgnore
  * @license GPL-2.0
  */
-class SessionSourceServiceProvider implements ContainerServiceProviderInterface, ServiceLocatorAwareInterface
+class SessionSourceServiceProvider implements ContainerServiceProviderInterface
 {
-    use ServiceLocatorAwareTrait;
-
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
