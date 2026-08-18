@@ -25,6 +25,11 @@ namespace oat\tao\model\session\source;
 use common_session_Session;
 use InvalidArgumentException;
 
+/**
+ * Matches a session against registered source matchers.
+ *
+ * @license GPL-2.0
+ */
 class SessionSourceMatcher
 {
     public const SOURCE_PORTAL = 'portal';

@@ -55,6 +55,22 @@ class SessionSourceMatcherTest extends TestCase
         $this->assertTrue($service->matchesSource('portal', $session));
     }
 
+    public function testReturnsFalseWhenMatcherReturnsFalse(): void
+    {
+        $session = $this->createMock(common_session_Session::class);
+        $matcher = $this->createMock(SessionSourceMatcherInterface::class);
+        $matcher
+            ->expects($this->once())
+            ->method('matchesSource')
+            ->with($session)
+            ->willReturn(false);
+
+        $service = new SessionSourceMatcher();
+        $service->addSessionSourceMatcher('portal', $matcher);
+
+        $this->assertFalse($service->matchesSource('portal', $session));
+    }
+
     public function testSourceComparisonIsCaseInsensitive(): void
     {
         $session = $this->createMock(common_session_Session::class);
