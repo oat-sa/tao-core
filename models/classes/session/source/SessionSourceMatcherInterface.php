@@ -24,6 +24,11 @@ namespace oat\tao\model\session\source;
 
 use common_session_Session;
 
+/**
+ * Determines whether a session belongs to a given source.
+ *
+ * @license GPL-2.0
+ */
 interface SessionSourceMatcherInterface
 {
     public function matchesSource(common_session_Session $session): bool;
