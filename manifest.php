@@ -22,7 +22,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor
  *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
- *               2021-2022 (original work) Open Assessment Technologies SA.
+ *               2021-2026 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -62,6 +62,7 @@ use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\TaoRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\search\ServiceProvider\SearchServiceProvider;
+use oat\tao\model\session\source\ServiceProvider\SessionSourceServiceProvider;
 use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
 use oat\tao\model\Translation\ServiceProvider\TranslationServiceProvider;
 use oat\tao\model\user\TaoRoles;
@@ -444,6 +445,7 @@ return [
         CookiePolicyServiceProvider::class,
         DataPolicyServiceProvider::class,
         InfrastructureServiceProvider::class,
+        SessionSourceServiceProvider::class,
         FrontendActionServiceProvider::class,
     ],
     'middlewares' => [
