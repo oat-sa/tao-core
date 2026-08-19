@@ -118,9 +118,12 @@ class DirectorySearchQueryTest extends TestCase
         $this->assertSame(7, $this->subject->getDepth());
     }
 
-    public function testSetDepthAllowsNegativeValues(): void
+    public function testSetDepthNormalizesNonPositiveValues(): void
     {
-        $this->assertSame($this->subject, $this->subject->setDepth(-2));
-        $this->assertSame(-2, $this->subject->getDepth());
+        $this->assertSame($this->subject, $this->subject->setDepth(0));
+        $this->assertSame(1, $this->subject->getDepth());
+
+        $this->subject->setDepth(-2);
+        $this->assertSame(1, $this->subject->getDepth());
     }
 }
