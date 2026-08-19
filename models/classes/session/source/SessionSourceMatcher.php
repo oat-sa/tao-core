@@ -32,8 +32,6 @@ use InvalidArgumentException;
  */
 class SessionSourceMatcher
 {
-    public const SOURCE_PORTAL = 'portal';
-
     /** @var array<string, SessionSourceMatcherInterface[]> */
     private array $sourceMatchers = [];
 
