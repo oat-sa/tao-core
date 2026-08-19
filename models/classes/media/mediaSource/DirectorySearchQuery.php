@@ -33,6 +33,7 @@ class DirectorySearchQuery
 
     public const DEFAULT_PAGE = 1;
     public const DEFAULT_PAGE_SIZE = 10;
+    public const MAX_PAGE_SIZE = 100;
 
     /** @var string */
     private $parentLink;
@@ -197,7 +198,12 @@ class DirectorySearchQuery
 
     public function setPageSize(int $pageSize): self
     {
-        $this->pageSize = $pageSize > 0 ? $pageSize : self::DEFAULT_PAGE_SIZE;
+        if ($pageSize <= 0) {
+            $this->pageSize = self::DEFAULT_PAGE_SIZE;
+        } else {
+            $this->pageSize = min($pageSize, self::MAX_PAGE_SIZE);
+        }
+
         return $this;
     }
 
