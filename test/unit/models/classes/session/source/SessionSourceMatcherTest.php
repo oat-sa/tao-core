@@ -24,6 +24,7 @@ namespace oat\tao\test\unit\models\classes\session\source;
 
 use common_session_Session;
 use InvalidArgumentException;
+use oat\tao\model\session\source\SessionSource;
 use oat\tao\model\session\source\SessionSourceMatcher;
 use oat\tao\model\session\source\SessionSourceMatcherInterface;
 use PHPUnit\Framework\TestCase;
@@ -35,7 +36,10 @@ class SessionSourceMatcherTest extends TestCase
         $service = new SessionSourceMatcher();
 
         $this->assertFalse(
-            $service->matchesSource('portal', $this->createMock(common_session_Session::class))
+            $service->matchesSource(
+                SessionSource::EXTERNAL_PORTAL->value,
+                $this->createMock(common_session_Session::class)
+            )
         );
     }
 
@@ -50,9 +54,9 @@ class SessionSourceMatcherTest extends TestCase
             ->willReturn(true);
 
         $service = new SessionSourceMatcher();
-        $service->addSessionSourceMatcher('portal', $matcher);
+        $service->addSessionSourceMatcher(SessionSource::EXTERNAL_PORTAL->value, $matcher);
 
-        $this->assertTrue($service->matchesSource('portal', $session));
+        $this->assertTrue($service->matchesSource(SessionSource::EXTERNAL_PORTAL->value, $session));
     }
 
     public function testReturnsFalseWhenMatcherReturnsFalse(): void
@@ -66,9 +70,9 @@ class SessionSourceMatcherTest extends TestCase
             ->willReturn(false);
 
         $service = new SessionSourceMatcher();
-        $service->addSessionSourceMatcher('portal', $matcher);
+        $service->addSessionSourceMatcher(SessionSource::EXTERNAL_PORTAL->value, $matcher);
 
-        $this->assertFalse($service->matchesSource('portal', $session));
+        $this->assertFalse($service->matchesSource(SessionSource::EXTERNAL_PORTAL->value, $session));
     }
 
     public function testSourceComparisonIsCaseInsensitive(): void
@@ -78,9 +82,9 @@ class SessionSourceMatcherTest extends TestCase
         $matcher->method('matchesSource')->willReturn(true);
 
         $service = new SessionSourceMatcher();
-        $service->addSessionSourceMatcher('PoRtAl', $matcher);
+        $service->addSessionSourceMatcher(strtoupper(SessionSource::EXTERNAL_PORTAL->value), $matcher);
 
-        $this->assertTrue($service->matchesSource('PORTAL', $session));
+        $this->assertTrue($service->matchesSource(strtoupper(SessionSource::EXTERNAL_PORTAL->value), $session));
     }
 
     public function testThrowsExceptionWhenSameMatcherClassRegisteredTwiceForSource(): void
@@ -89,12 +93,12 @@ class SessionSourceMatcherTest extends TestCase
         $matcher->method('matchesSource')->willReturn(true);
 
         $service = new SessionSourceMatcher();
-        $service->addSessionSourceMatcher('portal', $matcher);
+        $service->addSessionSourceMatcher(SessionSource::EXTERNAL_PORTAL->value, $matcher);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('already registered for source "portal"');
+        $this->expectExceptionMessage('already registered for source "external:portal"');
 
-        $service->addSessionSourceMatcher('PORTAL', $matcher);
+        $service->addSessionSourceMatcher(strtoupper(SessionSource::EXTERNAL_PORTAL->value), $matcher);
     }
 
     public function testStopsCheckingMatchersAfterFirstPositiveMatch(): void
@@ -103,7 +107,7 @@ class SessionSourceMatcherTest extends TestCase
 
         $service = new SessionSourceMatcher();
         $service->addSessionSourceMatcher(
-            'portal',
+            SessionSource::EXTERNAL_PORTAL->value,
             new class () implements SessionSourceMatcherInterface {
                 public function matchesSource(common_session_Session $session): bool
                 {
@@ -112,7 +116,7 @@ class SessionSourceMatcherTest extends TestCase
             }
         );
         $service->addSessionSourceMatcher(
-            'portal',
+            SessionSource::EXTERNAL_PORTAL->value,
             new class () implements SessionSourceMatcherInterface {
                 public function matchesSource(common_session_Session $session): bool
                 {
@@ -121,6 +125,6 @@ class SessionSourceMatcherTest extends TestCase
             }
         );
 
-        $this->assertTrue($service->matchesSource('portal', $session));
+        $this->assertTrue($service->matchesSource(SessionSource::EXTERNAL_PORTAL->value, $session));
     }
 }
