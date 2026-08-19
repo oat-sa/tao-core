@@ -126,4 +126,17 @@ class DirectorySearchQueryTest extends TestCase
         $this->subject->setDepth(-2);
         $this->assertSame(1, $this->subject->getDepth());
     }
+
+    public function testConstructorNormalizesNonPositiveDepth(): void
+    {
+        /** @var MockObject|MediaAsset $assetMock */
+        $assetMock = $this->createMock(MediaAsset::class);
+        $assetMock->method('getMediaIdentifier')->willReturn('mediaIdentifier');
+
+        $zeroDepth = new DirectorySearchQuery($assetMock, 'uri', 'lang', [], 0);
+        $this->assertSame(1, $zeroDepth->getDepth());
+
+        $negativeDepth = new DirectorySearchQuery($assetMock, 'uri', 'lang', [], -3);
+        $this->assertSame(1, $negativeDepth->getDepth());
+    }
 }

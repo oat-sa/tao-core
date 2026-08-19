@@ -84,12 +84,12 @@ class DirectorySearchQuery
     ) {
         $this->parentLink = $asset->getMediaIdentifier();
         $this->filter = $filter;
-        $this->depth = $depth;
         $this->childrenLimit = $childrenLimit;
         $this->childrenOffset = $childrenOffset;
         $this->asset = $asset;
         $this->itemLang = $itemLang;
         $this->itemUri = $itemUri;
+        $this->setDepth($depth);
     }
 
     public function getChildrenOffset(): int
