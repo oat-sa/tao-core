@@ -32,7 +32,7 @@ class LoginSucceedEvent implements Event, JsonSerializable
 
     public function __construct(
         private readonly string $login = '',
-        private readonly ?string $source = SessionSource::INTERNAL_BACKOFFICE->value
+        private readonly string $source = SessionSource::INTERNAL_BACKOFFICE->value
     ) {
         $this->time = time();
     }
