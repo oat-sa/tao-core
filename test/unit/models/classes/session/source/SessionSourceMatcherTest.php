@@ -127,4 +127,24 @@ class SessionSourceMatcherTest extends TestCase
 
         $this->assertTrue($service->matchesSource(SessionSource::EXTERNAL_PORTAL->value, $session));
     }
+
+    public function testIsPortalSessionReturnsTrueWhenPortalMatcherMatches(): void
+    {
+        $session = $this->createMock(common_session_Session::class);
+        $matcher = $this->createMock(SessionSourceMatcherInterface::class);
+        $matcher->expects($this->once())->method('matchesSource')->with($session)->willReturn(true);
+
+        $service = new SessionSourceMatcher();
+        $service->addSessionSourceMatcher(SessionSource::EXTERNAL_PORTAL->value, $matcher);
+
+        $this->assertTrue($service->isPortalSession($session));
+    }
+
+    public function testIsPortalSessionReturnsFalseWhenPortalMatcherIsMissing(): void
+    {
+        $session = $this->createMock(common_session_Session::class);
+        $service = new SessionSourceMatcher();
+
+        $this->assertFalse($service->isPortalSession($session));
+    }
 }

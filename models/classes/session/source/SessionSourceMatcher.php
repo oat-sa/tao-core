@@ -65,6 +65,11 @@ class SessionSourceMatcher
         return false;
     }
 
+    public function isPortalSession(common_session_Session $session): bool
+    {
+        return $this->matchesSource(SessionSource::EXTERNAL_PORTAL->value, $session);
+    }
+
     private function hasMatcher(string $source, SessionSourceMatcherInterface $matcher): bool
     {
         foreach ($this->sourceMatchers[$source] ?? [] as $registeredMatcher) {
