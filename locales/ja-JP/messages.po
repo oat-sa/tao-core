@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-30 15:15\n"
+"PO-Revision-Date: 2026-08-20 08:15\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -2664,7 +2664,7 @@ msgid "Unable to open file %s"
 msgstr "ファイルを開けません : %s"
 
 msgid "Unable to process your request"
-msgstr "リクエストが処理できません"
+msgstr "リクエストを処理できません"
 
 msgid "Unable to release the lock"
 msgstr "ロックを解除することができません"
@@ -2992,3 +2992,4 @@ msgstr "TAOパスワード"
 
 msgid "ZIP archive"
 msgstr "ZIPアーカイブ"
+
