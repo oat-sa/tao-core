@@ -10,7 +10,7 @@
     "scripts": {},
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
-        "@oat-sa/tao-core-libs": "^1.2.1",
+        "@oat-sa/tao-core-libs": "github:oat-sa/tao-core-libs-fe#feature/integration/RFE-2199",
         "@oat-sa/tao-core-sdk": "^3.5.0",
         "@oat-sa/tao-core-shared-libs": "^1.12.1",
         "@oat-sa/tao-core-ui": "^3.22.0",
