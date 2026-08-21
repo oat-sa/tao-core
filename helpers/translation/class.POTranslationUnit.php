@@ -265,6 +265,21 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
     }
 
     /**
+     * Keep the scalar target and plural target index 0 aligned for plural PO units.
+     *
+     * @param string $target
+     */
+    public function setTarget($target)
+    {
+        parent::setTarget($target);
+
+        if ($this->hasPluralSource() || $this->hasPluralTargets()) {
+            $this->targets[0] = $target;
+            ksort($this->targets);
+        }
+    }
+
+    /**
      * @param int $index
      * @param string $target
      */

@@ -48,9 +48,16 @@ define(['i18n'], function(i18n) {
         });
 
     QUnit.test('i18n plural translation', function(assert) {
-        assert.equal(i18n.p('%d day', '%d days', 1), '1 den', 'Singular form should use plural index 0');
-        assert.equal(i18n.p('%d day', '%d days', 3), '3 dni', 'Few form should use plural index 1');
-        assert.equal(i18n.p('%d day', '%d days', 5), '5 dni', 'Many form should use the locale plural index');
-        assert.equal(i18n.p('%d day', '%d days', 21, 21), '21 dni', 'Plural translations still accept explicit format arguments');
+        assert.equal(i18n.p('%d day', '%d days', 1), '1 singular-day', 'Singular form should use plural index 0');
+        assert.equal(i18n.p('%d day', '%d days', 2), '2 few-days', 'Few count should use plural index 1');
+        assert.notEqual(i18n.p('%d day', '%d days', 2), '2 many-days', 'Few count must not resolve to the many plural index');
+        assert.equal(i18n.p('%d day', '%d days', 4), '4 many-days', 'Many count should preserve sparse plural index 3');
+        assert.equal(i18n.p('%d day', '%d days', 21, 21), '21 many-days', 'Explicit format arguments should preserve the many plural index');
+        assert.notEqual(i18n.p('%d day', '%d days', 4), '4 few-days', 'Many count must not resolve to the few plural index');
+        assert.equal(i18n.p('%d day', '%d days', 3), '3 singular-day', 'Unavailable sparse plural indexes should fall back to index 0');
+        assert.notEqual(i18n.p('%d day', '%d days', 3), '3 many-days', 'Unavailable plural index 2 must not be compressed to index 3');
+        assert.equal(i18n.p('mock-1', 'mock-1 plural', 2), 'mock-1 plural', 'Plain string translations should use the provided plural fallback');
+        assert.equal(i18n.p('missing plural key', 'missing plural fallback', 2), 'missing plural fallback', 'Missing translations should use the provided plural fallback');
+        assert.equal(i18n.p('%d ruby day', '%d ruby days', 1), '<ruby>1</ruby> den', 'Plural translations should convert ruby placeholders after formatting');
     });
 });

@@ -104,21 +104,24 @@ class tao_helpers_translation_POFileWriter extends tao_helpers_translation_Trans
     }
 
     /**
-     * @param tao_helpers_translation_POFile $file
+     * @param tao_helpers_translation_TranslationFile $file
      * @param array $targets
      * @return int
      */
-    private function resolvePluralCount(tao_helpers_translation_POFile $file, array $targets)
+    private function resolvePluralCount(tao_helpers_translation_TranslationFile $file, array $targets)
     {
+        $pluralCount = 2;
+        if ($file instanceof tao_helpers_translation_POFile) {
+            $pluralForms = $file->getHeaders()['Plural-Forms'] ?? '';
+            if (preg_match('/nplurals\s*=\s*(\d+)/i', $pluralForms, $matches)) {
+                $pluralCount = (int) $matches[1];
+            }
+        }
+
         if (!empty($targets)) {
-            return max(array_keys($targets)) + 1;
+            $pluralCount = max($pluralCount, max(array_keys($targets)) + 1);
         }
 
-        $pluralForms = $file->getHeaders()['Plural-Forms'] ?? '';
-        if (preg_match('/nplurals\s*=\s*(\d+)/i', $pluralForms, $matches)) {
-            return (int) $matches[1];
-        }
-
-        return 2;
+        return $pluralCount;
     }
 }

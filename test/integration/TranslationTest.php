@@ -63,8 +63,11 @@ use ReflectionClass;
  */
 class TranslationTest extends GenerisPhpUnitTestRunner
 {
+    private ?ServiceManager $previousServiceManager = null;
+
     public const RAW_PO = '/samples/sample_raw.po';
     public const RAW_PO_WITH_CONTEXT = '/samples/sample_raw_with_context.po';
+    public const RAW_PO_WITH_CONTEXTUAL_EMPTY_MSGID = '/samples/sample_raw_with_contextual_empty_msgid.po';
     public const ESCAPING_PO = '/samples/sample_escaping.po';
     public const SORTING_PO = '/samples/sample_sort.po';
     public const ANNOTATIONS_PO = '/samples/sample_annotations.po';
@@ -88,12 +91,24 @@ class TranslationTest extends GenerisPhpUnitTestRunner
             define('TAO_DEFAULT_ENCODING', 'UTF-8');
         }
 
+        $this->previousServiceManager = ServiceManager::getServiceManager();
+
         $config = new common_persistence_KeyValuePersistence(new common_persistence_InMemoryKvDriver(), []);
         $applicationService = $this->createMock(ApplicationService::class);
         $applicationService->method('getDefaultEncoding')->willReturn('UTF-8');
         $config->set(ApplicationService::SERVICE_ID, $applicationService);
 
         ServiceManager::setServiceManager(new ServiceManager($config));
+    }
+
+    protected function tearDown(): void
+    {
+        if ($this->previousServiceManager !== null) {
+            ServiceManager::setServiceManager($this->previousServiceManager);
+            $this->previousServiceManager = null;
+        }
+
+        parent::tearDown();
     }
 
     /**
@@ -313,6 +328,21 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $this->assertEquals('label', $tus[0]->getContext());
         $this->assertEquals('comment', $tus[1]->getContext());
         $this->assertEquals('', $tus[3]->getContext());
+
+        $po->setFilePath(dirname(__FILE__) . self::RAW_PO_WITH_CONTEXTUAL_EMPTY_MSGID);
+        $po->read();
+        $tf = $po->getTranslationFile();
+        $tus = $tf->getTranslationUnits();
+
+        $this->assertEquals(2, count($tus));
+        $this->assertEquals(tao_helpers_translation_Utils::getDefaultLanguage(), $tf->getSourceLanguage());
+        $this->assertEquals('de-DE', $tf->getTargetLanguage());
+        $this->assertEquals('button.label', $tus[0]->getContext());
+        $this->assertEquals('', $tus[0]->getSource());
+        $this->assertEquals('Leer', $tus[0]->getTarget());
+        $this->assertEquals('button.hint', $tus[1]->getContext());
+        $this->assertEquals('Submit', $tus[1]->getSource());
+        $this->assertEquals('Senden', $tus[1]->getTarget());
     }
 
     public function testPOTranslationSorting()
@@ -417,25 +447,30 @@ class TranslationTest extends GenerisPhpUnitTestRunner
     {
         $jsFilePath = tempnam('/tmp', self::TEMP_PO);
         $tf = new \tao_helpers_translation_POFile();
-        $tf->addHeader('Plural-Forms', 'nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;');
+        $tf->addHeader('Plural-Forms', 'nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n==3) ? 2 : 3;');
         $tu = new tao_helpers_translation_POTranslationUnit();
         $tu->setSource('%d day');
         $tu->setSourcePlural('%d days');
         $tu->setTargets([
             0 => '%d den',
             1 => '%d dni',
-            2 => '%d dni',
-            3 => '%d dni',
+            3 => '%d dniv',
         ]);
         $tf->addTranslationUnit($tu);
 
         $writer = new tao_helpers_translation_JSFileWriter($jsFilePath, $tf);
         $writer->write();
 
+        $serializedContent = file_get_contents($jsFilePath);
         $content = json_decode(file_get_contents($jsFilePath), true);
-        $this->assertEquals('nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;', $content['pluralForms']);
+        $this->assertEquals('nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n==3) ? 2 : 3;', $content['pluralForms']);
         $this->assertEquals('%d days', $content['translations']['%d day']['_plural']);
         $this->assertEquals('%d den', $content['translations']['%d day']['_translations'][0]);
+        $this->assertEquals('%d dni', $content['translations']['%d day']['_translations'][1]);
+        $this->assertEquals('%d dniv', $content['translations']['%d day']['_translations'][3]);
+        $this->assertArrayNotHasKey(2, $content['translations']['%d day']['_translations']);
+        $this->assertStringContainsString('"3":"%d dniv"', $serializedContent);
+        $this->assertStringNotContainsString('"2":', $serializedContent);
 
         unlink($jsFilePath);
     }
@@ -1162,5 +1197,98 @@ PO;
 
         unlink($poFilePath);
         unlink($rewrittenPath);
+    }
+
+    public function testPluralPOWritingSupportsGenericTranslationFiles()
+    {
+        $filePath = tempnam('/tmp', self::TEMP_PO);
+        $tf = new tao_helpers_translation_TranslationFile();
+        $tu = new tao_helpers_translation_POTranslationUnit();
+        $tu->setSource('%d item');
+        $tu->setSourcePlural('%d items');
+        $tu->setTargets([
+            2 => '%d items',
+        ]);
+        $tf->addTranslationUnit($tu);
+
+        $writer = new tao_helpers_translation_POFileWriter($filePath, $tf);
+        $writer->write();
+        $content = file_get_contents($filePath);
+
+        $this->assertStringContainsString('msgid_plural "%d items"', $content);
+        $this->assertStringContainsString('msgstr[0] ""', $content);
+        $this->assertStringContainsString('msgstr[1] ""', $content);
+        $this->assertStringContainsString('msgstr[2] "%d items"', $content);
+
+        unlink($filePath);
+    }
+
+    public function testPluralPOWritingRespectsDeclaredNPlurals()
+    {
+        $filePath = tempnam('/tmp', self::TEMP_PO);
+        $tf = new tao_helpers_translation_POFile();
+        $tf->addHeader('Plural-Forms', 'nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;');
+        $tu = new tao_helpers_translation_POTranslationUnit();
+        $tu->setSource('%d day');
+        $tu->setSourcePlural('%d days');
+        $tu->setTargets([
+            0 => '%d den',
+        ]);
+        $tf->addTranslationUnit($tu);
+
+        $writer = new tao_helpers_translation_POFileWriter($filePath, $tf);
+        $writer->write();
+        $content = file_get_contents($filePath);
+
+        $this->assertStringContainsString('msgstr[0] "%d den"', $content);
+        $this->assertStringContainsString('msgstr[1] ""', $content);
+        $this->assertStringContainsString('msgstr[2] ""', $content);
+        $this->assertStringContainsString('msgstr[3] ""', $content);
+
+        unlink($filePath);
+    }
+
+    public function testPOFileAddTranslationUnitKeepsPluralTargetsSynced()
+    {
+        $tf = new tao_helpers_translation_POFile();
+        $existingTu = new tao_helpers_translation_POTranslationUnit();
+        $existingTu->setSource('%d item');
+        $existingTu->setSourcePlural('%d items');
+        $existingTu->setTargets([
+            0 => '%d old item',
+            1 => '%d old items',
+        ]);
+        $tf->addTranslationUnit($existingTu);
+
+        $updatedTu = new tao_helpers_translation_POTranslationUnit();
+        $updatedTu->setSource('%d item');
+        $updatedTu->setSourcePlural('%d items');
+        $updatedTu->setTarget('%d new item');
+        $tf->addTranslationUnit($updatedTu);
+
+        $mergedTu = $tf->getTranslationUnits()[0];
+        $this->assertEquals('%d new item', $mergedTu->getTarget());
+        $this->assertEquals('%d new item', $mergedTu->getTargetByIndex(0));
+        $this->assertEquals('', $mergedTu->getTargetByIndex(1));
+    }
+
+    public function testPluralPOWritingUsesSyncedSingularTargetAtIndexZero()
+    {
+        $filePath = tempnam('/tmp', self::TEMP_PO);
+        $tf = new tao_helpers_translation_POFile();
+        $tu = new tao_helpers_translation_POTranslationUnit();
+        $tu->setSource('%d item');
+        $tu->setSourcePlural('%d items');
+        $tu->setTarget('%d translated item');
+        $tf->addTranslationUnit($tu);
+
+        $writer = new tao_helpers_translation_POFileWriter($filePath, $tf);
+        $writer->write();
+        $content = file_get_contents($filePath);
+
+        $this->assertStringContainsString('msgid_plural "%d items"', $content);
+        $this->assertStringContainsString('msgstr[0] "%d translated item"', $content);
+
+        unlink($filePath);
     }
 }

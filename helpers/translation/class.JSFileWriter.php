@@ -51,7 +51,7 @@ class tao_helpers_translation_JSFileWriter extends tao_helpers_translation_Trans
 
         foreach ($this->getTranslationFile()->getTranslationUnits() as $tu) {
             if ($tu instanceof tao_helpers_translation_POTranslationUnit && $tu->hasPluralSource()) {
-                $targets = array_values($tu->getTargets());
+                $targets = $tu->getTargets();
                 if (!empty($targets)) {
                     $strings[$tu->getSource()] = [
                         '_plural' => $tu->getSourcePlural(),

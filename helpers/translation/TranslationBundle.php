@@ -130,7 +130,7 @@ class TranslationBundle
             if (file_exists($jsFilePath)) {
                 $translate = json_decode(file_get_contents($jsFilePath), false);
                 if ($translate != null) {
-                    $translationsData = isset($translate->translations) && is_object($translate->translations)
+                    $translationsData = property_exists($translate, 'translations')
                         ? (array) $translate->translations
                         : (array) $translate;
 
@@ -167,11 +167,36 @@ class TranslationBundle
             $bundleDirectory = $directory . '/' . $this->langCode;
             $jsonFile = $bundleDirectory . '/' . self::JSON_BUNDLE_FILE;
             $amdFile = $bundleDirectory . '/' . self::AMD_BUNDLE_FILE;
+            $jsonPayload = json_encode($content);
+            $amdPayload = $this->buildAmdBundle($content, $pluralForms);
 
-            if (
-                @file_put_contents($jsonFile, json_encode($content))
-                && @file_put_contents($amdFile, $this->buildAmdBundle($content, $pluralForms))
-            ) {
+            if (!$this->writeFile($jsonFile, $jsonPayload, $jsonError)) {
+                $this->logBundleWriteFailure(
+                    sprintf('Failed to write translation bundle JSON file "%s".', $jsonFile),
+                    ['error' => $jsonError]
+                );
+                return false;
+            }
+
+            if (!$this->writeFile($amdFile, $amdPayload, $amdError)) {
+                $this->logBundleWriteFailure(
+                    sprintf(
+                        'Failed to write translation bundle AMD file "%s"; removing "%s".',
+                        $amdFile,
+                        $jsonFile
+                    ),
+                    ['error' => $amdError]
+                );
+                if (!$this->removeFile($jsonFile, $removeError)) {
+                    $this->logBundleWriteFailure(
+                        sprintf('Failed to remove partially written translation bundle JSON file "%s".', $jsonFile),
+                        ['error' => $removeError]
+                    );
+                }
+                return false;
+            }
+
+            if (file_exists($jsonFile) && file_exists($amdFile)) {
                 return $jsonFile;
             }
         }
@@ -219,6 +244,7 @@ class TranslationBundle
             || !preg_match('/nplurals\s*=\s*(\d+)/i', $pluralForms, $pluralCountMatch)
             || !preg_match('/plural\s*=\s*([^;]+)/i', $pluralForms, $expressionMatch)
             || !preg_match('/^[0-9n\s\(\)\?:|&=!<>%+\-*\/.]+$/', ($expression = trim($expressionMatch[1])))
+            || preg_match('/\/\*|\*\/|\/\//', $expression)
         ) {
             return self::DEFAULT_PLURAL_RULE;
         }
@@ -227,5 +253,76 @@ class TranslationBundle
         $maxIndex = $pluralCount - 1;
 
         return sprintf(self::GENERATED_PLURAL_RULE, $expression, $maxIndex, $maxIndex);
+    }
+
+    /**
+     * Write file contents while capturing filesystem warnings for logging.
+     *
+     * @param string $path
+     * @param string $content
+     * @param string|null $error
+     * @return bool
+     */
+    protected function writeFile($path, $content, &$error = null)
+    {
+        $error = null;
+        set_error_handler(static function ($severity, $message) use (&$error) {
+            $error = $message;
+            return true;
+        });
+
+        try {
+            $bytesWritten = file_put_contents($path, $content);
+        } finally {
+            restore_error_handler();
+        }
+
+        if ($bytesWritten === false) {
+            $error = $error ?? 'Unknown write failure.';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Remove a file while capturing filesystem warnings for logging.
+     *
+     * @param string $path
+     * @param string|null $error
+     * @return bool
+     */
+    protected function removeFile($path, &$error = null)
+    {
+        $error = null;
+        set_error_handler(static function ($severity, $message) use (&$error) {
+            $error = $message;
+            return true;
+        });
+
+        try {
+            $removed = unlink($path);
+        } finally {
+            restore_error_handler();
+        }
+
+        if ($removed === false) {
+            $error = $error ?? 'Unknown remove failure.';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Log bundle write failures with path-specific diagnostics.
+     *
+     * @param string $message
+     * @param array $context
+     * @return void
+     */
+    protected function logBundleWriteFailure($message, array $context = [])
+    {
+        common_Logger::e($message . (empty($context['error']) ? '' : ' ' . $context['error']));
     }
 }

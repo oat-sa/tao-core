@@ -69,7 +69,7 @@ class tao_helpers_translation_POFileReader extends tao_helpers_translation_Trans
                 continue;
             }
 
-            if ($parsedEntry['msgid'] === '') {
+            if ($parsedEntry['msgid'] === '' && $parsedEntry['msgctxt'] === '') {
                 $headers = $this->extractHeaders($parsedEntry['msgstr']);
                 foreach ($headers as $name => $value) {
                     $tf->addHeader($name, $value);
@@ -200,7 +200,8 @@ class tao_helpers_translation_POFileReader extends tao_helpers_translation_Trans
         }
 
         if (
-            $parsed['msgid'] === ''
+            $parsed['msgctxt'] === ''
+            && $parsed['msgid'] === ''
             && $parsed['msgstr'] === ''
             && $parsed['msgid_plural'] === ''
             && empty($parsed['msgstr_plural'])

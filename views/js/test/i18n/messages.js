@@ -3,9 +3,9 @@ define(function () {
         serial: 'eafb7256bbb2e65d3cf1775a29417159',
         date: 1439814027,
         version: '3.1.0-sprint04',
-        pluralForms: 'nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;',
+        pluralForms: 'nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n==3) ? 2 : 3;',
         p11nRules: function (n) {
-            let index = Number((n === 1) ? 0 : (n >= 2 && n <= 4) ? 1 : 3);
+            let index = Number((n === 1) ? 0 : (n === 2) ? 1 : (n === 3) ? 2 : 3);
 
             if (!isFinite(index)) {
                 return 0;
@@ -31,12 +31,18 @@ define(function () {
             'params json %j': 'parameterized json translation %j',
             '%d day': {
                 _plural: '%d days',
-                _translations: [
-                    '%d den',
-                    '%d dni',
-                    '%d dni',
-                    '%d dni'
-                ]
+                _translations: {
+                    0: '%d singular-day',
+                    1: '%d few-days',
+                    3: '%d many-days'
+                }
+            },
+            '%d ruby day': {
+                _plural: '%d ruby days',
+                _translations: {
+                    0: '{ruby}%d{/ruby} den',
+                    1: '{ruby}%d{/ruby} dni'
+                }
             }
         }
     };

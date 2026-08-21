@@ -1,7 +1,7 @@
 define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
     'use strict';
 
-    const translations = i18nTr.translations;
+    const translations = i18nTr && i18nTr.translations ? i18nTr.translations : {};
     const rubyTags = /\{(ruby|rt|rb|rp)\}|\{\/(ruby|rt|rb|rp)\}/g;
     const pluralRule = typeof i18nTr.p11nRules === 'function'
         ? i18nTr.p11nRules
@@ -29,17 +29,46 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
         };
     }
 
-    function resolveTranslation(message, pluralFallback, pluralIndex) {
-        const localized = translations[message] || message;
-        let safeIndex;
+    function hasOwnTranslationIndex(translationsMap, pluralIndex) {
+        return Object.prototype.hasOwnProperty.call(translationsMap, pluralIndex);
+    }
 
-        if (localized && typeof localized === 'object' && Array.isArray(localized._translations)) {
-            safeIndex = clampPluralIndex(pluralIndex, localized._translations.length);
+    function resolvePluralVariant(translationsMap, pluralIndex, pluralFallback, message) {
+        if (Array.isArray(translationsMap)) {
+            const safeIndex = clampPluralIndex(pluralIndex, translationsMap.length);
 
-            return localized._translations[safeIndex] || localized._translations[0] || pluralFallback || message;
+            return translationsMap[safeIndex] || translationsMap[0] || pluralFallback || message;
         }
 
-        return localized || pluralFallback || message;
+        if (translationsMap && typeof translationsMap === 'object') {
+            if (hasOwnTranslationIndex(translationsMap, pluralIndex)) {
+                return translationsMap[pluralIndex];
+            }
+
+            if (hasOwnTranslationIndex(translationsMap, 0)) {
+                return translationsMap[0];
+            }
+        }
+
+        return pluralFallback || message;
+    }
+
+    function resolveTranslation(message, pluralFallback, pluralIndex) {
+        const localized = translations[message];
+
+        if (localized && typeof localized === 'object' && localized._translations) {
+            return resolvePluralVariant(localized._translations, pluralIndex, pluralFallback, message);
+        }
+
+        if (
+            typeof pluralFallback !== 'undefined'
+            && pluralFallback !== message
+            && (typeof localized === 'undefined' || typeof localized === 'string')
+        ) {
+            return pluralFallback;
+        }
+
+        return localized || message;
     }
 
     /**
@@ -97,17 +126,11 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
     __.p = function __p(singular, plural, count, ...args){
         const pluralIndex = pluralRule(Number(count));
         let localized = resolveTranslation(singular, pluralIndex === 0 ? singular : plural, pluralIndex);
-        let formatArgs = args;
+        const formatArgs = args.length === 0 ? [count] : args;
 
-        if (formatArgs.length === 0) {
-            formatArgs = [count];
-        }
+        localized = format(localized, ...formatArgs);
 
-        if(formatArgs.length > 0){
-            localized = format(localized, ...formatArgs);
-        }
-
-        return localized;
+        return convertRubyTags(localized);
     };
 
     __.plainTextFromRuby = plainTextFromRuby;

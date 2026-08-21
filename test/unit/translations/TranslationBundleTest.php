@@ -188,4 +188,139 @@ class TranslationBundleTest extends TestCase
 
         tao_helpers_File::delTree($basePath);
     }
+
+    public function testBundleUsesExplicitEmptyTranslationsPayload()
+    {
+        $basePath = self::$tmpDir . '/bundle-empty-translations-' . uniqid('', true);
+        $taoExtensionPath = $basePath . '/tao/locales/en-US';
+        $featureExtensionPath = $basePath . '/featureExt/locales/en-US';
+
+        mkdir($taoExtensionPath, 0777, true);
+        mkdir($featureExtensionPath, 0777, true);
+
+        file_put_contents(
+            $taoExtensionPath . '/messages_po.js',
+            json_encode([
+                'pluralForms' => 'nplurals=2; plural=n != 1;',
+                'translations' => [],
+            ])
+        );
+        file_put_contents(
+            $featureExtensionPath . '/messages_po.js',
+            json_encode([
+                'feature.key' => 'Feature translation',
+            ])
+        );
+
+        $bundle = new TranslationBundle('en-US', ['tao', 'featureExt'], $basePath);
+        $file = $bundle->generateTo(self::$tmpDir);
+        $content = json_decode(file_get_contents($file), true);
+
+        $this->assertSame(['feature.key' => 'Feature translation'], $content['translations']);
+        $this->assertSame('nplurals=2; plural=n != 1;', $content['pluralForms']);
+
+        tao_helpers_File::delTree($basePath);
+    }
+
+    public function testBundleRemovesJsonWhenAmdWriteFails()
+    {
+        $basePath = self::$tmpDir . '/bundle-amd-failure-' . uniqid('', true);
+        $outputPath = self::$tmpDir . '/bundle-amd-output-' . uniqid('', true);
+        $extensionPath = $basePath . '/fakeExt/locales/en-US';
+
+        mkdir($extensionPath, 0777, true);
+        mkdir($outputPath, 0777, true);
+        file_put_contents(
+            $extensionPath . '/messages_po.js',
+            json_encode([
+                'translations' => [
+                    'mock-1' => 'translation mock 1',
+                ],
+            ])
+        );
+
+        $bundle = new class ('en-US', ['fakeExt'], $basePath) extends TranslationBundle {
+            public array $logs = [];
+
+            protected function writeFile($path, $content, &$error = null)
+            {
+                if (substr($path, -strlen('/messages.js')) === '/messages.js') {
+                    $error = 'Simulated AMD write failure.';
+                    return false;
+                }
+
+                return parent::writeFile($path, $content, $error);
+            }
+
+            protected function logBundleWriteFailure($message, array $context = [])
+            {
+                $this->logs[] = [$message, $context];
+            }
+        };
+
+        $result = $bundle->generateTo($outputPath);
+        $jsonFile = $outputPath . '/en-US/messages.json';
+        $amdFile = $outputPath . '/en-US/messages.js';
+
+        $this->assertFalse($result);
+        $this->assertFileDoesNotExist($jsonFile);
+        $this->assertFileDoesNotExist($amdFile);
+        $this->assertCount(1, $bundle->logs);
+        $this->assertStringContainsString($amdFile, $bundle->logs[0][0]);
+        $this->assertStringContainsString($jsonFile, $bundle->logs[0][0]);
+        $this->assertSame('Simulated AMD write failure.', $bundle->logs[0][1]['error']);
+
+        tao_helpers_File::delTree($basePath);
+        tao_helpers_File::delTree($outputPath);
+    }
+
+    public function testBundlePluralRuleFallsBackForCommentLikeExpressions()
+    {
+        $basePath = self::$tmpDir . '/bundle-comment-expression-' . uniqid('', true);
+        $extensionPath = $basePath . '/fakeExt/locales/en-US';
+
+        mkdir($extensionPath, 0777, true);
+        file_put_contents(
+            $extensionPath . '/messages_po.js',
+            json_encode([
+                'pluralForms' => 'nplurals=2; plural=n/*comment*/2;',
+                'translations' => [
+                    'mock-1' => 'translation mock 1',
+                ],
+            ])
+        );
+
+        $bundle = new TranslationBundle('en-US', ['fakeExt'], $basePath);
+        $file = $bundle->generateTo(self::$tmpDir);
+        $module = file_get_contents(dirname($file) . '/messages.js');
+
+        $this->assertStringContainsString('p11nRules: function (n) { return n === 1 ? 0 : 1; }', $module);
+
+        tao_helpers_File::delTree($basePath);
+    }
+
+    public function testBundlePluralRuleStillAllowsDivisionOperator()
+    {
+        $basePath = self::$tmpDir . '/bundle-division-expression-' . uniqid('', true);
+        $extensionPath = $basePath . '/fakeExt/locales/en-US';
+
+        mkdir($extensionPath, 0777, true);
+        file_put_contents(
+            $extensionPath . '/messages_po.js',
+            json_encode([
+                'pluralForms' => 'nplurals=3; plural=n/2;',
+                'translations' => [
+                    'mock-1' => 'translation mock 1',
+                ],
+            ])
+        );
+
+        $bundle = new TranslationBundle('en-US', ['fakeExt'], $basePath);
+        $file = $bundle->generateTo(self::$tmpDir);
+        $module = file_get_contents(dirname($file) . '/messages.js');
+
+        $this->assertStringContainsString('Number(n/2)', $module);
+
+        tao_helpers_File::delTree($basePath);
+    }
 }

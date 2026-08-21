@@ -170,7 +170,10 @@ class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslat
         /** @var tao_helpers_translation_TranslationUnit $tu */
         foreach ($this->getTranslationUnits() as $tu) {
             if ($this->isSameTranslationUnitIdentity($tu, $translationUnit)) {
-                if ($translationUnit instanceof tao_helpers_translation_POTranslationUnit) {
+                if (
+                    $tu instanceof tao_helpers_translation_POTranslationUnit
+                    && $translationUnit instanceof tao_helpers_translation_POTranslationUnit
+                ) {
                     $tu->setSourcePlural($translationUnit->getSourcePlural());
                     if ($translationUnit->hasPluralTargets()) {
                         $tu->setTargets($translationUnit->getTargets());
