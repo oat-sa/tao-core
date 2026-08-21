@@ -41,7 +41,10 @@ class TranslationBundle
     private const JSON_BUNDLE_FILE = 'messages.json';
     private const AMD_BUNDLE_FILE = 'messages.js';
     private const DEFAULT_PLURAL_RULE = 'function (n) { return n === 1 ? 0 : 1; }';
-    private const GENERATED_PLURAL_RULE = 'function (n) { var index = Number(%s); if (!isFinite(index)) { return 0; } index = Math.floor(index); if (index < 0) { return 0; } if (index > %d) { return %d; } return index; }';
+    private const GENERATED_PLURAL_RULE =
+        'function (n) { var index = Number(%s); if (!isFinite(index)) { return 0; } '
+        . 'index = Math.floor(index); if (index < 0) { return 0; } '
+        . 'if (index > %d) { return %d; } return index; }';
 
     /**
      * The bundle langCode, formated as a locale: en-US, fr-FR, etc.
@@ -175,6 +178,13 @@ class TranslationBundle
         return false;
     }
 
+    /**
+     * Build the AMD translation bundle.
+     *
+     * @param array $content
+     * @param string $pluralForms
+     * @return string
+     */
     private function buildAmdBundle(array $content, $pluralForms)
     {
         $properties = [
@@ -195,6 +205,12 @@ class TranslationBundle
         return 'define(function(){return{' . implode(',', $properties) . '};});';
     }
 
+    /**
+     * Build the plural rule function body.
+     *
+     * @param string $pluralForms
+     * @return string
+     */
     private function buildPluralRuleFunction($pluralForms)
     {
         if (

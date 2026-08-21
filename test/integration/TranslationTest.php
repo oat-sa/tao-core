@@ -408,6 +408,11 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         unlink($jsFilePath);
     }
 
+    /**
+     * Write plural translations into the JavaScript bundle.
+     *
+     * @return void
+     */
     public function testPluralJavaScriptTranslationWriting()
     {
         $jsFilePath = tempnam('/tmp', self::TEMP_PO);
@@ -1016,6 +1021,11 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         );
     }
 
+    /**
+     * Extract plural phrases from JavaScript sources.
+     *
+     * @return void
+     */
     public function testPluralSourceExtraction()
     {
         $class = new ReflectionClass('tao_helpers_translation_SourceCodeExtractor');
@@ -1050,6 +1060,11 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         rmdir($directory);
     }
 
+    /**
+     * Extract plural phrases from template sources.
+     *
+     * @return void
+     */
     public function testPluralTemplateSourceExtraction()
     {
         $directory = sys_get_temp_dir() . '/tao-translation-template-' . uniqid('', true);
@@ -1098,6 +1113,11 @@ TPL
         rmdir($directory);
     }
 
+    /**
+     * Preserve plural forms when reading and writing PO files.
+     *
+     * @return void
+     */
     public function testPluralPOReadingAndWriting()
     {
         $poFilePath = tempnam('/tmp', self::TEMP_PO);

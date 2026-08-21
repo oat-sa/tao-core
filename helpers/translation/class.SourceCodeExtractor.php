@@ -294,7 +294,8 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
         $strings = [];
         $extractors = [
             [
-                'pattern' => "/__\\.p\\(\\s*([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1\\s*,\\s*([\\\"'])(?:(?=(\\\\?))\\4.)*?\\3/us",
+                'pattern' => "/__\\.p\\(\\s*([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1\\s*,\\s*"
+                    . "([\\\"'])(?:(?=(\\\\?))\\4.)*?\\3/us",
                 'mode' => 'quotedArguments',
             ],
             [

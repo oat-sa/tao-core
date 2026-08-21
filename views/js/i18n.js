@@ -3,7 +3,7 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
 
     const translations = i18nTr.translations;
     const rubyTags = /\{(ruby|rt|rb|rp)\}|\{\/(ruby|rt|rb|rp)\}/g;
-    var pluralRule = typeof i18nTr.p11nRules === 'function'
+    const pluralRule = typeof i18nTr.p11nRules === 'function'
         ? i18nTr.p11nRules
         : createDefaultPluralRule();
 
@@ -30,10 +30,11 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
     }
 
     function resolveTranslation(message, pluralFallback, pluralIndex) {
-        var localized = translations[message] || message;
+        const localized = translations[message] || message;
+        let safeIndex;
 
         if (localized && typeof localized === 'object' && Array.isArray(localized._translations)) {
-            var safeIndex = clampPluralIndex(pluralIndex, localized._translations.length);
+            safeIndex = clampPluralIndex(pluralIndex, localized._translations.length);
 
             return localized._translations[safeIndex] || localized._translations[0] || pluralFallback || message;
         }
@@ -48,7 +49,7 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
      * @returns {String}
      */
     function convertRubyTags(text) {
-        return text.replace(rubyTags, (match, open, close) => {
+        return text.replace(rubyTags, function(match, open, close) {
             return open ? `<${open}>` : `</${close}>`;
         });
     }
@@ -61,7 +62,7 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
      */
     function plainTextFromRuby(text) {
         if (typeof text !== 'string' || text === '') {
-            return text === null || text === undefined ? '' : String(text);
+            return text === null || typeof text === 'undefined' ? '' : String(text);
         }
 
         let plain = convertRubyTags(text);
@@ -80,29 +81,30 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
      * @see /views/locales/#lang#/messages.js
      *
      * @param {String} message should be the string in the default language (usually english) used as the key in the gettext translations
+     * @param {...*} args values passed to the formatter
      * @returns {String} translated message
      */
-    function __(message){
-        var localized = resolveTranslation(message, message, 0);
+    function __(message, ...args){
+        let localized = resolveTranslation(message, message, 0);
 
-        if (arguments.length > 1) {
-            localized = format.apply(null, [localized].concat([].slice.call(arguments, 1)));
+        if (args.length > 0) {
+            localized = format(localized, ...args);
         }
 
         return convertRubyTags(localized);
     }
 
-    __.p = function __p(singular, plural, count){
-        var pluralIndex = pluralRule(Number(count));
-        var localized = resolveTranslation(singular, pluralIndex === 0 ? singular : plural, pluralIndex);
-        var formatArgs = [].slice.call(arguments, 3);
+    __.p = function __p(singular, plural, count, ...args){
+        const pluralIndex = pluralRule(Number(count));
+        let localized = resolveTranslation(singular, pluralIndex === 0 ? singular : plural, pluralIndex);
+        let formatArgs = args;
 
         if (formatArgs.length === 0) {
             formatArgs = [count];
         }
 
         if(formatArgs.length > 0){
-            localized = format.apply(null, [localized].concat(formatArgs));
+            localized = format(localized, ...formatArgs);
         }
 
         return localized;

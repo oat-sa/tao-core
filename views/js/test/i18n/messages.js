@@ -5,7 +5,7 @@ define(function () {
         version: '3.1.0-sprint04',
         pluralForms: 'nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;',
         p11nRules: function (n) {
-            var index = Number((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3);
+            let index = Number((n === 1) ? 0 : (n >= 2 && n <= 4) ? 1 : 3);
 
             if (!isFinite(index)) {
                 return 0;

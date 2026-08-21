@@ -120,6 +120,11 @@ class TranslationBundleTest extends TestCase
         }
     }
 
+    /**
+     * Keep plural metadata when bundling structured messages.
+     *
+     * @return void
+     */
     public function testBundleKeepsPluralFormsFromStructuredMessages()
     {
         $basePath = self::$tmpDir . '/bundle-fixtures-' . uniqid('', true);
@@ -156,6 +161,11 @@ class TranslationBundleTest extends TestCase
         tao_helpers_File::delTree($basePath);
     }
 
+    /**
+     * Support the legacy flat `messages_po.js` format.
+     *
+     * @return void
+     */
     public function testBundleSupportsLegacyFlatMessagesFormat()
     {
         $basePath = self::$tmpDir . '/bundle-legacy-' . uniqid('', true);
