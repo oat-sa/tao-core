@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,6 +21,8 @@ declare(strict_types=1);
  *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\helpers\translation;
 
