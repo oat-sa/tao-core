@@ -702,10 +702,27 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         $oldTranslationFile = $translationFileReader->getTranslationFile();
 
         foreach ($oldTranslationFile->getTranslationUnits() as $oldTu) {
-            if (($newTu = $translationFile->getBySource($oldTu)) !== null && $oldTu->getTarget() != '') {
+            if (
+                ($newTu = $translationFile->getBySource($oldTu)) !== null
+                && (
+                    $oldTu->getTarget() != ''
+                    || (
+                        $oldTu instanceof tao_helpers_translation_POTranslationUnit
+                        && $oldTu->hasPluralTargets()
+                    )
+                )
+            ) {
                 // No duplicates in TFs so I simply add it whatever happens.
                 // If it already has the same one, it means we will update it.
-                $newTu->setTarget($oldTu->getTarget());
+                if (
+                    $newTu instanceof tao_helpers_translation_POTranslationUnit
+                    && $oldTu instanceof tao_helpers_translation_POTranslationUnit
+                    && $oldTu->hasPluralTargets()
+                ) {
+                    $newTu->setTargets($oldTu->getTargets());
+                } else {
+                    $newTu->setTarget($oldTu->getTarget());
+                }
             }
 
             //Do not remove translations that exists on the po files
@@ -726,6 +743,9 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         $sortedTranslationFile = new tao_helpers_translation_POFile();
         $sortedTranslationFile->setSourceLanguage($translationFile->getSourceLanguage());
         $sortedTranslationFile->setTargetLanguage($translationFile->getTargetLanguage());
+        foreach ($oldTranslationFile->getHeaders() as $name => $value) {
+            $sortedTranslationFile->addHeader($name, $value);
+        }
         $sortedTranslationFile->addTranslationUnits($translationFile->sortBySource($sortingMethod));
         $this->preparePOFile($sortedTranslationFile, true);
 
@@ -1065,7 +1085,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
 
         if ($poEditorReady) {
             $poFile->addHeader('X-Poedit-Basepath', '../../');
-            $poFile->addHeader('X-Poedit-KeywordsList', '__');
+            $poFile->addHeader('X-Poedit-KeywordsList', '__,__p:1,2');
             $poFile->addHeader('X-Poedit-SearchPath-0', '.');
         }
     }
@@ -1388,10 +1408,24 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
 
         foreach ($extensionsToCreate as $extension) {
             $language = $this->options['language'];
-            $compiledTranslationFile = new tao_helpers_translation_TranslationFile();
+            $compiledTranslationFile = new tao_helpers_translation_POFile();
             $compiledTranslationFile->setTargetLanguage($this->options['language']);
+            $mergePoHeaders = function (
+                tao_helpers_translation_POFile $poFile,
+                $overwritePluralForms = false
+            ) use ($compiledTranslationFile) {
+                $compiledHeaders = $compiledTranslationFile->getHeaders();
+                $poHeaders = $poFile->getHeaders();
 
-            $this->outVerbose("Compiling language '${$language}' for extension '{$extension}'...");
+                if (
+                    !empty($poHeaders['Plural-Forms'])
+                    && ($overwritePluralForms || empty($compiledHeaders['Plural-Forms']))
+                ) {
+                    $compiledTranslationFile->addHeader('Plural-Forms', $poHeaders['Plural-Forms']);
+                }
+            };
+
+            $this->outVerbose("Compiling language '{$language}' for extension '{$extension}'...");
 
             // Get the dependencies of the target extension.
             // @todo Deal with dependencies at compilation time.
@@ -1432,6 +1466,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                 $poFileReader = new tao_helpers_translation_POFileReader($depPath);
                 $poFileReader->read();
                 $poFile = $poFileReader->getTranslationFile();
+                $mergePoHeaders($poFile);
                 $poCount = $poFile->count();
                 $compiledTranslationFile->addTranslationUnits($poFile->getTranslationUnits());
 
@@ -1474,6 +1509,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                         $poFileReader = new tao_helpers_translation_POFileReader($poPath);
                         $poFileReader->read();
                         $poFile = $poFileReader->getTranslationFile();
+                        $mergePoHeaders($poFile);
                         $poUnits = $poFile->getByFlag('tao-public');
                         $poCount = count($poUnits);
                         $compiledTranslationFile->addTranslationUnits($poUnits);
@@ -1487,6 +1523,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                     $poFileReader = new tao_helpers_translation_POFileReader($path);
                     $poFileReader->read();
                     $poFile = $poFileReader->getTranslationFile();
+                    $mergePoHeaders($poFile, true);
                     $compiledTranslationFile->addTranslationUnits($poFile->getTranslationUnits());
 
                     // Sort the TranslationUnits.

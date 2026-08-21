@@ -38,6 +38,11 @@ use common_Logger;
  */
 class TranslationBundle
 {
+    private const JSON_BUNDLE_FILE = 'messages.json';
+    private const AMD_BUNDLE_FILE = 'messages.js';
+    private const DEFAULT_PLURAL_RULE = 'function (n) { return n === 1 ? 0 : 1; }';
+    private const GENERATED_PLURAL_RULE = 'function (n) { var index = Number(%s); if (!isFinite(index)) { return 0; } index = Math.floor(index); if (index < 0) { return 0; } if (index > %d) { return %d; } return index; }';
+
     /**
      * The bundle langCode, formated as a locale: en-US, fr-FR, etc.
      * @var string
@@ -115,13 +120,25 @@ class TranslationBundle
     public function generateTo($directory)
     {
         $translations = [];
+        $pluralForms = '';
 
         foreach ($this->extensions as $extension) {
             $jsFilePath = $this->basePath . '/' . $extension . '/locales/' . $this->langCode . '/messages_po.js';
             if (file_exists($jsFilePath)) {
                 $translate = json_decode(file_get_contents($jsFilePath), false);
                 if ($translate != null) {
-                    $translations = array_merge($translations, (array)$translate);
+                    $translationsData = isset($translate->translations) && is_object($translate->translations)
+                        ? (array) $translate->translations
+                        : (array) $translate;
+
+                    if (
+                        !empty($translate->pluralForms)
+                        && ($extension === 'tao' || empty($pluralForms))
+                    ) {
+                        $pluralForms = $translate->pluralForms;
+                    }
+
+                    $translations = array_merge($translations, $translationsData);
                 }
             }
         }
@@ -132,6 +149,10 @@ class TranslationBundle
             'translations' =>   $translations
         ];
 
+        if (!empty($pluralForms)) {
+            $content['pluralForms'] = $pluralForms;
+        }
+
         if (!empty($this->taoVersion)) {
             $content['version'] = $this->taoVersion;
         }
@@ -140,11 +161,55 @@ class TranslationBundle
             if (!is_dir($directory . '/' . $this->langCode)) {
                 mkdir($directory . '/' . $this->langCode);
             }
-            $file = $directory . '/' . $this->langCode . '/messages.json';
-            if (@file_put_contents($file, json_encode($content))) {
-                return $file;
+            $bundleDirectory = $directory . '/' . $this->langCode;
+            $jsonFile = $bundleDirectory . '/' . self::JSON_BUNDLE_FILE;
+            $amdFile = $bundleDirectory . '/' . self::AMD_BUNDLE_FILE;
+
+            if (
+                @file_put_contents($jsonFile, json_encode($content))
+                && @file_put_contents($amdFile, $this->buildAmdBundle($content, $pluralForms))
+            ) {
+                return $jsonFile;
             }
         }
         return false;
+    }
+
+    private function buildAmdBundle(array $content, $pluralForms)
+    {
+        $properties = [
+            'serial: ' . json_encode($content['serial']),
+            'date: ' . (int) $content['date'],
+            'translations: ' . json_encode($content['translations']),
+            'p11nRules: ' . $this->buildPluralRuleFunction($pluralForms),
+        ];
+
+        if (!empty($content['pluralForms'])) {
+            $properties[] = 'pluralForms: ' . json_encode($content['pluralForms']);
+        }
+
+        if (!empty($content['version'])) {
+            $properties[] = 'version: ' . json_encode($content['version']);
+        }
+
+        return 'define(function(){return{' . implode(',', $properties) . '};});';
+    }
+
+    private function buildPluralRuleFunction($pluralForms)
+    {
+        if (
+            !is_string($pluralForms)
+            || trim($pluralForms) === ''
+            || !preg_match('/nplurals\s*=\s*(\d+)/i', $pluralForms, $pluralCountMatch)
+            || !preg_match('/plural\s*=\s*([^;]+)/i', $pluralForms, $expressionMatch)
+            || !preg_match('/^[0-9n\s\(\)\?:|&=!<>%+\-*\/.]+$/', ($expression = trim($expressionMatch[1])))
+        ) {
+            return self::DEFAULT_PLURAL_RULE;
+        }
+
+        $pluralCount = max((int) $pluralCountMatch[1], 1);
+        $maxIndex = $pluralCount - 1;
+
+        return sprintf(self::GENERATED_PLURAL_RULE, $expression, $maxIndex, $maxIndex);
     }
 }

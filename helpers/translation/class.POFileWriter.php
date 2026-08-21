@@ -71,7 +71,6 @@ class tao_helpers_translation_POFileWriter extends tao_helpers_translation_Trans
         foreach ($this->getTranslationFile()->getTranslationUnits() as $tu) {
             $c = tao_helpers_translation_POUtils::sanitize($tu->getContext(), true);
             $s = tao_helpers_translation_POUtils::sanitize($tu->getSource(), true);
-            $t = tao_helpers_translation_POUtils::sanitize($tu->getTarget(), true);
             $a = tao_helpers_translation_POUtils::serializeAnnotations($tu->getAnnotations());
 
             if (!empty($a)) {
@@ -83,10 +82,43 @@ class tao_helpers_translation_POFileWriter extends tao_helpers_translation_Trans
             }
 
             $buffer .= "msgid \"{$s}\"\n";
-            $buffer .= "msgstr \"{$t}\"\n";
+            if ($tu instanceof tao_helpers_translation_POTranslationUnit && $tu->hasPluralSource()) {
+                $buffer .= 'msgid_plural "'
+                    . tao_helpers_translation_POUtils::sanitize($tu->getSourcePlural(), true)
+                    . "\"\n";
+
+                $targets = $tu->getTargets();
+                $pluralCount = $this->resolvePluralCount($file, $targets);
+                for ($index = 0; $index < $pluralCount; $index++) {
+                    $target = tao_helpers_translation_POUtils::sanitize($targets[$index] ?? '', true);
+                    $buffer .= "msgstr[{$index}] \"{$target}\"\n";
+                }
+            } else {
+                $t = tao_helpers_translation_POUtils::sanitize($tu->getTarget(), true);
+                $buffer .= "msgstr \"{$t}\"\n";
+            }
             $buffer .= "\n";
         }
 
         return file_put_contents($this->getFilePath(), $buffer);
+    }
+
+    /**
+     * @param tao_helpers_translation_POFile $file
+     * @param array $targets
+     * @return int
+     */
+    private function resolvePluralCount(tao_helpers_translation_POFile $file, array $targets)
+    {
+        if (!empty($targets)) {
+            return max(array_keys($targets)) + 1;
+        }
+
+        $pluralForms = $file->getHeaders()['Plural-Forms'] ?? '';
+        if (preg_match('/nplurals\s*=\s*(\d+)/i', $pluralForms, $matches)) {
+            return (int) $matches[1];
+        }
+
+        return 2;
     }
 }

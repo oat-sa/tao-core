@@ -24,7 +24,11 @@
 
 namespace oat\tao\test\integration;
 
+use common_persistence_InMemoryKvDriver;
+use common_persistence_KeyValuePersistence;
 use oat\generis\test\GenerisPhpUnitTestRunner;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\service\ApplicationService;
 use tao_helpers_translation_TranslationException;
 use tao_helpers_translation_TranslationUnit;
 use tao_helpers_translation_TranslationFile;
@@ -74,6 +78,23 @@ class TranslationTest extends GenerisPhpUnitTestRunner
     public const FAKE_RDF_LANG_DESC = '/samples/rdf/tao_messages_DE.rdf';
     public const FAKE_RDF_TRANSLATION_MODEL = '/samples/locales/en-YO/tao.rdf';
     public const FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS = '/samples/rdf/translation_model_with_annotations.rdf';
+
+    /**
+     * @before
+     */
+    public function initApplicationService(): void
+    {
+        if (!defined('TAO_DEFAULT_ENCODING')) {
+            define('TAO_DEFAULT_ENCODING', 'UTF-8');
+        }
+
+        $config = new common_persistence_KeyValuePersistence(new common_persistence_InMemoryKvDriver(), []);
+        $applicationService = $this->createMock(ApplicationService::class);
+        $applicationService->method('getDefaultEncoding')->willReturn('UTF-8');
+        $config->set(ApplicationService::SERVICE_ID, $applicationService);
+
+        ServiceManager::setServiceManager(new ServiceManager($config));
+    }
 
     /**
      * Test of the different classes composing the Translation Model.
@@ -384,6 +405,33 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $tw->setTranslationFile($tf);
         $tw->write();
         $this->assertTrue(file_exists($jsFilePath));
+        unlink($jsFilePath);
+    }
+
+    public function testPluralJavaScriptTranslationWriting()
+    {
+        $jsFilePath = tempnam('/tmp', self::TEMP_PO);
+        $tf = new \tao_helpers_translation_POFile();
+        $tf->addHeader('Plural-Forms', 'nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;');
+        $tu = new tao_helpers_translation_POTranslationUnit();
+        $tu->setSource('%d day');
+        $tu->setSourcePlural('%d days');
+        $tu->setTargets([
+            0 => '%d den',
+            1 => '%d dni',
+            2 => '%d dni',
+            3 => '%d dni',
+        ]);
+        $tf->addTranslationUnit($tu);
+
+        $writer = new tao_helpers_translation_JSFileWriter($jsFilePath, $tf);
+        $writer->write();
+
+        $content = json_decode(file_get_contents($jsFilePath), true);
+        $this->assertEquals('nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;', $content['pluralForms']);
+        $this->assertEquals('%d days', $content['translations']['%d day']['_plural']);
+        $this->assertEquals('%d den', $content['translations']['%d day']['_translations'][0]);
+
         unlink($jsFilePath);
     }
 
@@ -966,5 +1014,133 @@ class TranslationTest extends GenerisPhpUnitTestRunner
                 ]
             )
         );
+    }
+
+    public function testPluralSourceExtraction()
+    {
+        $class = new ReflectionClass('tao_helpers_translation_SourceCodeExtractor');
+        $method = $class->getMethod('getPluralTranslationPhrases');
+        $method->setAccessible(true);
+
+        $translator = new tao_helpers_translation_SourceCodeExtractor('', []);
+
+        $this->assertEquals(
+            [[
+                'singular' => '%d day',
+                'plural' => '%d days',
+            ]],
+            $method->invokeArgs($translator, [ "__.p('%d day', '%d days', count)," ])
+        );
+
+        $directory = sys_get_temp_dir() . '/tao-translation-' . uniqid('', true);
+        mkdir($directory);
+        $filePath = $directory . '/plural.js';
+        file_put_contents($filePath, "__.p('%d day', '%d days', count);\n");
+
+        $extractor = new tao_helpers_translation_SourceCodeExtractor([$directory], ['js']);
+        $extractor->extract();
+        $tus = $extractor->getTranslationUnits();
+
+        $this->assertCount(1, $tus);
+        $this->assertInstanceOf(tao_helpers_translation_POTranslationUnit::class, $tus[0]);
+        $this->assertEquals('%d day', $tus[0]->getSource());
+        $this->assertEquals('%d days', $tus[0]->getSourcePlural());
+
+        unlink($filePath);
+        rmdir($directory);
+    }
+
+    public function testPluralTemplateSourceExtraction()
+    {
+        $directory = sys_get_temp_dir() . '/tao-translation-template-' . uniqid('', true);
+        mkdir($directory);
+        $filePath = $directory . '/plural.tpl';
+        file_put_contents(
+            $filePath,
+            <<<'TPL'
+{{__ 'Deleting this item will break the'}} <b>{{__p "%d test" "%d tests" number}}</b> {{__ 'using it:'}}
+<span class="gray-others">
+    {{__ 'and'}}
+    {{ __p
+        "%d other."
+        "%d others."
+        numberOther
+    }}
+</span>
+TPL
+        );
+
+        $extractor = new tao_helpers_translation_SourceCodeExtractor([$directory], ['tpl']);
+        $extractor->extract();
+        $tus = $extractor->getTranslationUnits();
+
+        $this->assertCount(5, $tus);
+        $this->assertEquals('Deleting this item will break the', $tus[0]->getSource());
+        $this->assertEquals('using it:', $tus[1]->getSource());
+        $this->assertEquals('and', $tus[2]->getSource());
+
+        $pluralTus = array_values(
+            array_filter(
+                $tus,
+                function ($tu) {
+                    return $tu instanceof tao_helpers_translation_POTranslationUnit;
+                }
+            )
+        );
+
+        $this->assertCount(2, $pluralTus);
+        $this->assertEquals('%d test', $pluralTus[0]->getSource());
+        $this->assertEquals('%d tests', $pluralTus[0]->getSourcePlural());
+        $this->assertEquals('%d other.', $pluralTus[1]->getSource());
+        $this->assertEquals('%d others.', $pluralTus[1]->getSourcePlural());
+
+        unlink($filePath);
+        rmdir($directory);
+    }
+
+    public function testPluralPOReadingAndWriting()
+    {
+        $poFilePath = tempnam('/tmp', self::TEMP_PO);
+        $poContent = <<<'PO'
+msgid ""
+msgstr ""
+"Language: sk-SK\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: sk-SK\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
+
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d den"
+msgstr[1] "%d dni"
+msgstr[2] "%d dni"
+msgstr[3] "%d dni"
+PO;
+        file_put_contents($poFilePath, $poContent);
+
+        $reader = new tao_helpers_translation_POFileReader($poFilePath);
+        $reader->read();
+        $tf = $reader->getTranslationFile();
+        $tus = $tf->getTranslationUnits();
+
+        $this->assertSame(
+            'nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;',
+            $tf->getHeaders()['Plural-Forms']
+        );
+        $this->assertCount(1, $tus);
+        $this->assertEquals('%d days', $tus[0]->getSourcePlural());
+        $this->assertEquals('%d den', $tus[0]->getTargetByIndex(0));
+        $this->assertEquals('%d dni', $tus[0]->getTargetByIndex(3));
+
+        $rewrittenPath = tempnam('/tmp', self::TEMP_PO);
+        $writer = new tao_helpers_translation_POFileWriter($rewrittenPath, $tf);
+        $writer->write();
+        $rewrittenContent = file_get_contents($rewrittenPath);
+
+        $this->assertStringContainsString('msgid_plural "%d days"', $rewrittenContent);
+        $this->assertStringContainsString('msgstr[3] "%d dni"', $rewrittenContent);
+
+        unlink($poFilePath);
+        unlink($rewrittenPath);
     }
 }

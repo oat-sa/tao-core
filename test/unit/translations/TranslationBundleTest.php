@@ -112,10 +112,70 @@ class TranslationBundleTest extends TestCase
         if (is_dir(self::$tmpDir)) {
             $file = $bundle->generateTo(self::$tmpDir);
             $this->assertTrue(file_exists($file));
+            $this->assertTrue(file_exists(dirname($file) . '/messages.js'));
 
             $content = json_decode(file_get_contents($file), true);
             $this->assertTrue(is_array($content));
             $this->assertEquals($expectedSerial, $content['serial']);
         }
+    }
+
+    public function testBundleKeepsPluralFormsFromStructuredMessages()
+    {
+        $basePath = self::$tmpDir . '/bundle-fixtures-' . uniqid('', true);
+        $extensionPath = $basePath . '/fakeExt/locales/sk-SK';
+
+        mkdir($extensionPath, 0777, true);
+        file_put_contents(
+            $extensionPath . '/messages_po.js',
+            json_encode([
+                'pluralForms' => 'nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;',
+                'translations' => [
+                    '%d day' => [
+                        '_plural' => '%d days',
+                        '_translations' => ['%d den', '%d dni', '%d dni', '%d dni'],
+                    ],
+                    'mock-1' => 'translation mock 1',
+                ],
+            ])
+        );
+
+        $bundle = new TranslationBundle('sk-SK', ['fakeExt'], $basePath);
+        $file = $bundle->generateTo(self::$tmpDir);
+        $content = json_decode(file_get_contents($file), true);
+        $module = file_get_contents(dirname($file) . '/messages.js');
+
+        $this->assertSame(
+            'nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;',
+            $content['pluralForms']
+        );
+        $this->assertSame('%d days', $content['translations']['%d day']['_plural']);
+        $this->assertStringContainsString('p11nRules: function (n)', $module);
+        $this->assertStringContainsString('Number((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3)', $module);
+
+        tao_helpers_File::delTree($basePath);
+    }
+
+    public function testBundleSupportsLegacyFlatMessagesFormat()
+    {
+        $basePath = self::$tmpDir . '/bundle-legacy-' . uniqid('', true);
+        $extensionPath = $basePath . '/legacyExt/locales/en-US';
+
+        mkdir($extensionPath, 0777, true);
+        file_put_contents(
+            $extensionPath . '/messages_po.js',
+            json_encode([
+                'mock-1' => 'translation mock 1',
+            ])
+        );
+
+        $bundle = new TranslationBundle('en-US', ['legacyExt'], $basePath);
+        $file = $bundle->generateTo(self::$tmpDir);
+        $content = json_decode(file_get_contents($file), true);
+
+        $this->assertSame('translation mock 1', $content['translations']['mock-1']);
+        $this->assertArrayNotHasKey('pluralForms', $content);
+
+        tao_helpers_File::delTree($basePath);
     }
 }

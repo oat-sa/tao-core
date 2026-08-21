@@ -170,10 +170,18 @@ class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslat
         /** @var tao_helpers_translation_TranslationUnit $tu */
         foreach ($this->getTranslationUnits() as $tu) {
             if (
-                $tu->getSource() == $translationUnit->getSource() &&
-                (!$translationUnit->getContext() || $tu->getContext() == $translationUnit->getContext())
+                $this->isSameTranslationUnitIdentity($tu, $translationUnit)
             ) {
-                $tu->setTarget($translationUnit->getTarget());
+                if ($translationUnit instanceof tao_helpers_translation_POTranslationUnit) {
+                    $tu->setSourcePlural($translationUnit->getSourcePlural());
+                    if ($translationUnit->hasPluralTargets()) {
+                        $tu->setTargets($translationUnit->getTargets());
+                    } else {
+                        $tu->setTarget($translationUnit->getTarget());
+                    }
+                } elseif ($translationUnit->getTarget() !== '') {
+                    $tu->setTarget($translationUnit->getTarget());
+                }
                 $tu->setAnnotations($translationUnit->getAnnotations());
 
                 return;
@@ -187,5 +195,47 @@ class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslat
         $tus = $this->getTranslationUnits();
         array_push($tus, $translationUnit);
         $this->setTranslationUnits($tus);
+    }
+
+    /**
+     * @param tao_helpers_translation_TranslationUnit $translationUnit
+     * @return tao_helpers_translation_TranslationUnit|null
+     */
+    public function getBySource(tao_helpers_translation_TranslationUnit $translationUnit)
+    {
+        foreach ($this->getTranslationUnits() as $tu) {
+            if ($this->isSameTranslationUnitIdentity($tu, $translationUnit)) {
+                return $tu;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param tao_helpers_translation_TranslationUnit $left
+     * @param tao_helpers_translation_TranslationUnit $right
+     * @return bool
+     */
+    private function isSameTranslationUnitIdentity(
+        tao_helpers_translation_TranslationUnit $left,
+        tao_helpers_translation_TranslationUnit $right
+    ) {
+        if (($left->getSource() !== $right->getSource()) ||
+            ($left->getContext() !== $right->getContext())) {
+            return false;
+        }
+
+        if (
+            $left instanceof tao_helpers_translation_POTranslationUnit
+            || $right instanceof tao_helpers_translation_POTranslationUnit
+        ) {
+            $leftPlural = $left instanceof tao_helpers_translation_POTranslationUnit ? $left->getSourcePlural() : '';
+            $rightPlural = $right instanceof tao_helpers_translation_POTranslationUnit ? $right->getSourcePlural() : '';
+
+            return $leftPlural === $rightPlural;
+        }
+
+        return true;
     }
 }
