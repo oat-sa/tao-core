@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "AUT-4666 Asset Search API (ticket smoke)",
-    "description": "Jira attachment / importable Postman Collection v2.1 for https://oat-sa.atlassian.net/browse/AUT-4666\n\nFolders map to AUT-4666 acceptance criteria (not implementation step letters).\n\n## Auth\n1. Import this collection + environment `AUT-4666 Asset Search`.\n2. Select the environment.\n3. Run **00 Auth** (CSRF then Login).\n4. Collection pre-request injects `Cookie: tao={{taoSession}}`.\n\n## Endpoint\n`GET /taoItems/ItemContent/files` — browse (no query) vs search (non-empty query).\n\n## Token rules (HKD-1996)\n- ≥3 chars → prefix; <3 → exact\n- Haystack: label, name, location, alt, uri\n",
+    "description": "Jira / PR attachment — Postman Collection v2.1 for https://oat-sa.atlassian.net/browse/AUT-4666\n\nFolders map to AUT-4666 acceptance criteria (not implementation step letters).\n\n## Auth\n1. Import this collection + environment `AUT-4666 Asset Search`.\n2. Select the environment.\n3. Run **00 Auth** (CSRF then Login).\n4. Collection pre-request injects `Cookie: tao={{taoSession}}`.\n\n## Endpoint\n`GET /taoItems/ItemContent/files` — browse (no query) vs search (non-empty query).\n\n## Token rules (HKD-1996)\n- ≥3 chars → prefix; <3 → exact\n- Haystack: label, name, location, alt, uri\n",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "event": [
