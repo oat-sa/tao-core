@@ -1,0 +1,1836 @@
+{
+  "info": {
+    "name": "AUT-4666 Asset Search API (ticket smoke)",
+    "description": "Jira attachment / importable Postman Collection v2.1 for https://oat-sa.atlassian.net/browse/AUT-4666\n\nFolders map to AUT-4666 acceptance criteria (not implementation step letters).\n\n## Auth\n1. Import this collection + environment `AUT-4666 Asset Search`.\n2. Select the environment.\n3. Run **00 Auth** (CSRF then Login).\n4. Collection pre-request injects `Cookie: tao={{taoSession}}`.\n\n## Endpoint\n`GET /taoItems/ItemContent/files` — browse (no query) vs search (non-empty query).\n\n## Token rules (HKD-1996)\n- ≥3 chars → prefix; <3 → exact\n- Haystack: label, name, location, alt, uri\n",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const raw = pm.request.url.toString();",
+          "const isLogin = raw.indexOf('/tao/Main/login') !== -1;",
+          "if (isLogin) {",
+          "  pm.request.headers.remove('Cookie');",
+          "  return;",
+          "}",
+          "const tao = pm.environment.get('taoSession') || pm.collectionVariables.get('taoSession') || pm.variables.get('taoSession');",
+          "if (!tao) {",
+          "  throw new Error('taoSession empty — run 00 Auth / Login first; select environment AUT-4666 Asset Search.');",
+          "}",
+          "pm.request.headers.upsert({ key: 'Cookie', value: 'tao=' + tao });"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Backup capture if request-level tests missing",
+          "const raw = pm.request.url.toString();",
+          "if (pm.request.method !== 'POST' || raw.indexOf('/tao/Main/login') === -1) return;",
+          "if (pm.environment.get('taoSession') || pm.collectionVariables.get('taoSession')) return;",
+          "let tao = null;",
+          "pm.response.headers.each((h) => {",
+          "  if (String(h.key).toLowerCase() !== 'set-cookie') return;",
+          "  const m = String(h.value || '').match(/(?:^|,\\s*)tao=([^;\\s,]+)/i);",
+          "  if (m) tao = m[1];",
+          "});",
+          "if (tao) {",
+          "  pm.environment.set('taoSession', tao);",
+          "  pm.collectionVariables.set('taoSession', tao);",
+          "  console.log('collection-test saved taoSession');",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://backoffice.ngs.test"
+    },
+    {
+      "key": "username",
+      "value": "admin"
+    },
+    {
+      "key": "password",
+      "value": "Admin.12345"
+    },
+    {
+      "key": "csrfToken",
+      "value": ""
+    },
+    {
+      "key": "taoSession",
+      "value": ""
+    },
+    {
+      "key": "itemUri",
+      "value": "http://REPLACE/item.rdf#iREPLACE"
+    },
+    {
+      "key": "lang",
+      "value": "en-US"
+    },
+    {
+      "key": "mediaPath",
+      "value": "taomedia://mediamanager/"
+    },
+    {
+      "key": "siblingPath",
+      "value": "taomedia://mediamanager/SiblingFolder"
+    },
+    {
+      "key": "knownLabelPrefix",
+      "value": "color"
+    },
+    {
+      "key": "uriOnlyToken",
+      "value": "uniquetokenxyz"
+    },
+    {
+      "key": "metadataPropertyUri",
+      "value": "http://www.tao.lu/Ontologies/TAO.rdf#Keywords"
+    },
+    {
+      "key": "metadataValue",
+      "value": "science"
+    }
+  ],
+  "item": [
+    {
+      "name": "00 Auth (required)",
+      "description": "Run these first. Login has followRedirects=false; Tests save tao → taoSession. Collection pre-request injects Cookie on other requests.",
+      "item": [
+        {
+          "name": "Get login page (CSRF)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tao/Main/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tao",
+                "Main",
+                "login"
+              ]
+            },
+            "description": "Optional CSRF. Then run 0.2 Login."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Login page loaded', () => pm.expect(pm.response.code).to.be.oneOf([200, 302]));",
+                  "const html = pm.response.text();",
+                  "let csrf = null;",
+                  "const m1 = html.match(/name=[\"']X-CSRF-Token[\"'][^>]*value=[\"']([^\"']+)[\"']/i);",
+                  "const m2 = html.match(/value=[\"']([^\"']+)[\"'][^>]*name=[\"']X-CSRF-Token[\"']/i);",
+                  "if (m1) csrf = m1[1]; else if (m2) csrf = m2[1];",
+                  "if (csrf) {",
+                  "  pm.environment.set('csrfToken', csrf);",
+                  "  pm.collectionVariables.set('csrfToken', csrf);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Login (save taoSession)",
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "loginForm_sent",
+                  "value": "1"
+                },
+                {
+                  "key": "login",
+                  "value": "{{username}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}"
+                },
+                {
+                  "key": "connect",
+                  "value": "Log in"
+                },
+                {
+                  "key": "X-CSRF-Token",
+                  "value": "{{csrfToken}}"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tao/Main/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tao",
+                "Main",
+                "login"
+              ]
+            },
+            "description": "MUST keep Settings → Automatically follow redirects OFF for this request (protocolProfileBehavior.followRedirects=false).\n302 Set-Cookie: tao=... is saved to taoSession."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Login HTTP ok', () => pm.expect(pm.response.code).to.be.oneOf([200, 302]));",
+                  "pm.test('Not invalid credentials', () => {",
+                  "  pm.expect(/Invalid login or password/i.test(pm.response.text() || '')).to.be.false;",
+                  "});",
+                  "function saveTao(tao) {",
+                  "  if (!tao) return;",
+                  "  pm.environment.set('taoSession', tao);",
+                  "  pm.collectionVariables.set('taoSession', tao);",
+                  "  console.log('taoSession saved len=', String(tao).length);",
+                  "}",
+                  "let tao = null;",
+                  "pm.response.headers.each((h) => {",
+                  "  if (String(h.key).toLowerCase() !== 'set-cookie') return;",
+                  "  const v = String(h.value || '');",
+                  "  const m = v.match(/(?:^|,\\s*)tao=([^;\\s,]+)/i);",
+                  "  if (m) tao = m[1];",
+                  "});",
+                  "if (tao) saveTao(tao);",
+                  "pm.test('Capture tao session cookie', (done) => {",
+                  "  if (tao) { pm.expect(tao).to.be.ok; return done(); }",
+                  "  const jar = pm.cookies.jar();",
+                  "  const base = pm.environment.get('baseUrl') || pm.collectionVariables.get('baseUrl') || 'https://backoffice.ngs.test';",
+                  "  jar.get(base, 'tao', (err, cookie) => {",
+                  "    try {",
+                  "      const val = cookie && (cookie.value || cookie);",
+                  "      pm.expect(err, String(err)).to.not.be.ok;",
+                  "      pm.expect(val, 'tao missing from Set-Cookie and cookie jar').to.be.ok;",
+                  "      saveTao(val);",
+                  "      done();",
+                  "    } catch (e) { done(e); }",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AUT-4666 · Browse baseline",
+      "description": "AC: empty/missing query keeps existing children tree payload (browse unchanged).",
+      "item": [
+        {
+          "name": "Browse folder (no query) → children tree",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                }
+              ]
+            },
+            "description": "Empty query → browse tree."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test('browse not search', () => { pm.expect(j.success).to.eql(true); pm.expect(j.data).to.not.have.property('items'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AUT-4666 · Folder scope & authorization",
+      "description": "AC: results limited to requested folder subtree; unauthorized assets never returned.",
+      "item": [
+        {
+          "name": "Search within scope folder (found)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{knownLabelPrefix}}&page=1&pageSize=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "mediaPath"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Search in sibling folder (not found)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{siblingPath}}&query={{knownLabelPrefix}}&page=1&pageSize=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{siblingPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "sibling"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AUT-4666 · MIME / insertion context",
+      "description": "AC: MIME/type restrictions of the requesting insertion context; filters apply in search mode.",
+      "item": [
+        {
+          "name": "filters=image/* → images only",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{knownLabelPrefix}}&filters=image/png,image/jpeg&page=1&pageSize=50",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "filters",
+                  "value": "image/png,image/jpeg"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "MIME images"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });",
+                  "pm.test('only image MIME', () => data.items.forEach(i => pm.expect(['image/png','image/jpeg']).to.include(i.mime)));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "filters=video/mp4 → video only",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{knownLabelPrefix}}&filters=video/mp4&page=1&pageSize=50",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "filters",
+                  "value": "video/mp4"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "video"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });",
+                  "pm.test('only video/mp4', () => data.items.forEach(i => pm.expect(i.mime).to.eql('video/mp4')));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AUT-4666 · Universal search (prefix / tokens)",
+      "description": "AC: trailing-token prefix matching over label, name, location, alt, uri. ≥3 prefix; <3 exact. No arbitrary substring. Multi-token AND.",
+      "item": [
+        {
+          "name": "Delimiter-only query → empty",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query=---&page=1&pageSize=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "---"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "query=--- → total 0"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });",
+                  "pm.test('empty', () => { pm.expect(data.total).to.eql(0); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Token ≥3 → prefix match",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{knownLabelPrefix}}&page=1&pageSize=10&sortBy=label&sortDir=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "label"
+                },
+                {
+                  "key": "sortDir",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "prefix"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Token <3 → exact only",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query=ab&page=1&pageSize=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "ab"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "exact"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Multi-token AND",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query=color bar&page=1&pageSize=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "color bar"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "AND"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Unicode query",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query=цвет&page=1&pageSize=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "цвет"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "unicode"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "No matches → empty success",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query=zzzznonexistentassetname999&page=1&pageSize=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "zzzznonexistentassetname999"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "empty"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });",
+                  "pm.test('empty', () => pm.expect(data.total).to.eql(0));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Query matches URI token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{uriOnlyToken}}&page=1&pageSize=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{uriOnlyToken}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "URI"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AUT-4666 · Sort, pagination & response contract",
+      "description": "AC: stable bounded sort/pagination; picker fields; pageSize capped.",
+      "item": [
+        {
+          "name": "Page 1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{knownLabelPrefix}}&page=1&pageSize=2&sortBy=label&sortDir=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "2"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "label"
+                },
+                {
+                  "key": "sortDir",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "p1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });",
+                  "pm.collectionVariables.set('page1Uris', JSON.stringify(data.items.map(i => i.uri)));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Page 2 — no duplicates",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{knownLabelPrefix}}&page=2&pageSize=2&sortBy=label&sortDir=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "page",
+                  "value": "2"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "2"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "label"
+                },
+                {
+                  "key": "sortDir",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "p2"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });",
+                  "const prev=JSON.parse(pm.collectionVariables.get('page1Uris')||'[]');",
+                  "pm.test('no overlap', () => data.items.forEach(i => pm.expect(prev).to.not.include(i.uri)));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Sort by updatedAt desc",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{knownLabelPrefix}}&page=1&pageSize=20&sortBy=updatedAt&sortDir=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "20"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "updatedAt"
+                },
+                {
+                  "key": "sortDir",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "updatedAt"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Sort by location (nulls last)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{knownLabelPrefix}}&page=1&pageSize=50&sortBy=location&sortDir=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "50"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "location"
+                },
+                {
+                  "key": "sortDir",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "location"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AUT-4666 · Errors & empty results",
+      "description": "AC: invalid scope / missing params / empty results → defined non-sensitive responses.",
+      "item": [
+        {
+          "name": "Missing uri → error",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?lang={{lang}}&path={{mediaPath}}&query=color",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "color"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('not success 200', () => pm.expect(pm.response.code).to.not.eql(200));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AUT-4666 · Indexed search path (phase 2)",
+      "description": "AC: Advanced Search / assets index path; scoped + MIME via indexed search.",
+      "item": [
+        {
+          "name": "Scoped search + MIME via indexed path",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{knownLabelPrefix}}&filters=image/png,image/jpeg,video/mp4&page=1&pageSize=20&sortBy=label&sortDir=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "filters",
+                  "value": "image/png,image/jpeg,video/mp4"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "20"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "label"
+                },
+                {
+                  "key": "sortDir",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "ES"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AUT-4666 · Metadata filters (phase 2)",
+      "description": "AC: text/enum metadata semantics; independent criteria AND with universal query.",
+      "item": [
+        {
+          "name": "Metadata filter + query",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{knownLabelPrefix}}&metadata[{{metadataPropertyUri}}]={{metadataValue}}&page=1&pageSize=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "metadata[{{metadataPropertyUri}}]",
+                  "value": "{{metadataValue}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "meta"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Wrong query + matching metadata → empty (AND)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query=wrongtoken999&metadata[{{metadataPropertyUri}}]={{metadataValue}}&page=1&pageSize=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "wrongtoken999"
+                },
+                {
+                  "key": "metadata[{{metadataPropertyUri}}]",
+                  "value": "{{metadataValue}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "empty"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });",
+                  "pm.test('empty', () => pm.expect(data.total).to.eql(0));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Wrong metadata value → empty",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/taoItems/ItemContent/files?uri={{itemUri}}&lang={{lang}}&path={{mediaPath}}&query={{knownLabelPrefix}}&metadata[{{metadataPropertyUri}}]=DefinitelyNotARealMetadataValue999&page=1&pageSize=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "taoItems",
+                "ItemContent",
+                "files"
+              ],
+              "query": [
+                {
+                  "key": "uri",
+                  "value": "{{itemUri}}"
+                },
+                {
+                  "key": "lang",
+                  "value": "{{lang}}"
+                },
+                {
+                  "key": "path",
+                  "value": "{{mediaPath}}"
+                },
+                {
+                  "key": "query",
+                  "value": "{{knownLabelPrefix}}"
+                },
+                {
+                  "key": "metadata[{{metadataPropertyUri}}]",
+                  "value": "DefinitelyNotARealMetadataValue999"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "bad"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200 (not 403 auth)', () => {",
+                  "  if (pm.response.code === 403) {",
+                  "    console.error('403 = no tao. Re-run root request: 2. Login. Check Current value of taoSession.');",
+                  "  }",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('success envelope', () => { pm.expect(json.success).to.eql(true); pm.expect(json.data).to.be.an('object'); });",
+                  "const data = json.data || {};",
+                  "pm.test('search contract', () => { pm.expect(data).to.have.keys('items','total','page','pageSize'); });",
+                  "pm.test('empty', () => pm.expect(data.total).to.eql(0));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    }
+  ]
+}
