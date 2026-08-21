@@ -13,9 +13,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2026 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -27,6 +27,13 @@ use oat\tao\model\media\MediaAsset;
 
 class DirectorySearchQuery
 {
+    public const SORT_LABEL = 'label';
+    public const SORT_LOCATION = 'location';
+    public const SORT_UPDATED_AT = 'updatedAt';
+
+    public const DEFAULT_PAGE = 1;
+    public const DEFAULT_PAGE_SIZE = 10;
+
     /** @var string */
     private $parentLink;
 
@@ -51,6 +58,21 @@ class DirectorySearchQuery
     /** @var string */
     private $itemUri;
 
+    /** @var string */
+    private $query = '';
+
+    /** @var string */
+    private $sortBy = self::SORT_LABEL;
+
+    /** @var string */
+    private $sortDir = 'asc';
+
+    /** @var int */
+    private $page = self::DEFAULT_PAGE;
+
+    /** @var int */
+    private $pageSize = self::DEFAULT_PAGE_SIZE;
+
     public function __construct(
         MediaAsset $asset,
         string $itemUri,
@@ -62,12 +84,12 @@ class DirectorySearchQuery
     ) {
         $this->parentLink = $asset->getMediaIdentifier();
         $this->filter = $filter;
-        $this->depth = $depth;
         $this->childrenLimit = $childrenLimit;
         $this->childrenOffset = $childrenOffset;
         $this->asset = $asset;
         $this->itemLang = $itemLang;
         $this->itemUri = $itemUri;
+        $this->setDepth($depth);
     }
 
     public function getChildrenOffset(): int
@@ -114,5 +136,73 @@ class DirectorySearchQuery
     {
         $this->childrenLimit = $childrenLimit;
         return $this;
+    }
+
+    public function setDepth(int $depth): self
+    {
+        $this->depth = $depth > 0 ? $depth : 1;
+        return $this;
+    }
+
+    public function setQuery(string $query): self
+    {
+        $this->query = trim($query);
+        return $this;
+    }
+
+    public function getQuery(): string
+    {
+        return $this->query;
+    }
+
+    public function hasQuery(): bool
+    {
+        return $this->query !== '';
+    }
+
+    public function setSortBy(string $sortBy): self
+    {
+        $allowed = [self::SORT_LABEL, self::SORT_LOCATION, self::SORT_UPDATED_AT];
+        $this->sortBy = in_array($sortBy, $allowed, true) ? $sortBy : self::SORT_LABEL;
+        return $this;
+    }
+
+    public function getSortBy(): string
+    {
+        return $this->sortBy;
+    }
+
+    public function setSortDir(string $sortDir): self
+    {
+        $normalized = strtolower($sortDir);
+        $this->sortDir = $normalized === 'desc' ? 'desc' : 'asc';
+        return $this;
+    }
+
+    public function getSortDir(): string
+    {
+        return $this->sortDir;
+    }
+
+    public function setPage(int $page): self
+    {
+        $this->page = $page > 0 ? $page : self::DEFAULT_PAGE;
+        return $this;
+    }
+
+    public function getPage(): int
+    {
+        return $this->page;
+    }
+
+    public function setPageSize(int $pageSize): self
+    {
+        $this->pageSize = $pageSize > 0 ? $pageSize : self::DEFAULT_PAGE_SIZE;
+        return $this;
+    }
+
+    public function getPageSize(): int
+    {
+        return $this->pageSize;
     }
 }
