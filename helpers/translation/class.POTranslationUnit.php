@@ -93,6 +93,20 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
      */
     public const PREVIOUS_MSGCTXT = 'po-previous-msgctxt';
 
+    /**
+     * Plural source text for PO plural entries.
+     *
+     * @var string
+     */
+    private $sourcePlural = '';
+
+    /**
+     * Indexed plural targets for PO plural entries.
+     *
+     * @var array
+     */
+    private $targets = [];
+
     // --- OPERATIONS ---
 
     /**
@@ -203,5 +217,113 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
         $currentAnnotations = $this->getAnnotations();
         $currentAnnotations[self::FLAGS] = implode(" ", $flags);
         $this->setAnnotations($currentAnnotations);
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourcePlural()
+    {
+        return $this->sourcePlural;
+    }
+
+    /**
+     * @param string $sourcePlural
+     */
+    public function setSourcePlural($sourcePlural)
+    {
+        $this->sourcePlural = $sourcePlural;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPluralSource()
+    {
+        return $this->sourcePlural !== '';
+    }
+
+    /**
+     * @return array
+     */
+    public function getTargets()
+    {
+        return $this->targets;
+    }
+
+    /**
+     * @param array $targets
+     */
+    public function setTargets(array $targets)
+    {
+        ksort($targets);
+        $this->targets = $targets;
+
+        if (array_key_exists(0, $targets)) {
+            parent::setTarget($targets[0]);
+        }
+    }
+
+    /**
+     * Keep the scalar target and plural target index 0 aligned for plural PO units.
+     *
+     * @param string $target
+     */
+    public function setTarget($target)
+    {
+        parent::setTarget($target);
+
+        if ($this->hasPluralSource() || $this->hasPluralTargets()) {
+            $this->targets[0] = $target;
+            ksort($this->targets);
+        }
+    }
+
+    /**
+     * @param int $index
+     * @param string $target
+     */
+    public function setTargetByIndex($index, $target)
+    {
+        $this->targets[(int) $index] = $target;
+        ksort($this->targets);
+
+        if ((int) $index === 0) {
+            parent::setTarget($target);
+        }
+    }
+
+    /**
+     * @param int $index
+     * @return string
+     */
+    public function getTargetByIndex($index)
+    {
+        return $this->targets[(int) $index] ?? '';
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPluralTargets()
+    {
+        return !empty($this->targets);
+    }
+
+    /**
+     * Include plural metadata so plural round-trips are comparable in tests.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $serializedTargets = [];
+        foreach ($this->targets as $index => $target) {
+            $serializedTargets[] = $index . ':' . $target;
+        }
+
+        return parent::__toString()
+            . '|plural:' . $this->sourcePlural
+            . '|targets:' . implode(',', $serializedTargets);
     }
 }

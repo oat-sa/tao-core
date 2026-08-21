@@ -47,14 +47,32 @@ class tao_helpers_translation_JSFileWriter extends tao_helpers_translation_Trans
 
         $path = $this->getFilePath();
         $strings = [];
+        $payload = [];
 
         foreach ($this->getTranslationFile()->getTranslationUnits() as $tu) {
-            if ($tu->getTarget() !== '') {
+            if ($tu instanceof tao_helpers_translation_POTranslationUnit && $tu->hasPluralSource()) {
+                $targets = $tu->getTargets();
+                if (!empty($targets)) {
+                    $strings[$tu->getSource()] = [
+                        '_plural' => $tu->getSourcePlural(),
+                        '_translations' => $targets,
+                    ];
+                }
+            } elseif ($tu->getTarget() !== '') {
                 $strings[$tu->getSource()] = $tu->getTarget();
             }
         }
 
-        $buffer = json_encode($strings, JSON_HEX_QUOT | JSON_HEX_APOS);
+        $payload['translations'] = $strings;
+
+        if ($this->getTranslationFile() instanceof tao_helpers_translation_POFile) {
+            $headers = $this->getTranslationFile()->getHeaders();
+            if (!empty($headers['Plural-Forms'])) {
+                $payload['pluralForms'] = $headers['Plural-Forms'];
+            }
+        }
+
+        $buffer = json_encode($payload, JSON_HEX_QUOT | JSON_HEX_APOS);
         if (!file_put_contents($path, $buffer)) {
             throw new tao_helpers_translation_TranslationException(
                 "An error occured while writing Javascript translation file '{$path}'."

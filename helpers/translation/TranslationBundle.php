@@ -22,6 +22,8 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\helpers\translation;
 
 use common_exception_Error;
@@ -38,6 +40,14 @@ use common_Logger;
  */
 class TranslationBundle
 {
+    private const JSON_BUNDLE_FILE = 'messages.json';
+    private const AMD_BUNDLE_FILE = 'messages.js';
+    private const DEFAULT_PLURAL_RULE = 'function (n) { return n === 1 ? 0 : 1; }';
+    private const GENERATED_PLURAL_RULE =
+        'function (n) { var index = Number(%s); if (!isFinite(index)) { return 0; } '
+        . 'index = Math.floor(index); if (index < 0) { return 0; } '
+        . 'if (index > %d) { return %d; } return index; }';
+
     /**
      * The bundle langCode, formated as a locale: en-US, fr-FR, etc.
      * @var string
@@ -115,13 +125,32 @@ class TranslationBundle
     public function generateTo($directory)
     {
         $translations = [];
+        $pluralForms = '';
 
         foreach ($this->extensions as $extension) {
             $jsFilePath = $this->basePath . '/' . $extension . '/locales/' . $this->langCode . '/messages_po.js';
             if (file_exists($jsFilePath)) {
                 $translate = json_decode(file_get_contents($jsFilePath), false);
+                if ($translate === null && json_last_error() !== JSON_ERROR_NONE) {
+                    $this->logBundleWriteFailure(
+                        sprintf('Failed to decode translation source "%s".', $jsFilePath),
+                        ['error' => json_last_error_msg()]
+                    );
+                    return false;
+                }
                 if ($translate != null) {
-                    $translations = array_merge($translations, (array)$translate);
+                    $translationsData = property_exists($translate, 'translations')
+                        ? (array) $translate->translations
+                        : (array) $translate;
+
+                    if (
+                        !empty($translate->pluralForms)
+                        && ($extension === 'tao' || empty($pluralForms))
+                    ) {
+                        $pluralForms = $translate->pluralForms;
+                    }
+
+                    $translations = array_merge($translations, $translationsData);
                 }
             }
         }
@@ -132,6 +161,10 @@ class TranslationBundle
             'translations' =>   $translations
         ];
 
+        if (!empty($pluralForms)) {
+            $content['pluralForms'] = $pluralForms;
+        }
+
         if (!empty($this->taoVersion)) {
             $content['version'] = $this->taoVersion;
         }
@@ -140,11 +173,218 @@ class TranslationBundle
             if (!is_dir($directory . '/' . $this->langCode)) {
                 mkdir($directory . '/' . $this->langCode);
             }
-            $file = $directory . '/' . $this->langCode . '/messages.json';
-            if (@file_put_contents($file, json_encode($content))) {
-                return $file;
+            $bundleDirectory = $directory . '/' . $this->langCode;
+            $jsonFile = $bundleDirectory . '/' . self::JSON_BUNDLE_FILE;
+            $amdFile = $bundleDirectory . '/' . self::AMD_BUNDLE_FILE;
+            $jsonPayload = $this->encodeJson($content, $jsonError);
+            if ($jsonPayload === false) {
+                $this->logBundleWriteFailure(
+                    sprintf('Failed to encode translation bundle JSON file "%s".', $jsonFile),
+                    ['error' => $jsonError]
+                );
+                return false;
+            }
+
+            $amdPayload = $this->buildAmdBundle($content, $pluralForms, $amdEncodingError);
+            if ($amdPayload === false) {
+                $this->logBundleWriteFailure(
+                    sprintf('Failed to encode translation bundle AMD file "%s".', $amdFile),
+                    ['error' => $amdEncodingError]
+                );
+                return false;
+            }
+
+            if (!$this->writeFile($jsonFile, $jsonPayload, $jsonError)) {
+                $this->logBundleWriteFailure(
+                    sprintf('Failed to write translation bundle JSON file "%s".', $jsonFile),
+                    ['error' => $jsonError]
+                );
+                return false;
+            }
+
+            if (!$this->writeFile($amdFile, $amdPayload, $amdError)) {
+                $this->logBundleWriteFailure(
+                    sprintf(
+                        'Failed to write translation bundle AMD file "%s"; removing "%s".',
+                        $amdFile,
+                        $jsonFile
+                    ),
+                    ['error' => $amdError]
+                );
+                if (!$this->removeFile($jsonFile, $removeError)) {
+                    $this->logBundleWriteFailure(
+                        sprintf('Failed to remove partially written translation bundle JSON file "%s".', $jsonFile),
+                        ['error' => $removeError]
+                    );
+                }
+                return false;
+            }
+
+            if (file_exists($jsonFile) && file_exists($amdFile)) {
+                return $jsonFile;
             }
         }
         return false;
+    }
+
+    /**
+     * Build the AMD translation bundle.
+     *
+     * @param array $content
+     * @param string $pluralForms
+     * @param string|null $error
+     * @return string|false
+     */
+    private function buildAmdBundle(array $content, $pluralForms, &$error = null)
+    {
+        $serial = $this->encodeJson($content['serial'], $error);
+        if ($serial === false) {
+            return false;
+        }
+
+        $translations = $this->encodeJson($content['translations'], $error);
+        if ($translations === false) {
+            return false;
+        }
+
+        $properties = [
+            'serial: ' . $serial,
+            'date: ' . (int) $content['date'],
+            'translations: ' . $translations,
+            'p11nRules: ' . $this->buildPluralRuleFunction($pluralForms),
+        ];
+
+        if (!empty($content['pluralForms'])) {
+            $encodedPluralForms = $this->encodeJson($content['pluralForms'], $error);
+            if ($encodedPluralForms === false) {
+                return false;
+            }
+            $properties[] = 'pluralForms: ' . $encodedPluralForms;
+        }
+
+        if (!empty($content['version'])) {
+            $encodedVersion = $this->encodeJson($content['version'], $error);
+            if ($encodedVersion === false) {
+                return false;
+            }
+            $properties[] = 'version: ' . $encodedVersion;
+        }
+
+        return 'define(function(){return{' . implode(',', $properties) . '};});';
+    }
+
+    /**
+     * Build the plural rule function body.
+     *
+     * @param string $pluralForms
+     * @return string
+     */
+    private function buildPluralRuleFunction($pluralForms)
+    {
+        if (
+            !is_string($pluralForms)
+            || trim($pluralForms) === ''
+            || !preg_match('/nplurals\s*=\s*(\d+)/i', $pluralForms, $pluralCountMatch)
+            || !preg_match('/plural\s*=\s*([^;]+)/i', $pluralForms, $expressionMatch)
+            || !preg_match('/^[0-9n\s\(\)\?:|&=!<>%+\-*\/.]+$/', ($expression = trim($expressionMatch[1])))
+            || preg_match('/\/\*|\*\/|\/\//', $expression)
+        ) {
+            return self::DEFAULT_PLURAL_RULE;
+        }
+
+        $pluralCount = max((int) $pluralCountMatch[1], 1);
+        $maxIndex = $pluralCount - 1;
+
+        return sprintf(self::GENERATED_PLURAL_RULE, $expression, $maxIndex, $maxIndex);
+    }
+
+    /**
+     * Encode a value as JSON while preserving the last encoder error.
+     *
+     * @param mixed $value
+     * @param string|null $error
+     * @return string|false
+     */
+    private function encodeJson($value, &$error = null)
+    {
+        $encoded = json_encode($value);
+        if ($encoded === false) {
+            $error = json_last_error_msg();
+            return false;
+        }
+
+        $error = null;
+        return $encoded;
+    }
+
+    /**
+     * Write file contents while capturing filesystem warnings for logging.
+     *
+     * @param string $path
+     * @param string $content
+     * @param string|null $error
+     * @return bool
+     */
+    protected function writeFile($path, $content, &$error = null)
+    {
+        $error = null;
+        set_error_handler(static function ($severity, $message) use (&$error) {
+            $error = $message;
+            return true;
+        });
+
+        try {
+            $bytesWritten = file_put_contents($path, $content);
+        } finally {
+            restore_error_handler();
+        }
+
+        if ($bytesWritten === false) {
+            $error = $error ?? 'Unknown write failure.';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Remove a file while capturing filesystem warnings for logging.
+     *
+     * @param string $path
+     * @param string|null $error
+     * @return bool
+     */
+    protected function removeFile($path, &$error = null)
+    {
+        $error = null;
+        set_error_handler(static function ($severity, $message) use (&$error) {
+            $error = $message;
+            return true;
+        });
+
+        try {
+            $removed = unlink($path);
+        } finally {
+            restore_error_handler();
+        }
+
+        if ($removed === false) {
+            $error = $error ?? 'Unknown remove failure.';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Log bundle write failures with path-specific diagnostics.
+     *
+     * @param string $message
+     * @param array $context
+     * @return void
+     */
+    protected function logBundleWriteFailure($message, array $context = [])
+    {
+        common_Logger::e($message . (empty($context['error']) ? '' : ' ' . $context['error']));
     }
 }
