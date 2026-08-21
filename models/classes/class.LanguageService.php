@@ -29,8 +29,10 @@ use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
 use oat\generis\model\kernel\persistence\file\FileIterator;
+use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\ClientLibRegistry;
+use oat\tao\model\i18n\TranslationBundleProcessorInterface;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -298,9 +300,44 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
                 $translations = array_merge($translations, $new);
             }
         }
+        $translations = $this->applyTranslationBundleProcessing($translations, (string) $langCode);
         $cache = $this->getServiceLocator()->get(common_cache_Cache::SERVICE_ID);
         $cache->put($translations, self::TRANSLATION_PREFIX . $langCode);
         return $translations;
+    }
+
+    /**
+     * Runs registered TranslationBundleProcessorInterface on the merged bundle before caching.
+     *
+     * @param array $translations
+     * @return array
+     */
+    protected function applyTranslationBundleProcessing(array $translations, string $langCode)
+    {
+        try {
+            $processor = $this->getServiceLocator()->get(TranslationBundleProcessorInterface::SERVICE_ID);
+        } catch (ServiceNotFoundException $e) {
+            return $translations;
+        }
+
+        if (!$processor instanceof TranslationBundleProcessorInterface) {
+            return $translations;
+        }
+
+        try {
+            return $processor->process($translations, $langCode);
+        } catch (\Throwable $e) {
+            common_Logger::e(
+                sprintf(
+                    'TranslationBundleProcessor (%s) failed for locale %s: %s',
+                    TranslationBundleProcessorInterface::SERVICE_ID,
+                    $langCode,
+                    $e->getMessage()
+                )
+            );
+
+            return $translations;
+        }
     }
 
     /**

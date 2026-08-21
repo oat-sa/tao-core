@@ -42,6 +42,50 @@ class DisplayTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function testHtmlizeAllowingRubyTagsPreservesRubyHtmlAndEscapesOtherMarkup(): void
+    {
+        $input = '<ruby>少<rp>(</rp><rt>すく</rt><rp>)</rp></ruby>なくとも0～4個まで、選択してください'
+            . '<script>alert(1)</script>';
+
+        $expected = '<ruby>少<rp>(</rp><rt>すく</rt><rp>)</rp></ruby>なくとも0～4個まで、選択してください'
+            . '&lt;script&gt;alert(1)&lt;/script&gt;';
+
+        $this->assertSame($expected, tao_helpers_Display::htmlizeAllowingRubyTags($input));
+    }
+
+    public function testHtmlizeAllowingRubyTagsConvertsPlaceholders(): void
+    {
+        $this->assertSame(
+            '<ruby>漢</ruby>',
+            tao_helpers_Display::htmlizeAllowingRubyTags('{ruby}漢{/ruby}')
+        );
+    }
+
+    public function testHtmlizeAllowingRubyTagsEscapesPlainText(): void
+    {
+        $this->assertSame('Hello &amp; world', tao_helpers_Display::htmlizeAllowingRubyTags('Hello & world'));
+    }
+
+    public function testPlainTextFromRubyTranslationStripsAnnotationForOptionText(): void
+    {
+        $this->assertSame(
+            'なし 6',
+            tao_helpers_Display::plainTextFromRubyTranslation(
+                'なし {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}'
+            )
+        );
+    }
+
+    public function testPlainTextFromRubyTranslationStripsHtmlRubyTags(): void
+    {
+        $this->assertSame(
+            '結果処理を行いません。既存のルールがあればそれを削除します。 6',
+            tao_helpers_Display::plainTextFromRubyTranslation(
+                '結果処理を行いません。既存のルールがあればそれを削除します。 <ruby><rb>6</rb><rt>7</rt></ruby>'
+            )
+        );
+    }
+
     /**
      * Data provider for testSanitizeXssHtml
      * @return array[] in the form of [input, expected]

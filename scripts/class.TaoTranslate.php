@@ -1539,10 +1539,11 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                         "JavaScript compiled translations for extension '{$extension}' with '{$language}' written."
                     );
                 } else {
+                    // ponytail: missing locale dirs (e.g. empty/stub) — warn and skip so compileAll keeps going
                     $this->err(
-                        "PO file '{$path}' for extension '{$extension}' with language '{$language}' cannot be read.",
-                        true
+                        "PO file '{$path}' for extension '{$extension}' with language '{$language}' cannot be read."
                     );
+                    continue;
                 }
             } else {
                 $this->err("Cannot list TAO Extensions from root path. Check your system rights.", true);

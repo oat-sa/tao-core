@@ -55,7 +55,8 @@ class tao_helpers_form_elements_xhtml_Radiobox extends tao_helpers_form_elements
             if ($this->value == $optionId) {
                 $returnValue .= " checked='checked' ";
             }
-            $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel)
+            $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>"
+                . \tao_helpers_Display::htmlizeAllowingRubyTags($optionLabel)
                 . "</label><br />";
             $i++;
         }

@@ -31,7 +31,8 @@ trait XhtmlRenderingTrait
     {
         $renderedLabel = '';
         if (! isset($this->attributes['noLabel']) && !empty($this->description)) {
-            $renderedLabel .= "<label class='form_desc' for='" . $this->name . "'>" . _dh($this->getDescription());
+            $renderedLabel .= "<label class='form_desc' for='" . $this->name . "'>"
+                . \tao_helpers_Display::htmlizeAllowingRubyTags($this->getDescription());
             if (isset($this->attributes['required'])) {
                 $renderedLabel .= "<abbr title='" . __('This field is required') . "'>*</abbr>";
                 unset($this->attributes['required']);

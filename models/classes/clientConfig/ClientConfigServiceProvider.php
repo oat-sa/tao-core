@@ -36,6 +36,7 @@ use oat\tao\model\CookiePolicy\Service\CookiePolicyConfigurationRetriever;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -69,6 +70,7 @@ class ClientConfigServiceProvider implements ContainerServiceProviderInterface
                     service(DateFormatterFactory::class),
                     service(MenuService::class),
                     service(CookiePolicyConfigurationRetriever::class),
+                    service(DefaultUrlService::SERVICE_ID),
                 ]
             );
     }

@@ -1,7 +1,8 @@
 define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
     'use strict';
 
-    var translations = i18nTr.translations;
+    const translations = i18nTr.translations;
+    const rubyTags = /\{(ruby|rt|rb|rp)\}|\{\/(ruby|rt|rb|rp)\}/g;
     var pluralRule = typeof i18nTr.p11nRules === 'function'
         ? i18nTr.p11nRules
         : createDefaultPluralRule();
@@ -29,7 +30,7 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
     }
 
     function resolveTranslation(message, pluralFallback, pluralIndex) {
-        var localized = translations[message];
+        var localized = translations[message] || message;
 
         if (localized && typeof localized === 'object' && Array.isArray(localized._translations)) {
             var safeIndex = clampPluralIndex(pluralIndex, localized._translations.length);
@@ -38,6 +39,40 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
         }
 
         return localized || pluralFallback || message;
+    }
+
+    /**
+     * Converts ruby placeholder tags to HTML elements.
+     *
+     * @param {String} text
+     * @returns {String}
+     */
+    function convertRubyTags(text) {
+        return text.replace(rubyTags, (match, open, close) => {
+            return open ? `<${open}>` : `</${close}>`;
+        });
+    }
+
+    /**
+     * Strips ruby annotations for contexts that cannot render HTML (e.g. option text).
+     *
+     * @param {String} text
+     * @returns {String}
+     */
+    function plainTextFromRuby(text) {
+        if (typeof text !== 'string' || text === '') {
+            return text === null || text === undefined ? '' : String(text);
+        }
+
+        let plain = convertRubyTags(text);
+        plain = plain.replace(/<rt[^>]*>[\s\S]*?<\/rt>/gi, '');
+        plain = plain.replace(/\{rt\}[\s\S]*?\{\/rt\}/g, '');
+        plain = plain.replace(/<rp[^>]*>[\s\S]*?<\/rp>/gi, '');
+        plain = plain.replace(/\{rp\}[\s\S]*?\{\/rp\}/g, '');
+        plain = plain.replace(/<[^>]+>/g, '');
+        plain = plain.replace(/\s+/g, ' ').trim();
+
+        return plain;
     }
 
     /**
@@ -50,11 +85,11 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
     function __(message){
         var localized = resolveTranslation(message, message, 0);
 
-        if(arguments.length > 1){
+        if (arguments.length > 1) {
             localized = format.apply(null, [localized].concat([].slice.call(arguments, 1)));
         }
 
-        return localized;
+        return convertRubyTags(localized);
     }
 
     __.p = function __p(singular, plural, count){
@@ -72,6 +107,8 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
 
         return localized;
     };
+
+    __.plainTextFromRuby = plainTextFromRuby;
 
     return __;
 });

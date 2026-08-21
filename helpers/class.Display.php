@@ -24,6 +24,7 @@
  */
 
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\i18n\DefaultTranslationBundleProcessor;
 use oat\tao\model\service\ApplicationService;
 
 /**
@@ -105,7 +106,51 @@ class tao_helpers_Display
         return htmlentities($input ?? '', ENT_COMPAT, self::getEncoding());
     }
 
+    /**
+     * Like htmlize(), but preserves ruby annotation tags (HTML or {ruby} placeholders).
+     */
+    public static function htmlizeAllowingRubyTags(?string $input): string
+    {
+        if ($input === null || $input === '') {
+            return (string) $input;
+        }
 
+        $input = DefaultTranslationBundleProcessor::convertRubyTags($input);
+
+        $rubyHtmlTags = [];
+        foreach (['ruby', 'rt', 'rp', 'rb'] as $tag) {
+            foreach (['<' . $tag . '>', '</' . $tag . '>'] as $htmlTag) {
+                $placeholder = "\u{E000}RUBY" . count($rubyHtmlTags) . "\u{E001}";
+                $rubyHtmlTags[$placeholder] = $htmlTag;
+                $input = str_replace($htmlTag, $placeholder, $input);
+            }
+        }
+
+        $htmlized = self::htmlize($input);
+
+        return str_replace(array_keys($rubyHtmlTags), array_values($rubyHtmlTags), $htmlized);
+    }
+
+    /**
+     * Plain text for contexts that cannot render HTML ruby (e.g. option, placeholder).
+     * Keeps base text and rb content; drops rt/rp annotation and structural tags.
+     */
+    public static function plainTextFromRubyTranslation(?string $input): string
+    {
+        if ($input === null || $input === '') {
+            return (string) $input;
+        }
+
+        $text = DefaultTranslationBundleProcessor::convertRubyTags($input);
+        $text = preg_replace('/<rt[^>]*>.*?<\/rt>/is', '', $text) ?? $text;
+        $text = preg_replace('/\{rt\}.*?\{\/rt\}/s', '', $text) ?? $text;
+        $text = preg_replace('/<rp[^>]*>.*?<\/rp>/is', '', $text) ?? $text;
+        $text = preg_replace('/\{rp\}.*?\{\/rp\}/s', '', $text) ?? $text;
+        $text = strip_tags($text);
+        $text = preg_replace('/\s+/u', ' ', $text) ?? $text;
+
+        return trim($text);
+    }
 
     /**
      *  Convert special characters to HTML entities

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-01-19 13:18\n"
+"PO-Revision-Date: 2026-07-30 15:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -45,7 +45,7 @@ msgstr "Stabilný"
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "This model can be used in production"
-msgstr "Tento model je možné použiť vo výrobe"
+msgstr "Tento model je možné použiť v produkcii"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -55,7 +55,7 @@ msgstr "Zastarané"
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "This model is not supported anymore, we advise to migrate"
-msgstr "Tento model už nie je podporovaný, odporúčame migrovať."
+msgstr "Tento model už nie je podporovaný, odporúčame migráciu."
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -85,7 +85,7 @@ msgstr "Stav"
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The status of a model"
-msgstr "Stav modelu/modelky"
+msgstr "Stav modelu"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"

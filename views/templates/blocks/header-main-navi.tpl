@@ -5,7 +5,7 @@ use oat\tao\model\theme\Theme;
 $mainMenu     = get_data('main-menu');
 $settingsMenu = get_data('settings-menu');
 $persistentMenu = get_data('persistent-menu');
-$userLabel    = get_data('userLabel');
+$userLabel    = \tao_helpers_Display::htmlizeAllowingRubyTags(get_data('userLabel'));
 $taoAsATool   = get_data('taoAsATool');
 ?>
 <nav>
@@ -75,7 +75,7 @@ $taoAsATool   = get_data('taoAsATool');
                                         <?= is_null($entry->getIcon()) ? '' : Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
                                     <?php endif; ?>
                                     <?php if(!Layout::isQuickWinsDesignEnabled()): ?>
-                                        <span class="username"><?= get_data('userLabel') ?></span>
+                                        <span class="username"><?= \tao_helpers_Display::htmlizeAllowingRubyTags(get_data('userLabel')) ?></span>
                                     <?php endif; ?>
                                 <?php endif; ?>
 

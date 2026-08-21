@@ -22,7 +22,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor
  *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
- *               2021-2022 (original work) Open Assessment Technologies SA.
+ *               2021-2026 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -46,6 +46,7 @@ use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\model\featureVisibility\FeatureVisibilityServiceProvider;
 use oat\tao\model\form\DataProvider\FormDataProviderServiceProvider;
 use oat\tao\model\form\ServiceProvider\FormServiceProvider as TaoFormServiceProvider;
+use oat\tao\model\FrontendAction\FrontendActionServiceProvider;
 use oat\tao\model\IdentifierGenerator\ServiceProvider\IdentifierGeneratorServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\infrastructure\ServiceProvider\InfrastructureServiceProvider;
@@ -61,6 +62,7 @@ use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\TaoRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\search\ServiceProvider\SearchServiceProvider;
+use oat\tao\model\session\source\ServiceProvider\SessionSourceServiceProvider;
 use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
 use oat\tao\model\Translation\ServiceProvider\TranslationServiceProvider;
 use oat\tao\model\user\TaoRoles;
@@ -315,6 +317,7 @@ return [
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'Notification']],
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'File', 'act' => 'accessFile']],
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'Log', 'act' => 'log']],
+        [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'Log', 'act' => 'logFrontendAction']],
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'TaskQueueWebApi']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'Languages', 'act' => 'index']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ResourceRelations', 'act' => 'index']],
@@ -376,9 +379,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2026.07',
+        'TAO_VERSION' => '2026.09',
         #TAO version label
-        'TAO_VERSION_NAME' => '2026.07',
+        'TAO_VERSION_NAME' => '2026.09',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -442,6 +445,8 @@ return [
         CookiePolicyServiceProvider::class,
         DataPolicyServiceProvider::class,
         InfrastructureServiceProvider::class,
+        SessionSourceServiceProvider::class,
+        FrontendActionServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,

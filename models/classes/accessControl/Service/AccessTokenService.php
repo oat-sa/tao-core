@@ -22,33 +22,30 @@ declare(strict_types=1);
 
 namespace oat\tao\model\accessControl\Service;
 
+use common_session_SessionManager as SessionManager;
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
+use oat\generis\model\user\UserRdf;
+use oat\oatbox\user\UserService;
 use Psr\SimpleCache\CacheInterface;
 use RuntimeException;
 
 class AccessTokenService
 {
-    private CacheInterface $cache;
-    private float $ttlScale;
-    private array $clientConfig;
+    private readonly ClientInterface $client;
 
-    /**
-     * @see Client
-     * @param array $clientConfig
-     */
     public function __construct(
-        CacheInterface $cache,
-        float $ttlScale = 0.5,
-        array $clientConfig = ['timeout' => 5.0, 'connect_timeout' => 2.0]
+        private readonly UserService $userService,
+        private readonly CacheInterface $cache,
+        private readonly float $ttlScale = 0.5,
+        ?ClientInterface $client = null
     ) {
-        $this->clientConfig = $clientConfig;
-        $this->cache = $cache;
-        $this->ttlScale = $ttlScale;
+        $this->client = $client ?? new Client(['timeout' => 5.0, 'connect_timeout' => 2.0]);
     }
 
-    public function fetchTokens(): array
+    public function fetchTokens(string $role = ''): array
     {
         $authUri = $_ENV['ENV_AUTH_URI'] ?? getenv('ENV_AUTH_URI');
         $clientId = $_ENV['ENV_CLIENT_ID'] ?? getenv('ENV_CLIENT_ID');
@@ -57,22 +54,35 @@ class AccessTokenService
         if (!$authUri || !$clientId || !$clientSecret) {
             throw new RuntimeException('OAuth2 credentials not found.', 404);
         }
-        $key = "$authUri/$clientId";
+        $userId = $this->getUserLogin();
+        $key = hash('sha256', "{$this->getTenantId()}/$authUri/$clientId/$userId/$role");
         $value = $this->cache->get($key);
         if ($value) {
             return json_decode($value, true);
         }
 
-        $client = new Client($this->clientConfig);
-        $request = new Request('POST', "$authUri?with-refresh-token=true", [], json_encode([
-            'grant_type' => 'client_credentials',
-            'client_id' => $clientId,
-            'client_secret' => $clientSecret
-        ]));
+        $request = new Request(
+            'POST',
+            sprintf(
+                "%s?%s",
+                $authUri,
+                http_build_query(array_filter([
+                    'with-refresh-token' => true,
+                    'with-user-identifier' => SessionManager::buildUserIdentityString($userId, $role),
+                    'with-user-role' => 'ROLE_LTI_USER', // required to force a User ID
+                ]), arg_separator: '&'),
+            ),
+            [],
+            json_encode([
+                'grant_type' => 'client_credentials',
+                'client_id' => $clientId,
+                'client_secret' => $clientSecret
+            ])
+        );
         $request = $request->withAddedHeader('Content-Type', 'application/json');
 
         try {
-            $response = $client->send($request);
+            $response = $this->client->send($request);
         } catch (GuzzleException $exception) {
             throw new RuntimeException('Failed to fetch Auth tokens.', 424, $exception);
         }
@@ -95,8 +105,7 @@ class AccessTokenService
 
     public function extractAccessTokenFromRequest(): string
     {
-        $authorizationHeader = explode(' ', $_SERVER['HTTP_AUTHORIZATION'] ?? '', 2);
-        return array_pop($authorizationHeader);
+        return SessionManager::extractAccessTokenFromRequest();
     }
 
     public function extractAccessTokenPayloadFromRequest(): array
@@ -108,12 +117,36 @@ class AccessTokenService
 
     public function parseAccessToken(string $accessToken): array
     {
-        @[$_, $payload] = explode('.', $accessToken);
-        $rawToken = base64_decode(strtr($payload ?? '', '-_', '+/'));
-        $token = json_decode($rawToken, true);
+        $token = SessionManager::parseAccessToken($accessToken);
         if (empty($token['tenant_id'])) {
             throw new RuntimeException('Unauthorized', 401);
         }
+        if ($token['tenant_id'] !== $this->getTenantId()) {
+            throw new RuntimeException('Not found', 404);
+        }
         return $token;
+    }
+
+    private function getTenantId(): string
+    {
+        $tenantId = $_ENV['TENANT_ID'] ?? getenv('TENANT_ID');
+        if (!$tenantId) {
+            throw new RuntimeException('Tenant configuration not found.', 404);
+        }
+        return $tenantId;
+    }
+
+    private function getUserLogin(): ?string
+    {
+        $user = SessionManager::getSession()->getUser();
+        $login = current($user->getPropertyValues(UserRdf::PROPERTY_LOGIN));
+
+        if (!$login) {
+            $generisUser = $this->userService->getUser($user->getIdentifier());
+
+            $login = current($generisUser->getPropertyValues(UserRdf::PROPERTY_LOGIN));
+        }
+
+        return $login ?: null;
     }
 }
