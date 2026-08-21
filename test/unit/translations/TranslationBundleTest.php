@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -269,6 +271,46 @@ class TranslationBundleTest extends TestCase
         $this->assertStringContainsString($amdFile, $bundle->logs[0][0]);
         $this->assertStringContainsString($jsonFile, $bundle->logs[0][0]);
         $this->assertSame('Simulated AMD write failure.', $bundle->logs[0][1]['error']);
+
+        tao_helpers_File::delTree($basePath);
+        tao_helpers_File::delTree($outputPath);
+    }
+
+    public function testBundleStopsBeforeWritingArtifactsWhenTranslationSourceHasInvalidUtf8()
+    {
+        $basePath = self::$tmpDir . '/bundle-json-encoding-failure-' . uniqid('', true);
+        $outputPath = self::$tmpDir . '/bundle-json-encoding-output-' . uniqid('', true);
+        $extensionPath = $basePath . '/fakeExt/locales/en-US';
+
+        mkdir($extensionPath, 0777, true);
+        mkdir($outputPath, 0777, true);
+        file_put_contents(
+            $extensionPath . '/messages_po.js',
+            "{\"translations\":{\"bad\":\"\xB1\x31\"}}"
+        );
+
+        $bundle = new class ('en-US', ['fakeExt'], $basePath) extends TranslationBundle {
+            public array $logs = [];
+
+            protected function logBundleWriteFailure($message, array $context = [])
+            {
+                $this->logs[] = [$message, $context];
+            }
+        };
+
+        $result = $bundle->generateTo($outputPath);
+        $jsonFile = $outputPath . '/en-US/messages.json';
+        $amdFile = $outputPath . '/en-US/messages.js';
+
+        $this->assertFalse($result);
+        $this->assertFileDoesNotExist($jsonFile);
+        $this->assertFileDoesNotExist($amdFile);
+        $this->assertCount(1, $bundle->logs);
+        $this->assertStringContainsString($extensionPath . '/messages_po.js', $bundle->logs[0][0]);
+        $this->assertSame(
+            'Malformed UTF-8 characters, possibly incorrectly encoded',
+            $bundle->logs[0][1]['error']
+        );
 
         tao_helpers_File::delTree($basePath);
         tao_helpers_File::delTree($outputPath);

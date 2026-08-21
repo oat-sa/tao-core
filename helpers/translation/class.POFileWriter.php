@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -114,7 +116,10 @@ class tao_helpers_translation_POFileWriter extends tao_helpers_translation_Trans
         if ($file instanceof tao_helpers_translation_POFile) {
             $pluralForms = $file->getHeaders()['Plural-Forms'] ?? '';
             if (preg_match('/nplurals\s*=\s*(\d+)/i', $pluralForms, $matches)) {
-                $pluralCount = (int) $matches[1];
+                $parsedPluralCount = (int) $matches[1];
+                if ($parsedPluralCount > 0) {
+                    $pluralCount = $parsedPluralCount;
+                }
             }
         }
 

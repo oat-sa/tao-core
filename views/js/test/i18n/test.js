@@ -18,7 +18,7 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['i18n'], function(i18n) {
+define(['i18n', 'i18ntr/messages'], function(i18n, i18nTr) {
     'use strict';
 
     const i18nApi = [
@@ -59,5 +59,36 @@ define(['i18n'], function(i18n) {
         assert.equal(i18n.p('mock-1', 'mock-1 plural', 2), 'mock-1 plural', 'Plain string translations should use the provided plural fallback');
         assert.equal(i18n.p('missing plural key', 'missing plural fallback', 2), 'missing plural fallback', 'Missing translations should use the provided plural fallback');
         assert.equal(i18n.p('%d ruby day', '%d ruby days', 1), '<ruby>1</ruby> den', 'Plural translations should convert ruby placeholders after formatting');
+    });
+
+    QUnit.test('i18n plural object maps treat empty indexed values as untranslated', function(assert) {
+        const pluralEntry = i18nTr.translations['%d empty plural day'];
+
+        i18nTr.translations['%d empty plural day'] = {
+            _plural: '%d empty plural days',
+            _translations: {
+                0: '%d singular-fallback',
+                1: '',
+                3: '%d many-translation'
+            }
+        };
+
+        assert.equal(
+            i18n.p('%d empty plural day', '%d empty plural days', 2),
+            '2 singular-fallback',
+            'Owned empty plural index should fall back to owned index 0'
+        );
+        assert.equal(
+            i18n.p('%d empty plural day', '%d empty plural days', 4),
+            '4 many-translation',
+            'Non-empty owned plural indexes should still be preserved'
+        );
+        assert.equal(
+            i18n.p('%d empty plural day', '%d empty plural days', 3),
+            '3 singular-fallback',
+            'Missing sparse plural indexes should still fall back to owned index 0'
+        );
+
+        i18nTr.translations['%d empty plural day'] = pluralEntry;
     });
 });

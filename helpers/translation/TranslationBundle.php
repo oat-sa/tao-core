@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -129,6 +131,13 @@ class TranslationBundle
             $jsFilePath = $this->basePath . '/' . $extension . '/locales/' . $this->langCode . '/messages_po.js';
             if (file_exists($jsFilePath)) {
                 $translate = json_decode(file_get_contents($jsFilePath), false);
+                if ($translate === null && json_last_error() !== JSON_ERROR_NONE) {
+                    $this->logBundleWriteFailure(
+                        sprintf('Failed to decode translation source "%s".', $jsFilePath),
+                        ['error' => json_last_error_msg()]
+                    );
+                    return false;
+                }
                 if ($translate != null) {
                     $translationsData = property_exists($translate, 'translations')
                         ? (array) $translate->translations
@@ -167,8 +176,23 @@ class TranslationBundle
             $bundleDirectory = $directory . '/' . $this->langCode;
             $jsonFile = $bundleDirectory . '/' . self::JSON_BUNDLE_FILE;
             $amdFile = $bundleDirectory . '/' . self::AMD_BUNDLE_FILE;
-            $jsonPayload = json_encode($content);
-            $amdPayload = $this->buildAmdBundle($content, $pluralForms);
+            $jsonPayload = $this->encodeJson($content, $jsonError);
+            if ($jsonPayload === false) {
+                $this->logBundleWriteFailure(
+                    sprintf('Failed to encode translation bundle JSON file "%s".', $jsonFile),
+                    ['error' => $jsonError]
+                );
+                return false;
+            }
+
+            $amdPayload = $this->buildAmdBundle($content, $pluralForms, $amdEncodingError);
+            if ($amdPayload === false) {
+                $this->logBundleWriteFailure(
+                    sprintf('Failed to encode translation bundle AMD file "%s".', $amdFile),
+                    ['error' => $amdEncodingError]
+                );
+                return false;
+            }
 
             if (!$this->writeFile($jsonFile, $jsonPayload, $jsonError)) {
                 $this->logBundleWriteFailure(
@@ -208,23 +232,42 @@ class TranslationBundle
      *
      * @param array $content
      * @param string $pluralForms
-     * @return string
+     * @param string|null $error
+     * @return string|false
      */
-    private function buildAmdBundle(array $content, $pluralForms)
+    private function buildAmdBundle(array $content, $pluralForms, &$error = null)
     {
+        $serial = $this->encodeJson($content['serial'], $error);
+        if ($serial === false) {
+            return false;
+        }
+
+        $translations = $this->encodeJson($content['translations'], $error);
+        if ($translations === false) {
+            return false;
+        }
+
         $properties = [
-            'serial: ' . json_encode($content['serial']),
+            'serial: ' . $serial,
             'date: ' . (int) $content['date'],
-            'translations: ' . json_encode($content['translations']),
+            'translations: ' . $translations,
             'p11nRules: ' . $this->buildPluralRuleFunction($pluralForms),
         ];
 
         if (!empty($content['pluralForms'])) {
-            $properties[] = 'pluralForms: ' . json_encode($content['pluralForms']);
+            $encodedPluralForms = $this->encodeJson($content['pluralForms'], $error);
+            if ($encodedPluralForms === false) {
+                return false;
+            }
+            $properties[] = 'pluralForms: ' . $encodedPluralForms;
         }
 
         if (!empty($content['version'])) {
-            $properties[] = 'version: ' . json_encode($content['version']);
+            $encodedVersion = $this->encodeJson($content['version'], $error);
+            if ($encodedVersion === false) {
+                return false;
+            }
+            $properties[] = 'version: ' . $encodedVersion;
         }
 
         return 'define(function(){return{' . implode(',', $properties) . '};});';
@@ -253,6 +296,25 @@ class TranslationBundle
         $maxIndex = $pluralCount - 1;
 
         return sprintf(self::GENERATED_PLURAL_RULE, $expression, $maxIndex, $maxIndex);
+    }
+
+    /**
+     * Encode a value as JSON while preserving the last encoder error.
+     *
+     * @param mixed $value
+     * @param string|null $error
+     * @return string|false
+     */
+    private function encodeJson($value, &$error = null)
+    {
+        $encoded = json_encode($value);
+        if ($encoded === false) {
+            $error = json_last_error_msg();
+            return false;
+        }
+
+        $error = null;
+        return $encoded;
     }
 
     /**

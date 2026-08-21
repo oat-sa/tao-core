@@ -41,11 +41,11 @@ define(['i18ntr/messages', 'core/format'], function(i18nTr, format){
         }
 
         if (translationsMap && typeof translationsMap === 'object') {
-            if (hasOwnTranslationIndex(translationsMap, pluralIndex)) {
+            if (hasOwnTranslationIndex(translationsMap, pluralIndex) && translationsMap[pluralIndex] !== '') {
                 return translationsMap[pluralIndex];
             }
 
-            if (hasOwnTranslationIndex(translationsMap, 0)) {
+            if (hasOwnTranslationIndex(translationsMap, 0) && translationsMap[0] !== '') {
                 return translationsMap[0];
             }
         }
