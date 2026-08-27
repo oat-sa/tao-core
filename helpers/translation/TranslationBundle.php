@@ -135,7 +135,8 @@ class TranslationBundle
                         ? (array) $translate->translations
                         : (array) $translate;
 
-                    if (!empty($translate->pluralForms)
+                    if (
+                        !empty($translate->pluralForms)
                         && ($extension === 'tao' || empty($pluralForms))
                     ) {
                         $pluralForms = $translate->pluralForms;

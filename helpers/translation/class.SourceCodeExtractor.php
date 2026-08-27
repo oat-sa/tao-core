@@ -509,5 +509,4 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
     {
         return preg_match('/^(["\']).*\1$/us', trim($argument)) === 1;
     }
-
 }

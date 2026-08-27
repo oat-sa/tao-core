@@ -131,7 +131,8 @@ class SourceCodeExtractorTest extends TestCase
         $phrases = $this->invokeExtractorMethod(
             $extractor,
             'getPluralTranslationPhrases',
-            "return new common_report_Report(common_report_Report::TYPE_ERROR, __('Unable to create deployement directory'), \$xhtml);\n"
+            "return new common_report_Report("
+            . "common_report_Report::TYPE_ERROR, __('Unable to create deployement directory'), \$xhtml);\n"
             . "\$expr = \"/http[s]?:\\/\\//mi\";"
         );
 
