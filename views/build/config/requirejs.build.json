@@ -115,7 +115,7 @@
     "url-polyfill"
   ],
   "exclude": [
-    "i18ntr/messages",
+    "json!i18ntr/messages.json",
     "mathJax",
     "ckeditor",
     "pdfjs-dist/build/pdf",

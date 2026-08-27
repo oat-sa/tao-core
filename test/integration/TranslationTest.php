@@ -33,6 +33,7 @@ use tao_helpers_translation_TranslationException;
 use tao_helpers_translation_TranslationUnit;
 use tao_helpers_translation_TranslationFile;
 use tao_helpers_translation_Utils;
+use tao_helpers_translation_POFile;
 use tao_helpers_translation_POUtils;
 use tao_helpers_translation_POFileReader;
 use tao_helpers_translation_POFileWriter;
@@ -464,11 +465,10 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $serializedContent = file_get_contents($jsFilePath);
         $content = json_decode(file_get_contents($jsFilePath), true);
         $this->assertEquals('nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n==3) ? 2 : 3;', $content['pluralForms']);
-        $this->assertEquals('%d days', $content['translations']['%d day']['_plural']);
-        $this->assertEquals('%d den', $content['translations']['%d day']['_translations'][0]);
-        $this->assertEquals('%d dni', $content['translations']['%d day']['_translations'][1]);
-        $this->assertEquals('%d dniv', $content['translations']['%d day']['_translations'][3]);
-        $this->assertArrayNotHasKey(2, $content['translations']['%d day']['_translations']);
+        $this->assertEquals('%d den', $content['translations']['%d day'][0]);
+        $this->assertEquals('%d dni', $content['translations']['%d day'][1]);
+        $this->assertEquals('%d dniv', $content['translations']['%d day'][3]);
+        $this->assertArrayNotHasKey(2, $content['translations']['%d day']);
         $this->assertStringContainsString('"3":"%d dniv"', $serializedContent);
         $this->assertStringNotContainsString('"2":', $serializedContent);
 
@@ -1199,6 +1199,11 @@ PO;
         unlink($rewrittenPath);
     }
 
+    /**
+     * Write plural targets for generic translation files without PO headers.
+     *
+     * @return void
+     */
     public function testPluralPOWritingSupportsGenericTranslationFiles()
     {
         $filePath = tempnam('/tmp', self::TEMP_PO);
@@ -1206,9 +1211,11 @@ PO;
         $tu = new tao_helpers_translation_POTranslationUnit();
         $tu->setSource('%d item');
         $tu->setSourcePlural('%d items');
-        $tu->setTargets([
-            2 => '%d items',
-        ]);
+        $tu->setTargets(
+            [
+                2 => '%d items',
+            ]
+        );
         $tf->addTranslationUnit($tu);
 
         $writer = new tao_helpers_translation_POFileWriter($filePath, $tf);
@@ -1223,6 +1230,11 @@ PO;
         unlink($filePath);
     }
 
+    /**
+     * Pad plural PO output to the declared number of plural slots.
+     *
+     * @return void
+     */
     public function testPluralPOWritingRespectsDeclaredNPlurals()
     {
         $filePath = tempnam('/tmp', self::TEMP_PO);
@@ -1231,9 +1243,11 @@ PO;
         $tu = new tao_helpers_translation_POTranslationUnit();
         $tu->setSource('%d day');
         $tu->setSourcePlural('%d days');
-        $tu->setTargets([
-            0 => '%d den',
-        ]);
+        $tu->setTargets(
+            [
+                0 => '%d den',
+            ]
+        );
         $tf->addTranslationUnit($tu);
 
         $writer = new tao_helpers_translation_POFileWriter($filePath, $tf);
@@ -1248,16 +1262,23 @@ PO;
         unlink($filePath);
     }
 
+    /**
+     * Keep plural target indexes synchronized when an entry is overwritten.
+     *
+     * @return void
+     */
     public function testPOFileAddTranslationUnitKeepsPluralTargetsSynced()
     {
         $tf = new tao_helpers_translation_POFile();
         $existingTu = new tao_helpers_translation_POTranslationUnit();
         $existingTu->setSource('%d item');
         $existingTu->setSourcePlural('%d items');
-        $existingTu->setTargets([
-            0 => '%d old item',
-            1 => '%d old items',
-        ]);
+        $existingTu->setTargets(
+            [
+                0 => '%d old item',
+                1 => '%d old items',
+            ]
+        );
         $tf->addTranslationUnit($existingTu);
 
         $updatedTu = new tao_helpers_translation_POTranslationUnit();
@@ -1272,6 +1293,11 @@ PO;
         $this->assertEquals('', $mergedTu->getTargetByIndex(1));
     }
 
+    /**
+     * Reuse the singular target for plural slot zero when writing PO files.
+     *
+     * @return void
+     */
     public function testPluralPOWritingUsesSyncedSingularTargetAtIndexZero()
     {
         $filePath = tempnam('/tmp', self::TEMP_PO);

@@ -23,8 +23,6 @@
  *
  */
 
-declare(strict_types=1);
-
 namespace oat\tao\test\unit\translation;
 
 use InvalidArgumentException;
@@ -114,7 +112,6 @@ class TranslationBundleTest extends TestCase
         if (is_dir(self::$tmpDir)) {
             $file = $bundle->generateTo(self::$tmpDir);
             $this->assertTrue(file_exists($file));
-            $this->assertTrue(file_exists(dirname($file) . '/messages.js'));
 
             $content = json_decode(file_get_contents($file), true);
             $this->assertTrue(is_array($content));
@@ -138,10 +135,7 @@ class TranslationBundleTest extends TestCase
             json_encode([
                 'pluralForms' => 'nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;',
                 'translations' => [
-                    '%d day' => [
-                        '_plural' => '%d days',
-                        '_translations' => ['%d den', '%d dni', '%d dni', '%d dni'],
-                    ],
+                    '%d day' => ['%d den', '%d dni', '%d dni', '%d dni'],
                     'mock-1' => 'translation mock 1',
                 ],
             ])
@@ -150,15 +144,12 @@ class TranslationBundleTest extends TestCase
         $bundle = new TranslationBundle('sk-SK', ['fakeExt'], $basePath);
         $file = $bundle->generateTo(self::$tmpDir);
         $content = json_decode(file_get_contents($file), true);
-        $module = file_get_contents(dirname($file) . '/messages.js');
 
         $this->assertSame(
             'nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;',
             $content['pluralForms']
         );
-        $this->assertSame('%d days', $content['translations']['%d day']['_plural']);
-        $this->assertStringContainsString('p11nRules: function (n)', $module);
-        $this->assertStringContainsString('Number((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3)', $module);
+        $this->assertSame('%d dni', $content['translations']['%d day'][1]);
 
         tao_helpers_File::delTree($basePath);
     }
@@ -191,6 +182,11 @@ class TranslationBundleTest extends TestCase
         tao_helpers_File::delTree($basePath);
     }
 
+    /**
+     * Preserve an explicit empty tao translations payload when merging bundles.
+     *
+     * @return void
+     */
     public function testBundleUsesExplicitEmptyTranslationsPayload()
     {
         $basePath = self::$tmpDir . '/bundle-empty-translations-' . uniqid('', true);
@@ -224,10 +220,15 @@ class TranslationBundleTest extends TestCase
         tao_helpers_File::delTree($basePath);
     }
 
-    public function testBundleRemovesJsonWhenAmdWriteFails()
+    /**
+     * Report JSON bundle write failures without leaving artifacts behind.
+     *
+     * @return void
+     */
+    public function testBundleReportsJsonWriteFailures()
     {
-        $basePath = self::$tmpDir . '/bundle-amd-failure-' . uniqid('', true);
-        $outputPath = self::$tmpDir . '/bundle-amd-output-' . uniqid('', true);
+        $basePath = self::$tmpDir . '/bundle-json-write-failure-' . uniqid('', true);
+        $outputPath = self::$tmpDir . '/bundle-json-write-output-' . uniqid('', true);
         $extensionPath = $basePath . '/fakeExt/locales/en-US';
 
         mkdir($extensionPath, 0777, true);
@@ -244,16 +245,27 @@ class TranslationBundleTest extends TestCase
         $bundle = new class ('en-US', ['fakeExt'], $basePath) extends TranslationBundle {
             public array $logs = [];
 
+            /**
+             * Simulate a failing JSON bundle write.
+             *
+             * @param string $path
+             * @param string $content
+             * @param string|null $error
+             * @return bool
+             */
             protected function writeFile($path, $content, &$error = null)
             {
-                if (substr($path, -strlen('/messages.js')) === '/messages.js') {
-                    $error = 'Simulated AMD write failure.';
-                    return false;
-                }
-
-                return parent::writeFile($path, $content, $error);
+                $error = 'Simulated JSON write failure.';
+                return false;
             }
 
+            /**
+             * Capture bundle write failures for assertions.
+             *
+             * @param string $message
+             * @param array $context
+             * @return void
+             */
             protected function logBundleWriteFailure($message, array $context = [])
             {
                 $this->logs[] = [$message, $context];
@@ -262,20 +274,22 @@ class TranslationBundleTest extends TestCase
 
         $result = $bundle->generateTo($outputPath);
         $jsonFile = $outputPath . '/en-US/messages.json';
-        $amdFile = $outputPath . '/en-US/messages.js';
 
         $this->assertFalse($result);
         $this->assertFileDoesNotExist($jsonFile);
-        $this->assertFileDoesNotExist($amdFile);
         $this->assertCount(1, $bundle->logs);
-        $this->assertStringContainsString($amdFile, $bundle->logs[0][0]);
         $this->assertStringContainsString($jsonFile, $bundle->logs[0][0]);
-        $this->assertSame('Simulated AMD write failure.', $bundle->logs[0][1]['error']);
+        $this->assertSame('Simulated JSON write failure.', $bundle->logs[0][1]['error']);
 
         tao_helpers_File::delTree($basePath);
         tao_helpers_File::delTree($outputPath);
     }
 
+    /**
+     * Stop bundle generation before writing files when the source JSON is invalid.
+     *
+     * @return void
+     */
     public function testBundleStopsBeforeWritingArtifactsWhenTranslationSourceHasInvalidUtf8()
     {
         $basePath = self::$tmpDir . '/bundle-json-encoding-failure-' . uniqid('', true);
@@ -292,6 +306,13 @@ class TranslationBundleTest extends TestCase
         $bundle = new class ('en-US', ['fakeExt'], $basePath) extends TranslationBundle {
             public array $logs = [];
 
+            /**
+             * Capture bundle write failures for assertions.
+             *
+             * @param string $message
+             * @param array $context
+             * @return void
+             */
             protected function logBundleWriteFailure($message, array $context = [])
             {
                 $this->logs[] = [$message, $context];
@@ -300,11 +321,9 @@ class TranslationBundleTest extends TestCase
 
         $result = $bundle->generateTo($outputPath);
         $jsonFile = $outputPath . '/en-US/messages.json';
-        $amdFile = $outputPath . '/en-US/messages.js';
 
         $this->assertFalse($result);
         $this->assertFileDoesNotExist($jsonFile);
-        $this->assertFileDoesNotExist($amdFile);
         $this->assertCount(1, $bundle->logs);
         $this->assertStringContainsString($extensionPath . '/messages_po.js', $bundle->logs[0][0]);
         $this->assertSame(
@@ -316,7 +335,12 @@ class TranslationBundleTest extends TestCase
         tao_helpers_File::delTree($outputPath);
     }
 
-    public function testBundlePluralRuleFallsBackForCommentLikeExpressions()
+    /**
+     * Keep comment-like plural expressions as bundle data.
+     *
+     * @return void
+     */
+    public function testBundleKeepsCommentLikePluralExpressionAsData()
     {
         $basePath = self::$tmpDir . '/bundle-comment-expression-' . uniqid('', true);
         $extensionPath = $basePath . '/fakeExt/locales/en-US';
@@ -334,14 +358,19 @@ class TranslationBundleTest extends TestCase
 
         $bundle = new TranslationBundle('en-US', ['fakeExt'], $basePath);
         $file = $bundle->generateTo(self::$tmpDir);
-        $module = file_get_contents(dirname($file) . '/messages.js');
+        $content = json_decode(file_get_contents($file), true);
 
-        $this->assertStringContainsString('p11nRules: function (n) { return n === 1 ? 0 : 1; }', $module);
+        $this->assertSame('nplurals=2; plural=n/*comment*/2;', $content['pluralForms']);
 
         tao_helpers_File::delTree($basePath);
     }
 
-    public function testBundlePluralRuleStillAllowsDivisionOperator()
+    /**
+     * Keep division-based plural expressions as bundle data.
+     *
+     * @return void
+     */
+    public function testBundleKeepsDivisionPluralExpressionAsData()
     {
         $basePath = self::$tmpDir . '/bundle-division-expression-' . uniqid('', true);
         $extensionPath = $basePath . '/fakeExt/locales/en-US';
@@ -359,9 +388,9 @@ class TranslationBundleTest extends TestCase
 
         $bundle = new TranslationBundle('en-US', ['fakeExt'], $basePath);
         $file = $bundle->generateTo(self::$tmpDir);
-        $module = file_get_contents(dirname($file) . '/messages.js');
+        $content = json_decode(file_get_contents($file), true);
 
-        $this->assertStringContainsString('Number(n/2)', $module);
+        $this->assertSame('nplurals=3; plural=n/2;', $content['pluralForms']);
 
         tao_helpers_File::delTree($basePath);
     }

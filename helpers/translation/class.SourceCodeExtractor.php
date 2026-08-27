@@ -272,14 +272,12 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
             }
         }
 
-        $templateMatches = $this->findCapturedValues(
-            "/\{\{\s*__\s+['\"](.*?)['\"]\s*\}\}/us",
-            $content
-        );
-        if (!empty($templateMatches)) {
-            $strings = array_merge($strings, $templateMatches);
+        foreach ($this->findTemplateHelperCalls($content, ['__']) as $helperCall) {
+            $arguments = $this->extractTemplateArguments($helperCall['arguments']);
 
-            return $strings;
+            if (count($arguments) === 1 && $this->isQuotedArgument($arguments[0])) {
+                $strings[] = trim($arguments[0], '"\'');
+            }
         }
 
         return $strings;
@@ -299,7 +297,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
                 'mode' => 'quotedArguments',
             ],
             [
-                'pattern' => "/\\{\\{\s*__p\s+['\\\"](.*?)['\\\"]\s+['\\\"](.*?)['\\\"](?:\\s+.*?)?\\s*\\}\\}/us",
+                'pattern' => "/\\{\\{\\s*__p\\s+['\\\"](.*?)['\\\"]\\s+['\\\"](.*?)['\\\"](?:\\s+.*?)?\\s*\\}\\}/us",
                 'mode' => 'capturedGroups',
                 'flags' => PREG_SET_ORDER,
             ],
@@ -385,6 +383,90 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
     }
 
     /**
+     * Find matching template helper calls and keep the raw argument string.
+     *
+     * @param string $content The template content to scan.
+     * @param array $helperNames The helper names to match.
+     * @return array
+     */
+    private function findTemplateHelperCalls($content, array $helperNames)
+    {
+        $matches = [];
+        $pattern = '/\{\{\s*(' . implode('|', array_map('preg_quote', $helperNames)) . ')\b(.*?)\}\}/us';
+
+        foreach ($this->findAllMatches($pattern, $content, PREG_SET_ORDER) as $match) {
+            $matches[] = [
+                'name' => $match[1],
+                'arguments' => trim($match[2]),
+            ];
+        }
+
+        return $matches;
+    }
+
+    /**
+     * Split a template helper argument list without breaking quoted strings.
+     *
+     * @param string $argumentsString The raw helper argument string.
+     * @return array
+     */
+    private function extractTemplateArguments($argumentsString)
+    {
+        $arguments = [];
+        $buffer = '';
+        $quote = null;
+        $isEscaped = false;
+        $length = strlen($argumentsString);
+
+        for ($index = 0; $index < $length; $index++) {
+            $character = $argumentsString[$index];
+
+            if ($quote !== null) {
+                $buffer .= $character;
+
+                if ($isEscaped) {
+                    $isEscaped = false;
+                    continue;
+                }
+
+                if ($character === '\\') {
+                    $isEscaped = true;
+                    continue;
+                }
+
+                if ($character === $quote) {
+                    $quote = null;
+                }
+
+                continue;
+            }
+
+            if ($character === '"' || $character === "'") {
+                $quote = $character;
+                $buffer .= $character;
+                continue;
+            }
+
+            if (preg_match('/\s/u', $character) === 1) {
+                if ($buffer !== '') {
+                    $arguments[] = $buffer;
+                    $buffer = '';
+                }
+
+                continue;
+            }
+
+            $buffer .= $character;
+        }
+
+        if ($buffer !== '') {
+            $arguments[] = $buffer;
+        }
+
+        return $arguments;
+    }
+
+    /**
      * @param string $match
      * @return array|null
      */
@@ -416,4 +498,16 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
             'plural' => $match[2],
         ];
     }
+
+    /**
+     * Check whether a helper argument is wrapped in matching quotes.
+     *
+     * @param string $argument The argument to inspect.
+     * @return bool
+     */
+    private function isQuotedArgument($argument)
+    {
+        return preg_match('/^(["\']).*\1$/us', trim($argument)) === 1;
+    }
+
 }

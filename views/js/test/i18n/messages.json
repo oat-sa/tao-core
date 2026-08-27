@@ -10,19 +10,13 @@
     "params number %d": "parameterized number translation %d",
     "params json %j": "parameterized json translation %j",
     "%d day": {
-      "_plural": "%d days",
-      "_translations": {
-        "0": "%d singular-day",
-        "1": "%d few-days",
-        "3": "%d many-days"
-      }
+      "0": "%d singular-day",
+      "1": "%d few-days",
+      "3": "%d many-days"
     },
     "%d ruby day": {
-      "_plural": "%d ruby days",
-      "_translations": {
-        "0": "{ruby}%d{/ruby} den",
-        "1": "{ruby}%d{/ruby} dni"
-      }
+      "0": "{ruby}%d{/ruby} den",
+      "1": "{ruby}%d{/ruby} dni"
     }
   }
 }
