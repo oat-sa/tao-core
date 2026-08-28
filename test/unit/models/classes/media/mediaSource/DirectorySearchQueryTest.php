@@ -112,6 +112,12 @@ class DirectorySearchQueryTest extends TestCase
         $this->assertSame(DirectorySearchQuery::DEFAULT_PAGE_SIZE, $this->subject->getPageSize());
     }
 
+    public function testSetPageSizeClampsToMaxPageSize(): void
+    {
+        $this->assertSame($this->subject, $this->subject->setPageSize(99999));
+        $this->assertSame(DirectorySearchQuery::MAX_PAGE_SIZE, $this->subject->getPageSize());
+    }
+
     public function testSetDepthKeepsConfiguredValue(): void
     {
         $this->assertSame($this->subject, $this->subject->setDepth(7));
