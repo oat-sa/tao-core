@@ -75,7 +75,7 @@ require.config({
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
     <?php endforeach?>
-        'lib/handlebars/helpers' : '../node_modules/@oat-sa/tao-core-libs/dist/handlebars/helpers',
+        'lib/handlebars/helpers' : 'lib/handlebars/helpers',
         'lib/handlebars/moduleWriter' : '../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/handlebars/moduleWriter',
         'lib/uuid'          : '../node_modules/@oat-sa/tao-core-libs/dist/uuid',
         'core'              : '../node_modules/@oat-sa/tao-core-sdk/dist/core',
