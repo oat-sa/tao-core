@@ -445,6 +445,7 @@ return [
         DataPolicyServiceProvider::class,
         InfrastructureServiceProvider::class,
         FrontendActionServiceProvider::class,
+        oat\tao\models\classes\email\EmailServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
