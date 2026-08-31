@@ -179,7 +179,7 @@ class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslat
                     $tu->setSourcePlural($translationUnit->getSourcePlural());
                     if ($translationUnit->hasPluralTargets()) {
                         $tu->setTargets($translationUnit->getTargets());
-                    } else {
+                    } elseif ($translationUnit->getTarget() !== '') {
                         $tu->setTarget($translationUnit->getTarget());
                     }
                 } elseif ($translationUnit->getTarget() !== '') {
