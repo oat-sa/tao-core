@@ -2,16 +2,9 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\models\classes\email;
+namespace oat\tao\model\email;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\tao\models\classes\email\EmailAddressResolver;
-use oat\tao\models\classes\email\EmailAddressResolverInterface;
-use oat\tao\models\classes\email\EmailHandler;
-use oat\tao\models\classes\email\EmailHandlerInterface;
-use oat\tao\models\classes\email\EmailService;
-use oat\tao\models\classes\email\EmailTransportInterface;
-use oat\tao\models\classes\email\NullTransport;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;

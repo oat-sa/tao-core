@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace oat	ao\models\TaskOrchestrator;
+namespace oat\tao\model\TaskOrchestrator;
 
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Exception\GuzzleException;

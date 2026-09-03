@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace oat	ao\scripts\install;
+namespace oat\tao\scripts\install;
 
 use oat\oatbox\service\ServiceManager;
-use oat	ao\models\TaskOrchestrator\TaskOrchestratorEmailService;
-use oat	ao\scripts\InstallAction;
+use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
+use oat\tao\scripts\InstallAction;
 
 /**
  * Temporary script to test Task Orchestrator email integration.

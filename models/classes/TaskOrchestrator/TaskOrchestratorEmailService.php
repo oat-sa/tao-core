@@ -1,9 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace oat	ao\models\TaskOrchestrator;
+namespace oat\tao\model\TaskOrchestrator;
 
-use oat	ao\models\TaskOrchestrator\TaskOrchestratorClient;
 use Ramsey\Uuid\Uuid; // Wymaga instalacji np. composer require ramsey/uuid
 
 class TaskOrchestratorEmailService

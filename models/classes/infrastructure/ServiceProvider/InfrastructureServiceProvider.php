@@ -28,8 +28,8 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use Psr\SimpleCache\CacheInterface;
-use oat\tao\models\TaskOrchestrator\TaskOrchestratorClient;
-use oat\tao\models\TaskOrchestrator\TaskOrchestratorEmailService;
+use oat\tao\model\TaskOrchestrator\TaskOrchestratorClient;
+use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 

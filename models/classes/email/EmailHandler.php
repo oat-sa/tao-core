@@ -1,12 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace oat\tao\models\classes\email;
+namespace oat\tao\model\email;
 
-use oat\tao\models\classes\email\EmailAddressResolverInterface;
-use oat\tao\models\classes\email\EmailMessage;
-use oat\tao\models\classes\email\EmailSendResult;
-use oat\tao\models\classes\email\EmailTransportInterface;
 
 class EmailHandler implements EmailHandlerInterface
 {
