@@ -447,7 +447,6 @@ return [
         InfrastructureServiceProvider::class,
         SessionSourceServiceProvider::class,
         FrontendActionServiceProvider::class,
-        oat\tao\model\email\EmailServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
