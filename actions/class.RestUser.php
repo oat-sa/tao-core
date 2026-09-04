@@ -13,13 +13,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA
  *
- * Copyright (c) 2017-2018 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2017-2026 (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 use oat\generis\model\GenerisRdf;
+use oat\tao\model\http\HttpJsonResponseTrait;
+use oat\tao\model\user\CommentMentionUserSearchService;
 
 /**
  * Class tao_actions_RestUser
@@ -42,9 +45,94 @@ use oat\generis\model\GenerisRdf;
  *       'password1' => 'ctl789@CTL789@',
  *       'password2' => 'ctl789@CTL789@',
  * ]
+ *
+ * Mention search (authoring comments):
+ * - GET /tao/RestUser/searchUsers?resourceUri=&resourceType=&q=&limit=&offset=
  */
 class tao_actions_RestUser extends tao_actions_RestResource
 {
+    use HttpJsonResponseTrait;
+
+    /**
+     * Mention autocomplete: eligible users filtered by login or display name.
+     * Response users include id, login, and displayName.
+     */
+    public function searchUsers(): void
+    {
+        try {
+            if (!$this->isRequestGet()) {
+                $this->setErrorJsonResponse('Method not allowed', 405, [], 405);
+
+                return;
+            }
+
+            $query = $this->getPsrRequest()->getQueryParams();
+            $resourceUri = $this->requireStringParam($query['resourceUri'] ?? null, 'resourceUri');
+            if ($resourceUri === null) {
+                return;
+            }
+
+            $resourceType = $this->requireStringParam($query['resourceType'] ?? null, 'resourceType');
+            if ($resourceType === null) {
+                return;
+            }
+
+            $search = isset($query['q']) && is_string($query['q']) ? $query['q'] : '';
+            $limit = isset($query['limit']) ? (int) $query['limit'] : 20;
+            $offset = isset($query['offset']) ? (int) $query['offset'] : 0;
+
+            $this->setSuccessJsonResponse(
+                $this->getCommentMentionUserSearchService()->search(
+                    $resourceUri,
+                    $resourceType,
+                    $search,
+                    $limit,
+                    $offset
+                )
+            );
+        } catch (common_exception_Unauthorized $exception) {
+            $this->setErrorJsonResponse($exception->getMessage(), 403, [], 403);
+        } catch (InvalidArgumentException $exception) {
+            $this->setErrorJsonResponse($exception->getMessage(), 412, [], 412);
+        } catch (Throwable $exception) {
+            $this->logError($exception->getMessage());
+            $this->setErrorJsonResponse('Unable to search mention users', 500, [], 500);
+        }
+    }
+
+    /**
+     * Validate a required query/body parameter as a non-null string.
+     *
+     * On failure, writes a JSON 400 response and returns null so the caller
+     * can early-return without throwing (response is already sent).
+     *
+     * @param mixed $value Raw request value (typically from query params)
+     * @param string $name Parameter name used in the error message
+     */
+    private function requireStringParam($value, string $name): ?string
+    {
+        // Missing key / explicit null → 400 "is required"
+        if ($value === null) {
+            $this->setErrorJsonResponse(sprintf('%s is required', $name), 400, [], 400);
+
+            return null;
+        }
+
+        // Wrong PHP type (e.g. int from query casting) → 400 "must be a string"
+        if (!is_string($value)) {
+            $this->setErrorJsonResponse(sprintf('%s must be a string', $name), 400, [], 400);
+
+            return null;
+        }
+
+        return $value;
+    }
+
+    private function getCommentMentionUserSearchService(): CommentMentionUserSearchService
+    {
+        return $this->getPsrContainer()->get(CommentMentionUserSearchService::class);
+    }
+
     /**
      * Return the form object to manage user edition or creation
      *

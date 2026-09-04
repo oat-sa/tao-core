@@ -29,6 +29,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use GuzzleHttp\Client as GuzzleHttpClient;
 use oat\tao\model\TaskOrchestrator\TaskOrchestratorClient;
 use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
+use oat\tao\model\TaskOrchestrator\CommentMentionDeepLinkBuilder;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -63,5 +64,9 @@ class InfrastructureServiceProvider implements ContainerServiceProviderInterface
             ->arg('$client', service(TaskOrchestratorClient::class))
             ->arg('$tenantId', (string) (getenv('TAO_TENANT_ID') ?: ''))
             ->arg('$actorLogin', (string) (getenv('TAO_TASK_ORCHESTRATOR_ACTOR_LOGIN') ?: ''));
+
+        $services
+            ->set(CommentMentionDeepLinkBuilder::class)
+            ->public();
     }
 }
