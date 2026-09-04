@@ -26,6 +26,9 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\infrastructure\DataAccess\SharedCache;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use GuzzleHttp\Client as GuzzleHttpClient;
+use oat\tao\model\TaskOrchestrator\TaskOrchestratorClient;
+use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -39,5 +42,26 @@ class InfrastructureServiceProvider implements ContainerServiceProviderInterface
             ->set(SharedCache::class, SharedCache::class)
             ->public()
             ->call('setServiceManager', [service(ServiceManager::class)]);
+
+        $services
+            ->set('GuzzleClientForTaskOrchestrator', GuzzleHttpClient::class)
+            ->public();
+
+        $services
+            ->set(TaskOrchestratorClient::class)
+            ->public()
+            ->arg('$baseUrl', (string) (getenv('TASK_ORCHESTRATOR_API_URL') ?: ''))
+            ->arg('$authServerUri', (string) (getenv('TASK_ORCHESTRATOR_AUTH_SERVER_URI') ?: ''))
+            ->arg('$clientId', (string) (getenv('TASK_ORCHESTRATOR_CLIENT_ID') ?: ''))
+            ->arg('$clientSecret', (string) (getenv('TASK_ORCHESTRATOR_CLIENT_SECRET') ?: ''))
+            ->arg('$httpClient', service('GuzzleClientForTaskOrchestrator'))
+            ->arg('$cache', null);
+
+        $services
+            ->set(TaskOrchestratorEmailService::class)
+            ->public()
+            ->arg('$client', service(TaskOrchestratorClient::class))
+            ->arg('$tenantId', (string) (getenv('TAO_TENANT_ID') ?: ''))
+            ->arg('$actorLogin', (string) (getenv('TAO_TASK_ORCHESTRATOR_ACTOR_LOGIN') ?: ''));
     }
 }
