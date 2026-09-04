@@ -1,11 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace oat\tao\model\TaskOrchestrator;
 
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Exception\GuzzleException;
-use Psr\SimpleCache\CacheInterface; // Przykład dla cache'owania tokena
+use InvalidArgumentException;
+use Psr\SimpleCache\CacheInterface;
+use RuntimeException;
 
 class TaskOrchestratorClient
 {
@@ -14,8 +17,8 @@ class TaskOrchestratorClient
     private string $clientId;
     private string $clientSecret;
     private GuzzleHttpClient $httpClient;
-    private ?string $accessToken = null; // Caching token
-    private ?CacheInterface $cache = null; // Opcjonalny cache
+    private ?string $accessToken = null;
+    private ?CacheInterface $cache = null;
 
     public function __construct(
         string $baseUrl,
@@ -23,7 +26,7 @@ class TaskOrchestratorClient
         string $clientId,
         string $clientSecret,
         GuzzleHttpClient $httpClient,
-        ?CacheInterface $cache = null // Wstrzyknięcie cache
+        ?CacheInterface $cache = null
     ) {
         $this->baseUrl = $baseUrl;
         $this->authServerUri = $authServerUri;
@@ -52,19 +55,24 @@ class TaskOrchestratorClient
 
             $data = json_decode($response->getBody()->getContents(), true);
             $accessToken = $data['access_token'] ?? null;
-            $expiresIn = $data['expires_in'] ?? 3600; // Domyślnie 1h
+            $expiresIn = $data['expires_in'] ?? 3600;
 
             if (!$accessToken) {
-                throw new \RuntimeException('Nie udało się uzyskać access_token z serwera autoryzacji.');
+                throw new RuntimeException('Failed to obtain access_token from the authorization server.');
             }
 
             if ($this->cache) {
-                $this->cache->set($cacheKey, $accessToken, $expiresIn - 60); // Cache z zapasem
+                $this->cache->set($cacheKey, $accessToken, $expiresIn - 60);
             }
             $this->accessToken = $accessToken;
+
             return $accessToken;
         } catch (GuzzleException $e) {
-            throw new \RuntimeException('Błąd komunikacji z serwerem autoryzacji: ' . $e->getMessage(), 0, $e);
+            throw new RuntimeException(
+                'Authorization server communication error: ' . $e->getMessage(),
+                0,
+                $e
+            );
         }
     }
 
@@ -86,18 +94,28 @@ class TaskOrchestratorClient
             $responseBody = json_decode($response->getBody()->getContents(), true);
 
             if ($statusCode === 400 && ($responseBody['error'] ?? null) === 'Invalid request') {
-                throw new \InvalidArgumentException('TO API: Błąd walidacji żądania: ' . json_encode($responseBody));
+                throw new InvalidArgumentException(
+                    'TO API: request validation failed: ' . json_encode($responseBody)
+                );
             }
             if ($statusCode === 400 && ($responseBody['message'] ?? null) === 'Missing token') {
-                throw new \RuntimeException('TO API: Brak tokena autoryzacji w żądaniu lub token nieprawidłowy.');
+                throw new RuntimeException('TO API: missing or invalid authorization token.');
             }
-            if ($statusCode >= 400) { // Ogólne błędy HTTP
-                throw new \RuntimeException(sprintf('TO API: Nieoczekiwany błąd HTTP %d: %s', $statusCode, json_encode($responseBody)));
+            if ($statusCode >= 400) {
+                throw new RuntimeException(sprintf(
+                    'TO API: unexpected HTTP %d: %s',
+                    $statusCode,
+                    json_encode($responseBody)
+                ));
             }
 
-            return $responseBody; // Oczekiwane: { "status": "ok" }
+            return $responseBody;
         } catch (GuzzleException $e) {
-            throw new \RuntimeException('Błąd komunikacji z Task Orchestrator API: ' . $e->getMessage(), 0, $e);
+            throw new RuntimeException(
+                'Task Orchestrator API communication error: ' . $e->getMessage(),
+                0,
+                $e
+            );
         }
     }
 }
