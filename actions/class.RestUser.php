@@ -101,16 +101,24 @@ class tao_actions_RestUser extends tao_actions_RestResource
     }
 
     /**
-     * @param mixed $value
+     * Validate a required query/body parameter as a non-null string.
+     *
+     * On failure, writes a JSON 400 response and returns null so the caller
+     * can early-return without throwing (response is already sent).
+     *
+     * @param mixed $value Raw request value (typically from query params)
+     * @param string $name Parameter name used in the error message
      */
     private function requireStringParam($value, string $name): ?string
     {
+        // Missing key / explicit null → 400 "is required"
         if ($value === null) {
             $this->setErrorJsonResponse(sprintf('%s is required', $name), 400, [], 400);
 
             return null;
         }
 
+        // Wrong PHP type (e.g. int from query casting) → 400 "must be a string"
         if (!is_string($value)) {
             $this->setErrorJsonResponse(sprintf('%s must be a string', $name), 400, [], 400);
 
