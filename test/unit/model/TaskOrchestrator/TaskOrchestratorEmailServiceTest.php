@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\TaskOrchestrator;
 
 use InvalidArgumentException;
-use oat\tao\model\TaskOrchestrator\CommentMentionEmailPayload;
+use oat\tao\model\TaskOrchestrator\CommentMentionEmailTemplatePayload;
 use oat\tao\model\TaskOrchestrator\TaskOrchestratorClient;
 use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -48,7 +48,7 @@ class TaskOrchestratorEmailServiceTest extends TestCase
 
     public function testSendCommentMentionBuildsPortalEmailNotificationJobWithRdfEmail(): void
     {
-        $payload = new CommentMentionEmailPayload(
+        $payload = new CommentMentionEmailTemplatePayload(
             'John Doe',
             'jdoe',
             'item',
@@ -68,7 +68,7 @@ class TaskOrchestratorEmailServiceTest extends TestCase
                     return $job['type'] === 'portalEmailNotification'
                         && $job['tenantId'] === 'local-dev-acc.nextgen-stack-local'
                         && $job['user']['login'] === 'tao-backoffice-bot'
-                        && $job['email']['templateId'] === CommentMentionEmailPayload::TEMPLATE_ID
+                        && $job['email']['templateId'] === CommentMentionEmailTemplatePayload::TEMPLATE_ID
                         && $job['email']['recipientUserLogin'] === 'jdoe'
                         && $job['email']['emailAddress'] === 'jdoe@example.com'
                         && $job['email']['data'] === [
@@ -93,7 +93,7 @@ class TaskOrchestratorEmailServiceTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('resourceUrl');
 
-        new CommentMentionEmailPayload('John', 'jdoe', 'item', '  ', 'Item ABC');
+        new CommentMentionEmailTemplatePayload('John', 'jdoe', 'item', '  ', 'Item ABC');
     }
 
     public function testSendCommentMentionRejectsInvalidEmailAddress(): void
@@ -104,7 +104,7 @@ class TaskOrchestratorEmailServiceTest extends TestCase
         $this->sut->sendCommentMention(
             'jdoe',
             'not-an-email',
-            new CommentMentionEmailPayload(
+            new CommentMentionEmailTemplatePayload(
                 'John Doe',
                 'jdoe',
                 'item',

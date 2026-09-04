@@ -25,12 +25,12 @@ namespace oat\tao\model\TaskOrchestrator;
 use InvalidArgumentException;
 
 /**
- * Payload for tao-templates `comment-mention` (NYSED-38 / FR8).
+ * Template payload for tao-templates `comment-mention` (NYSED-38 / FR8).
  *
  * Templates worker requiredParams: resourceType, resourceLabel, resourceUrl.
  * Also pass mentionedBy / username for product copy; optional name for greeting.
  */
-final class CommentMentionEmailPayload
+final class CommentMentionEmailTemplatePayload
 {
     public const TEMPLATE_ID = 'comment-mention';
 

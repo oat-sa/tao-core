@@ -94,10 +94,10 @@ class TaskOrchestratorEmailService
     public function sendCommentMention(
         string $recipientUserLogin,
         string $emailAddress,
-        CommentMentionEmailPayload $payload
+        CommentMentionEmailTemplatePayload $payload
     ): string {
         return $this->sendEmail(
-            CommentMentionEmailPayload::TEMPLATE_ID,
+            CommentMentionEmailTemplatePayload::TEMPLATE_ID,
             $recipientUserLogin,
             $payload->toTemplateData(),
             $emailAddress
