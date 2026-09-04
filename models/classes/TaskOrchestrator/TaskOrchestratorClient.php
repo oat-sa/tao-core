@@ -57,8 +57,13 @@ class TaskOrchestratorClient
     private function getAccessToken(): string
     {
         $cacheKey = 'task_orchestrator_access_token_' . md5($this->clientId);
-        if ($this->cache && $this->cache->has($cacheKey)) {
-            return $this->cache->get($cacheKey);
+        if ($this->cache !== null) {
+            $cachedToken = $this->cache->get($cacheKey);
+            if (is_string($cachedToken) && $cachedToken !== '') {
+                $this->accessToken = $cachedToken;
+
+                return $cachedToken;
+            }
         }
 
         try {
