@@ -23,7 +23,12 @@ declare(strict_types=1);
 namespace oat\tao\model\user;
 
 /**
- * Default eligibility: no ACL restriction on mention candidates.
+ * Default (open) mention eligibility: no ACL restriction on candidates.
+ *
+ * Null Object for {@see MentionEligibleUsersProviderInterface} so the platform can
+ * bind the interface without depending on taoDacSimple. Returns null = unrestricted.
+ * When DAC is installed, taoDacSimple rebinds the interface alias to
+ * DacMentionEligibleUsersProvider.
  */
 final class OpenMentionEligibleUsersProvider implements MentionEligibleUsersProviderInterface
 {
