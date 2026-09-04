@@ -23,10 +23,12 @@ declare(strict_types=1);
 namespace oat\tao\model\TaskOrchestrator;
 
 use InvalidArgumentException;
-use Ramsey\Uuid\Uuid;
+use oat\generis\Helper\UuidPrimaryKeyTrait;
 
 class TaskOrchestratorEmailService
 {
+    use UuidPrimaryKeyTrait;
+
     private TaskOrchestratorClient $client;
     private string $tenantId;
     private string $actorLogin;
@@ -51,7 +53,7 @@ class TaskOrchestratorEmailService
         array $templateData = [],
         ?string $emailAddress = null
     ): string {
-        $jobId = Uuid::uuid4()->toString();
+        $jobId = $this->getUniquePrimaryKey();
 
         $email = [
             'templateId' => $templateId,
