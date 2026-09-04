@@ -96,4 +96,24 @@ class TaskOrchestratorEmailService
 
         return $jobId;
     }
+
+    /**
+     * @param string $recipientUserLogin RDF / Backoffice login (correlation; still required by TO schema)
+     * @param string $emailAddress RDF PROPERTY_USER_MAIL — delivery address
+     * @param string $actorLogin Comment author login (job actor); user.id = {tenantId}_{login}
+     */
+    public function sendCommentMention(
+        string $recipientUserLogin,
+        string $emailAddress,
+        CommentMentionEmailTemplatePayload $payload,
+        string $actorLogin
+    ): string {
+        return $this->sendEmail(
+            CommentMentionEmailTemplatePayload::TEMPLATE_ID,
+            $recipientUserLogin,
+            $payload->toTemplateData(),
+            $emailAddress,
+            $actorLogin
+        );
+    }
 }

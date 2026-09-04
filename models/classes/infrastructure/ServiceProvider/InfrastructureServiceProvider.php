@@ -29,6 +29,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use GuzzleHttp\Client as GuzzleHttpClient;
 use oat\tao\model\TaskOrchestrator\TaskOrchestratorClient;
 use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
+use oat\tao\model\TaskOrchestrator\CommentMentionDeepLinkBuilder;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -109,5 +110,9 @@ class InfrastructureServiceProvider implements ContainerServiceProviderInterface
                     ->default(self::PARAM_TENANT_ID_DEFAULT)
                     ->string()
             );
+
+        $services
+            ->set(CommentMentionDeepLinkBuilder::class)
+            ->public();
     }
 }
