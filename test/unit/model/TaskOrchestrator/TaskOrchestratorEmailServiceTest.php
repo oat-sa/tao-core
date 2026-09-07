@@ -133,7 +133,8 @@ class TaskOrchestratorEmailServiceTest extends TestCase
                 $this->callback(static function (array $job): bool {
                     return $job['type'] === 'portalEmailNotification'
                         && $job['tenantId'] === 'local-dev-acc.nextgen-stack-local'
-                        && $job['user']['login'] === 'tao-backoffice-bot'
+                        && $job['user']['login'] === 'john.author'
+                        && $job['user']['id'] === 'local-dev-acc.nextgen-stack-local_john.author'
                         && $job['email']['templateId'] === CommentMentionEmailTemplatePayload::TEMPLATE_ID
                         && $job['email']['recipientUserLogin'] === 'jdoe'
                         && $job['email']['emailAddress'] === 'jdoe@example.com'
@@ -149,7 +150,7 @@ class TaskOrchestratorEmailServiceTest extends TestCase
             )
             ->willReturn(['status' => 'ok']);
 
-        $jobId = $this->sut->sendCommentMention('jdoe', 'jdoe@example.com', $payload);
+        $jobId = $this->sut->sendCommentMention('jdoe', 'jdoe@example.com', $payload, 'john.author');
 
         $this->assertNotSame('', $jobId);
     }
@@ -176,7 +177,8 @@ class TaskOrchestratorEmailServiceTest extends TestCase
                 'item',
                 'https://backoffice.example/items/123',
                 'Item ABC'
-            )
+            ),
+            'john.author'
         );
     }
 }
