@@ -29,6 +29,9 @@ class TaskOrchestratorEmailService
 {
     use UuidPrimaryKeyTrait;
 
+    /** NGS / Backoffice tenant id used as job `tenantId` (see docker/apps/tao/config.libsonnet). */
+    public const ENV_TENANT_ID = 'TENANT_ID';
+
     private TaskOrchestratorClient $client;
     private string $tenantId;
 

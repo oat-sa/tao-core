@@ -30,6 +30,11 @@ use RuntimeException;
 
 class TaskOrchestratorClient
 {
+    public const ENV_API_URL = 'TASK_ORCHESTRATOR_API_URL';
+    public const ENV_AUTH_SERVER_URI = 'TASK_ORCHESTRATOR_AUTH_SERVER_URI';
+    public const ENV_CLIENT_ID = 'TASK_ORCHESTRATOR_CLIENT_ID';
+    public const ENV_CLIENT_SECRET = 'TASK_ORCHESTRATOR_CLIENT_SECRET';
+
     private string $baseUrl;
     private string $authServerUri;
     private string $clientId;
