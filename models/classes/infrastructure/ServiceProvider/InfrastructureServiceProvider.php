@@ -45,7 +45,11 @@ class InfrastructureServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set('GuzzleClientForTaskOrchestrator', GuzzleHttpClient::class)
-            ->public();
+            ->public()
+            ->args([[
+                'timeout' => 30.0,
+                'connect_timeout' => 5.0,
+            ]]);
 
         $services
             ->set(TaskOrchestratorClient::class)
