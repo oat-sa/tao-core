@@ -102,8 +102,14 @@ require.config({
             exports : "MathJax",
             init : function(){
                 if(window.MathJax){
-                    MathJax.Hub.Config({showMathMenu:false, showMathMenuMSIE:false,
-                        menuSettings: { inTabOrder: false } });
+                    MathJax.Hub.Config({
+                        showMathMenu: false,
+                        showMathMenuMSIE: false,
+                        menuSettings: { inTabOrder: false, renderer: 'SVG' }
+                    });
+                    MathJax.Hub.Register.StartupHook('End Jax', function() {
+                        return MathJax.Hub.setRenderer('SVG');
+                    });
                     MathJax.Hub.Startup.onload();
                     return MathJax;
                 }
