@@ -40,8 +40,7 @@ class TaskOrchestratorEmailServiceTest extends TestCase
         $this->client = $this->createMock(TaskOrchestratorClient::class);
         $this->sut = new TaskOrchestratorEmailService(
             $this->client,
-            'local-dev-acc.nextgen-stack-local',
-            'tao-backoffice-bot'
+            'local-dev-acc.nextgen-stack-local'
         );
     }
 
@@ -57,7 +56,8 @@ class TaskOrchestratorEmailServiceTest extends TestCase
                 $this->callback(static function (array $job): bool {
                     return $job['type'] === 'portalEmailNotification'
                         && $job['tenantId'] === 'local-dev-acc.nextgen-stack-local'
-                        && $job['user']['login'] === 'tao-backoffice-bot'
+                        && $job['user']['login'] === 'alice.author'
+                        && $job['user']['id'] === 'local-dev-acc.nextgen-stack-local_alice.author'
                         && $job['email']['templateId'] === 'generic.template'
                         && $job['email']['recipientUserLogin'] === 'jdoe'
                         && $job['email']['data'] === ['foo' => 'bar']
@@ -66,7 +66,7 @@ class TaskOrchestratorEmailServiceTest extends TestCase
             )
             ->willReturn(['status' => 'ok']);
 
-        $jobId = $this->sut->sendEmail('generic.template', 'jdoe', ['foo' => 'bar']);
+        $jobId = $this->sut->sendEmail('generic.template', 'jdoe', ['foo' => 'bar'], null, 'alice.author');
 
         $this->assertNotSame('', $jobId);
     }
@@ -84,14 +84,23 @@ class TaskOrchestratorEmailServiceTest extends TestCase
                     return $job['email']['templateId'] === 'generic.template'
                         && $job['email']['recipientUserLogin'] === 'jdoe'
                         && $job['email']['emailAddress'] === 'jdoe@example.com'
-                        && $job['email']['data'] === [];
+                        && $job['email']['data'] === []
+                        && $job['user']['login'] === 'alice.author';
                 })
             )
             ->willReturn(['status' => 'ok']);
 
-        $jobId = $this->sut->sendEmail('generic.template', 'jdoe', [], 'jdoe@example.com');
+        $jobId = $this->sut->sendEmail('generic.template', 'jdoe', [], 'jdoe@example.com', 'alice.author');
 
         $this->assertNotSame('', $jobId);
+    }
+
+    public function testSendEmailRejectsMissingActorLogin(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('actorLogin');
+
+        $this->sut->sendEmail('generic.template', 'jdoe', []);
     }
 
     public function testSendEmailRejectsInvalidEmailAddress(): void
@@ -99,6 +108,6 @@ class TaskOrchestratorEmailServiceTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('emailAddress');
 
-        $this->sut->sendEmail('generic.template', 'jdoe', [], 'not-an-email');
+        $this->sut->sendEmail('generic.template', 'jdoe', [], 'not-an-email', 'alice.author');
     }
 }

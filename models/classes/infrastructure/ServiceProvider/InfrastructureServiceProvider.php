@@ -61,7 +61,6 @@ class InfrastructureServiceProvider implements ContainerServiceProviderInterface
             ->set(TaskOrchestratorEmailService::class)
             ->public()
             ->arg('$client', service(TaskOrchestratorClient::class))
-            ->arg('$tenantId', (string) (getenv('TAO_TENANT_ID') ?: ''))
-            ->arg('$actorLogin', (string) (getenv('TAO_TASK_ORCHESTRATOR_ACTOR_LOGIN') ?: ''));
+            ->arg('$tenantId', (string) (getenv('TENANT_ID') ?: ''));
     }
 }

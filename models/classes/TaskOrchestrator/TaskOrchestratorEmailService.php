@@ -31,28 +31,32 @@ class TaskOrchestratorEmailService
 
     private TaskOrchestratorClient $client;
     private string $tenantId;
-    private string $actorLogin;
 
     public function __construct(
         TaskOrchestratorClient $client,
-        string $tenantId,
-        string $actorLogin
+        string $tenantId
     ) {
         $this->client = $client;
         $this->tenantId = $tenantId;
-        $this->actorLogin = $actorLogin;
     }
 
     /**
      * @param array<string, mixed> $templateData
      * @param string|null $emailAddress When set, TO delivers to this address and skips portal-user lookup
+     * @param string $actorLogin Job actor (who ordered the job) — TO schema user.login; user.id = {tenantId}_{login}
      */
     public function sendEmail(
         string $templateId,
         string $recipientUserLogin,
         array $templateData = [],
-        ?string $emailAddress = null
+        ?string $emailAddress = null,
+        string $actorLogin = ''
     ): string {
+        $actorLogin = trim($actorLogin);
+        if ($actorLogin === '') {
+            throw new InvalidArgumentException('actorLogin is required for Task Orchestrator job user.login');
+        }
+
         $jobId = $this->getUniquePrimaryKey();
 
         $email = [
@@ -75,8 +79,9 @@ class TaskOrchestratorEmailService
             'status' => 'initial',
             'progress' => 0,
             'user' => [
-                'id' => sprintf('%s_%s', $this->tenantId, $this->actorLogin),
-                'login' => $this->actorLogin,
+                // TO convention: tenant-scoped actor id + plain login
+                'id' => sprintf('%s_%s', $this->tenantId, $actorLogin),
+                'login' => $actorLogin,
             ],
             'email' => $email,
             'meta' => [
