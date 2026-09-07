@@ -116,6 +116,8 @@ class TaskOrchestratorClient
                     'Content-Type' => 'application/json',
                 ],
                 'json' => $jobPayload,
+                // Let status-code mapping below handle 4xx (e.g. InvalidArgumentException for validation).
+                'http_errors' => false,
             ]);
 
             $statusCode = $response->getStatusCode();
