@@ -2,6 +2,8 @@
     --header-bar-height: 64px;
     --footer-bar-height: 34px;
     --action-bar-height: 35px;
+    // Shared Authoring / Assets right panel width (Item, Test, Shared Stimulus)
+    --authoring-right-panel-width: 210px;
 
     --header-bar-color: #{$darkBarTxt};
     --header-bar-icon-color: #{$darkBarIcon};
