@@ -97,7 +97,7 @@ class InfrastructureServiceProvider implements ContainerServiceProviderInterface
                     ->string()
             )
             ->arg('$httpClient', service('GuzzleClientForTaskOrchestrator'))
-            ->arg('$cache', null);
+            ->arg('$cache', service(SharedCache::class));
 
         $services
             ->set(TaskOrchestratorEmailService::class)
