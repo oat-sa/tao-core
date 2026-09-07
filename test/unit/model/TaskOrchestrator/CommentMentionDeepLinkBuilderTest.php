@@ -99,6 +99,14 @@ class CommentMentionDeepLinkBuilderTest extends TestCase
         $this->sut->build('  ', 'https://example/rdf#i1');
     }
 
+    public function testRejectsEmptyResourceUri(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Resource URI is required to build comment-mention deep link');
+
+        $this->sut->build(TaoOntology::CLASS_URI_ITEM, '  ');
+    }
+
     private function perspective(
         string $id,
         string $ext,
