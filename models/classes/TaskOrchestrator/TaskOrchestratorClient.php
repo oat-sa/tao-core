@@ -51,10 +51,10 @@ class TaskOrchestratorClient
         GuzzleHttpClient $httpClient,
         ?CacheInterface $cache = null
     ) {
-        $this->baseUrl = $baseUrl;
-        $this->authServerUri = $authServerUri;
-        $this->clientId = $clientId;
-        $this->clientSecret = $clientSecret;
+        $this->baseUrl = trim($baseUrl);
+        $this->authServerUri = trim($authServerUri);
+        $this->clientId = trim($clientId);
+        $this->clientSecret = trim($clientSecret);
         $this->httpClient = $httpClient;
         $this->cache = $cache;
     }
@@ -65,10 +65,10 @@ class TaskOrchestratorClient
      */
     public function isConfigured(): bool
     {
-        return trim($this->baseUrl) !== ''
-            && trim($this->authServerUri) !== ''
-            && trim($this->clientId) !== ''
-            && trim($this->clientSecret) !== '';
+        return $this->baseUrl !== ''
+            && $this->authServerUri !== ''
+            && $this->clientId !== ''
+            && $this->clientSecret !== '';
     }
 
     private function getAccessToken(): string

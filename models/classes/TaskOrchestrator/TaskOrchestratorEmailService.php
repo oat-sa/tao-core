@@ -40,7 +40,7 @@ class TaskOrchestratorEmailService
         string $tenantId
     ) {
         $this->client = $client;
-        $this->tenantId = $tenantId;
+        $this->tenantId = trim($tenantId);
     }
 
     /**
@@ -49,7 +49,7 @@ class TaskOrchestratorEmailService
      */
     public function isConfigured(): bool
     {
-        return $this->client->isConfigured() && trim($this->tenantId) !== '';
+        return $this->client->isConfigured() && $this->tenantId !== '';
     }
 
     /**

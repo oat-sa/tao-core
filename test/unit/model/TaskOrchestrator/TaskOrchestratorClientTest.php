@@ -72,6 +72,33 @@ class TaskOrchestratorClientTest extends TestCase
         $this->assertFalse($empty->isConfigured());
     }
 
+    public function testConstructorTrimsConfigurationValues(): void
+    {
+        $sut = new TaskOrchestratorClient(
+            '  http://to.example  ',
+            "\thttp://auth.example\n",
+            '  client-id  ',
+            '  client-secret  ',
+            $this->httpClient,
+            $this->cache
+        );
+        $this->assertTrue($sut->isConfigured());
+
+        $this->httpClient
+            ->expects($this->once())
+            ->method('request')
+            ->with(
+                'POST',
+                'http://to.example/api/v1/jobs/job-1',
+                $this->callback(static function (array $options): bool {
+                    return ($options['headers']['Authorization'] ?? null) === 'Bearer cached-access-token';
+                })
+            )
+            ->willReturn(new Response(200, ['Content-Type' => 'application/json'], '{"ok":true}'));
+
+        $this->assertSame(['ok' => true], $sut->sendJob('job-1', ['type' => 'portalEmailNotification']));
+    }
+
     public function testSendJobMapsInvalidRequest400ToInvalidArgumentException(): void
     {
         $errorBody = [
