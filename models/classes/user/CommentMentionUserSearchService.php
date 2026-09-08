@@ -250,83 +250,69 @@ class CommentMentionUserSearchService
     }
 
     /**
+     * Batch-load login/mail/name/label in one persistence round-trip per user.
+     *
      * @return array{id: string, login: string, displayName: string}|null
      */
     private function mapUserRow(core_kernel_classes_Resource $userResource): ?array
     {
-        $login = $this->resolveLogin($userResource);
-        if ($login === null) {
+        $properties = $userResource->getPropertiesValues([
+            $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_LOGIN),
+            $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_MAIL),
+            $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_FIRSTNAME),
+            $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_LASTNAME),
+            $this->ontology->getProperty(OntologyRdfs::RDFS_LABEL),
+        ]);
+
+        $login = $this->firstPropertyValueAsString($properties, GenerisRdf::PROPERTY_USER_LOGIN);
+        if ($login === '') {
             return null;
         }
 
-        if (!$this->hasValidEmail($userResource)) {
+        // Mention candidates must have a usable account email (same rule as notification send).
+        $email = $this->firstPropertyValueAsString($properties, GenerisRdf::PROPERTY_USER_MAIL);
+        if ($email === '' || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
             return null;
+        }
+
+        // Same semantics as UserHelper::getUserName($user, true): first+last, else label, else login.
+        $displayName = trim(
+            $this->firstPropertyValueAsString($properties, GenerisRdf::PROPERTY_USER_FIRSTNAME)
+            . ' '
+            . $this->firstPropertyValueAsString($properties, GenerisRdf::PROPERTY_USER_LASTNAME)
+        );
+
+        if ($displayName === '') {
+            $displayName = $this->firstPropertyValueAsString($properties, OntologyRdfs::RDFS_LABEL);
         }
 
         return [
             'id' => $userResource->getUri(),
             'login' => $login,
-            'displayName' => $this->resolveDisplayName($userResource, $login),
+            'displayName' => $displayName !== '' ? $displayName : $login,
         ];
     }
 
-    private function resolveLogin(core_kernel_classes_Resource $userResource): ?string
-    {
-        $login = $this->propertyValueAsString(
-            $userResource->getOnePropertyValue(
-                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_LOGIN)
-            )
-        );
-
-        return $login !== '' ? $login : null;
-    }
-
     /**
-     * Mention candidates must have a usable account email (same rule as notification send).
+     * @param array<string, list<core_kernel_classes_Container|null>> $properties
      */
-    private function hasValidEmail(core_kernel_classes_Resource $userResource): bool
+    private function firstPropertyValueAsString(array $properties, string $propertyUri): string
     {
-        $email = $this->propertyValueAsString(
-            $userResource->getOnePropertyValue(
-                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_MAIL)
-            )
-        );
-
-        return $email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
-    }
-
-    /**
-     * Same semantics as UserHelper::getUserName($user, true): first+last, else label, else login.
-     */
-    private function resolveDisplayName(core_kernel_classes_Resource $userResource, string $login): string
-    {
-        $firstName = $this->propertyValueAsString(
-            $userResource->getOnePropertyValue(
-                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_FIRSTNAME)
-            )
-        );
-        $lastName = $this->propertyValueAsString(
-            $userResource->getOnePropertyValue(
-                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_LASTNAME)
-            )
-        );
-        $displayName = trim($firstName . ' ' . $lastName);
-
-        if ($displayName === '') {
-            $displayName = $this->propertyValueAsString(
-                $userResource->getOnePropertyValue(
-                    $this->ontology->getProperty(OntologyRdfs::RDFS_LABEL)
-                )
-            );
+        if (empty($properties[$propertyUri])) {
+            return '';
         }
 
-        return $displayName !== '' ? $displayName : $login;
+        $value = current($properties[$propertyUri]);
+
+        return $value instanceof core_kernel_classes_Container
+            ? $this->propertyValueAsString($value)
+            : '';
     }
 
     /**
      * Safely stringify ontology property values for PHPStan (cast.string).
      *
-     * getOnePropertyValue() is typed as Container|null; only Literal/Resource are usable.
+     * Property values are typed as Container|null; only Literal/Resource are usable.
      */
     private function propertyValueAsString(?core_kernel_classes_Container $value): string
     {

@@ -262,56 +262,27 @@ class CommentMentionUserSearchServiceTest extends TestCase
         string $lastName,
         string $email = 'user@example.test'
     ): core_kernel_classes_Resource {
-        $loginProperty = $this->createMock(core_kernel_classes_Property::class);
-        $firstNameProperty = $this->createMock(core_kernel_classes_Property::class);
-        $lastNameProperty = $this->createMock(core_kernel_classes_Property::class);
-        $labelProperty = $this->createMock(core_kernel_classes_Property::class);
-        $mailProperty = $this->createMock(core_kernel_classes_Property::class);
-
         $this->ontology
             ->method('getProperty')
-            ->willReturnMap([
-                [GenerisRdf::PROPERTY_USER_LOGIN, $loginProperty],
-                [GenerisRdf::PROPERTY_USER_FIRSTNAME, $firstNameProperty],
-                [GenerisRdf::PROPERTY_USER_LASTNAME, $lastNameProperty],
-                [OntologyRdfs::RDFS_LABEL, $labelProperty],
-                [GenerisRdf::PROPERTY_USER_MAIL, $mailProperty],
-            ]);
+            ->willReturnCallback(
+                function (string $uri): core_kernel_classes_Property {
+                    $property = $this->createMock(core_kernel_classes_Property::class);
+                    $property->method('getUri')->willReturn($uri);
+
+                    return $property;
+                }
+            );
 
         $user = $this->createMock(core_kernel_classes_Resource::class);
         $user->method('getUri')->willReturn($uri);
         $user->method('exists')->willReturn(true);
-        $user->method('getOnePropertyValue')->willReturnCallback(
-            static function ($property) use (
-                $loginProperty,
-                $firstNameProperty,
-                $lastNameProperty,
-                $labelProperty,
-                $mailProperty,
-                $login,
-                $firstName,
-                $lastName,
-                $email
-            ) {
-                if ($property === $loginProperty) {
-                    return new core_kernel_classes_Literal($login);
-                }
-                if ($property === $firstNameProperty) {
-                    return new core_kernel_classes_Literal($firstName);
-                }
-                if ($property === $lastNameProperty) {
-                    return new core_kernel_classes_Literal($lastName);
-                }
-                if ($property === $labelProperty) {
-                    return new core_kernel_classes_Literal('');
-                }
-                if ($property === $mailProperty) {
-                    return new core_kernel_classes_Literal($email);
-                }
-
-                return null;
-            }
-        );
+        $user->method('getPropertiesValues')->willReturn([
+            GenerisRdf::PROPERTY_USER_LOGIN => [new core_kernel_classes_Literal($login)],
+            GenerisRdf::PROPERTY_USER_FIRSTNAME => [new core_kernel_classes_Literal($firstName)],
+            GenerisRdf::PROPERTY_USER_LASTNAME => [new core_kernel_classes_Literal($lastName)],
+            OntologyRdfs::RDFS_LABEL => [new core_kernel_classes_Literal('')],
+            GenerisRdf::PROPERTY_USER_MAIL => [new core_kernel_classes_Literal($email)],
+        ]);
 
         return $user;
     }
