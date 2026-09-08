@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\user;
 
 use common_exception_Unauthorized;
+use core_kernel_classes_Literal;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use InvalidArgumentException;
@@ -293,22 +294,22 @@ class CommentMentionUserSearchServiceTest extends TestCase
                 $email
             ) {
                 if ($property === $loginProperty) {
-                    return $login;
+                    return new core_kernel_classes_Literal($login);
                 }
                 if ($property === $firstNameProperty) {
-                    return $firstName;
+                    return new core_kernel_classes_Literal($firstName);
                 }
                 if ($property === $lastNameProperty) {
-                    return $lastName;
+                    return new core_kernel_classes_Literal($lastName);
                 }
                 if ($property === $labelProperty) {
-                    return '';
+                    return new core_kernel_classes_Literal('');
                 }
                 if ($property === $mailProperty) {
-                    return $email;
+                    return new core_kernel_classes_Literal($email);
                 }
 
-                return '';
+                return null;
             }
         );
 

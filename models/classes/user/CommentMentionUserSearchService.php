@@ -23,6 +23,8 @@ declare(strict_types=1);
 namespace oat\tao\model\user;
 
 use common_exception_Unauthorized;
+use core_kernel_classes_Container;
+use core_kernel_classes_Literal;
 use core_kernel_classes_Resource;
 use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
@@ -270,8 +272,11 @@ class CommentMentionUserSearchService
 
     private function resolveLogin(core_kernel_classes_Resource $userResource): ?string
     {
-        $loginProperty = $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_LOGIN);
-        $login = trim((string) $userResource->getOnePropertyValue($loginProperty));
+        $login = $this->propertyValueAsString(
+            $userResource->getOnePropertyValue(
+                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_LOGIN)
+            )
+        );
 
         return $login !== '' ? $login : null;
     }
@@ -281,9 +286,11 @@ class CommentMentionUserSearchService
      */
     private function hasValidEmail(core_kernel_classes_Resource $userResource): bool
     {
-        $email = trim((string) $userResource->getOnePropertyValue(
-            $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_MAIL)
-        ));
+        $email = $this->propertyValueAsString(
+            $userResource->getOnePropertyValue(
+                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_MAIL)
+            )
+        );
 
         return $email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }
@@ -293,21 +300,45 @@ class CommentMentionUserSearchService
      */
     private function resolveDisplayName(core_kernel_classes_Resource $userResource, string $login): string
     {
-        $firstName = trim((string) $userResource->getOnePropertyValue(
-            $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_FIRSTNAME)
-        ));
-        $lastName = trim((string) $userResource->getOnePropertyValue(
-            $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_LASTNAME)
-        ));
+        $firstName = $this->propertyValueAsString(
+            $userResource->getOnePropertyValue(
+                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_FIRSTNAME)
+            )
+        );
+        $lastName = $this->propertyValueAsString(
+            $userResource->getOnePropertyValue(
+                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_LASTNAME)
+            )
+        );
         $displayName = trim($firstName . ' ' . $lastName);
 
         if ($displayName === '') {
-            $displayName = trim((string) $userResource->getOnePropertyValue(
-                $this->ontology->getProperty(OntologyRdfs::RDFS_LABEL)
-            ));
+            $displayName = $this->propertyValueAsString(
+                $userResource->getOnePropertyValue(
+                    $this->ontology->getProperty(OntologyRdfs::RDFS_LABEL)
+                )
+            );
         }
 
         return $displayName !== '' ? $displayName : $login;
+    }
+
+    /**
+     * Safely stringify ontology property values for PHPStan (cast.string).
+     *
+     * getOnePropertyValue() is typed as Container|null; only Literal/Resource are usable.
+     */
+    private function propertyValueAsString(?core_kernel_classes_Container $value): string
+    {
+        if ($value instanceof core_kernel_classes_Literal) {
+            return trim((string) $value->literal);
+        }
+
+        if ($value instanceof core_kernel_classes_Resource) {
+            return trim($value->getLabel());
+        }
+
+        return '';
     }
 
     /**
