@@ -1,0 +1,134 @@
+<?php
+
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA
+ *
+ * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
+ */
+
+declare(strict_types=1);
+
+namespace oat\tao\model\TaskOrchestrator;
+
+use InvalidArgumentException;
+use oat\generis\Helper\UuidPrimaryKeyTrait;
+
+class TaskOrchestratorEmailService
+{
+    use UuidPrimaryKeyTrait;
+
+    /** NGS / Backoffice tenant id used as job `tenantId` (see docker/apps/tao/config.libsonnet). */
+    public const ENV_TENANT_ID = 'TENANT_ID';
+
+    private TaskOrchestratorClient $client;
+    private string $tenantId;
+
+    public function __construct(
+        TaskOrchestratorClient $client,
+        string $tenantId
+    ) {
+        $this->client = $client;
+        $this->tenantId = trim($tenantId);
+    }
+
+    /**
+     * True when the client is configured and TENANT_ID is non-empty.
+     * Use to gate @mention UI; empty env defaults keep boot safe.
+     */
+    public function isConfigured(): bool
+    {
+        return $this->client->isConfigured() && $this->tenantId !== '';
+    }
+
+    /**
+     * @param array<string, mixed> $templateData
+     * @param string|null $emailAddress When set, TO delivers to this address and skips portal-user lookup
+     * @param string $actorLogin Job actor (who ordered the job) — TO schema user.login; user.id = {tenantId}_{login}
+     */
+    public function sendEmail(
+        string $templateId,
+        string $recipientUserLogin,
+        array $templateData = [],
+        ?string $emailAddress = null,
+        string $actorLogin = ''
+    ): string {
+        if (!$this->isConfigured()) {
+            throw new InvalidArgumentException(
+                'Task Orchestrator email is not configured (missing API URL, OAuth credentials, or TENANT_ID)'
+            );
+        }
+
+        $actorLogin = trim($actorLogin);
+        if ($actorLogin === '') {
+            throw new InvalidArgumentException('actorLogin is required for Task Orchestrator job user.login');
+        }
+
+        $jobId = $this->getUniquePrimaryKey();
+
+        $email = [
+            'templateId' => $templateId,
+            'recipientUserLogin' => $recipientUserLogin,
+            'data' => $templateData,
+        ];
+
+        if ($emailAddress !== null) {
+            $emailAddress = trim($emailAddress);
+            if ($emailAddress === '' || !filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+                throw new InvalidArgumentException('emailAddress must be a valid email when provided');
+            }
+            $email['emailAddress'] = $emailAddress;
+        }
+
+        $jobPayload = [
+            'type' => 'portalEmailNotification',
+            'tenantId' => $this->tenantId,
+            'status' => 'initial',
+            'progress' => 0,
+            'user' => [
+                // TO convention: tenant-scoped actor id + plain login
+                'id' => sprintf('%s_%s', $this->tenantId, $actorLogin),
+                'login' => $actorLogin,
+            ],
+            'email' => $email,
+            'meta' => [
+                'labelKey' => 'tao_backoffice_email',
+            ],
+        ];
+
+        $this->client->sendJob($jobId, $jobPayload);
+
+        return $jobId;
+    }
+
+    /**
+     * @param string $recipientUserLogin RDF / Backoffice login (correlation; still required by TO schema)
+     * @param string $emailAddress RDF PROPERTY_USER_MAIL — delivery address
+     * @param string $actorLogin Comment author login (job actor); user.id = {tenantId}_{login}
+     */
+    public function sendCommentMention(
+        string $recipientUserLogin,
+        string $emailAddress,
+        CommentMentionEmailTemplatePayload $payload,
+        string $actorLogin
+    ): string {
+        return $this->sendEmail(
+            CommentMentionEmailTemplatePayload::TEMPLATE_ID,
+            $recipientUserLogin,
+            $payload->toTemplateData(),
+            $emailAddress,
+            $actorLogin
+        );
+    }
+}
