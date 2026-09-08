@@ -123,19 +123,19 @@ class TaskOrchestratorClient
             $statusCode = $response->getStatusCode();
             $responseBody = json_decode($response->getBody()->getContents(), true);
 
+            // Exception messages must not include TO response bodies (may contain PII).
             if ($statusCode === 400 && ($responseBody['error'] ?? null) === 'Invalid request') {
                 throw new InvalidArgumentException(
-                    'TO API: request validation failed: ' . json_encode($responseBody)
+                    'TO API: request validation failed (HTTP 400)'
                 );
             }
             if ($statusCode === 400 && ($responseBody['message'] ?? null) === 'Missing token') {
-                throw new RuntimeException('TO API: missing or invalid authorization token.');
+                throw new RuntimeException('TO API: missing or invalid authorization token (HTTP 400)');
             }
             if ($statusCode >= 400) {
                 throw new RuntimeException(sprintf(
-                    'TO API: unexpected HTTP %d: %s',
-                    $statusCode,
-                    json_encode($responseBody)
+                    'TO API: unexpected HTTP %d',
+                    $statusCode
                 ));
             }
 
