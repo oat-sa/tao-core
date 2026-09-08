@@ -53,15 +53,6 @@ class TaskOrchestratorEmailService
     }
 
     /**
-     * True when the client is configured and TENANT_ID is non-empty.
-     * Use to gate @mention UI; empty env defaults keep boot safe.
-     */
-    public function isConfigured(): bool
-    {
-        return $this->client->isConfigured() && trim($this->tenantId) !== '';
-    }
-
-    /**
      * @param array<string, mixed> $templateData
      * @param string|null $emailAddress When set, TO delivers to this address and skips portal-user lookup
      * @param string $actorLogin Job actor (who ordered the job) — TO schema user.login; user.id = {tenantId}_{login}
