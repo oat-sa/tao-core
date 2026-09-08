@@ -47,7 +47,8 @@ use oat\tao\model\user\CommentMentionUserSearchService;
  * ]
  *
  * Mention search (authoring comments):
- * - GET /tao/RestUser/searchUsers?resourceUri=&resourceType=&q=&limit=&offset=
+ * - GET /tao/RestUser/searchUsers?resourceUri=&resourceType=&q=&limit=
+ *   Returns top-N autocomplete matches ({users, limit}); not a paginated catalog.
  */
 class tao_actions_RestUser extends tao_actions_RestResource
 {
@@ -55,7 +56,7 @@ class tao_actions_RestUser extends tao_actions_RestResource
 
     /**
      * Mention autocomplete: eligible users filtered by login or display name.
-     * Response users include id, login, and displayName.
+     * Response: {users: [{id, login, displayName}, ...], limit: int}.
      */
     public function searchUsers(): void
     {
@@ -79,15 +80,13 @@ class tao_actions_RestUser extends tao_actions_RestResource
 
             $search = isset($query['q']) && is_string($query['q']) ? $query['q'] : '';
             $limit = isset($query['limit']) ? (int) $query['limit'] : 20;
-            $offset = isset($query['offset']) ? (int) $query['offset'] : 0;
 
             $this->setSuccessJsonResponse(
                 $this->getCommentMentionUserSearchService()->search(
                     $resourceUri,
                     $resourceType,
                     $search,
-                    $limit,
-                    $offset
+                    $limit
                 )
             );
         } catch (common_exception_Unauthorized $exception) {

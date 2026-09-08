@@ -34,6 +34,10 @@ use tao_models_classes_UserService;
 /**
  * Search users for comment @mentions (login OR display name).
  * Eligibility scope comes from MentionEligibleUsersProviderInterface.
+ *
+ * Contract is autocomplete top-N, not a paginated catalog: response has
+ * `users` + echoed `limit` only (no `total` / `offset`). Open / large-eligible
+ * mode scans at most CANDIDATE_BATCH name matches from UserService.
  */
 class CommentMentionUserSearchService
 {
@@ -69,17 +73,14 @@ class CommentMentionUserSearchService
     /**
      * @return array{
      *     users: array<int, array{id: string, login: string, displayName: string}>,
-     *     limit: int,
-     *     offset: int,
-     *     total: int
+     *     limit: int
      * }
      */
     public function search(
         string $resourceUri,
         string $resourceType,
         string $query,
-        int $limit = self::DEFAULT_LIMIT,
-        int $offset = 0
+        int $limit = self::DEFAULT_LIMIT
     ): array {
         $resourceUri = trim($resourceUri);
         $this->assertValidResourceType(trim($resourceType));
@@ -94,12 +95,11 @@ class CommentMentionUserSearchService
         }
 
         $limit = max(1, min($limit, self::MAX_LIMIT));
-        $offset = max(0, $offset);
 
         $eligibleUris = $this->eligibleUsersProvider->getEligibleUserUris($resourceUri);
 
         if (is_array($eligibleUris) && $eligibleUris === []) {
-            return $this->emptyResult($limit, $offset);
+            return $this->emptyResult($limit);
         }
 
         if (is_array($eligibleUris) && count($eligibleUris) <= self::IN_MEMORY_ELIGIBLE_THRESHOLD) {
@@ -115,13 +115,9 @@ class CommentMentionUserSearchService
             }
         );
 
-        $total = count($matched);
-
         return [
-            'users' => array_values(array_slice($matched, $offset, $limit)),
+            'users' => array_values(array_slice($matched, 0, $limit)),
             'limit' => $limit,
-            'offset' => $offset,
-            'total' => $total,
         ];
     }
 
@@ -304,15 +300,13 @@ class CommentMentionUserSearchService
     }
 
     /**
-     * @return array{users: array{}, limit: int, offset: int, total: int}
+     * @return array{users: array{}, limit: int}
      */
-    private function emptyResult(int $limit, int $offset): array
+    private function emptyResult(int $limit): array
     {
         return [
             'users' => [],
             'limit' => $limit,
-            'offset' => $offset,
-            'total' => 0,
         ];
     }
 }

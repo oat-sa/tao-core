@@ -99,12 +99,12 @@ class CommentMentionUserSearchServiceTest extends TestCase
 
         $this->userService->expects($this->never())->method('getAllUsers');
 
-        $result = $this->sut->search('http://example.test/item#1', 'item', 'ali', 10, 5);
+        $result = $this->sut->search('http://example.test/item#1', 'item', 'ali', 10);
 
         $this->assertSame([], $result['users']);
-        $this->assertSame(0, $result['total']);
         $this->assertSame(10, $result['limit']);
-        $this->assertSame(5, $result['offset']);
+        $this->assertArrayNotHasKey('total', $result);
+        $this->assertArrayNotHasKey('offset', $result);
     }
 
     public function testOpenModeMatchesLoginViaGetAllUsers(): void
@@ -133,7 +133,8 @@ class CommentMentionUserSearchServiceTest extends TestCase
 
         $result = $this->sut->search('http://example.test/item#1', 'item', 'ali');
 
-        $this->assertSame(1, $result['total']);
+        $this->assertCount(1, $result['users']);
+        $this->assertSame(20, $result['limit']);
         $this->assertSame('http://example.test/user#alice', $result['users'][0]['id']);
         $this->assertSame('alice', $result['users'][0]['login']);
         $this->assertSame('Alice Smith', $result['users'][0]['displayName']);
@@ -165,7 +166,7 @@ class CommentMentionUserSearchServiceTest extends TestCase
 
         $result = $this->sut->search('http://example.test/item#1', 'item', 'robert');
 
-        $this->assertSame(1, $result['total']);
+        $this->assertCount(1, $result['users']);
         $this->assertSame('bob', $result['users'][0]['login']);
         $this->assertSame('Robert Jones', $result['users'][0]['displayName']);
     }
@@ -195,7 +196,6 @@ class CommentMentionUserSearchServiceTest extends TestCase
         $result = $this->sut->search('http://example.test/item#1', 'item', 'zzz');
 
         $this->assertSame([], $result['users']);
-        $this->assertSame(0, $result['total']);
     }
 
     public function testExcludesUsersWithoutValidEmail(): void
@@ -223,7 +223,6 @@ class CommentMentionUserSearchServiceTest extends TestCase
         $result = $this->sut->search('http://example.test/item#1', 'item', 'nomail');
 
         $this->assertSame([], $result['users']);
-        $this->assertSame(0, $result['total']);
     }
 
     /**
