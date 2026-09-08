@@ -38,10 +38,38 @@ class TaskOrchestratorEmailServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->client = $this->createMock(TaskOrchestratorClient::class);
+        $this->client->method('isConfigured')->willReturn(true);
         $this->sut = new TaskOrchestratorEmailService(
             $this->client,
             'local-dev-acc.nextgen-stack-local'
         );
+    }
+
+    public function testIsConfiguredRequiresClientAndTenant(): void
+    {
+        $this->assertTrue($this->sut->isConfigured());
+
+        $unconfiguredClient = $this->createMock(TaskOrchestratorClient::class);
+        $unconfiguredClient->method('isConfigured')->willReturn(false);
+        $withoutClient = new TaskOrchestratorEmailService($unconfiguredClient, 'tenant');
+        $this->assertFalse($withoutClient->isConfigured());
+
+        $configuredClient = $this->createMock(TaskOrchestratorClient::class);
+        $configuredClient->method('isConfigured')->willReturn(true);
+        $withoutTenant = new TaskOrchestratorEmailService($configuredClient, '  ');
+        $this->assertFalse($withoutTenant->isConfigured());
+    }
+
+    public function testSendEmailRejectsWhenNotConfigured(): void
+    {
+        $client = $this->createMock(TaskOrchestratorClient::class);
+        $client->method('isConfigured')->willReturn(false);
+        $sut = new TaskOrchestratorEmailService($client, 'tenant');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('not configured');
+
+        $sut->sendEmail('generic.template', 'jdoe', [], null, 'alice.author');
     }
 
     public function testSendEmailBuildsPortalEmailNotificationJob(): void

@@ -44,6 +44,15 @@ class TaskOrchestratorEmailService
     }
 
     /**
+     * True when the client is configured and TENANT_ID is non-empty.
+     * Use to gate @mention UI; empty env defaults keep boot safe.
+     */
+    public function isConfigured(): bool
+    {
+        return $this->client->isConfigured() && trim($this->tenantId) !== '';
+    }
+
+    /**
      * @param array<string, mixed> $templateData
      * @param string|null $emailAddress When set, TO delivers to this address and skips portal-user lookup
      * @param string $actorLogin Job actor (who ordered the job) — TO schema user.login; user.id = {tenantId}_{login}
@@ -55,6 +64,12 @@ class TaskOrchestratorEmailService
         ?string $emailAddress = null,
         string $actorLogin = ''
     ): string {
+        if (!$this->isConfigured()) {
+            throw new InvalidArgumentException(
+                'Task Orchestrator email is not configured (missing API URL, OAuth credentials, or TENANT_ID)'
+            );
+        }
+
         $actorLogin = trim($actorLogin);
         if ($actorLogin === '') {
             throw new InvalidArgumentException('actorLogin is required for Task Orchestrator job user.login');
