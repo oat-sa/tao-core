@@ -40,7 +40,16 @@ class TaskOrchestratorEmailService
         string $tenantId
     ) {
         $this->client = $client;
-        $this->tenantId = $tenantId;
+        $this->tenantId = trim($tenantId);
+    }
+
+    /**
+     * True when the client is configured and TENANT_ID is non-empty.
+     * Use to gate @mention UI; empty env defaults keep boot safe.
+     */
+    public function isConfigured(): bool
+    {
+        return $this->client->isConfigured() && $this->tenantId !== '';
     }
 
     /**

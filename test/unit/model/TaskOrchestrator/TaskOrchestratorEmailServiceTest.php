@@ -61,6 +61,27 @@ class TaskOrchestratorEmailServiceTest extends TestCase
         $this->assertFalse($withoutTenant->isConfigured());
     }
 
+    public function testConstructorTrimsTenantIdInPayload(): void
+    {
+        $client = $this->createMock(TaskOrchestratorClient::class);
+        $client->method('isConfigured')->willReturn(true);
+        $client
+            ->expects($this->once())
+            ->method('sendJob')
+            ->with(
+                $this->anything(),
+                $this->callback(static function (array $job): bool {
+                    return $job['tenantId'] === 'tenant-a'
+                        && $job['user']['id'] === 'tenant-a_alice.author';
+                })
+            )
+            ->willReturn(['status' => 'ok']);
+
+        $sut = new TaskOrchestratorEmailService($client, '  tenant-a  ');
+        $this->assertTrue($sut->isConfigured());
+        $sut->sendEmail('generic.template', 'jdoe', [], null, 'alice.author');
+    }
+
     public function testSendEmailRejectsWhenNotConfigured(): void
     {
         $client = $this->createMock(TaskOrchestratorClient::class);
