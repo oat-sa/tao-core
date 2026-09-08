@@ -29,6 +29,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\accessControl\PermissionCheckerInterface;
+use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
 use tao_models_classes_UserService;
 
 /**
@@ -57,17 +58,20 @@ class CommentMentionUserSearchService
     private PermissionCheckerInterface $permissionChecker;
     private tao_models_classes_UserService $userService;
     private MentionEligibleUsersProviderInterface $eligibleUsersProvider;
+    private TaskOrchestratorEmailService $emailService;
 
     public function __construct(
         Ontology $ontology,
         PermissionCheckerInterface $permissionChecker,
         tao_models_classes_UserService $userService,
-        MentionEligibleUsersProviderInterface $eligibleUsersProvider
+        MentionEligibleUsersProviderInterface $eligibleUsersProvider,
+        TaskOrchestratorEmailService $emailService
     ) {
         $this->ontology = $ontology;
         $this->permissionChecker = $permissionChecker;
         $this->userService = $userService;
         $this->eligibleUsersProvider = $eligibleUsersProvider;
+        $this->emailService = $emailService;
     }
 
     /**
@@ -90,11 +94,18 @@ class CommentMentionUserSearchService
             throw new InvalidArgumentException('resourceUri is required');
         }
 
+        $limit = max(1, min($limit, self::MAX_LIMIT));
+
+        if (!$this->emailService->isConfigured()) {
+            return [
+                'users' => [],
+                'limit' => $limit,
+            ];
+        }
+
         if (!$this->permissionChecker->hasReadAccess($resourceUri)) {
             throw new common_exception_Unauthorized('Read access required to mention users on this resource');
         }
-
-        $limit = max(1, min($limit, self::MAX_LIMIT));
 
         $eligibleUris = $this->eligibleUsersProvider->getEligibleUserUris($resourceUri);
 

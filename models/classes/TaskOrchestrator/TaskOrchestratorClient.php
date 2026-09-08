@@ -59,6 +59,18 @@ class TaskOrchestratorClient
         $this->cache = $cache;
     }
 
+    /**
+     * True when API URL and OAuth credentials are all non-empty.
+     * Empty DI defaults keep boot safe; callers should hide mention UI when false.
+     */
+    public function isConfigured(): bool
+    {
+        return trim($this->baseUrl) !== ''
+            && trim($this->authServerUri) !== ''
+            && trim($this->clientId) !== ''
+            && trim($this->clientSecret) !== '';
+    }
+
     private function getAccessToken(): string
     {
         $cacheKey = 'task_orchestrator_access_token_' . md5($this->clientId);

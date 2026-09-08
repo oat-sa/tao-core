@@ -57,6 +57,21 @@ class TaskOrchestratorClientTest extends TestCase
         );
     }
 
+    public function testIsConfiguredRequiresAllCredentials(): void
+    {
+        $this->assertTrue($this->sut->isConfigured());
+
+        $empty = new TaskOrchestratorClient(
+            '',
+            'http://auth.example',
+            'client-id',
+            'client-secret',
+            $this->httpClient,
+            $this->cache
+        );
+        $this->assertFalse($empty->isConfigured());
+    }
+
     public function testSendJobMapsInvalidRequest400ToInvalidArgumentException(): void
     {
         $errorBody = [

@@ -27,6 +27,7 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\user\UserTimezoneServiceInterface;
 use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
 use oat\tao\model\user\implementation\UserSettingsService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_LanguageService;
@@ -77,6 +78,7 @@ class UserSettingsServiceProvider implements ContainerServiceProviderInterface
                 service(PermissionChecker::class),
                 service(tao_models_classes_UserService::SERVICE_ID),
                 service(MentionEligibleUsersProviderInterface::class),
+                service(TaskOrchestratorEmailService::class),
             ]);
     }
 }
