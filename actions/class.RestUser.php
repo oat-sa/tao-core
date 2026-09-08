@@ -92,7 +92,7 @@ class tao_actions_RestUser extends tao_actions_RestResource
         } catch (common_exception_Unauthorized $exception) {
             $this->setErrorJsonResponse($exception->getMessage(), 403, [], 403);
         } catch (InvalidArgumentException $exception) {
-            $this->setErrorJsonResponse($exception->getMessage(), 412, [], 412);
+            $this->setErrorJsonResponse($exception->getMessage(), 400, [], 400);
         } catch (Throwable $exception) {
             $this->logError($exception->getMessage());
             $this->setErrorJsonResponse('Unable to search mention users', 500, [], 500);
