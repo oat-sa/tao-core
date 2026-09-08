@@ -29,6 +29,7 @@ use oat\tao\model\TaskOrchestrator\TaskOrchestratorClient;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\SimpleCache\CacheInterface;
+use RuntimeException;
 
 class TaskOrchestratorClientTest extends TestCase
 {
@@ -58,7 +59,10 @@ class TaskOrchestratorClientTest extends TestCase
 
     public function testSendJobMapsInvalidRequest400ToInvalidArgumentException(): void
     {
-        $errorBody = ['error' => 'Invalid request', 'details' => ['field' => 'email']];
+        $errorBody = [
+            'error' => 'Invalid request',
+            'details' => ['email' => 'alice@example.test', 'actorLogin' => 'alice'],
+        ];
 
         $this->httpClient
             ->expects($this->once())
@@ -73,9 +77,34 @@ class TaskOrchestratorClientTest extends TestCase
             )
             ->willReturn(new Response(400, ['Content-Type' => 'application/json'], json_encode($errorBody)));
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('TO API: request validation failed:');
+        try {
+            $this->sut->sendJob('job-1', ['type' => 'portalEmailNotification']);
+            $this->fail('Expected InvalidArgumentException');
+        } catch (InvalidArgumentException $exception) {
+            $this->assertSame('TO API: request validation failed (HTTP 400)', $exception->getMessage());
+            $this->assertStringNotContainsString('alice@example.test', $exception->getMessage());
+            $this->assertStringNotContainsString('alice', $exception->getMessage());
+        }
+    }
 
-        $this->sut->sendJob('job-1', ['type' => 'portalEmailNotification']);
+    public function testSendJobMapsUnexpected4xxWithoutResponseBodyInMessage(): void
+    {
+        $errorBody = [
+            'error' => 'Forbidden',
+            'recipient' => 'bob@example.test',
+        ];
+
+        $this->httpClient
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn(new Response(403, ['Content-Type' => 'application/json'], json_encode($errorBody)));
+
+        try {
+            $this->sut->sendJob('job-1', ['type' => 'portalEmailNotification']);
+            $this->fail('Expected RuntimeException');
+        } catch (RuntimeException $exception) {
+            $this->assertSame('TO API: unexpected HTTP 403', $exception->getMessage());
+            $this->assertStringNotContainsString('bob@example.test', $exception->getMessage());
+        }
     }
 }
