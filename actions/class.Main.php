@@ -46,6 +46,7 @@ use oat\tao\model\menu\SectionVisibilityFilterInterface;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\session\source\SessionSource;
 use oat\tao\model\user\UserLocks;
 use tao_helpers_Display as DisplayHelper;
 
@@ -212,7 +213,10 @@ class tao_actions_Main extends tao_actions_CommonModule
                         if (LoginService::login($form->getValue('login'), $form->getValue('password'))) {
                             $logins = $this->getSession()->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN);
 
-                            $eventManager->trigger(new LoginSucceedEvent(current($logins)));
+                            $eventManager->trigger(new LoginSucceedEvent(
+                                login: current($logins),
+                                source: SessionSource::INTERNAL_BACKOFFICE->value
+                            ));
 
                             $this->logInfo("Successful login of user '" . $form->getValue('login') . "'.");
 
@@ -239,7 +243,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                                     if ($remainingAttempts === 0) {
                                         // phpcs:disable Generic.Files.LineLength
                                         $msg = __('Invalid login or password. Your account has been locked, please contact your administrator.');
-                                    // phpcs:enable Generic.Files.LineLength
+                                        // phpcs:enable Generic.Files.LineLength
                                     } else {
                                         $msg .= ' ' . (
                                             $remainingAttempts === 1

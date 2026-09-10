@@ -1,61 +1,57 @@
-define(['json!i18ntr/messages.json', 'core/format'], function(i18nTr, format){
+define([
+    'json!i18ntr/messages.json',
+    'core/format',
+    'i18n/plural',
+    'i18n/ruby'
+], function(i18nTr, format, pluralHelper, rubyHelper){
     'use strict';
 
-    const translations = i18nTr.translations;
-    const rubyTags = /\{(ruby|rt|rb|rp)\}|\{\/(ruby|rt|rb|rp)\}/g;
+    const translations = i18nTr && i18nTr.translations ? i18nTr.translations : {};
 
     /**
-     * Converts ruby placeholder tags to HTML elements.
-     *
-     * @param {String} text
-     * @returns {String}
-     */
-    function convertRubyTags(text) {
-        return text.replace(rubyTags, (match, open, close) => {
-            return open ? `<${open}>` : `</${close}>`;
-        });
-    }
-
-    /**
-     * Strips ruby annotations for contexts that cannot render HTML (e.g. option text).
-     *
-     * @param {String} text
-     * @returns {String}
-     */
-    function plainTextFromRuby(text) {
-        if (typeof text !== 'string' || text === '') {
-            return text === null || text === undefined ? '' : String(text);
-        }
-
-        let plain = convertRubyTags(text);
-        plain = plain.replace(/<rt[^>]*>[\s\S]*?<\/rt>/gi, '');
-        plain = plain.replace(/\{rt\}[\s\S]*?\{\/rt\}/g, '');
-        plain = plain.replace(/<rp[^>]*>[\s\S]*?<\/rp>/gi, '');
-        plain = plain.replace(/\{rp\}[\s\S]*?\{\/rp\}/g, '');
-        plain = plain.replace(/<[^>]+>/g, '');
-        plain = plain.replace(/\s+/g, ' ').trim();
-
-        return plain;
-    }
-
-    /**
-     * Common translation method.
-     * @see /locales/#lang#/messages_po.js
+     * Translate a message key and format the resulting message.
+     * @see /views/locales/#lang#/messages.json
      *
      * @param {String} message should be the string in the default language (usually english) used as the key in the gettext translations
+     * @param {...*} args values passed to the formatter
      * @returns {String} translated message
      */
-    function __(message) {
+    function __(message, ...args){
         let localized = translations[message] || message;
 
-        if (arguments.length > 1) {
-            localized = format.apply(null, [localized].concat([].slice.call(arguments, 1)));
+        if (args.length > 0) {
+            localized = format(localized, ...args);
         }
 
-        return convertRubyTags(localized);
+        return rubyHelper.convertRubyTags(localized);
     }
 
-    __.plainTextFromRuby = plainTextFromRuby;
+    /**
+     * Translate a pluralized message and format the resolved variant.
+     *
+     * @param {String} singular
+     * @param {String} plural
+     * @param {Number} count
+     * @param {...*} args values passed to the formatter
+     * @returns {String}
+     */
+    __.p = function __p(singular, plural, count, ...args){
+        const pluralRule = pluralHelper.getPluralRule(i18nTr.pluralForms);
+        const pluralIndex = pluralRule(Number(count));
+        let localized = pluralHelper.resolveTranslation(
+            translations,
+            singular,
+            pluralIndex === 0 ? singular : plural,
+            pluralIndex
+        );
+        const formatArgs = args.length === 0 ? [count] : args;
+
+        localized = format(localized, ...formatArgs);
+
+        return rubyHelper.convertRubyTags(localized);
+    };
+
+    __.plainTextFromRuby = rubyHelper.plainTextFromRuby;
 
     return __;
 });

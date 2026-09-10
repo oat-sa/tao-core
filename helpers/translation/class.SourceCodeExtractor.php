@@ -171,37 +171,73 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
         }
 
         if ($extOk) {
-            // We read the file.
-            $lines = file($filePath);
-            foreach ($lines as $line) {
-                $strings = $this->getTranslationPhrases($line);
-                //preg_match_all("/__(\(| )+['\"](.*?)['\"](\))?/u", $line, $string);
+            $content = file_get_contents($filePath);
+            if ($content === false) {
+                return;
+            }
 
-                //lookup for __('to translate') or __ 'to translate'
-                //    preg_match_all("/__(\(| )+(('(.*?)')|(\"(.*?)\"))(\))?/u", $line, $string);
+            $strings = $this->getTranslationPhrases($content);
+            $pluralPhrases = $this->getPluralTranslationPhrases($content);
 
-                foreach ($strings as $s) {
-                    $tu = new tao_helpers_translation_TranslationUnit();
-                    $tu->setSource(tao_helpers_translation_POUtils::sanitize($s));
-                    $tus = $this->getTranslationUnits();
-                    $found = false;
+            foreach ($strings as $s) {
+                $tu = new tao_helpers_translation_TranslationUnit();
+                $tu->setSource(tao_helpers_translation_POUtils::sanitize($s));
+                $this->addTranslationUnitIfMissing($tu);
+            }
 
-                    // We must add the string as a new TranslationUnit only
-                    // if a similiar source does not exist.
-                    foreach ($tus as $t) {
-                        if ($tu->getSource() == $t->getSource()) {
-                            $found = true;
-                            break;
-                        }
-                    }
-
-                    if (!$found) {
-                        $tus[] = $tu;
-                        $this->setTranslationUnits($tus);
-                    }
-                }
+            foreach ($pluralPhrases as $pluralPhrase) {
+                $tu = new tao_helpers_translation_POTranslationUnit();
+                $tu->setSource(tao_helpers_translation_POUtils::sanitize($pluralPhrase['singular']));
+                $tu->setSourcePlural(tao_helpers_translation_POUtils::sanitize($pluralPhrase['plural']));
+                $this->addTranslationUnitIfMissing($tu);
             }
         }
+    }
+
+    /**
+     * Add a translation unit only when an equivalent one does not already exist.
+     *
+     * @param tao_helpers_translation_TranslationUnit $translationUnit
+     * @return void
+     */
+    private function addTranslationUnitIfMissing(tao_helpers_translation_TranslationUnit $translationUnit)
+    {
+        $translationUnits = $this->getTranslationUnits();
+
+        foreach ($translationUnits as $existingTranslationUnit) {
+            if ($this->isSameTranslationUnit($translationUnit, $existingTranslationUnit)) {
+                return;
+            }
+        }
+
+        $translationUnits[] = $translationUnit;
+        $this->setTranslationUnits($translationUnits);
+    }
+
+    /**
+     * @param tao_helpers_translation_TranslationUnit $left
+     * @param tao_helpers_translation_TranslationUnit $right
+     * @return bool
+     */
+    private function isSameTranslationUnit(
+        tao_helpers_translation_TranslationUnit $left,
+        tao_helpers_translation_TranslationUnit $right
+    ) {
+        if ($left->getSource() !== $right->getSource()) {
+            return false;
+        }
+
+        if (
+            $left instanceof tao_helpers_translation_POTranslationUnit
+            && $right instanceof tao_helpers_translation_POTranslationUnit
+        ) {
+            return $left->getSourcePlural() === $right->getSourcePlural();
+        }
+
+        return !(
+            $left instanceof tao_helpers_translation_POTranslationUnit
+            || $right instanceof tao_helpers_translation_POTranslationUnit
+        );
     }
 
     /**
@@ -221,42 +257,256 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
     }
 
     /**
-     * @param $line
+     * @param string $content
      *
      * @return array
      */
-    protected function getTranslationPhrases($line)
+    protected function getTranslationPhrases($content)
     {
         $strings = [];
-        $patternMatch1 = [];
-        $patternMatch2 = [];
 
-        // for php and JS helper function
-        preg_match_all("/__\\(([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1/u", $line, $patternMatch1);
-        preg_match_all("/\{\{__ ['\"](.*?)['\"]\}\}/u", $line, $patternMatch2); //used for parsing templates
-
-        if (! empty($patternMatch1[0])) {
-            $strings = array_reduce(
-                $patternMatch1[0],
-                function ($m, $str) use ($patternMatch1) {
-                    $found = preg_match(
-                        "/([\"'])(?:(?=(\\\\?))\\2.)*?\\1/u",
-                        $str,
-                        $matches
-                    ); //matches first passed argument only
-                    $m[]   = $found ? trim($matches[0], '"\'') : $patternMatch1[1];
-
-                    return $m;
-                },
-                []
-            );
+        foreach ($this->findAllMatches("/__\\(([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1/us", $content) as $match) {
+            $arguments = $this->extractQuotedArguments($match, 1);
+            if (!empty($arguments)) {
+                $strings[] = $arguments[0];
+            }
         }
-        if (! empty($patternMatch2[1])) {
-            $strings = array_merge($strings, $patternMatch2[1]);
 
-            return $strings;
+        foreach ($this->findTemplateHelperCalls($content, ['__']) as $helperCall) {
+            $arguments = $this->extractTemplateArguments($helperCall['arguments']);
+
+            if (count($arguments) === 1 && $this->isQuotedArgument($arguments[0])) {
+                $strings[] = trim($arguments[0], '"\'');
+            }
         }
 
         return $strings;
+    }
+
+    /**
+     * @param string $content
+     * @return array
+     */
+    protected function getPluralTranslationPhrases($content)
+    {
+        $strings = [];
+        $extractors = [
+            [
+                'pattern' => "/__\\.p\\(\\s*([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1\\s*,\\s*"
+                    . "([\\\"'])(?:(?=(\\\\?))\\4.)*?\\3/us",
+                'mode' => 'quotedArguments',
+            ],
+            [
+                'pattern' => "/\\{\\{\\s*__p\\s+['\\\"](.*?)['\\\"]\\s+['\\\"](.*?)['\\\"](?:\\s+.*?)?\\s*\\}\\}/us",
+                'mode' => 'capturedGroups',
+                'flags' => PREG_SET_ORDER,
+            ],
+        ];
+
+        foreach ($extractors as $extractor) {
+            $matches = $this->findAllMatches(
+                $extractor['pattern'],
+                $content,
+                $extractor['flags'] ?? 0
+            );
+            foreach ($matches as $match) {
+                $phrase = $extractor['mode'] === 'capturedGroups'
+                    ? $this->buildPluralPhraseFromCapturedGroups($match)
+                    : $this->buildPluralPhraseFromQuotedArguments($match);
+
+                if ($phrase !== null) {
+                    $strings[] = $phrase;
+                }
+            }
+        }
+
+        return $strings;
+    }
+
+    /**
+     * @param string $pattern
+     * @param string $content
+     * @param int $flags
+     * @return array
+     */
+    private function findAllMatches($pattern, $content, $flags = 0)
+    {
+        $matches = [];
+        preg_match_all($pattern, $content, $matches, $flags);
+
+        if ($flags === PREG_SET_ORDER) {
+            return $matches;
+        }
+
+        return $matches[0] ?? [];
+    }
+
+    /**
+     * @param string $pattern
+     * @param string $content
+     * @return array
+     */
+    private function findCapturedValues($pattern, $content)
+    {
+        $matches = [];
+        preg_match_all($pattern, $content, $matches);
+
+        return $matches[1] ?? [];
+    }
+
+    /**
+     * @param string $content
+     * @param int|null $limit
+     * @return array
+     */
+    private function extractQuotedArguments($content, $limit = null)
+    {
+        $quotedArguments = [];
+        preg_match_all(
+            "/([\"'])(?:(?=(\\\\?))\\2.)*?\\1/u",
+            $content,
+            $quotedArguments
+        );
+
+        $arguments = array_map(
+            function ($argument) {
+                return trim($argument, '"\'');
+            },
+            $quotedArguments[0] ?? []
+        );
+
+        if ($limit !== null) {
+            return array_slice($arguments, 0, $limit);
+        }
+
+        return $arguments;
+    }
+
+    /**
+     * Find matching template helper calls and keep the raw argument string.
+     *
+     * @param string $content The template content to scan.
+     * @param array $helperNames The helper names to match.
+     * @return array
+     */
+    private function findTemplateHelperCalls($content, array $helperNames)
+    {
+        $matches = [];
+        $pattern = '/\{\{\s*(' . implode('|', array_map('preg_quote', $helperNames)) . ')\b(.*?)\}\}/us';
+
+        foreach ($this->findAllMatches($pattern, $content, PREG_SET_ORDER) as $match) {
+            $matches[] = [
+                'name' => $match[1],
+                'arguments' => trim($match[2]),
+            ];
+        }
+
+        return $matches;
+    }
+
+    /**
+     * Split a template helper argument list without breaking quoted strings.
+     *
+     * @param string $argumentsString The raw helper argument string.
+     * @return array
+     */
+    private function extractTemplateArguments($argumentsString)
+    {
+        $arguments = [];
+        $buffer = '';
+        $quote = null;
+        $isEscaped = false;
+        $length = strlen($argumentsString);
+
+        for ($index = 0; $index < $length; $index++) {
+            $character = $argumentsString[$index];
+
+            if ($quote !== null) {
+                $buffer .= $character;
+
+                if ($isEscaped) {
+                    $isEscaped = false;
+                    continue;
+                }
+
+                if ($character === '\\') {
+                    $isEscaped = true;
+                    continue;
+                }
+
+                if ($character === $quote) {
+                    $quote = null;
+                }
+
+                continue;
+            }
+
+            if ($character === '"' || $character === "'") {
+                $quote = $character;
+                $buffer .= $character;
+                continue;
+            }
+
+            if (preg_match('/\s/u', $character) === 1) {
+                if ($buffer !== '') {
+                    $arguments[] = $buffer;
+                    $buffer = '';
+                }
+
+                continue;
+            }
+
+            $buffer .= $character;
+        }
+
+        if ($buffer !== '') {
+            $arguments[] = $buffer;
+        }
+
+        return $arguments;
+    }
+
+    /**
+     * @param string $match
+     * @return array|null
+     */
+    private function buildPluralPhraseFromQuotedArguments($match)
+    {
+        $quotedArguments = $this->extractQuotedArguments($match, 2);
+        if (count($quotedArguments) < 2) {
+            return null;
+        }
+
+        return [
+            'singular' => $quotedArguments[0],
+            'plural' => $quotedArguments[1],
+        ];
+    }
+
+    /**
+     * @param array $match
+     * @return array|null
+     */
+    private function buildPluralPhraseFromCapturedGroups(array $match)
+    {
+        if (!isset($match[1], $match[2])) {
+            return null;
+        }
+
+        return [
+            'singular' => $match[1],
+            'plural' => $match[2],
+        ];
+    }
+
+    /**
+     * Check whether a helper argument is wrapped in matching quotes.
+     *
+     * @param string $argument The argument to inspect.
+     * @return bool
+     */
+    private function isQuotedArgument($argument)
+    {
+        return preg_match('/^(["\']).*\1$/us', trim($argument)) === 1;
     }
 }

@@ -38,6 +38,8 @@ use common_Logger;
  */
 class TranslationBundle
 {
+    private const JSON_BUNDLE_FILE = 'messages.json';
+
     /**
      * The bundle langCode, formated as a locale: en-US, fr-FR, etc.
      * @var string
@@ -115,13 +117,32 @@ class TranslationBundle
     public function generateTo($directory)
     {
         $translations = [];
+        $pluralForms = '';
 
         foreach ($this->extensions as $extension) {
             $jsFilePath = $this->basePath . '/' . $extension . '/locales/' . $this->langCode . '/messages_po.js';
             if (file_exists($jsFilePath)) {
                 $translate = json_decode(file_get_contents($jsFilePath), false);
+                if ($translate === null && json_last_error() !== JSON_ERROR_NONE) {
+                    $this->logBundleWriteFailure(
+                        sprintf('Failed to decode translation source "%s".', $jsFilePath),
+                        ['error' => json_last_error_msg()]
+                    );
+                    return false;
+                }
                 if ($translate != null) {
-                    $translations = array_merge($translations, (array)$translate);
+                    $translationsData = property_exists($translate, 'translations')
+                        ? (array) $translate->translations
+                        : (array) $translate;
+
+                    if (
+                        !empty($translate->pluralForms)
+                        && ($extension === 'tao' || empty($pluralForms))
+                    ) {
+                        $pluralForms = $translate->pluralForms;
+                    }
+
+                    $translations = array_merge($translations, $translationsData);
                 }
             }
         }
@@ -132,6 +153,10 @@ class TranslationBundle
             'translations' =>   $translations
         ];
 
+        if (!empty($pluralForms)) {
+            $content['pluralForms'] = $pluralForms;
+        }
+
         if (!empty($this->taoVersion)) {
             $content['version'] = $this->taoVersion;
         }
@@ -140,11 +165,91 @@ class TranslationBundle
             if (!is_dir($directory . '/' . $this->langCode)) {
                 mkdir($directory . '/' . $this->langCode);
             }
-            $file = $directory . '/' . $this->langCode . '/messages.json';
-            if (@file_put_contents($file, json_encode($content))) {
-                return $file;
+            $jsonFile = $directory . '/' . $this->langCode . '/' . self::JSON_BUNDLE_FILE;
+            $jsonPayload = $this->encodeJson($content, $jsonError);
+            if ($jsonPayload === false) {
+                $this->logBundleWriteFailure(
+                    sprintf('Failed to encode translation bundle JSON file "%s".', $jsonFile),
+                    ['error' => $jsonError]
+                );
+                return false;
+            }
+
+            if (!$this->writeFile($jsonFile, $jsonPayload, $jsonError)) {
+                $this->logBundleWriteFailure(
+                    sprintf('Failed to write translation bundle JSON file "%s".', $jsonFile),
+                    ['error' => $jsonError]
+                );
+                return false;
+            }
+
+            if (file_exists($jsonFile)) {
+                return $jsonFile;
             }
         }
         return false;
+    }
+
+    /**
+     * Encode a value as JSON while preserving the last encoder error.
+     *
+     * @param mixed $value
+     * @param string|null $error
+     * @return string|false
+     */
+    private function encodeJson($value, &$error = null)
+    {
+        $encoded = json_encode($value);
+        if ($encoded === false) {
+            $error = json_last_error_msg();
+            return false;
+        }
+
+        $error = null;
+        return $encoded;
+    }
+
+    /**
+     * Write file contents while capturing filesystem warnings for logging.
+     *
+     * @param string $path
+     * @param string $content
+     * @param string|null $error
+     * @return bool
+     */
+    protected function writeFile($path, $content, &$error = null)
+    {
+        $error = null;
+        set_error_handler(
+            static function ($severity, $message) use (&$error) {
+                $error = $message;
+                return true;
+            }
+        );
+
+        try {
+            $bytesWritten = file_put_contents($path, $content);
+        } finally {
+            restore_error_handler();
+        }
+
+        if ($bytesWritten === false) {
+            $error = $error ?? 'Unknown write failure.';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Log bundle write failures with path-specific diagnostics.
+     *
+     * @param string $message
+     * @param array $context
+     * @return void
+     */
+    protected function logBundleWriteFailure($message, array $context = [])
+    {
+        common_Logger::e($message . (empty($context['error']) ? '' : ' ' . $context['error']));
     }
 }
