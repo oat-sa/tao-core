@@ -18,6 +18,8 @@
  * Copyright (c) 2019 Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\mvc;
 
 use Symfony\Component\Dotenv\Dotenv;
@@ -32,14 +34,15 @@ class DotEnvReader
      *
      * @param string $envFile (defaults to project .env file)
      */
-    public function __construct($envFile = '')
+    public function __construct(string $envFile = '')
     {
         if ($envFile === '') {
             $envFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
                 . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '.env';
         }
+
         if (file_exists($envFile)) {
-            $dotEnv = new Dotenv();
+            $dotEnv = (new Dotenv())->usePutenv();
             $dotEnv->overload($envFile);
         }
     }
