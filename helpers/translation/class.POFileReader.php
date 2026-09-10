@@ -63,6 +63,11 @@ class tao_helpers_translation_POFileReader extends tao_helpers_translation_Trans
         $fc = implode('', file($file));
 
         $entries = preg_split("/(?:\r?\n){2,}/", trim($fc));
+
+        // Resolve languages before adding units: addTranslationUnit() copies the
+        // file's current target language onto each unit. Crowdin PO headers often
+        // claim en-US while the real locale is the parent folder name.
+        $bodyEntries = [];
         foreach ($entries as $entry) {
             $parsedEntry = $this->parseEntry($entry);
             if ($parsedEntry === null) {
@@ -77,24 +82,7 @@ class tao_helpers_translation_POFileReader extends tao_helpers_translation_Trans
                 continue;
             }
 
-            $tu = new tao_helpers_translation_POTranslationUnit();
-            $tu->setSource($parsedEntry['msgid']);
-            if ($parsedEntry['msgctxt'] !== '') {
-                $tu->setContext($parsedEntry['msgctxt']);
-            }
-            if ($parsedEntry['msgid_plural'] !== '') {
-                $tu->setSourcePlural($parsedEntry['msgid_plural']);
-                $tu->setTargets($parsedEntry['msgstr_plural']);
-            } elseif ($parsedEntry['msgstr'] !== '') {
-                $tu->setTarget($parsedEntry['msgstr']);
-            }
-
-            $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($parsedEntry['annotations']);
-            foreach ($annotations as $name => $value) {
-                $tu->addAnnotation($name, $value);
-            }
-
-            $tf->addTranslationUnit($tu);
+            $bodyEntries[] = $parsedEntry;
         }
 
         $sourceLanguage = $tf->getHeaders()['sourceLanguage'] ?? '';
@@ -121,6 +109,27 @@ class tao_helpers_translation_POFileReader extends tao_helpers_translation_Trans
         }
         if ($matchedTargetLanguage !== '') {
             $tf->setTargetLanguage(substr($matchedTargetLanguage, 0, 5));
+        }
+
+        foreach ($bodyEntries as $parsedEntry) {
+            $tu = new tao_helpers_translation_POTranslationUnit();
+            $tu->setSource($parsedEntry['msgid']);
+            if ($parsedEntry['msgctxt'] !== '') {
+                $tu->setContext($parsedEntry['msgctxt']);
+            }
+            if ($parsedEntry['msgid_plural'] !== '') {
+                $tu->setSourcePlural($parsedEntry['msgid_plural']);
+                $tu->setTargets($parsedEntry['msgstr_plural']);
+            } elseif ($parsedEntry['msgstr'] !== '') {
+                $tu->setTarget($parsedEntry['msgstr']);
+            }
+
+            $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($parsedEntry['annotations']);
+            foreach ($annotations as $name => $value) {
+                $tu->addAnnotation($name, $value);
+            }
+
+            $tf->addTranslationUnit($tu);
         }
 
         $this->setTranslationFile($tf);

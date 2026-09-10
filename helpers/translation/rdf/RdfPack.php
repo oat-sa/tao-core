@@ -106,7 +106,7 @@ class RdfPack implements \IteratorAggregate
                 $triple->subject = $about;
                 $triple->predicate = $tu->getContext();
                 $triple->object = $tu->getTarget() ? $tu->getTarget() : $tu->getSource();
-                $triple->lg = $tu->getTargetLanguage();
+                $triple->lg = $this->langCode;
                 $triple->modelid = $modelId;
                 $triples[] = $triple;
             }
