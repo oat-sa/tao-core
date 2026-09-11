@@ -59,7 +59,7 @@ class StateMigration extends ConfigurableService
      * @param string $callId
      * @return bool true when archived; false when no state exists for the callId
      */
-    public function archive($userId, $callId)
+    public function archive(string $userId, string $callId): bool
     {
         /** @var StateStorage $stateStorage */
         $stateStorage = $this->getServiceManager()->get(StateStorage::SERVICE_ID);
