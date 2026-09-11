@@ -1,0 +1,163 @@
+<?php
+
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA
+ *
+ * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
+ */
+
+declare(strict_types=1);
+
+namespace oat\tao\model\TaskOrchestrator;
+
+use GuzzleHttp\Client as GuzzleHttpClient;
+use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
+use Psr\SimpleCache\CacheInterface;
+use RuntimeException;
+
+class TaskOrchestratorClient
+{
+    public const ENV_API_URL = 'TASK_ORCHESTRATOR_API_URL';
+    public const ENV_AUTH_SERVER_URI = 'TASK_ORCHESTRATOR_AUTH_SERVER_URI';
+    public const ENV_CLIENT_ID = 'TASK_ORCHESTRATOR_CLIENT_ID';
+    public const ENV_CLIENT_SECRET = 'TASK_ORCHESTRATOR_CLIENT_SECRET';
+
+    private string $baseUrl;
+    private string $authServerUri;
+    private string $clientId;
+    private string $clientSecret;
+    private GuzzleHttpClient $httpClient;
+    private ?string $accessToken = null;
+    private ?CacheInterface $cache = null;
+
+    public function __construct(
+        string $baseUrl,
+        string $authServerUri,
+        string $clientId,
+        string $clientSecret,
+        GuzzleHttpClient $httpClient,
+        ?CacheInterface $cache = null
+    ) {
+        $this->baseUrl = trim($baseUrl);
+        $this->authServerUri = trim($authServerUri);
+        $this->clientId = trim($clientId);
+        $this->clientSecret = trim($clientSecret);
+        $this->httpClient = $httpClient;
+        $this->cache = $cache;
+    }
+
+    /**
+     * True when API URL and OAuth credentials are all non-empty.
+     * Empty DI defaults keep boot safe; callers should hide mention UI when false.
+     */
+    public function isConfigured(): bool
+    {
+        return $this->baseUrl !== ''
+            && $this->authServerUri !== ''
+            && $this->clientId !== ''
+            && $this->clientSecret !== '';
+    }
+
+    private function getAccessToken(): string
+    {
+        $cacheKey = 'task_orchestrator_access_token_' . md5($this->clientId);
+        if ($this->cache !== null) {
+            $cachedToken = $this->cache->get($cacheKey);
+            if (is_string($cachedToken) && $cachedToken !== '') {
+                $this->accessToken = $cachedToken;
+
+                return $cachedToken;
+            }
+        }
+
+        try {
+            $response = $this->httpClient->request('POST', $this->authServerUri . '/v1/oauth2/tokens', [
+                'headers' => ['Content-Type' => 'application/json'],
+                'json' => [
+                    'grant_type' => 'client_credentials',
+                    'client_id' => $this->clientId,
+                    'client_secret' => $this->clientSecret,
+                ],
+            ]);
+
+            $data = json_decode($response->getBody()->getContents(), true);
+            $accessToken = $data['access_token'] ?? null;
+            $expiresIn = $data['expires_in'] ?? 3600;
+
+            if (!$accessToken) {
+                throw new RuntimeException('Failed to obtain access_token from the authorization server.');
+            }
+
+            if ($this->cache) {
+                $this->cache->set($cacheKey, $accessToken, $expiresIn - 60);
+            }
+            $this->accessToken = $accessToken;
+
+            return $accessToken;
+        } catch (GuzzleException $e) {
+            throw new RuntimeException(
+                'Authorization server communication error: ' . $e->getMessage(),
+                0,
+                $e
+            );
+        }
+    }
+
+    public function sendJob(string $jobId, array $jobPayload): array
+    {
+        $accessToken = $this->getAccessToken();
+        $url = sprintf('%s/api/v1/jobs/%s', $this->baseUrl, $jobId);
+
+        try {
+            $response = $this->httpClient->request('POST', $url, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $accessToken,
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => $jobPayload,
+                // Let status-code mapping below handle 4xx (e.g. InvalidArgumentException for validation).
+                'http_errors' => false,
+            ]);
+
+            $statusCode = $response->getStatusCode();
+            $responseBody = json_decode($response->getBody()->getContents(), true);
+
+            // Exception messages must not include TO response bodies (may contain PII).
+            if ($statusCode === 400 && ($responseBody['error'] ?? null) === 'Invalid request') {
+                throw new InvalidArgumentException(
+                    'TO API: request validation failed (HTTP 400)'
+                );
+            }
+            if ($statusCode === 400 && ($responseBody['message'] ?? null) === 'Missing token') {
+                throw new RuntimeException('TO API: missing or invalid authorization token (HTTP 400)');
+            }
+            if ($statusCode >= 400) {
+                throw new RuntimeException(sprintf(
+                    'TO API: unexpected HTTP %d',
+                    $statusCode
+                ));
+            }
+
+            return $responseBody;
+        } catch (GuzzleException $e) {
+            throw new RuntimeException(
+                'Task Orchestrator API communication error: ' . $e->getMessage(),
+                0,
+                $e
+            );
+        }
+    }
+}

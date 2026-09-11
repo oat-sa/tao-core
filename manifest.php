@@ -22,7 +22,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor
  *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
- *               2021-2022 (original work) Open Assessment Technologies SA.
+ *               2021-2026 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -62,6 +62,7 @@ use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\TaoRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\search\ServiceProvider\SearchServiceProvider;
+use oat\tao\model\session\source\ServiceProvider\SessionSourceServiceProvider;
 use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
 use oat\tao\model\Translation\ServiceProvider\TranslationServiceProvider;
 use oat\tao\model\user\TaoRoles;
@@ -347,6 +348,8 @@ return [
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'PropertiesAuthoring']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'QueueAction']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'RestUser']],
+        // Mention autocomplete for authoring comments (does not expose user CRUD).
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'RestUser', 'act' => 'searchUsers']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Roles']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'TaskQueue']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Users']],
@@ -378,9 +381,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2026.09',
+        'TAO_VERSION' => '2026.10',
         #TAO version label
-        'TAO_VERSION_NAME' => '2026.09',
+        'TAO_VERSION_NAME' => '2026.10',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -444,6 +447,7 @@ return [
         CookiePolicyServiceProvider::class,
         DataPolicyServiceProvider::class,
         InfrastructureServiceProvider::class,
+        SessionSourceServiceProvider::class,
         FrontendActionServiceProvider::class,
     ],
     'middlewares' => [
