@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; under version 2
+# of the License (non-upgradable).
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# Copyright (c) 2026 (original work) Open Assessment Technologies SA.
+#
+# After a branch checkout: ensure .ai/work/<slug> and GC orphaned note dirs.
+# Requires: git config core.hooksPath .githooks
+
+set -euo pipefail
+
+# post-checkout args: <prev-HEAD> <new-HEAD> <branch-checkout-flag>
+flag="${3:-0}"
+if [ "$flag" != "1" ]; then
+  exit 0
+fi
+
+ROOT="$(git rev-parse --show-toplevel)"
+exec "${ROOT}/scripts/ai-notes-gc.sh" --checkout
