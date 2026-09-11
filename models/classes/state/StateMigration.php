@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
@@ -57,19 +57,21 @@ class StateMigration extends ConfigurableService
      *
      * @param string $userId
      * @param string $callId
-     * @return boolean
+     * @return bool true when archived; false when no state exists for the callId
      */
     public function archive($userId, $callId)
     {
-
         /** @var StateStorage $stateStorage */
         $stateStorage = $this->getServiceManager()->get(StateStorage::SERVICE_ID);
 
         $state = $stateStorage->get($userId, $callId);
+        if (is_null($state)) {
+            return false;
+        }
 
-        return (!is_null($state))
-            ? $this->getFileSystem()->write($this->generateSerial($userId, $callId), $state)
-            : false;
+        $this->getFileSystem()->write($this->generateSerial($userId, $callId), $state);
+
+        return true;
     }
 
     public function restore($userId, $callId)
@@ -94,6 +96,11 @@ class StateMigration extends ConfigurableService
     public function removeBackup($userId, $callId)
     {
         $this->getFileSystem()->delete($this->generateSerial($userId, $callId));
+    }
+
+    public function hasBackup(string $userId, string $callId): bool
+    {
+        return $this->getFileSystem()->fileExists($this->generateSerial($userId, $callId));
     }
 
     private function generateSerial($userId, $callId)
