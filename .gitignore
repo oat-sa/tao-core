@@ -79,3 +79,6 @@ composer.lock
 
 # Local agent working notes (branch-scoped); never commit
 .ai/
+
+# Local Cursor / editor agent config
+.cursor/

@@ -129,7 +129,7 @@ Reinstall FE deps from `tao/views/` when `views/package.json` changes (`npm inst
 - Shared AMD `ui/*` widgets: change the owning npm package, not by copying UI into this or other extensions.
 - `scripts/taoUpdate.php` / installer / migrations: high blast radius; follow nearest existing pattern; keep reversible where that is the local norm.
 - Resolve PHP and dependency versions from `composer.json` and CI workflows — do not invent pins.
-- Never commit `.ai/` contents.
+- Never commit `.ai/` or `.cursor/` contents.
 
 ## Agent notes (`.ai/`)
 
@@ -176,11 +176,22 @@ Especially when an **agent** prepares a pull request, treat the change as ready 
 
 Docs-only or gitignore/hooks-only changes: run the checks that still apply (`bash -n` on shell, CodeRabbit on the diff); skip irrelevant suites explicitly.
 
+## Skills ([oat-sa/skills](https://github.com/oat-sa/skills))
+
+Shared agent skills for OAT live in **[oat-sa/skills](https://github.com/oat-sa/skills)**. That repository is the **priority** source:
+
+1. **Search / load skills from `oat-sa/skills` first** when a task matches an existing skill (procedures, tooling, review loops, etc.).
+2. Prefer reusing or extending those shared skills over inventing a parallel local skill.
+3. Create a **new** skill only when nothing suitable exists there (and in this repo) — and consider contributing it upstream to `oat-sa/skills` when it is reusable beyond this package.
+
+Do not duplicate long procedures in this `AGENTS.md` when a shared skill already covers them; link or name the skill instead.
+
 ## Pointers
 
 - `README.md` — package overview
 - `composer.json` / `LICENSE` — license and Composer deps
 - `views/package.json` — FE dependency pins
+- [oat-sa/skills](https://github.com/oat-sa/skills) — shared / priority agent skills
 - `.coderabbit.yaml` → remote `oat-sa/tao-code-quality` `coderabbit/php/authoring/v1`
 - `.github/workflows/continuous-integration.yaml` — PR CI on `develop`
 - `.githooks/post-checkout` + `scripts/ai-notes-gc.sh` — local `.ai/` lifecycle
@@ -189,10 +200,11 @@ Docs-only or gitignore/hooks-only changes: run the checks that still apply (`bas
 ## Default Agent Behavior
 
 1. Read this file, then `.ai/current` / polar-star notes for the branch; prefer written notes over chat memory.
-2. Prefer TDD for behavior changes.
-3. Keep the change minimal and local; resolve versions from composer / package.json / CI files.
-4. Sync `structures.xml` / `routes.js` / PHP when touching UI entrypoints.
-5. Update license years on touched files; add sibling-style headers on new files (`GPL-2.0-only` policy via `composer.json`).
-6. Update `.ai/` polar-star / supporting docs as decisions land.
-7. Satisfy the Readiness gate (tests + lint + CodeRabbit) before calling the work done or opening a PR.
-8. Do not weaken CI / lint gates.
+2. Check **[oat-sa/skills](https://github.com/oat-sa/skills)** for a matching skill before inventing a new procedure or local skill.
+3. Prefer TDD for behavior changes.
+4. Keep the change minimal and local; resolve versions from composer / package.json / CI files.
+5. Sync `structures.xml` / `routes.js` / PHP when touching UI entrypoints.
+6. Update license years on touched files; add sibling-style headers on new files (`GPL-2.0-only` policy via `composer.json`).
+7. Update `.ai/` polar-star / supporting docs as decisions land.
+8. Satisfy the Readiness gate (tests + lint + CodeRabbit) before calling the work done or opening a PR.
+9. Do not weaken CI / lint gates.
