@@ -268,12 +268,22 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('removeNode', function remove(actionContext) {
-            const data = {};
+            // resource-selector puts the class uri in both uri and classUri; only send classUri
+            // so the backend takes deleteClass (instances keep uri + classUri)
+            const data = {
+                id: actionContext.id,
+                signature: actionContext.signature
+            };
 
-            data.uri = uri.decode(actionContext.uri);
-            data.classUri = uri.decode(actionContext.classUri);
-            data.id = actionContext.id;
-            data.signature = actionContext.signature;
+            if (actionContext.type === 'class') {
+                data.classUri = uri.decode(actionContext.classUri || actionContext.uri);
+            } else if (actionContext.uri) {
+                data.uri = uri.decode(actionContext.uri);
+                data.classUri = uri.decode(actionContext.classUri);
+            } else {
+                // jstree class selection: classUri only
+                data.classUri = uri.decode(actionContext.classUri);
+            }
 
             return new Promise((resolve, reject) => {
                 confirmDialog(

@@ -1203,27 +1203,22 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new common_exception_BadRequest('wrong request mode');
         }
 
+        // resource-selector sends uri for classes too; prefer deleteClass when uri is a class
         if ($this->hasRequestParameter('uri')) {
-            $this->forward(
-                'deleteResource',
-                null,
-                null,
-                (
-                    [
-                        'id' => tao_helpers_Uri::decode($this->getRequestParameter('uri'))
-                    ]
-                )
-            );
+            $id = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+            if ($id !== '' && $this->getResource($id)->isClass()) {
+                $this->forward('deleteClass', null, null, ['id' => $id]);
+            } else {
+                $this->forward('deleteResource', null, null, ['id' => $id]);
+            }
         } elseif ($this->hasRequestParameter('classUri')) {
             $this->forward(
                 'deleteClass',
                 null,
                 null,
-                (
-                    [
-                        'id' => tao_helpers_Uri::decode($this->getRequestParameter('classUri'))
-                    ]
-                )
+                [
+                    'id' => tao_helpers_Uri::decode($this->getRequestParameter('classUri'))
+                ]
             );
         } else {
             throw new common_exception_MissingParameter();
