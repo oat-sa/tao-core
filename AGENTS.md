@@ -40,7 +40,7 @@ Shape of the stack (stable facts, not version pins):
 Spend context on the smallest useful surface. Prefer accuracy over exhaustive reading.
 
 1. **Read order:** this file → `.ai/current` / polar-star → only paths implicated by the task (use Structure / UI layer maps).
-2. **Do not** load or search wholesale: `vendor/`, `node_modules/`, `views/js/loader/*.min.js`, unrelated sibling extensions under `nextgen-stack/tao/`.
+2. **Do not** load or search wholesale: `vendor/`, `node_modules/`, `views/js/loader/*.min.js`, or unrelated sibling extensions in the installed platform.
 3. **Search narrowly** (symbol / filename / nearby tests) before broad repo greps.
 4. **One concern per change.** No drive-by refactors, unrelated formatting, or “while we’re here” edits in other packages.
 5. Prefer writing durable facts into `.ai/` and re-reading them over re-discovering the same tree every turn.
@@ -103,23 +103,26 @@ Boot (typical backoffice page):
 
 - Prefer **TDD**: failing unit test first, then implementation.
 - PHPUnit tests live under `test/unit` and `test/integration`; base helper `test/TaoPhpUnitTestRunner.php`.
-- Suite config for the installed stack is typically `nextgen-stack/tao/phpunit.xml.dist` (bootstrap via `generis`).
+- Run PHPUnit from the **installed TAO platform** (Composer application root that contains `vendor/` and usually a root `phpunit.xml.dist` with generis bootstrap) — not from a bare clone of this repo alone unless that clone is the platform root.
+- Do **not** assume a particular monorepo name or path (e.g. a local “nextgen-stack” checkout). Discover the platform root from the environment: directory that holds `vendor/bin/phpunit` and installs this package as the `tao` extension.
 - Cover happy path and failure path in isolated unit tests when the surrounding suite already works that way (no live platform / external services).
 - PR CI runs `oat-sa/tao-extension-ci-action` — see workflow matrix for PHP versions; do not skip or weaken that gate.
 - FE: when changing client JS, run or update the nearest QUnit coverage via Grunt; do not treat missing tests as a reason to skip verification.
 
 ## Commands
 
-From the **installed stack** root (`nextgen-stack/tao/`), after dependencies are installed — paths are relative to that root (`tao/` = this package):
+**Platform root** = the Composer application that installs this package (has `vendor/`, platform `phpunit.xml.dist`). **Package root** = this git repository (extension id `tao`). Paths below use `tao/` as the extension directory name inside a typical platform install — adjust if your install maps the package elsewhere.
+
+From the **platform root**, after dependencies are installed:
 
 ```bash
 # PHP — unit tests for this extension (adjust filter as needed)
 ./vendor/bin/phpunit -c phpunit.xml.dist tao/test/unit
 ```
 
-From **this package root** (`nextgen-stack/tao/tao/`), the same suite target is `test/unit` (still use the stack `phpunit.xml.dist` and `vendor/bin/phpunit` from `nextgen-stack/tao/`).
+From **this package root**, the suite directory is `test/unit` (still invoke `vendor/bin/phpunit` and the platform `phpunit.xml.dist` from the platform root).
 
-From this package’s FE toolchain (`tao/views/build/`). Prefer **`npx grunt …`** first; npm script aliases are secondary:
+FE toolchain usually lives under the platform’s `tao/views/build/` (or this package’s `views/build/` when present). Prefer **`npx grunt …`** first; npm script aliases are secondary:
 
 ```bash
 npm ci
@@ -130,7 +133,7 @@ npx grunt taotest --extension=tao
 # equivalents: npm run bundle|sass|lint|test -- --extension tao
 ```
 
-Reinstall FE deps from `tao/views/` when `views/package.json` changes (`npm install`). Read current package versions from that file — do not copy them into notes.
+Reinstall FE deps from the package `views/` when `views/package.json` changes (`npm install`). Read current package versions from that file — do not copy them into notes.
 
 ## Hard rules / Constraints
 
@@ -263,7 +266,7 @@ Do not duplicate other long procedures in this `AGENTS.md` when a shared skill a
 - `.coderabbit.yaml` → remote `oat-sa/tao-code-quality` `coderabbit/php/authoring/v1`
 - `.github/workflows/continuous-integration.yaml` — PR CI on `develop`
 - `.githooks/post-checkout` + `scripts/ai-notes-gc.sh` — local `.ai/` lifecycle
-- Local architecture notes (not in this git repo): `nextgen-stack/.ai/notes/tao-architecture/tao-core.md`
+- Optional local overviews may exist outside this repo (developer workstation notes) — never required to open or edit this package
 
 ## Default Agent Behavior
 
