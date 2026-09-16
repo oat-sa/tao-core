@@ -31,7 +31,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\accessControl\PermissionCheckerInterface;
-use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
+use oat\taoDeliverConnect\model\TaskOrchestrator\TaskOrchestratorEmailService;
 use tao_models_classes_UserService;
 
 /**

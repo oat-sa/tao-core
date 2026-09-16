@@ -31,7 +31,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\accessControl\PermissionCheckerInterface;
-use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
+use oat\taoDeliverConnect\model\TaskOrchestrator\TaskOrchestratorEmailService;
 use oat\tao\model\user\CommentMentionUserSearchService;
 use oat\tao\model\user\MentionEligibleUsersProviderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
