@@ -6,6 +6,19 @@
 
 It is **not** the domain home for Items, Tests, QTI, Media, Delivery, or Proctoring — those live in sibling extensions. Shared UI widgets consumed via AMD alias `ui` are provided by **`@oat-sa/tao-core-ui`**, which this package hosts through `views/package.json` — do not fork that UI into domain extensions.
 
+### Shared agent conventions (for sibling extensions)
+
+This `AGENTS.md` is also the **canonical home** for cross-extension agent rules used by TAO community PHP packages, including:
+
+- Context budget / search discipline
+- Definition of Done
+- Family anti-patterns (generated bundles, wrong-package edits, weakening gates)
+- Verify-by-change-type matrix
+- Readiness gate + [`pr-ready-gate`](https://github.com/oat-sa/skills/tree/feat/pr-ready-gate/pr-ready-gate) / inline fallback
+- Local `.ai/` notes lifecycle (hooks + GC pattern)
+
+Sibling extension `AGENTS.md` files should stay **isolated**: package-specific purpose, ownership, structure, and commands only. For the shared rules above, point agents at the installed **`tao`** package (`oat-sa/tao-core`) `AGENTS.md` — do **not** depend on any monorepo checkout (e.g. nextgen-stack) or workstation-only note paths.
+
 ## Stack
 
 Do **not** hardcode dependency or runtime versions in this file. Read current pins from:
