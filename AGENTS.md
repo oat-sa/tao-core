@@ -35,6 +35,16 @@ Shape of the stack (stable facts, not version pins):
 - **Do not weaken** lint / format / CI / test gates to make a change pass; fix the change.
 - **Verify before done:** satisfy the Readiness gate below and report real command results.
 
+## Context budget
+
+Spend context on the smallest useful surface. Prefer accuracy over exhaustive reading.
+
+1. **Read order:** this file → `.ai/current` / polar-star → only paths implicated by the task (use Structure / UI layer maps).
+2. **Do not** load or search wholesale: `vendor/`, `node_modules/`, `views/js/loader/*.min.js`, unrelated sibling extensions under `nextgen-stack/tao/`.
+3. **Search narrowly** (symbol / filename / nearby tests) before broad repo greps.
+4. **One concern per change.** No drive-by refactors, unrelated formatting, or “while we’re here” edits in other packages.
+5. Prefer writing durable facts into `.ai/` and re-reading them over re-discovering the same tree every turn.
+
 ## Structure
 
 ```text
@@ -131,6 +141,19 @@ Reinstall FE deps from `tao/views/` when `views/package.json` changes (`npm inst
 - Resolve PHP and dependency versions from `composer.json` and CI workflows — do not invent pins.
 - Never commit `.ai/` or `.cursor/` contents.
 
+## Anti-patterns
+
+Do **not**:
+
+- Hand-edit `views/js/loader/*.min.js` or other Grunt-generated bundles.
+- Fork or copy AMD `ui/*` widgets into this package — change `@oat-sa/tao-core-ui` (or the owning package) and pin here.
+- Patch Items / Tests / QTI / Media / Delivery / Proctoring “because they are next door” when the bug belongs in those packages.
+- Invent dependency or PHP version pins; read `composer.json`, `views/package.json`, and CI workflows.
+- Weaken, skip, or silence CI / lint / PHPUnit / CodeRabbit gates to land a change.
+- Mark work done or open a PR while Readiness gate (or `pr-ready-gate`) still fails.
+- Rely only on chat memory for branch decisions — update `.ai/` polar-star / notes instead.
+- Auto-migrate license headers to SPDX dual-license; keep sibling-style **`GPL-2.0-only`** headers.
+
 ## Agent notes (`.ai/`)
 
 Local, **gitignored** working notes for the current branch. Do **not** commit `.ai/`. Durable forever-rules stay in this `AGENTS.md`.
@@ -164,6 +187,32 @@ scripts/ai-notes-gc.sh
 ```
 
 Optional: `scripts/ai-notes-gc.sh --self-test`. Long-lived slugs `develop` / `master` / `main` are not auto-archived.
+
+## Verify by change type
+
+Run the **narrowest** checks that still match CI intent. Always state what you skipped and why.
+
+| Change type | Must run | Usually skip |
+|-------------|----------|--------------|
+| PHP behavior / bugfix | Focused PHPUnit for touched area; Readiness / `pr-ready-gate` | Full FE grunt suite |
+| FE JS / AMD / templates | `npx grunt eslint:extensionreport --extension=tao` (or scoped eslint); nearest QUnit / `taotest` when coverage exists; rebuild bundles if sources that feed `loader/*.min.js` changed; Readiness / `pr-ready-gate` | Unrelated PHPUnit packages |
+| Sass / styles only | `npx grunt taosass --extension=tao`; lint if project expects it; Readiness on the diff | PHPUnit |
+| Docs / `.gitignore` / hooks / `AGENTS.md` only | `bash -n` on touched shell; CodeRabbit on the diff | Full PHPUnit / FE suites (say so explicitly) |
+| Installer / migrations / `taoUpdate` | Follow nearest script tests if any; extra care review; Readiness / `pr-ready-gate` | Untouched FE bundles |
+
+If tooling is missing locally, report that and **do not** claim the gate passed.
+
+## Definition of Done
+
+Work is done (and PR-ready when asked) only when **all** apply:
+
+1. Task / AC / polar-star acceptance criteria addressed (or gaps listed for the user).
+2. Diff is minimal and local to this package unless the task required otherwise.
+3. Behavior changes have TDD evidence (failing test first, or an explicit docs/config-only exception).
+4. License headers / years updated on touched or new files (`GPL-2.0-only` sibling style).
+5. `.ai/` polar-star / notes updated with decisions that matter for the next turn.
+6. **Readiness gate** satisfied via `pr-ready-gate` (or the inline fallback below).
+7. Real command results reported — no “should be green” without running the checks.
 
 ## Readiness gate (before “done” / before opening a PR)
 
@@ -219,11 +268,12 @@ Do not duplicate other long procedures in this `AGENTS.md` when a shared skill a
 ## Default Agent Behavior
 
 1. Read this file, then `.ai/current` / polar-star notes for the branch; prefer written notes over chat memory.
-2. Check **[oat-sa/skills](https://github.com/oat-sa/skills)** for a matching skill before inventing a new procedure or local skill.
-3. Prefer TDD for behavior changes.
-4. Keep the change minimal and local; resolve versions from composer / package.json / CI files.
-5. Sync `structures.xml` / `routes.js` / PHP when touching UI entrypoints.
-6. Update license years on touched files; add sibling-style headers on new files (`GPL-2.0-only` policy via `composer.json`).
-7. Update `.ai/` polar-star / supporting docs as decisions land.
-8. Satisfy the Readiness gate before calling the work done or opening a PR — prefer skill `pr-ready-gate` (branch pin while testing); otherwise the inline fallback in this file.
-9. Do not weaken CI / lint gates.
+2. Obey **Context budget** — narrow reads/searches; one concern per change.
+3. Check **[oat-sa/skills](https://github.com/oat-sa/skills)** for a matching skill before inventing a new procedure or local skill.
+4. Prefer TDD for behavior changes.
+5. Keep the change minimal and local; resolve versions from composer / package.json / CI files.
+6. Sync `structures.xml` / `routes.js` / PHP when touching UI entrypoints.
+7. Avoid **Anti-patterns**; update license years on touched files (`GPL-2.0-only` sibling style).
+8. Update `.ai/` polar-star / supporting docs as decisions land.
+9. Verify using the **change-type** matrix; then satisfy **Definition of Done** + Readiness (`pr-ready-gate` or inline fallback).
+10. Do not weaken CI / lint gates.
