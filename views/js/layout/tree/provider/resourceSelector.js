@@ -95,21 +95,64 @@ define([
                                 .on('render', function() {
                                     var self = this;
 
+                                    /**
+                                     * Sync UI after a successful delete.
+                                     * Items use deleteItem/deleteItemClass (not removeNode) and only fire removenode.taotree;
+                                     * class folders may live in classSelector but not selectionComponent.hasNode().
+                                     * @param {Object|String} node
+                                     */
+                                    function afterResourceRemoved(node) {
+                                        var removedUri = _.isString(node) ? node : node && (node.uri || node.id);
+                                        if (!removedUri) {
+                                            return;
+                                        }
+
+                                        self.removeNode(removedUri);
+
+                                        if (self.classSelector && self.classSelector.hasNode(removedUri)) {
+                                            self.classSelector.removeNode(removedUri);
+                                        }
+
+                                        if (defaultNode && (defaultNode.uri === removedUri || defaultNode === removedUri)) {
+                                            defaultNode = null;
+                                            treeStore.removeItem(options.id);
+                                        }
+
+                                        // current class folder deleted — jump back to root listing
+                                        if (self.classUri === removedUri) {
+                                            self.classUri = options.rootClassUri;
+                                            self.refresh({ uri: options.rootClassUri });
+                                            return;
+                                        }
+
+                                        self.selectDefaultNode(defaultNode);
+                                    }
+
+                                    // jstree-style DOM events (items deleteItem* + common removeNode)
+                                    $container
+                                        .off('.resourceSelectorDelete')
+                                        .on('removenode.taotree.resourceSelectorDelete', function(e, data) {
+                                            afterResourceRemoved(data && data.id);
+                                        })
+                                        .on('refresh.taotree.resourceSelectorDelete', function(e, data) {
+                                            self.refresh(data || defaultNode);
+                                        });
+
                                     actionManager.on('removeNodes', function(actionContext, nodes){
 
                                         //make the component in loading state
                                         //to prevent handling intermediate changes
                                         self.setState('loading', true);
 
-                                        _.forEach(nodes, self.removeNode, self);
+                                        _.forEach(nodes, afterResourceRemoved);
                                         self.changeSelectionMode('single');
 
                                         self.setState('loading', false);
                                         self.selectDefaultNode(defaultNode);
                                     });
-                                    actionManager.on('removeNode', function(actionContext, node){
-                                        self.removeNode(node);
-                                        self.selectDefaultNode(defaultNode);
+                                    // removeNode = tests/deliveries; deleteItem* = items (custom binders)
+                                    actionManager.on('removeNode deleteItem deleteItemClass', function(actionContext, node){
+                                        afterResourceRemoved(node || actionContext);
                                     });
                                     actionManager.on('subClass instanciate duplicateNode', function(actionContext, node){
                                         self
@@ -169,10 +212,12 @@ define([
                                     var self   = this;
                                     var length = _.size(selection);
                                     var getContext = function getContext(resource) {
-                                        return _.defaults(resource, {
+                                        // new object — do not mutate resource (it is stored in IndexedDB)
+                                        return _.defaults({
                                             id : resource.uri,
-                                            rootClassUri : self.classUri
-                                        });
+                                            rootClassUri : self.classUri,
+                                            tree : $container.get(0)
+                                        }, resource);
                                     };
 
                                     //ignore changes while loading or modifying the selector
