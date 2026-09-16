@@ -20,19 +20,19 @@
 
 declare(strict_types=1);
 
-namespace oat\taoDeliverConnect\model\TaskOrchestrator {
-    if (!class_exists(TaskOrchestratorEmailService::class)) {
-        class TaskOrchestratorEmailService
+namespace oat\taoDeliverConnect\model\TaskOrchestrator;
+
+if (!class_exists(TaskOrchestratorEmailService::class)) {
+    class TaskOrchestratorEmailService
+    {
+        public function isConfigured(): bool
         {
-            public function isConfigured(): bool
-            {
-                return true;
-            }
+            return true;
         }
     }
 }
 
-namespace oat\tao\test\unit\models\classes\user {
+namespace oat\tao\test\unit\models\classes\user;
 
 use common_exception_Unauthorized;
 use core_kernel_classes_Literal;
@@ -298,5 +298,4 @@ class CommentMentionUserSearchServiceTest extends TestCase
 
         return $user;
     }
-}
 }
