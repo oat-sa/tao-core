@@ -167,7 +167,23 @@ Optional: `scripts/ai-notes-gc.sh --self-test`. Long-lived slugs `develop` / `ma
 
 ## Readiness gate (before “done” / before opening a PR)
 
-Especially when an **agent** prepares a pull request, treat the change as ready only when **all** of the following pass:
+Especially when an **agent** prepares a pull request, the readiness gate is a **must-have**.
+
+### Preferred — shared skill `pr-ready-gate`
+
+Load and follow **`pr-ready-gate`** from [oat-sa/skills](https://github.com/oat-sa/skills) (priority over inventing a local procedure).
+
+**While this skill is under test**, use the branch tip (not `main` yet):
+
+- Skill tree: https://github.com/oat-sa/skills/tree/feat/pr-ready-gate/pr-ready-gate
+- Install (pin the branch): `gh skill install oat-sa/skills pr-ready-gate --pin feat/pr-ready-gate`
+- Preview: `gh skill preview oat-sa/skills pr-ready-gate` (after the skill is visible on that ref)
+
+After the skill lands on `main` / a release tag, switch the pin to `main` or a semver tag and drop the branch URL.
+
+### Fallback — if the skill is unavailable
+
+If `pr-ready-gate` cannot be loaded (not installed, `gh skill` missing, network, etc.), apply this inline gate. Treat the change as ready only when **all** of the following pass:
 
 1. **Tests** — relevant PHPUnit (and FE tests if JS changed); prefer TDD evidence (tests added/updated with the change).
 2. **Lint** — PHP/FE lint for the touched scope (Grunt eslint / project PHP QA as applicable).
@@ -184,7 +200,9 @@ Shared agent skills for OAT live in **[oat-sa/skills](https://github.com/oat-sa/
 2. Prefer reusing or extending those shared skills over inventing a parallel local skill.
 3. Create a **new** skill only when nothing suitable exists there (and in this repo) — and consider contributing it upstream to `oat-sa/skills` when it is reusable beyond this package.
 
-Do not duplicate long procedures in this `AGENTS.md` when a shared skill already covers them; link or name the skill instead.
+**Must-have for implementation / PR prep:** [`pr-ready-gate`](https://github.com/oat-sa/skills/tree/feat/pr-ready-gate/pr-ready-gate) (branch pin while testing — see Readiness gate). Do not duplicate that skill’s full procedure here; use the fallback section above only when the skill cannot be loaded.
+
+Do not duplicate other long procedures in this `AGENTS.md` when a shared skill already covers them; link or name the skill instead.
 
 ## Pointers
 
@@ -192,6 +210,7 @@ Do not duplicate long procedures in this `AGENTS.md` when a shared skill already
 - `composer.json` / `LICENSE` — license and Composer deps
 - `views/package.json` — FE dependency pins
 - [oat-sa/skills](https://github.com/oat-sa/skills) — shared / priority agent skills
+- [`pr-ready-gate`](https://github.com/oat-sa/skills/tree/feat/pr-ready-gate/pr-ready-gate) — must-have readiness gate (branch pin while testing)
 - `.coderabbit.yaml` → remote `oat-sa/tao-code-quality` `coderabbit/php/authoring/v1`
 - `.github/workflows/continuous-integration.yaml` — PR CI on `develop`
 - `.githooks/post-checkout` + `scripts/ai-notes-gc.sh` — local `.ai/` lifecycle
@@ -206,5 +225,5 @@ Do not duplicate long procedures in this `AGENTS.md` when a shared skill already
 5. Sync `structures.xml` / `routes.js` / PHP when touching UI entrypoints.
 6. Update license years on touched files; add sibling-style headers on new files (`GPL-2.0-only` policy via `composer.json`).
 7. Update `.ai/` polar-star / supporting docs as decisions land.
-8. Satisfy the Readiness gate (tests + lint + CodeRabbit) before calling the work done or opening a PR.
+8. Satisfy the Readiness gate before calling the work done or opening a PR — prefer skill `pr-ready-gate` (branch pin while testing); otherwise the inline fallback in this file.
 9. Do not weaken CI / lint gates.
