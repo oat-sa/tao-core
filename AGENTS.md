@@ -263,7 +263,7 @@ Do not duplicate other long procedures in this `AGENTS.md` when a shared skill a
 - `.coderabbit.yaml` → remote `oat-sa/tao-code-quality` `coderabbit/php/authoring/v1`
 - `.github/workflows/continuous-integration.yaml` — PR CI on `develop`
 - `.githooks/post-checkout` + `scripts/ai-notes-gc.sh` — local `.ai/` lifecycle
-- Local architecture notes (not in this git repo): `nextgen-stack/.vscode/agent-notes/tao-architecture/tao-core.md`
+- Local architecture notes (not in this git repo): `nextgen-stack/.ai/notes/tao-architecture/tao-core.md`
 
 ## Default Agent Behavior
 
