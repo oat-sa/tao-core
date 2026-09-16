@@ -213,11 +213,21 @@ define([
                                     var length = _.size(selection);
                                     var getContext = function getContext(resource) {
                                         // new object — do not mutate resource (it is stored in IndexedDB)
-                                        return _.defaults({
+                                        var context = _.defaults({
                                             id : resource.uri,
                                             rootClassUri : self.classUri,
                                             tree : $container.get(0)
                                         }, resource);
+
+                                        // match jstree action context: classes expose classUri only
+                                        if (resource.type === 'class') {
+                                            context.classUri = resource.uri;
+                                            delete context.uri;
+                                        } else if (!context.classUri) {
+                                            context.classUri = self.classUri;
+                                        }
+
+                                        return context;
                                     };
 
                                     //ignore changes while loading or modifying the selector
