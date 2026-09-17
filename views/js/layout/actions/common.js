@@ -28,6 +28,7 @@ define([
     'core/request',
     'layout/section',
     'layout/actions/binder',
+    'layout/actions/removeNodeRequestData',
     'layout/permissions',
     'provider/resources',
     'ui/destination/selector',
@@ -44,6 +45,7 @@ define([
     request,
     section,
     binder,
+    removeNodeRequestData,
     permissionsManager,
     resourceProviderFactory,
     destinationSelectorFactory,
@@ -268,18 +270,7 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('removeNode', function remove(actionContext) {
-            // class context has classUri only; instance has uri + classUri (see resourceSelector/jstree)
-            const data = {
-                id: actionContext.id,
-                signature: actionContext.signature
-            };
-
-            if (actionContext.uri) {
-                data.uri = uri.decode(actionContext.uri);
-                data.classUri = uri.decode(actionContext.classUri);
-            } else {
-                data.classUri = uri.decode(actionContext.classUri);
-            }
+            const data = removeNodeRequestData(actionContext);
 
             return new Promise((resolve, reject) => {
                 confirmDialog(

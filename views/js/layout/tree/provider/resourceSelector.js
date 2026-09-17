@@ -31,8 +31,9 @@ define([
     'layout/generisRouter',
     'layout/permissions',
     'provider/resources',
-    'ui/resource/selector'
-], function(_, __, Promise, store, loggerFactory, actionManager, generisRouter, permissionsManager, resourceProviderFactory, resourceSelectorFactory){
+    'ui/resource/selector',
+    'layout/tree/provider/resourceSelectorHelpers'
+], function(_, __, Promise, store, loggerFactory, actionManager, generisRouter, permissionsManager, resourceProviderFactory, resourceSelectorFactory, resourceSelectorHelpers){
     'use strict';
 
     var logger = loggerFactory('layout/tree/provider/resourceSelector');
@@ -102,7 +103,7 @@ define([
                                      * @param {Object|String} node
                                      */
                                     function afterResourceRemoved(node) {
-                                        var removedUri = _.isString(node) ? node : node && (node.uri || node.id);
+                                        var removedUri = resourceSelectorHelpers.resolveRemovedUri(node);
                                         if (!removedUri) {
                                             return;
                                         }
@@ -113,13 +114,13 @@ define([
                                             self.classSelector.removeNode(removedUri);
                                         }
 
-                                        if (defaultNode && (defaultNode.uri === removedUri || defaultNode === removedUri)) {
+                                        if (resourceSelectorHelpers.shouldClearDefaultNode(defaultNode, removedUri)) {
                                             defaultNode = null;
                                             treeStore.removeItem(options.id);
                                         }
 
                                         // current class folder deleted — jump back to root listing
-                                        if (self.classUri === removedUri) {
+                                        if (resourceSelectorHelpers.isActiveClassFolder(self.classUri, removedUri)) {
                                             self.classUri = options.rootClassUri;
                                             self.refresh({ uri: options.rootClassUri });
                                             return;
@@ -212,22 +213,10 @@ define([
                                     var self   = this;
                                     var length = _.size(selection);
                                     var getContext = function getContext(resource) {
-                                        // new object — do not mutate resource (it is stored in IndexedDB)
-                                        var context = _.defaults({
-                                            id : resource.uri,
-                                            rootClassUri : self.classUri,
-                                            tree : $container.get(0)
-                                        }, resource);
-
-                                        // match jstree action context: classes expose classUri only
-                                        if (resource.type === 'class') {
-                                            context.classUri = resource.uri;
-                                            delete context.uri;
-                                        } else if (!context.classUri) {
-                                            context.classUri = self.classUri;
-                                        }
-
-                                        return context;
+                                        return resourceSelectorHelpers.buildContext(resource, {
+                                            classUri: self.classUri,
+                                            tree: $container.get(0)
+                                        });
                                     };
 
                                     //ignore changes while loading or modifying the selector
