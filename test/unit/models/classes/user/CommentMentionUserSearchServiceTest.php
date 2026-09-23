@@ -31,7 +31,6 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\accessControl\PermissionCheckerInterface;
-use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
 use oat\tao\model\user\CommentMentionUserSearchService;
 use oat\tao\model\user\MentionEligibleUsersProviderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -44,7 +43,6 @@ class CommentMentionUserSearchServiceTest extends TestCase
     private PermissionCheckerInterface|MockObject $permissionChecker;
     private tao_models_classes_UserService|MockObject $userService;
     private MentionEligibleUsersProviderInterface|MockObject $eligibleUsersProvider;
-    private TaskOrchestratorEmailService|MockObject $emailService;
     private CommentMentionUserSearchService $sut;
 
     protected function setUp(): void
@@ -53,36 +51,12 @@ class CommentMentionUserSearchServiceTest extends TestCase
         $this->permissionChecker = $this->createMock(PermissionCheckerInterface::class);
         $this->userService = $this->createMock(tao_models_classes_UserService::class);
         $this->eligibleUsersProvider = $this->createMock(MentionEligibleUsersProviderInterface::class);
-        $this->emailService = $this->createMock(TaskOrchestratorEmailService::class);
-        $this->emailService->method('isConfigured')->willReturn(true);
         $this->sut = new CommentMentionUserSearchService(
             $this->ontology,
             $this->permissionChecker,
             $this->userService,
-            $this->eligibleUsersProvider,
-            $this->emailService
+            $this->eligibleUsersProvider
         );
-    }
-
-    public function testSearchReturnsEmptyWhenEmailNotConfigured(): void
-    {
-        $emailService = $this->createMock(TaskOrchestratorEmailService::class);
-        $emailService->method('isConfigured')->willReturn(false);
-        $sut = new CommentMentionUserSearchService(
-            $this->ontology,
-            $this->permissionChecker,
-            $this->userService,
-            $this->eligibleUsersProvider,
-            $emailService
-        );
-
-        $this->permissionChecker->expects($this->never())->method('hasReadAccess');
-        $this->eligibleUsersProvider->expects($this->never())->method('getEligibleUserUris');
-
-        $result = $sut->search('http://example.test/item#1', 'item', 'ali');
-
-        $this->assertSame([], $result['users']);
-        $this->assertSame(20, $result['limit']);
     }
 
     public function testSearchThrowsWhenCurrentUserLacksReadAccess(): void
