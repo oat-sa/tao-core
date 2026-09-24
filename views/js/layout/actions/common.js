@@ -28,6 +28,7 @@ define([
     'core/request',
     'layout/section',
     'layout/actions/binder',
+    'layout/actions/removeNodeRequestData',
     'layout/permissions',
     'provider/resources',
     'ui/destination/selector',
@@ -44,6 +45,7 @@ define([
     request,
     section,
     binder,
+    removeNodeRequestData,
     permissionsManager,
     resourceProviderFactory,
     destinationSelectorFactory,
@@ -268,12 +270,7 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('removeNode', function remove(actionContext) {
-            const data = {};
-
-            data.uri = uri.decode(actionContext.uri);
-            data.classUri = uri.decode(actionContext.classUri);
-            data.id = actionContext.id;
-            data.signature = actionContext.signature;
+            const data = removeNodeRequestData(actionContext);
 
             return new Promise((resolve, reject) => {
                 confirmDialog(
