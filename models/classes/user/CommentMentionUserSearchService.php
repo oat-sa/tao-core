@@ -51,16 +51,6 @@ class CommentMentionUserSearchService
     private const IN_MEMORY_ELIGIBLE_THRESHOLD = 200;
 
     /**
-     * Users must hold at least one of these generis#userRoles values to appear in @mention search.
-     *
-     * @var list<string>
-     */
-    private const MENTION_ELIGIBLE_ROLE_URIS = [
-        'http://purl.imsglobal.org/vocab/lis/v2/membership/ContentDeveloper#ContentDeveloper',
-        'http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper',
-    ];
-
-    /**
      * Authoring resource types accepted by the mention search API.
      *
      * @var list<string>
