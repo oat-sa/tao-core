@@ -85,10 +85,12 @@ class TaskOrchestratorEmailService
 
         if ($emailAddress !== null) {
             $emailAddress = trim($emailAddress);
-            if ($emailAddress === '' || !filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+            if ($emailAddress !== '' && !filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
                 throw new InvalidArgumentException('emailAddress must be a valid email when provided');
             }
-            $email['emailAddress'] = $emailAddress;
+            if ($emailAddress !== '') {
+                $email['emailAddress'] = $emailAddress;
+            }
         }
 
         $jobPayload = [

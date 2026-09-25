@@ -153,6 +153,34 @@ class TaskOrchestratorEmailServiceTest extends TestCase
         $this->sut->sendEmail('generic.template', 'jdoe', []);
     }
 
+    /**
+     * @dataProvider emptyEmailAddressProvider
+     */
+    public function testSendEmailAcceptsEmptyEmailAddress(string $emailAddress): void
+    {
+        $this->client
+            ->expects($this->once())
+            ->method('sendJob')
+            ->with(
+                $this->anything(),
+                $this->callback(static function (array $job): bool {
+                    return $job['email']['recipientUserLogin'] === 'jdoe'
+                        && !isset($job['email']['emailAddress']);
+                })
+            )
+            ->willReturn(['status' => 'ok']);
+
+        $this->sut->sendEmail('generic.template', 'jdoe', [], $emailAddress, 'alice.author');
+    }
+
+    public static function emptyEmailAddressProvider(): array
+    {
+        return [
+            'empty string' => [''],
+            'whitespace only' => ['   '],
+        ];
+    }
+
     public function testSendEmailRejectsInvalidEmailAddress(): void
     {
         $this->expectException(InvalidArgumentException::class);
