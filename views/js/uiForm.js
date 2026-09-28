@@ -35,6 +35,7 @@
     'util/encode',
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
+    'tao/ckeditor/wproofreaderBootstrap',
     'ui/datetime/picker',
     'ui/dialog/confirm',
     'core/request',
@@ -52,6 +53,7 @@
     encode,
     ckeditor,
     ckConfigurator,
+    wproofreaderBootstrap,
     dateTimePicker,
     confirmDialog,
     request,
@@ -360,11 +362,14 @@
                 }
 
                 var editor = ckeditor.replace(this);
-                var configOptions = {
-                    resize_enabled: false,
-                    interactionsource: false,
-                    sourcedialog: false
-                };
+                var configOptions = _.assign(
+                    {
+                        resize_enabled: false,
+                        interactionsource: false,
+                        sourcedialog: false
+                    },
+                    wproofreaderBootstrap.getCkeditorConfig()
+                );
 
                 var removePlugins = [];
 
