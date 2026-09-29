@@ -48,8 +48,6 @@ class CommentMentionUserSearchService
     private const DEFAULT_LIMIT = 20;
     private const MAX_LIMIT = 50;
     private const CANDIDATE_BATCH = 100;
-    private const IN_MEMORY_ELIGIBLE_THRESHOLD = 200;
-
     /**
      * Authoring resource types accepted by the mention search API.
      *
@@ -110,16 +108,11 @@ class CommentMentionUserSearchService
             throw new common_exception_Unauthorized('Read access required to mention users on this resource');
         }
 
-        $eligibleUris = $this->eligibleUsersProvider->getEligibleUserUris($resourceUri);
+        $matched = $this->matchFromUserSearch($query, null);
+        $matched = $this->eligibleUsersProvider->filterCandidatesForResource($resourceUri, $matched);
 
-        if (is_array($eligibleUris) && $eligibleUris === []) {
+        if ($matched === []) {
             return $this->emptyResult($limit);
-        }
-
-        if (is_array($eligibleUris) && count($eligibleUris) <= self::IN_MEMORY_ELIGIBLE_THRESHOLD) {
-            $matched = $this->matchFromEligibleSet($eligibleUris, $query);
-        } else {
-            $matched = $this->matchFromUserSearch($query, $eligibleUris);
         }
 
         usort(

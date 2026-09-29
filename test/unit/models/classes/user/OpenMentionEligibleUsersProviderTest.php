@@ -33,4 +33,21 @@ class OpenMentionEligibleUsersProviderTest extends TestCase
 
         $this->assertNull($provider->getEligibleUserUris('http://example.test/item#1'));
     }
+
+    public function testFilterCandidatesForResourceReturnsInputCandidates(): void
+    {
+        $provider = new OpenMentionEligibleUsersProvider();
+        $candidates = [
+            [
+                'id' => 'http://example.test/user#alice',
+                'login' => 'alice',
+                'displayName' => 'alice',
+            ],
+        ];
+
+        $this->assertSame(
+            $candidates,
+            $provider->filterCandidatesForResource('http://example.test/item#1', $candidates)
+        );
+    }
 }

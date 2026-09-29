@@ -36,4 +36,9 @@ final class OpenMentionEligibleUsersProvider implements MentionEligibleUsersProv
     {
         return null;
     }
+
+    public function filterCandidatesForResource(string $resourceUri, array $candidates): array
+    {
+        return $candidates;
+    }
 }
