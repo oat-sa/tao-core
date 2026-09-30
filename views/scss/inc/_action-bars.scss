@@ -39,6 +39,8 @@
     &.horizontal-action-bar {
         padding: 5px;
         height: var(--action-bar-height);
+        position: relative;
+
         .search-area {
             margin: 2px 0 0 0;
             border: none;
