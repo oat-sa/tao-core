@@ -42,9 +42,10 @@
         .search-area {
             margin: 2px 0 0 0;
             border: none;
-            float: right;
+            float: none;
             display: inline-block;
-            position: relative;
+            position: absolute;
+            right: 0.5rem;
             input {
                 padding-right: 34px;
                 min-width: 250px !important;
@@ -611,7 +612,7 @@ body.qc-wins {
                         background: none;
                         color: #176998;
                     }
-                    
+
 
                     .li-inner {
                         height: 4.2rem;
@@ -619,7 +620,7 @@ body.qc-wins {
                         color: #666;
                         line-height: 9px;
 
-                        .glyph { 
+                        .glyph {
                             margin-block: 0 !important;
                             color: inherit;
                         }
