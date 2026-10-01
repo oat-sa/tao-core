@@ -27,10 +27,20 @@ use PHPUnit\Framework\TestCase;
 
 class OpenMentionEligibleUsersProviderTest extends TestCase
 {
-    public function testGetEligibleUserUrisReturnsNull(): void
+    public function testFilterCandidatesForResourceReturnsInputCandidates(): void
     {
         $provider = new OpenMentionEligibleUsersProvider();
+        $candidates = [
+            [
+                'id' => 'http://example.test/user#alice',
+                'login' => 'alice',
+                'displayName' => 'alice',
+            ],
+        ];
 
-        $this->assertNull($provider->getEligibleUserUris('http://example.test/item#1'));
+        $this->assertSame(
+            $candidates,
+            $provider->filterCandidatesForResource('http://example.test/item#1', $candidates)
+        );
     }
 }

@@ -31,7 +31,10 @@ namespace oat\tao\model\user;
 interface MentionEligibleUsersProviderInterface
 {
     /**
-     * @return list<string>|null null = unrestricted; list = eligible user URIs
+     * Filter already matched candidates for a resource.
+     *
+     * @param list<array{id: string, login: string, displayName: string}> $candidates
+     * @return list<array{id: string, login: string, displayName: string}>
      */
-    public function getEligibleUserUris(string $resourceUri): ?array;
+    public function filterCandidatesForResource(string $resourceUri, array $candidates): array;
 }

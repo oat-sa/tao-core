@@ -35,7 +35,8 @@ use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
 use tao_models_classes_UserService;
 
 /**
- * Search users for comment @mentions (login OR display name).
+ * Search users for comment @mentions by login.
+ * Candidates must have a Content Developer role (generis#userRoles).
  * Eligibility scope comes from MentionEligibleUsersProviderInterface.
  *
  * Contract is autocomplete top-N, not a paginated catalog: response has
@@ -47,8 +48,6 @@ class CommentMentionUserSearchService
     private const DEFAULT_LIMIT = 20;
     private const MAX_LIMIT = 50;
     private const CANDIDATE_BATCH = 100;
-    private const IN_MEMORY_ELIGIBLE_THRESHOLD = 200;
-
     /**
      * Authoring resource types accepted by the mention search API.
      *
@@ -109,16 +108,11 @@ class CommentMentionUserSearchService
             throw new common_exception_Unauthorized('Read access required to mention users on this resource');
         }
 
-        $eligibleUris = $this->eligibleUsersProvider->getEligibleUserUris($resourceUri);
+        $matched = $this->matchFromUserSearch($query, null);
+        $matched = $this->eligibleUsersProvider->filterCandidatesForResource($resourceUri, $matched);
 
-        if (is_array($eligibleUris) && $eligibleUris === []) {
+        if ($matched === []) {
             return $this->emptyResult($limit);
-        }
-
-        if (is_array($eligibleUris) && count($eligibleUris) <= self::IN_MEMORY_ELIGIBLE_THRESHOLD) {
-            $matched = $this->matchFromEligibleSet($eligibleUris, $query);
-        } else {
-            $matched = $this->matchFromUserSearch($query, $eligibleUris);
         }
 
         usort(
@@ -235,8 +229,6 @@ class CommentMentionUserSearchService
         return [
             GenerisRdf::PROPERTY_USER_LOGIN => $query,
             OntologyRdfs::RDFS_LABEL => $query,
-            GenerisRdf::PROPERTY_USER_FIRSTNAME => $query,
-            GenerisRdf::PROPERTY_USER_LASTNAME => $query,
         ];
     }
 
@@ -250,7 +242,7 @@ class CommentMentionUserSearchService
     }
 
     /**
-     * Batch-load login/mail/name/label in one persistence round-trip per user.
+     * Batch-load login/name/label/roles in one persistence round-trip per user.
      *
      * @return array{id: string, login: string, displayName: string}|null
      */
@@ -258,10 +250,7 @@ class CommentMentionUserSearchService
     {
         $properties = $userResource->getPropertiesValues([
             $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_LOGIN),
-            $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_MAIL),
-            $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_FIRSTNAME),
-            $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_LASTNAME),
-            $this->ontology->getProperty(OntologyRdfs::RDFS_LABEL),
+            $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_ROLES),
         ]);
 
         $login = $this->firstPropertyValueAsString($properties, GenerisRdf::PROPERTY_USER_LOGIN);
@@ -269,27 +258,10 @@ class CommentMentionUserSearchService
             return null;
         }
 
-        // Mention candidates must have a usable account email (same rule as notification send).
-        $email = $this->firstPropertyValueAsString($properties, GenerisRdf::PROPERTY_USER_MAIL);
-        if ($email === '' || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-            return null;
-        }
-
-        // Same semantics as UserHelper::getUserName($user, true): first+last, else label, else login.
-        $displayName = trim(
-            $this->firstPropertyValueAsString($properties, GenerisRdf::PROPERTY_USER_FIRSTNAME)
-            . ' '
-            . $this->firstPropertyValueAsString($properties, GenerisRdf::PROPERTY_USER_LASTNAME)
-        );
-
-        if ($displayName === '') {
-            $displayName = $this->firstPropertyValueAsString($properties, OntologyRdfs::RDFS_LABEL);
-        }
-
         return [
             'id' => $userResource->getUri(),
             'login' => $login,
-            'displayName' => $displayName !== '' ? $displayName : $login,
+            'displayName' => $login,
         ];
     }
 

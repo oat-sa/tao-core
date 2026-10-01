@@ -77,7 +77,7 @@ class CommentMentionUserSearchServiceTest extends TestCase
         );
 
         $this->permissionChecker->expects($this->never())->method('hasReadAccess');
-        $this->eligibleUsersProvider->expects($this->never())->method('getEligibleUserUris');
+        $this->eligibleUsersProvider->expects($this->never())->method('filterCandidatesForResource');
 
         $result = $sut->search('http://example.test/item#1', 'item', 'ali');
 
@@ -93,7 +93,7 @@ class CommentMentionUserSearchServiceTest extends TestCase
             ->with('http://example.test/item#1')
             ->willReturn(false);
 
-        $this->eligibleUsersProvider->expects($this->never())->method('getEligibleUserUris');
+        $this->eligibleUsersProvider->expects($this->never())->method('filterCandidatesForResource');
 
         $this->expectException(common_exception_Unauthorized::class);
 
@@ -111,7 +111,7 @@ class CommentMentionUserSearchServiceTest extends TestCase
         $this->sut->search('http://example.test/item#1', 'delivery', 'ali');
     }
 
-    public function testSearchReturnsEmptyWhenProviderReturnsEmptyList(): void
+    public function testSearchReturnsEmptyWhenProviderFiltersOutCandidates(): void
     {
         $this->permissionChecker
             ->expects($this->once())
@@ -119,12 +119,23 @@ class CommentMentionUserSearchServiceTest extends TestCase
             ->with('http://example.test/item#1')
             ->willReturn(true);
 
-        $this->eligibleUsersProvider
-            ->method('getEligibleUserUris')
-            ->with('http://example.test/item#1')
-            ->willReturn([]);
+        $user = $this->createUserResourceMock(
+            'http://example.test/user#alice',
+            'alice',
+            'Alice',
+            'Smith'
+        );
 
-        $this->userService->expects($this->never())->method('getAllUsers');
+        $this->userService
+            ->expects($this->once())
+            ->method('getAllUsers')
+            ->willReturn([$user]);
+
+        $this->eligibleUsersProvider
+            ->expects($this->once())
+            ->method('filterCandidatesForResource')
+            ->with('http://example.test/item#1', $this->isType('array'))
+            ->willReturn([]);
 
         $result = $this->sut->search('http://example.test/item#1', 'item', 'ali', 10);
 
@@ -143,8 +154,10 @@ class CommentMentionUserSearchServiceTest extends TestCase
             ->willReturn(true);
 
         $this->eligibleUsersProvider
-            ->method('getEligibleUserUris')
-            ->willReturn(null);
+            ->expects($this->once())
+            ->method('filterCandidatesForResource')
+            ->with('http://example.test/item#1', $this->isType('array'))
+            ->willReturnCallback(static fn (string $resourceUri, array $candidates): array => $candidates);
 
         $user = $this->createUserResourceMock(
             'http://example.test/user#alice',
@@ -164,18 +177,14 @@ class CommentMentionUserSearchServiceTest extends TestCase
         $this->assertSame(20, $result['limit']);
         $this->assertSame('http://example.test/user#alice', $result['users'][0]['id']);
         $this->assertSame('alice', $result['users'][0]['login']);
-        $this->assertSame('Alice Smith', $result['users'][0]['displayName']);
+        $this->assertSame('alice', $result['users'][0]['displayName']);
     }
 
-    public function testRestrictedModeMatchesDisplayName(): void
+    public function testProviderFilteredModeMatchesLogin(): void
     {
         $this->permissionChecker
             ->method('hasReadAccess')
             ->willReturn(true);
-
-        $this->eligibleUsersProvider
-            ->method('getEligibleUserUris')
-            ->willReturn(['http://example.test/user#bob']);
 
         $user = $this->createUserResourceMock(
             'http://example.test/user#bob',
@@ -184,29 +193,29 @@ class CommentMentionUserSearchServiceTest extends TestCase
             'Jones'
         );
 
-        $this->ontology
-            ->method('getResource')
-            ->with('http://example.test/user#bob')
-            ->willReturn($user);
+        $this->userService
+            ->expects($this->once())
+            ->method('getAllUsers')
+            ->willReturn([$user]);
 
-        $this->userService->expects($this->never())->method('getAllUsers');
+        $this->eligibleUsersProvider
+            ->expects($this->once())
+            ->method('filterCandidatesForResource')
+            ->with('http://example.test/item#1', $this->isType('array'))
+            ->willReturnCallback(static fn (string $resourceUri, array $candidates): array => $candidates);
 
-        $result = $this->sut->search('http://example.test/item#1', 'item', 'robert');
+        $result = $this->sut->search('http://example.test/item#1', 'item', 'bob');
 
         $this->assertCount(1, $result['users']);
         $this->assertSame('bob', $result['users'][0]['login']);
-        $this->assertSame('Robert Jones', $result['users'][0]['displayName']);
+        $this->assertSame('bob', $result['users'][0]['displayName']);
     }
 
-    public function testRestrictedModeExcludesNonMatchingQuery(): void
+    public function testProviderFilterCanExcludeAllCandidates(): void
     {
         $this->permissionChecker
             ->method('hasReadAccess')
             ->willReturn(true);
-
-        $this->eligibleUsersProvider
-            ->method('getEligibleUserUris')
-            ->willReturn(['http://example.test/user#bob']);
 
         $user = $this->createUserResourceMock(
             'http://example.test/user#bob',
@@ -216,24 +225,59 @@ class CommentMentionUserSearchServiceTest extends TestCase
             'bob@example.test'
         );
 
-        $this->ontology
-            ->method('getResource')
-            ->willReturn($user);
+        $this->userService
+            ->expects($this->once())
+            ->method('getAllUsers')
+            ->willReturn([$user]);
 
-        $result = $this->sut->search('http://example.test/item#1', 'item', 'zzz');
+        $this->eligibleUsersProvider
+            ->expects($this->once())
+            ->method('filterCandidatesForResource')
+            ->with('http://example.test/item#1', $this->isType('array'))
+            ->willReturn([]);
+
+        $result = $this->sut->search('http://example.test/item#1', 'item', 'bob');
 
         $this->assertSame([], $result['users']);
     }
 
-    public function testExcludesUsersWithoutValidEmail(): void
+    public function testIncludesUsersWithoutEligibleRole(): void
     {
         $this->permissionChecker
             ->method('hasReadAccess')
             ->willReturn(true);
 
+        $user = $this->createUserResourceMock(
+            'http://example.test/user#learner',
+            'learner',
+            'Test',
+            'Learner',
+            'learner@example.test',
+            ['http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole']
+        );
+
+        $this->userService
+            ->expects($this->once())
+            ->method('getAllUsers')
+            ->willReturn([$user]);
+
         $this->eligibleUsersProvider
-            ->method('getEligibleUserUris')
-            ->willReturn(['http://example.test/user#no-mail']);
+            ->expects($this->once())
+            ->method('filterCandidatesForResource')
+            ->with('http://example.test/item#1', $this->isType('array'))
+            ->willReturnCallback(static fn (string $resourceUri, array $candidates): array => $candidates);
+
+        $result = $this->sut->search('http://example.test/item#1', 'item', 'learner');
+
+        $this->assertCount(1, $result['users']);
+        $this->assertSame('learner', $result['users'][0]['login']);
+    }
+
+    public function testIncludesUsersWithoutEmail(): void
+    {
+        $this->permissionChecker
+            ->method('hasReadAccess')
+            ->willReturn(true);
 
         $user = $this->createUserResourceMock(
             'http://example.test/user#no-mail',
@@ -243,13 +287,21 @@ class CommentMentionUserSearchServiceTest extends TestCase
             ''
         );
 
-        $this->ontology
-            ->method('getResource')
-            ->willReturn($user);
+        $this->userService
+            ->expects($this->once())
+            ->method('getAllUsers')
+            ->willReturn([$user]);
+
+        $this->eligibleUsersProvider
+            ->expects($this->once())
+            ->method('filterCandidatesForResource')
+            ->with('http://example.test/item#1', $this->isType('array'))
+            ->willReturnCallback(static fn (string $resourceUri, array $candidates): array => $candidates);
 
         $result = $this->sut->search('http://example.test/item#1', 'item', 'nomail');
 
-        $this->assertSame([], $result['users']);
+        $this->assertCount(1, $result['users']);
+        $this->assertSame('nomail', $result['users'][0]['login']);
     }
 
     /**
@@ -260,7 +312,10 @@ class CommentMentionUserSearchServiceTest extends TestCase
         string $login,
         string $firstName,
         string $lastName,
-        string $email = 'user@example.test'
+        string $email = 'user@example.test',
+        array $roleUris = [
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/ContentDeveloper#ContentDeveloper',
+        ]
     ): core_kernel_classes_Resource {
         $this->ontology
             ->method('getProperty')
@@ -276,12 +331,23 @@ class CommentMentionUserSearchServiceTest extends TestCase
         $user = $this->createMock(core_kernel_classes_Resource::class);
         $user->method('getUri')->willReturn($uri);
         $user->method('exists')->willReturn(true);
+        $roleResources = array_map(
+            function (string $roleUri): core_kernel_classes_Resource {
+                $role = $this->createMock(core_kernel_classes_Resource::class);
+                $role->method('getUri')->willReturn($roleUri);
+
+                return $role;
+            },
+            $roleUris
+        );
+
         $user->method('getPropertiesValues')->willReturn([
             GenerisRdf::PROPERTY_USER_LOGIN => [new core_kernel_classes_Literal($login)],
             GenerisRdf::PROPERTY_USER_FIRSTNAME => [new core_kernel_classes_Literal($firstName)],
             GenerisRdf::PROPERTY_USER_LASTNAME => [new core_kernel_classes_Literal($lastName)],
             OntologyRdfs::RDFS_LABEL => [new core_kernel_classes_Literal('')],
             GenerisRdf::PROPERTY_USER_MAIL => [new core_kernel_classes_Literal($email)],
+            GenerisRdf::PROPERTY_USER_ROLES => $roleResources,
         ]);
 
         return $user;
