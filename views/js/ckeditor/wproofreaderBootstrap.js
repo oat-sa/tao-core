@@ -163,27 +163,73 @@ define([
         // The module may evaluate after some editors are already ready (the
         // instanceReady event does not replay). The per-editor flag keeps a
         // re-fired event or a sweep from initialising the same container twice.
-        if (!editor || editor._wproofreaderInitDone) {
-            return;
-        }
-        editor._wproofreaderInitDone = true;
-        wproofreaderExclude.bindEditorExcludeMarkers(editor, markerOptions);
-
-        // Runtime markers must never leak into stored content: strip them at
-        // the single serialization chokepoint every save path goes through.
-        editor.on('getData', function (evt) {
-            if (evt && evt.data && typeof evt.data.dataValue === 'string') {
-                evt.data.dataValue = wproofreaderExclude.stripMarkersFromHtml(evt.data.dataValue, markerOptions);
+        // Errors are contained: this runs on CKEditor's shared global event
+        // bus, so one bad editor must not break other listeners.
+        try {
+            if (!editor || editor._wproofreaderInitDone) {
+                return;
             }
-        });
+            editor._wproofreaderInitDone = true;
+            wproofreaderExclude.bindEditorExcludeMarkers(editor, markerOptions);
 
-        loadScript()
-            .then(function () {
-                initEditor(editor);
-            })
-            .catch(function (err) {
-                log.error(err);
+            // Runtime markers must never leak into stored content: strip them at
+            // the single serialization chokepoint every save path goes through.
+            editor.on('getData', function (evt) {
+                if (evt && evt.data && typeof evt.data.dataValue === 'string') {
+                    evt.data.dataValue = wproofreaderExclude.stripMarkersFromHtml(evt.data.dataValue, markerOptions);
+                }
             });
+
+            // Editors are routinely destroyed (interaction state changes);
+            // drop our checker instance with them, otherwise instances pile
+            // up observing detached DOM.
+            editor.on('destroy', function () {
+                try {
+                    if (!window.WEBSPELLCHECKER || typeof window.WEBSPELLCHECKER.getInstances !== 'function') {
+                        return;
+                    }
+                    var myContainer = null;
+                    try {
+                        myContainer = getContainer(editor);
+                    } catch (ignored) {
+                        myContainer = editor.element && editor.element.$;
+                    }
+                    window.WEBSPELLCHECKER.getInstances().forEach(function (inst) {
+                        var node = null;
+                        try {
+                            node = inst.getContainerNode();
+                        } catch (ignored) {
+                            return;
+                        }
+                        if (!node || !myContainer) {
+                            return;
+                        }
+                        var mine = node === myContainer ||
+                            (myContainer.tagName === 'IFRAME' && myContainer.contentDocument &&
+                                node.ownerDocument === myContainer.contentDocument);
+                        if (mine && typeof inst.destroy === 'function') {
+                            try {
+                                inst.destroy();
+                            } catch (ignored) {
+                                log.warn('Unable to destroy WProofreader instance.');
+                            }
+                        }
+                    });
+                } catch (err) {
+                    log.warn('WProofreader instance cleanup failed: ' + (err && err.message));
+                }
+            });
+
+            loadScript()
+                .then(function () {
+                    initEditor(editor);
+                })
+                .catch(function (err) {
+                    log.error(err);
+                });
+        } catch (err) {
+            log.error('WProofreader init failed for editor: ' + (err && err.message));
+        }
     }
 
     function bindInstanceReady() {
@@ -207,7 +253,25 @@ define([
         });
     }
 
-    bindInstanceReady();
+    // ponytail: 10s poll for a late CKEDITOR global; go event-based if TAO ever emits ckeditor:loaded
+    var bindAttempts = 0;
+    function scheduleBind() {
+        if (!enabled || boundInstanceReady) {
+            return;
+        }
+        if (window.CKEDITOR) {
+            bindInstanceReady();
+            return;
+        }
+        bindAttempts++;
+        if (bindAttempts > 100) {
+            log.error('WProofreader init skipped: window.CKEDITOR never appeared.');
+            return;
+        }
+        setTimeout(scheduleBind, 100);
+    }
+
+    scheduleBind();
 
     return {
         enabled: enabled,

@@ -45,8 +45,10 @@ define(['lodash'], function (_) {
     // the backoffice page (tree, properties panel, menus) is never eligible,
     // which keeps the global scan that used to crash authoring contained.
     // .cke_wysiwyg_frame matches iframe editors (the poll sees the iframe
-    // element), .cke_editable matches inline editables.
-    var DEFAULT_ENABLE_AUTO_SEARCH_IN = ['.cke_wysiwyg_frame', '.cke_editable'];
+    // element), .cke_editable matches inline editables, .text-container
+    // matches plain response fields (e.g. Extended Text answer areas), which
+    // the vendor checks through its text mirrored-field machinery.
+    var DEFAULT_ENABLE_AUTO_SEARCH_IN = ['.cke_wysiwyg_frame', '.cke_editable', '.text-container'];
 
     // Marker pass targets true non-language islands only. Never add QTI
     // structural hooks ([data-qti-class], [data-widget]) here: they wrap prose
