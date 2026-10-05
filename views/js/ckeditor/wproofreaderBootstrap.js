@@ -52,6 +52,20 @@ define([
 
     var config = _.defaults({}, module.config() || {}, defaults);
     var enabled = config.enabled === true && !!config.serviceId;
+
+    // SPIKE (BOSAN-202, SCAYT evaluation, uncommitted experiment): ?scayt=1
+    // swaps the WProofreader bundle integration for the native SCAYT CKEditor
+    // plugin (vendored under tao/ckeditor/scayt, demo service). Revert after
+    // the visual comparison. Prefers localStorage: the router strips query
+    // params, so ?scayt=1 alone does not survive navigation.
+    var scaytSpike = false;
+    try {
+        scaytSpike =
+            (typeof location !== 'undefined' && /[?&]scayt=1/.test(location.search)) ||
+            (typeof localStorage !== 'undefined' && localStorage.getItem('tao-scayt-spike') === '1');
+    } catch (ignored) {
+        scaytSpike = false;
+    }
     var scriptLoaded = false;
     var scriptLoading = null;
     var boundInstanceReady = false;
@@ -256,7 +270,7 @@ define([
     // ponytail: 10s poll for a late CKEDITOR global; go event-based if TAO ever emits ckeditor:loaded
     var bindAttempts = 0;
     function scheduleBind() {
-        if (!enabled || boundInstanceReady) {
+        if (scaytSpike || !enabled || boundInstanceReady) {
             return;
         }
         if (window.CKEDITOR) {
@@ -275,6 +289,7 @@ define([
 
     return {
         enabled: enabled,
+        scaytSpike: scaytSpike,
         getCkeditorConfig: function () {
             // CKEditor disables the native spell checker by default.
             // Keep it disabled only while the premium provider marks errors,
