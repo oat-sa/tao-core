@@ -19,7 +19,7 @@ final class Version202609081655312234_tao extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Grant BACK_OFFICE access to RestUser@searchUsers for comment mention autocomplete';
+        return 'Grant BACK_OFFICE access to RestResourceComments@searchMentionUsers for comment mention autocomplete';
     }
 
     public function up(Schema $schema): void
@@ -37,7 +37,7 @@ final class Version202609081655312234_tao extends AbstractMigration
         return new AccessRule(
             AccessRule::GRANT,
             TaoRoles::BACK_OFFICE,
-            ['ext' => 'tao', 'mod' => 'RestUser', 'act' => 'searchUsers']
+            ['ext' => 'taoItems', 'mod' => 'RestResourceComments', 'act' => 'searchMentionUsers']
         );
     }
 }
