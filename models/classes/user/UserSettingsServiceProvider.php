@@ -59,6 +59,5 @@ class UserSettingsServiceProvider implements ContainerServiceProviderInterface
                     service(tao_models_classes_LanguageService::class),
                 ]
             );
-
     }
 }
