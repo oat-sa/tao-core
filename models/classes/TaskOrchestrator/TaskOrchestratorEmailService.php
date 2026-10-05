@@ -61,7 +61,6 @@ class TaskOrchestratorEmailService
         string $templateId,
         string $recipientUserLogin,
         array $templateData = [],
-        ?string $emailAddress = null,
         string $actorLogin = ''
     ): string {
         if (!$this->isConfigured()) {
@@ -82,14 +81,6 @@ class TaskOrchestratorEmailService
             'recipientUserLogin' => $recipientUserLogin,
             'data' => $templateData,
         ];
-
-        if ($emailAddress !== null) {
-            $emailAddress = trim($emailAddress);
-            if ($emailAddress === '' || !filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
-                throw new InvalidArgumentException('emailAddress must be a valid email when provided');
-            }
-            $email['emailAddress'] = $emailAddress;
-        }
 
         $jobPayload = [
             'type' => 'portalEmailNotification',
@@ -119,7 +110,6 @@ class TaskOrchestratorEmailService
      */
     public function sendCommentMention(
         string $recipientUserLogin,
-        string $emailAddress,
         CommentMentionEmailTemplatePayload $payload,
         string $actorLogin
     ): string {
@@ -127,7 +117,6 @@ class TaskOrchestratorEmailService
             CommentMentionEmailTemplatePayload::TEMPLATE_ID,
             $recipientUserLogin,
             $payload->toTemplateData(),
-            $emailAddress,
             $actorLogin
         );
     }
