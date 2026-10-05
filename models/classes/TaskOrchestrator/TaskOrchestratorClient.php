@@ -27,6 +27,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use Psr\SimpleCache\CacheInterface;
 use RuntimeException;
+use common_Logger;
 
 class TaskOrchestratorClient
 {
@@ -118,6 +119,14 @@ class TaskOrchestratorClient
 
     public function sendJob(string $jobId, array $jobPayload): array
     {
+        $jobType = is_string($jobPayload['type'] ?? null) ? $jobPayload['type'] : null;
+
+        common_Logger::i(sprintf(
+            '[TaskOrchestratorClient] Sending job "%s"%s',
+            $jobId,
+            $jobType !== null ? sprintf(' (type: %s)', $jobType) : ''
+        ));
+
         $accessToken = $this->getAccessToken();
         $url = sprintf('%s/api/v1/jobs/%s', $this->baseUrl, $jobId);
 
@@ -135,24 +144,54 @@ class TaskOrchestratorClient
             $statusCode = $response->getStatusCode();
             $responseBody = json_decode($response->getBody()->getContents(), true);
 
+            common_Logger::i(sprintf(
+                '[TaskOrchestratorClient] Job "%s" response status: %d',
+                $jobId,
+                $statusCode
+            ));
+
             // Exception messages must not include TO response bodies (may contain PII).
             if ($statusCode === 400 && ($responseBody['error'] ?? null) === 'Invalid request') {
+                common_Logger::w(sprintf(
+                    '[TaskOrchestratorClient] Job "%s" rejected by TO API: invalid request',
+                    $jobId
+                ));
+
                 throw new InvalidArgumentException(
                     'TO API: request validation failed (HTTP 400)'
                 );
             }
             if ($statusCode === 400 && ($responseBody['message'] ?? null) === 'Missing token') {
+                common_Logger::w(sprintf(
+                    '[TaskOrchestratorClient] Job "%s" rejected by TO API: missing token',
+                    $jobId
+                ));
+
                 throw new RuntimeException('TO API: missing or invalid authorization token (HTTP 400)');
             }
             if ($statusCode >= 400) {
+                common_Logger::e(sprintf(
+                    '[TaskOrchestratorClient] Job "%s" failed with unexpected HTTP status: %d',
+                    $jobId,
+                    $statusCode
+                ));
+
                 throw new RuntimeException(sprintf(
                     'TO API: unexpected HTTP %d',
                     $statusCode
                 ));
             }
 
+            common_Logger::i(sprintf('[TaskOrchestratorClient] Job "%s" sent successfully', $jobId));
+
             return $responseBody;
         } catch (GuzzleException $e) {
+            common_Logger::e(sprintf(
+                '[TaskOrchestratorClient] Job "%s" failed with transport error: %s',
+                $jobId,
+                $e->getMessage()
+            ));
+
             throw new RuntimeException(
                 'Task Orchestrator API communication error: ' . $e->getMessage(),
                 0,
