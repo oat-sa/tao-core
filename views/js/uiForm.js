@@ -35,6 +35,7 @@
     'util/encode',
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
+    'tao/ckeditor/scaytBootstrap',
     'ui/datetime/picker',
     'ui/dialog/confirm',
     'core/request',
@@ -52,6 +53,7 @@
     encode,
     ckeditor,
     ckConfigurator,
+    scaytBootstrap,
     dateTimePicker,
     confirmDialog,
     request,
@@ -359,12 +361,19 @@
                     delete self.htmlEditors[propertyUri];
                 }
 
-                var editor = ckeditor.replace(this);
-                var configOptions = {
-                    resize_enabled: false,
-                    interactionsource: false,
-                    sourcedialog: false
-                };
+                // SCAYT (BOSAN-375): register before creation; extraPlugins
+                // only take effect when passed into replace().
+                scaytBootstrap.registerScayt();
+                var scaytConfig = scaytBootstrap.getCkeditorConfig();
+                var editor = ckeditor.replace(this, scaytConfig);
+                var configOptions = _.assign(
+                    {
+                        resize_enabled: false,
+                        interactionsource: false,
+                        sourcedialog: false
+                    },
+                    scaytConfig
+                );
 
                 var removePlugins = [];
 
