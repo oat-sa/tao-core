@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\Exception\IrreversibleMigration;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -31,8 +32,7 @@ final class Version202610051702392235_tao extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        AclProxy::applyRule($this->getRule());
-        $this->addReport(Report::createSuccess('Restored ACL grant for RestResourceComments::searchMentionUsers'));
+        throw new IrreversibleMigration();
     }
 
     private function getRule(): AccessRule
