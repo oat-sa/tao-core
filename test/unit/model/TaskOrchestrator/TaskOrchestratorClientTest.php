@@ -150,6 +150,27 @@ class TaskOrchestratorClientTest extends TestCase
         }
     }
 
+    public function testSendJobMapsMissingToken400ToRuntimeException(): void
+    {
+        $errorBody = [
+            'message' => 'Missing token',
+            'token' => 'top-secret',
+        ];
+
+        $this->httpClient
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn(new Response(400, ['Content-Type' => 'application/json'], json_encode($errorBody)));
+
+        try {
+            $this->sut->sendJob('job-1', ['type' => 'portalEmailNotification']);
+            $this->fail('Expected RuntimeException');
+        } catch (RuntimeException $exception) {
+            $this->assertSame('TO API: missing or invalid authorization token (HTTP 400)', $exception->getMessage());
+            $this->assertStringNotContainsString('top-secret', $exception->getMessage());
+        }
+    }
+
     public function testSendJobReturnsDecodedBodyOnSuccess(): void
     {
         $successBody = ['status' => 'ok', 'id' => 'job-1'];
