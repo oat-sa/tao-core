@@ -13,7 +13,7 @@
         "@oat-sa/tao-core-libs": "^1.3.0",
         "@oat-sa/tao-core-sdk": "^3.6.1",
         "@oat-sa/tao-core-shared-libs": "^1.12.1",
-        "@oat-sa/tao-core-ui": "^3.24.0",
+        "@oat-sa/tao-core-ui": "git+ssh://git@github.com/oat-sa/tao-core-ui-fe.git#fix/AUT-4666/filetree-depth-fix-loading",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
         "gamp": "0.2.1",
