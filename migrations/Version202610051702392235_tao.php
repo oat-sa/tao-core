@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 /**
@@ -12,7 +15,7 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
  *
  * phpcs:disable Squiz.Classes.ValidClassName
  */
-final class Version202610051702392234_tao extends AbstractMigration
+final class Version202610051702392235_tao extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,11 +24,20 @@ final class Version202610051702392234_tao extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        (new Version202609081655312234_tao())->down($schema);
+        AclProxy::revokeRule($this->getRule());
     }
 
     public function down(Schema $schema): void
     {
-        (new Version202609081655312234_tao())->up($schema);
+        AclProxy::applyRule($this->getRule());
+    }
+
+    private function getRule(): AccessRule
+    {
+        return new AccessRule(
+            AccessRule::GRANT,
+            TaoRoles::BACK_OFFICE,
+            ['ext' => 'taoItems', 'mod' => 'RestResourceComments', 'act' => 'searchMentionUsers']
+        );
     }
 }
