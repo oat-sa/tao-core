@@ -25,10 +25,6 @@ define([
         serviceId: '',
         srcUrl: 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js',
         lang: 'auto',
-        // Vendor auto-search (focus polling + instance backstop) stays ON but is
-        // contained by enableAutoSearchIn: only CKEditor editables are eligible,
-        // so the backoffice chrome that used to crash the global scan is excluded
-        // by construction. autoSearch:false put ITS instances to sleep entirely.
         autoSearch: true,
         localization: 'en',
         theme: 'gray',
@@ -85,9 +81,6 @@ define([
             var script = document.createElement('script');
 
             function fail(err) {
-                // Drop the cached promise and the dead tag so the next
-                // editor makes a fresh load attempt instead of reusing this
-                // rejection.
                 scriptLoading = null;
                 if (script.parentNode) {
                     script.parentNode.removeChild(script);
@@ -98,8 +91,6 @@ define([
             script.src = config.srcUrl;
             script.async = true;
             script.onload = function () {
-                // A 200 with a blocked MIME type (e.g. a login page) fires
-                // onload without defining the global; treat that as failure.
                 if (window.WEBSPELLCHECKER) {
                     scriptLoaded = true;
                     resolve();
@@ -124,14 +115,7 @@ define([
     }
 
     /**
-     * Backoffice page CSS leaks into the WSC suggestion balloon (stray list
-     * bullets, decorative icon font overlapping the suggestion text). The vendor
-     * stylesheets stay enabled on purpose: they also position the balloon next
-     * to the word and style the proofreading dialog. We only neutralize the two
-     * broken decorative bits (both verified live to compute correctly); layout,
-     * positioning and dialog styling remain vendor-owned.
-     * Injected per document (page + every editor container, which may be an
-     * iframe). Premium path only.
+     * Backoffice page CSS leaks into the WSC suggestion balloon.
      */
     var BALLOON_STYLE_ID = 'tao-wsc-balloon-fix';
     var BALLOON_CSS = [
@@ -161,9 +145,6 @@ define([
             }
             editor._wproofreaderInitDone = true;
 
-            // Editors are routinely destroyed (interaction state changes);
-            // drop our checker instance with them, otherwise instances pile
-            // up observing detached DOM.
             editor.on('destroy', function () {
                 try {
                     if (!window.WEBSPELLCHECKER || typeof window.WEBSPELLCHECKER.getInstances !== 'function') {
@@ -201,9 +182,6 @@ define([
                 }
             });
 
-            // Ensure the bundle (and its auto-search loop) is loading; the
-            // vendor creates the per-editor instances itself. Failures must
-            // stay retryable: loadScript drops its cached promise on error.
             loadScript().catch(function (err) {
                 log.error(err);
             });
@@ -222,8 +200,6 @@ define([
             onInstanceReady(evt.editor);
         });
 
-        // Editors created before this module evaluated already fired
-        // instanceReady; cover those synchronously-ready ones now.
         var instances = window.CKEDITOR.instances || {};
         Object.keys(instances).forEach(function (name) {
             var editor = instances[name];
@@ -233,7 +209,6 @@ define([
         });
     }
 
-    // ponytail: 10s poll for a late CKEDITOR global; go event-based if TAO ever emits ckeditor:loaded
     var bindAttempts = 0;
     function scheduleBind() {
         if (!enabled || boundInstanceReady) {
@@ -258,7 +233,7 @@ define([
         getCkeditorConfig: function () {
             // CKEditor disables the native spell checker by default.
             // Keep it disabled only while the premium provider marks errors,
-            // otherwise let the browser underline natively (FR1 default path).
+            // otherwise let the browser underline natively.
             return { disableNativeSpellChecker: enabled };
         }
     };
