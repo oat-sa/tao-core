@@ -59,7 +59,14 @@ class SetWProofreaderConfig extends \common_ext_action_InstallAction
             'autoSearch' => filter_var($params['autoSearch'] ?? true, FILTER_VALIDATE_BOOLEAN),
         ];
 
-        foreach (['ignoreClasses', 'ignoreElements', 'ignoreAttributes', 'disableAutoSearchIn', 'enableAutoSearchIn'] as $listKey) {
+        $listKeys = [
+            'ignoreClasses',
+            'ignoreElements',
+            'ignoreAttributes',
+            'disableAutoSearchIn',
+            'enableAutoSearchIn'
+        ];
+        foreach ($listKeys as $listKey) {
             if (!empty($params[$listKey]) && is_array($params[$listKey])) {
                 $config[$listKey] = $params[$listKey];
             }

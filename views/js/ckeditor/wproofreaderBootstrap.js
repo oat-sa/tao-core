@@ -56,11 +56,6 @@ define([
     var scriptLoading = null;
     var boundInstanceReady = false;
 
-    var markerOptions = {
-        markerClass: wproofreaderExclude.MARKER_CLASS,
-        markerAttribute: wproofreaderExclude.MARKER_ATTR
-    };
-
     if (config.enabled && !config.serviceId) {
         log.warn('WProofreader is enabled but serviceId is missing; spell check will not start.');
     }
@@ -95,6 +90,9 @@ define([
                 resolve();
             };
             script.onerror = function () {
+                // Drop the cached promise so the next editor initialises a
+                // fresh load attempt instead of reusing this rejection.
+                scriptLoading = null;
                 reject(new Error('Failed to load WProofreader bundle from ' + config.srcUrl));
             };
             document.head.appendChild(script);
@@ -146,7 +144,6 @@ define([
             log.error('WEBSPELLCHECKER.init is not available after loading the bundle');
             return;
         }
-        wproofreaderExclude.markNonLanguageContentDom(getContainer(editor), markerOptions);
         var container = getContainer(editor);
         if (container && container.ownerDocument) {
             injectBalloonStyle(container.ownerDocument);
@@ -170,15 +167,6 @@ define([
                 return;
             }
             editor._wproofreaderInitDone = true;
-            wproofreaderExclude.bindEditorExcludeMarkers(editor, markerOptions);
-
-            // Runtime markers must never leak into stored content: strip them at
-            // the single serialization chokepoint every save path goes through.
-            editor.on('getData', function (evt) {
-                if (evt && evt.data && typeof evt.data.dataValue === 'string') {
-                    evt.data.dataValue = wproofreaderExclude.stripMarkersFromHtml(evt.data.dataValue, markerOptions);
-                }
-            });
 
             // Editors are routinely destroyed (interaction state changes);
             // drop our checker instance with them, otherwise instances pile
@@ -222,6 +210,11 @@ define([
 
             loadScript()
                 .then(function () {
+                    // The bundle load is async; the editor may have been
+                    // destroyed while waiting (interaction state changes).
+                    if (!editor || editor.status === 'destroyed') {
+                        return;
+                    }
                     initEditor(editor);
                 })
                 .catch(function (err) {
