@@ -6,7 +6,7 @@
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA ;
  */
-define(['ckeditor/wproofreaderExclude'], function (wproofreaderExclude) {
+define(['tao/ckeditor/wproofreaderExclude'], function (wproofreaderExclude) {
     'use strict';
 
     QUnit.module('wproofreaderExclude');
