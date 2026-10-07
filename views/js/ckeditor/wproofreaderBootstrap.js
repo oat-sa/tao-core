@@ -50,7 +50,6 @@ define([
     var enabled = config.enabled === true && !!config.serviceId;
     var scriptLoaded = false;
     var scriptLoading = null;
-    var boundInstanceReady = false;
 
     if (config.enabled && !config.serviceId) {
         log.warn('WProofreader is enabled but serviceId is missing; spell check will not start.');
@@ -107,13 +106,6 @@ define([
         return scriptLoading;
     }
 
-    function getContainer(editor) {
-        if (editor.window && editor.window.getFrame && editor.window.getFrame()) {
-            return editor.window.getFrame().$;
-        }
-        return editor.element.$;
-    }
-
     /**
      * Backoffice page CSS leaks into the WSC suggestion balloon.
      */
@@ -138,95 +130,28 @@ define([
         }
     }
 
-    function onInstanceReady(editor) {
-        try {
-            if (!editor || editor._wproofreaderInitDone) {
-                return;
-            }
-            editor._wproofreaderInitDone = true;
-
-            editor.on('destroy', function () {
-                try {
-                    if (!window.WEBSPELLCHECKER || typeof window.WEBSPELLCHECKER.getInstances !== 'function') {
-                        return;
-                    }
-                    var myContainer = null;
-                    try {
-                        myContainer = getContainer(editor);
-                    } catch (ignored) {
-                        myContainer = editor.element && editor.element.$;
-                    }
-                    window.WEBSPELLCHECKER.getInstances().forEach(function (inst) {
-                        var node = null;
-                        try {
-                            node = inst.getContainerNode();
-                        } catch (ignored) {
-                            return;
-                        }
-                        if (!node || !myContainer) {
-                            return;
-                        }
-                        var mine = node === myContainer ||
-                            (myContainer.tagName === 'IFRAME' && myContainer.contentDocument &&
-                                node.ownerDocument === myContainer.contentDocument);
-                        if (mine && typeof inst.destroy === 'function') {
-                            try {
-                                inst.destroy();
-                            } catch (ignored) {
-                                log.warn('Unable to destroy WProofreader instance.');
-                            }
-                        }
-                    });
-                } catch (err) {
-                    log.warn('WProofreader instance cleanup failed: ' + (err && err.message));
-                }
-            });
-
-            loadScript().catch(function (err) {
-                log.error(err);
-            });
-        } catch (err) {
-            log.error('WProofreader init failed for editor: ' + (err && err.message));
-        }
-    }
-
-    function bindInstanceReady() {
-        if (!enabled || boundInstanceReady || !window.CKEDITOR) {
-            return;
-        }
-        boundInstanceReady = true;
-
-        window.CKEDITOR.on('instanceReady', function (evt) {
-            onInstanceReady(evt.editor);
-        });
-
-        var instances = window.CKEDITOR.instances || {};
-        Object.keys(instances).forEach(function (name) {
-            var editor = instances[name];
-            if (editor && editor.status === 'ready') {
-                onInstanceReady(editor);
-            }
-        });
-    }
-
     var bindAttempts = 0;
-    function scheduleBind() {
-        if (!enabled || boundInstanceReady) {
+    var loadAttempts = 0;
+    function scheduleLoad() {
+        if (!enabled || scriptLoaded || scriptLoading) {
             return;
         }
-        if (window.CKEDITOR) {
-            bindInstanceReady();
+        if (!window.CKEDITOR) {
+            if (bindAttempts++ < 100) {
+                setTimeout(scheduleLoad, 100);
+            }
             return;
         }
-        bindAttempts++;
-        if (bindAttempts > 100) {
-            log.error('WProofreader init skipped: window.CKEDITOR never appeared.');
-            return;
-        }
-        setTimeout(scheduleBind, 100);
+        loadAttempts++;
+        loadScript().catch(function (err) {
+            log.error(err);
+            if (loadAttempts < 3) {
+                setTimeout(scheduleLoad, 5000);
+            }
+        });
     }
 
-    scheduleBind();
+    scheduleLoad();
 
     return {
         enabled: enabled,
