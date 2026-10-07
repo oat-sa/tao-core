@@ -140,12 +140,6 @@ define([
     }
 
     function onInstanceReady(editor) {
-        // No explicit per-editor WEBSPELLCHECKER.init() here on purpose
-        // (verified live 2026-10-07): the vendor auto-search loop creates
-        // working instances on its own, so this only ensures the bundle is
-        // loading and registers instance cleanup. Errors are contained: this
-        // runs on CKEditor's shared global event bus, so one bad editor must
-        // not break other listeners.
         try {
             if (!editor || editor._wproofreaderInitDone) {
                 return;
