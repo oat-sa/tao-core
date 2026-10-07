@@ -362,6 +362,7 @@
                 }
 
                 var editor = ckeditor.replace(this);
+                wproofreaderBootstrap.start();
                 var configOptions = _.assign(
                     {
                         resize_enabled: false,
