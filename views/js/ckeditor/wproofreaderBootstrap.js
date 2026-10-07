@@ -83,17 +83,32 @@ define([
 
         scriptLoading = new Promise(function (resolve, reject) {
             var script = document.createElement('script');
+
+            function fail(err) {
+                // Drop the cached promise and the dead tag so the next
+                // editor makes a fresh load attempt instead of reusing this
+                // rejection.
+                scriptLoading = null;
+                if (script.parentNode) {
+                    script.parentNode.removeChild(script);
+                }
+                reject(err);
+            }
+
             script.src = config.srcUrl;
             script.async = true;
             script.onload = function () {
-                scriptLoaded = true;
-                resolve();
+                // A 200 with a blocked MIME type (e.g. a login page) fires
+                // onload without defining the global; treat that as failure.
+                if (window.WEBSPELLCHECKER) {
+                    scriptLoaded = true;
+                    resolve();
+                } else {
+                    fail(new Error('WProofreader bundle loaded without defining WEBSPELLCHECKER: ' + config.srcUrl));
+                }
             };
             script.onerror = function () {
-                // Drop the cached promise so the next editor initialises a
-                // fresh load attempt instead of reusing this rejection.
-                scriptLoading = null;
-                reject(new Error('Failed to load WProofreader bundle from ' + config.srcUrl));
+                fail(new Error('Failed to load WProofreader bundle from ' + config.srcUrl));
             };
             document.head.appendChild(script);
         });
