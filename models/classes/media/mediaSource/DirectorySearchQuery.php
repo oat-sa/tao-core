@@ -139,6 +139,13 @@ class DirectorySearchQuery
         return $this;
     }
 
+    public function setChildrenOffset(int $childrenOffset): self
+    {
+        $this->childrenOffset = max(0, $childrenOffset);
+
+        return $this;
+    }
+
     public function setDepth(int $depth): self
     {
         $this->depth = $depth > 0 ? $depth : 1;
