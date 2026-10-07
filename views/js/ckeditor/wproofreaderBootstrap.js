@@ -139,29 +139,13 @@ define([
         }
     }
 
-    function initEditor(editor) {
-        if (!window.WEBSPELLCHECKER || typeof window.WEBSPELLCHECKER.init !== 'function') {
-            log.error('WEBSPELLCHECKER.init is not available after loading the bundle');
-            return;
-        }
-        var container = getContainer(editor);
-        if (container && container.ownerDocument) {
-            injectBalloonStyle(container.ownerDocument);
-        }
-        window.WEBSPELLCHECKER.init({
-            container: container,
-            onErrorRequest: function (data) {
-                log.error(data);
-            }
-        });
-    }
-
     function onInstanceReady(editor) {
-        // The module may evaluate after some editors are already ready (the
-        // instanceReady event does not replay). The per-editor flag keeps a
-        // re-fired event or a sweep from initialising the same container twice.
-        // Errors are contained: this runs on CKEditor's shared global event
-        // bus, so one bad editor must not break other listeners.
+        // No explicit per-editor WEBSPELLCHECKER.init() here on purpose
+        // (verified live 2026-10-07): the vendor auto-search loop creates
+        // working instances on its own, so this only ensures the bundle is
+        // loading and registers instance cleanup. Errors are contained: this
+        // runs on CKEditor's shared global event bus, so one bad editor must
+        // not break other listeners.
         try {
             if (!editor || editor._wproofreaderInitDone) {
                 return;
@@ -208,18 +192,12 @@ define([
                 }
             });
 
-            loadScript()
-                .then(function () {
-                    // The bundle load is async; the editor may have been
-                    // destroyed while waiting (interaction state changes).
-                    if (!editor || editor.status === 'destroyed') {
-                        return;
-                    }
-                    initEditor(editor);
-                })
-                .catch(function (err) {
-                    log.error(err);
-                });
+            // Ensure the bundle (and its auto-search loop) is loading; the
+            // vendor creates the per-editor instances itself. Failures must
+            // stay retryable: loadScript drops its cached promise on error.
+            loadScript().catch(function (err) {
+                log.error(err);
+            });
         } catch (err) {
             log.error('WProofreader init failed for editor: ' + (err && err.message));
         }
@@ -236,7 +214,7 @@ define([
         });
 
         // Editors created before this module evaluated already fired
-        // instanceReady; initialise those synchronously-ready ones now.
+        // instanceReady; cover those synchronously-ready ones now.
         var instances = window.CKEDITOR.instances || {};
         Object.keys(instances).forEach(function (name) {
             var editor = instances[name];
