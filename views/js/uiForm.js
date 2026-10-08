@@ -361,7 +361,7 @@
                     delete self.htmlEditors[propertyUri];
                 }
 
-                var editor = ckeditor.replace(this);
+                var editor = ckeditor.replace(this, wproofreaderBootstrap.getCkeditorConfig());
                 wproofreaderBootstrap.start();
                 var configOptions = _.assign(
                     {
