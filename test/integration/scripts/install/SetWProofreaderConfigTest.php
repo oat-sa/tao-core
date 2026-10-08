@@ -39,24 +39,30 @@ class SetWProofreaderConfigTest extends TaoPhpUnitTestRunner
     {
         $registry = ClientLibConfigRegistry::getRegistry();
         $registry->remove(self::CONFIG_ID);
-        $registry->register(self::CONFIG_ID, [
-            'enabled' => false,
-            'ignoreClasses' => ['old', 'obsolete'],
-            'ignoreElements' => ['old']
+        $registry->set(self::CONFIG_ID, [
+            'spellCheckConfig' => [
+                'providerConfig' => [
+                    'ignoreClasses' => ['old', 'obsolete'],
+                    'ignoreElements' => ['old']
+                ]
+            ]
         ]);
 
         try {
             (new SetWProofreaderConfig())([
+                'providerId' => 'wproofreader',
                 'serviceId' => 'portal-key',
                 'ignoreClasses' => ['new'],
                 'ignoreElements' => []
             ]);
 
             $config = $registry->get(self::CONFIG_ID);
-            $this->assertSame('portal-key', $config['serviceId']);
-            $this->assertArrayNotHasKey('enabled', $config);
-            $this->assertSame(['new'], $config['ignoreClasses']);
-            $this->assertSame([], $config['ignoreElements']);
+            $spellCheckConfig = $config['spellCheckConfig'];
+            $this->assertTrue($spellCheckConfig['enabled']);
+            $this->assertSame('wproofreader', $spellCheckConfig['providerId']);
+            $this->assertSame('portal-key', $spellCheckConfig['providerConfig']['serviceId']);
+            $this->assertSame(['new'], $spellCheckConfig['providerConfig']['ignoreClasses']);
+            $this->assertSame([], $spellCheckConfig['providerConfig']['ignoreElements']);
         } finally {
             $registry->remove(self::CONFIG_ID);
         }

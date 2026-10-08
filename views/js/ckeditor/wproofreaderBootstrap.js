@@ -49,9 +49,16 @@ define([
         cache: true
     };
 
-    var config = _.defaults({}, module.config() || {}, defaults);
+    var spellCheckConfig = _.defaults({}, module.config().spellCheckConfig || {}, {
+        enabled: true,
+        providerId: 'native',
+        providerConfig: {}
+    });
+    var config = _.defaults({}, spellCheckConfig.providerConfig, defaults);
     config.serviceId = _.trim(String(config.serviceId || ''));
-    var enabled = !!config.serviceId;
+    var enabled = spellCheckConfig.enabled !== false
+        && spellCheckConfig.providerId === 'wproofreader'
+        && !!config.serviceId;
     var scriptLoaded = false;
     var scriptLoading = null;
 
@@ -59,7 +66,7 @@ define([
         var exclude = wproofreaderExclude.buildWscExcludeOptions(config);
         return _.assign(
             {},
-            _.omit(config, ['enabled', 'ignoreClasses', 'ignoreElements', 'ignoreAttributes', 'disableAutoSearchIn', 'enableAutoSearchIn']),
+            _.omit(config, ['ignoreClasses', 'ignoreElements', 'ignoreAttributes', 'disableAutoSearchIn', 'enableAutoSearchIn']),
             exclude
         );
     }
