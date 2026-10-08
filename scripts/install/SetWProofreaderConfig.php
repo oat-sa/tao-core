@@ -27,22 +27,6 @@ use oat\tao\model\ClientLibConfigRegistry;
 
 /**
  * Registers WProofreader client settings for backoffice CKEditor 4.
- *
- * Params (optional):
- * - enabled: bool
- * - serviceId: string (WebSpellChecker license / service id)
- * - srcUrl: string (WSC bundle URL; use on-prem host when applicable)
- * - lang: string (e.g. auto, en_US)
- * - autoSearch: bool (default true; vendor focus-polling + instance backstop,
- *   contained to editor editables via enableAutoSearchIn)
- * - ignoreClasses, ignoreElements, ignoreAttributes, disableAutoSearchIn: optional arrays merged
- *   with TAO defaults (math-tex, widget-box, cke_widget_*, pre/code, .cke_source, etc.).
- *   NOTE: QTI structural attributes (data-qti-class, data-widget, data-serial)
- *   must stay OUT of ignoreAttributes: they sit on prose containers (choice
- *   prompt/option editables carry data-serial) and WSC prunes the whole
- *   subtree of elements carrying an ignored attribute.
- * - enableAutoSearchIn: optional array merged with TAO defaults
- *   (.cke_wysiwyg_frame, .cke_editable); allowlist, fail-closed
  */
 class SetWProofreaderConfig extends \common_ext_action_InstallAction
 {
