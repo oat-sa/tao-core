@@ -40,6 +40,9 @@ class SetWProofreaderConfig extends \common_ext_action_InstallAction
             'autoSearch' => filter_var($params['autoSearch'] ?? true, FILTER_VALIDATE_BOOLEAN),
         ];
 
+        $configId = 'tao/ckeditor/wproofreaderBootstrap';
+        $registry = ClientLibConfigRegistry::getRegistry();
+        $registeredConfig = $registry->isRegistered($configId) ? $registry->get($configId) : null;
         $listKeys = [
             'ignoreClasses',
             'ignoreElements',
@@ -48,12 +51,18 @@ class SetWProofreaderConfig extends \common_ext_action_InstallAction
             'enableAutoSearchIn'
         ];
         foreach ($listKeys as $listKey) {
-            if (!empty($params[$listKey]) && is_array($params[$listKey])) {
+            if (array_key_exists($listKey, $params) && is_array($params[$listKey])) {
                 $config[$listKey] = $params[$listKey];
+                if ($registeredConfig !== null) {
+                    $registeredConfig[$listKey] = [];
+                }
             }
         }
 
-        ClientLibConfigRegistry::getRegistry()->register('tao/ckeditor/wproofreaderBootstrap', $config);
+        if ($registeredConfig !== null) {
+            $registry->set($configId, $registeredConfig);
+        }
+        $registry->register($configId, $config);
 
         return Report::createSuccess('WProofreader client configuration registered.');
     }
