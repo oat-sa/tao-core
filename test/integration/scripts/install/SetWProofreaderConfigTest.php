@@ -40,17 +40,21 @@ class SetWProofreaderConfigTest extends TaoPhpUnitTestRunner
         $registry = ClientLibConfigRegistry::getRegistry();
         $registry->remove(self::CONFIG_ID);
         $registry->register(self::CONFIG_ID, [
+            'enabled' => false,
             'ignoreClasses' => ['old', 'obsolete'],
             'ignoreElements' => ['old']
         ]);
 
         try {
             (new SetWProofreaderConfig())([
+                'serviceId' => 'portal-key',
                 'ignoreClasses' => ['new'],
                 'ignoreElements' => []
             ]);
 
             $config = $registry->get(self::CONFIG_ID);
+            $this->assertSame('portal-key', $config['serviceId']);
+            $this->assertArrayNotHasKey('enabled', $config);
             $this->assertSame(['new'], $config['ignoreClasses']);
             $this->assertSame([], $config['ignoreElements']);
         } finally {

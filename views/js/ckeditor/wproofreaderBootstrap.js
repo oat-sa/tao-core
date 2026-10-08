@@ -25,7 +25,6 @@ define([
 
     var log = logger('tao/ckeditor/wproofreaderBootstrap');
     var defaults = {
-        enabled: false,
         serviceId: '',
         srcUrl: 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js',
         lang: 'auto',
@@ -51,13 +50,10 @@ define([
     };
 
     var config = _.defaults({}, module.config() || {}, defaults);
-    var enabled = config.enabled === true && !!config.serviceId;
+    config.serviceId = _.trim(String(config.serviceId || ''));
+    var enabled = !!config.serviceId;
     var scriptLoaded = false;
     var scriptLoading = null;
-
-    if (config.enabled && !config.serviceId) {
-        log.warn('WProofreader is enabled but serviceId is missing; spell check will not start.');
-    }
 
     function getWscConfig() {
         var exclude = wproofreaderExclude.buildWscExcludeOptions(config);

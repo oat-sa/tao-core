@@ -30,7 +30,6 @@ class SetWProofreaderConfig extends \common_ext_action_InstallAction
     public function __invoke($params)
     {
         $config = [
-            'enabled' => filter_var($params['enabled'] ?? false, FILTER_VALIDATE_BOOLEAN),
             'serviceId' => (string)($params['serviceId'] ?? ''),
             'srcUrl' => (string)(
                 $params['srcUrl']
@@ -43,6 +42,9 @@ class SetWProofreaderConfig extends \common_ext_action_InstallAction
         $configId = 'tao/ckeditor/wproofreaderBootstrap';
         $registry = ClientLibConfigRegistry::getRegistry();
         $registeredConfig = $registry->isRegistered($configId) ? $registry->get($configId) : null;
+        if ($registeredConfig !== null) {
+            unset($registeredConfig['enabled']);
+        }
         $listKeys = [
             'ignoreClasses',
             'ignoreElements',

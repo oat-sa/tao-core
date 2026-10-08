@@ -15,6 +15,13 @@
 
             //load the config
             require(['/tao/ClientConfig/config'], function(){
+                require.config({
+                    config: {
+                        'tao/ckeditor/wproofreaderBootstrap': {
+                            serviceId: ''
+                        }
+                    }
+                });
 
                 //load the test
                 require(['test/ckeditor/wproofreaderExclude/test'], function(){
