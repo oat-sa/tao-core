@@ -25,9 +25,6 @@ namespace oat\tao\scripts\install;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\ClientLibConfigRegistry;
 
-/**
- * Registers WProofreader client settings for backoffice CKEditor 4.
- */
 class SetWProofreaderConfig extends \common_ext_action_InstallAction
 {
     public function __invoke($params)
