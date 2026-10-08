@@ -151,15 +151,11 @@ define([
         });
     }
 
-    scheduleLoad();
-
     return {
         enabled: enabled,
+        start: scheduleLoad,
         getCkeditorConfig: function () {
-            // CKEditor disables the native spell checker by default.
-            // Keep it disabled only while the premium provider marks errors,
-            // otherwise let the browser underline natively.
-            return { disableNativeSpellChecker: enabled };
+            return { disableNativeSpellChecker: false };
         }
     };
 });
