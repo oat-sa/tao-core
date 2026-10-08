@@ -29,7 +29,7 @@ class SetWProofreaderConfig extends \common_ext_action_InstallAction
 {
     public function __invoke($params)
     {
-        $config = [
+        $providerConfig = [
             'serviceId' => (string)($params['serviceId'] ?? ''),
             'srcUrl' => (string)(
                 $params['srcUrl']
@@ -39,12 +39,6 @@ class SetWProofreaderConfig extends \common_ext_action_InstallAction
             'autoSearch' => filter_var($params['autoSearch'] ?? true, FILTER_VALIDATE_BOOLEAN),
         ];
 
-        $configId = 'tao/ckeditor/wproofreaderBootstrap';
-        $registry = ClientLibConfigRegistry::getRegistry();
-        $registeredConfig = $registry->isRegistered($configId) ? $registry->get($configId) : null;
-        if ($registeredConfig !== null) {
-            unset($registeredConfig['enabled']);
-        }
         $listKeys = [
             'ignoreClasses',
             'ignoreElements',
@@ -54,17 +48,17 @@ class SetWProofreaderConfig extends \common_ext_action_InstallAction
         ];
         foreach ($listKeys as $listKey) {
             if (array_key_exists($listKey, $params) && is_array($params[$listKey])) {
-                $config[$listKey] = $params[$listKey];
-                if ($registeredConfig !== null) {
-                    $registeredConfig[$listKey] = [];
-                }
+                $providerConfig[$listKey] = $params[$listKey];
             }
         }
 
-        if ($registeredConfig !== null) {
-            $registry->set($configId, $registeredConfig);
-        }
-        $registry->register($configId, $config);
+        ClientLibConfigRegistry::getRegistry()->set('tao/ckeditor/wproofreaderBootstrap', [
+            'spellCheckConfig' => [
+                'enabled' => filter_var($params['enabled'] ?? true, FILTER_VALIDATE_BOOLEAN),
+                'providerId' => (string)($params['providerId'] ?? 'native'),
+                'providerConfig' => $providerConfig
+            ]
+        ]);
 
         return Report::createSuccess('WProofreader client configuration registered.');
     }
