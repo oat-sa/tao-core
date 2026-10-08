@@ -15,10 +15,22 @@
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
  */
-define(['tao/ckeditor/wproofreaderExclude'], function (wproofreaderExclude) {
+define([
+    'tao/ckeditor/wproofreaderExclude',
+    'tao/ckeditor/wproofreaderBootstrap'
+], function (wproofreaderExclude, wproofreaderBootstrap) {
     'use strict';
 
     QUnit.module('wproofreaderExclude');
+
+    QUnit.test('uses native spellcheck without a premium key', function (assert) {
+        assert.strictEqual(wproofreaderBootstrap.enabled, false, 'premium provider is disabled');
+        assert.strictEqual(
+            wproofreaderBootstrap.getCkeditorConfig().disableNativeSpellChecker,
+            false,
+            'native spellcheck remains enabled'
+        );
+    });
 
     QUnit.test('defaults exclude math, QTI widgets, code and source mode', function (assert) {
         var options = wproofreaderExclude.buildWscExcludeOptions({});
