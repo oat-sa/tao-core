@@ -51,6 +51,7 @@ use oat\tao\model\IdentifierGenerator\ServiceProvider\IdentifierGeneratorService
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\infrastructure\ServiceProvider\InfrastructureServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
+use oat\tao\model\lockDownBrowser\ServiceProvider\LockDownBrowserServiceProvider;
 use oat\tao\model\listener\PropertyServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\model\menu\MenuServiceProvider;
@@ -95,6 +96,7 @@ use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
+use oat\tao\scripts\install\RegisterLockDownBrowserService;
 use oat\tao\scripts\install\RegisterUniqueIdFeature;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\RegisterUserService;
@@ -121,6 +123,7 @@ return [
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
         'http://www.tao.lu/middleware/wfEngine.rdf',
+        'http://www.tao.lu/Ontologies/TAOLockDownBrowser.rdf',
     ],
     'install' => [
         'rdf' => [
@@ -136,6 +139,7 @@ return [
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
             __DIR__ . '/models/ontology/webhook.rdf',
             __DIR__ . '/models/ontology/userlocks.rdf',
+            __DIR__ . '/models/ontology/lockDownBrowser.rdf',
         ],
         'checks' => [
             ['type' => 'CheckPHPRuntime', 'value' => ['id' => 'tao_php_runtime', 'min' => '5.4']],
@@ -291,7 +295,8 @@ return [
             RegisterSearchServices::class,
             EnableFuriganaRubyPlugin::class,
             RegisterPortalTheme::class,
-            RegisterUniqueIdFeature::class
+            RegisterUniqueIdFeature::class,
+            RegisterLockDownBrowserService::class,
         ],
     ],
     'update' => Updater::class,
@@ -448,6 +453,7 @@ return [
         InfrastructureServiceProvider::class,
         SessionSourceServiceProvider::class,
         FrontendActionServiceProvider::class,
+        LockDownBrowserServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
