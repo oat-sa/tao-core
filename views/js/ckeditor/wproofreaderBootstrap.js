@@ -55,6 +55,8 @@ define([
         providerConfig: {}
     });
     var config = _.defaults({}, spellCheckConfig.providerConfig, defaults);
+    var selectedLanguage = null;
+    var disabledInstances = [];
     config.serviceId = _.trim(String(config.serviceId || ''));
     var enabled = spellCheckConfig.enabled !== false
         && spellCheckConfig.providerId === 'wproofreader'
@@ -62,13 +64,100 @@ define([
     var scriptLoaded = false;
     var scriptLoading = null;
 
+    function supportsLanguage(instance) {
+        var languages;
+
+        if (!selectedLanguage) {
+            return false;
+        }
+        if (!_.isFunction(instance.getLangList)) {
+            return true;
+        }
+
+        languages = instance.getLangList();
+        if (!languages || (!languages.ltr && !languages.rtl)) {
+            return true;
+        }
+
+        return _.has(languages.ltr, selectedLanguage) || _.has(languages.rtl, selectedLanguage);
+    }
+
+    function disableInstance(instance) {
+        if (
+            !_.isFunction(instance.disable)
+            || _.includes(disabledInstances, instance)
+            || (_.isFunction(instance.isDisabled) && instance.isDisabled())
+        ) {
+            return;
+        }
+
+        instance.disable({ ignoreCallback: true });
+        disabledInstances.push(instance);
+    }
+
+    function enableInstance(instance) {
+        if (_.includes(disabledInstances, instance) && _.isFunction(instance.enable)) {
+            instance.enable({ ignoreCallback: true });
+            disabledInstances = _.without(disabledInstances, instance);
+        }
+    }
+
+    function setInstanceLanguage(instance) {
+        if (!instance) {
+            return;
+        }
+
+        try {
+            if (!supportsLanguage(instance)) {
+                disableInstance(instance);
+                return;
+            }
+
+            if (_.isFunction(instance.setLang) && (!_.isFunction(instance.getLang) || instance.getLang() !== selectedLanguage)) {
+                instance.setLang(selectedLanguage, { ignoreCallback: true });
+                if (_.isFunction(instance.reloadMarkup)) {
+                    instance.reloadMarkup();
+                }
+            }
+            enableInstance(instance);
+        } catch (err) {
+            log.warn(`Unable to set WProofreader language: ${err && err.message}`);
+        }
+    }
+
+    function updateInstancesLanguage() {
+        if (
+            !scriptLoaded
+            || !window.WEBSPELLCHECKER
+            || !_.isFunction(window.WEBSPELLCHECKER.getInstances)
+        ) {
+            return;
+        }
+
+        _.forEach(window.WEBSPELLCHECKER.getInstances(), setInstanceLanguage);
+    }
+
     function getWscConfig() {
-        var exclude = wproofreaderExclude.buildWscExcludeOptions(config);
-        return _.assign(
+        var exclude;
+        var wscConfig;
+        var onLoad;
+
+        exclude = wproofreaderExclude.buildWscExcludeOptions(config);
+        wscConfig = _.assign(
             {},
             _.omit(config, ['ignoreClasses', 'ignoreElements', 'ignoreAttributes', 'disableAutoSearchIn', 'enableAutoSearchIn']),
             exclude
         );
+        onLoad = wscConfig.onLoad;
+
+        wscConfig.onLoad = function (instance, ...args) {
+            setInstanceLanguage(instance);
+            if (_.isFunction(onLoad)) {
+                onLoad.call(this, instance, ...args);
+            }
+        };
+
+        return wscConfig;
     }
 
     function loadScript() {
@@ -99,6 +188,7 @@ define([
             script.onload = function () {
                 if (window.WEBSPELLCHECKER) {
                     scriptLoaded = true;
+                    updateInstancesLanguage();
                     resolve();
                 } else {
                     fail(new Error('WProofreader bundle loaded without defining WEBSPELLCHECKER: ' + config.srcUrl));
@@ -158,9 +248,27 @@ define([
         });
     }
 
+    function setLanguage(lang) {
+        if (!enabled) {
+            return;
+        }
+
+        lang = _.trim(String(lang || ''));
+        selectedLanguage = lang || null;
+        config.autoStartup = !!selectedLanguage;
+        config.lang = selectedLanguage || '';
+
+        if (window.WEBSPELLCHECKER_CONFIG) {
+            window.WEBSPELLCHECKER_CONFIG.autoStartup = config.autoStartup;
+            window.WEBSPELLCHECKER_CONFIG.lang = config.lang;
+        }
+        updateInstancesLanguage();
+    }
+
     return {
         enabled: enabled,
         start: scheduleLoad,
+        setLanguage: setLanguage,
         getCkeditorConfig: function () {
             return { disableNativeSpellChecker: false };
         }
