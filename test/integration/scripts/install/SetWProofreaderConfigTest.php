@@ -38,7 +38,8 @@ class SetWProofreaderConfigTest extends TaoPhpUnitTestRunner
     public function testListsReplaceExistingConfig(): void
     {
         $registry = ClientLibConfigRegistry::getRegistry();
-        $registry->remove(self::CONFIG_ID);
+        $wasRegistered = $registry->isRegistered(self::CONFIG_ID);
+        $originalConfig = $wasRegistered ? $registry->get(self::CONFIG_ID) : null;
         $registry->set(self::CONFIG_ID, [
             'spellCheckConfig' => [
                 'providerConfig' => [
@@ -64,7 +65,11 @@ class SetWProofreaderConfigTest extends TaoPhpUnitTestRunner
             $this->assertSame(['new'], $spellCheckConfig['providerConfig']['ignoreClasses']);
             $this->assertSame([], $spellCheckConfig['providerConfig']['ignoreElements']);
         } finally {
-            $registry->remove(self::CONFIG_ID);
+            if ($wasRegistered) {
+                $registry->set(self::CONFIG_ID, $originalConfig);
+            } else {
+                $registry->remove(self::CONFIG_ID);
+            }
         }
     }
 }
