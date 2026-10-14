@@ -1,80 +1,37 @@
-# Lock down browser (client configuration)
+# Lock down browser (tao-core)
 
-tao-core exposes **process-check** settings to the delivery UI through **client config** (`context.lockDownBrowser`).
-The test runner talks to the native lock down browser through a **driver-based JavaScript facade** (real vendor driver vs mock driver for local QA).
+tao-core provides **client process settings**, **HTTP detection**, and the shared **JavaScript facade** (drivers).
 
-**Enable/disable** and **driver** are **not** in client config. They come from the **`lockDownBrowser` test runner plugin** in
-`config/taoTests/test_runner_plugin_registry.conf.php` (`active`, `driver`) and are passed to the plugin AMD module as `getConfig()`.
+## Client config (`context.lockDownBrowser`)
 
-Server-side **detection** (whether an execution used a lock down browser) is separate from client config and lives in
-`LockDownBrowserDetectorInterface` (`HttpRequestLockDownBrowserDetector`).
+Process-check settings only (no plugin `active` / `driver` here). Merged by `LockDownBrowserClientConfigurationRetriever` from:
 
-## Client config shape
+1. `LockDownBrowserClientConfigurationRetriever::DEFAULT_CONFIG`
+2. Environment `LOCK_DOWN_BROWSER_CLIENT_CONFIG` (JSON, process fields only)
 
-After login or on delivery pages, decoded `context` includes **process settings only**:
+`ClientConfigStorage` exposes the result on encoded **`context.lockDownBrowser`**.
 
-```json
-{
-  "lockDownBrowser": {
-    "processCheckInterval": 60000,
-    "processCheckOnTestNavigation": true,
-    "processBlackList": [],
-    "mockActiveProcesses": [],
-    "simulateBreach": false
-  }
-}
-```
+| Key | Description |
+|-----|-------------|
+| `processCheckInterval` | Denied-process poll interval (ms); `null` if disabled. |
+| `processCheckOnTestNavigation` | Run denied-process checks on item navigation. |
+| `processBlackList` | Denied process names. |
+| `mockActiveProcesses` | Mock driver: fake running processes for QA. |
+| `simulateBreach` | QA: enables client-side breach simulation harness. |
 
-| Key | Source | Description |
-|-----|--------|-------------|
-| `processCheckInterval` | BE defaults / env | Interval in ms for denied-process checks (`null` if disabled). |
-| `processCheckOnTestNavigation` | BE defaults / env | Run denied-process checks on item navigation. |
-| `processBlackList` | BE defaults / env | Denied process names. |
-| `mockActiveProcesses` | BE defaults / env | Mock driver: fake running process names for breach QA. |
-| `simulateBreach` | BE defaults / env | QA only: enables breach simulation harness (`taoLockDownBrowserTest.simulateSecurityViolation`). Real Kiosk{ed} uses `checkBlocklist(..., true)` for native block screen; mock shows console + banner. |
-
-Plugin registry (activation + driver):
-
-```php
-'taoTestRunnerPlugins/runner/plugins/security/lockDownBrowser' => [
-    'id' => 'lockDownBrowser',
-    'module' => 'taoTestRunnerPlugins/runner/plugins/security/lockDownBrowser',
-    'active' => true,
-    'driver' => 'kioskedMock',
-    // 'driver' => 'kiosked',
-    // ...
-],
-```
-
-## Process settings (backend)
-
-Merged via `LockDownBrowserClientConfigurationRetriever` from:
-
-1. Defaults — `LockDownBrowserClientConfigurationRetriever::DEFAULT_CONFIG`
-2. Environment — `LOCK_DOWN_BROWSER_CLIENT_CONFIG` JSON (process fields only)
-
-On INVALSI, enable/disable and driver are set in **`config/taoTests/test_runner_plugin_registry.conf.php`**. Optional process overrides: env **`LOCK_DOWN_BROWSER_CLIENT_CONFIG`** JSON only.
-
-`ClientConfigStorage` adds retriever output to encoded **`context.lockDownBrowser`**.
-
-After changing DI or env-related config, warm the container cache:
+After DI or env changes:
 
 ```shell
 php index.php 'oat\generis\scripts\tools\ContainerCacheWarmup'
 ```
 
-## Drivers
+## Server detection
 
-| `driver` value (plugin registry) | Use case |
-|----------------------------------|----------|
-| `kioskedMock` | Development / QA without a real lock down browser. |
-| `kiosked` | Production with Kiosk{ed}. |
+`LockDownBrowserDetectorInterface` — `HttpRequestLockDownBrowserDetector` reads `clientKioskApiOk` (query or parsed body) and User-Agent to return `kiosked`, `kioskedMock`, or `none` (`LockDownBrowser` entity constants).
 
-## Related code
+## JavaScript (tao extension)
 
-| Area | Location |
-|------|----------|
-| Client context (process settings) | `LockDownBrowserClientConfigurationRetriever`, `ClientConfigStorage` |
-| Plugin activation / driver | `config/taoTests/test_runner_plugin_registry.conf.php`, `DynamicModule` (`driver`) |
-| FE facade (service, drivers, UI protocol) | `tao/views/js/lockDownBrowser/` |
-| FE test runner plugin | `taoTestRunnerPlugins/views/js/runner/plugins/security/lockDownBrowser.js` |
+| Asset | Path |
+|-------|------|
+| Facade, UI protocol, drivers | `tao/views/js/lockDownBrowser/` (AMD `tao/lockDownBrowser/...`) |
+| Bundle | `tao/loader/lockDownBrowser.min` — rebuild with `grunt taobundle` from `tao/views/build` |
