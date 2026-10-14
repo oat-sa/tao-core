@@ -1,32 +1,50 @@
 <?php
 
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
+ */
+
 declare(strict_types=1);
 
 namespace oat\tao\model\lockDownBrowser\Service;
 
-use Context;
 use oat\tao\model\lockDownBrowser\Entity\LockDownBrowser;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class HttpRequestLockDownBrowserDetector implements LockDownBrowserDetectorInterface
 {
-    public const REQUEST_PARAM_CLIENT_KIOSK_API_OK = 'clientKioskApiOk';
+    private const REQUEST_PARAM_CLIENT_KIOSK_API_OK = 'clientKioskApiOk';
 
-    public function detect($clientKioskApiOk = null): string
+    public function detect(ServerRequestInterface $request): string
     {
-        if ($this->isClientKioskApiOk($clientKioskApiOk)) {
-            return LockDownBrowser::PROVIDER_KIOSKED;
-        }
+        if ($this->isClientKioskApiOk($request)) {
+            if ($this->isUserAgentKiosked($request)) {
+                return LockDownBrowser::PROVIDER_KIOSKED;
+            }
 
-        if ($this->isUserAgentKiosked()) {
-            return LockDownBrowser::PROVIDER_KIOSKED;
+            return LockDownBrowser::PROVIDER_KIOSKED_MOCK;
         }
 
         return LockDownBrowser::PROVIDER_NONE;
     }
 
-    private function isUserAgentKiosked(): bool
+    private function isUserAgentKiosked(ServerRequestInterface $request): bool
     {
-        $userAgent = $this->getUserAgent();
+        $userAgent = $request->getHeaderLine('User-Agent');
 
         if ($userAgent === '') {
             return false;
@@ -35,53 +53,32 @@ final class HttpRequestLockDownBrowserDetector implements LockDownBrowserDetecto
         return (bool)preg_match('/kiosk(ed)?/i', $userAgent);
     }
 
-    private function getUserAgent(): string
+    private function isClientKioskApiOk(ServerRequestInterface $request): bool
     {
-        try {
-            $request = Context::getInstance()->getRequest();
+        $value = $this->getRequestParameter($request, self::REQUEST_PARAM_CLIENT_KIOSK_API_OK);
 
-            if ($request->hasHeader('User-Agent')) {
-                return (string)$request->getHeader('User-Agent');
-            }
-        } catch (\Throwable $exception) {
-            // fall through to $_SERVER
-        }
-
-        return (string)($_SERVER['HTTP_USER_AGENT'] ?? '');
-    }
-
-    private function isClientKioskApiOk($explicit = null): bool
-    {
-        if ($explicit !== null) {
-            return filter_var($explicit, FILTER_VALIDATE_BOOLEAN);
-        }
-
-        $fromRequest = $this->readClientKioskApiOkFromContextRequest();
-
-        if ($fromRequest !== null) {
-            return filter_var($fromRequest, FILTER_VALIDATE_BOOLEAN);
-        }
-
-        if (!isset($_REQUEST[self::REQUEST_PARAM_CLIENT_KIOSK_API_OK])) {
+        if ($value === null) {
             return false;
         }
 
-        return filter_var($_REQUEST[self::REQUEST_PARAM_CLIENT_KIOSK_API_OK], FILTER_VALIDATE_BOOLEAN);
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
      * @return mixed|null
      */
-    private function readClientKioskApiOkFromContextRequest()
+    private function getRequestParameter(ServerRequestInterface $request, string $name)
     {
-        try {
-            $request = Context::getInstance()->getRequest();
+        $query = $request->getQueryParams();
 
-            if ($request->hasParameter(self::REQUEST_PARAM_CLIENT_KIOSK_API_OK)) {
-                return $request->getParameter(self::REQUEST_PARAM_CLIENT_KIOSK_API_OK);
-            }
-        } catch (\Throwable $exception) {
-            return null;
+        if (array_key_exists($name, $query)) {
+            return $query[$name];
+        }
+
+        $parsedBody = $request->getParsedBody();
+
+        if (is_array($parsedBody) && array_key_exists($name, $parsedBody)) {
+            return $parsedBody[$name];
         }
 
         return null;

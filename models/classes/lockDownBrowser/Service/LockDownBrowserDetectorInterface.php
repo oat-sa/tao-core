@@ -6,6 +6,15 @@
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
  */
 
@@ -13,12 +22,12 @@ declare(strict_types=1);
 
 namespace oat\tao\model\lockDownBrowser\Service;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 interface LockDownBrowserDetectorInterface
 {
     /**
-     * @param mixed|null $clientKioskApiOk Explicit value from Runner/init (preferred over superglobals)
-     *
      * @return string Entity\LockDownBrowser::PROVIDER_* value
      */
-    public function detect($clientKioskApiOk = null): string;
+    public function detect(ServerRequestInterface $request): string;
 }
