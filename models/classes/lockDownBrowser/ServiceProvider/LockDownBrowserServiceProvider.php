@@ -52,11 +52,6 @@ class LockDownBrowserServiceProvider implements ContainerServiceProviderInterfac
                 LockDownBrowserClientConfigurationRetriever::class,
                 LockDownBrowserClientConfigurationRetriever::class
             )
-            ->public()
-            ->args([
-                env(LockDownBrowserClientConfigurationRetriever::LOCK_DOWN_BROWSER_CLIENT_CONFIG)
-                    ->default('')
-                    ->string(),
-            ]);
+            ->public();
     }
 }

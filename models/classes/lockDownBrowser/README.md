@@ -7,7 +7,7 @@ tao-core provides **client process settings**, **HTTP detection**, and the share
 Process-check settings only (no plugin `active` / `driver` here). Merged by `LockDownBrowserClientConfigurationRetriever` from:
 
 1. `LockDownBrowserClientConfigurationRetriever::DEFAULT_CONFIG`
-2. Environment `LOCK_DOWN_BROWSER_CLIENT_CONFIG` (JSON, process fields only)
+2. Environment `LOCK_DOWN_BROWSER_CONFIG` (JSON, process fields only)
 
 `ClientConfigStorage` exposes the result on encoded **`context.lockDownBrowser`**.
 

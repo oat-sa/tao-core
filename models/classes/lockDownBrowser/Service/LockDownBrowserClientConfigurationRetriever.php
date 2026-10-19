@@ -27,7 +27,7 @@ use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
 
 class LockDownBrowserClientConfigurationRetriever
 {
-    public const LOCK_DOWN_BROWSER_CLIENT_CONFIG = 'LOCK_DOWN_BROWSER_CLIENT_CONFIG';
+    public const LOCK_DOWN_BROWSER_CONFIG = 'LOCK_DOWN_BROWSER_CONFIG';
 
     public const DEFAULT_CONFIG = [
         'processCheckInterval' => 30000,
@@ -37,19 +37,14 @@ class LockDownBrowserClientConfigurationRetriever
         'simulateBreach' => false,
     ];
 
-    private ?string $jsonConfig;
+    private array $config;
 
-    public function __construct(?string $jsonConfig = null)
+    public function __construct(array $config = [])
     {
-        $this->jsonConfig = $jsonConfig;
-    }
+        $this->config = self::DEFAULT_CONFIG;
 
-    public function retrieve(): LockDownBrowserConfiguration
-    {
-        $config = self::DEFAULT_CONFIG;
-
-        if (!empty($this->jsonConfig)) {
-            $decoded = json_decode($this->jsonConfig, true);
+        if (empty($config) && $_ENV[self::LOCK_DOWN_BROWSER_CONFIG]) {
+            $decoded = json_decode($_ENV[self::LOCK_DOWN_BROWSER_CONFIG], true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new InvalidArgumentException(
@@ -57,33 +52,25 @@ class LockDownBrowserClientConfigurationRetriever
                 );
             }
 
-            if (is_array($decoded)) {
-                $config = array_merge($config, $decoded);
-            }
+            $this->config = array_merge($this->config, $decoded);
         }
+    }
 
-        $interval = $config['processCheckInterval'] ?? null;
-
-        if ($interval !== null) {
-            $interval = (int)$interval;
-
-            if ($interval <= 0) {
-                $interval = null;
-            }
-        }
-
-        $mockActiveProcesses = $config['mockActiveProcesses'] ?? [];
+    public function retrieve(): LockDownBrowserConfiguration
+    {
+        $interval = (int)($this->config['processCheckInterval'] ?? null);
+        $mockActiveProcesses = $this->config['mockActiveProcesses'] ?? [];
 
         if (!is_array($mockActiveProcesses)) {
             $mockActiveProcesses = [];
         }
 
         return new LockDownBrowserConfiguration(
-            $interval,
-            (bool)($config['processCheckOnTestNavigation'] ?? true),
-            is_array($config['processBlackList'] ?? null) ? $config['processBlackList'] : [],
+            $interval > 0 ? $interval : null,
+            (bool)($this->config['processCheckOnTestNavigation'] ?? true),
+            is_array($this->config['processBlackList'] ?? null) ? $this->config['processBlackList'] : [],
             array_values(array_filter($mockActiveProcesses, 'is_string')),
-            filter_var($config['simulateBreach'] ?? false, FILTER_VALIDATE_BOOLEAN)
+            filter_var($this->config['simulateBreach'] ?? false, FILTER_VALIDATE_BOOLEAN)
         );
     }
 }

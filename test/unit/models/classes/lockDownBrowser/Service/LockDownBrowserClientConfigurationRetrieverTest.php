@@ -41,18 +41,17 @@ class LockDownBrowserClientConfigurationRetrieverTest extends TestCase
 
     public function testRetrieveAppliesEnvJsonConfiguration(): void
     {
-        $retriever = new LockDownBrowserClientConfigurationRetriever(
-            json_encode([
-                'processCheckInterval' => 120000,
-                'processCheckOnTestNavigation' => false,
-                'processBlackList' => [
-                    ['process' => 'slack', 'label' => 'Slack'],
-                ],
-                'mockActiveProcesses' => ['slack'],
-                'simulateBreach' => false,
-            ], JSON_THROW_ON_ERROR)
-        );
+        $this->mockEnvVar([
+            'processCheckInterval' => 120000,
+            'processCheckOnTestNavigation' => false,
+            'processBlackList' => [
+                ['process' => 'slack', 'label' => 'Slack'],
+            ],
+            'mockActiveProcesses' => ['slack'],
+            'simulateBreach' => false,
+        ]);
 
+        $retriever = new LockDownBrowserClientConfigurationRetriever();
         $config = $retriever->retrieve();
 
         $this->assertSame(120000, $config->processCheckInterval);
@@ -67,16 +66,24 @@ class LockDownBrowserClientConfigurationRetrieverTest extends TestCase
 
     public function testRetrieveSimulateBreachFromEnvJson(): void
     {
-        $retriever = new LockDownBrowserClientConfigurationRetriever('{"simulateBreach":true}');
+        $this->mockEnvVar([ 'simulateBreach' => true ]);
+        $retriever = new LockDownBrowserClientConfigurationRetriever();
 
         $this->assertTrue($retriever->retrieve()->simulateBreach);
     }
 
     public function testRetrieveMergesEnvJsonConfig(): void
     {
-        $retriever = new LockDownBrowserClientConfigurationRetriever(
-            '{"processBlackList":[{"process":"notion","label":"Notion"}]}'
-        );
+        $this->mockEnvVar([
+            'processBlackList' => [
+                [
+                    "process" => "notion",
+                    "label" => "Notion"
+                ]
+            ]
+        ]);
+
+        $retriever = new LockDownBrowserClientConfigurationRetriever();
 
         $config = $retriever->retrieve();
 
@@ -85,8 +92,18 @@ class LockDownBrowserClientConfigurationRetrieverTest extends TestCase
 
     public function testZeroIntervalBecomesNull(): void
     {
-        $retriever = new LockDownBrowserClientConfigurationRetriever('{"processCheckInterval":0}');
+        $this->mockEnvVar([ 'processCheckInterval' => 0 ]);
+
+        $retriever = new LockDownBrowserClientConfigurationRetriever();
 
         $this->assertNull($retriever->retrieve()->processCheckInterval);
+    }
+
+    private function mockEnvVar(array $config): void
+    {
+        $_ENV[LockDownBrowserClientConfigurationRetriever::LOCK_DOWN_BROWSER_CONFIG] = json_encode(
+            $config,
+            JSON_THROW_ON_ERROR
+        );
     }
 }
