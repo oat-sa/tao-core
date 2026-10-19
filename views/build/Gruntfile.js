@@ -58,6 +58,9 @@ module.exports = function(grunt) {
     // load all grunt tasks matching the `grunt-*` pattern
     require('load-grunt-tasks')(grunt);
 
+    // Keep extension watch tasks compatible without desktop notifications.
+    grunt.registerMultiTask('notify', 'Desktop notifications disabled', function() {});
+
     grunt.loadNpmTasks('@oat-sa/grunt-tao-bundle');
 
     /*
