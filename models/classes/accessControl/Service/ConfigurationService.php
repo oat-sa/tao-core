@@ -48,8 +48,11 @@ class ConfigurationService
         $this->clientConfig = $clientConfig;
     }
 
-    public function fetchConfiguration(string $configurationKey, ?string $tenantId = null): mixed
-    {
+    public function fetchConfiguration(
+        string $configurationKey,
+        ?string $tenantId = null,
+        bool $forceRefresh = false
+    ): mixed {
         $uri = $_ENV['ENV_CONFIG_URI'] ?? getenv('ENV_CONFIG_URI');
         if (!$uri) {
             throw new RuntimeException('Configuration not found.', 404);
@@ -59,9 +62,11 @@ class ConfigurationService
             $tenantId = $token['tenant_id'];
         }
         $key = "$uri/api/v1/tenants/{$tenantId}/configurations/$configurationKey";
-        $value = $this->cache->get($key);
-        if ($value) {
-            return json_decode($value, true);
+        if (!$forceRefresh) {
+            $value = $this->cache->get($key);
+            if ($value) {
+                return json_decode($value, true);
+            }
         }
 
         $client = new Client($this->clientConfig);
