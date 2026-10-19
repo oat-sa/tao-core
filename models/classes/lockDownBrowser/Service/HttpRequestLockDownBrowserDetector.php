@@ -22,24 +22,25 @@ declare(strict_types=1);
 
 namespace oat\tao\model\lockDownBrowser\Service;
 
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowser;
+use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class HttpRequestLockDownBrowserDetector implements LockDownBrowserDetectorInterface
 {
     private const REQUEST_PARAM_CLIENT_KIOSK_API_OK = 'clientKioskApiOk';
+    private const REQUEST_PARAM_CLIENT_LDB_MOCK = 'ldbMock';
 
-    public function detect(ServerRequestInterface $request): string
+    public function detect(ServerRequestInterface $request): ?string
     {
-        if ($this->isClientKioskApiOk($request)) {
-            if ($this->isUserAgentKiosked($request)) {
-                return LockDownBrowser::PROVIDER_KIOSKED;
-            }
-
-            return LockDownBrowser::PROVIDER_KIOSKED_MOCK;
+        if ($this->isUserAgentKiosked($request)) {
+            return LockDownBrowserConfiguration::PROVIDER_KIOSKED;
         }
 
-        return LockDownBrowser::PROVIDER_NONE;
+        if ($this->getBooleanRequestValue($request, self::REQUEST_PARAM_CLIENT_LDB_MOCK)) {
+            return LockDownBrowserConfiguration::PROVIDER_MOCK;
+        }
+
+        return null;
     }
 
     private function isUserAgentKiosked(ServerRequestInterface $request): bool
@@ -50,12 +51,13 @@ final class HttpRequestLockDownBrowserDetector implements LockDownBrowserDetecto
             return false;
         }
 
-        return (bool)preg_match('/kiosk(ed)?/i', $userAgent);
+        return preg_match('/kiosk(ed)?/i', $userAgent)
+            && $this->getBooleanRequestValue($request, self::REQUEST_PARAM_CLIENT_KIOSK_API_OK);
     }
 
-    private function isClientKioskApiOk(ServerRequestInterface $request): bool
+    private function getBooleanRequestValue(ServerRequestInterface $request, string $param): bool
     {
-        $value = $this->getRequestParameter($request, self::REQUEST_PARAM_CLIENT_KIOSK_API_OK);
+        $value = $this->getRequestParameter($request, $param);
 
         if ($value === null) {
             return false;

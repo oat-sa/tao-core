@@ -40,7 +40,7 @@ use oat\tao\model\clientConfig\GetConfigQuery;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\CookiePolicy\Entity\CookiePolicyConfiguration;
 use oat\tao\model\CookiePolicy\Service\CookiePolicyConfigurationRetriever;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserClientConfiguration;
+use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
 use oat\tao\model\lockDownBrowser\Service\LockDownBrowserClientConfigurationRetriever;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
@@ -259,7 +259,7 @@ class ClientConfigStorageTest extends TestCase
             ->expects($this->once())
             ->method('retrieve')
             ->willReturn(
-                new LockDownBrowserClientConfiguration(
+                new LockDownBrowserConfiguration(
                     60000,
                     true,
                     [],
@@ -417,6 +417,13 @@ class ClientConfigStorageTest extends TestCase
                             'privacyPolicyUrl' => 'https://privacyPolicyUrl.taotesting.com',
                             'cookiePolicyUrl' => 'https://cookiePolicyUrl.taotesting.com',
                             'display' => true
+                        ],
+                        'lockDownBrowser' => [
+                            'processCheckInterval' => 60000,
+                            'processCheckOnTestNavigation' => true,
+                            'processBlackList' => [],
+                            'mockActiveProcesses' => [],
+                            'simulateBreach' => false,
                         ],
                         'currentUser' => [
                             'id' => 'myUserId',

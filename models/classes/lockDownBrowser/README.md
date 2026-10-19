@@ -27,7 +27,7 @@ php index.php 'oat\generis\scripts\tools\ContainerCacheWarmup'
 
 ## Server detection
 
-`LockDownBrowserDetectorInterface` — `HttpRequestLockDownBrowserDetector` reads `clientKioskApiOk` (query or parsed body) and User-Agent to return `kiosked`, `kioskedMock`, or `none` (`LockDownBrowser` entity constants).
+`LockDownBrowserDetectorInterface` — `HttpRequestLockDownBrowserDetector` reads `clientKioskApiOk` (query or parsed body) and User-Agent to return `kiosked`, `kioskedMock`, or `null` when no lock down browser session is detected.
 
 ## JavaScript (tao extension)
 

@@ -215,7 +215,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
                             $eventManager->trigger(new LoginSucceedEvent(
                                 login: current($logins),
-                                source: 'internal:backoffice'//SessionSource::INTERNAL_BACKOFFICE->value
+                                source: SessionSource::INTERNAL_BACKOFFICE->value
                             ));
 
                             $this->logInfo("Successful login of user '" . $form->getValue('login') . "'.");

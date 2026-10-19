@@ -27,7 +27,7 @@ use Psr\Http\Message\ServerRequestInterface;
 interface LockDownBrowserDetectorInterface
 {
     /**
-     * @return string Entity\LockDownBrowser::PROVIDER_* value
+     * @return string|null LockDown Browser provider
      */
-    public function detect(ServerRequestInterface $request): string;
+    public function detect(ServerRequestInterface $request): ?string;
 }

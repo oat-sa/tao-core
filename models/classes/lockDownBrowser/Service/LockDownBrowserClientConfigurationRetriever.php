@@ -23,21 +23,18 @@ declare(strict_types=1);
 namespace oat\tao\model\lockDownBrowser\Service;
 
 use InvalidArgumentException;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserClientConfiguration;
+use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
 
-final class LockDownBrowserClientConfigurationRetriever
+class LockDownBrowserClientConfigurationRetriever
 {
     public const LOCK_DOWN_BROWSER_CLIENT_CONFIG = 'LOCK_DOWN_BROWSER_CLIENT_CONFIG';
 
     public const DEFAULT_CONFIG = [
-        'processCheckInterval' => 5000, // @TODO restore 60000 for production
+        'processCheckInterval' => 30000,
         'processCheckOnTestNavigation' => true,
-        // @TODO replace PoC deny-list before go-live; mockActiveProcesses must name processes from this list for mock breach QA
-        'processBlackList' => [
-            ['process' => 'notion', 'label' => 'Notion'],
-        ],
-        'mockActiveProcesses' => ['notion'],
-        'simulateBreach' => true,
+        'processBlackList' => [],
+        'mockActiveProcesses' => [],
+        'simulateBreach' => false,
     ];
 
     private ?string $jsonConfig;
@@ -47,7 +44,7 @@ final class LockDownBrowserClientConfigurationRetriever
         $this->jsonConfig = $jsonConfig;
     }
 
-    public function retrieve(): LockDownBrowserClientConfiguration
+    public function retrieve(): LockDownBrowserConfiguration
     {
         $config = self::DEFAULT_CONFIG;
 
@@ -81,7 +78,7 @@ final class LockDownBrowserClientConfigurationRetriever
             $mockActiveProcesses = [];
         }
 
-        return new LockDownBrowserClientConfiguration(
+        return new LockDownBrowserConfiguration(
             $interval,
             (bool)($config['processCheckOnTestNavigation'] ?? true),
             is_array($config['processBlackList'] ?? null) ? $config['processBlackList'] : [],

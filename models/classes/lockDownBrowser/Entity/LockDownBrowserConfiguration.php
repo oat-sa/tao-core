@@ -24,52 +24,25 @@ namespace oat\tao\model\lockDownBrowser\Entity;
 
 use JsonSerializable;
 
-/**
- * Process-check and mock settings for lock down browser in client config (driver/active: test runner plugin registry).
- */
-final class LockDownBrowserClientConfiguration implements JsonSerializable
+final class LockDownBrowserConfiguration implements JsonSerializable
 {
-    /**
-     * @param array<int, array{process: string, label?: string}|string>|array<string, string> $processBlackList
-     */
+    public const ONTOLOGY_NAMESPACE_URI = 'http://www.tao.lu/Ontologies/TAOLockDownBrowser.rdf';
+    public const PROPERTY_LOCK_DOWN_BROWSER = self::ONTOLOGY_NAMESPACE_URI . '#LockDownBrowser';
+    public const PROVIDER_KIOSKED = 'kiosked';
+    public const PROVIDER_MOCK = 'ldbMock';
+
     public function __construct(
-        private ?int $processCheckInterval,
-        private bool $processCheckOnTestNavigation,
-        private array $processBlackList,
-        private array $mockActiveProcesses = [],
-        private bool $simulateBreach = false
+        public readonly ?int $processCheckInterval,
+        public readonly bool $processCheckOnTestNavigation,
+        public readonly array $processBlackList,
+        public readonly array $mockActiveProcesses = [],
+        public readonly bool $simulateBreach = false
     ) {
     }
 
-    public function getProcessCheckInterval(): ?int
+    public static function isProviderAllowed(string $provider): bool
     {
-        return $this->processCheckInterval;
-    }
-
-    public function isProcessCheckOnTestNavigation(): bool
-    {
-        return $this->processCheckOnTestNavigation;
-    }
-
-    /**
-     * @return array<int, array{process: string, label?: string}|string>|array<string, string>
-     */
-    public function getProcessBlackList(): array
-    {
-        return $this->processBlackList;
-    }
-
-    /**
-     * @return list<string>
-     */
-    public function getMockActiveProcesses(): array
-    {
-        return $this->mockActiveProcesses;
-    }
-
-    public function isSimulateBreach(): bool
-    {
-        return $this->simulateBreach;
+        return $provider === self::PROVIDER_KIOSKED || $provider === self::PROVIDER_MOCK;
     }
 
     public function jsonSerialize(): array
