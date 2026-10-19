@@ -163,6 +163,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
             $lock = $this->createLock(self::LOCK_PREFIX . $task->getId());
             $lock->acquire(true);
             $this->getTaskLog()
+                ->getBroker()
                 ->add($task, TaskLogInterface::STATUS_ENQUEUED, $label);
             $isTaskLogged = true;
             $isEnqueued = $this->getBroker()->push($task);
