@@ -155,8 +155,10 @@ class QueueTest extends TestCase
     /**
      * @return Queue|MockObject
      */
-    private function createEnqueueSubject(QueueBrokerInterface $queueBroker, TaskLogBrokerInterface $taskLogBroker): Queue
-    {
+    private function createEnqueueSubject(
+        QueueBrokerInterface $queueBroker,
+        TaskLogBrokerInterface $taskLogBroker
+    ): Queue {
         $taskLog = new TaskLog([TaskLogInterface::OPTION_TASK_LOG_BROKER => $taskLogBroker]);
         $taskLog->setLogger($this->createMock(LoggerInterface::class));
         $taskLog->setServiceLocator($this->getServiceManagerMock());
