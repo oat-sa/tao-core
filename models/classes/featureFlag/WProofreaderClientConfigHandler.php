@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\featureFlag;
 
 use oat\oatbox\session\SessionService;
-use oat\tao\model\accessControl\Service\ConfigurationService;
+use oat\tao\model\tenantConfiguration\Service\ConfigurationService;
 use oat\tao\model\user\TaoRoles;
 use RuntimeException;
 
@@ -50,12 +50,16 @@ class WProofreaderClientConfigHandler implements FeatureFlagConfigHandlerInterfa
         }
 
         try {
-            $providers = $this->configurationService->fetchConfiguration(
+            $providers = $this->configurationService->fetch(
                 self::CONFIGURATION_KEY,
                 $this->sessionService->getTenantId(),
                 true
             );
         } catch (RuntimeException) {
+            return $configs;
+        }
+
+        if ($providers === null) {
             return $configs;
         }
 

@@ -28,7 +28,7 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\cache\SimpleCache;
 use oat\oatbox\session\SessionService;
 use oat\tao\model\ClientLibConfigRegistry;
-use oat\tao\model\accessControl\Service\ConfigurationService;
+use oat\tao\model\tenantConfiguration\Service\ConfigurationService;
 use oat\tao\model\featureFlag\Listener\FeatureFlagCacheWarmupListener;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepository;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;

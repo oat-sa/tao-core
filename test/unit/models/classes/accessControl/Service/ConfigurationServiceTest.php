@@ -22,55 +22,93 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\accessControl\Service;
 
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Psr7\Response;
-use oat\tao\model\accessControl\Service\AccessTokenService;
+use oat\tao\model\accessControl\AccessControlServiceProvider;
+use oat\tao\model\tenantConfiguration\Service\ConfigurationService as TenantConfigurationService;
 use oat\tao\model\accessControl\Service\ConfigurationService;
 use PHPUnit\Framework\TestCase;
-use Psr\SimpleCache\CacheInterface;
+use RuntimeException;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class ConfigurationServiceTest extends TestCase
 {
-    public function testForceRefreshBypassesCachedConfiguration(): void
+    public function testContainerWorksWithoutRegisteredFetcher(): void
     {
-        $hadConfigUri = array_key_exists('ENV_CONFIG_URI', $_ENV);
-        $previousConfigUri = $_ENV['ENV_CONFIG_URI'] ?? null;
-        $_ENV['ENV_CONFIG_URI'] = 'https://config.example';
+        $subject = $this->createService();
+        self::assertNull((new TenantConfigurationService())->fetch('testRunnerConfiguration'));
+        self::assertNull($subject->fetchConfiguration('spellchecker.external_providers', 'tenant-id', true));
+    }
 
-        try {
-            $configuration = [['providerName' => 'wproofreader', 'enabled' => false]];
-            $cacheKey = 'https://config.example/api/v1/tenants/tenant-id/configurations/'
-                . 'spellchecker.external_providers';
-            $cache = $this->createMock(CacheInterface::class);
-            $cache
-                ->expects(self::never())
-                ->method('get');
-            $cache
-                ->expects(self::once())
-                ->method('set')
-                ->with($cacheKey, json_encode($configuration), 300);
+    /**
+     * @dataProvider requestProvider
+     */
+    public function testDelegatesToRegisteredFetcher(?string $tenantId, bool $forceRefresh): void
+    {
+        $configuration = [['providerName' => 'wproofreader', 'enabled' => false]];
+        $fetcher = $this->createMock(TenantConfigurationService::class);
+        $fetcher->expects(self::once())->method('fetch')
+            ->with('spellchecker.external_providers', $tenantId, $forceRefresh)
+            ->willReturn($configuration);
+        $subject = $this->createService($fetcher);
 
-            $subject = new ConfigurationService(
-                $this->createMock(AccessTokenService::class),
-                $cache,
-                300,
-                [
-                    'handler' => new MockHandler([
-                        new Response(200, [], json_encode(['value' => $configuration])),
-                    ]),
-                ]
-            );
+        self::assertSame(
+            $configuration,
+            $subject->fetchConfiguration('spellchecker.external_providers', $tenantId, $forceRefresh)
+        );
+    }
 
-            self::assertSame(
-                $configuration,
-                $subject->fetchConfiguration('spellchecker.external_providers', 'tenant-id', true)
-            );
-        } finally {
-            if ($hadConfigUri) {
-                $_ENV['ENV_CONFIG_URI'] = $previousConfigUri;
-            } else {
-                unset($_ENV['ENV_CONFIG_URI']);
+    public function requestProvider(): array
+    {
+        return [
+            'existing caller defaults' => [null, false],
+            'explicit tenant with cache' => ['tenant-id', false],
+            'WProofreader forced refresh' => ['tenant-id', true],
+        ];
+    }
+
+    public function testPropagatesFetcherFailure(): void
+    {
+        $exception = new RuntimeException('Fetch failed.', 424);
+        $fetcher = $this->createMock(TenantConfigurationService::class);
+        $fetcher->method('fetch')->willThrowException($exception);
+        $this->expectExceptionObject($exception);
+
+        (new ConfigurationService($fetcher))->fetchConfiguration('testRunnerConfiguration');
+    }
+
+    private function createService(?TenantConfigurationService $fetcher = null): ConfigurationService
+    {
+        $container = new ContainerBuilder();
+        $instanceof = [];
+        $configurator = new ContainerConfigurator(
+            $container,
+            new PhpFileLoader($container, new FileLocator()),
+            $instanceof,
+            __FILE__,
+            __FILE__
+        );
+        (new AccessControlServiceProvider())($configurator);
+        foreach (array_keys($container->getDefinitions()) as $id) {
+            if (
+                !in_array($id, [
+                    'service_container',
+                    ConfigurationService::class,
+                    TenantConfigurationService::class,
+                ], true)
+            ) {
+                $container->removeDefinition($id);
             }
         }
+        if ($fetcher !== null) {
+            $container->register(TenantConfigurationService::class)->setSynthetic(true)->setPublic(true);
+        }
+        $container->compile();
+        if ($fetcher !== null) {
+            $container->set(TenantConfigurationService::class, $fetcher);
+        }
+
+        return $container->get(ConfigurationService::class);
     }
 }

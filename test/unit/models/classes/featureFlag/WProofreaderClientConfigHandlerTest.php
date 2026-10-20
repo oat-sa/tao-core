@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\featureFlag;
 
 use oat\oatbox\session\SessionService;
-use oat\tao\model\accessControl\Service\ConfigurationService;
+use oat\tao\model\tenantConfiguration\Service\ConfigurationService;
 use oat\tao\model\featureFlag\WProofreaderClientConfigHandler;
 use oat\tao\model\user\TaoRoles;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -74,7 +74,7 @@ class WProofreaderClientConfigHandlerTest extends TestCase
     {
         $this->configurationService
             ->expects(self::once())
-            ->method('fetchConfiguration')
+            ->method('fetch')
             ->with('spellchecker.external_providers', self::TENANT_ID, true)
             ->willReturn([
                 ['providerName' => 'other', 'enabled' => true],
@@ -114,7 +114,7 @@ class WProofreaderClientConfigHandlerTest extends TestCase
     public function testUsesNativeSpellcheckForInvalidTenantConfiguration(mixed $providers): void
     {
         $this->configurationService
-            ->method('fetchConfiguration')
+            ->method('fetch')
             ->willReturn($providers);
 
         $result = ($this->subject)(self::ORIGINAL_CONFIG);
@@ -132,7 +132,7 @@ class WProofreaderClientConfigHandlerTest extends TestCase
     public function invalidConfigurationProvider(): array
     {
         return [
-            'non-array configuration' => [null],
+            'non-array configuration' => ['invalid'],
             'empty providers' => [[]],
             'unrelated provider' => [[['providerName' => 'other', 'enabled' => true]]],
             'disabled provider' => [[[
@@ -160,16 +160,23 @@ class WProofreaderClientConfigHandlerTest extends TestCase
     public function testPreservesInstalledConfigurationWhenTenantConfigurationIsUnavailable(): void
     {
         $this->configurationService
-            ->method('fetchConfiguration')
+            ->method('fetch')
             ->willThrowException(new RuntimeException('Configuration not found.', 404));
 
         self::assertSame(self::ORIGINAL_CONFIG, ($this->subject)(self::ORIGINAL_CONFIG));
     }
 
+    public function testPreservesInstalledConfigurationWithoutFetcher(): void
+    {
+        $subject = new WProofreaderClientConfigHandler(new ConfigurationService(), $this->sessionService);
+
+        self::assertSame(self::ORIGINAL_CONFIG, $subject(self::ORIGINAL_CONFIG));
+    }
+
     public function testSkipsAnonymousRequests(): void
     {
         $this->sessionService->method('isAnonymous')->willReturn(true);
-        $this->configurationService->expects(self::never())->method('fetchConfiguration');
+        $this->configurationService->expects(self::never())->method('fetch');
 
         self::assertSame(self::ORIGINAL_CONFIG, ($this->subject)(self::ORIGINAL_CONFIG));
     }
@@ -178,7 +185,7 @@ class WProofreaderClientConfigHandlerTest extends TestCase
     {
         $configs = self::ORIGINAL_CONFIG;
         $configs[self::CLIENT_MODULE]['spellCheckConfig']['providerConfig'] = 'invalid';
-        $this->configurationService->method('fetchConfiguration')->willReturn([[
+        $this->configurationService->method('fetch')->willReturn([[
             'providerName' => 'wproofreader',
             'enabled' => true,
             'config' => ['serviceId' => 'tenant-service-id'],
@@ -195,7 +202,7 @@ class WProofreaderClientConfigHandlerTest extends TestCase
     public function testSkipsRequestsWithoutAuthoringModule(): void
     {
         $configs = ['other/module' => ['enabled' => true]];
-        $this->configurationService->expects(self::never())->method('fetchConfiguration');
+        $this->configurationService->expects(self::never())->method('fetch');
 
         self::assertSame($configs, ($this->subject)($configs));
     }
@@ -206,7 +213,7 @@ class WProofreaderClientConfigHandlerTest extends TestCase
         $session = $this->createMock(\common_session_Session::class);
         $session->method('getUserRoles')->willReturn(['delivery-role']);
         $sessionService->method('getCurrentSession')->willReturn($session);
-        $this->configurationService->expects(self::never())->method('fetchConfiguration');
+        $this->configurationService->expects(self::never())->method('fetch');
         $subject = new WProofreaderClientConfigHandler($this->configurationService, $sessionService);
 
         self::assertSame(self::ORIGINAL_CONFIG, $subject(self::ORIGINAL_CONFIG));
