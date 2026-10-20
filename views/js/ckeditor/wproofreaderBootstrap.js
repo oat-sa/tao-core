@@ -168,8 +168,6 @@ define([
             return scriptLoading;
         }
 
-        injectBalloonStyle();
-
         window.WEBSPELLCHECKER_CONFIG = getWscConfig();
 
         scriptLoading = new Promise(function (resolve, reject) {
@@ -201,30 +199,6 @@ define([
         });
 
         return scriptLoading;
-    }
-
-    /**
-     * Backoffice page CSS leaks into the WSC suggestion balloon.
-     */
-    var BALLOON_STYLE_ID = 'tao-wsc-balloon-fix';
-    var BALLOON_CSS = [
-        'html body .wsc-contextmenu__list,html body .wsc-contextmenu__list .wsc-contextmenu__item{list-style:none !important;}',
-        'html body .wsc-contextmenu__list .wsc-contextmenu__icon{display:none !important;}'
-    ].join('\n');
-
-    function injectBalloonStyle(targetDocument) {
-        var doc = targetDocument || document;
-        if (!doc || !doc.head || !doc.createElement || doc.getElementById(BALLOON_STYLE_ID)) {
-            return;
-        }
-        try {
-            var style = doc.createElement('style');
-            style.id = BALLOON_STYLE_ID;
-            style.textContent = BALLOON_CSS;
-            doc.head.appendChild(style);
-        } catch (err) {
-            log.warn('Unable to inject WProofreader balloon style: ' + (err && err.message));
-        }
     }
 
     var bindAttempts = 0;
