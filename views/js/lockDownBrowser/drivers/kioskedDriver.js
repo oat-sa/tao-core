@@ -31,12 +31,16 @@ define([], function () {
     }
 
     function semverCompare(a, b) {
-        var pa = String(a).split('.').map(function (n) {
-            return parseInt(n, 10) || 0;
-        });
-        var pb = String(b).split('.').map(function (n) {
-            return parseInt(n, 10) || 0;
-        });
+        var pa = String(a)
+            .split('.')
+            .map(function (n) {
+                return parseInt(n, 10) || 0;
+            });
+        var pb = String(b)
+            .split('.')
+            .map(function (n) {
+                return parseInt(n, 10) || 0;
+            });
         var i;
         var len = Math.max(pa.length, pb.length);
 
@@ -63,14 +67,6 @@ define([], function () {
         try {
             if (win.kiosked) {
                 return { kind: 'kiosked', api: win.kiosked };
-            }
-        } catch (err) {
-            // cross-origin
-        }
-
-        try {
-            if (win.kiosk && typeof win.kiosk.isLocked === 'function') {
-                return { kind: 'kiosk', api: win.kiosk };
             }
         } catch (err) {
             // cross-origin
@@ -139,11 +135,7 @@ define([], function () {
                 return false;
             }
 
-            if (handle.kind === 'kiosked' && typeof handle.api.isLocked === 'function') {
-                return true;
-            }
-
-            return handle.kind === 'kiosk';
+            return typeof handle.api.isLocked === 'function';
         }
 
         function isLockedAsync(handle) {
@@ -151,39 +143,14 @@ define([], function () {
                 return Promise.resolve(false);
             }
 
-            if (handle.kind === 'kiosked' && typeof handle.api.isLocked === 'function') {
-                return Promise.race([handle.api.isLocked(), wait(API_TIMEOUT_MS)]).then(function (locked) {
-                    return !!locked;
-                }).catch(function () {
-                    return true;
-                });
-            }
-
-            if (handle.kind === 'kiosk' && typeof handle.api.isLocked === 'function') {
-                return new Promise(function (resolve) {
-                    var settled = false;
-
-                    function finish(value) {
-                        if (settled) {
-                            return;
-                        }
-
-                        settled = true;
-                        resolve(!!value);
-                    }
-
-                    try {
-                        handle.api.isLocked(function (state) {
-                            finish(state && state.isLocked);
-                        });
-                    } catch (err) {
-                        finish(true);
-                    }
-
-                    wait(API_TIMEOUT_MS).then(function () {
-                        finish(true);
+            if (typeof handle.api.isLocked === 'function') {
+                return Promise.race([handle.api.isLocked(), wait(API_TIMEOUT_MS)])
+                    .then(function (locked) {
+                        return !!locked;
+                    })
+                    .catch(function () {
+                        return true;
                     });
-                });
             }
 
             return Promise.resolve(true);
@@ -228,18 +195,8 @@ define([], function () {
 
                 var deviceInfoPromise;
 
-                if (handle.kind === 'kiosked' && typeof handle.api.getDeviceInfo === 'function') {
+                if (typeof handle.api.getDeviceInfo === 'function') {
                     deviceInfoPromise = Promise.race([handle.api.getDeviceInfo(), wait(API_TIMEOUT_MS)]);
-                } else if (handle.kind === 'kiosk' && typeof handle.api.getDeviceInfo === 'function') {
-                    deviceInfoPromise = new Promise(function (resolve, reject) {
-                        try {
-                            handle.api.getDeviceInfo(function (info) {
-                                resolve(info);
-                            });
-                        } catch (err) {
-                            reject(err);
-                        }
-                    });
                 } else {
                     return Promise.reject(new Error('Lock down browser API not available'));
                 }
@@ -262,7 +219,7 @@ define([], function () {
                     return;
                 }
 
-                if (handle.kind === 'kiosked' && typeof handle.api.addEventListener === 'function') {
+                if (typeof handle.api.addEventListener === 'function') {
                     violationHandler = function (e) {
                         if (e && typeof e.preventDefault === 'function') {
                             e.preventDefault();
@@ -287,27 +244,13 @@ define([], function () {
 
                     violationListener = violationHandler;
                     handle.api.addEventListener('breach', violationHandler);
-
-                    return;
-                }
-
-                if (handle.kind === 'kiosk' && typeof handle.api.onBreach === 'function') {
-                    violationHandler = function (detail) {
-                        if (typeof violationUserCallback === 'function') {
-                            violationUserCallback({ detail: detail || {} });
-                        }
-                    };
-
-                    violationListener = violationHandler;
-                    handle.api.onBreach(violationHandler);
                 }
             },
 
             removeSecurityViolationListener: function removeSecurityViolationListener() {
                 var handle = getHandle();
 
-                if (handle && handle.kind === 'kiosked' && violationListener &&
-                    typeof handle.api.removeEventListener === 'function') {
+                if (handle && violationListener && typeof handle.api.removeEventListener === 'function') {
                     handle.api.removeEventListener('breach', violationListener);
                 }
 
@@ -323,14 +266,8 @@ define([], function () {
                     return;
                 }
 
-                if (handle.kind === 'kiosked' && typeof handle.api.exit === 'function') {
+                if (typeof handle.api.exit === 'function') {
                     handle.api.exit();
-
-                    return;
-                }
-
-                if (handle.kind === 'kiosk' && typeof handle.api.exit === 'function') {
-                    handle.api.exit(false);
                 }
             },
 
@@ -342,12 +279,15 @@ define([], function () {
                     return Promise.resolve([]);
                 }
 
-                if (handle.kind === 'kiosked' && typeof handle.api.checkBlocklist === 'function') {
-                    return handle.api.checkBlocklist(additionalApps, true).then(function (apps) {
-                        return apps || [];
-                    }).catch(function () {
-                        return [];
-                    });
+                if (typeof handle.api.checkBlocklist === 'function') {
+                    return handle.api
+                        .checkBlocklist(additionalApps, true)
+                        .then(function (apps) {
+                            return apps || [];
+                        })
+                        .catch(function () {
+                            return [];
+                        });
                 }
 
                 return Promise.resolve([]);
@@ -356,12 +296,10 @@ define([], function () {
             simulateSecurityViolation: function simulateSecurityViolation(detail) {
                 detail = detail || {};
                 var handle = getHandle();
-                var additionalApps = detail.processBlackList
-                    ? normalizeProcessBlockList(detail.processBlackList)
-                    : {};
+                var additionalApps = detail.processBlackList ? normalizeProcessBlockList(detail.processBlackList) : {};
                 var checkPromise = Promise.resolve([]);
 
-                if (handle && handle.kind === 'kiosked' && typeof handle.api.checkBlocklist === 'function') {
+                if (handle && typeof handle.api.checkBlocklist === 'function') {
                     checkPromise = handle.api.checkBlocklist(additionalApps, true).catch(function () {
                         return [];
                     });
