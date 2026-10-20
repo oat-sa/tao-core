@@ -351,7 +351,6 @@ return [
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'QueueAction']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'RestUser']],
         // Mention autocomplete for authoring comments (does not expose user CRUD).
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'RestUser', 'act' => 'searchUsers']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Roles']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'TaskQueue']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Users']],
@@ -383,9 +382,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2026.10',
+        'TAO_VERSION' => '2026.11 LTS',
         #TAO version label
-        'TAO_VERSION_NAME' => '2026.10',
+        'TAO_VERSION_NAME' => '2026.11 LTS',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

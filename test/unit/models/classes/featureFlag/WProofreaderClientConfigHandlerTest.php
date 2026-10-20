@@ -25,6 +25,7 @@ namespace oat\tao\test\unit\models\classes\featureFlag;
 use oat\oatbox\session\SessionService;
 use oat\tao\model\accessControl\Service\ConfigurationService;
 use oat\tao\model\featureFlag\WProofreaderClientConfigHandler;
+use oat\tao\model\user\TaoRoles;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -38,7 +39,13 @@ class WProofreaderClientConfigHandlerTest extends TestCase
             'spellCheckConfig' => [
                 'enabled' => true,
                 'providerId' => 'wproofreader',
-                'providerConfig' => ['serviceId' => 'installed-service-id'],
+                'providerConfig' => [
+                    'serviceId' => 'installed-service-id',
+                    'lang' => 'fr_FR',
+                    'autoSearch' => false,
+                    'ignoreClasses' => ['math'],
+                    'srcUrl' => 'https://installed.example/wscbundle.js',
+                ],
             ],
             'otherOption' => true,
         ],
@@ -46,17 +53,21 @@ class WProofreaderClientConfigHandlerTest extends TestCase
     ];
 
     private ConfigurationService&MockObject $configurationService;
+    private SessionService&MockObject $sessionService;
     private WProofreaderClientConfigHandler $subject;
 
     protected function setUp(): void
     {
         $this->configurationService = $this->createMock(ConfigurationService::class);
-        $sessionService = $this->createMock(SessionService::class);
-        $sessionService
+        $this->sessionService = $this->createMock(SessionService::class);
+        $this->sessionService
             ->method('getTenantId')
             ->willReturn(self::TENANT_ID);
+        $session = $this->createMock(\common_session_Session::class);
+        $session->method('getUserRoles')->willReturn([TaoRoles::BACK_OFFICE]);
+        $this->sessionService->method('getCurrentSession')->willReturn($session);
 
-        $this->subject = new WProofreaderClientConfigHandler($this->configurationService, $sessionService);
+        $this->subject = new WProofreaderClientConfigHandler($this->configurationService, $this->sessionService);
     }
 
     public function testAppliesValidatedTenantConfiguration(): void
@@ -85,6 +96,10 @@ class WProofreaderClientConfigHandlerTest extends TestCase
                 'providerId' => 'wproofreader',
                 'providerConfig' => [
                     'serviceId' => 'service-id',
+                    'lang' => 'fr_FR',
+                    'autoSearch' => false,
+                    'ignoreClasses' => ['math'],
+                    'srcUrl' => 'https://installed.example/wscbundle.js',
                 ],
             ],
             $result[self::CLIENT_MODULE]['spellCheckConfig']
@@ -149,5 +164,51 @@ class WProofreaderClientConfigHandlerTest extends TestCase
             ->willThrowException(new RuntimeException('Configuration not found.', 404));
 
         self::assertSame(self::ORIGINAL_CONFIG, ($this->subject)(self::ORIGINAL_CONFIG));
+    }
+
+    public function testSkipsAnonymousRequests(): void
+    {
+        $this->sessionService->method('isAnonymous')->willReturn(true);
+        $this->configurationService->expects(self::never())->method('fetchConfiguration');
+
+        self::assertSame(self::ORIGINAL_CONFIG, ($this->subject)(self::ORIGINAL_CONFIG));
+    }
+
+    public function testIgnoresMalformedInstalledProviderConfiguration(): void
+    {
+        $configs = self::ORIGINAL_CONFIG;
+        $configs[self::CLIENT_MODULE]['spellCheckConfig']['providerConfig'] = 'invalid';
+        $this->configurationService->method('fetchConfiguration')->willReturn([[
+            'providerName' => 'wproofreader',
+            'enabled' => true,
+            'config' => ['serviceId' => 'tenant-service-id'],
+        ]]);
+
+        $result = ($this->subject)($configs);
+
+        self::assertSame(
+            ['serviceId' => 'tenant-service-id'],
+            $result[self::CLIENT_MODULE]['spellCheckConfig']['providerConfig']
+        );
+    }
+
+    public function testSkipsRequestsWithoutAuthoringModule(): void
+    {
+        $configs = ['other/module' => ['enabled' => true]];
+        $this->configurationService->expects(self::never())->method('fetchConfiguration');
+
+        self::assertSame($configs, ($this->subject)($configs));
+    }
+
+    public function testSkipsUsersWithoutBackofficeRole(): void
+    {
+        $sessionService = $this->createMock(SessionService::class);
+        $session = $this->createMock(\common_session_Session::class);
+        $session->method('getUserRoles')->willReturn(['delivery-role']);
+        $sessionService->method('getCurrentSession')->willReturn($session);
+        $this->configurationService->expects(self::never())->method('fetchConfiguration');
+        $subject = new WProofreaderClientConfigHandler($this->configurationService, $sessionService);
+
+        self::assertSame(self::ORIGINAL_CONFIG, $subject(self::ORIGINAL_CONFIG));
     }
 }

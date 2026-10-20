@@ -15,10 +15,53 @@
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
  */
-define(['tao/ckeditor/wproofreaderBootstrap'], function (wproofreaderBootstrap) {
+define([
+    'tao/ckeditor/wproofreaderBootstrap',
+    'tao/uiForm',
+    'context',
+    'jquery',
+    'ckeditor',
+    'ui/ckeditor/ckConfigurator'
+], function (wproofreaderBootstrap, uiForm, context, $, ckeditor, ckConfigurator) {
     'use strict';
 
     QUnit.module('wproofreaderBootstrap language');
+
+    QUnit.test('HTML forms select their authoring language before starting WProofreader', function (assert) {
+        var originalLanguage = context.base_authoring_lang;
+        var originalSetLanguage = wproofreaderBootstrap.setLanguage;
+        var originalStart = wproofreaderBootstrap.start;
+        var originalReplace = ckeditor.replace;
+        var originalGetConfig = ckConfigurator.getConfig;
+        var calls = [];
+
+        $('#qunit-fixture').html('<textarea class="html-area" id="wproofreader-form-test"></textarea>');
+        context.base_authoring_lang = 'fr-FR';
+        wproofreaderBootstrap.setLanguage = function (lang) {
+            calls.push(['language', lang]);
+        };
+        wproofreaderBootstrap.start = function () {
+            calls.push(['start']);
+        };
+        ckeditor.replace = function () {
+            return {};
+        };
+        ckConfigurator.getConfig = function () {
+            return {};
+        };
+
+        try {
+            uiForm.initElements.call({ htmlEditors: {} });
+            assert.deepEqual(calls, [['language', 'fr_FR'], ['start']], 'language is normalized before startup');
+        } finally {
+            context.base_authoring_lang = originalLanguage;
+            wproofreaderBootstrap.setLanguage = originalSetLanguage;
+            wproofreaderBootstrap.start = originalStart;
+            ckeditor.replace = originalReplace;
+            ckConfigurator.getConfig = originalGetConfig;
+            $('#qunit-fixture').empty();
+        }
+    });
 
     QUnit.test('applies the current language to existing and future instances', function (assert) {
         var originalAppendChild = document.head.appendChild;

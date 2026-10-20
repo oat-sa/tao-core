@@ -361,6 +361,7 @@
                     delete self.htmlEditors[propertyUri];
                 }
 
+                wproofreaderBootstrap.setLanguage((context.base_authoring_lang || context.locale || '').replace('-', '_'));
                 var editor = ckeditor.replace(this, wproofreaderBootstrap.getCkeditorConfig());
                 wproofreaderBootstrap.start();
                 var configOptions = _.assign(

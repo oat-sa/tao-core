@@ -24,6 +24,7 @@ namespace oat\tao\model\featureFlag;
 
 use oat\oatbox\session\SessionService;
 use oat\tao\model\accessControl\Service\ConfigurationService;
+use oat\tao\model\user\TaoRoles;
 use RuntimeException;
 
 class WProofreaderClientConfigHandler implements FeatureFlagConfigHandlerInterface
@@ -40,6 +41,14 @@ class WProofreaderClientConfigHandler implements FeatureFlagConfigHandlerInterfa
 
     public function __invoke(array $configs): array
     {
+        if (
+            !isset($configs[self::CLIENT_MODULE])
+            || $this->sessionService->isAnonymous()
+            || !in_array(TaoRoles::BACK_OFFICE, $this->sessionService->getCurrentSession()->getUserRoles(), true)
+        ) {
+            return $configs;
+        }
+
         try {
             $providers = $this->configurationService->fetchConfiguration(
                 self::CONFIGURATION_KEY,
@@ -75,10 +84,15 @@ class WProofreaderClientConfigHandler implements FeatureFlagConfigHandlerInterfa
             return $configs;
         }
 
+        $installedProviderConfig = $configs[self::CLIENT_MODULE]['spellCheckConfig']['providerConfig'] ?? [];
+        if (!is_array($installedProviderConfig)) {
+            $installedProviderConfig = [];
+        }
+
         $configs[self::CLIENT_MODULE]['spellCheckConfig'] = [
             'enabled' => true,
             'providerId' => self::PROVIDER_NAME,
-            'providerConfig' => ['serviceId' => $serviceId],
+            'providerConfig' => array_replace($installedProviderConfig, ['serviceId' => $serviceId]),
         ];
 
         return $configs;
