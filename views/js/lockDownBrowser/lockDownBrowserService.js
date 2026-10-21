@@ -20,10 +20,11 @@
 define([
     'jquery',
     'i18n',
+    'module',
     'tao/lockDownBrowser/drivers/kioskedDriver',
     'tao/lockDownBrowser/drivers/mockDriver',
     'tao/lockDownBrowser/lockDownBrowserUiProtocol'
-], function ($, __, kioskedDriverModule, mockDriverModule, uiProtocol) {
+], function ($, __, module, kioskedDriverModule, mockDriverModule, uiProtocol) {
     'use strict';
 
     var DRIVER_KIOSKED = 'kiosked';
@@ -83,7 +84,8 @@ define([
     }
 
     function resolveDriverId(config) {
-        var driver = config && config.driver;
+        var moduleConfig = module.config() || {};
+        var driver = moduleConfig.driver || (config && config.driver);
 
         if (driver === DRIVER_KIOSKED) {
             return DRIVER_KIOSKED;
