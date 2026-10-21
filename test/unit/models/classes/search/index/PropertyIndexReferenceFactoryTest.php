@@ -34,6 +34,7 @@ use tao_helpers_form_elements_Checkbox;
 use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_elements_Htmlarea;
 use tao_helpers_form_elements_Radiobox;
+use tao_helpers_form_elements_ReadonlyLiteral;
 use tao_helpers_form_elements_Textarea;
 use tao_helpers_form_elements_Textbox;
 
@@ -50,7 +51,7 @@ class PropertyIndexReferenceFactoryTest extends TestCase
     /**
      * @dataProvider getCreateProvider
      */
-    public function testCreate(string $expected, string $widgetUri): void
+    public function testCreate(?string $expected, string $widgetUri): void
     {
         $propertyWidget = $this->createMock(core_kernel_classes_Property::class);
         $propertyType = $this->createMock(core_kernel_classes_Property::class);
@@ -60,7 +61,7 @@ class PropertyIndexReferenceFactoryTest extends TestCase
             ->method('getProperty')
             ->willReturn($propertyWidget);
 
-        $property->expects($this->once())
+        $property->expects($this->atMost(1))
             ->method('getUri')
             ->willReturn('uri');
 
@@ -68,7 +69,7 @@ class PropertyIndexReferenceFactoryTest extends TestCase
             ->method('getOnePropertyValue')
             ->willReturn($propertyType);
 
-        $propertyType->expects($this->once())
+        $propertyType->expects($this->atMost(1))
             ->method('getUri')
             ->willReturn($widgetUri);
 
@@ -114,6 +115,14 @@ class PropertyIndexReferenceFactoryTest extends TestCase
                 'SearchDropdown_uri',
                 SearchDropdown::WIDGET_ID,
             ],
+            [
+                'ReadonlyLiteral_uri',
+                tao_helpers_form_elements_ReadonlyLiteral::WIDGET_ID,
+            ],
+            [
+                null,
+                'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#UnsupportedWidget',
+            ],
         ];
     }
 
@@ -130,7 +139,7 @@ class PropertyIndexReferenceFactoryTest extends TestCase
             ->method('getProperty')
             ->willReturn($propertyWidget);
 
-        $property->expects($this->once())
+        $property->expects($this->atMost(1))
             ->method('getUri')
             ->willReturn('uri');
 
@@ -138,7 +147,7 @@ class PropertyIndexReferenceFactoryTest extends TestCase
             ->method('getOnePropertyValue')
             ->willReturn($propertyType);
 
-        $propertyType->expects($this->once())
+        $propertyType->expects($this->atMost(1))
             ->method('getUri')
             ->willReturn($widgetUri);
 
