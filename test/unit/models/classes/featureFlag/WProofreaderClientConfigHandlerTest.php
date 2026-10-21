@@ -75,7 +75,7 @@ class WProofreaderClientConfigHandlerTest extends TestCase
         $this->configurationService
             ->expects(self::once())
             ->method('fetch')
-            ->with('spellchecker.external_providers', self::TENANT_ID, true)
+            ->with('spellchecker.external_providers', self::TENANT_ID)
             ->willReturn([
                 ['providerName' => 'other', 'enabled' => true],
                 [

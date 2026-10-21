@@ -49,25 +49,35 @@ define([
         cache: true
     };
 
-    var spellCheckConfig = _.defaults({}, module.config().spellCheckConfig || {}, {
-        enabled: true,
-        providerId: 'native',
-        providerConfig: {}
-    });
-    var config = _.defaults({}, spellCheckConfig.providerConfig, defaults);
+    var config;
+    var enabled;
     var selectedLanguage = null;
     var disabledInstances = [];
-    config.serviceId = _.trim(String(config.serviceId || ''));
-    var enabled = spellCheckConfig.enabled !== false
-        && spellCheckConfig.providerId === 'wproofreader'
-        && !!config.serviceId;
     var scriptLoaded = false;
     var scriptLoading = null;
+
+    function configure(spellCheckConfig) {
+        spellCheckConfig = spellCheckConfig || {};
+        config = _.defaults({}, spellCheckConfig.providerConfig, defaults);
+        config.serviceId = _.trim(String(config.serviceId || ''));
+        enabled = spellCheckConfig.enabled !== false
+            && spellCheckConfig.providerId === 'wproofreader'
+            && !!config.serviceId;
+        selectedLanguage = null;
+        config.autoStartup = false;
+        config.lang = '';
+        if (scriptLoaded) {
+            window.WEBSPELLCHECKER_CONFIG = getWscConfig();
+            updateInstancesLanguage();
+        }
+    }
+
+    configure(module.config().spellCheckConfig);
 
     function supportsLanguage(instance) {
         var languages;
 
-        if (!selectedLanguage) {
+        if (!enabled || !selectedLanguage) {
             return false;
         }
         if (!_.isFunction(instance.getLangList)) {
@@ -240,7 +250,10 @@ define([
     }
 
     return {
-        enabled: enabled,
+        get enabled() {
+            return enabled;
+        },
+        configure: configure,
         start: scheduleLoad,
         setLanguage: setLanguage,
         getCkeditorConfig: function () {

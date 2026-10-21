@@ -38,33 +38,32 @@ class ConfigurationServiceTest extends TestCase
     {
         $subject = $this->createService();
         self::assertNull((new TenantConfigurationService())->fetch('testRunnerConfiguration'));
-        self::assertNull($subject->fetchConfiguration('spellchecker.external_providers', 'tenant-id', true));
+        self::assertNull($subject->fetchConfiguration('spellchecker.external_providers', 'tenant-id'));
     }
 
     /**
      * @dataProvider requestProvider
      */
-    public function testDelegatesToRegisteredFetcher(?string $tenantId, bool $forceRefresh): void
+    public function testDelegatesToRegisteredFetcher(?string $tenantId): void
     {
         $configuration = [['providerName' => 'wproofreader', 'enabled' => false]];
         $fetcher = $this->createMock(TenantConfigurationService::class);
         $fetcher->expects(self::once())->method('fetch')
-            ->with('spellchecker.external_providers', $tenantId, $forceRefresh)
+            ->with('spellchecker.external_providers', $tenantId)
             ->willReturn($configuration);
         $subject = $this->createService($fetcher);
 
         self::assertSame(
             $configuration,
-            $subject->fetchConfiguration('spellchecker.external_providers', $tenantId, $forceRefresh)
+            $subject->fetchConfiguration('spellchecker.external_providers', $tenantId)
         );
     }
 
     public function requestProvider(): array
     {
         return [
-            'existing caller defaults' => [null, false],
-            'explicit tenant with cache' => ['tenant-id', false],
-            'WProofreader forced refresh' => ['tenant-id', true],
+            'existing caller defaults' => [null],
+            'explicit tenant with cache' => ['tenant-id'],
         ];
     }
 

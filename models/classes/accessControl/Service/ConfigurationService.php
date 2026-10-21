@@ -32,9 +32,8 @@ class ConfigurationService
 
     public function fetchConfiguration(
         string $configurationKey,
-        ?string $tenantId = null,
-        bool $forceRefresh = false
+        ?string $tenantId = null
     ): mixed {
-        return $this->configurationService->fetch($configurationKey, $tenantId, $forceRefresh);
+        return $this->configurationService->fetch($configurationKey, $tenantId);
     }
 }

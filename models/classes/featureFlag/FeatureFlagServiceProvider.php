@@ -77,10 +77,6 @@ class FeatureFlagServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->get(FeatureFlagConfigSwitcher::class)
-            ->call('addClientConfigHandler', [WProofreaderClientConfigHandler::class]);
-
-        $services
             ->set(FeatureFlagRepositoryInterface::class, FeatureFlagRepository::class)
             ->public()
             ->args(

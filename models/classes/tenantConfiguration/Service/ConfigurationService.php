@@ -29,8 +29,7 @@ class ConfigurationService
      */
     public function fetch(
         string $configurationKey,
-        ?string $tenantId = null,
-        bool $forceRefresh = false
+        ?string $tenantId = null
     ): mixed {
         return null;
     }

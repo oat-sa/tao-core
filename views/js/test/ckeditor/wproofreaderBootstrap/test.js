@@ -27,6 +27,32 @@ define([
 
     QUnit.module('wproofreaderBootstrap language');
 
+    QUnit.test('accepts tenant configuration after the module has already loaded', function (assert) {
+        try {
+            wproofreaderBootstrap.configure({ providerId: 'native' });
+            assert.strictEqual(wproofreaderBootstrap.enabled, false, 'native configuration disables WProofreader');
+            wproofreaderBootstrap.configure({
+                enabled: true,
+                providerId: 'wproofreader',
+                providerConfig: { serviceId: ' tenant-service-id ' }
+            });
+            assert.strictEqual(wproofreaderBootstrap.enabled, true, 'editor configuration enables the loaded module');
+            wproofreaderBootstrap.configure({
+                enabled: false,
+                providerId: 'wproofreader',
+                providerConfig: { serviceId: 'tenant-service-id' }
+            });
+            assert.strictEqual(wproofreaderBootstrap.enabled, false, 'an explicit disable remains authoritative');
+            assert.strictEqual(wproofreaderBootstrap.getCkeditorConfig().disableNativeSpellChecker, false);
+        } finally {
+            wproofreaderBootstrap.configure({
+                enabled: true,
+                providerId: 'wproofreader',
+                providerConfig: { serviceId: 'test' }
+            });
+        }
+    });
+
     QUnit.test('HTML forms select their authoring language before starting WProofreader', function (assert) {
         var originalLanguage = context.base_authoring_lang;
         var originalSetLanguage = wproofreaderBootstrap.setLanguage;
@@ -120,7 +146,7 @@ define([
             }
         };
 
-        assert.expect(16);
+        assert.expect(19);
 
         window.CKEDITOR = {};
         document.head.appendChild = function (element) {
@@ -165,6 +191,12 @@ define([
             assert.strictEqual(disabled, true, 'instance is disabled when the item has no language');
             assert.strictEqual(window.WEBSPELLCHECKER_CONFIG.autoStartup, false, 'future instances do not start without a language');
             assert.strictEqual(window.WEBSPELLCHECKER_CONFIG.lang, '', 'missing language does not retain or invent a fallback');
+
+            wproofreaderBootstrap.setLanguage('de_DE');
+            assert.strictEqual(disabled, false, 'instance is enabled before switching providers');
+            wproofreaderBootstrap.configure({ providerId: 'native' });
+            assert.strictEqual(disabled, true, 'native configuration disables instances from the previous editor');
+            assert.strictEqual(window.WEBSPELLCHECKER_CONFIG.autoStartup, false, 'native configuration prevents automatic startup');
         } finally {
             document.head.appendChild = originalAppendChild;
             window.CKEDITOR = originalCkeditor;

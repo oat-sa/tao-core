@@ -52,8 +52,7 @@ class WProofreaderClientConfigHandler implements FeatureFlagConfigHandlerInterfa
         try {
             $providers = $this->configurationService->fetch(
                 self::CONFIGURATION_KEY,
-                $this->sessionService->getTenantId(),
-                true
+                $this->sessionService->getTenantId()
             );
         } catch (RuntimeException) {
             return $configs;
