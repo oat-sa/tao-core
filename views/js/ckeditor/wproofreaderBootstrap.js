@@ -49,25 +49,35 @@ define([
         cache: true
     };
 
-    var spellCheckConfig = _.defaults({}, module.config().spellCheckConfig || {}, {
-        enabled: true,
-        providerId: 'native',
-        providerConfig: {}
-    });
-    var config = _.defaults({}, spellCheckConfig.providerConfig, defaults);
+    var config;
+    var enabled;
     var selectedLanguage = null;
     var disabledInstances = [];
-    config.serviceId = _.trim(String(config.serviceId || ''));
-    var enabled = spellCheckConfig.enabled !== false
-        && spellCheckConfig.providerId === 'wproofreader'
-        && !!config.serviceId;
     var scriptLoaded = false;
     var scriptLoading = null;
+
+    function configure(spellCheckConfig) {
+        spellCheckConfig = spellCheckConfig || {};
+        config = _.defaults({}, spellCheckConfig.providerConfig, defaults);
+        config.serviceId = _.trim(String(config.serviceId || ''));
+        enabled = spellCheckConfig.enabled !== false
+            && spellCheckConfig.providerId === 'wproofreader'
+            && !!config.serviceId;
+        selectedLanguage = null;
+        config.autoStartup = false;
+        config.lang = '';
+        if (scriptLoaded) {
+            window.WEBSPELLCHECKER_CONFIG = getWscConfig();
+            updateInstancesLanguage();
+        }
+    }
+
+    configure(module.config().spellCheckConfig);
 
     function supportsLanguage(instance) {
         var languages;
 
-        if (!selectedLanguage) {
+        if (!enabled || !selectedLanguage) {
             return false;
         }
         if (!_.isFunction(instance.getLangList)) {
@@ -168,8 +178,6 @@ define([
             return scriptLoading;
         }
 
-        injectBalloonStyle();
-
         window.WEBSPELLCHECKER_CONFIG = getWscConfig();
 
         scriptLoading = new Promise(function (resolve, reject) {
@@ -201,30 +209,6 @@ define([
         });
 
         return scriptLoading;
-    }
-
-    /**
-     * Backoffice page CSS leaks into the WSC suggestion balloon.
-     */
-    var BALLOON_STYLE_ID = 'tao-wsc-balloon-fix';
-    var BALLOON_CSS = [
-        'html body .wsc-contextmenu__list,html body .wsc-contextmenu__list .wsc-contextmenu__item{list-style:none !important;}',
-        'html body .wsc-contextmenu__list .wsc-contextmenu__icon{display:none !important;}'
-    ].join('\n');
-
-    function injectBalloonStyle(targetDocument) {
-        var doc = targetDocument || document;
-        if (!doc || !doc.head || !doc.createElement || doc.getElementById(BALLOON_STYLE_ID)) {
-            return;
-        }
-        try {
-            var style = doc.createElement('style');
-            style.id = BALLOON_STYLE_ID;
-            style.textContent = BALLOON_CSS;
-            doc.head.appendChild(style);
-        } catch (err) {
-            log.warn('Unable to inject WProofreader balloon style: ' + (err && err.message));
-        }
     }
 
     var bindAttempts = 0;
@@ -266,7 +250,10 @@ define([
     }
 
     return {
-        enabled: enabled,
+        get enabled() {
+            return enabled;
+        },
+        configure: configure,
         start: scheduleLoad,
         setLanguage: setLanguage,
         getCkeditorConfig: function () {

@@ -29,6 +29,7 @@ use oat\tao\model\accessControl\Service\ConfigurationService;
 use oat\tao\model\accessControl\Service\DeleteRoleService;
 use oat\tao\model\accessControl\Service\InternalRoleSpecification;
 use oat\tao\model\infrastructure\DataAccess\SharedCache;
+use oat\tao\model\tenantConfiguration\Service\ConfigurationService as TenantConfigurationService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_RoleService;
 
@@ -63,12 +64,13 @@ class AccessControlServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args([service(UserService::class), service(SharedCache::class)]);
 
+        $services->set(TenantConfigurationService::class)->public();
+
         $services->set(ConfigurationService::class, ConfigurationService::class)
             ->public()
             ->args(
                 [
-                    service(AccessTokenService::class),
-                    service(SharedCache::class),
+                    service(TenantConfigurationService::class),
                 ]
             );
     }
