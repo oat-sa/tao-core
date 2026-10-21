@@ -20,13 +20,25 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\models\classes\lockDownBrowser\Service;
+namespace oat\tao\test\unit\models\classes\browser\Service;
 
-use oat\tao\model\lockDownBrowser\Service\LockDownBrowserClientConfigurationRetriever;
+use oat\tao\model\browser\Service\LockDownBrowserClientConfigurationRetriever;
 use PHPUnit\Framework\TestCase;
 
 class LockDownBrowserClientConfigurationRetrieverTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        unset($_ENV[LockDownBrowserClientConfigurationRetriever::LOCK_DOWN_BROWSER_CONFIG]);
+    }
+
+    protected function tearDown(): void
+    {
+        unset($_ENV[LockDownBrowserClientConfigurationRetriever::LOCK_DOWN_BROWSER_CONFIG]);
+
+        parent::tearDown();
+    }
+
     public function testRetrieveUsesDefaultConfigWhenEnvJsonIsNull(): void
     {
         $defaults = LockDownBrowserClientConfigurationRetriever::DEFAULT_CONFIG;

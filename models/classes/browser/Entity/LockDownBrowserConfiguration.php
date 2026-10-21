@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\lockDownBrowser\Entity;
+namespace oat\tao\model\browser\Entity;
 
 use JsonSerializable;
 

@@ -7,7 +7,7 @@
 - [Feature Flag](models/classes/featureFlag/README.md)
 - [CSRF Tokens](models/classes/security/xsrf/README.md)
 - [Client Config](models/classes/clientConfig/README.md)
-- [Lock down browser (client config)](models/classes/lockDownBrowser/README.md)
+- [Lock down browser (client config)](models/classes/browser/README.md)
 
 # Webhooks
 
