@@ -20,9 +20,10 @@
 define([], function () {
     'use strict';
 
-    var API_TIMEOUT_MS = 5000;
-    var API_WAIT_MS = 2500;
-    var API_POLL_MS = 50;
+    const API_TIMEOUT_MS = 5000;
+    const API_WAIT_MS = 2500;
+    const API_POLL_MS = 50;
+    const REQUIRED_API_METHODS = ['getDeviceInfo', 'lock', 'unlock', 'isLocked', 'onBreach', 'exit'];
 
     function wait(ms) {
         return new Promise(function (resolve) {
@@ -31,22 +32,21 @@ define([], function () {
     }
 
     function semverCompare(a, b) {
-        var pa = String(a)
+        const pa = String(a)
             .split('.')
             .map(function (n) {
                 return parseInt(n, 10) || 0;
             });
-        var pb = String(b)
+        const pb = String(b)
             .split('.')
             .map(function (n) {
                 return parseInt(n, 10) || 0;
             });
-        var i;
-        var len = Math.max(pa.length, pb.length);
+        const len = Math.max(pa.length, pb.length);
 
-        for (i = 0; i < len; i++) {
-            var na = pa[i] || 0;
-            var nb = pb[i] || 0;
+        for (let i = 0; i < len; i++) {
+            const na = pa[i] || 0;
+            const nb = pb[i] || 0;
 
             if (na > nb) {
                 return 1;
@@ -65,8 +65,15 @@ define([], function () {
         }
 
         try {
-            if (win.kiosked) {
-                return { kind: 'kiosked', api: win.kiosked };
+            const api = win.kiosked;
+
+            if (
+                api &&
+                REQUIRED_API_METHODS.every(function (method) {
+                    return typeof api[method] === 'function';
+                })
+            ) {
+                return { kind: 'kiosked', api: api };
             }
         } catch (err) {
             // cross-origin
@@ -76,12 +83,10 @@ define([], function () {
     }
 
     function resolveNativeApiHandle() {
-        var candidates = [window, window.parent, window.top];
-        var i;
-        var handle;
+        const candidates = [window, window.parent, window.top];
 
-        for (i = 0; i < candidates.length; i++) {
-            handle = readNativeApiFromWindow(candidates[i]);
+        for (let i = 0; i < candidates.length; i++) {
+            const handle = readNativeApiFromWindow(candidates[i]);
 
             if (handle) {
                 return handle;
@@ -116,11 +121,12 @@ define([], function () {
     }
 
     function createKioskedDriver(options) {
-        var minVersion = (options && options.minVersion) || '0.0.0';
-        var violationListener;
-        var violationHandler;
-        var violationUserCallback;
-        var cachedHandle;
+        const minVersion = (options && options.minVersion) || '0.0.0';
+        let violationListener;
+        let violationHandler;
+        let violationUserCallback;
+        let cachedHandle;
+        let sessionActive = false;
 
         function getHandle() {
             if (!cachedHandle) {
@@ -130,49 +136,48 @@ define([], function () {
             return cachedHandle;
         }
 
-        function isLockedSync(handle) {
-            if (!handle) {
-                return false;
-            }
-
-            return typeof handle.api.isLocked === 'function';
-        }
-
         function isLockedAsync(handle) {
             if (!handle) {
                 return Promise.resolve(false);
             }
 
-            if (typeof handle.api.isLocked === 'function') {
-                return Promise.race([handle.api.isLocked(), wait(API_TIMEOUT_MS)])
-                    .then(function (locked) {
-                        return !!locked;
-                    })
-                    .catch(function () {
-                        return true;
-                    });
-            }
-
-            return Promise.resolve(true);
+            return Promise.race([
+                Promise.resolve().then(function () {
+                    return handle.api.isLocked();
+                }),
+                wait(API_TIMEOUT_MS).then(function () {
+                    return false;
+                })
+            ])
+                .then(function (locked) {
+                    return locked === true;
+                })
+                .catch(function () {
+                    return false;
+                });
         }
 
         return {
             id: 'kiosked',
 
             whenAvailable: function whenAvailable() {
-                var deadline = Date.now() + API_WAIT_MS;
+                const deadline = Date.now() + API_WAIT_MS;
 
                 function poll() {
                     cachedHandle = null;
-                    var handle = getHandle();
+                    const handle = getHandle();
 
                     if (handle) {
                         return isLockedAsync(handle).then(function (locked) {
-                            return locked || isLockedSync(handle);
+                            sessionActive = locked;
+
+                            return locked;
                         });
                     }
 
                     if (Date.now() >= deadline) {
+                        sessionActive = false;
+
                         return Promise.resolve(false);
                     }
 
@@ -183,17 +188,16 @@ define([], function () {
             },
 
             isSessionActive: function isSessionActive() {
-                return isLockedSync(getHandle());
+                return sessionActive;
             },
 
             validateMinVersion: function validateMinVersion() {
-                var handle = getHandle();
+                const handle = getHandle();
+                let deviceInfoPromise;
 
                 if (!handle) {
                     return Promise.reject(new Error('Lock down browser API not available'));
                 }
-
-                var deviceInfoPromise;
 
                 if (typeof handle.api.getDeviceInfo === 'function') {
                     deviceInfoPromise = Promise.race([handle.api.getDeviceInfo(), wait(API_TIMEOUT_MS)]);
@@ -202,7 +206,7 @@ define([], function () {
                 }
 
                 return deviceInfoPromise.then(function (deviceInfo) {
-                    var version = deviceInfo && deviceInfo.app && deviceInfo.app.version;
+                    const version = deviceInfo && deviceInfo.app && deviceInfo.app.version;
 
                     if (!version || semverCompare(version, minVersion) < 0) {
                         return Promise.reject(new Error('Lock down browser version not supported'));
@@ -211,7 +215,7 @@ define([], function () {
             },
 
             addSecurityViolationListener: function addSecurityViolationListener(callback) {
-                var handle = getHandle();
+                const handle = getHandle();
 
                 violationUserCallback = callback;
 
@@ -248,7 +252,7 @@ define([], function () {
             },
 
             removeSecurityViolationListener: function removeSecurityViolationListener() {
-                var handle = getHandle();
+                const handle = getHandle();
 
                 if (handle && violationListener && typeof handle.api.removeEventListener === 'function') {
                     handle.api.removeEventListener('breach', violationListener);
@@ -260,7 +264,7 @@ define([], function () {
             },
 
             exitApplication: function exitApplication() {
-                var handle = getHandle();
+                const handle = getHandle();
 
                 if (!handle) {
                     return;
@@ -272,8 +276,8 @@ define([], function () {
             },
 
             checkDeniedProcesses: function checkDeniedProcesses(processBlackList) {
-                var handle = getHandle();
-                var additionalApps = normalizeProcessBlockList(processBlackList);
+                const handle = getHandle();
+                const additionalApps = normalizeProcessBlockList(processBlackList);
 
                 if (!handle || !Object.keys(additionalApps).length) {
                     return Promise.resolve([]);
@@ -295,9 +299,9 @@ define([], function () {
 
             simulateSecurityViolation: function simulateSecurityViolation(detail) {
                 detail = detail || {};
-                var handle = getHandle();
-                var additionalApps = detail.processBlackList ? normalizeProcessBlockList(detail.processBlackList) : {};
-                var checkPromise = Promise.resolve([]);
+                const handle = getHandle();
+                const additionalApps = detail.processBlackList ? normalizeProcessBlockList(detail.processBlackList) : {};
+                let checkPromise = Promise.resolve([]);
 
                 if (handle && typeof handle.api.checkBlocklist === 'function') {
                     checkPromise = handle.api.checkBlocklist(additionalApps, true).catch(function () {
@@ -306,7 +310,7 @@ define([], function () {
                 }
 
                 return checkPromise.then(function (blockedApplications) {
-                    var payload = {
+                    const payload = {
                         simulated: true,
                         reason: detail.reason || 'simulateSecurityViolation',
                         blockedApplications: blockedApplications || [],
