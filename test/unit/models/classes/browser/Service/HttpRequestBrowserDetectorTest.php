@@ -48,34 +48,21 @@ class HttpRequestBrowserDetectorTest extends TestCase
         $request = (new ServerRequest('GET', '/'))
             ->withHeader('User-Agent', 'Mozilla/5.0 Chrome');
 
-        $userAgentBrowser = new FixedUserAgentBrowser('Firefox', '120.0');
+        $userAgentBrowser = $this->createMock(UserAgentBrowser::class);
+        $userAgentBrowser
+            ->expects($this->once())
+            ->method('getName')
+            ->willReturn('Firefox');
+        $userAgentBrowser
+            ->expects($this->once())
+            ->method('getVersion')
+            ->willReturn('120.0');
+
         $subject = new HttpRequestBrowserDetector(new HttpRequestLockDownBrowserDetector(), $userAgentBrowser);
 
         $result = $subject->detect($request);
 
         $this->assertSame('Firefox', $result->name);
         $this->assertSame('120.0', $result->version);
-    }
-}
-
-/**
- * @internal
- */
-final class FixedUserAgentBrowser extends UserAgentBrowser
-{
-    public function __construct(
-        private readonly string $fixedName,
-        private readonly string $fixedVersion
-    ) {
-    }
-
-    public function getName(): string
-    {
-        return $this->fixedName;
-    }
-
-    public function getVersion(): string
-    {
-        return $this->fixedVersion;
     }
 }
