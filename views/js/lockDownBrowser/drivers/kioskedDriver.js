@@ -17,7 +17,9 @@
  *
  * Kiosk{ed} vendor driver — only module that touches window.kiosked / window.kiosk.
  */
-define([], function () {
+define([
+    'tao/lockDownBrowser/processBlockList'
+], function (processBlockList) {
     'use strict';
 
     const API_TIMEOUT_MS = 5000;
@@ -29,6 +31,33 @@ define([], function () {
         return new Promise(function (resolve) {
             setTimeout(resolve, ms);
         });
+    }
+
+    function withProcessCheckTimeout(promise, timeoutMs) {
+        return new Promise(function (resolve, reject) {
+            const timeoutId = setTimeout(function () {
+                reject(processBlockList.createError(
+                    processBlockList.ERROR_API_TIMEOUT,
+                    'Process block list API timed out'
+                ));
+            }, timeoutMs);
+            const finish = function (callback) {
+                return function (value) {
+                    clearTimeout(timeoutId);
+                    callback(value);
+                };
+            };
+
+            Promise.resolve(promise).then(finish(resolve), finish(reject));
+        });
+    }
+
+    function createApiRejectedError(cause) {
+        return processBlockList.createError(
+            processBlockList.ERROR_API_REJECTED,
+            'Process block list API failed',
+            cause
+        );
     }
 
     function semverCompare(a, b) {
@@ -96,32 +125,9 @@ define([], function () {
         return null;
     }
 
-    function normalizeProcessBlockList(processBlackList) {
-        if (!processBlackList) {
-            return {};
-        }
-
-        if (!Array.isArray(processBlackList)) {
-            return processBlackList;
-        }
-
-        return processBlackList.reduce(function (map, entry) {
-            if (typeof entry === 'string') {
-                map[entry.toLowerCase()] = entry;
-
-                return map;
-            }
-
-            if (entry && entry.process) {
-                map[String(entry.process).toLowerCase()] = entry.label || entry.process;
-            }
-
-            return map;
-        }, {});
-    }
-
     function createKioskedDriver(options) {
         const minVersion = (options && options.minVersion) || '0.0.0';
+        const processCheckTimeout = (options && options.processCheckTimeout) || API_TIMEOUT_MS;
         let violationListener;
         let violationHandler;
         let violationUserCallback;
@@ -275,33 +281,64 @@ define([], function () {
                 }
             },
 
-            checkDeniedProcesses: function checkDeniedProcesses(processBlackList) {
-                const handle = getHandle();
-                const additionalApps = normalizeProcessBlockList(processBlackList);
+            checkDeniedProcesses: function checkDeniedProcesses(processes) {
+                return Promise.resolve()
+                    .then(function () {
+                        return processBlockList.normalize(processes);
+                    })
+                    .then(function (normalized) {
+                        const handle = getHandle();
+                        let request;
 
-                if (!handle || !Object.keys(additionalApps).length) {
-                    return Promise.resolve([]);
-                }
-
-                if (typeof handle.api.checkBlocklist === 'function') {
-                    return handle.api
-                        .checkBlocklist(additionalApps, true)
-                        .then(function (apps) {
-                            return apps || [];
-                        })
-                        .catch(function () {
+                        if (!Object.keys(normalized.vendorMap).length) {
                             return [];
-                        });
-                }
+                        }
 
-                return Promise.resolve([]);
+                        if (!handle || typeof handle.api.checkBlocklist !== 'function') {
+                            throw processBlockList.createError(
+                                processBlockList.ERROR_API_UNAVAILABLE,
+                                'Process block list API not available'
+                            );
+                        }
+
+                        request = Promise.resolve().then(function () {
+                            return handle.api.checkBlocklist(normalized.vendorMap, true);
+                        });
+
+                        return withProcessCheckTimeout(request, processCheckTimeout)
+                            .then(function (applications) {
+                                return normalized.resolveBlockedApplications(applications);
+                            })
+                            .catch(function (error) {
+                                if (
+                                    error &&
+                                    (
+                                        error.code === processBlockList.ERROR_API_TIMEOUT ||
+                                        error.code === processBlockList.ERROR_INVALID_RESPONSE
+                                    )
+                                ) {
+                                    throw error;
+                                }
+
+                                throw createApiRejectedError(error);
+                            });
+                    });
             },
 
             simulateSecurityViolation: function simulateSecurityViolation(detail) {
-                detail = detail || {};
                 const handle = getHandle();
-                const additionalApps = detail.processBlackList ? normalizeProcessBlockList(detail.processBlackList) : {};
+                let additionalApps = {};
                 let checkPromise = Promise.resolve([]);
+
+                detail = detail || {};
+
+                if (detail.processBlackList) {
+                    try {
+                        additionalApps = processBlockList.normalize(detail.processBlackList).vendorMap;
+                    } catch (err) {
+                        additionalApps = {};
+                    }
+                }
 
                 if (handle && typeof handle.api.checkBlocklist === 'function') {
                     checkPromise = handle.api.checkBlocklist(additionalApps, true).catch(function () {

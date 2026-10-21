@@ -17,32 +17,10 @@
  *
  * Mock lock down browser driver for local QA (no native API).
  */
-define([], function () {
+define([
+    'tao/lockDownBrowser/processBlockList'
+], function (processBlockList) {
     'use strict';
-
-    function normalizeProcessBlockList(processBlackList) {
-        if (!processBlackList) {
-            return {};
-        }
-
-        if (!Array.isArray(processBlackList)) {
-            return processBlackList;
-        }
-
-        return processBlackList.reduce(function (map, entry) {
-            if (typeof entry === 'string') {
-                map[entry.toLowerCase()] = entry;
-
-                return map;
-            }
-
-            if (entry && entry.process) {
-                map[String(entry.process).toLowerCase()] = entry.label || entry.process;
-            }
-
-            return map;
-        }, {});
-    }
 
     var MOCK_BLOCK_NOTICE_ID = 'lockdown-browser-mock-block-notice';
 
@@ -55,17 +33,19 @@ define([], function () {
     }
 
     function showMockBlockNotice(blockedApplications) {
+        var el;
+
         clearMockBlockNotice();
 
         if (!blockedApplications.length) {
             return;
         }
 
-        var el = document.createElement('div');
+        el = document.createElement('div');
 
         el.id = MOCK_BLOCK_NOTICE_ID;
         el.setAttribute('role', 'alert');
-        el.textContent = '[lockDownBrowser mock] Blocked applications running: ' + blockedApplications.join(', ');
+        el.textContent = `[lockDownBrowser mock] Blocked applications running: ${blockedApplications.join(', ')}`;
         el.style.cssText = [
             'position:fixed',
             'top:12px',
@@ -87,13 +67,35 @@ define([], function () {
         }
     }
 
-    function resolveMockBlockedLabels(processBlackList, mockActiveProcesses) {
-        var map = normalizeProcessBlockList(processBlackList);
+    function resolveMockBlockedLabels(processes, mockActiveProcesses) {
+        const normalized = processBlockList.normalize(processes);
+
+        return mockActiveProcesses.reduce(function (blockedApplications, processName) {
+            const label = normalized.getLabel(processName);
+
+            if (label) {
+                blockedApplications.push(label);
+            }
+
+            return blockedApplications;
+        }, []);
+    }
+
+    function resolveSimulatedBlockedLabels(processes, mockActiveProcesses) {
+        var labelsByProcess = null;
+
+        if (Array.isArray(processes) && processes.length) {
+            try {
+                labelsByProcess = processBlockList.normalize(processes).vendorMap;
+            } catch (err) {
+                labelsByProcess = null;
+            }
+        }
 
         return mockActiveProcesses.map(function (processName) {
             var key = String(processName).toLowerCase();
 
-            return map[key] || processName;
+            return labelsByProcess && labelsByProcess[key] ? labelsByProcess[key] : String(processName);
         });
     }
 
@@ -126,56 +128,50 @@ define([], function () {
 
             exitApplication: function exitApplication() {
                 // ponytail: mock exit — real Kiosk closes the app; here we only log for dev
-                if (typeof console !== 'undefined' && console.info) {
-                    console.info('[lockDownBrowser mock] exitApplication');
+                if (window.console && typeof window.console.info === 'function') {
+                    window.console.info('[lockDownBrowser mock] exitApplication');
                 }
             },
 
-            checkDeniedProcesses: function checkDeniedProcesses(processBlackList) {
-                var map = normalizeProcessBlockList(processBlackList);
-                var keys = Object.keys(map);
+            checkDeniedProcesses: function checkDeniedProcesses(processes) {
+                return Promise.resolve().then(function () {
+                    const blockedApplications = resolveMockBlockedLabels(processes, mockActiveProcesses);
 
-                if (mockActiveProcesses.length) {
-                    var blockedApplications = resolveMockBlockedLabels(processBlackList, mockActiveProcesses);
-
-                    if (typeof console !== 'undefined' && console.warn) {
-                        console.warn('[lockDownBrowser mock] Blocked applications running:', blockedApplications);
+                    if (mockActiveProcesses.length && window.console && typeof window.console.warn === 'function') {
+                        window.console.warn('[lockDownBrowser mock] Blocked applications running:', blockedApplications);
                     }
 
                     showMockBlockNotice(blockedApplications);
 
-                    return Promise.resolve(blockedApplications);
-                }
-
-                clearMockBlockNotice();
-
-                if (!keys.length) {
-                    return Promise.resolve([]);
-                }
-
-                return Promise.resolve([]);
+                    return blockedApplications;
+                });
             },
 
             simulateSecurityViolation: function simulateSecurityViolation(detail) {
-                detail = detail || {};
                 var blockedApplications = [];
+                var payload;
+
+                detail = detail || {};
 
                 if (mockActiveProcesses.length) {
-                    blockedApplications = resolveMockBlockedLabels(
+                    blockedApplications = resolveSimulatedBlockedLabels(
                         detail.processBlackList,
                         mockActiveProcesses
                     );
                 }
 
                 if (blockedApplications.length) {
-                    if (typeof console !== 'undefined' && console.warn) {
-                        console.warn('[lockDownBrowser mock] Simulated breach — blocked applications:', blockedApplications);
+                    if (window.console && typeof window.console.warn === 'function') {
+                        window.console.warn(
+                            '[lockDownBrowser mock] Simulated breach — blocked applications:',
+                            blockedApplications
+                        );
                     }
 
                     showMockBlockNotice(blockedApplications);
                 }
 
-                var payload = {
+                payload = {
                     simulated: true,
                     reason: detail.reason || 'simulateSecurityViolation',
                     blockedApplications: blockedApplications,
