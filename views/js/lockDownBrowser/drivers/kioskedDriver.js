@@ -23,9 +23,11 @@ define([
     'use strict';
 
     const API_TIMEOUT_MS = 5000;
-    const API_WAIT_MS = 2500;
+    const API_WAIT_MS = 10000;
     const API_POLL_MS = 50;
-    const REQUIRED_API_METHODS = ['getDeviceInfo', 'lock', 'unlock', 'isLocked', 'onBreach', 'exit'];
+    const LOCK_WAIT_MS = 30000;
+    const LOCK_POLL_MS = 500;
+    const REQUIRED_API_METHODS = ['getDeviceInfo', 'lock', 'unlock', 'isLocked', 'exit', 'checkBlocklist'];
 
     function wait(ms) {
         return new Promise(function (resolve) {
@@ -125,9 +127,14 @@ define([
         return null;
     }
 
-    function createKioskedDriver(options) {
-        const minVersion = (options && options.minVersion) || '0.0.0';
-        const processCheckTimeout = (options && options.processCheckTimeout) || API_TIMEOUT_MS;
+    function createKioskedDriver(options = {}) {
+        const minVersion = options.minVersion || '0.0.0';
+        const processCheckTimeout = options.processCheckTimeout || API_TIMEOUT_MS;
+        const apiWaitMs = options.apiWaitMs || API_WAIT_MS;
+        const lockWaitMs = Object.prototype.hasOwnProperty.call(options, 'lockWaitMs')
+            ? options.lockWaitMs
+            : LOCK_WAIT_MS;
+        const lockPollMs = options.lockPollMs || LOCK_POLL_MS;
         let violationListener;
         let violationHandler;
         let violationUserCallback;
@@ -166,31 +173,60 @@ define([
         return {
             id: 'kiosked',
 
-            whenAvailable: function whenAvailable() {
-                const deadline = Date.now() + API_WAIT_MS;
+            whenAvailable() {
+                const apiDeadline = Date.now() + apiWaitMs;
 
-                function poll() {
+                const waitForLockedSession = handle => {
+                    const applyLocked = locked => {
+                        sessionActive = locked;
+
+                        return locked;
+                    };
+
+                    if (lockWaitMs <= 0) {
+                        return isLockedAsync(handle).then(applyLocked);
+                    }
+
+                    const lockDeadline = Date.now() + lockWaitMs;
+
+                    const pollLockedState = () =>
+                        isLockedAsync(handle).then(locked => {
+                            if (locked) {
+                                sessionActive = true;
+
+                                return true;
+                            }
+
+                            if (Date.now() >= lockDeadline) {
+                                sessionActive = false;
+
+                                return false;
+                            }
+
+                            return wait(lockPollMs).then(pollLockedState);
+                        });
+
+                    return pollLockedState();
+                };
+
+                const pollForApi = () => {
                     cachedHandle = null;
                     const handle = getHandle();
 
                     if (handle) {
-                        return isLockedAsync(handle).then(function (locked) {
-                            sessionActive = locked;
-
-                            return locked;
-                        });
+                        return waitForLockedSession(handle);
                     }
 
-                    if (Date.now() >= deadline) {
+                    if (Date.now() >= apiDeadline) {
                         sessionActive = false;
 
                         return Promise.resolve(false);
                     }
 
-                    return wait(API_POLL_MS).then(poll);
-                }
+                    return wait(API_POLL_MS).then(pollForApi);
+                };
 
-                return poll();
+                return pollForApi();
             },
 
             isSessionActive: function isSessionActive() {
@@ -231,10 +267,6 @@ define([
 
                 if (typeof handle.api.addEventListener === 'function') {
                     violationHandler = function (e) {
-                        if (e && typeof e.preventDefault === 'function') {
-                            e.preventDefault();
-                        }
-
                         Promise.race([
                             Promise.all([
                                 typeof handle.api.getDeviceInfo === 'function' ? handle.api.getDeviceInfo() : null,
@@ -288,9 +320,9 @@ define([
                     })
                     .then(function (normalized) {
                         const handle = getHandle();
-                        let request;
+                        const vendorMap = normalized.vendorMap;
 
-                        if (!Object.keys(normalized.vendorMap).length) {
+                        if (!Object.keys(vendorMap).length) {
                             return [];
                         }
 
@@ -301,11 +333,10 @@ define([
                             );
                         }
 
-                        request = Promise.resolve().then(function () {
-                            return handle.api.checkBlocklist(normalized.vendorMap, true);
-                        });
-
-                        return withProcessCheckTimeout(request, processCheckTimeout)
+                        return withProcessCheckTimeout(
+                            Promise.resolve().then(() => handle.api.checkBlocklist(vendorMap, true)),
+                            processCheckTimeout
+                        )
                             .then(function (applications) {
                                 return normalized.resolveBlockedApplications(applications);
                             })
