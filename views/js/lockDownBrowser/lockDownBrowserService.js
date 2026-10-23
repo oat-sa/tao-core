@@ -27,10 +27,10 @@ define([
 ], function ($, __, module, kioskedDriverModule, mockDriverModule, uiProtocol) {
     'use strict';
 
-    var DRIVER_KIOSKED = 'kiosked';
-    var DRIVER_KIOSKED_MOCK = 'kioskedMock';
+    const DRIVER_KIOSKED = 'kiosked';
+    const DRIVER_KIOSKED_MOCK = 'kioskedMock';
 
-    var exitBarStyles = {
+    const exitBarStyles = {
         position: 'fixed',
         bottom: 0,
         left: 0,
@@ -41,14 +41,12 @@ define([
         background: 'rgba(0, 0, 0, 0.85)'
     };
 
-    var exitButtonStyles = {
+    const exitButtonStyles = {
         minWidth: '240px'
     };
 
-    function removeExitBar(mountDocument) {
-        var doc = mountDocument || document;
-
-        $(doc.getElementById(uiProtocol.EXIT_BAR_ELEMENT_ID)).remove();
+    function removeExitBar(mountDocument = document) {
+        $(mountDocument.getElementById(uiProtocol.EXIT_BAR_ELEMENT_ID)).remove();
     }
 
     /**
@@ -57,24 +55,22 @@ define([
      * @param {string} [options.label]
      * @param {Function} [options.onExitClick] ({ $bar, mountDocument })
      */
-    function mountExitBar(options) {
-        options = options || {};
-        var mountDocument = options.mountDocument || document;
+    function mountExitBar(options = {}) {
+        const mountDocument = options.mountDocument || document;
 
         if (mountDocument.getElementById(uiProtocol.EXIT_BAR_ELEMENT_ID)) {
             return null;
         }
 
-        var label = options.label != null ? options.label : __('Exit the application');
-        var $bar = $('<div id="' + uiProtocol.EXIT_BAR_ELEMENT_ID + '" class="' + uiProtocol.EXIT_BAR_CSS_CLASS + '">' +
-            '<button type="button" class="' + uiProtocol.EXIT_BUTTON_CSS_CLASS + ' btn btn-primary">' +
-            label +
-            '</button></div>');
+        const label = options.label != null ? options.label : __('Exit the application');
+        const $bar = $(`<div id="${uiProtocol.EXIT_BAR_ELEMENT_ID}" class="${uiProtocol.EXIT_BAR_CSS_CLASS}">` +
+            `<button type="button" class="${uiProtocol.EXIT_BUTTON_CSS_CLASS} btn btn-primary">${label}</button>` +
+            '</div>');
 
         $bar.css(exitBarStyles);
-        $bar.find('button').css(exitButtonStyles).on('click', function () {
+        $bar.find('button').css(exitButtonStyles).on('click', () => {
             if (typeof options.onExitClick === 'function') {
-                options.onExitClick({ $bar: $bar, mountDocument: mountDocument });
+                options.onExitClick({ $bar, mountDocument });
             }
         });
 
@@ -83,71 +79,60 @@ define([
         return $bar;
     }
 
-    function resolveDriverId(config) {
-        var moduleConfig = module.config() || {};
-        var driver = moduleConfig.driver || (config && config.driver);
+    /**
+     * Caller config wins over lib module.config. Explicit mock is always mock.
+     * When a real driver is configured, use it; otherwise auto-detect native API.
+     */
+    function resolveDriverId(config = {}) {
+        const moduleConfig = module.config() || {};
+        const configuredDriver = config.driver || moduleConfig.driver;
 
-        if (driver === DRIVER_KIOSKED) {
+        if (configuredDriver === DRIVER_KIOSKED_MOCK) {
+            return DRIVER_KIOSKED_MOCK;
+        }
+
+        if (configuredDriver === DRIVER_KIOSKED) {
+            return DRIVER_KIOSKED;
+        }
+
+        if (kioskedDriverModule.resolveNativeApiHandle()) {
             return DRIVER_KIOSKED;
         }
 
         return DRIVER_KIOSKED_MOCK;
     }
 
-    function createLockDownBrowserService(config) {
-        var driverId = resolveDriverId(config);
-        var driverOptions = {
-            minVersion: config && config.minVersion,
-            mockActiveProcesses: config && config.mockActiveProcesses
+    function createLockDownBrowserService(config = {}) {
+        const driverId = resolveDriverId(config);
+        const driverOptions = {
+            minVersion: config.minVersion,
+            mockActiveProcesses: config.mockActiveProcesses
         };
-        var driver;
-
-        if (driverId === DRIVER_KIOSKED) {
-            driver = kioskedDriverModule.createKioskedDriver(driverOptions);
-        } else {
-            driver = mockDriverModule.createMockDriver(driverOptions);
-        }
+        const driver =
+            driverId === DRIVER_KIOSKED
+                ? kioskedDriverModule.createKioskedDriver(driverOptions)
+                : mockDriverModule.createMockDriver(driverOptions);
 
         return {
-            getDriverId: function getDriverId() {
-                return driver.id;
-            },
+            getDriverId: () => driver.id,
 
-            isMockDriver: function isMockDriver() {
-                return driver.id === DRIVER_KIOSKED_MOCK;
-            },
+            isMockDriver: () => driver.id === DRIVER_KIOSKED_MOCK,
 
-            whenAvailable: function whenAvailable() {
-                return driver.whenAvailable();
-            },
+            whenAvailable: () => driver.whenAvailable(),
 
-            isSessionActive: function isSessionActive() {
-                return driver.isSessionActive();
-            },
+            isSessionActive: () => driver.isSessionActive(),
 
-            validateMinVersion: function validateMinVersion() {
-                return driver.validateMinVersion();
-            },
+            validateMinVersion: () => driver.validateMinVersion(),
 
-            addSecurityViolationListener: function addSecurityViolationListener(callback) {
-                driver.addSecurityViolationListener(callback);
-            },
+            addSecurityViolationListener: callback => driver.addSecurityViolationListener(callback),
 
-            removeSecurityViolationListener: function removeSecurityViolationListener() {
-                driver.removeSecurityViolationListener();
-            },
+            removeSecurityViolationListener: () => driver.removeSecurityViolationListener(),
 
-            exitApplication: function exitApplication() {
-                driver.exitApplication();
-            },
+            exitApplication: () => driver.exitApplication(),
 
-            checkDeniedProcesses: function checkDeniedProcesses(processBlackList) {
-                return driver.checkDeniedProcesses(processBlackList);
-            },
+            checkDeniedProcesses: processBlackList => driver.checkDeniedProcesses(processBlackList),
 
-            simulateSecurityViolation: function simulateSecurityViolation(detail) {
-                return driver.simulateSecurityViolation(detail);
-            }
+            simulateSecurityViolation: detail => driver.simulateSecurityViolation(detail)
         };
     }
 
@@ -156,12 +141,12 @@ define([
     }
 
     return {
-        DRIVER_KIOSKED: DRIVER_KIOSKED,
-        DRIVER_KIOSKED_MOCK: DRIVER_KIOSKED_MOCK,
-        uiProtocol: uiProtocol,
-        mountExitBar: mountExitBar,
-        removeExitBar: removeExitBar,
-        createLockDownBrowserService: createLockDownBrowserService,
-        isNativeLockDownBrowserPresent: isNativeLockDownBrowserPresent
+        DRIVER_KIOSKED,
+        DRIVER_KIOSKED_MOCK,
+        uiProtocol,
+        mountExitBar,
+        removeExitBar,
+        createLockDownBrowserService,
+        isNativeLockDownBrowserPresent
     };
 });
