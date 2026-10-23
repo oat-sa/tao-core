@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <rdf:RDF
-	xml:base="http://www.tao.lu/Ontologies/TAOLockDownBrowser.rdf#"
+	xml:base="http://www.tao.lu/Ontologies/TAO.rdf#"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 >
 
-    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOLockDownBrowser.rdf#LockDownBrowser">
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LockDownBrowser">
       <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
       <rdfs:label xml:lang="en-US"><![CDATA[Lock down browser]]></rdfs:label>
       <rdfs:comment xml:lang="en-US"><![CDATA[Lock down browser provider detected for this delivery execution]]></rdfs:comment>

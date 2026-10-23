@@ -26,8 +26,7 @@ use JsonSerializable;
 
 final class LockDownBrowserConfiguration implements JsonSerializable
 {
-    public const ONTOLOGY_NAMESPACE_URI = 'http://www.tao.lu/Ontologies/TAOLockDownBrowser.rdf';
-    public const PROPERTY_LOCK_DOWN_BROWSER = self::ONTOLOGY_NAMESPACE_URI . '#LockDownBrowser';
+    public const PROPERTY_LOCK_DOWN_BROWSER = 'http://www.tao.lu/Ontologies/TAO.rdf#LockDownBrowser';
     public const PROVIDER_KIOSKED = 'kiosked';
     public const PROVIDER_MOCK = 'ldbMock';
 
