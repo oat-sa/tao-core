@@ -146,6 +146,26 @@ class HttpRequestLockDownBrowserDetectorTest extends TestCase
         $this->assertSame('3.4.5', $result->version);
     }
 
+    public function testIgnoreClientCheckAppliesOnlyOnce(): void
+    {
+        $request = $this->createRequest('GET', 'Mozilla kiosked/3.4.5', [], []);
+
+        $this->assertNotNull($this->detector->ignoreClientCheck()->detect($request));
+        $this->assertNull($this->detector->detect($request));
+    }
+
+    public function testDetectReadsBooleanFromParsedBodyObject(): void
+    {
+        $request = (new ServerRequest('POST', '/'))
+            ->withHeader('User-Agent', 'Mozilla kiosked/9.0')
+            ->withParsedBody((object) ['clientKioskApiOk' => '1']);
+
+        $result = $this->detector->detect($request);
+
+        $this->assertSame(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $result->name);
+        $this->assertSame('9.0', $result->version);
+    }
+
     private function createRequest(
         string $method,
         string $userAgent,

@@ -51,12 +51,18 @@ class HttpRequestLockDownBrowserDetector
                 $this->getBooleanRequestValue($request, self::REQUEST_PARAM_CLIENT_KIOSK_API_OK)
             )
         ) {
+            $this->ignoreClientCheck = false;
+
             return $kiosked;
         }
 
         if ($this->getBooleanRequestValue($request, self::REQUEST_PARAM_CLIENT_LDB_MOCK)) {
+            $this->ignoreClientCheck = false;
+
             return new Browser(LockDownBrowserConfiguration::PROVIDER_MOCK);
         }
+
+        $this->ignoreClientCheck = false;
 
         return null;
     }
@@ -109,6 +115,10 @@ class HttpRequestLockDownBrowserDetector
 
         if (is_array($parsedBody) && array_key_exists($name, $parsedBody)) {
             return $parsedBody[$name];
+        }
+
+        if (is_object($parsedBody) && property_exists($parsedBody, $name)) {
+            return $parsedBody->$name;
         }
 
         return null;

@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\browser\Service;
 
+use InvalidArgumentException;
 use oat\tao\model\browser\Service\LockDownBrowserClientConfigurationRetriever;
 use PHPUnit\Framework\TestCase;
 
@@ -109,6 +110,43 @@ class LockDownBrowserClientConfigurationRetrieverTest extends TestCase
         $retriever = new LockDownBrowserClientConfigurationRetriever();
 
         $this->assertNull($retriever->retrieve()->processCheckInterval);
+    }
+
+    public function testRetrieveUsesConstructorConfigOverDefaults(): void
+    {
+        $retriever = new LockDownBrowserClientConfigurationRetriever([
+            'processCheckInterval' => 45000,
+            'simulateBreach' => true,
+        ]);
+
+        $config = $retriever->retrieve();
+
+        $this->assertSame(45000, $config->processCheckInterval);
+        $this->assertTrue($config->simulateBreach);
+        $this->assertSame(
+            LockDownBrowserClientConfigurationRetriever::DEFAULT_CONFIG['processCheckOnTestNavigation'],
+            $config->processCheckOnTestNavigation
+        );
+    }
+
+    public function testEnvIsIgnoredWhenConstructorConfigIsProvided(): void
+    {
+        $this->mockEnvVar(['processCheckInterval' => 120000]);
+
+        $retriever = new LockDownBrowserClientConfigurationRetriever([
+            'processCheckInterval' => 45000,
+        ]);
+
+        $this->assertSame(45000, $retriever->retrieve()->processCheckInterval);
+    }
+
+    public function testInvalidEnvJsonThrows(): void
+    {
+        $_ENV[LockDownBrowserClientConfigurationRetriever::LOCK_DOWN_BROWSER_CONFIG] = '{invalid';
+
+        $this->expectException(InvalidArgumentException::class);
+
+        new LockDownBrowserClientConfigurationRetriever();
     }
 
     private function mockEnvVar(array $config): void
