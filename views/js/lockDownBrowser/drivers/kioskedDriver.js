@@ -96,6 +96,22 @@ define([], function () {
         return null;
     }
 
+    function resolveNativeExitApi() {
+        const candidates = [window, window.parent, window.top];
+
+        for (let i = 0; i < candidates.length; i++) {
+            try {
+                if (candidates[i].kiosked && typeof candidates[i].kiosked.exit === 'function') {
+                    return candidates[i].kiosked;
+                }
+            } catch (err) {
+                // cross-origin
+            }
+        }
+
+        return null;
+    }
+
     function normalizeProcessBlockList(processBlackList) {
         if (!processBlackList) {
             return {};
@@ -265,13 +281,10 @@ define([], function () {
 
             exitApplication: function exitApplication() {
                 const handle = getHandle();
+                const api = handle ? handle.api : resolveNativeExitApi();
 
-                if (!handle) {
-                    return;
-                }
-
-                if (typeof handle.api.exit === 'function') {
-                    handle.api.exit();
+                if (api) {
+                    api.exit();
                 }
             },
 
@@ -329,6 +342,7 @@ define([], function () {
 
     return {
         createKioskedDriver: createKioskedDriver,
-        resolveNativeApiHandle: resolveNativeApiHandle
+        resolveNativeApiHandle: resolveNativeApiHandle,
+        resolveNativeExitApi: resolveNativeExitApi
     };
 });

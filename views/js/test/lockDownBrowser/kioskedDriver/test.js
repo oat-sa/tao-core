@@ -57,6 +57,23 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
         window.kiosked = originalKiosked;
     });
 
+    QUnit.test('uses an exit-only window.kiosked API to close the application', function (assert) {
+        var originalKiosked = window.kiosked;
+        var exitCalls = 0;
+
+        window.kiosked = {
+            exit: function () {
+                exitCalls++;
+            }
+        };
+
+        assert.strictEqual(kioskedDriver.resolveNativeExitApi(), window.kiosked);
+        kioskedDriver.createKioskedDriver().exitApplication();
+        assert.equal(exitCalls, 1);
+
+        window.kiosked = originalKiosked;
+    });
+
     QUnit.test('returns false when isLocked throws', function (assert) {
         var done = assert.async();
         var originalKiosked = window.kiosked;

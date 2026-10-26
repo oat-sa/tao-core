@@ -19,68 +19,65 @@
  */
 define([
     'jquery',
-    'i18n',
     'module',
     'tao/lockDownBrowser/drivers/kioskedDriver',
     'tao/lockDownBrowser/drivers/mockDriver',
+    'tao/lockDownBrowser/lockDownBrowserEventBus',
     'tao/lockDownBrowser/lockDownBrowserUiProtocol'
-], function ($, __, module, kioskedDriverModule, mockDriverModule, uiProtocol) {
+], function ($, module, kioskedDriverModule, mockDriverModule, eventBus, uiProtocol) {
     'use strict';
 
     var DRIVER_KIOSKED = 'kiosked';
     var DRIVER_KIOSKED_MOCK = 'kioskedMock';
 
-    var exitBarStyles = {
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 10000,
-        padding: '12px 16px',
-        textAlign: 'center',
-        background: 'rgba(0, 0, 0, 0.85)'
-    };
+    var EXIT_MENU_SELECTOR = '[data-control="exit"]';
+    var EXIT_MENU_EVENT = 'click.lockDownBrowserExit';
+    var USER_MENU_READY_EVENT = 'usermenurendered.lockDownBrowserExit';
 
-    var exitButtonStyles = {
-        minWidth: '240px'
-    };
+    function revealExitMenu(mountDocument) {
+        var $exit = $(mountDocument).find(EXIT_MENU_SELECTOR);
 
-    function removeExitBar(mountDocument) {
+        $exit.removeClass('hidden');
+
+        return $exit;
+    }
+
+    function removeExitMenu(mountDocument) {
         var doc = mountDocument || document;
 
-        $(doc.getElementById(uiProtocol.EXIT_BAR_ELEMENT_ID)).remove();
+        $(doc).off(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR);
+        eventBus.off(USER_MENU_READY_EVENT).disableExitMenu();
+        $(doc).find(EXIT_MENU_SELECTOR).addClass('hidden');
     }
 
     /**
      * @param {Object} [options]
      * @param {Document} [options.mountDocument]
-     * @param {string} [options.label]
-     * @param {Function} [options.onExitClick] ({ $bar, mountDocument })
+     * @param {Function} [options.onExitClick]
+     * @returns {jQuery|null}
      */
-    function mountExitBar(options) {
+    function mountExitMenu(options) {
+        var mountDocument;
+        var $document;
+        var $exit;
+
         options = options || {};
-        var mountDocument = options.mountDocument || document;
+        mountDocument = options.mountDocument || document;
+        $document = $(mountDocument);
+        eventBus.enableExitMenu();
+        $exit = revealExitMenu(mountDocument);
 
-        if (mountDocument.getElementById(uiProtocol.EXIT_BAR_ELEMENT_ID)) {
-            return null;
-        }
-
-        var label = options.label != null ? options.label : __('Exit the application');
-        var $bar = $('<div id="' + uiProtocol.EXIT_BAR_ELEMENT_ID + '" class="' + uiProtocol.EXIT_BAR_CSS_CLASS + '">' +
-            '<button type="button" class="' + uiProtocol.EXIT_BUTTON_CSS_CLASS + ' btn btn-primary">' +
-            label +
-            '</button></div>');
-
-        $bar.css(exitBarStyles);
-        $bar.find('button').css(exitButtonStyles).on('click', function () {
+        $document.off(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR).on(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR, function (event) {
+            event.preventDefault();
             if (typeof options.onExitClick === 'function') {
-                options.onExitClick({ $bar: $bar, mountDocument: mountDocument });
+                options.onExitClick();
             }
         });
+        eventBus.off(USER_MENU_READY_EVENT).on(USER_MENU_READY_EVENT, function () {
+            revealExitMenu(mountDocument);
+        });
 
-        $(mountDocument.body).append($bar);
-
-        return $bar;
+        return $exit.length ? $exit : null;
     }
 
     function resolveDriverId(config) {
@@ -152,16 +149,21 @@ define([
     }
 
     function isNativeLockDownBrowserPresent() {
-        return !!kioskedDriverModule.resolveNativeApiHandle();
+        return !!kioskedDriverModule.resolveNativeExitApi();
+    }
+
+    function isLockDownBrowserContext(service) {
+        return service.isMockDriver() || isNativeLockDownBrowserPresent();
     }
 
     return {
         DRIVER_KIOSKED: DRIVER_KIOSKED,
         DRIVER_KIOSKED_MOCK: DRIVER_KIOSKED_MOCK,
         uiProtocol: uiProtocol,
-        mountExitBar: mountExitBar,
-        removeExitBar: removeExitBar,
+        mountExitMenu: mountExitMenu,
+        removeExitMenu: removeExitMenu,
         createLockDownBrowserService: createLockDownBrowserService,
-        isNativeLockDownBrowserPresent: isNativeLockDownBrowserPresent
+        isNativeLockDownBrowserPresent: isNativeLockDownBrowserPresent,
+        isLockDownBrowserContext: isLockDownBrowserContext
     };
 });

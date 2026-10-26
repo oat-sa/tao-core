@@ -31,9 +31,6 @@ define([], function () {
         MESSAGE_DEFER_FINISH: MESSAGE_DEFER_FINISH,
         MESSAGE_EXIT: MESSAGE_EXIT,
         PENDING_EXIT_STORAGE_KEY: PENDING_EXIT_STORAGE_KEY,
-        EXIT_BAR_ELEMENT_ID: 'lockdown-browser-exit-bar',
-        EXIT_BAR_CSS_CLASS: 'lockdown-browser-exit-bar',
-        EXIT_BUTTON_CSS_CLASS: 'lockdown-browser-exit-button',
         BREACH_TRACE_KEY_PREFIX: 'lockdown-breach-',
 
         isDeferFinishMessage: function isDeferFinishMessage(type) {
