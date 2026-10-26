@@ -34,6 +34,7 @@ use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
 use oat\tao\model\search\index\DocumentBuilder\PropertyIndexReferenceFactory;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\search\Service\DefaultSearchSettingsService;
+use oat\tao\model\search\SupplementalSearchProviderRegistry;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -46,6 +47,9 @@ class SearchServiceProvider implements ContainerServiceProviderInterface
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
+
+        $services->set(SupplementalSearchProviderRegistry::class, SupplementalSearchProviderRegistry::class)
+            ->public();
 
         $services->set(DefaultSearchSettingsService::class, DefaultSearchSettingsService::class)
             ->public();
