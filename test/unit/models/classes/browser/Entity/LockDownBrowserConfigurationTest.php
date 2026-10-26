@@ -20,9 +20,9 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\models\classes\lockDownBrowser\Entity;
+namespace oat\tao\test\unit\models\classes\browser\Entity;
 
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use PHPUnit\Framework\TestCase;
 
 class LockDownBrowserConfigurationTest extends TestCase
@@ -76,5 +76,22 @@ class LockDownBrowserConfigurationTest extends TestCase
             ],
             $configuration->jsonSerialize()
         );
+    }
+
+    /**
+     * @dataProvider isProviderAllowedProvider
+     */
+    public function testIsProviderAllowed(string $provider, bool $expected): void
+    {
+        $this->assertSame($expected, LockDownBrowserConfiguration::isProviderAllowed($provider));
+    }
+
+    public function isProviderAllowedProvider(): array
+    {
+        return [
+            'kiosked' => [LockDownBrowserConfiguration::PROVIDER_KIOSKED, true],
+            'mock' => [LockDownBrowserConfiguration::PROVIDER_MOCK, true],
+            'unknown' => ['chrome', false],
+        ];
     }
 }

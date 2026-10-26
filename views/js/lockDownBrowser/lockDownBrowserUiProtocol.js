@@ -31,6 +31,7 @@ define([], function () {
         MESSAGE_DEFER_FINISH: MESSAGE_DEFER_FINISH,
         MESSAGE_EXIT: MESSAGE_EXIT,
         PENDING_EXIT_STORAGE_KEY: PENDING_EXIT_STORAGE_KEY,
+        EVENT_TRACE_KEY_PREFIX: 'lockdown-event-',
         BREACH_TRACE_KEY_PREFIX: 'lockdown-breach-',
 
         isDeferFinishMessage: function isDeferFinishMessage(type) {

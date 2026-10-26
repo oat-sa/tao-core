@@ -76,11 +76,6 @@ class DynamicModule implements JsonSerializable
      */
     private $tags = [];
 
-    /**
-     * @var string|null optional implementation driver (e.g. lock down browser vendor)
-     */
-    private $driver;
-
 
     /**
      * Creates a frontend module
@@ -116,9 +111,6 @@ class DynamicModule implements JsonSerializable
         }
         if (isset($data['tags'])) {
             $this->tags = (array) $data['tags'];
-        }
-        if (isset($data['driver'])) {
-            $this->driver = (string) $data['driver'];
         }
     }
 
@@ -172,11 +164,6 @@ class DynamicModule implements JsonSerializable
         return $this->tags;
     }
 
-    public function getDriver()
-    {
-        return $this->driver ?? null;
-    }
-
     public function hasTag($tag)
     {
         return in_array($this->tags, $tag);
@@ -193,7 +180,7 @@ class DynamicModule implements JsonSerializable
      */
     public function toArray()
     {
-        $data = [
+        return [
             'id'          => $this->id,
             'module'      => $this->module,
             'bundle'      => $this->bundle,
@@ -204,12 +191,6 @@ class DynamicModule implements JsonSerializable
             'active'      => $this->active,
             'tags'        => $this->tags
         ];
-
-        if ($this->driver !== null) {
-            $data['driver'] = $this->driver;
-        }
-
-        return $data;
     }
 
     /**

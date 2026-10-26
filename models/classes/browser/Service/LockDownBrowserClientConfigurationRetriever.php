@@ -20,10 +20,10 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\lockDownBrowser\Service;
+namespace oat\tao\model\browser\Service;
 
 use InvalidArgumentException;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 
 class LockDownBrowserClientConfigurationRetriever
 {

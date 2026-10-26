@@ -20,39 +20,67 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\lockDownBrowser\Service;
+namespace oat\tao\model\browser\Service;
 
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Entity\Browser;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class HttpRequestLockDownBrowserDetector implements LockDownBrowserDetectorInterface
+class HttpRequestLockDownBrowserDetector
 {
     private const REQUEST_PARAM_CLIENT_KIOSK_API_OK = 'clientKioskApiOk';
     private const REQUEST_PARAM_CLIENT_LDB_MOCK = 'ldbMock';
 
-    public function detect(ServerRequestInterface $request): ?string
+    private bool $ignoreClientCheck = false;
+
+    public function ignoreClientCheck(): self
     {
-        if ($this->isUserAgentKiosked($request)) {
-            return LockDownBrowserConfiguration::PROVIDER_KIOSKED;
+        $this->ignoreClientCheck = true;
+
+        return $this;
+    }
+
+    public function detect(ServerRequestInterface $request): ?Browser
+    {
+        $kiosked = $this->getUserAgentKiosked($request);
+
+        if (
+            $kiosked &&
+            (
+                $this->ignoreClientCheck ||
+                $this->getBooleanRequestValue($request, self::REQUEST_PARAM_CLIENT_KIOSK_API_OK)
+            )
+        ) {
+            return $kiosked;
         }
 
         if ($this->getBooleanRequestValue($request, self::REQUEST_PARAM_CLIENT_LDB_MOCK)) {
-            return LockDownBrowserConfiguration::PROVIDER_MOCK;
+            return new Browser(LockDownBrowserConfiguration::PROVIDER_MOCK);
         }
 
         return null;
     }
 
-    private function isUserAgentKiosked(ServerRequestInterface $request): bool
+    private function getUserAgentKiosked(ServerRequestInterface $request): ?Browser
     {
         $userAgent = $request->getHeaderLine('User-Agent');
 
         if ($userAgent === '') {
-            return false;
+            return null;
         }
 
-        return preg_match('/kiosk(ed)?/i', $userAgent)
-            && $this->getBooleanRequestValue($request, self::REQUEST_PARAM_CLIENT_KIOSK_API_OK);
+        $isKiosked = (bool) preg_match(
+            '/\b(?:kiosked|KioskED-[A-Za-z0-9]+)\/(?<version>\d+(?:\.\d+)*)/i',
+            $userAgent,
+            $matches
+        );
+        $version = $isKiosked ? $matches['version'] : null;
+
+        if ($isKiosked) {
+            return new Browser(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $version);
+        }
+
+        return null;
     }
 
     private function getBooleanRequestValue(ServerRequestInterface $request, string $param): bool

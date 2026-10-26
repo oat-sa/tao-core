@@ -2,17 +2,61 @@ define([
     'jquery',
     'tao/lockDownBrowser/lockDownBrowserEventBus',
     'tao/lockDownBrowser/lockDownBrowserService'
-], function ($, eventBus, lockDownBrowserService) {
+], function ($, eventBus, lockDownBrowserModule) {
     'use strict';
 
     QUnit.module('lockDownBrowserService');
 
-    QUnit.test('uses the client library configured driver', function (assert) {
-        const service = lockDownBrowserService.createLockDownBrowserService({
-            driver: lockDownBrowserService.DRIVER_KIOSKED_MOCK
+    function stubNativeKioskedApi() {
+        return {
+            getDeviceInfo: function () {},
+            lock: function () {},
+            unlock: function () {},
+            isLocked: function () {
+                return Promise.resolve(true);
+            },
+            exit: function () {},
+            checkBlocklist: function () {
+                return Promise.resolve([]);
+            }
+        };
+    }
+
+    QUnit.test('uses configured kiosked driver when requested', function (assert) {
+        const service = lockDownBrowserModule.createLockDownBrowserService({
+            driver: 'kiosked'
         });
 
-        assert.equal(service.getDriverId(), lockDownBrowserService.DRIVER_KIOSKED);
+        assert.strictEqual(service.getDriverId(), 'kiosked');
+        assert.notOk(service.isMockDriver());
+    });
+
+    QUnit.test('uses mock when requested even if native API is present', function (assert) {
+        const originalKiosked = window.kiosked;
+
+        window.kiosked = stubNativeKioskedApi();
+
+        const service = lockDownBrowserModule.createLockDownBrowserService({
+            driver: 'kioskedMock'
+        });
+
+        assert.strictEqual(service.getDriverId(), 'kioskedMock');
+        assert.ok(service.isMockDriver());
+
+        window.kiosked = originalKiosked;
+    });
+
+    QUnit.test('selects kiosked when native API is present and no driver is configured', function (assert) {
+        const originalKiosked = window.kiosked;
+
+        window.kiosked = stubNativeKioskedApi();
+
+        const service = lockDownBrowserModule.createLockDownBrowserService({});
+
+        assert.strictEqual(service.getDriverId(), 'kiosked');
+        assert.notOk(service.isMockDriver());
+
+        window.kiosked = originalKiosked;
     });
 
     QUnit.test('shows and handles the header exit menu entry after dropdown rendering', function (assert) {
@@ -20,7 +64,7 @@ define([
         const $exit = $('<li class="hidden" data-control="exit"><a href="#">Exit</a></li>')
             .appendTo('#qunit-fixture');
 
-        lockDownBrowserService.mountExitMenu({
+        lockDownBrowserModule.mountExitMenu({
             onExitClick: function () {
                 clicked++;
             }
@@ -37,10 +81,10 @@ define([
         eventBus.trigger('usermenurendered');
 
         assert.notOk($dropdownExit.hasClass('hidden'), 'a later-rendered dropdown entry is visible');
-        lockDownBrowserService.removeExitMenu();
+        lockDownBrowserModule.removeExitMenu();
     });
 
-    QUnit.test('recognizes mock and native Kiosked contexts', function (assert) {
+    QUnit.test('recognizes mock and exit-capable Kiosked contexts', function (assert) {
         const originalKiosked = window.kiosked;
         const mockService = {
             isMockDriver: function () {
@@ -53,16 +97,16 @@ define([
             }
         };
 
-        assert.ok(lockDownBrowserService.isLockDownBrowserContext(mockService), 'mock context is recognized');
+        assert.ok(lockDownBrowserModule.isLockDownBrowserContext(mockService), 'mock context is recognized');
 
         window.kiosked = null;
-        assert.notOk(lockDownBrowserService.isLockDownBrowserContext(nativeService), 'ordinary browser is not Kiosked');
+        assert.notOk(lockDownBrowserModule.isLockDownBrowserContext(nativeService), 'ordinary browser is not Kiosked');
 
         window.kiosked = {
             exit: function () {}
         };
 
-        assert.ok(lockDownBrowserService.isLockDownBrowserContext(nativeService), 'exit-capable Kiosked context is recognized');
+        assert.ok(lockDownBrowserModule.isLockDownBrowserContext(nativeService), 'exit-capable Kiosked context is recognized');
 
         window.kiosked = originalKiosked;
     });

@@ -20,14 +20,30 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\lockDownBrowser\Service;
+namespace oat\tao\test\unit\models\classes\browser\Entity;
 
-use Psr\Http\Message\ServerRequestInterface;
+use oat\tao\model\browser\Entity\Browser;
+use PHPUnit\Framework\TestCase;
 
-interface LockDownBrowserDetectorInterface
+class BrowserTest extends TestCase
 {
-    /**
-     * @return string|null LockDown Browser provider
-     */
-    public function detect(ServerRequestInterface $request): ?string;
+    public function testJsonSerializeIncludesNameAndVersion(): void
+    {
+        $browser = new Browser('kiosked', '1.8.2');
+
+        $this->assertSame('kiosked', $browser->name);
+        $this->assertSame('1.8.2', $browser->version);
+        $this->assertSame(
+            ['name' => 'kiosked', 'version' => '1.8.2'],
+            $browser->jsonSerialize()
+        );
+    }
+
+    public function testVersionDefaultsToNull(): void
+    {
+        $browser = new Browser('Chrome');
+
+        $this->assertNull($browser->version);
+        $this->assertSame(['name' => 'Chrome', 'version' => null], $browser->jsonSerialize());
+    }
 }

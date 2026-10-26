@@ -29,7 +29,7 @@ define([
 
     const DRIVER_KIOSKED = 'kiosked';
     const DRIVER_KIOSKED_MOCK = 'kioskedMock';
-
+    const EVENT_TYPES = kioskedDriverModule.EVENT_TYPES;
     const EXIT_MENU_SELECTOR = '[data-control="exit"]';
     const EXIT_MENU_EVENT = 'click.lockDownBrowserExit';
     const USER_MENU_READY_EVENT = 'usermenurendered.lockDownBrowserExit';
@@ -42,12 +42,10 @@ define([
         return $exit;
     }
 
-    function removeExitMenu(mountDocument) {
-        const doc = mountDocument || document;
-
-        $(doc).off(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR);
+    function removeExitMenu(mountDocument = document) {
+        $(mountDocument).off(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR);
         eventBus.off(USER_MENU_READY_EVENT).disableExitMenu();
-        $(doc).find(EXIT_MENU_SELECTOR).addClass('hidden');
+        $(mountDocument).find(EXIT_MENU_SELECTOR).addClass('hidden');
     }
 
     /**
@@ -56,42 +54,53 @@ define([
      * @param {Function} [options.onExitClick]
      * @returns {jQuery|null}
      */
-    function mountExitMenu(options) {
-        options = options || {};
+    function mountExitMenu(options = {}) {
         const mountDocument = options.mountDocument || document;
         const $document = $(mountDocument);
+
         eventBus.enableExitMenu();
         const $exit = revealExitMenu(mountDocument);
-
-        $document.off(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR).on(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR, function (event) {
+        $document.off(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR).on(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR, event => {
             event.preventDefault();
             if (typeof options.onExitClick === 'function') {
                 options.onExitClick();
             }
         });
-        eventBus.off(USER_MENU_READY_EVENT).on(USER_MENU_READY_EVENT, function () {
-            revealExitMenu(mountDocument);
-        });
+        eventBus.off(USER_MENU_READY_EVENT).on(USER_MENU_READY_EVENT, () => revealExitMenu(mountDocument));
 
         return $exit.length ? $exit : null;
     }
 
-    function resolveDriverId(config) {
+    /**
+     * Caller config wins over lib module.config. Explicit mock is always mock.
+     * When a real driver is configured, use it; otherwise auto-detect native API.
+     * @param {Object} [config]
+     * @returns {string}
+     */
+    function resolveDriverId(config = {}) {
         const moduleConfig = module.config() || {};
-        const driver = moduleConfig.driver || (config && config.driver);
+        const configuredDriver = config.driver || moduleConfig.driver;
 
-        if (driver === DRIVER_KIOSKED) {
+        if (configuredDriver === DRIVER_KIOSKED_MOCK) {
+            return DRIVER_KIOSKED_MOCK;
+        }
+
+        if (configuredDriver === DRIVER_KIOSKED) {
+            return DRIVER_KIOSKED;
+        }
+
+        if (kioskedDriverModule.resolveNativeApiHandle()) {
             return DRIVER_KIOSKED;
         }
 
         return DRIVER_KIOSKED_MOCK;
     }
 
-    function createLockDownBrowserService(config) {
+    function createLockDownBrowserService(config = {}) {
         const driverId = resolveDriverId(config);
         const driverOptions = {
-            minVersion: config && config.minVersion,
-            mockActiveProcesses: config && config.mockActiveProcesses
+            minVersion: config.minVersion,
+            mockActiveProcesses: config.mockActiveProcesses
         };
         const driver =
             driverId === DRIVER_KIOSKED
@@ -99,64 +108,49 @@ define([
                 : mockDriverModule.createMockDriver(driverOptions);
 
         return {
-            getDriverId: function getDriverId() {
-                return driver.id;
-            },
+            getDriverId: () => driver.id,
 
-            isMockDriver: function isMockDriver() {
-                return driver.id === DRIVER_KIOSKED_MOCK;
-            },
+            isMockDriver: () => driver.id === DRIVER_KIOSKED_MOCK,
 
-            whenAvailable: function whenAvailable() {
-                return driver.whenAvailable();
-            },
+            whenAvailable: () => driver.whenAvailable(),
 
-            isSessionActive: function isSessionActive() {
-                return driver.isSessionActive();
-            },
+            isSessionActive: () => driver.isSessionActive(),
 
-            validateMinVersion: function validateMinVersion() {
-                return driver.validateMinVersion();
-            },
+            validateMinVersion: () => driver.validateMinVersion(),
 
-            addSecurityViolationListener: function addSecurityViolationListener(callback) {
-                driver.addSecurityViolationListener(callback);
-            },
+            addEventListeners: (eventTypes, callback) => driver.addEventListeners(eventTypes, callback),
 
-            removeSecurityViolationListener: function removeSecurityViolationListener() {
-                driver.removeSecurityViolationListener();
-            },
+            removeEventListeners: () => driver.removeEventListeners(),
 
-            exitApplication: function exitApplication() {
-                driver.exitApplication();
-            },
+            addSecurityViolationListener: callback => driver.addSecurityViolationListener(callback),
 
-            checkDeniedProcesses: function checkDeniedProcesses(processBlackList) {
-                return driver.checkDeniedProcesses(processBlackList);
-            },
+            removeSecurityViolationListener: () => driver.removeSecurityViolationListener(),
 
-            simulateSecurityViolation: function simulateSecurityViolation(detail) {
-                return driver.simulateSecurityViolation(detail);
-            }
+            exitApplication: () => driver.exitApplication(),
+
+            checkDeniedProcesses: processBlackList => driver.checkDeniedProcesses(processBlackList),
+
+            simulateSecurityViolation: detail => driver.simulateSecurityViolation(detail)
         };
     }
 
     function isNativeLockDownBrowserPresent() {
-        return !!kioskedDriverModule.resolveNativeExitApi();
+        return !!kioskedDriverModule.resolveNativeApiHandle();
     }
 
     function isLockDownBrowserContext(service) {
-        return service.isMockDriver() || isNativeLockDownBrowserPresent();
+        return !!(service && service.isMockDriver()) || !!kioskedDriverModule.resolveNativeExitApi();
     }
 
     return {
-        DRIVER_KIOSKED: DRIVER_KIOSKED,
-        DRIVER_KIOSKED_MOCK: DRIVER_KIOSKED_MOCK,
-        uiProtocol: uiProtocol,
-        mountExitMenu: mountExitMenu,
-        removeExitMenu: removeExitMenu,
-        createLockDownBrowserService: createLockDownBrowserService,
-        isNativeLockDownBrowserPresent: isNativeLockDownBrowserPresent,
-        isLockDownBrowserContext: isLockDownBrowserContext
+        DRIVER_KIOSKED,
+        DRIVER_KIOSKED_MOCK,
+        EVENT_TYPES,
+        uiProtocol,
+        mountExitMenu,
+        removeExitMenu,
+        createLockDownBrowserService,
+        isNativeLockDownBrowserPresent,
+        isLockDownBrowserContext
     };
 });

@@ -20,20 +20,20 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\lockDownBrowser\ServiceProvider;
+namespace oat\tao\model\browser\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\tao\model\lockDownBrowser\Service\HttpRequestLockDownBrowserDetector;
-use oat\tao\model\lockDownBrowser\Service\LockDownBrowserClientConfigurationRetriever;
-use oat\tao\model\lockDownBrowser\Service\LockDownBrowserDetectorInterface;
+use oat\tao\model\browser\Service\HttpRequestBrowserDetector;
+use oat\tao\model\browser\Service\HttpRequestLockDownBrowserDetector;
+use oat\tao\model\browser\Service\LockDownBrowserClientConfigurationRetriever;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 /**
  * @codeCoverageIgnore
  */
-class LockDownBrowserServiceProvider implements ContainerServiceProviderInterface
+class BrowserServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
@@ -44,7 +44,10 @@ class LockDownBrowserServiceProvider implements ContainerServiceProviderInterfac
             ->public();
 
         $services
-            ->set(LockDownBrowserDetectorInterface::class, HttpRequestLockDownBrowserDetector::class)
+            ->set(HttpRequestBrowserDetector::class, HttpRequestBrowserDetector::class)
+            ->args([
+                service(HttpRequestLockDownBrowserDetector::class)
+            ])
             ->public();
 
         $services

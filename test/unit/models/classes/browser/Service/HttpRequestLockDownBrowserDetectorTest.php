@@ -20,11 +20,12 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\models\classes\lockDownBrowser\Service;
+namespace oat\tao\test\unit\models\classes\browser\Service;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
-use oat\tao\model\lockDownBrowser\Service\HttpRequestLockDownBrowserDetector;
+use oat\tao\model\browser\Entity\Browser;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Service\HttpRequestLockDownBrowserDetector;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -39,17 +40,28 @@ class HttpRequestLockDownBrowserDetectorTest extends TestCase
 
     /**
      * @dataProvider detectProvider
+     *
+     * @param array{name: string, version: string|null}|null $expected
      */
     public function testDetect(
-        ?string $expectedProvider,
+        ?array $expected,
         string $method,
         string $userAgent,
         array $queryParams,
         array $parsedBody
     ): void {
         $request = $this->createRequest($method, $userAgent, $queryParams, $parsedBody);
+        $result = $this->detector->detect($request);
 
-        $this->assertSame($expectedProvider, $this->detector->detect($request));
+        if ($expected === null) {
+            $this->assertNull($result);
+
+            return;
+        }
+
+        $this->assertInstanceOf(Browser::class, $result);
+        $this->assertSame($expected['name'], $result->name);
+        $this->assertSame($expected['version'], $result->version);
     }
 
     public function detectProvider(): array
@@ -59,34 +71,41 @@ class HttpRequestLockDownBrowserDetectorTest extends TestCase
 
         return [
             'real Kiosk{ed}: kiosk user agent and clientKioskApiOk in POST body' => [
-                $kiosked,
+                ['name' => $kiosked, 'version' => '1.0'],
                 'POST',
-                'Mozilla Kiosked/1.0',
+                'Mozilla kiosked/1.0',
                 [],
                 ['clientKioskApiOk' => '1'],
             ],
-            'real Kiosk{ed}: clientKioskApiOk in query (GET)' => [
-                $kiosked,
+            'real Kiosk{ed}: clientKioskApiOk in query with kiosked UA' => [
+                ['name' => $kiosked, 'version' => '2.0'],
                 'GET',
-                'Mozilla Kiosk/2.0',
+                'Mozilla kiosked/2.0',
                 ['clientKioskApiOk' => '1'],
                 [],
+            ],
+            'real Kiosk{ed}: KioskED-Mac token in UA' => [
+                ['name' => $kiosked, 'version' => '1.8.2'],
+                'POST',
+                'Mozilla/5.0 KioskED-Mac/1.8.2 Chrome/150.0',
+                [],
+                ['clientKioskApiOk' => '1'],
             ],
             'no session: kiosk user agent but clientKioskApiOk is false' => [
                 null,
                 'POST',
-                'Mozilla Kiosked/1.0',
+                'Mozilla kiosked/1.0',
                 [],
                 ['clientKioskApiOk' => '0'],
             ],
             'no session: kiosk user agent without clientKioskApiOk' => [
                 null,
                 'POST',
-                'Mozilla Kiosked/1.0',
+                'Mozilla kiosked/1.0',
                 [],
                 [],
             ],
-            'no session: clientKioskApiOk alone does not select mock provider' => [
+            'no session: clientKioskApiOk alone does not select kiosked provider' => [
                 null,
                 'POST',
                 'Mozilla/5.0 Chrome',
@@ -94,27 +113,37 @@ class HttpRequestLockDownBrowserDetectorTest extends TestCase
                 ['clientKioskApiOk' => '1'],
             ],
             'mock driver: ldbMock in POST body' => [
-                $mock,
+                ['name' => $mock, 'version' => null],
                 'POST',
                 'Mozilla/5.0 Chrome',
                 [],
                 ['ldbMock' => '1'],
             ],
-            'mock driver: ldbMock in query (GET)' => [
-                $mock,
+            'mock driver: ldbMock in query' => [
+                ['name' => $mock, 'version' => null],
                 'GET',
                 'Mozilla/5.0 Chrome',
                 ['ldbMock' => '1'],
                 [],
             ],
             'mock driver: kiosk UA without clientKioskApiOk falls back to ldbMock' => [
-                $mock,
+                ['name' => $mock, 'version' => null],
                 'POST',
-                'Mozilla Kiosked/1.0',
+                'Mozilla kiosked/1.0',
                 [],
                 ['ldbMock' => '1'],
             ],
         ];
+    }
+
+    public function testIgnoreClientCheckReturnsKioskedFromUserAgentOnly(): void
+    {
+        $request = $this->createRequest('GET', 'Mozilla kiosked/3.4.5', [], []);
+        $result = $this->detector->ignoreClientCheck()->detect($request);
+
+        $this->assertInstanceOf(Browser::class, $result);
+        $this->assertSame(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $result->name);
+        $this->assertSame('3.4.5', $result->version);
     }
 
     private function createRequest(
