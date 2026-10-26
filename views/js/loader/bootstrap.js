@@ -23,13 +23,32 @@
 (function(){
     'use strict';
 
-
-
     var loaderScript = document.getElementById('amd-loader');
     var configUrl = loaderScript.getAttribute('data-config');
-    var bundle  = loaderScript.getAttribute('data-bundle');
+    var loaderUrl = loaderScript.getAttribute('data-main') || loaderScript.getAttribute('src');
+    var loaderDirectoryIndex = loaderUrl.lastIndexOf('loader/');
+    var jsBaseUrl = loaderDirectoryIndex === -1 ? '' : loaderUrl.substring(0, loaderDirectoryIndex);
+    var locale = document.documentElement.getAttribute('lang') || 'en-US';
+    var bundle = loaderScript.getAttribute('data-bundle');
+    var configErrorDialog;
+    var loadController;
+    var onConfigLoaded;
 
-    var loadController = function loadController(){
+    //The client config normally provides these paths. Define the minimum here
+    //so the translated config error can also be displayed when that request fails.
+    window.require.config({
+        baseUrl: jsBaseUrl,
+        paths: {
+            text: 'lib/text/text',
+            json: 'lib/text/json',
+            css: 'lib/require-css/css',
+            lodash: '../node_modules/lodash/lodash',
+            core: '../node_modules/@oat-sa/tao-core-sdk/dist/core',
+            i18ntr: `../locales/${locale}`
+        }
+    });
+
+    loadController = function startControllerLoading(){
         var controllerOptions = {};
         var controllerPath = loaderScript.getAttribute('data-controller');
         var params = loaderScript.getAttribute('data-params');
@@ -52,13 +71,18 @@
         });
     };
 
-    //always start to load the config
-    window.require([configUrl], function() {
+    /**
+     * Continue bootstrapping after the client config has loaded.
+     */
+    onConfigLoaded = function handleConfigLoaded(){
+        if(configErrorDialog){
+            configErrorDialog.destroy();
+        }
 
         //define the global loading mechanism
         if(!window.loadBundles){
-            //keep tracl of loaded bundles, even if require does it,
-            //this prevent some unecessary cycles
+            //keep track of loaded bundles, even if require does it,
+            //this prevents some unnecessary cycles
             window.loaded = {};
 
             /**
@@ -68,7 +92,7 @@
              */
             window.loadBundles = function loadBundles(bundles){
                 bundles = bundles || [];
-                bundles = bundles.concat(window.bundles)
+                bundles = bundles.concat(window.bundles);
                 bundles = bundles.filter( function(item, index){
                     return item && bundles.indexOf(item) === index && window.loaded[item] !== true;
                 });
@@ -78,7 +102,7 @@
                     });
                     loadController();
                 });
-            }
+            };
         }
 
         if(bundle || (window.bundles && window.bundles.length)) {
@@ -86,5 +110,14 @@
         } else {
             loadController();
         }
+    };
+
+    //Load the translated failure dialog before requesting the client config.
+    window.require(['loader/configRetry'], function(configRetryDialog){
+        configErrorDialog = configRetryDialog();
+
+        window.require([configUrl], onConfigLoaded, function(){
+            configErrorDialog.show();
+        });
     });
 })();
