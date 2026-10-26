@@ -8,7 +8,7 @@ define([
     QUnit.module('lockDownBrowserService');
 
     QUnit.test('uses the client library configured driver', function (assert) {
-        var service = lockDownBrowserService.createLockDownBrowserService({
+        const service = lockDownBrowserService.createLockDownBrowserService({
             driver: lockDownBrowserService.DRIVER_KIOSKED_MOCK
         });
 
@@ -16,10 +16,9 @@ define([
     });
 
     QUnit.test('shows and handles the header exit menu entry after dropdown rendering', function (assert) {
-        var clicked = 0;
-        var $exit = $('<li class="hidden" data-control="exit"><a href="#">Exit</a></li>')
+        let clicked = 0;
+        const $exit = $('<li class="hidden" data-control="exit"><a href="#">Exit</a></li>')
             .appendTo('#qunit-fixture');
-        var $dropdownExit;
 
         lockDownBrowserService.mountExitMenu({
             onExitClick: function () {
@@ -32,7 +31,7 @@ define([
         assert.notOk($exit.hasClass('hidden'), 'the menu entry is visible');
         assert.equal(clicked, 1, 'the exit callback is called');
 
-        $dropdownExit = $('<div class="dropdown-container"><li class="hidden" data-control="exit">Exit</li></div>')
+        const $dropdownExit = $('<div class="dropdown-container"><li class="hidden" data-control="exit">Exit</li></div>')
             .appendTo('#qunit-fixture')
             .find('[data-control="exit"]');
         eventBus.trigger('usermenurendered');
@@ -42,13 +41,13 @@ define([
     });
 
     QUnit.test('recognizes mock and native Kiosked contexts', function (assert) {
-        var originalKiosked = window.kiosked;
-        var mockService = {
+        const originalKiosked = window.kiosked;
+        const mockService = {
             isMockDriver: function () {
                 return true;
             }
         };
-        var nativeService = {
+        const nativeService = {
             isMockDriver: function () {
                 return false;
             }

@@ -27,15 +27,15 @@ define([
 ], function ($, module, kioskedDriverModule, mockDriverModule, eventBus, uiProtocol) {
     'use strict';
 
-    var DRIVER_KIOSKED = 'kiosked';
-    var DRIVER_KIOSKED_MOCK = 'kioskedMock';
+    const DRIVER_KIOSKED = 'kiosked';
+    const DRIVER_KIOSKED_MOCK = 'kioskedMock';
 
-    var EXIT_MENU_SELECTOR = '[data-control="exit"]';
-    var EXIT_MENU_EVENT = 'click.lockDownBrowserExit';
-    var USER_MENU_READY_EVENT = 'usermenurendered.lockDownBrowserExit';
+    const EXIT_MENU_SELECTOR = '[data-control="exit"]';
+    const EXIT_MENU_EVENT = 'click.lockDownBrowserExit';
+    const USER_MENU_READY_EVENT = 'usermenurendered.lockDownBrowserExit';
 
     function revealExitMenu(mountDocument) {
-        var $exit = $(mountDocument).find(EXIT_MENU_SELECTOR);
+        const $exit = $(mountDocument).find(EXIT_MENU_SELECTOR);
 
         $exit.removeClass('hidden');
 
@@ -43,7 +43,7 @@ define([
     }
 
     function removeExitMenu(mountDocument) {
-        var doc = mountDocument || document;
+        const doc = mountDocument || document;
 
         $(doc).off(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR);
         eventBus.off(USER_MENU_READY_EVENT).disableExitMenu();
@@ -57,15 +57,11 @@ define([
      * @returns {jQuery|null}
      */
     function mountExitMenu(options) {
-        var mountDocument;
-        var $document;
-        var $exit;
-
         options = options || {};
-        mountDocument = options.mountDocument || document;
-        $document = $(mountDocument);
+        const mountDocument = options.mountDocument || document;
+        const $document = $(mountDocument);
         eventBus.enableExitMenu();
-        $exit = revealExitMenu(mountDocument);
+        const $exit = revealExitMenu(mountDocument);
 
         $document.off(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR).on(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR, function (event) {
             event.preventDefault();
@@ -81,8 +77,8 @@ define([
     }
 
     function resolveDriverId(config) {
-        var moduleConfig = module.config() || {};
-        var driver = moduleConfig.driver || (config && config.driver);
+        const moduleConfig = module.config() || {};
+        const driver = moduleConfig.driver || (config && config.driver);
 
         if (driver === DRIVER_KIOSKED) {
             return DRIVER_KIOSKED;
@@ -92,18 +88,15 @@ define([
     }
 
     function createLockDownBrowserService(config) {
-        var driverId = resolveDriverId(config);
-        var driverOptions = {
+        const driverId = resolveDriverId(config);
+        const driverOptions = {
             minVersion: config && config.minVersion,
             mockActiveProcesses: config && config.mockActiveProcesses
         };
-        var driver;
-
-        if (driverId === DRIVER_KIOSKED) {
-            driver = kioskedDriverModule.createKioskedDriver(driverOptions);
-        } else {
-            driver = mockDriverModule.createMockDriver(driverOptions);
-        }
+        const driver =
+            driverId === DRIVER_KIOSKED
+                ? kioskedDriverModule.createKioskedDriver(driverOptions)
+                : mockDriverModule.createMockDriver(driverOptions);
 
         return {
             getDriverId: function getDriverId() {

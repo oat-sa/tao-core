@@ -18,7 +18,7 @@
 define(['core/eventifier'], function (eventifier) {
     'use strict';
 
-    var exitMenuEnabled = false;
+    let exitMenuEnabled = false;
 
     return eventifier({
         enableExitMenu: function enableExitMenu() {

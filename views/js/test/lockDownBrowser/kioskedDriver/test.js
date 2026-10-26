@@ -17,8 +17,8 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
     }
 
     QUnit.test('ignores the outdated window.kiosk API', function (assert) {
-        var originalKiosked = window.kiosked;
-        var originalKiosk = window.kiosk;
+        const originalKiosked = window.kiosked;
+        const originalKiosk = window.kiosk;
 
         window.kiosked = null;
         window.kiosk = {
@@ -34,8 +34,8 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
     });
 
     QUnit.test('resolves only the window.kiosked API', function (assert) {
-        var originalKiosked = window.kiosked;
-        var api = createApi();
+        const originalKiosked = window.kiosked;
+        const api = createApi();
 
         window.kiosked = api;
 
@@ -48,7 +48,7 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
     });
 
     QUnit.test('rejects an incomplete window.kiosked API', function (assert) {
-        var originalKiosked = window.kiosked;
+        const originalKiosked = window.kiosked;
 
         window.kiosked = {};
 
@@ -58,8 +58,8 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
     });
 
     QUnit.test('uses an exit-only window.kiosked API to close the application', function (assert) {
-        var originalKiosked = window.kiosked;
-        var exitCalls = 0;
+        const originalKiosked = window.kiosked;
+        let exitCalls = 0;
 
         window.kiosked = {
             exit: function () {
@@ -75,8 +75,8 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
     });
 
     QUnit.test('returns false when isLocked throws', function (assert) {
-        var done = assert.async();
-        var originalKiosked = window.kiosked;
+        const done = assert.async();
+        const originalKiosked = window.kiosked;
 
         window.kiosked = createApi(function () {
             throw new Error('Native API failed');
@@ -95,8 +95,8 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
     });
 
     QUnit.test('returns false when isLocked rejects', function (assert) {
-        var done = assert.async();
-        var originalKiosked = window.kiosked;
+        const done = assert.async();
+        const originalKiosked = window.kiosked;
 
         window.kiosked = createApi(function () {
             return Promise.reject(new Error('Native API failed'));
@@ -115,9 +115,9 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
     });
 
     QUnit.test('returns false when isLocked times out', function (assert) {
-        var done = assert.async();
-        var originalKiosked = window.kiosked;
-        var originalSetTimeout = window.setTimeout;
+        const done = assert.async();
+        const originalKiosked = window.kiosked;
+        const originalSetTimeout = window.setTimeout;
 
         window.kiosked = createApi(function () {
             return new Promise(function () {});
