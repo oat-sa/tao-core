@@ -29,6 +29,7 @@ define([
 
     const DRIVER_KIOSKED = 'kiosked';
     const DRIVER_KIOSKED_MOCK = 'kioskedMock';
+    const EVENT_TYPES = kioskedDriverModule.EVENT_TYPES;
 
     const exitBarStyles = {
         position: 'fixed',
@@ -124,6 +125,10 @@ define([
 
             validateMinVersion: () => driver.validateMinVersion(),
 
+            addEventListeners: (eventTypes, callback) => driver.addEventListeners(eventTypes, callback),
+
+            removeEventListeners: () => driver.removeEventListeners(),
+
             addSecurityViolationListener: callback => driver.addSecurityViolationListener(callback),
 
             removeSecurityViolationListener: () => driver.removeSecurityViolationListener(),
@@ -143,6 +148,7 @@ define([
     return {
         DRIVER_KIOSKED,
         DRIVER_KIOSKED_MOCK,
+        EVENT_TYPES,
         uiProtocol,
         mountExitBar,
         removeExitBar,

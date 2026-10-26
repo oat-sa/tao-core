@@ -100,7 +100,8 @@ define([
     }
 
     function createMockDriver(options) {
-        var violationListener;
+        var eventListener;
+        var subscribedEventTypes = [];
         var mockActiveProcesses = (options && options.mockActiveProcesses) || [];
 
         return {
@@ -118,12 +119,22 @@ define([
                 return Promise.resolve();
             },
 
+            addEventListeners: function addEventListeners(eventTypes, callback) {
+                subscribedEventTypes = eventTypes.slice();
+                eventListener = callback;
+            },
+
+            removeEventListeners: function removeEventListeners() {
+                subscribedEventTypes = [];
+                eventListener = null;
+            },
+
             addSecurityViolationListener: function addSecurityViolationListener(callback) {
-                violationListener = callback;
+                this.addEventListeners(['breach'], callback);
             },
 
             removeSecurityViolationListener: function removeSecurityViolationListener() {
-                violationListener = null;
+                this.removeEventListeners();
             },
 
             exitApplication: function exitApplication() {
@@ -172,14 +183,16 @@ define([
                 }
 
                 payload = {
+                    type: 'breach',
+                    occurredAt: new Date().toISOString(),
                     simulated: true,
                     reason: detail.reason || 'simulateSecurityViolation',
                     blockedApplications: blockedApplications,
                     source: detail.source || 'mockDriver'
                 };
 
-                if (typeof violationListener === 'function') {
-                    violationListener(payload);
+                if (subscribedEventTypes.indexOf('breach') !== -1 && typeof eventListener === 'function') {
+                    eventListener(payload);
                 }
 
                 return Promise.resolve(payload);

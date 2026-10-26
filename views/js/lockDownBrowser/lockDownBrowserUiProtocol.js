@@ -34,6 +34,7 @@ define([], function () {
         EXIT_BAR_ELEMENT_ID: 'lockdown-browser-exit-bar',
         EXIT_BAR_CSS_CLASS: 'lockdown-browser-exit-bar',
         EXIT_BUTTON_CSS_CLASS: 'lockdown-browser-exit-button',
+        EVENT_TRACE_KEY_PREFIX: 'lockdown-event-',
         BREACH_TRACE_KEY_PREFIX: 'lockdown-breach-',
 
         isDeferFinishMessage: function isDeferFinishMessage(type) {
