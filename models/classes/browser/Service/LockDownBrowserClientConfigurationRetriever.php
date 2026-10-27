@@ -41,12 +41,12 @@ class LockDownBrowserClientConfigurationRetriever
 
     public function __construct(array $config = [])
     {
-        $this->config = self::DEFAULT_CONFIG;
+        $this->config = array_merge(self::DEFAULT_CONFIG, $config);
 
-        if (empty($config) && $_ENV[self::LOCK_DOWN_BROWSER_CONFIG]) {
-            $decoded = json_decode($_ENV[self::LOCK_DOWN_BROWSER_CONFIG], true);
+        if (empty($config) && !empty($_ENV[self::LOCK_DOWN_BROWSER_CONFIG])) {
+            $decoded = json_decode((string)$_ENV[self::LOCK_DOWN_BROWSER_CONFIG], true);
 
-            if (json_last_error() !== JSON_ERROR_NONE) {
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($decoded)) {
                 throw new InvalidArgumentException(
                     sprintf('Invalid lock down browser client JSON configuration: %s', json_last_error_msg())
                 );
