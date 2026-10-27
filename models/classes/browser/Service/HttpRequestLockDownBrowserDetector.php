@@ -80,9 +80,10 @@ class HttpRequestLockDownBrowserDetector
             $userAgent,
             $matches
         );
-        $version = $isKiosked ? $matches['version'] : null;
 
         if ($isKiosked) {
+            $version = !empty($matches['version']) ? $matches['version'] : null;
+
             return new Browser(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $version);
         }
 
@@ -100,10 +101,7 @@ class HttpRequestLockDownBrowserDetector
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
-    /**
-     * @return mixed|null
-     */
-    private function getRequestParameter(ServerRequestInterface $request, string $name)
+    private function getRequestParameter(ServerRequestInterface $request, string $name): mixed
     {
         $query = $request->getQueryParams();
 

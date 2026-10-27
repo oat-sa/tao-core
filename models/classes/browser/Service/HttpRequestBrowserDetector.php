@@ -30,8 +30,8 @@ use Sinergi\BrowserDetector\Browser as UserAgentBrowser;
 class HttpRequestBrowserDetector
 {
     public function __construct(
-        private HttpRequestLockDownBrowserDetector $httpRequestLockDownBrowserDetector,
-        private ?UserAgentBrowser $browser = null
+        private readonly HttpRequestLockDownBrowserDetector $httpRequestLockDownBrowserDetector,
+        private readonly ?UserAgentBrowser $browser = null
     ) {
     }
 
