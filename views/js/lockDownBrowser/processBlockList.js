@@ -42,7 +42,7 @@ define([], function () {
     }
 
     function create(processes) {
-        const vendorMap = {};
+        const vendorMap = Object.create(null);
         const labelsByProcess = Object.create(null);
         const labels = Object.create(null);
 

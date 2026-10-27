@@ -33,6 +33,16 @@ define([
         let overlay = null;
         let modal = null;
         let refreshButton = null;
+        let previousFocus = null;
+
+        const keepFocusInside = event => {
+            if (event.key !== 'Tab') {
+                return;
+            }
+
+            event.preventDefault();
+            refreshButton.focus();
+        };
 
         const render = () => {
             const container = document.body || document.documentElement;
@@ -48,6 +58,7 @@ define([
             modal.setAttribute('role', 'alertdialog');
             modal.setAttribute('aria-modal', 'true');
             modal.setAttribute('aria-labelledby', 'config-retry-message');
+            modal.addEventListener('keydown', keepFocusInside);
 
             modalBody.className = 'modal-body';
             message.id = 'config-retry-message';
@@ -80,12 +91,18 @@ define([
         return {
             show() {
                 if (!modal) {
+                    previousFocus = document.activeElement;
                     render();
                 }
                 refreshButton.disabled = false;
                 refreshButton.focus();
             },
             destroy() {
+                const focusToRestore = previousFocus;
+
+                if (modal) {
+                    modal.removeEventListener('keydown', keepFocusInside);
+                }
                 if (modal && modal.parentNode) {
                     modal.parentNode.removeChild(modal);
                 }
@@ -95,6 +112,11 @@ define([
                 modal = null;
                 overlay = null;
                 refreshButton = null;
+                previousFocus = null;
+
+                if (focusToRestore && typeof focusToRestore.focus === 'function') {
+                    focusToRestore.focus();
+                }
             }
         };
     };

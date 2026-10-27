@@ -77,6 +77,27 @@ define([
             });
     });
 
+    QUnit.test('passes a process named __proto__ to the native API', function (assert) {
+        let receivedMap;
+
+        window.kiosked = createApi(function (processMap) {
+            receivedMap = processMap;
+
+            return Promise.resolve(['__proto__']);
+        });
+
+        return kioskedDriver.createKioskedDriver()
+            .checkDeniedProcesses([{ process: '__proto__', label: 'Prototype process' }])
+            .then(function (applications) {
+                assert.ok(
+                    Object.prototype.hasOwnProperty.call(receivedMap, '__proto__'),
+                    'the process is an own property of the vendor map'
+                );
+                assert.strictEqual(receivedMap.__proto__, 'Prototype process');
+                assert.deepEqual(applications, ['Prototype process']);
+            });
+    });
+
     QUnit.test('reports an unavailable API', function (assert) {
         window.kiosked = createApi();
 

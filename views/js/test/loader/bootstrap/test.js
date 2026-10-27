@@ -81,3 +81,28 @@ QUnit.test('refresh action requests a page reload', function(assert) {
 
     dialog.destroy();
 });
+
+QUnit.test('keeps focus in the dialog and restores it after closing', function(assert) {
+    var previousButton = document.createElement('button');
+    var dialog;
+    var refreshButton;
+
+    document.body.appendChild(previousButton);
+    previousButton.focus();
+    dialog = window.configRetryDialog();
+    dialog.show();
+    refreshButton = document.querySelector('.config-retry-modal button');
+
+    refreshButton.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'Tab',
+        bubbles: true,
+        cancelable: true
+    }));
+
+    assert.strictEqual(document.activeElement, refreshButton, 'Tab keeps focus on the only dialog control');
+
+    dialog.destroy();
+
+    assert.strictEqual(document.activeElement, previousButton, 'focus returns to the previous control');
+    previousButton.parentNode.removeChild(previousButton);
+});
