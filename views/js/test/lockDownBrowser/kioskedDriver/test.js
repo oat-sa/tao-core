@@ -65,6 +65,23 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
         window.kiosked = originalKiosked;
     });
 
+    QUnit.test('uses an exit-only window.kiosked API to close the application', function (assert) {
+        const originalKiosked = window.kiosked;
+        let exitCalls = 0;
+
+        window.kiosked = {
+            exit: function () {
+                exitCalls++;
+            }
+        };
+
+        assert.strictEqual(kioskedDriver.resolveNativeExitApi(), window.kiosked);
+        kioskedDriver.createKioskedDriver().exitApplication();
+        assert.equal(exitCalls, 1);
+
+        window.kiosked = originalKiosked;
+    });
+
     QUnit.test('does not suppress the native breach behavior', function (assert) {
         const done = assert.async();
         const originalKiosked = window.kiosked;
@@ -94,6 +111,41 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
                 preventDefaultCalled = true;
             }
         });
+    });
+
+    QUnit.test('subscribes to and removes multiple application events', function (assert) {
+        const originalKiosked = window.kiosked;
+        const api = createApi();
+        const listeners = {};
+        const removed = [];
+        const received = [];
+        const eventTypes = ['lost-focus', 'display-added', 'online'];
+        const driver = createDriver();
+
+        api.addEventListener = function (type, listener) {
+            listeners[type] = listener;
+        };
+        api.removeEventListener = function (type, listener) {
+            assert.strictEqual(listener, listeners[type], `the ${type} listener is removed by reference`);
+            removed.push(type);
+        };
+        window.kiosked = api;
+
+        driver.addEventListeners(eventTypes, function (event) {
+            received.push(event);
+        });
+
+        listeners['lost-focus']({ reason: 'focus-lost' });
+
+        assert.deepEqual(Object.keys(listeners), eventTypes, 'all requested events are registered');
+        assert.strictEqual(received[0].type, 'lost-focus');
+        assert.strictEqual(received[0].reason, 'focus-lost');
+        assert.ok(received[0].occurredAt, 'the occurrence time is captured by the driver');
+
+        driver.removeEventListeners();
+
+        assert.deepEqual(removed, eventTypes, 'all registered events are removed');
+        window.kiosked = originalKiosked;
     });
 
     QUnit.test('returns false when isLocked fails', function (assert) {

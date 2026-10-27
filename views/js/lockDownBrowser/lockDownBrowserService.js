@@ -19,69 +19,63 @@
  */
 define([
     'jquery',
-    'i18n',
     'module',
     'tao/lockDownBrowser/drivers/kioskedDriver',
     'tao/lockDownBrowser/drivers/mockDriver',
+    'tao/lockDownBrowser/lockDownBrowserEventBus',
     'tao/lockDownBrowser/lockDownBrowserUiProtocol'
-], function ($, __, module, kioskedDriverModule, mockDriverModule, uiProtocol) {
+], function ($, module, kioskedDriverModule, mockDriverModule, eventBus, uiProtocol) {
     'use strict';
 
     const DRIVER_KIOSKED = 'kiosked';
     const DRIVER_KIOSKED_MOCK = 'kioskedMock';
+    const EVENT_TYPES = kioskedDriverModule.EVENT_TYPES;
+    const EXIT_MENU_SELECTOR = '[data-control="exit"]';
+    const EXIT_MENU_EVENT = 'click.lockDownBrowserExit';
+    const USER_MENU_READY_EVENT = 'usermenurendered.lockDownBrowserExit';
 
-    const exitBarStyles = {
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 10000,
-        padding: '12px 16px',
-        textAlign: 'center',
-        background: 'rgba(0, 0, 0, 0.85)'
-    };
+    function revealExitMenu(mountDocument) {
+        const $exit = $(mountDocument).find(EXIT_MENU_SELECTOR);
 
-    const exitButtonStyles = {
-        minWidth: '240px'
-    };
+        $exit.removeClass('hidden');
 
-    function removeExitBar(mountDocument = document) {
-        $(mountDocument.getElementById(uiProtocol.EXIT_BAR_ELEMENT_ID)).remove();
+        return $exit;
+    }
+
+    function removeExitMenu(mountDocument = document) {
+        $(mountDocument).off(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR);
+        eventBus.off(USER_MENU_READY_EVENT).disableExitMenu();
+        $(mountDocument).find(EXIT_MENU_SELECTOR).addClass('hidden');
     }
 
     /**
      * @param {Object} [options]
      * @param {Document} [options.mountDocument]
-     * @param {string} [options.label]
-     * @param {Function} [options.onExitClick] ({ $bar, mountDocument })
+     * @param {Function} [options.onExitClick]
+     * @returns {jQuery|null}
      */
-    function mountExitBar(options = {}) {
+    function mountExitMenu(options = {}) {
         const mountDocument = options.mountDocument || document;
+        const $document = $(mountDocument);
 
-        if (mountDocument.getElementById(uiProtocol.EXIT_BAR_ELEMENT_ID)) {
-            return null;
-        }
-
-        const label = options.label != null ? options.label : __('Exit the application');
-        const $bar = $(`<div id="${uiProtocol.EXIT_BAR_ELEMENT_ID}" class="${uiProtocol.EXIT_BAR_CSS_CLASS}">` +
-            `<button type="button" class="${uiProtocol.EXIT_BUTTON_CSS_CLASS} btn btn-primary">${label}</button>` +
-            '</div>');
-
-        $bar.css(exitBarStyles);
-        $bar.find('button').css(exitButtonStyles).on('click', () => {
+        eventBus.enableExitMenu();
+        const $exit = revealExitMenu(mountDocument);
+        $document.off(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR).on(EXIT_MENU_EVENT, EXIT_MENU_SELECTOR, event => {
+            event.preventDefault();
             if (typeof options.onExitClick === 'function') {
-                options.onExitClick({ $bar, mountDocument });
+                options.onExitClick();
             }
         });
+        eventBus.off(USER_MENU_READY_EVENT).on(USER_MENU_READY_EVENT, () => revealExitMenu(mountDocument));
 
-        $(mountDocument.body).append($bar);
-
-        return $bar;
+        return $exit.length ? $exit : null;
     }
 
     /**
      * Caller config wins over lib module.config. Explicit mock is always mock.
      * When a real driver is configured, use it; otherwise auto-detect native API.
+     * @param {Object} [config]
+     * @returns {string}
      */
     function resolveDriverId(config = {}) {
         const moduleConfig = module.config() || {};
@@ -124,6 +118,10 @@ define([
 
             validateMinVersion: () => driver.validateMinVersion(),
 
+            addEventListeners: (eventTypes, callback) => driver.addEventListeners(eventTypes, callback),
+
+            removeEventListeners: () => driver.removeEventListeners(),
+
             addSecurityViolationListener: callback => driver.addSecurityViolationListener(callback),
 
             removeSecurityViolationListener: () => driver.removeSecurityViolationListener(),
@@ -140,13 +138,19 @@ define([
         return !!kioskedDriverModule.resolveNativeApiHandle();
     }
 
+    function isLockDownBrowserContext(service) {
+        return !!(service && service.isMockDriver()) || !!kioskedDriverModule.resolveNativeExitApi();
+    }
+
     return {
         DRIVER_KIOSKED,
         DRIVER_KIOSKED_MOCK,
+        EVENT_TYPES,
         uiProtocol,
-        mountExitBar,
-        removeExitBar,
+        mountExitMenu,
+        removeExitMenu,
         createLockDownBrowserService,
-        isNativeLockDownBrowserPresent
+        isNativeLockDownBrowserPresent,
+        isLockDownBrowserContext
     };
 });

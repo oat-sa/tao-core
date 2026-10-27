@@ -28,6 +28,7 @@ define([
     const LOCK_WAIT_MS = 30000;
     const LOCK_POLL_MS = 500;
     const REQUIRED_API_METHODS = ['getDeviceInfo', 'lock', 'unlock', 'isLocked', 'exit', 'checkBlocklist'];
+    const EVENT_TYPES = ['breach', 'lost-focus', 'display-added', 'offline', 'online'];
 
     function wait(ms) {
         return new Promise(function (resolve) {
@@ -127,6 +128,22 @@ define([
         return null;
     }
 
+    function resolveNativeExitApi() {
+        const candidates = [window, window.parent, window.top];
+
+        for (let i = 0; i < candidates.length; i++) {
+            try {
+                if (candidates[i].kiosked && typeof candidates[i].kiosked.exit === 'function') {
+                    return candidates[i].kiosked;
+                }
+            } catch (err) {
+                // cross-origin
+            }
+        }
+
+        return null;
+    }
+
     function createKioskedDriver(options = {}) {
         const minVersion = options.minVersion || '0.0.0';
         const processCheckTimeout = options.processCheckTimeout || API_TIMEOUT_MS;
@@ -135,9 +152,7 @@ define([
             ? options.lockWaitMs
             : LOCK_WAIT_MS;
         const lockPollMs = options.lockPollMs || LOCK_POLL_MS;
-        let violationListener;
-        let violationHandler;
-        let violationUserCallback;
+        const eventListeners = {};
         let cachedHandle;
         let sessionActive = false;
 
@@ -256,61 +271,70 @@ define([
                 });
             },
 
-            addSecurityViolationListener: function addSecurityViolationListener(callback) {
+            addEventListeners: function addEventListeners(eventTypes, callback) {
                 const handle = getHandle();
+                const normalizedEventTypes = Array.isArray(eventTypes)
+                    ? eventTypes.filter(function (eventType, index) {
+                        return (
+                            typeof eventType === 'string' &&
+                            eventType.length > 0 &&
+                            eventTypes.indexOf(eventType) === index
+                        );
+                    })
+                    : [];
 
-                violationUserCallback = callback;
-
-                if (!handle) {
+                if (!handle || typeof handle.api.addEventListener !== 'function') {
                     return;
                 }
 
-                if (typeof handle.api.addEventListener === 'function') {
-                    violationHandler = function (e) {
-                        Promise.race([
-                            Promise.all([
-                                typeof handle.api.getDeviceInfo === 'function' ? handle.api.getDeviceInfo() : null,
-                                typeof handle.api.getProcessList === 'function' ? handle.api.getProcessList() : null
-                            ]),
-                            wait(API_TIMEOUT_MS)
-                        ]).then(function (details) {
-                            if (typeof violationUserCallback === 'function') {
-                                violationUserCallback({
-                                    deviceInfo: details && details[0],
-                                    processList: details && details[1],
-                                    reason: e && e.reason
-                                });
-                            }
-                        });
+                this.removeEventListeners();
+
+                normalizedEventTypes.forEach(function (eventType) {
+                    const eventHandler = function (event) {
+                        if (typeof callback === 'function') {
+                            callback({
+                                type: eventType,
+                                occurredAt: new Date().toISOString(),
+                                reason: event && event.reason,
+                                simulated: event && event.simulated,
+                                source: event && event.source,
+                                blockedApplications: event && event.blockedApplications
+                            });
+                        }
                     };
 
-                    violationListener = violationHandler;
-                    handle.api.addEventListener('breach', violationHandler);
+                    eventListeners[eventType] = eventHandler;
+                    handle.api.addEventListener(eventType, eventHandler);
+                });
+            },
+
+            removeEventListeners: function removeEventListeners() {
+                const handle = getHandle();
+
+                if (handle && typeof handle.api.removeEventListener === 'function') {
+                    Object.keys(eventListeners).forEach(function (eventType) {
+                        handle.api.removeEventListener(eventType, eventListeners[eventType]);
+                        delete eventListeners[eventType];
+                    });
                 }
+            },
+
+            addSecurityViolationListener: function addSecurityViolationListener(callback) {
+                this.addEventListeners(['breach'], callback);
             },
 
             removeSecurityViolationListener: function removeSecurityViolationListener() {
-                const handle = getHandle();
-
-                if (handle && violationListener && typeof handle.api.removeEventListener === 'function') {
-                    handle.api.removeEventListener('breach', violationListener);
-                }
-
-                violationListener = null;
-                violationHandler = null;
-                violationUserCallback = null;
+                this.removeEventListeners();
             },
 
             exitApplication: function exitApplication() {
-                const handle = getHandle();
+                const api = resolveNativeExitApi();
 
-                if (!handle) {
+                if (!api) {
                     return;
                 }
 
-                if (typeof handle.api.exit === 'function') {
-                    handle.api.exit();
-                }
+                api.exit();
             },
 
             checkDeniedProcesses: function checkDeniedProcesses(processes) {
@@ -385,8 +409,8 @@ define([
                         source: detail.source
                     };
 
-                    if (typeof violationUserCallback === 'function') {
-                        violationUserCallback(payload);
+                    if (typeof eventListeners.breach === 'function') {
+                        eventListeners.breach(payload);
                     }
 
                     return payload;
@@ -396,7 +420,9 @@ define([
     }
 
     return {
+        EVENT_TYPES: EVENT_TYPES,
         createKioskedDriver: createKioskedDriver,
-        resolveNativeApiHandle: resolveNativeApiHandle
+        resolveNativeApiHandle: resolveNativeApiHandle,
+        resolveNativeExitApi: resolveNativeExitApi
     };
 });

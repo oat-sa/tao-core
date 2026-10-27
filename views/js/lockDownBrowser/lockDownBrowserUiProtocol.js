@@ -20,20 +20,18 @@
 define([], function () {
     'use strict';
 
-    var MESSAGE_DEFER_FINISH = 'taoLockDownBrowserDeferFinish';
-    var MESSAGE_EXIT = 'taoLockDownBrowserExit';
-    var PENDING_EXIT_STORAGE_KEY = 'taoLockDownBrowserPendingExit';
-    var LEGACY_MESSAGE_DEFER_FINISH = 'taoKioskLockdownDeferFinish';
-    var LEGACY_MESSAGE_EXIT = 'taoKioskLockdownExit';
-    var LEGACY_PENDING_EXIT_STORAGE_KEY = 'taoKioskLockdownPendingExit';
+    const MESSAGE_DEFER_FINISH = 'taoLockDownBrowserDeferFinish';
+    const MESSAGE_EXIT = 'taoLockDownBrowserExit';
+    const PENDING_EXIT_STORAGE_KEY = 'taoLockDownBrowserPendingExit';
+    const LEGACY_MESSAGE_DEFER_FINISH = 'taoKioskLockdownDeferFinish';
+    const LEGACY_MESSAGE_EXIT = 'taoKioskLockdownExit';
+    const LEGACY_PENDING_EXIT_STORAGE_KEY = 'taoKioskLockdownPendingExit';
 
     return {
         MESSAGE_DEFER_FINISH: MESSAGE_DEFER_FINISH,
         MESSAGE_EXIT: MESSAGE_EXIT,
         PENDING_EXIT_STORAGE_KEY: PENDING_EXIT_STORAGE_KEY,
-        EXIT_BAR_ELEMENT_ID: 'lockdown-browser-exit-bar',
-        EXIT_BAR_CSS_CLASS: 'lockdown-browser-exit-bar',
-        EXIT_BUTTON_CSS_CLASS: 'lockdown-browser-exit-button',
+        EVENT_TRACE_KEY_PREFIX: 'lockdown-event-',
         BREACH_TRACE_KEY_PREFIX: 'lockdown-breach-',
 
         isDeferFinishMessage: function isDeferFinishMessage(type) {

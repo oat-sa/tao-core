@@ -20,31 +20,51 @@
  * Bootstrap the app, start the entry controller
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-(function(){
+(() => {
     'use strict';
 
+    const loaderScript = document.getElementById('amd-loader');
+    const configUrl = loaderScript.getAttribute('data-config');
+    const loaderUrl = loaderScript.getAttribute('data-main') || loaderScript.getAttribute('src');
+    const loaderDirectoryIndex = loaderUrl.lastIndexOf('loader/');
+    const jsBaseUrl = loaderDirectoryIndex === -1 ? '' : loaderUrl.substring(0, loaderDirectoryIndex);
+    const locale = document.documentElement.getAttribute('lang') || 'en-US';
+    const bundle = loaderScript.getAttribute('data-bundle');
+    let configErrorDialog;
 
+    //The client config normally provides these paths. Define the minimum here
+    //so the translated config error can also be displayed when that request fails.
+    window.require.config({
+        baseUrl: jsBaseUrl,
+        paths: {
+            text: 'lib/text/text',
+            json: 'lib/text/json',
+            css: 'lib/require-css/css',
+            lodash: '../node_modules/lodash/lodash',
+            core: '../node_modules/@oat-sa/tao-core-sdk/dist/core',
+            i18ntr: `../locales/${locale}`
+        }
+    });
 
-    var loaderScript = document.getElementById('amd-loader');
-    var configUrl = loaderScript.getAttribute('data-config');
-    var bundle  = loaderScript.getAttribute('data-bundle');
+    const loadController = () => {
+        let controllerOptions = {};
+        const controllerPath = loaderScript.getAttribute('data-controller');
+        const params = loaderScript.getAttribute('data-params');
 
-    var loadController = function loadController(){
-        var controllerOptions = {};
-        var controllerPath = loaderScript.getAttribute('data-controller');
-        var params = loaderScript.getAttribute('data-params');
-        try{
+        try {
             controllerOptions = JSON.parse(params);
-        } catch(err){
+        } catch (err) {
             controllerOptions = {};
         }
-        window.require([controllerPath], function(controller) {
-            var startController = function startController(){
-                if(!window.started){
+
+        window.require([controllerPath], controller => {
+            const startController = () => {
+                if (!window.started) {
                     window.started = true;
                     controller.start(controllerOptions);
                 }
             };
+
             document.addEventListener('readystatechange', startController, false);
             if (document.readyState === 'complete') {
                 startController();
@@ -52,13 +72,18 @@
         });
     };
 
-    //always start to load the config
-    window.require([configUrl], function() {
+    /**
+     * Continue bootstrapping after the client config has loaded.
+     */
+    const onConfigLoaded = () => {
+        if (configErrorDialog) {
+            configErrorDialog.destroy();
+        }
 
         //define the global loading mechanism
-        if(!window.loadBundles){
-            //keep tracl of loaded bundles, even if require does it,
-            //this prevent some unecessary cycles
+        if (!window.loadBundles) {
+            //keep track of loaded bundles, even if require does it,
+            //this prevents some unnecessary cycles
             window.loaded = {};
 
             /**
@@ -66,25 +91,33 @@
              * always take the bundles from the params and window.bundles
              * @param {String[]} [bundles] - an optional list of bundle to load
              */
-            window.loadBundles = function loadBundles(bundles){
-                bundles = bundles || [];
-                bundles = bundles.concat(window.bundles)
-                bundles = bundles.filter( function(item, index){
-                    return item && bundles.indexOf(item) === index && window.loaded[item] !== true;
-                });
-                require(bundles, function(){
-                    bundles.forEach( function( item ) {
+            window.loadBundles = (bundles = []) => {
+                const uniqueBundles = bundles.concat(window.bundles).filter((item, index, bundleList) =>
+                    item && bundleList.indexOf(item) === index && window.loaded[item] !== true
+                );
+
+                window.require(uniqueBundles, () => {
+                    uniqueBundles.forEach(item => {
                         window.loaded[item] = true;
                     });
                     loadController();
                 });
-            }
+            };
         }
 
-        if(bundle || (window.bundles && window.bundles.length)) {
+        if (bundle || (window.bundles && window.bundles.length)) {
             window.loadBundles([bundle]);
         } else {
             loadController();
         }
+    };
+
+    //Load the translated failure dialog before requesting the client config.
+    window.require(['loader/configRetry'], configRetryDialog => {
+        configErrorDialog = configRetryDialog();
+
+        window.require([configUrl], onConfigLoaded, () => {
+            configErrorDialog.show();
+        });
     });
 })();
