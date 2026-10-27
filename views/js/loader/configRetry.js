@@ -26,22 +26,19 @@
 define([
     'i18n',
     'css!../../css/configRetry.css'
-], function(__){
+], __ => {
     'use strict';
 
-    return function configRetryDialog(options){
-        var overlay = null;
-        var modal = null;
-        var refreshButton = null;
-        var render;
+    return (options = {}) => {
+        let overlay = null;
+        let modal = null;
+        let refreshButton = null;
 
-        options = options || {};
-
-        render = function renderDialog(){
-            var container = document.body || document.documentElement;
-            var modalBody = document.createElement('div');
-            var message = document.createElement('p');
-            var buttons = document.createElement('div');
+        const render = () => {
+            const container = document.body || document.documentElement;
+            const modalBody = document.createElement('div');
+            const message = document.createElement('p');
+            const buttons = document.createElement('div');
 
             overlay = document.createElement('div');
             overlay.className = 'modal-bg config-retry-modal-bg';
@@ -63,9 +60,9 @@ define([
             refreshButton.type = 'button';
             refreshButton.className = 'btn-info';
             refreshButton.textContent = options.refreshLabel || __('Refresh');
-            refreshButton.addEventListener('click', function(){
+            refreshButton.addEventListener('click', () => {
                 refreshButton.disabled = true;
-                if(typeof options.onRefresh === 'function'){
+                if (typeof options.onRefresh === 'function') {
                     options.onRefresh();
                 } else {
                     window.location.reload();
@@ -81,18 +78,18 @@ define([
         };
 
         return {
-            show: function show(){
-                if(!modal){
+            show() {
+                if (!modal) {
                     render();
                 }
                 refreshButton.disabled = false;
                 refreshButton.focus();
             },
-            destroy: function destroy(){
-                if(modal && modal.parentNode){
+            destroy() {
+                if (modal && modal.parentNode) {
                     modal.parentNode.removeChild(modal);
                 }
-                if(overlay && overlay.parentNode){
+                if (overlay && overlay.parentNode) {
                     overlay.parentNode.removeChild(overlay);
                 }
                 modal = null;
