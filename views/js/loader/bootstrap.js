@@ -28,6 +28,13 @@
     const loaderUrl = loaderScript.getAttribute('data-main') || loaderScript.getAttribute('src');
     const loaderDirectoryIndex = loaderUrl.lastIndexOf('loader/');
     const jsBaseUrl = loaderDirectoryIndex === -1 ? '' : loaderUrl.substring(0, loaderDirectoryIndex);
+    const vendorScript = document.querySelector(
+        'script[src*="/loader/vendor.min.js"], script[src*="/loader/vendor.es5.min.js"]'
+    );
+    const sharedLoaderUrl = vendorScript ? vendorScript.src : loaderUrl;
+    const sharedLoaderDirectoryIndex = sharedLoaderUrl.lastIndexOf('loader/');
+    const sharedJsBaseUrl =
+        sharedLoaderDirectoryIndex === -1 ? jsBaseUrl : sharedLoaderUrl.substring(0, sharedLoaderDirectoryIndex);
     const locale = document.documentElement.getAttribute('lang') || 'en-US';
     const bundle = loaderScript.getAttribute('data-bundle');
     let configErrorDialog;
@@ -37,12 +44,13 @@
     window.require.config({
         baseUrl: jsBaseUrl,
         paths: {
-            text: 'lib/text/text',
-            json: 'lib/text/json',
-            css: 'lib/require-css/css',
-            lodash: '../node_modules/lodash/lodash',
-            core: '../node_modules/@oat-sa/tao-core-sdk/dist/core',
-            i18ntr: `../locales/${locale}`
+            text: `${sharedJsBaseUrl}lib/text/text`,
+            json: `${sharedJsBaseUrl}lib/text/json`,
+            css: `${sharedJsBaseUrl}lib/require-css/css`,
+            lodash: `${sharedJsBaseUrl}../node_modules/lodash/lodash`,
+            core: `${sharedJsBaseUrl}../node_modules/@oat-sa/tao-core-sdk/dist/core`,
+            taoCss: `${sharedJsBaseUrl}../css`,
+            i18ntr: `${sharedJsBaseUrl}../locales/${locale}`
         }
     });
 

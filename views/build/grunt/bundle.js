@@ -47,12 +47,14 @@ module.exports = function (grunt) {
                     bundles: [
                         {
                             name: 'vendor',
-                            vendor: true
+                            vendor: true,
+                            include: ['loader/configRetry']
                         },
                         {
                             name: 'vendor.es5',
                             vendor: true,
                             babel: true,
+                            include: ['loader/configRetry'],
                             targets: {
                                 ie: '11'
                             }

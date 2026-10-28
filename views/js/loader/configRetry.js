@@ -25,7 +25,7 @@
  */
 define([
     'i18n',
-    'css!../../css/configRetry.css'
+    'css!taoCss/configRetry.css'
 ], __ => {
     'use strict';
 
