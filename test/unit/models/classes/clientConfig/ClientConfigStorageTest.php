@@ -40,6 +40,8 @@ use oat\tao\model\clientConfig\GetConfigQuery;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\CookiePolicy\Entity\CookiePolicyConfiguration;
 use oat\tao\model\CookiePolicy\Service\CookiePolicyConfigurationRetriever;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Service\LockDownBrowserClientConfigurationRetriever;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
@@ -102,6 +104,9 @@ class ClientConfigStorageTest extends TestCase
     /** @var CookiePolicyConfigurationRetriever|MockObject */
     private CookiePolicyConfigurationRetriever $cookiePolicyConfigurationRetriever;
 
+    /** @var LockDownBrowserClientConfigurationRetriever|MockObject */
+    private LockDownBrowserClientConfigurationRetriever $lockDownBrowserClientConfigurationRetriever;
+
     /** @var DefaultUrlService|MockObject */
     private DefaultUrlService $defaultUrlService;
 
@@ -128,6 +133,9 @@ class ClientConfigStorageTest extends TestCase
         $this->dateFormatterFactory = $this->createMock(DateFormatterFactory::class);
         $this->menuService = $this->createMock(MenuService::class);
         $this->cookiePolicyConfigurationRetriever = $this->createMock(CookiePolicyConfigurationRetriever::class);
+        $this->lockDownBrowserClientConfigurationRetriever = $this->createMock(
+            LockDownBrowserClientConfigurationRetriever::class
+        );
         $this->defaultUrlService = $this->createMock(DefaultUrlService::class);
 
         $this->sut = new ClientConfigStorage(
@@ -146,7 +154,8 @@ class ClientConfigStorageTest extends TestCase
             $this->dateFormatterFactory,
             $this->menuService,
             $this->cookiePolicyConfigurationRetriever,
-            $this->defaultUrlService
+            $this->defaultUrlService,
+            $this->lockDownBrowserClientConfigurationRetriever
         );
     }
 
@@ -243,6 +252,18 @@ class ClientConfigStorageTest extends TestCase
                     'https://privacyPolicyUrl.taotesting.com',
                     'https://cookiePolicyUrl.taotesting.com',
                     true
+                )
+            );
+
+        $this->lockDownBrowserClientConfigurationRetriever
+            ->expects($this->once())
+            ->method('retrieve')
+            ->willReturn(
+                new LockDownBrowserConfiguration(
+                    60000,
+                    true,
+                    [],
+                    []
                 )
             );
 
@@ -396,6 +417,13 @@ class ClientConfigStorageTest extends TestCase
                             'privacyPolicyUrl' => 'https://privacyPolicyUrl.taotesting.com',
                             'cookiePolicyUrl' => 'https://cookiePolicyUrl.taotesting.com',
                             'display' => true
+                        ],
+                        'lockDownBrowser' => [
+                            'processCheckInterval' => 60000,
+                            'processCheckOnTestNavigation' => true,
+                            'processBlackList' => [],
+                            'mockActiveProcesses' => [],
+                            'simulateBreach' => false,
                         ],
                         'currentUser' => [
                             'id' => 'myUserId',

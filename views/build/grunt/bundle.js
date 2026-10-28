@@ -78,6 +78,11 @@ module.exports = function (grunt) {
                                 'generis.tree',
                                 'generis.tree.select'
                             ]
+                        },
+                        {
+                            name: 'lockDownBrowser',
+                            babel: true,
+                            include: ['lockDownBrowser/**/*']
                         }
                     ]
                 }

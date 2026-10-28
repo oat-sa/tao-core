@@ -42,6 +42,6 @@ class PubSubClientFactoryTest extends TestCase
 
         $this->expectException(ErrorException::class);
 
-        (new PubSubClientFactory([]))->create();
+        (new PubSubClientFactory(['GOOGLE_APPLICATION_CREDENTIALS' => '']))->create();
     }
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it-IT">
+<head>
+    <meta charset="utf-8">
+    <title>Client config bootstrap</title>
+    <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+    <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css">
+    <link rel="stylesheet" type="text/css" href="/tao/views/css/configRetry.css">
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript">
+        window.define = function(dependencies, factory) {
+            var translations = {
+                'Refresh': 'Aggiorna',
+                'Unable to load the required configuration. Refresh the page to try again.':
+                    'Impossibile caricare la configurazione richiesta. Aggiorna la pagina per riprovare.'
+            };
+            window.configRetryDialog = factory(function(message) {
+                return translations[message] || message;
+            });
+        };
+        window.define.amd = {};
+    </script>
+    <script type="text/javascript" src="/tao/views/js/loader/configRetry.js"></script>
+    <script type="text/javascript">
+        window.configBootstrapRequests = [];
+        window.bootstrapRequireConfig = null;
+        window.require = function(dependencies, success, error) {
+            if (dependencies[0] === 'loader/configRetry') {
+                success(window.configRetryDialog);
+                return;
+            }
+            window.configBootstrapRequests.push({
+                dependencies: dependencies,
+                success: success,
+                error: error
+            });
+        };
+        window.require.config = function(config) {
+            window.bootstrapRequireConfig = config;
+        };
+    </script>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script
+        id="amd-loader"
+        src="/tao/views/js/loader/bootstrap.js"
+        data-config="/tao/ClientConfig/config?extension=tao"
+        data-controller="controller/main"
+    ></script>
+    <script type="text/javascript" src="test.js"></script>
+</body>
+</html>
