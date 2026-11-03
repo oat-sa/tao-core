@@ -35,6 +35,10 @@ class LockDownBrowserClientConfigurationRetriever
         'processBlackList' => [],
         'mockActiveProcesses' => [],
         'simulateBreach' => false,
+        'displayExitButtonTestRunner' => false,
+        'displayExitButtonLogin' => false,
+        'displayExitButtonTestSelection' => false,
+        'displayBackToTestSelectionButton' => false
     ];
 
     private array $config;
@@ -70,7 +74,11 @@ class LockDownBrowserClientConfigurationRetriever
             (bool)($this->config['processCheckOnTestNavigation'] ?? true),
             is_array($this->config['processBlackList'] ?? null) ? $this->config['processBlackList'] : [],
             array_values(array_filter($mockActiveProcesses, 'is_string')),
-            filter_var($this->config['simulateBreach'] ?? false, FILTER_VALIDATE_BOOLEAN)
+            filter_var($this->config['simulateBreach'] ?? false, FILTER_VALIDATE_BOOLEAN),
+            filter_var($this->config['displayExitButtonTestRunner'] ?? false, FILTER_VALIDATE_BOOLEAN),
+            filter_var($this->config['displayExitButtonLogin'] ?? false, FILTER_VALIDATE_BOOLEAN),
+            filter_var($this->config['displayExitButtonTestSelection'] ?? false, FILTER_VALIDATE_BOOLEAN),
+            filter_var($this->config['displayBackToTestSelectionButton'] ?? false, FILTER_VALIDATE_BOOLEAN)
         );
     }
 }
