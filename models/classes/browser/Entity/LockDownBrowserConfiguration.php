@@ -36,11 +36,10 @@ final class LockDownBrowserConfiguration implements JsonSerializable
         public readonly array $processBlackList,
         public readonly array $mockActiveProcesses = [],
         public readonly bool $simulateBreach = false,
-        public readonly bool $displayExitButtonTestRuner = false,
+        public readonly bool $displayExitButtonTestRunner = false,
         public readonly bool $displayExitButtonLogin = false,
         public readonly bool $displayExitButtonTestSelection = false,
-        public readonly bool $displayBackToTestSelectionButton = false,
-        public readonly bool $displayBackToTestsButton = false
+        public readonly bool $displayBackToTestSelectionButton = false
     ) {
     }
 
@@ -57,11 +56,10 @@ final class LockDownBrowserConfiguration implements JsonSerializable
             'processBlackList' => $this->processBlackList,
             'mockActiveProcesses' => $this->mockActiveProcesses,
             'simulateBreach' => $this->simulateBreach,
-            'displayExitButtonTestRuner' => $this->displayExitButtonTestRuner,
+            'displayExitButtonTestRunner' => $this->displayExitButtonTestRunner,
             'displayExitButtonLogin' => $this->displayExitButtonLogin,
             'displayExitButtonTestSelection' => $this->displayExitButtonTestSelection,
-            'displayBackToTestSelectionButton' => $this->displayBackToTestSelectionButton,
-            'displayBackToTestsButton' => $this->displayBackToTestsButton,
+            'displayBackToTestSelectionButton' => $this->displayBackToTestSelectionButton
         ];
     }
 }
