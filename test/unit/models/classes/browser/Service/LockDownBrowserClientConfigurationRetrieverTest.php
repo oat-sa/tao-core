@@ -53,10 +53,7 @@ class LockDownBrowserClientConfigurationRetrieverTest extends TestCase
         $this->assertSame($defaults['displayExitButtonTestRunner'], $config->displayExitButtonTestRunner);
         $this->assertSame($defaults['displayExitButtonLogin'], $config->displayExitButtonLogin);
         $this->assertSame($defaults['displayExitButtonTestSelection'], $config->displayExitButtonTestSelection);
-        $this->assertSame(
-            $defaults['displayBackToTestSelectionButton'],
-            $config->displayBackToTestSelectionButton
-        );
+        $this->assertSame($defaults['displayBackToTestSelectionButton'], $config->displayBackToTestSelectionButton);
     }
 
     public function testRetrieveAppliesEnvJsonConfiguration(): void
@@ -70,9 +67,9 @@ class LockDownBrowserClientConfigurationRetrieverTest extends TestCase
             'mockActiveProcesses' => ['slack'],
             'simulateBreach' => false,
             'displayExitButtonTestRunner' => true,
-            'displayExitButtonLogin' => true,
-            'displayExitButtonTestSelection' => true,
-            'displayBackToTestSelectionButton' => true,
+            'displayExitButtonLogin' => '1',
+            'displayExitButtonTestSelection' => false,
+            'displayBackToTestSelectionButton' => 'yes',
         ]);
 
         $retriever = new LockDownBrowserClientConfigurationRetriever();
@@ -88,7 +85,7 @@ class LockDownBrowserClientConfigurationRetrieverTest extends TestCase
         $this->assertFalse($config->simulateBreach);
         $this->assertTrue($config->displayExitButtonTestRunner);
         $this->assertTrue($config->displayExitButtonLogin);
-        $this->assertTrue($config->displayExitButtonTestSelection);
+        $this->assertFalse($config->displayExitButtonTestSelection);
         $this->assertTrue($config->displayBackToTestSelectionButton);
     }
 
