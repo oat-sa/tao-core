@@ -55,6 +55,11 @@ class LockDownBrowserConfigurationTest extends TestCase
                 'processBlackList' => $processBlackList,
                 'mockActiveProcesses' => $mockActiveProcesses,
                 'simulateBreach' => $simulateBreach,
+                'displayExitButtonTestRuner' => false,
+                'displayExitButtonLogin' => false,
+                'displayExitButtonTestSelection' => false,
+                'displayBackToTestSelectionButton' => false,
+                'displayBackToTestsButton' => false,
             ],
             $configuration->jsonSerialize()
         );
@@ -73,6 +78,11 @@ class LockDownBrowserConfigurationTest extends TestCase
                 'processBlackList' => [],
                 'mockActiveProcesses' => [],
                 'simulateBreach' => false,
+                'displayExitButtonTestRuner' => false,
+                'displayExitButtonLogin' => false,
+                'displayExitButtonTestSelection' => false,
+                'displayBackToTestSelectionButton' => false,
+                'displayBackToTestsButton' => false,
             ],
             $configuration->jsonSerialize()
         );
