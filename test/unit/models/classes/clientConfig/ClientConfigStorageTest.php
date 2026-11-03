@@ -424,6 +424,10 @@ class ClientConfigStorageTest extends TestCase
                             'processBlackList' => [],
                             'mockActiveProcesses' => [],
                             'simulateBreach' => false,
+                            'displayExitButtonTestRunner' => false,
+                            'displayExitButtonLogin' => false,
+                            'displayExitButtonTestSelection' => false,
+                            'displayBackToTestSelectionButton' => false,
                         ],
                         'currentUser' => [
                             'id' => 'myUserId',

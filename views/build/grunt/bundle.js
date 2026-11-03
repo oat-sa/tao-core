@@ -63,7 +63,9 @@ module.exports = function (grunt) {
                             name: 'login',
                             bootstrap: true,
                             babel: true,
-                            entryPoint: 'controller/login'
+                            entryPoint: 'controller/login',
+                            excludeNested: ['tao/lockDownBrowser/lockDownBrowserService'],
+                            dependencies: ['tao/loader/lockDownBrowser.min']
                         },
                         {
                             name: 'tao',

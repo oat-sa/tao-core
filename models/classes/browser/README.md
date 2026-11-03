@@ -14,3 +14,7 @@ which should contain a JSON with the properties bellow:
 | `processBlackList`             | Denied process names.                                  |
 | `mockActiveProcesses`          | Mock driver: fake running processes for QA.            |
 | `simulateBreach`               | QA: enables client-side breach simulation harness.     |
+| `displayExitButtonTestRunner`  | Show Exit while a test is running in Kiosked.           |
+| `displayExitButtonLogin`       | Show Exit on the login screen in Kiosked.               |
+| `displayExitButtonTestSelection` | Show Exit on test selection in Kiosked.               |
+| `displayBackToTestSelectionButton` | Show Back to test selection during a Kiosked test.  |
