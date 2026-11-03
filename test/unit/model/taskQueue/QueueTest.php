@@ -23,10 +23,13 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\taskQueue;
 
 use InvalidArgumentException;
+use oat\generis\test\ServiceManagerMockTrait;
 use PHPUnit\Framework\TestCase;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
 use oat\tao\model\taskQueue\Task\AbstractTask;
+use oat\tao\model\taskQueue\TaskLog;
+use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Lock\LockInterface;
@@ -39,6 +42,8 @@ interface QueueBrokerInterfaceMock extends QueueBrokerInterface
 
 class QueueTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     public function testWhenQueueNameIsEmptyThenThrowException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -69,40 +74,31 @@ class QueueTest extends TestCase
      */
     public function testEnqueueWhenTaskPushedOrNot($isEnqueued, $expected)
     {
-        $taskMock = $this->getMockForAbstractClass(AbstractTask::class, [], "", false);
-        $lockMock = $this->getMockBuilder(LockInterface::class)->disableOriginalConstructor()->getMock();
-        $lockMock->method('acquire')->willReturn(true);
-        $lockMock->method('release')->willReturn(true);
+        $calls = [];
         $queueBrokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
-
         $queueBrokerMock->expects($this->once())
             ->method('push')
-            ->willReturn($isEnqueued);
+            ->willReturnCallback(function () use (&$calls, $isEnqueued) {
+                $calls[] = 'push';
 
-        $taskLogMock = $this->getMockForAbstractClass(TaskLogInterface::class);
+                return $isEnqueued;
+            });
 
-        /** @var Queue|MockObject $queueMock */
-        $queueMock = $this->getMockBuilder(Queue::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getBroker', 'getTaskLog', 'createLock'])
-            ->getMock();
+        $taskLogBrokerMock = $this->createTaskLogBrokerMock();
+        $taskLogBrokerMock->expects($this->once())
+            ->method('add')
+            ->with($this->anything(), TaskLogInterface::STATUS_ENQUEUED)
+            ->willReturnCallback(function () use (&$calls) {
+                $calls[] = 'add';
+            });
+        $taskLogBrokerMock->expects($isEnqueued ? $this->never() : $this->once())
+            ->method('updateStatus')
+            ->with($this->anything(), TaskLogInterface::STATUS_FAILED);
 
-        $queueMock->expects($this->once())
-            ->method('getBroker')
-            ->willReturn($queueBrokerMock);
-        $queueMock->expects($this->once())
-            ->method('createLock')
-            ->willReturn($lockMock);
-        if ($isEnqueued) {
-            $taskLogMock->expects($this->once())
-                ->method('add');
+        $queueMock = $this->createEnqueueSubject($queueBrokerMock, $taskLogBrokerMock);
 
-            $queueMock->expects($this->once())
-                ->method('getTaskLog')
-                ->willReturn($taskLogMock);
-        }
-
-        $this->assertEquals($expected, $queueMock->enqueue($taskMock));
+        $this->assertEquals($expected, $queueMock->enqueue($this->createEnqueueTaskMock()));
+        $this->assertSame(['add', 'push'], $calls);
     }
 
     public function provideEnqueueOptions()
@@ -111,6 +107,75 @@ class QueueTest extends TestCase
             'ShouldBeSuccessful' => [true, true],
             'ShouldBeFailed' => [false, false],
         ];
+    }
+
+    public function testEnqueueMarksTaskFailedWhenPushThrows()
+    {
+        $queueBrokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
+        $queueBrokerMock->method('push')->willThrowException(new \RuntimeException('broker down'));
+
+        $taskLogBrokerMock = $this->createTaskLogBrokerMock();
+        $taskLogBrokerMock->expects($this->once())->method('add');
+        $taskLogBrokerMock->expects($this->once())
+            ->method('updateStatus')
+            ->with($this->anything(), TaskLogInterface::STATUS_FAILED);
+
+        $queueMock = $this->createEnqueueSubject($queueBrokerMock, $taskLogBrokerMock);
+
+        $this->assertFalse($queueMock->enqueue($this->createEnqueueTaskMock()));
+    }
+
+    public function testEnqueueNeitherPushesNorMarksFailedWhenTaskLogInsertFails()
+    {
+        $queueBrokerMock = $this->getMockForAbstractClass(QueueBrokerInterface::class);
+        $queueBrokerMock->expects($this->never())->method('push');
+
+        $taskLogBrokerMock = $this->createTaskLogBrokerMock();
+        $taskLogBrokerMock->method('add')->willThrowException(new \RuntimeException('duplicate task id'));
+        $taskLogBrokerMock->expects($this->never())->method('updateStatus');
+
+        $queueMock = $this->createEnqueueSubject($queueBrokerMock, $taskLogBrokerMock);
+
+        $this->assertFalse($queueMock->enqueue($this->createEnqueueTaskMock()));
+    }
+
+    private function createEnqueueTaskMock(): AbstractTask
+    {
+        return $this->getMockForAbstractClass(AbstractTask::class, ['task-id', 'owner']);
+    }
+
+    /**
+     * @return TaskLogBrokerInterface|MockObject
+     */
+    private function createTaskLogBrokerMock(): TaskLogBrokerInterface
+    {
+        return $this->getMockForAbstractClass(TaskLogBrokerInterface::class);
+    }
+
+    /**
+     * @return Queue|MockObject
+     */
+    private function createEnqueueSubject(
+        QueueBrokerInterface $queueBroker,
+        TaskLogBrokerInterface $taskLogBroker
+    ): Queue {
+        $taskLog = new TaskLog([TaskLogInterface::OPTION_TASK_LOG_BROKER => $taskLogBroker]);
+        $taskLog->setLogger($this->createMock(LoggerInterface::class));
+        $taskLog->setServiceLocator($this->getServiceManagerMock());
+
+        $lockMock = $this->getMockBuilder(LockInterface::class)->disableOriginalConstructor()->getMock();
+        $lockMock->method('acquire')->willReturn(true);
+
+        $queueMock = $this->getMockBuilder(Queue::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getBroker', 'getTaskLog', 'createLock'])
+            ->getMock();
+        $queueMock->method('getBroker')->willReturn($queueBroker);
+        $queueMock->method('getTaskLog')->willReturn($taskLog);
+        $queueMock->method('createLock')->willReturn($lockMock);
+        $queueMock->setLogger($this->createMock(LoggerInterface::class));
+
+        return $queueMock;
     }
 
     /**

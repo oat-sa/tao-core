@@ -214,6 +214,11 @@ class SearchProxy extends ConfigurableService implements Search
             }
         }
 
+        $supplementalResult = $this->searchSupplementalProviders($query);
+        if ($supplementalResult !== null) {
+            return $supplementalResult;
+        }
+
         $this->applySearchConditions($query);
 
         if ($this->isForcingDefaultSearch($query) || !$this->getAdvancedSearchChecker()->isEnabled()) {
@@ -253,6 +258,35 @@ class SearchProxy extends ConfigurableService implements Search
     private function getQueryFactory(): SearchQueryFactory
     {
         return $this->getServiceManager()->getContainer()->get(SearchQueryFactory::class);
+    }
+
+    private function searchSupplementalProviders(SearchQuery $query): ?ResultSet
+    {
+        if (!$this->getAdvancedSearchChecker()->isEnabled()) {
+            return null;
+        }
+
+        $container = $this->getServiceManager()->getContainer();
+
+        if (!$container->has(SupplementalSearchProviderRegistry::class)) {
+            return null;
+        }
+
+        $registry = $container->get(SupplementalSearchProviderRegistry::class);
+
+        foreach ($registry->getProviders() as $provider) {
+            if (!$provider->supports($query)) {
+                continue;
+            }
+
+            $result = $provider->search($query);
+
+            if ($result->getTotalCount() > 0) {
+                return $result;
+            }
+        }
+
+        return null;
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface

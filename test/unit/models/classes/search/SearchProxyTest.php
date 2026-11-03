@@ -27,6 +27,7 @@ use oat\generis\test\ServiceManagerMockTrait;
 use PHPUnit\Framework\TestCase;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\search\Contract\SupplementalSearchProviderInterface;
 use oat\tao\model\search\IdentifierSearcher;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\ResultSetResponseNormalizer;
@@ -34,6 +35,8 @@ use oat\tao\model\search\SearchInterface;
 use oat\tao\model\search\SearchProxy;
 use oat\tao\model\search\SearchQuery;
 use oat\tao\model\search\SearchQueryFactory;
+use oat\tao\model\search\SupplementalSearchProviderRegistry;
+use oat\tao\model\TaoOntology;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -134,7 +137,7 @@ class SearchProxyTest extends TestCase
     public function testSearchByDefaultSearch(): void
     {
         $this->advancedSearchCheckerMock
-            ->expects($this->once())
+            ->expects($this->atLeastOnce())
             ->method('isEnabled')
             ->willReturn(false);
 
@@ -164,7 +167,7 @@ class SearchProxyTest extends TestCase
         );
 
         $this->advancedSearchCheckerMock
-            ->expects($this->once())
+            ->expects($this->atLeastOnce())
             ->method('isEnabled')
             ->willReturn(false);
 
@@ -214,7 +217,7 @@ class SearchProxyTest extends TestCase
             ->willReturn([]);
 
         $this->advancedSearchCheckerMock
-            ->expects($this->once())
+            ->expects($this->atLeastOnce())
             ->method('isEnabled')
             ->willReturn(true);
 
@@ -242,7 +245,7 @@ class SearchProxyTest extends TestCase
             );
 
         $this->advancedSearchCheckerMock
-            ->expects($this->once())
+            ->expects($this->atLeastOnce())
             ->method('isEnabled')
             ->willReturn(true);
 
@@ -264,5 +267,65 @@ class SearchProxyTest extends TestCase
         $options = $this->subject->getOption(SearchProxy::OPTION_GENERIS_SEARCH_WHITELIST, []);
         $generisSearchWhitelist = array_merge(SearchProxy::GENERIS_SEARCH_DEFAULT_WHITELIST, $options);
         $this->assertTrue(in_array(GenerisRdf::CLASS_ROLE, $generisSearchWhitelist));
+    }
+
+    public function testSearchUsesSupplementalProviderBeforeDefaultSearch(): void
+    {
+        $query = new SearchQuery(
+            'remote-delivery-id',
+            TaoOntology::CLASS_URI_TEST,
+            TaoOntology::CLASS_URI_TEST,
+            0,
+            10,
+            1
+        );
+        $query->setStructure('tests');
+
+        $this->searchQueryFactoryMock
+            ->method('create')
+            ->willReturn($query);
+
+        $this->identifierSearcher
+            ->method('search')
+            ->willReturn(new ResultSet([], 0));
+
+        $this->advancedSearchCheckerMock
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $supplementalProvider = $this->createMock(SupplementalSearchProviderInterface::class);
+        $supplementalProvider
+            ->method('supports')
+            ->with($query)
+            ->willReturn(true);
+        $supplementalProvider
+            ->method('search')
+            ->with($query)
+            ->willReturn(new ResultSet([['id' => 'http://tao.local/test', 'label' => 'Test']], 1));
+
+        $registry = new SupplementalSearchProviderRegistry();
+        $registry->register($supplementalProvider);
+
+        $this->subject->setServiceLocator(
+            $this->getServiceManagerMock(
+                [
+                    AdvancedSearchChecker::class => $this->advancedSearchCheckerMock,
+                    SearchQueryFactory::class => $this->searchQueryFactoryMock,
+                    ResultSetResponseNormalizer::class => $this->resultSetResponseNormalizerMock,
+                    IdentifierSearcher::class => $this->identifierSearcher,
+                    FeatureFlagChecker::class => $this->featureFlagChecker,
+                    SupplementalSearchProviderRegistry::class => $registry,
+                ]
+            )
+        );
+
+        $this->defaultSearch->expects($this->never())->method('query');
+
+        $this->resultSetResponseNormalizerMock
+            ->expects($this->once())
+            ->method('normalize')
+            ->willReturn([]);
+
+        $this->assertSame([], $this->subject->search($this->requestMock));
     }
 }

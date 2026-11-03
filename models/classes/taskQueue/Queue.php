@@ -153,26 +153,31 @@ class Queue implements QueueInterface, TaskLogAwareInterface
      */
     public function enqueue(TaskInterface $task, $label = null)
     {
+        $isTaskLogged = false;
+        $isEnqueued = false;
+
         try {
             if (!is_null($label)) {
                 $task->setLabel($label);
             }
             $lock = $this->createLock(self::LOCK_PREFIX . $task->getId());
             $lock->acquire(true);
+            $this->getTaskLog()
+                ->getBroker()
+                ->add($task, TaskLogInterface::STATUS_ENQUEUED, $label);
+            $isTaskLogged = true;
             $isEnqueued = $this->getBroker()->push($task);
-            if ($isEnqueued) {
-                $this->getTaskLog()
-                    ->add($task, TaskLogInterface::STATUS_ENQUEUED, $label);
-            }
-
-            return $isEnqueued;
         } catch (\Exception $e) {
             $this->logError('Enqueueing ' . $task . ' failed with MSG: ' . $e->getMessage());
         } finally {
             $lock->release();
         }
 
-        return false;
+        if ($isTaskLogged && !$isEnqueued) {
+            $this->getTaskLog()->setStatus($task->getId(), TaskLogInterface::STATUS_FAILED);
+        }
+
+        return $isEnqueued;
     }
 
     /**
