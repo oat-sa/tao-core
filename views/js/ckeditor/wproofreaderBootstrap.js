@@ -232,12 +232,20 @@ define([
         });
     }
 
+    var FALLBACK_LANG_REGIONS = { en: 'en_US', de: 'de_DE', fr: 'fr_FR', nl: 'nl_NL' };
+
     function setLanguage(lang) {
         if (!enabled) {
             return;
         }
 
         lang = _.trim(String(lang || ''));
+        if (!lang && typeof navigator !== 'undefined' && navigator.language) {
+            lang = String(navigator.language).replace(/-/g, '_');
+            if (lang.indexOf('_') === -1 && FALLBACK_LANG_REGIONS[lang]) {
+                lang = FALLBACK_LANG_REGIONS[lang];
+            }
+        }
         selectedLanguage = lang || null;
         config.autoStartup = !!selectedLanguage;
         config.lang = selectedLanguage || '';
