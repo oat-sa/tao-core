@@ -232,21 +232,29 @@ define([
         });
     }
 
-    var FALLBACK_LANG_REGIONS = { en: 'en_US', de: 'de_DE', fr: 'fr_FR', nl: 'nl_NL' };
+    var KNOWN_LANG_REGIONS = { en: 'en_US', de: 'de_DE', fr: 'fr_FR', nl: 'nl_NL' };
+
+    function normalizeLangTag(tag) {
+        tag = _.trim(String(tag || '')).replace(/-/g, '_');
+        if (tag && tag.indexOf('_') === -1 && KNOWN_LANG_REGIONS[tag]) {
+            return KNOWN_LANG_REGIONS[tag];
+        }
+        return tag;
+    }
 
     function setLanguage(lang) {
         if (!enabled) {
             return;
         }
 
-        lang = _.trim(String(lang || ''));
-        if (!lang && typeof navigator !== 'undefined' && navigator.language) {
-            lang = String(navigator.language).replace(/-/g, '_');
-            if (lang.indexOf('_') === -1 && FALLBACK_LANG_REGIONS[lang]) {
-                lang = FALLBACK_LANG_REGIONS[lang];
-            }
+        lang = normalizeLangTag(lang);
+        if (!lang && typeof document !== 'undefined' && document.documentElement) {
+            lang = normalizeLangTag(document.documentElement.lang);
         }
-        selectedLanguage = lang || null;
+        if (!lang && typeof navigator !== 'undefined' && navigator.language) {
+            lang = normalizeLangTag(navigator.language);
+        }
+        selectedLanguage = lang || 'en_US';
         config.autoStartup = !!selectedLanguage;
         config.lang = selectedLanguage || '';
 
