@@ -56,5 +56,15 @@
     · All rights reserved.
 </footer>
 
+<script>
+    try {
+        if (window.kiosked && typeof window.kiosked.unlock === 'function') {
+            Promise.resolve(window.kiosked.unlock()).catch(() => {});
+        }
+    } catch (error) {
+        // Keep the error page usable when the native API cannot be accessed.
+    }
+</script>
+
 </body>
 </html>
