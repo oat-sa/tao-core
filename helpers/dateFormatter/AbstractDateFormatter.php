@@ -78,10 +78,10 @@ class AbstractDateFormatter extends Configurable implements DateFormatterInterfa
     /**
      * {@inheritdoc}
      */
-    public function format($timestamp, $format, DateTimeZone $timeZone = null)
+    public function format($timestamp, $format, ?DateTimeZone $timeZone = null)
     {
-        // Creates DateTime with microseconds.
-        $dateTime = DateTime::createFromFormat('U.u', sprintf('%.f', $timestamp));
+        // Creates DateTime with microseconds (%.6F always includes the fractional part required by U.u).
+        $dateTime = DateTime::createFromFormat('U.u', sprintf('%.6F', (float) $timestamp));
         if ($timeZone === null) {
             $timeZone = new DateTimeZone(SessionManager::getSession()->getTimeZone());
         }

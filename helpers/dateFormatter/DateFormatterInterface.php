@@ -36,12 +36,12 @@ interface DateFormatterInterface
      *
      * @param float         $timestamp
      * @param string        $format see constants of tao_helpers_Date for possible values
-     * @param \DateTimeZone $timeZone
+     * @param \DateTimeZone|null $timeZone
      *
      * @return string the formatted date
      * @throws \common_exception_Error
      */
-    public function format($timestamp, $format, \DateTimeZone $timeZone);
+    public function format($timestamp, $format, ?\DateTimeZone $timeZone = null);
 
     /**
      * Returns the format used by DateTime::format.
