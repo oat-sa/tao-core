@@ -224,15 +224,27 @@ class tao_helpers_Date
      */
     private static function isRecognizedTimestampValue($timestamp): bool
     {
-        if (is_int($timestamp) || is_float($timestamp)) {
+        if (is_int($timestamp)) {
             return true;
+        }
+
+        if (is_float($timestamp)) {
+            return is_finite($timestamp);
         }
 
         if (!is_string($timestamp)) {
             return false;
         }
 
-        return is_numeric($timestamp) || (bool) preg_match('/^-?\d+\.\d+$/', $timestamp);
+        if (preg_match('/^-?\d+\.\d+$/', $timestamp)) {
+            return true;
+        }
+
+        if (!is_numeric($timestamp)) {
+            return false;
+        }
+
+        return is_finite((float) $timestamp);
     }
 
     /**
@@ -258,8 +270,14 @@ class tao_helpers_Date
         $ts = (float) $timestamp;
         $seconds = (int) floor($ts);
         $fraction = $ts - $seconds;
+        $microseconds = (int) round($fraction * 1000000);
 
-        return sprintf('%d.%06d', $seconds, (int) round($fraction * 1000000));
+        if ($microseconds >= 1000000) {
+            $seconds++;
+            $microseconds = 0;
+        }
+
+        return sprintf('%d.%06d', $seconds, $microseconds);
     }
 
     /**
