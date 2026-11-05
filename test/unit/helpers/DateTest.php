@@ -22,11 +22,21 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\helpers;
 
+use common_Exception;
+use core_kernel_classes_Literal;
 use PHPUnit\Framework\TestCase;
 use tao_helpers_Date as DateHelper;
 
 class DateTest extends TestCase
 {
+    public function testDisplayDateRejectsNonNumericLiteral(): void
+    {
+        $this->expectException(common_Exception::class);
+        $this->expectExceptionMessage('Unexpected timestamp');
+
+        DateHelper::displayeDate(new core_kernel_classes_Literal('test'));
+    }
+
     /**
      * @dataProvider microtimeProvider
      */

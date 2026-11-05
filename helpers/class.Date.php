@@ -97,6 +97,10 @@ class tao_helpers_Date
             throw new common_Exception('Unexpected timestamp');
         }
 
+        if (!self::isRecognizedTimestampValue($ts)) {
+            throw new common_Exception('Unexpected timestamp');
+        }
+
         return self::getDateFormatter()->format($ts, $format, $timeZone);
     }
 
@@ -213,6 +217,48 @@ class tao_helpers_Date
     public static function getTimeStampWithMicroseconds(DateTime $dt)
     {
         return join('.', [$dt->getTimestamp(), $dt->format('u')]);
+    }
+
+    /**
+     * @param mixed $timestamp
+     */
+    private static function isRecognizedTimestampValue($timestamp): bool
+    {
+        if (is_int($timestamp) || is_float($timestamp)) {
+            return true;
+        }
+
+        if (!is_string($timestamp)) {
+            return false;
+        }
+
+        return is_numeric($timestamp) || (bool) preg_match('/^-?\d+\.\d+$/', $timestamp);
+    }
+
+    /**
+     * Builds a string suitable for DateTime::createFromFormat('U.u', …).
+     *
+     * Preserves the seconds.microseconds shape produced by getTimeStampWithMicroseconds().
+     * Float timestamps between -1 and 0 must use floor seconds plus a positive fractional part
+     * (e.g. -0.25 → -1.750000), not sprintf('%.6F', …) alone.
+     *
+     * @param float|int|string $timestamp
+     */
+    public static function formatTimestampForUu($timestamp): string
+    {
+        if (is_string($timestamp) && strpos($timestamp, '.') !== false
+            && preg_match('/^-?\d+\.\d+$/', $timestamp)
+        ) {
+            [$seconds, $micro] = explode('.', $timestamp, 2);
+
+            return sprintf('%d.%06d', (int) $seconds, (int) str_pad(substr($micro, 0, 6), 6, '0'));
+        }
+
+        $ts = (float) $timestamp;
+        $seconds = (int) floor($ts);
+        $fraction = $ts - $seconds;
+
+        return sprintf('%d.%06d', $seconds, (int) round($fraction * 1000000));
     }
 
     /**
