@@ -246,7 +246,8 @@ class tao_helpers_Date
      */
     public static function formatTimestampForUu($timestamp): string
     {
-        if (is_string($timestamp) && strpos($timestamp, '.') !== false
+        if (
+            is_string($timestamp) && strpos($timestamp, '.') !== false
             && preg_match('/^-?\d+\.\d+$/', $timestamp)
         ) {
             [$seconds, $micro] = explode('.', $timestamp, 2);
