@@ -74,6 +74,7 @@ use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\EnableFuriganaRubyPlugin;
+use oat\tao\scripts\install\SetWProofreaderConfig;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionAccessControl;
 use oat\tao\scripts\install\RegisterActionService;
@@ -290,6 +291,7 @@ return [
             RegisterRtlLocales::class,
             RegisterSearchServices::class,
             EnableFuriganaRubyPlugin::class,
+            SetWProofreaderConfig::class,
             RegisterPortalTheme::class,
             RegisterUniqueIdFeature::class
         ],

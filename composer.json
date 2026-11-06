@@ -48,6 +48,9 @@
     "type": "tao-extension",
     "extra": {
         "tao-extension-name": "tao",
+        "branch-alias": {
+            "dev-feat/BOSAN-375/spell-check": "56.15.x-dev"
+        },
         "npm-bridge": {
             "arguments": [
                 "--prefix",
