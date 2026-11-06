@@ -30,7 +30,7 @@
 			<?php if (!empty($returnUrl)) : ?>
 			<li><a href="<?= $returnUrl ?>"><?=__('Go Back')?></a></li>
 			<?php endif; ?>
-			<li><a href="<?= ROOT_URL ?>"><?=__('TAO Home')?></a></li>
+			<li><a href="<?= $returnHomeUrl ?? ROOT_URL ?>"><?=__('TAO Home')?></a></li>
 		</ul>
 
 	    <?php if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
