@@ -31,6 +31,41 @@ define([
         assert.notOk(service.isMockDriver());
     });
 
+    QUnit.test('passes the configured API timeout to the kiosked driver', function (assert) {
+        const originalKiosked = window.kiosked;
+        const originalSetTimeout = window.setTimeout;
+        const api = stubNativeKioskedApi();
+        let timeoutDelay;
+
+        api.getDeviceInfo = function () {
+            return new Promise(function () {});
+        };
+        window.kiosked = api;
+        window.setTimeout = function (callback, delay) {
+            timeoutDelay = delay;
+            return originalSetTimeout(callback, 0);
+        };
+
+        return lockDownBrowserModule
+            .createLockDownBrowserService({
+                driver: 'kiosked',
+                ldbApiTimeout: 2468
+            })
+            .validateMinVersion()
+            .then(
+                function () {
+                    assert.ok(false, 'validation should reject a device info timeout');
+                },
+                function () {
+                    assert.equal(timeoutDelay, 2468, 'the service forwards the configured timeout');
+                }
+            )
+            .finally(function () {
+                window.setTimeout = originalSetTimeout;
+                window.kiosked = originalKiosked;
+            });
+    });
+
     QUnit.test('uses mock when requested even if native API is present', function (assert) {
         const originalKiosked = window.kiosked;
 

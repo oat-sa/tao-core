@@ -100,6 +100,7 @@ define([
         const driverId = resolveDriverId(config);
         const driverOptions = {
             minVersion: config.minVersion,
+            ldbApiTimeout: config.ldbApiTimeout,
             mockActiveProcesses: config.mockActiveProcesses
         };
         const driver =
