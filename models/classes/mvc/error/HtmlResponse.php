@@ -33,6 +33,16 @@ class HtmlResponse extends ResponseAbstract
 
     public function send()
     {
+        //FIXME @TODO Remove after tests
+        //FIXME @TODO Remove after tests
+        //FIXME @TODO Remove after tests
+        //FIXME @TODO Remove after tests
+        //FIXME @TODO Remove after tests
+        $returnHomeUrl = $_REQUEST['launch_presentation_return_url'] ?? ROOT_URL;
+        //FIXME @TODO Remove after tests
+        //FIXME @TODO Remove after tests
+        //FIXME @TODO Remove after tests
+
         if (DEBUG_MODE) {
             $message = $this->exception->getMessage();
             $trace = $this->exception->getTraceAsString();
