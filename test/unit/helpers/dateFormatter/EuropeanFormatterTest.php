@@ -21,6 +21,8 @@
 
 namespace oat\tao\test\unit\helpers\dateFormatter;
 
+use DateTime;
+use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use tao_helpers_Date as DateHelper;
@@ -35,6 +37,39 @@ class EuropeanFormatterTest extends TestCase
         $subject = new EuropeanFormatter();
 
         $this->assertEquals($expected, $subject->getFormat($format));
+    }
+
+    public function testFormatWholeSecondTimestamp(): void
+    {
+        $subject = new EuropeanFormatter();
+
+        $this->assertSame(
+            '05/11/2026 10:04:05',
+            $subject->format(1793873045, DateHelper::FORMAT_LONG, new DateTimeZone('UTC'))
+        );
+    }
+
+    public function testFormatNegativeSubSecondTimestamp(): void
+    {
+        $subject = new EuropeanFormatter();
+
+        $this->assertSame(
+            '31/12/1969 23:59:59',
+            $subject->format(-0.25, DateHelper::FORMAT_LONG, new DateTimeZone('UTC'))
+        );
+    }
+
+    public function testFormatTimestampFromGetTimeStampWithMicrosecondsShape(): void
+    {
+        $subject = new EuropeanFormatter();
+        $timestamp = DateHelper::getTimeStampWithMicroseconds(
+            DateTime::createFromFormat('U.u', '-1.750000', new DateTimeZone('UTC'))
+        );
+
+        $this->assertSame(
+            '31/12/1969 23:59:59',
+            $subject->format($timestamp, DateHelper::FORMAT_LONG, new DateTimeZone('UTC'))
+        );
     }
 
     public function formatsToTest()

@@ -81,7 +81,7 @@ class tao_helpers_Date
      * @return string The formatted date.
      * @throws common_Exception when timestamp is not recognized
      */
-    public static function displayeDate($timestamp, $format = self::FORMAT_LONG, DateTimeZone $timeZone = null)
+    public static function displayeDate($timestamp, $format = self::FORMAT_LONG, ?DateTimeZone $timeZone = null)
     {
         if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
             $ts = $timestamp->__toString();
@@ -94,6 +94,10 @@ class tao_helpers_Date
         } elseif (is_string($timestamp) && preg_match('/0\.[\d]+\s[\d]+/', $timestamp)) {
             $ts = self::getTimeStamp($timestamp, true);
         } else {
+            throw new common_Exception('Unexpected timestamp');
+        }
+
+        if (!self::isRecognizedTimestampValue($ts)) {
             throw new common_Exception('Unexpected timestamp');
         }
 
@@ -216,6 +220,67 @@ class tao_helpers_Date
     }
 
     /**
+     * @param mixed $timestamp
+     */
+    private static function isRecognizedTimestampValue($timestamp): bool
+    {
+        if (is_int($timestamp)) {
+            return true;
+        }
+
+        if (is_float($timestamp)) {
+            return is_finite($timestamp);
+        }
+
+        if (!is_string($timestamp)) {
+            return false;
+        }
+
+        if (preg_match('/^-?\d+\.\d+$/', $timestamp)) {
+            return true;
+        }
+
+        if (!is_numeric($timestamp)) {
+            return false;
+        }
+
+        return is_finite((float) $timestamp);
+    }
+
+    /**
+     * Builds a string suitable for DateTime::createFromFormat('U.u', …).
+     *
+     * Preserves the seconds.microseconds shape produced by getTimeStampWithMicroseconds().
+     * Float timestamps between -1 and 0 must use floor seconds plus a positive fractional part
+     * (e.g. -0.25 → -1.750000), not sprintf('%.6F', …) alone.
+     *
+     * @param float|int|string $timestamp
+     */
+    public static function formatTimestampForUu($timestamp): string
+    {
+        if (
+            is_string($timestamp) && strpos($timestamp, '.') !== false
+            && preg_match('/^-?\d+\.\d+$/', $timestamp)
+        ) {
+            [$seconds, $micro] = explode('.', $timestamp, 2);
+
+            return sprintf('%d.%06d', (int) $seconds, (int) str_pad(substr($micro, 0, 6), 6, '0'));
+        }
+
+        $ts = (float) $timestamp;
+        $seconds = (int) floor($ts);
+        $fraction = $ts - $seconds;
+        $microseconds = (int) round($fraction * 1000000);
+
+        if ($microseconds >= 1000000) {
+            $seconds++;
+            $microseconds = 0;
+        }
+
+        return sprintf('%d.%06d', $seconds, $microseconds);
+    }
+
+    /**
      * Get array of DateTime objects build from $date (or current time if not given) $amount times back with given
      * interval
      * Example:
@@ -248,7 +313,7 @@ class tao_helpers_Date
      * @param null $amount
      * @return \DateTime[]
      */
-    public static function getTimeKeys(\DateInterval $interval, \DateTimeInterface $date = null, $amount = null)
+    public static function getTimeKeys(\DateInterval $interval, ?\DateTimeInterface $date = null, $amount = null)
     {
         $timeKeys = [];
         if ($date === null) {
