@@ -30,7 +30,7 @@
                     <?= __('It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:') ?>
                 </p>
                 <div class="error-page__form__action-bar">
-                    <a class="button" href="<?= ROOT_URL ?>"><?= __('go back to home page') ?></a>
+                    <a class="button" href="<?= $returnHomeUrl ?? ROOT_URL ?>"><?= __('go back to home page') ?></a>
                 </div>
             </div>
         </div>
@@ -55,16 +55,6 @@
     © 2013 - <?= date('Y') ?> · <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
     · All rights reserved.
 </footer>
-
-<script>
-    try {
-        if (window.kiosked && typeof window.kiosked.unlock === 'function') {
-            Promise.resolve(window.kiosked.unlock()).catch(() => {});
-        }
-    } catch (error) {
-        // Keep the error page usable when the native API cannot be accessed.
-    }
-</script>
 
 </body>
 </html>
