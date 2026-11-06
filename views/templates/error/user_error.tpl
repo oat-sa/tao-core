@@ -31,9 +31,10 @@
 			<?php if (!empty($returnUrl)) : ?>
 				<li><a href="<?= $returnUrl ?>"><?=__('Go Back')?></a></li>
 			<?php endif; ?>
-			<li><a href="<?= $returnHomeUrl ?? ROOT_URL ?>"><?=__('TAO Home')?></a></li>
+			<li><a href="<?= ROOT_URL ?>" data-control="error-home"><?=__('TAO Home')?></a></li>
 		<?php endif; ?>
 		</ul>
+		<?php \oat\tao\helpers\Template::inc('error/kiosked-exit.tpl', 'tao'); ?>
 
     </div>
 </div>
