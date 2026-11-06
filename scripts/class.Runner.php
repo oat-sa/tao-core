@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA
  *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
  *                         (under the project TAO & TAO2);
@@ -456,6 +456,23 @@ abstract class tao_scripts_Runner
         if ($stopExec == true) {
             $this->handleError(new Exception($message, 1));
         }
+    }
+
+    /**
+     * Non-fatal CLI/HTML message (warnings).
+     *
+     * @param string $message
+     */
+    protected function warn($message)
+    {
+        common_Logger::w($message, ['SCRIPTS_RUNNER']);
+        if ($this->logOny) {
+            return;
+        }
+        $options = ['color' => 'yellow'];
+        echo $this->isCli
+            ? $this->renderCliOutput($message, $options)
+            : $this->renderHtmlOutput($message, $options);
     }
 
     /**
