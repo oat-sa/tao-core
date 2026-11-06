@@ -24,6 +24,42 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
         });
     }
 
+    function assertDeviceInfoTimeout(assert, options, expectedTimeout) {
+        const originalKiosked = window.kiosked;
+        const originalSetTimeout = window.setTimeout;
+        const api = createApi();
+        let timeoutDelay;
+
+        api.getDeviceInfo = function () {
+            return new Promise(function () {});
+        };
+        window.kiosked = api;
+        window.setTimeout = function (callback, delay) {
+            timeoutDelay = delay;
+            return originalSetTimeout(callback, 0);
+        };
+
+        return kioskedDriver
+            .createKioskedDriver(options)
+            .validateMinVersion()
+            .then(
+                function () {
+                    assert.ok(false, 'validation should reject a device info timeout');
+                },
+                function (error) {
+                    assert.equal(timeoutDelay, expectedTimeout, 'the expected timeout is used');
+                    assert.equal(
+                        error.message,
+                        `Unable to get lock down browser device info within ${expectedTimeout} ms`
+                    );
+                }
+            )
+            .finally(function () {
+                window.setTimeout = originalSetTimeout;
+                window.kiosked = originalKiosked;
+            });
+    }
+
     QUnit.test('ignores the outdated window.kiosk API', function (assert) {
         const originalKiosked = window.kiosked;
         const originalKiosk = window.kiosk;
@@ -192,6 +228,76 @@ define(['tao/lockDownBrowser/drivers/kioskedDriver'], function (kioskedDriver) {
                 window.kiosked = originalKiosked;
                 done();
             });
+    });
+
+    QUnit.test('rejects when device info does not contain an app version', function (assert) {
+        const originalKiosked = window.kiosked;
+        const api = createApi();
+
+        api.getDeviceInfo = function () {
+            return Promise.resolve({ app: {} });
+        };
+        window.kiosked = api;
+
+        return createDriver()
+            .validateMinVersion()
+            .then(
+                function () {
+                    assert.ok(false, 'validation should reject incomplete device info');
+                },
+                function (error) {
+                    assert.equal(
+                        error.message,
+                        'Unable to get lock down browser device info: app version is missing'
+                    );
+                }
+            )
+            .finally(function () {
+                window.kiosked = originalKiosked;
+            });
+    });
+
+    QUnit.test('rejects when the installed version is below the configured minimum', function (assert) {
+        const originalKiosked = window.kiosked;
+        const api = createApi();
+
+        api.getDeviceInfo = function () {
+            return Promise.resolve({
+                app: {
+                    version: '1.2.3'
+                }
+            });
+        };
+        window.kiosked = api;
+
+        return kioskedDriver
+            .createKioskedDriver({
+                minVersion: '2.0.0',
+                lockWaitMs: 0
+            })
+            .validateMinVersion()
+            .then(
+                function () {
+                    assert.ok(false, 'validation should reject an outdated version');
+                },
+                function (error) {
+                    assert.equal(
+                        error.message,
+                        'Lock down browser version 1.2.3 is lower than required minimum version 2.0.0'
+                    );
+                }
+            )
+            .finally(function () {
+                window.kiosked = originalKiosked;
+            });
+    });
+
+    QUnit.test('uses the configured timeout when device info does not resolve', function (assert) {
+        return assertDeviceInfoTimeout(assert, { ldbApiTimeout: 1234 }, 1234);
+    });
+
+    QUnit.test('defaults the device info timeout to ten seconds', function (assert) {
+        return assertDeviceInfoTimeout(assert, { lockWaitMs: 0 }, 10000);
     });
 
     QUnit.test('calls native checkBlocklist with vendor map and showError flag', function (assert) {

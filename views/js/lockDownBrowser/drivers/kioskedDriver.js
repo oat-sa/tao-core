@@ -22,7 +22,6 @@ define([
 ], function (processBlockList) {
     'use strict';
 
-    const API_TIMEOUT_MS = 5000;
     const API_WAIT_MS = 10000;
     const API_POLL_MS = 50;
     const LOCK_WAIT_MS = 30000;
@@ -36,22 +35,28 @@ define([
         });
     }
 
-    function withProcessCheckTimeout(promise, timeoutMs) {
+    function normalizeTimeout(value, fallback) {
+        const timeout = Number(value);
+
+        return Number.isFinite(timeout) && timeout > 0 ? timeout : fallback;
+    }
+
+    function withTimeout(promise, timeoutMs, createTimeoutError) {
         return new Promise(function (resolve, reject) {
             const timeoutId = setTimeout(function () {
-                reject(processBlockList.createError(
-                    processBlockList.ERROR_API_TIMEOUT,
-                    'Process block list API timed out'
-                ));
+                reject(createTimeoutError());
             }, timeoutMs);
-            const finish = function (callback) {
-                return function (value) {
-                    clearTimeout(timeoutId);
-                    callback(value);
-                };
-            };
 
-            Promise.resolve(promise).then(finish(resolve), finish(reject));
+            Promise.resolve(promise).then(
+                function (value) {
+                    clearTimeout(timeoutId);
+                    resolve(value);
+                },
+                function (error) {
+                    clearTimeout(timeoutId);
+                    reject(error);
+                }
+            );
         });
     }
 
@@ -146,7 +151,8 @@ define([
 
     function createKioskedDriver(options = {}) {
         const minVersion = options.minVersion || '0.0.0';
-        const processCheckTimeout = options.processCheckTimeout || API_TIMEOUT_MS;
+        const ldbApiTimeout = normalizeTimeout(options.ldbApiTimeout, 10000);
+        const processCheckTimeout = normalizeTimeout(options.processCheckTimeout, ldbApiTimeout);
         const apiWaitMs = options.apiWaitMs || API_WAIT_MS;
         const lockWaitMs = Object.prototype.hasOwnProperty.call(options, 'lockWaitMs')
             ? options.lockWaitMs
@@ -169,14 +175,15 @@ define([
                 return Promise.resolve(false);
             }
 
-            return Promise.race([
+            return withTimeout(
                 Promise.resolve().then(function () {
                     return handle.api.isLocked();
                 }),
-                wait(API_TIMEOUT_MS).then(function () {
-                    return false;
-                })
-            ])
+                ldbApiTimeout,
+                function () {
+                    return new Error('Lock down browser lock status API timed out');
+                }
+            )
                 .then(function (locked) {
                     return locked === true;
                 })
@@ -250,23 +257,41 @@ define([
 
             validateMinVersion: function validateMinVersion() {
                 const handle = getHandle();
-                let deviceInfoPromise;
 
-                if (!handle) {
+                if (!handle || typeof handle.api.getDeviceInfo !== 'function') {
                     return Promise.reject(new Error('Lock down browser API not available'));
                 }
 
-                if (typeof handle.api.getDeviceInfo === 'function') {
-                    deviceInfoPromise = Promise.race([handle.api.getDeviceInfo(), wait(API_TIMEOUT_MS)]);
-                } else {
-                    return Promise.reject(new Error('Lock down browser API not available'));
-                }
+                return withTimeout(
+                    Promise.resolve()
+                        .then(function () {
+                            return handle.api.getDeviceInfo();
+                        })
+                        .catch(function (error) {
+                            const deviceInfoError = new Error('Unable to get lock down browser device info');
 
-                return deviceInfoPromise.then(function (deviceInfo) {
+                            deviceInfoError.cause = error;
+                            throw deviceInfoError;
+                        }),
+                    ldbApiTimeout,
+                    function () {
+                        return new Error(
+                            `Unable to get lock down browser device info within ${ldbApiTimeout} ms`
+                        );
+                    }
+                ).then(function (deviceInfo) {
                     const version = deviceInfo && deviceInfo.app && deviceInfo.app.version;
 
-                    if (!version || semverCompare(version, minVersion) < 0) {
-                        return Promise.reject(new Error('Lock down browser version not supported'));
+                    if (!version) {
+                        throw new Error(
+                            'Unable to get lock down browser device info: app version is missing'
+                        );
+                    }
+
+                    if (semverCompare(version, minVersion) < 0) {
+                        throw new Error(
+                            `Lock down browser version ${version} is lower than required minimum version ${minVersion}`
+                        );
                     }
                 });
             },
@@ -357,9 +382,15 @@ define([
                             );
                         }
 
-                        return withProcessCheckTimeout(
+                        return withTimeout(
                             Promise.resolve().then(() => handle.api.checkBlocklist(vendorMap, true)),
-                            processCheckTimeout
+                            processCheckTimeout,
+                            function () {
+                                return processBlockList.createError(
+                                    processBlockList.ERROR_API_TIMEOUT,
+                                    'Process block list API timed out'
+                                );
+                            }
                         )
                             .then(function (applications) {
                                 return normalized.resolveBlockedApplications(applications);
