@@ -21,10 +21,11 @@ define(['lodash'], function (_) {
     var RESERVED_MARKER_CLASS = 'tao-wsc-ignore';
     var RESERVED_MARKER_ATTR = 'data-wsc-ignore-checking';
 
+    // Note: do not list `widget-box` here — Text Entry authoring uses plain <input> inside those
+    // containers; ignoreClasses applies to ancestors and would block WSC on those fields.
     var DEFAULT_IGNORE_CLASSES = [
         RESERVED_MARKER_CLASS,
         'math-tex',
-        'widget-box',
         'hljs',
         'cke_widget_wrapper',
         'cke_widget_element',
@@ -36,7 +37,14 @@ define(['lodash'], function (_) {
     var DEFAULT_IGNORE_ATTRIBUTES = [RESERVED_MARKER_ATTR];
 
     var DEFAULT_DISABLE_AUTO_SEARCH_IN = ['.cke_source', '.cke_source textarea'];
-    var DEFAULT_ENABLE_AUTO_SEARCH_IN = ['.cke_wysiwyg_frame', '.cke_editable', '.text-container'];
+    // Text Entry interaction authoring: plain inputs (correct / map / custom) are outside CKEditor.
+    var DEFAULT_ENABLE_AUTO_SEARCH_IN = [
+        '.cke_wysiwyg_frame',
+        '.cke_editable',
+        '.text-container',
+        // WSC disables plain <input> by default; opt in only for Text Entry authoring fields.
+        'input.text-entry-authoring-spellcheck'
+    ];
 
     function unionList(base, extra) {
         return _.compact(_.union(base, _.isArray(extra) ? extra : extra ? [extra] : []));

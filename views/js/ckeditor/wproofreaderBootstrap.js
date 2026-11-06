@@ -211,6 +211,43 @@ define([
         return scriptLoading;
     }
 
+    /**
+     * Resolve when the vendor bundle finished loading (no-op if premium spellcheck is off).
+     *
+     * @returns {Promise<void>}
+     */
+    function whenReady() {
+        if (!enabled) {
+            return Promise.resolve();
+        }
+        if (scriptLoaded) {
+            return Promise.resolve();
+        }
+        if (scriptLoading) {
+            return scriptLoading;
+        }
+        return loadScript();
+    }
+
+    /**
+     * Explicit init for a DOM node (used when autoSearch misses late-shown inputs).
+     *
+     * @param {Element} container
+     * @returns {void}
+     */
+    function initContainer(container) {
+        if (!enabled || !scriptLoaded || !window.WEBSPELLCHECKER || !_.isFunction(window.WEBSPELLCHECKER.init)) {
+            return;
+        }
+        window.WEBSPELLCHECKER.init({ container: container });
+        if (_.isFunction(window.WEBSPELLCHECKER.getInstances)) {
+            var instances = window.WEBSPELLCHECKER.getInstances();
+            if (instances && instances.length) {
+                setInstanceLanguage(instances[instances.length - 1]);
+            }
+        }
+    }
+
     var bindAttempts = 0;
     var loadAttempts = 0;
     function scheduleLoad() {
@@ -272,6 +309,8 @@ define([
         configure: configure,
         start: scheduleLoad,
         setLanguage: setLanguage,
+        whenReady: whenReady,
+        initContainer: initContainer,
         getCkeditorConfig: function () {
             return { disableNativeSpellChecker: false };
         }

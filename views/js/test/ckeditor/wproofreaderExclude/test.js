@@ -35,7 +35,7 @@ define([
     QUnit.test('defaults exclude math, QTI widgets, code and source mode', function (assert) {
         var options = wproofreaderExclude.buildWscExcludeOptions({});
 
-        assert.expect(6);
+        assert.expect(7);
 
         assert.ok(
             options.ignoreClasses.indexOf('math-tex') !== -1,
@@ -46,8 +46,8 @@ define([
             'CKEditor widget wrappers are ignored'
         );
         assert.ok(
-            options.ignoreClasses.indexOf('widget-box') !== -1,
-            'QTI widgets are ignored'
+            options.ignoreClasses.indexOf('widget-box') === -1,
+            'widget containers are not ignoreClasses so inputs inside can be checked'
         );
         assert.ok(
             options.ignoreElements.indexOf('pre') !== -1 && options.ignoreElements.indexOf('code') !== -1,
@@ -60,6 +60,10 @@ define([
         assert.ok(
             options.disableAutoSearchIn.indexOf('.cke_source') !== -1,
             'source mode stays out of auto-search'
+        );
+        assert.ok(
+            options.enableAutoSearchIn.indexOf('input.text-entry-authoring-spellcheck') !== -1,
+            'text entry authoring inputs are opted into auto-search'
         );
     });
 
