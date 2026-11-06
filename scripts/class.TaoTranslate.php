@@ -17,7 +17,7 @@ use oat\tao\model\menu\MenuService;
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA
  *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
  *                         (under the project TAO & TAO2);
@@ -1446,8 +1446,8 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                     );
                     $depPath = $this->buildLanguagePath(
                         $depExtId,
-                        tao_helpers_translation_Utils::getDefaultLanguage() . '/' . self::DEF_PO_FILENAME
-                    );
+                        tao_helpers_translation_Utils::getDefaultLanguage()
+                    ) . '/' . self::DEF_PO_FILENAME;
 
                     if (!file_exists($depPath) || !is_readable($depPath)) {
                         $this->outVerbose("Dependency on extension '{$depExtId}' in '{$language}' does not exist.");
@@ -1539,9 +1539,9 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                         "JavaScript compiled translations for extension '{$extension}' with '{$language}' written."
                     );
                 } else {
-                    // ponytail: missing locale dirs (e.g. empty/stub) — warn and skip so compileAll keeps going
-                    $this->err(
-                        "PO file '{$path}' for extension '{$extension}' with language '{$language}' cannot be read."
+                    $this->warn(
+                        "Skipping compile for extension '{$extension}' and language '{$language}': "
+                            . "no readable PO at '{$path}' (locale missing or not supported in this package yet)."
                     );
                     continue;
                 }
