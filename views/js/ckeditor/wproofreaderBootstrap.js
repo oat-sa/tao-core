@@ -284,14 +284,20 @@ define([
             return;
         }
 
+        // Explicit '' (item has no language): do not fall back to document / browser or default dictionary.
+        var explicitEmpty = lang !== undefined && lang !== null && _.trim(String(lang)) === '';
+
         lang = normalizeLangTag(lang);
-        if (!lang && typeof document !== 'undefined' && document.documentElement) {
-            lang = normalizeLangTag(document.documentElement.lang);
+        if (!explicitEmpty) {
+            if (!lang && typeof document !== 'undefined' && document.documentElement) {
+                lang = normalizeLangTag(document.documentElement.lang);
+            }
+            if (!lang && typeof navigator !== 'undefined' && navigator.language) {
+                lang = normalizeLangTag(navigator.language);
+            }
         }
-        if (!lang && typeof navigator !== 'undefined' && navigator.language) {
-            lang = normalizeLangTag(navigator.language);
-        }
-        selectedLanguage = lang || 'en_US';
+
+        selectedLanguage = explicitEmpty ? '' : lang || 'en_US';
         config.autoStartup = !!selectedLanguage;
         config.lang = selectedLanguage || '';
 
