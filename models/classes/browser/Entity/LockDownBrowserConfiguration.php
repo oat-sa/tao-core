@@ -39,7 +39,8 @@ final class LockDownBrowserConfiguration implements JsonSerializable
         public readonly bool $displayExitButtonTestRunner = false,
         public readonly bool $displayExitButtonLogin = false,
         public readonly bool $displayExitButtonTestSelection = false,
-        public readonly bool $displayBackToTestSelectionButton = false
+        public readonly bool $displayBackToTestSelectionButton = false,
+        public readonly int $ldbApiTimeout = 10000
     ) {
     }
 
@@ -59,7 +60,8 @@ final class LockDownBrowserConfiguration implements JsonSerializable
             'displayExitButtonTestRunner' => $this->displayExitButtonTestRunner,
             'displayExitButtonLogin' => $this->displayExitButtonLogin,
             'displayExitButtonTestSelection' => $this->displayExitButtonTestSelection,
-            'displayBackToTestSelectionButton' => $this->displayBackToTestSelectionButton
+            'displayBackToTestSelectionButton' => $this->displayBackToTestSelectionButton,
+            'ldbApiTimeout' => $this->ldbApiTimeout,
         ];
     }
 }

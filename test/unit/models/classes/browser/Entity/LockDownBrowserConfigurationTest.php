@@ -59,6 +59,7 @@ class LockDownBrowserConfigurationTest extends TestCase
                 'displayExitButtonLogin' => false,
                 'displayExitButtonTestSelection' => false,
                 'displayBackToTestSelectionButton' => false,
+                'ldbApiTimeout' => 10000,
             ],
             $configuration->jsonSerialize()
         );
@@ -81,6 +82,7 @@ class LockDownBrowserConfigurationTest extends TestCase
                 'displayExitButtonLogin' => false,
                 'displayExitButtonTestSelection' => false,
                 'displayBackToTestSelectionButton' => false,
+                'ldbApiTimeout' => 10000,
             ],
             $configuration->jsonSerialize()
         );

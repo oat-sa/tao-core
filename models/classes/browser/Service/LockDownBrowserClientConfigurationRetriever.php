@@ -38,7 +38,8 @@ class LockDownBrowserClientConfigurationRetriever
         'displayExitButtonTestRunner' => false,
         'displayExitButtonLogin' => false,
         'displayExitButtonTestSelection' => false,
-        'displayBackToTestSelectionButton' => false
+        'displayBackToTestSelectionButton' => false,
+        'ldbApiTimeout' => 10000,
     ];
 
     private array $config;
@@ -69,6 +70,12 @@ class LockDownBrowserClientConfigurationRetriever
             $mockActiveProcesses = [];
         }
 
+        $ldbApiTimeout = (int)($this->config['ldbApiTimeout'] ?? self::DEFAULT_CONFIG['ldbApiTimeout']);
+
+        if ($ldbApiTimeout <= 0) {
+            $ldbApiTimeout = self::DEFAULT_CONFIG['ldbApiTimeout'];
+        }
+
         return new LockDownBrowserConfiguration(
             $interval > 0 ? $interval : null,
             (bool)($this->config['processCheckOnTestNavigation'] ?? true),
@@ -78,7 +85,8 @@ class LockDownBrowserClientConfigurationRetriever
             filter_var($this->config['displayExitButtonTestRunner'] ?? false, FILTER_VALIDATE_BOOLEAN),
             filter_var($this->config['displayExitButtonLogin'] ?? false, FILTER_VALIDATE_BOOLEAN),
             filter_var($this->config['displayExitButtonTestSelection'] ?? false, FILTER_VALIDATE_BOOLEAN),
-            filter_var($this->config['displayBackToTestSelectionButton'] ?? false, FILTER_VALIDATE_BOOLEAN)
+            filter_var($this->config['displayBackToTestSelectionButton'] ?? false, FILTER_VALIDATE_BOOLEAN),
+            $ldbApiTimeout
         );
     }
 }
