@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
  */
@@ -26,7 +26,9 @@ use common_ext_ExtensionsManager;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\cache\SimpleCache;
+use oat\oatbox\session\SessionService;
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\tenantConfiguration\Service\ConfigurationService;
 use oat\tao\model\featureFlag\Listener\FeatureFlagCacheWarmupListener;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepository;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
@@ -63,6 +65,20 @@ class FeatureFlagServiceProvider implements ContainerServiceProviderInterface
                     service(self::CONTAINER_SERVICE_ID),
                 ]
             );
+
+        $services
+            ->set(WProofreaderClientConfigHandler::class)
+            ->public()
+            ->args(
+                [
+                    service(ConfigurationService::class),
+                    service(SessionService::SERVICE_ID),
+                ]
+            );
+
+        $services
+            ->get(FeatureFlagConfigSwitcher::class)
+            ->call('addClientConfigHandler', [WProofreaderClientConfigHandler::class]);
 
         $services
             ->set(FeatureFlagRepositoryInterface::class, FeatureFlagRepository::class)
