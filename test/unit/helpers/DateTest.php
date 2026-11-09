@@ -22,11 +22,42 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\helpers;
 
+use common_Exception;
+use core_kernel_classes_Literal;
+use DateTime;
+use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use tao_helpers_Date as DateHelper;
 
 class DateTest extends TestCase
 {
+    public function testDisplayDateRejectsNonNumericLiteral(): void
+    {
+        $this->expectException(common_Exception::class);
+        $this->expectExceptionMessage('Unexpected timestamp');
+
+        DateHelper::displayeDate(new core_kernel_classes_Literal('test'));
+    }
+
+    public function testDisplayDateRejectsNonFiniteNumericLiteral(): void
+    {
+        $this->expectException(common_Exception::class);
+        $this->expectExceptionMessage('Unexpected timestamp');
+
+        DateHelper::displayeDate(new core_kernel_classes_Literal('1e309'));
+    }
+
+    public function testFormatTimestampForUuCarriesRoundedMicroseconds(): void
+    {
+        $formatted = DateHelper::formatTimestampForUu(0.9999995);
+
+        $this->assertSame('1.000000', $formatted);
+        $this->assertInstanceOf(
+            DateTime::class,
+            DateTime::createFromFormat('U.u', $formatted, new DateTimeZone('UTC'))
+        );
+    }
+
     /**
      * @dataProvider microtimeProvider
      */
