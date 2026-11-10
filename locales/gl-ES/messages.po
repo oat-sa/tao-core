@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-10 14:25\n"
+"PO-Revision-Date: 2026-11-10 20:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: gl\n"
@@ -351,7 +351,8 @@ msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
+msgstr "Seguro que queres eliminar o recurso versionado?\n"
+"O historial tamén se perderá."
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
@@ -855,7 +856,8 @@ msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr ""
+msgstr "Desexa instalar a(s) seguinte(s) extensión(s):\n"
+"%s?"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -1768,7 +1770,7 @@ msgid "Notifications"
 msgstr "Notificacións"
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr ""
+msgstr "Os controladores de notificacións non son persistentes. Usa un controlador de almacenamento de bases de datos persistente."
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "Os controladores de notificacións non son persistentes. Usa un controlador de almacenamento de bases de datos persistente."
