@@ -56,7 +56,7 @@ QUnit.test('offers a translated refresh action when config loading fails', funct
         'Impossibile caricare la configurazione richiesta. Aggiorna la pagina per riprovare.',
         'The frontend translated message is displayed'
     );
-    assert.strictEqual(refreshButton.textContent, 'Aggiorna', 'The translated refresh label is displayed');
+    assert.strictEqual(refreshButton.textContent, 'Ricarica', 'The translated refresh label is displayed');
     assert.strictEqual(document.activeElement, refreshButton, 'The Refresh button receives focus');
     assert.strictEqual(window.configBootstrapRequests.length, 1, 'The assessment does not continue after failure');
 
