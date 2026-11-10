@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-10 14:25\n"
+"PO-Revision-Date: 2026-11-10 18:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -56,9 +56,6 @@ msgstr "%d deň"
 msgid "%d days"
 msgstr "%d dní"
 
-msgid "%d test"
-msgstr "%d test"
-
 msgid "%h hour"
 msgstr "%h hodina"
 
@@ -104,9 +101,6 @@ msgstr "%s vytvorené"
 msgid "%s extension(s) to install."
 msgstr "%s rozšírení na inštaláciu."
 
-msgid "%s filters applied"
-msgstr "Použité filtre %s"
-
 msgid "%s has been deleted"
 msgstr "%s bolo odstránených"
 
@@ -137,9 +131,6 @@ msgstr "(prázdne)"
 msgid "... reloading page."
 msgstr "... stránka sa načítava."
 
-msgid "1 filter applied"
-msgstr "Použitý 1 filter"
-
 msgid "7-zip archive"
 msgstr "7-zip archív"
 
@@ -148,9 +139,6 @@ msgstr "<del>Filtre</del>"
 
 msgid "<del>Options</del>"
 msgstr "<del>Možnosti</del>"
-
-msgid "<strong> %s </strong> has been completed."
-msgstr "<strong> %s </strong> bolo dokončené."
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr "<strong> %s </strong> bolo presunuté na pozadie."
@@ -241,9 +229,6 @@ msgstr "pridať kritériá"
 msgid "Add file(s)"
 msgstr "Pridať súbor(y)"
 
-msgid "Add filter"
-msgstr "Pridať filter"
-
 msgid "Add index"
 msgstr "Pridať index"
 
@@ -325,9 +310,6 @@ msgstr "Analytické súbory cookie"
 msgid "and"
 msgstr "a"
 
-msgid "and its subfolders"
-msgstr "a jeho podpriečinky"
-
 msgid "Ans"
 msgstr "Odp"
 
@@ -354,11 +336,6 @@ msgid "Are you sure to delete the versioned resource?\n"
 msgstr "Naozaj chcete odstrániť zdroj s verziou?\n"
 "Zároveň sa stratí aj história."
 
-msgid "Are you sure to delete the versioned resource?\n"
-"The history will be lost as well."
-msgstr "Naozaj chcete odstrániť verzovaný zdroj?\n"
-"Stratí sa aj história."
-
 msgid "Are you sure you want to delete it?"
 msgstr "Naozaj to chcete odstrániť?"
 
@@ -374,12 +351,6 @@ msgstr "Naozaj to chcete odstrániť?"
 msgid "Argument check failed: %s"
 msgstr "Kontrola argumentu zlyhala: %s"
 
-msgid "Argument unexpected for: %s"
-msgstr "Neočakávaný argument pre: %s"
-
-msgid "Argument: %s, Given: %s, Choices: %s"
-msgstr "Argument: %s, Dané: %s, Možnosti: %s"
-
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr "Argumenty %s a %s sa vzájomne vylučujú"
 
@@ -388,9 +359,6 @@ msgstr "Oddeľovač argumentov"
 
 msgid "array"
 msgstr "pole"
-
-msgid "Assets"
-msgstr "Zdroje"
 
 msgid "Assign"
 msgstr "Priradiť"
@@ -572,9 +540,6 @@ msgid "Clear"
 msgstr "Vymazať"
 
 msgid "Clear All"
-msgstr "Vymazať všetko"
-
-msgid "Clear all"
 msgstr "Vymazať všetko"
 
 msgid "Clear all data"
@@ -760,9 +725,6 @@ msgstr "dátum a čas"
 msgid "date time range"
 msgstr "rozsah dátumu a času"
 
-msgid "default"
-msgstr "predvolené"
-
 msgid "Default search"
 msgstr "Predvolené vyhľadávanie"
 
@@ -809,12 +771,6 @@ msgstr "Cesta URI závislosti"
 msgid "Depends on property"
 msgstr "Závisí od vlastnosti"
 
-msgid "deprecated"
-msgstr "zastarané"
-
-msgid "deprecated: %s"
-msgstr "zastarané: %s"
-
 msgid "Did you mean %s?"
 msgstr "Mali ste na mysli %s?"
 
@@ -853,11 +809,6 @@ msgstr "Zakázané %s"
 
 msgid "Do you want to override \"%s\"?"
 msgstr "Chcete prepísať „%s“?"
-
-msgid "Do you wish to install the following extension(s):\n"
-"%s?"
-msgstr "Chcete nainštalovať nasledujúce rozšírenie (rozšírenia):\n"
-"%s?"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -972,9 +923,6 @@ msgstr "skúsenosť"
 
 msgid "Exponent"
 msgstr "Exponent"
-
-msgid "Exit"
-msgstr "Ukončiť"
 
 #, tao-public
 msgid "Export"
@@ -1298,12 +1246,6 @@ msgstr "Jazyk rozhrania"
 msgid "Interface Mode"
 msgstr "Režim rozhrania"
 
-msgid "Invalid configuration: %s, opts.count excludes opts.array."
-msgstr "Neplatná konfigurácia: %s, opts.count nezahŕňa opts.array."
-
-msgid "Invalid configuration: %s, opts.count excludes opts.narg."
-msgstr "Neplatná konfigurácia: %s, opts.count nezahŕňa opts.narg."
-
 msgid "Invalid CSP header."
 msgstr "Neplatná hlavička CSP."
 
@@ -1391,9 +1333,6 @@ msgstr "Jazyk"
 msgid "Last attempt before your account is locked."
 msgstr "Posledný pokus pred zablokovaním vášho účtu."
 
-msgid "Last modified on"
-msgstr "Naposledy upravené dňa"
-
 msgid "Last Name"
 msgstr "Priezvisko"
 
@@ -1453,9 +1392,6 @@ msgstr "Stav načítavania"
 
 msgid "Loading task status ..."
 msgstr "Načítava sa stav úlohy..."
-
-msgid "Location"
-msgstr "Poloha"
 
 msgid "locked by %s"
 msgstr "uzamknuté používateľom %s"
@@ -1548,9 +1484,6 @@ msgstr "Správy"
 
 msgid "Metadata export is not available for the selected resource."
 msgstr "Export metadát nie je pre vybraný zdroj k dispozícii."
-
-msgid "Metadata filters require indexed search."
-msgstr "Filtre metadát vyžadujú indexované vyhľadávanie."
 
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
@@ -1708,9 +1641,6 @@ msgstr "Nie"
 msgid "No action specified"
 msgstr "Žiadna akcia nie je zadaná"
 
-msgid "No assets match your search."
-msgstr "Žiadne aktíva nezodpovedajú vášmu vyhľadávaniu."
-
 msgid "No client translation bundles updated"
 msgstr "Neboli aktualizované žiadne balíky prekladov klienta"
 
@@ -1772,9 +1702,6 @@ msgstr "Upozornenia"
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "Oznámenia ovládačov nie sú trvalé. Použite ovládač s trvalým ukladaním do databázy."
 
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr "Ovládače upozornení nie sú trvalé. Použite ovládač trvalého úložiska databázy."
-
 msgid "Nth root"
 msgstr "N-tý koreň"
 
@@ -1834,9 +1761,6 @@ msgstr "Šablóna textu OpenDocument"
 
 msgid "Operated By "
 msgstr "Prevádzkované spoločnosťou "
-
-msgid "Options:"
-msgstr "Možnosti:"
 
 msgid "or"
 msgstr "alebo"
@@ -2169,9 +2093,6 @@ msgstr "Zdroj uložený"
 msgid "resources"
 msgstr "zdroje"
 
-msgid "Resources"
-msgstr "Zdroje"
-
 msgid "Resources moved"
 msgstr "Presunuté zdroje"
 
@@ -2186,9 +2107,6 @@ msgstr "Responzívny režim"
 
 msgid "Restore sound"
 msgstr "Obnoviť zvuk"
-
-msgid "Retry"
-msgstr "Skúsiť znova"
 
 msgid "Return to sign in page"
 msgstr "Späť na prihlasovaciu stránku"
@@ -2248,26 +2166,11 @@ msgstr "Hľadať"
 msgid "Search %s"
 msgstr "Hľadať %s"
 
-msgid "Search by name or label"
-msgstr "Hľadať podľa názvu alebo štítku"
-
 msgid "Search by properties"
 msgstr "Hľadať podľa vlastností"
 
-msgid "Search is unavailable for this endpoint."
-msgstr "Vyhľadávanie nie je pre tento koncový bod k dispozícii."
-
-msgid "Search results"
-msgstr "Výsledky vyhľadávania"
-
 msgid "Search sub-classes"
 msgstr "Vyhľadávanie podtried"
-
-msgid "Searching"
-msgstr "Hľadanie"
-
-msgid "Searching in:"
-msgstr "Hľadá sa v:"
 
 msgid "second"
 msgstr "druhý"
@@ -2769,17 +2672,8 @@ msgstr "Nedá sa uvoľniť zámok"
 msgid "Unable to remove the property."
 msgstr "Vlastnosť sa nepodarilo odstrániť."
 
-msgid "Unable to resolve the current asset. You can still browse and select another file."
-msgstr "Aktuálny súbor sa nepodarilo rozpoznať. Stále môžete prehliadať a vybrať iný súbor."
-
-msgid "Unable to load the required configuration. Refresh the page to try again."
-msgstr "Nepodarilo sa načítať požadovanú konfiguráciu. Obnovte stránku a skúste to znova."
-
 msgid "Unable to save resource."
 msgstr "Nepodarilo sa uložiť zdroj."
-
-msgid "Unable to search assets. Please try again."
-msgstr "Nepodarilo sa vyhľadať aktíva. Skúste to znova."
 
 msgid "unable to search into notification."
 msgstr "Nedá sa vyhľadávať v oznámeniach."
