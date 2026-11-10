@@ -960,6 +960,9 @@ msgstr ""
 msgid "Exponent"
 msgstr ""
 
+msgid "Exit"
+msgstr ""
+
 #, tao-public
 msgid "Export"
 msgstr ""
@@ -2754,6 +2757,9 @@ msgid "Unable to remove the property."
 msgstr ""
 
 msgid "Unable to resolve the current asset. You can still browse and select another file."
+msgstr ""
+
+msgid "Unable to load the required configuration. Refresh the page to try again."
 msgstr ""
 
 msgid "Unable to save resource."

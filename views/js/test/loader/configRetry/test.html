@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="utf-8">
+    <title>Client config refresh dependencies</title>
+    <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+    <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css">
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script
+        id="amd-loader"
+        src="/tao/views/js/lib/require.js"
+        data-main="/tao/views/js/loader/bootstrap.js"
+        data-config="/tao/views/js/test/loader/configRetry/missing-config.js"
+        data-controller="controller/main"
+    ></script>
+    <script type="text/javascript" src="test.js"></script>
+</body>
+</html>
