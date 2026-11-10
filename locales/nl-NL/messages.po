@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-10 14:25\n"
+"PO-Revision-Date: 2026-11-10 18:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl\n"
@@ -56,9 +56,6 @@ msgstr "%d dag"
 msgid "%d days"
 msgstr "%d dagen"
 
-msgid "%d test"
-msgstr "%d test"
-
 msgid "%h hour"
 msgstr "%h uur"
 
@@ -104,9 +101,6 @@ msgstr "%s aangemaakt"
 msgid "%s extension(s) to install."
 msgstr "%s van de te installeren extensie(s)"
 
-msgid "%s filters applied"
-msgstr "%s filters toegepast"
-
 msgid "%s has been deleted"
 msgstr "%s is verwijderd"
 
@@ -137,9 +131,6 @@ msgstr "(leeg)"
 msgid "... reloading page."
 msgstr "...pagina aan het herladen"
 
-msgid "1 filter applied"
-msgstr "1 filter toegepast"
-
 msgid "7-zip archive"
 msgstr "7-zip bestand"
 
@@ -148,9 +139,6 @@ msgstr "<del>Filters</del>"
 
 msgid "<del>Options</del>"
 msgstr "<del>Opties</del>"
-
-msgid "<strong> %s </strong> has been completed."
-msgstr "<strong> %s </strong> is voltooid."
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr "<strong> %s </strong> is verplaatst naar de achtergrond."
@@ -241,9 +229,6 @@ msgstr "criteria toevoegen"
 msgid "Add file(s)"
 msgstr "Voeg bestand(en) toe"
 
-msgid "Add filter"
-msgstr "Filter toevoegen"
-
 msgid "Add index"
 msgstr "Index toevoegen"
 
@@ -325,9 +310,6 @@ msgstr "Cookies voor Analytics"
 msgid "and"
 msgstr "en"
 
-msgid "and its subfolders"
-msgstr "en zijn submappen"
-
 msgid "Ans"
 msgstr "Ans"
 
@@ -354,11 +336,6 @@ msgid "Are you sure to delete the versioned resource?\n"
 msgstr "Weet u zeker dat u de bron met deze versie wilt verwijderen?\n"
 "De geschiedenis gaat dan ook verloren."
 
-msgid "Are you sure to delete the versioned resource?\n"
-"The history will be lost as well."
-msgstr "Weet u zeker dat u de versie wilt verwijderen?\n"
-"De geschiedenis zal ook verloren gaan."
-
 msgid "Are you sure you want to delete it?"
 msgstr "Weet u zeker dat u het wilt verwijderen?"
 
@@ -374,12 +351,6 @@ msgstr "Weet u zeker dat u het wilt verwijderen"
 msgid "Argument check failed: %s"
 msgstr "Argument controle mislukt: %s"
 
-msgid "Argument unexpected for: %s"
-msgstr "Argument onverwacht voor: %s"
-
-msgid "Argument: %s, Given: %s, Choices: %s"
-msgstr "Argument: %s, Geld: %s, Keuzes: %s"
-
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr "Argumenten %s en %s sluiten elkaar uit"
 
@@ -388,9 +359,6 @@ msgstr "Scheidingsteken argumenten"
 
 msgid "array"
 msgstr "matrix"
-
-msgid "Assets"
-msgstr "Activa"
 
 msgid "Assign"
 msgstr "Toewijzen"
@@ -572,9 +540,6 @@ msgid "Clear"
 msgstr "Wissen"
 
 msgid "Clear All"
-msgstr "Alles wissen"
-
-msgid "Clear all"
 msgstr "Alles wissen"
 
 msgid "Clear all data"
@@ -760,9 +725,6 @@ msgstr "datum tijd"
 msgid "date time range"
 msgstr "datum tijdbereik"
 
-msgid "default"
-msgstr "standaard"
-
 msgid "Default search"
 msgstr "Standaard zoekopdracht"
 
@@ -809,12 +771,6 @@ msgstr "Afhankelijke URI Pad"
 msgid "Depends on property"
 msgstr "Afhankelijk van eigenschap"
 
-msgid "deprecated"
-msgstr "verouderd"
-
-msgid "deprecated: %s"
-msgstr "verouderd: %s"
-
 msgid "Did you mean %s?"
 msgstr "Bedoelde u %s?"
 
@@ -857,11 +813,6 @@ msgstr "Wilt u overschrijven \"%s\"?"
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr "Wilt u de volgende extensie(s) instaleren:\n"
-"%s?"
-
-msgid "Do you wish to install the following extension(s):\n"
-"%s?"
-msgstr "Wilt u de volgende extensies installeren:\n"
 "%s?"
 
 msgid "Document templates (Staroffice)"
@@ -972,9 +923,6 @@ msgstr "exp"
 
 msgid "Exponent"
 msgstr "Exponent"
-
-msgid "Exit"
-msgstr "Afsluiten"
 
 #, tao-public
 msgid "Export"
@@ -1298,12 +1246,6 @@ msgstr "Taal van de omgeving"
 msgid "Interface Mode"
 msgstr "Interface modus"
 
-msgid "Invalid configuration: %s, opts.count excludes opts.array."
-msgstr "Ongeldige configuratie: %s, opts.count exclusief opts.array."
-
-msgid "Invalid configuration: %s, opts.count excludes opts.narg."
-msgstr "Ongeldige configuratie: %s, opts.count exclusief opts.narg."
-
 msgid "Invalid CSP header."
 msgstr "Ongeldige CSP-header."
 
@@ -1391,9 +1333,6 @@ msgstr "Taal"
 msgid "Last attempt before your account is locked."
 msgstr "Laatste poging voordat uw account wordt vergrendeld."
 
-msgid "Last modified on"
-msgstr "Laatst gewijzigd op"
-
 msgid "Last Name"
 msgstr "Achternaam"
 
@@ -1453,9 +1392,6 @@ msgstr "Laadstatus"
 
 msgid "Loading task status ..."
 msgstr "Laadtaak status ..."
-
-msgid "Location"
-msgstr "Locatie"
 
 msgid "locked by %s"
 msgstr "vergrendeld door %s"
@@ -1548,9 +1484,6 @@ msgstr "Berichten"
 
 msgid "Metadata export is not available for the selected resource."
 msgstr "Metadata export is niet beschikbaar voor de geselecteerde resource."
-
-msgid "Metadata filters require indexed search."
-msgstr "Metadata filters vereisen geïndexeerde zoekopdracht."
 
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
@@ -1708,9 +1641,6 @@ msgstr "Nee"
 msgid "No action specified"
 msgstr "Geen handeling aangegeven"
 
-msgid "No assets match your search."
-msgstr "Er zijn geen assets die overeenkomen met uw zoekopdracht."
-
 msgid "No client translation bundles updated"
 msgstr "Geen klantvertalingsbundels bijgewerkt"
 
@@ -1768,9 +1698,6 @@ msgstr "Niets om te laten zien!"
 #, tao-public
 msgid "Notifications"
 msgstr "Notificaties"
-
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr "meldingen drivers zijn niet hardnekkig. Gebruik een persistente database opslag driver"
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "meldingen drivers zijn niet hardnekkig. Gebruik een persistente database opslag driver"
@@ -1834,9 +1761,6 @@ msgstr "OpenDocument Tekst sjabloon"
 
 msgid "Operated By "
 msgstr "Beheerd door "
-
-msgid "Options:"
-msgstr "Opties:"
 
 msgid "or"
 msgstr "of"
@@ -2169,9 +2093,6 @@ msgstr "Bron is opgeslagen"
 msgid "resources"
 msgstr "bronnen"
 
-msgid "Resources"
-msgstr "Hulpmiddelen"
-
 msgid "Resources moved"
 msgstr "Bronnen verplaatst"
 
@@ -2186,9 +2107,6 @@ msgstr "Responsive modus"
 
 msgid "Restore sound"
 msgstr "Geluid herstellen"
-
-msgid "Retry"
-msgstr "Opnieuw"
 
 msgid "Return to sign in page"
 msgstr "Keer terug naar de login pagina"
@@ -2248,26 +2166,11 @@ msgstr "Zoeken"
 msgid "Search %s"
 msgstr "Zoek %s"
 
-msgid "Search by name or label"
-msgstr "Zoeken op naam of label"
-
 msgid "Search by properties"
 msgstr "Zoeken op eigenschappen"
 
-msgid "Search is unavailable for this endpoint."
-msgstr "Zoeken is niet beschikbaar voor dit eindpunt."
-
-msgid "Search results"
-msgstr "Zoek resultaten"
-
 msgid "Search sub-classes"
 msgstr "Zoek sub-klassen"
-
-msgid "Searching"
-msgstr "Zoeken"
-
-msgid "Searching in:"
-msgstr "Zoeken in:"
 
 msgid "second"
 msgstr "seconde"
@@ -2769,17 +2672,8 @@ msgstr "Kan de blokkade niet vrijgeven"
 msgid "Unable to remove the property."
 msgstr "Kan eigenschap niet verwijderen"
 
-msgid "Unable to resolve the current asset. You can still browse and select another file."
-msgstr "Kan het huidige bestand niet oplossen. U kunt nog steeds bladeren en een ander bestand selecteren."
-
-msgid "Unable to load the required configuration. Refresh the page to try again."
-msgstr "Kan de vereiste configuratie niet laden. Vernieuw de pagina om het opnieuw te proberen."
-
 msgid "Unable to save resource."
 msgstr "Niet in staat om resource te sparen."
-
-msgid "Unable to search assets. Please try again."
-msgstr "Kan assets niet zoeken. Probeer het opnieuw."
 
 msgid "unable to search into notification."
 msgstr "niet in staat om te zoeken binnen de notificatie."
