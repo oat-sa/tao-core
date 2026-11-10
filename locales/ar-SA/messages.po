@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-01-19 13:16\n"
+"PO-Revision-Date: 2026-11-10 14:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -56,6 +56,9 @@ msgstr "%d من يوم"
 msgid "%d days"
 msgstr "%d من أيام"
 
+msgid "%d test"
+msgstr "اختبار %d"
+
 msgid "%h hour"
 msgstr "%h من ساعة"
 
@@ -101,6 +104,9 @@ msgstr "تم الإنشاء %s"
 msgid "%s extension(s) to install."
 msgstr "%s الملحقات المراد تثبيتها."
 
+msgid "%s filters applied"
+msgstr "تم تطبيق الفلاتر %s"
+
 msgid "%s has been deleted"
 msgstr "تم حذف %s"
 
@@ -131,6 +137,9 @@ msgstr "(فارغ)"
 msgid "... reloading page."
 msgstr "إعادة تحميل الصفحة."
 
+msgid "1 filter applied"
+msgstr "تم تطبيق عامل تصفية واحد"
+
 msgid "7-zip archive"
 msgstr "أرشيف 7-zip"
 
@@ -139,6 +148,9 @@ msgstr "<del> المفرزات </del>"
 
 msgid "<del>Options</del>"
 msgstr "<del> خيارات </del>"
+
+msgid "<strong> %s </strong> has been completed."
+msgstr "تم إكمال <strong> %s </strong>"
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr "تم نقل <strong> %s </strong> إلى الخلفية."
@@ -229,6 +241,9 @@ msgstr "أضف معايير"
 msgid "Add file(s)"
 msgstr "أضف ملفات"
 
+msgid "Add filter"
+msgstr "إضافة فلتر"
+
 msgid "Add index"
 msgstr "إضافة فِهْرِس"
 
@@ -310,6 +325,9 @@ msgstr "ملفات تعريف الارتباط بالتحليلات"
 msgid "and"
 msgstr "و"
 
+msgid "and its subfolders"
+msgstr "و مجلداته الفرعية"
+
 msgid "Ans"
 msgstr "Ans"
 
@@ -336,6 +354,11 @@ msgid "Are you sure to delete the versioned resource?\n"
 msgstr "هل أنت متأكد من حذف المورد الذي تم إصداره؟\n"
 "السجلات الزمنية ستحذف أيضا"
 
+msgid "Are you sure to delete the versioned resource?\n"
+"The history will be lost as well."
+msgstr "هل أنت متأكد من حذف مورد الإصدار؟\n"
+"سيتم فقدان المحفوظات أيضًا."
+
 msgid "Are you sure you want to delete it?"
 msgstr "هل أنت متأكد أنك تريد حذف ذلك؟"
 
@@ -351,6 +374,12 @@ msgstr "هل أنت متحقِّق من رغبتك في حذفه"
 msgid "Argument check failed: %s"
 msgstr "تعذر التحقق من الحجج: %s"
 
+msgid "Argument unexpected for: %s"
+msgstr "الحجة غير متوقعة لـ: %s"
+
+msgid "Argument: %s, Given: %s, Choices: %s"
+msgstr "الحجججة: %s، المعطا: %s، الخيارات: %s"
+
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr "حجج %s و %s تتنافى فيما بينها"
 
@@ -359,6 +388,9 @@ msgstr "فاصل بين الحجج"
 
 msgid "array"
 msgstr "مصفوفة"
+
+msgid "Assets"
+msgstr "أصول"
 
 msgid "Assign"
 msgstr "تعيين"
@@ -541,6 +573,9 @@ msgstr "واضح"
 
 msgid "Clear All"
 msgstr "امسح الكل"
+
+msgid "Clear all"
+msgstr "مسح الكل"
 
 msgid "Clear all data"
 msgstr "امسح كل البيانات  "
@@ -725,6 +760,9 @@ msgstr "التوقيت والتاريخ  "
 msgid "date time range"
 msgstr "المجال الزمني"
 
+msgid "default"
+msgstr "افتراضي"
+
 msgid "Default search"
 msgstr "البحث المعتاد"
 
@@ -771,6 +809,12 @@ msgstr "مسار URI التابع"
 msgid "Depends on property"
 msgstr "الاعتماد على الممتلكات"
 
+msgid "deprecated"
+msgstr "مهمل"
+
+msgid "deprecated: %s"
+msgstr "مهمل: %s"
+
 msgid "Did you mean %s?"
 msgstr "هل تقصد %s?"
 
@@ -814,6 +858,11 @@ msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr "هل ترغب في تثبيت الملحقات التالية:\n"
 " %s?"
+
+msgid "Do you wish to install the following extension(s):\n"
+"%s?"
+msgstr "هل ترغب في تثبيت الملحقات التالية:\n"
+"%s؟"
 
 msgid "Document templates (Staroffice)"
 msgstr "قوالب المستندات (Staroffice)"
@@ -923,6 +972,9 @@ msgstr "أس"
 
 msgid "Exponent"
 msgstr "متسارع"
+
+msgid "Exit"
+msgstr "خروج"
 
 #, tao-public
 msgid "Export"
@@ -1246,6 +1298,12 @@ msgstr "لغة الواجهة"
 msgid "Interface Mode"
 msgstr "وضع الواجهة"
 
+msgid "Invalid configuration: %s, opts.count excludes opts.array."
+msgstr "تكوين غير صالح: %s, opts.count يستبعد opts.array."
+
+msgid "Invalid configuration: %s, opts.count excludes opts.narg."
+msgstr "تكوين غير صالح: %s, opts.count يستبعد opts.narg."
+
 msgid "Invalid CSP header."
 msgstr "رأس CSP غير مضبوط."
 
@@ -1333,6 +1391,9 @@ msgstr "لغة"
 msgid "Last attempt before your account is locked."
 msgstr "آخر محاولة قبل إغلاق حسابك."
 
+msgid "Last modified on"
+msgstr "آخر تعديل في"
+
 msgid "Last Name"
 msgstr "الاسم العائلي "
 
@@ -1392,6 +1453,9 @@ msgstr "حالة التحميل"
 
 msgid "Loading task status ..."
 msgstr "جارٍ تحميل حالة المهمة ..."
+
+msgid "Location"
+msgstr "الموقع"
 
 msgid "locked by %s"
 msgstr "مؤمن من قبل %s"
@@ -1484,6 +1548,9 @@ msgstr "رسائل"
 
 msgid "Metadata export is not available for the selected resource."
 msgstr "لا يتوفر تصدير الميتابيانات  للمورد المحدد."
+
+msgid "Metadata filters require indexed search."
+msgstr "تتطلب فلاتر البيانات الوصفية بحثا مفهرسا."
 
 msgid "Microsoft Excel"
 msgstr "مايكروسوفت إكسل"
@@ -1641,6 +1708,9 @@ msgstr "لا"
 msgid "No action specified"
 msgstr "لم يتم تحديد أي إجراء"
 
+msgid "No assets match your search."
+msgstr "لا توجد أصول تطابق بحثك."
+
 msgid "No client translation bundles updated"
 msgstr "لم يتم تحديث رزم ترجمة الزبون"
 
@@ -1702,6 +1772,9 @@ msgstr "إشعارات"
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "برامج تشغيل الإشعارات ليست ثابتة. استخدم برنامج تشغيل تخزين قاعدة بيانات ثابت"
 
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
+msgstr "مشغلات الإشعارات غير ثابتة. استخدم مشغل تخزين قاعدة بيانات ثابت"
+
 msgid "Nth root"
 msgstr "الجذر التاسع"
 
@@ -1761,6 +1834,9 @@ msgstr "قالب نص OpenDocument"
 
 msgid "Operated By "
 msgstr "تدار من"
+
+msgid "Options:"
+msgstr "الخيارات:"
 
 msgid "or"
 msgstr "أو"
@@ -2093,6 +2169,9 @@ msgstr "تم حفظ المورد"
 msgid "resources"
 msgstr "موارد"
 
+msgid "Resources"
+msgstr "الموارد"
+
 msgid "Resources moved"
 msgstr "موارد معبأة "
 
@@ -2107,6 +2186,9 @@ msgstr "وضعية الاستجابة"
 
 msgid "Restore sound"
 msgstr "استعادة الصوت"
+
+msgid "Retry"
+msgstr "إعادة المحاولة"
 
 msgid "Return to sign in page"
 msgstr "العودة إلى صفحة تسجيل الدخول"
@@ -2166,11 +2248,26 @@ msgstr "بحث"
 msgid "Search %s"
 msgstr "بحث في %s"
 
+msgid "Search by name or label"
+msgstr "البحث عن طريق الاسم أو التسمية"
+
 msgid "Search by properties"
 msgstr "البحث عن طريق الخصائص"
 
+msgid "Search is unavailable for this endpoint."
+msgstr "البحث غير متوفر لنقطة النهاية هذه."
+
+msgid "Search results"
+msgstr "نتائج البحث"
+
 msgid "Search sub-classes"
 msgstr "بحث الأقسام الفرعية"
+
+msgid "Searching"
+msgstr "البحث"
+
+msgid "Searching in:"
+msgstr "البحث في:"
 
 msgid "second"
 msgstr "ثانية"
@@ -2672,8 +2769,17 @@ msgstr "غير قادر على تحرير القفل"
 msgid "Unable to remove the property."
 msgstr "غير قادر على إزالة الخاصية."
 
+msgid "Unable to resolve the current asset. You can still browse and select another file."
+msgstr "غير قادر على حل الأصل الحالي. لا يزال بإمكانك تصفح وتحديد ملف آخر."
+
+msgid "Unable to load the required configuration. Refresh the page to try again."
+msgstr "غير قادر على تحميل التكوين المطلوب. قم بتحديث الصفحة لإعادة المحاولة."
+
 msgid "Unable to save resource."
 msgstr "تعذر حفظ المورد."
+
+msgid "Unable to search assets. Please try again."
+msgstr "غير قادر على البحث عن الأصول. الرجاء المحاولة مرة أخرى."
 
 msgid "unable to search into notification."
 msgstr "غير قادر على البحث في الإشعار."
