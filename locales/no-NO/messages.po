@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-10 14:25\n"
+"PO-Revision-Date: 2026-11-10 18:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: no\n"
@@ -56,9 +56,6 @@ msgstr ""
 msgid "%d days"
 msgstr ""
 
-msgid "%d test"
-msgstr "%d test"
-
 msgid "%h hour"
 msgstr ""
 
@@ -104,9 +101,6 @@ msgstr ""
 msgid "%s extension(s) to install."
 msgstr ""
 
-msgid "%s filters applied"
-msgstr "%s filtre brukt"
-
 msgid "%s has been deleted"
 msgstr ""
 
@@ -137,9 +131,6 @@ msgstr ""
 msgid "... reloading page."
 msgstr ""
 
-msgid "1 filter applied"
-msgstr "1 filter brukt"
-
 msgid "7-zip archive"
 msgstr ""
 
@@ -148,9 +139,6 @@ msgstr ""
 
 msgid "<del>Options</del>"
 msgstr ""
-
-msgid "<strong> %s </strong> has been completed."
-msgstr "<strong> %s </strong> er fullført."
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr ""
@@ -241,9 +229,6 @@ msgstr ""
 msgid "Add file(s)"
 msgstr ""
 
-msgid "Add filter"
-msgstr "Legg til filter"
-
 msgid "Add index"
 msgstr ""
 
@@ -325,9 +310,6 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-msgid "and its subfolders"
-msgstr "og dens undermapper"
-
 msgid "Ans"
 msgstr ""
 
@@ -351,10 +333,6 @@ msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
-
-msgid "Are you sure to delete the versioned resource?\n"
-"The history will be lost as well."
 msgstr "Er du sikker på at du vil slette versjonen?\n"
 "Historien vil også bli tapt."
 
@@ -373,12 +351,6 @@ msgstr ""
 msgid "Argument check failed: %s"
 msgstr ""
 
-msgid "Argument unexpected for: %s"
-msgstr "Argumentet uventet for: %s"
-
-msgid "Argument: %s, Given: %s, Choices: %s"
-msgstr "Argument: %s, Given: %s, valg: %s"
-
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr ""
 
@@ -386,9 +358,6 @@ msgid "Arguments separator"
 msgstr ""
 
 msgid "array"
-msgstr ""
-
-msgid "Assets"
 msgstr ""
 
 msgid "Assign"
@@ -573,9 +542,6 @@ msgstr ""
 msgid "Clear All"
 msgstr ""
 
-msgid "Clear all"
-msgstr "Fjern alle"
-
 msgid "Clear all data"
 msgstr ""
 
@@ -759,9 +725,6 @@ msgstr ""
 msgid "date time range"
 msgstr ""
 
-msgid "default"
-msgstr ""
-
 msgid "Default search"
 msgstr ""
 
@@ -808,12 +771,6 @@ msgstr ""
 msgid "Depends on property"
 msgstr ""
 
-msgid "deprecated"
-msgstr "foreldet"
-
-msgid "deprecated: %s"
-msgstr ""
-
 msgid "Did you mean %s?"
 msgstr ""
 
@@ -851,10 +808,6 @@ msgid "Disabled %s"
 msgstr ""
 
 msgid "Do you want to override \"%s\"?"
-msgstr ""
-
-msgid "Do you wish to install the following extension(s):\n"
-"%s?"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -969,9 +922,6 @@ msgid "exp"
 msgstr ""
 
 msgid "Exponent"
-msgstr ""
-
-msgid "Exit"
 msgstr ""
 
 #, tao-public
@@ -1296,12 +1246,6 @@ msgstr ""
 msgid "Interface Mode"
 msgstr ""
 
-msgid "Invalid configuration: %s, opts.count excludes opts.array."
-msgstr "Ugyldig konfigurasjon: %s, opts.count ekskluderer opts.array."
-
-msgid "Invalid configuration: %s, opts.count excludes opts.narg."
-msgstr "Ugyldig konfigurasjon: %s, opts.count ekskluderer opts.narg."
-
 msgid "Invalid CSP header."
 msgstr ""
 
@@ -1389,9 +1333,6 @@ msgstr ""
 msgid "Last attempt before your account is locked."
 msgstr ""
 
-msgid "Last modified on"
-msgstr "Sist endret den"
-
 msgid "Last Name"
 msgstr ""
 
@@ -1451,9 +1392,6 @@ msgstr ""
 
 msgid "Loading task status ..."
 msgstr ""
-
-msgid "Location"
-msgstr "Sted"
 
 msgid "locked by %s"
 msgstr ""
@@ -1546,9 +1484,6 @@ msgstr ""
 
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
-
-msgid "Metadata filters require indexed search."
-msgstr "Metadata filtre krever indeksert søk."
 
 msgid "Microsoft Excel"
 msgstr ""
@@ -1706,9 +1641,6 @@ msgstr ""
 msgid "No action specified"
 msgstr ""
 
-msgid "No assets match your search."
-msgstr "Ingen eiendeler samsvarer med søket."
-
 msgid "No client translation bundles updated"
 msgstr ""
 
@@ -1765,9 +1697,6 @@ msgstr ""
 
 #, tao-public
 msgid "Notifications"
-msgstr ""
-
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
@@ -1832,9 +1761,6 @@ msgstr ""
 
 msgid "Operated By "
 msgstr ""
-
-msgid "Options:"
-msgstr "Alternativer:"
 
 msgid "or"
 msgstr ""
@@ -2167,9 +2093,6 @@ msgstr ""
 msgid "resources"
 msgstr ""
 
-msgid "Resources"
-msgstr "Ressurser"
-
 msgid "Resources moved"
 msgstr ""
 
@@ -2184,9 +2107,6 @@ msgstr ""
 
 msgid "Restore sound"
 msgstr ""
-
-msgid "Retry"
-msgstr "Prøv igjen"
 
 msgid "Return to sign in page"
 msgstr ""
@@ -2246,26 +2166,11 @@ msgstr ""
 msgid "Search %s"
 msgstr ""
 
-msgid "Search by name or label"
-msgstr "Søk etter navn eller etikett"
-
 msgid "Search by properties"
 msgstr ""
 
-msgid "Search is unavailable for this endpoint."
-msgstr "Søket er ikke tilgjengelig for dette endepunktet."
-
-msgid "Search results"
-msgstr "Søk i resultater"
-
 msgid "Search sub-classes"
 msgstr ""
-
-msgid "Searching"
-msgstr "Søker"
-
-msgid "Searching in:"
-msgstr "Søker i:"
 
 msgid "second"
 msgstr ""
@@ -2767,17 +2672,8 @@ msgstr ""
 msgid "Unable to remove the property."
 msgstr ""
 
-msgid "Unable to resolve the current asset. You can still browse and select another file."
-msgstr "Kunne ikke løse gjeldende eiendel. Du kan fremdeles bla gjennom og velge en annen fil."
-
-msgid "Unable to load the required configuration. Refresh the page to try again."
-msgstr "Kan ikke laste den nødvendige konfigurasjonen. Oppdater siden for å prøve på nytt."
-
 msgid "Unable to save resource."
 msgstr ""
-
-msgid "Unable to search assets. Please try again."
-msgstr "Kan ikke søke eiendelen. Vennligst prøv igjen."
 
 msgid "unable to search into notification."
 msgstr ""
