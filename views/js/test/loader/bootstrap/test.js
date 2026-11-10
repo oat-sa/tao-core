@@ -20,6 +20,8 @@ QUnit.module('Client config bootstrap');
 
 QUnit.test('offers a translated refresh action when config loading fails', function(assert) {
     var initialRequest = window.configBootstrapRequests[0];
+    var requireBaseUrl = new URL(window.bootstrapRequireConfig.baseUrl, window.location.origin);
+    var translationBundleUrl = new URL(window.bootstrapRequireConfig.paths.i18ntr, requireBaseUrl);
     var overlay;
     var modal;
     var message;
@@ -31,8 +33,8 @@ QUnit.test('offers a translated refresh action when config loading fails', funct
         'The client config is requested during bootstrap'
     );
     assert.strictEqual(
-        window.bootstrapRequireConfig.paths.i18ntr,
-        '../locales/it-IT',
+        translationBundleUrl.pathname,
+        '/tao/views/locales/it-IT',
         'The translation bundle matches the page language'
     );
 
