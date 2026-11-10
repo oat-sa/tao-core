@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-01-19 13:16\n"
+"PO-Revision-Date: 2026-11-10 14:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu\n"
@@ -56,6 +56,9 @@ msgstr "%d nap"
 msgid "%d days"
 msgstr "%d nap"
 
+msgid "%d test"
+msgstr "%d teszt"
+
 msgid "%h hour"
 msgstr "%h óra"
 
@@ -101,6 +104,9 @@ msgstr "%s létrehozva"
 msgid "%s extension(s) to install."
 msgstr "%s telepítendő bővítmény(ek)."
 
+msgid "%s filters applied"
+msgstr "%s szűrők alkalmazva"
+
 msgid "%s has been deleted"
 msgstr "%s törölve lett"
 
@@ -131,6 +137,9 @@ msgstr "(üres)"
 msgid "... reloading page."
 msgstr "... oldal újratöltése."
 
+msgid "1 filter applied"
+msgstr "1 szűrő alkalmazva"
+
 msgid "7-zip archive"
 msgstr "7 zip archívum"
 
@@ -139,6 +148,9 @@ msgstr "<del>Szűrők</del>"
 
 msgid "<del>Options</del>"
 msgstr "<del>Beállítások</del>"
+
+msgid "<strong> %s </strong> has been completed."
+msgstr "<strong> %s </strong> elkészült."
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr "<strong> %s </strong> a háttérbe került."
@@ -229,6 +241,9 @@ msgstr "kritériumok hozzáadása"
 msgid "Add file(s)"
 msgstr "Fájl(ok) hozzáadása"
 
+msgid "Add filter"
+msgstr "Szűrő hozzáadása"
+
 msgid "Add index"
 msgstr "Index hozzáadása"
 
@@ -310,6 +325,9 @@ msgstr "Analitikai sütik"
 msgid "and"
 msgstr "és"
 
+msgid "and its subfolders"
+msgstr "és annak almappái"
+
 msgid "Ans"
 msgstr "Válasz"
 
@@ -336,6 +354,11 @@ msgid "Are you sure to delete the versioned resource?\n"
 msgstr "Biztosan törli a verziózott erőforrást?\n"
 "A történet is elveszik."
 
+msgid "Are you sure to delete the versioned resource?\n"
+"The history will be lost as well."
+msgstr "Biztosan törli a verziózott erőforrást?\n"
+"Az előzmények is elvesznek."
+
 msgid "Are you sure you want to delete it?"
 msgstr "Biztosan törölni szeretnéd?"
 
@@ -351,6 +374,12 @@ msgstr "Biztosan törölni szeretnéd?"
 msgid "Argument check failed: %s"
 msgstr "Argumentumellenőrzés sikertelen: %s"
 
+msgid "Argument unexpected for: %s"
+msgstr "Váratlan argumentum a következőhöz: %s"
+
+msgid "Argument: %s, Given: %s, Choices: %s"
+msgstr "Argumentum: %s, Adott: %s, Választási lehetőségek: %s"
+
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr "A %s és %s argumentumok kölcsönösen kizárják egymást."
 
@@ -359,6 +388,9 @@ msgstr "Argumentum elválasztó"
 
 msgid "array"
 msgstr "sor"
+
+msgid "Assets"
+msgstr "Eszközök"
 
 msgid "Assign"
 msgstr "Hozzárendelés"
@@ -540,6 +572,9 @@ msgid "Clear"
 msgstr "Világos"
 
 msgid "Clear All"
+msgstr "Összes törlése"
+
+msgid "Clear all"
 msgstr "Összes törlése"
 
 msgid "Clear all data"
@@ -725,6 +760,9 @@ msgstr "dátum idő"
 msgid "date time range"
 msgstr "dátum-időtartomány"
 
+msgid "default"
+msgstr "alapértelmezett"
+
 msgid "Default search"
 msgstr "Alapértelmezett keresés"
 
@@ -771,6 +809,12 @@ msgstr "Függőség URI útvonala"
 msgid "Depends on property"
 msgstr "Az ingatlantól függ"
 
+msgid "deprecated"
+msgstr "elavult"
+
+msgid "deprecated: %s"
+msgstr "elavult: %s"
+
 msgid "Did you mean %s?"
 msgstr "Úgy érted, hogy %s?"
 
@@ -809,6 +853,11 @@ msgstr "Letiltva %s"
 
 msgid "Do you want to override \"%s\"?"
 msgstr "Felül szeretnéd írni a(z) \"%s\" értéket?"
+
+msgid "Do you wish to install the following extension(s):\n"
+"%s?"
+msgstr "Szeretnéd telepíteni a következő bővítmény(eke)t?\n"
+"%s?"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -923,6 +972,9 @@ msgstr "tapasztalat"
 
 msgid "Exponent"
 msgstr "Kitevő"
+
+msgid "Exit"
+msgstr "Kijárat"
 
 #, tao-public
 msgid "Export"
@@ -1246,6 +1298,12 @@ msgstr "Felhasználói felület nyelve"
 msgid "Interface Mode"
 msgstr "Interfész mód"
 
+msgid "Invalid configuration: %s, opts.count excludes opts.array."
+msgstr "Érvénytelen konfiguráció: %s, az opts.count kizárja az opts.array tömböt."
+
+msgid "Invalid configuration: %s, opts.count excludes opts.narg."
+msgstr "Érvénytelen konfiguráció: %s, az opts.count kizárja az opts.narg értéket."
+
 msgid "Invalid CSP header."
 msgstr "Érvénytelen CSP fejléc."
 
@@ -1333,6 +1391,9 @@ msgstr "Nyelv"
 msgid "Last attempt before your account is locked."
 msgstr "Utolsó próbálkozás a fiók zárolása előtt."
 
+msgid "Last modified on"
+msgstr "Utolsó módosítás dátuma:"
+
 msgid "Last Name"
 msgstr "Vezetéknév"
 
@@ -1392,6 +1453,9 @@ msgstr "Betöltési állapot"
 
 msgid "Loading task status ..."
 msgstr "Feladat állapotának betöltése..."
+
+msgid "Location"
+msgstr "Elhelyezkedés"
 
 msgid "locked by %s"
 msgstr "%szárolta"
@@ -1484,6 +1548,9 @@ msgstr "Üzenetek"
 
 msgid "Metadata export is not available for the selected resource."
 msgstr "A metaadatok exportálása nem érhető el a kiválasztott erőforráshoz."
+
+msgid "Metadata filters require indexed search."
+msgstr "A metaadat-szűrők indexelt keresést igényelnek."
 
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
@@ -1641,6 +1708,9 @@ msgstr "Nem"
 msgid "No action specified"
 msgstr "Nincs megadva művelet"
 
+msgid "No assets match your search."
+msgstr "Nincsenek a keresésnek megfelelő elemek."
+
 msgid "No client translation bundles updated"
 msgstr "Nincsenek frissített kliensfordítási csomagok"
 
@@ -1698,6 +1768,9 @@ msgstr "Nincs mit felsorolni!"
 #, tao-public
 msgid "Notifications"
 msgstr "Értesítések"
+
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
+msgstr "Az értesítési illesztőprogramok nem állandóak. Használjon állandó adatbázis-tároló illesztőprogramot."
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "Az értesítési illesztőprogramok nem állandóak. Használjon állandó adatbázis-tároló illesztőprogramot."
@@ -1761,6 +1834,9 @@ msgstr "OpenDocument szövegsablon"
 
 msgid "Operated By "
 msgstr "Üzemeltető "
+
+msgid "Options:"
+msgstr "Opciók:"
 
 msgid "or"
 msgstr "vagy"
@@ -2093,6 +2169,9 @@ msgstr "Erőforrás mentve"
 msgid "resources"
 msgstr "erőforrás"
 
+msgid "Resources"
+msgstr "Erőforrás"
+
 msgid "Resources moved"
 msgstr "Erőforrások áthelyezve"
 
@@ -2107,6 +2186,9 @@ msgstr "Reszponzív mód"
 
 msgid "Restore sound"
 msgstr "Hang visszaállítása"
+
+msgid "Retry"
+msgstr "Újrapróbálkozás"
 
 msgid "Return to sign in page"
 msgstr "Vissza a bejelentkezési oldalra"
@@ -2166,11 +2248,26 @@ msgstr "Keresés"
 msgid "Search %s"
 msgstr "Keresés %s"
 
+msgid "Search by name or label"
+msgstr "Keresés név vagy címke alapján"
+
 msgid "Search by properties"
 msgstr "Keresés ingatlanok szerint"
 
+msgid "Search is unavailable for this endpoint."
+msgstr "Ennél a végpontnál nem érhető el a keresés."
+
+msgid "Search results"
+msgstr "Keresési eredmények"
+
 msgid "Search sub-classes"
 msgstr "Alosztályok keresése"
+
+msgid "Searching"
+msgstr "Keresés"
+
+msgid "Searching in:"
+msgstr "Keresés itt:"
 
 msgid "second"
 msgstr "második"
@@ -2672,8 +2769,17 @@ msgstr "Nem sikerült feloldani a zárat"
 msgid "Unable to remove the property."
 msgstr "Nem sikerült eltávolítani a tulajdonságot."
 
+msgid "Unable to resolve the current asset. You can still browse and select another file."
+msgstr "Nem sikerült feloldani az aktuális elemet. Továbbra is böngészhet és kiválaszthat egy másik fájlt."
+
+msgid "Unable to load the required configuration. Refresh the page to try again."
+msgstr "Nem sikerült betölteni a szükséges konfigurációt. Frissítse az oldalt az újbóli próbálkozáshoz."
+
 msgid "Unable to save resource."
 msgstr "Nem sikerült menteni az erőforrást."
+
+msgid "Unable to search assets. Please try again."
+msgstr "Nem sikerült keresni az eszközök között. Próbáld újra."
 
 msgid "unable to search into notification."
 msgstr "nem lehet keresni az értesítésben."
