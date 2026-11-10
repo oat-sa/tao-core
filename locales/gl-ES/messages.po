@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-10 14:25\n"
+"PO-Revision-Date: 2026-11-10 18:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: gl\n"
@@ -56,9 +56,6 @@ msgstr ""
 msgid "%d days"
 msgstr "%d días"
 
-msgid "%d test"
-msgstr "proba %d"
-
 msgid "%h hour"
 msgstr ""
 
@@ -104,9 +101,6 @@ msgstr ""
 msgid "%s extension(s) to install."
 msgstr ""
 
-msgid "%s filters applied"
-msgstr "Filtros aplicados %s"
-
 msgid "%s has been deleted"
 msgstr ""
 
@@ -137,9 +131,6 @@ msgstr ""
 msgid "... reloading page."
 msgstr ""
 
-msgid "1 filter applied"
-msgstr "1 filtro aplicado"
-
 msgid "7-zip archive"
 msgstr "Arquivo 7-zip"
 
@@ -148,9 +139,6 @@ msgstr ""
 
 msgid "<del>Options</del>"
 msgstr ""
-
-msgid "<strong> %s </strong> has been completed."
-msgstr "<strong> %s </strong> completouse."
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr ""
@@ -241,9 +229,6 @@ msgstr ""
 msgid "Add file(s)"
 msgstr ""
 
-msgid "Add filter"
-msgstr "Engadir filtro"
-
 msgid "Add index"
 msgstr ""
 
@@ -325,9 +310,6 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-msgid "and its subfolders"
-msgstr "e as súas subcartafoles"
-
 msgid "Ans"
 msgstr ""
 
@@ -351,10 +333,6 @@ msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
-
-msgid "Are you sure to delete the versioned resource?\n"
-"The history will be lost as well."
 msgstr "Seguro que queres eliminar o recurso versionado?\n"
 "O historial tamén se perderá."
 
@@ -373,12 +351,6 @@ msgstr ""
 msgid "Argument check failed: %s"
 msgstr ""
 
-msgid "Argument unexpected for: %s"
-msgstr "Argumento inesperado para: %s"
-
-msgid "Argument: %s, Given: %s, Choices: %s"
-msgstr "Argumento: %s, Dado: %s, Opcións: %s"
-
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr ""
 
@@ -386,9 +358,6 @@ msgid "Arguments separator"
 msgstr ""
 
 msgid "array"
-msgstr ""
-
-msgid "Assets"
 msgstr ""
 
 msgid "Assign"
@@ -573,9 +542,6 @@ msgstr ""
 msgid "Clear All"
 msgstr ""
 
-msgid "Clear all"
-msgstr "Borrar todo"
-
 msgid "Clear all data"
 msgstr ""
 
@@ -759,9 +725,6 @@ msgstr ""
 msgid "date time range"
 msgstr ""
 
-msgid "default"
-msgstr ""
-
 msgid "Default search"
 msgstr ""
 
@@ -808,12 +771,6 @@ msgstr ""
 msgid "Depends on property"
 msgstr ""
 
-msgid "deprecated"
-msgstr "obsoleto"
-
-msgid "deprecated: %s"
-msgstr "obsoleto: %s"
-
 msgid "Did you mean %s?"
 msgstr ""
 
@@ -851,10 +808,6 @@ msgid "Disabled %s"
 msgstr ""
 
 msgid "Do you want to override \"%s\"?"
-msgstr ""
-
-msgid "Do you wish to install the following extension(s):\n"
-"%s?"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -969,9 +922,6 @@ msgid "exp"
 msgstr "exp"
 
 msgid "Exponent"
-msgstr ""
-
-msgid "Exit"
 msgstr ""
 
 #, tao-public
@@ -1296,12 +1246,6 @@ msgstr ""
 msgid "Interface Mode"
 msgstr ""
 
-msgid "Invalid configuration: %s, opts.count excludes opts.array."
-msgstr "Configuración non válida: %s, opts.count exclúe opts.array."
-
-msgid "Invalid configuration: %s, opts.count excludes opts.narg."
-msgstr "Configuración non válida: %s, opts.count exclúe opts.narg."
-
 msgid "Invalid CSP header."
 msgstr ""
 
@@ -1389,9 +1333,6 @@ msgstr ""
 msgid "Last attempt before your account is locked."
 msgstr ""
 
-msgid "Last modified on"
-msgstr "Última modificación o"
-
 msgid "Last Name"
 msgstr "Apellido"
 
@@ -1451,9 +1392,6 @@ msgstr ""
 
 msgid "Loading task status ..."
 msgstr ""
-
-msgid "Location"
-msgstr "Localización"
 
 msgid "locked by %s"
 msgstr ""
@@ -1546,9 +1484,6 @@ msgstr ""
 
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
-
-msgid "Metadata filters require indexed search."
-msgstr "Os filtros de metadatos requiren unha busca indexada."
 
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
@@ -1706,9 +1641,6 @@ msgstr ""
 msgid "No action specified"
 msgstr ""
 
-msgid "No assets match your search."
-msgstr "Non hai recursos que coincidan coa túa busca."
-
 msgid "No client translation bundles updated"
 msgstr ""
 
@@ -1766,9 +1698,6 @@ msgstr ""
 #, tao-public
 msgid "Notifications"
 msgstr "Notificacións"
-
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr ""
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "Os controladores de notificacións non son persistentes. Usa un controlador de almacenamento de bases de datos persistente."
@@ -1832,9 +1761,6 @@ msgstr "Modelo de documento de texto OpenDocument"
 
 msgid "Operated By "
 msgstr ""
-
-msgid "Options:"
-msgstr "Opcións:"
 
 msgid "or"
 msgstr ""
@@ -2167,9 +2093,6 @@ msgstr ""
 msgid "resources"
 msgstr ""
 
-msgid "Resources"
-msgstr "Recursos"
-
 msgid "Resources moved"
 msgstr ""
 
@@ -2184,9 +2107,6 @@ msgstr ""
 
 msgid "Restore sound"
 msgstr ""
-
-msgid "Retry"
-msgstr "Reintentar"
 
 msgid "Return to sign in page"
 msgstr ""
@@ -2246,26 +2166,11 @@ msgstr "Busca"
 msgid "Search %s"
 msgstr ""
 
-msgid "Search by name or label"
-msgstr "Buscar por nome ou etiqueta"
-
 msgid "Search by properties"
 msgstr ""
 
-msgid "Search is unavailable for this endpoint."
-msgstr "A busca non está dispoñible para este punto final."
-
-msgid "Search results"
-msgstr "Resultados da busca"
-
 msgid "Search sub-classes"
 msgstr ""
-
-msgid "Searching"
-msgstr "Buscando"
-
-msgid "Searching in:"
-msgstr "Buscando en:"
 
 msgid "second"
 msgstr ""
@@ -2767,17 +2672,8 @@ msgstr ""
 msgid "Unable to remove the property."
 msgstr ""
 
-msgid "Unable to resolve the current asset. You can still browse and select another file."
-msgstr "Non se pode resolver o recurso actual. Aínda podes navegar e seleccionar outro ficheiro."
-
-msgid "Unable to load the required configuration. Refresh the page to try again."
-msgstr "Non se pode cargar a configuración requirida. Actualiza a páxina para intentalo de novo."
-
 msgid "Unable to save resource."
 msgstr ""
-
-msgid "Unable to search assets. Please try again."
-msgstr "Non se puideron buscar recursos. Téntao de novo."
 
 msgid "unable to search into notification."
 msgstr ""
