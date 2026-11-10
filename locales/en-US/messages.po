@@ -960,6 +960,9 @@ msgstr ""
 msgid "Exponent"
 msgstr ""
 
+msgid "Exit"
+msgstr ""
+
 #, tao-public
 msgid "Export"
 msgstr ""
