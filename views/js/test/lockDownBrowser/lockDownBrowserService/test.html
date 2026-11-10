@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Lock down browser service test</title>
+        <base href="../../../../">
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript">
+            QUnit.config.autostart = false;
+
+            require(['/tao/ClientConfig/config'], function () {
+                require.config({
+                    config: {
+                        'tao/lockDownBrowser/lockDownBrowserService': {
+                            driver: 'kiosked'
+                        }
+                    }
+                });
+
+                require([
+                    'test/lockDownBrowser/kioskedDriver/test',
+                    'test/lockDownBrowser/kioskedDriver/processBlockListTest',
+                    'test/lockDownBrowser/mockDriver/test',
+                    'test/lockDownBrowser/processBlockList/test',
+                    'test/lockDownBrowser/lockDownBrowserService/test'
+                ], function () {
+                    QUnit.start();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+    </body>
+</html>

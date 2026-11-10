@@ -922,6 +922,9 @@ msgstr ""
 msgid "Exponent"
 msgstr ""
 
+msgid "Exit"
+msgstr "Esci"
+
 #, tao-public
 msgid "Export"
 msgstr ""
@@ -1972,7 +1975,7 @@ msgid "RealMedia file"
 msgstr ""
 
 msgid "Refresh"
-msgstr ""
+msgstr "Ricarica"
 
 msgid "Reject all"
 msgstr ""
@@ -2654,6 +2657,9 @@ msgstr ""
 
 msgid "Unable to delete the selected resources"
 msgstr ""
+
+msgid "Unable to load the required configuration. Refresh the page to try again."
+msgstr "Impossibile caricare la configurazione richiesta. Aggiorna la pagina per riprovare."
 
 msgid "Unable to move the resources"
 msgstr ""

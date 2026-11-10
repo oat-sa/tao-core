@@ -51,6 +51,7 @@ use oat\tao\model\IdentifierGenerator\ServiceProvider\IdentifierGeneratorService
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\infrastructure\ServiceProvider\InfrastructureServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
+use oat\tao\model\browser\ServiceProvider\BrowserServiceProvider;
 use oat\tao\model\listener\PropertyServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\model\menu\MenuServiceProvider;
@@ -122,6 +123,7 @@ return [
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
         'http://www.tao.lu/middleware/wfEngine.rdf',
+        'http://www.tao.lu/Ontologies/TAOLockDownBrowser.rdf',
     ],
     'install' => [
         'rdf' => [
@@ -137,6 +139,7 @@ return [
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
             __DIR__ . '/models/ontology/webhook.rdf',
             __DIR__ . '/models/ontology/userlocks.rdf',
+            __DIR__ . '/models/ontology/lockDownBrowser.rdf',
         ],
         'checks' => [
             ['type' => 'CheckPHPRuntime', 'value' => ['id' => 'tao_php_runtime', 'min' => '5.4']],
@@ -293,7 +296,7 @@ return [
             EnableFuriganaRubyPlugin::class,
             SetWProofreaderConfig::class,
             RegisterPortalTheme::class,
-            RegisterUniqueIdFeature::class
+            RegisterUniqueIdFeature::class,
         ],
     ],
     'update' => Updater::class,
@@ -450,6 +453,7 @@ return [
         InfrastructureServiceProvider::class,
         SessionSourceServiceProvider::class,
         FrontendActionServiceProvider::class,
+        BrowserServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
