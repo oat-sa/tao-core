@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-10 14:24\n"
+"PO-Revision-Date: 2026-11-10 18:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it\n"
@@ -56,9 +56,6 @@ msgstr "%d giorno"
 msgid "%d days"
 msgstr "%d giorni"
 
-msgid "%d test"
-msgstr "%d test"
-
 msgid "%h hour"
 msgstr "%d ora"
 
@@ -104,9 +101,6 @@ msgstr ""
 msgid "%s extension(s) to install."
 msgstr "%s estensione da istallare"
 
-msgid "%s filters applied"
-msgstr "Filtri %s applicati"
-
 msgid "%s has been deleted"
 msgstr "%s è stato eliminato"
 
@@ -137,9 +131,6 @@ msgstr "(vuoto)"
 msgid "... reloading page."
 msgstr "... caricamento pagina"
 
-msgid "1 filter applied"
-msgstr "1 filtro applicato"
-
 msgid "7-zip archive"
 msgstr ""
 
@@ -148,9 +139,6 @@ msgstr "Filtri"
 
 msgid "<del>Options</del>"
 msgstr "Opzioni"
-
-msgid "<strong> %s </strong> has been completed."
-msgstr "<strong> %s </strong> è stato completato."
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr ""
@@ -241,9 +229,6 @@ msgstr ""
 msgid "Add file(s)"
 msgstr "Aggiungi file"
 
-msgid "Add filter"
-msgstr "Aggiungi filtro"
-
 msgid "Add index"
 msgstr ""
 
@@ -325,9 +310,6 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-msgid "and its subfolders"
-msgstr "e le sue sottocartelle"
-
 msgid "Ans"
 msgstr ""
 
@@ -353,11 +335,6 @@ msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
 msgstr "Sei sicuro di eliminare la risorsa? Si perderanno tutti i dati."
 
-msgid "Are you sure to delete the versioned resource?\n"
-"The history will be lost as well."
-msgstr "Sei sicuro di voler eliminare la risorsa versionata?\n"
-"Anche la cronologia verrà persa."
-
 msgid "Are you sure you want to delete it?"
 msgstr "Sei sicuro di voler cancellare?"
 
@@ -373,12 +350,6 @@ msgstr ""
 msgid "Argument check failed: %s"
 msgstr ""
 
-msgid "Argument unexpected for: %s"
-msgstr "Argomento inatteso per: %s"
-
-msgid "Argument: %s, Given: %s, Choices: %s"
-msgstr "Argomento: %s, Dati: %s, Scelte: %s"
-
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr ""
 
@@ -386,9 +357,6 @@ msgid "Arguments separator"
 msgstr ""
 
 msgid "array"
-msgstr ""
-
-msgid "Assets"
 msgstr ""
 
 msgid "Assign"
@@ -573,9 +541,6 @@ msgstr ""
 msgid "Clear All"
 msgstr ""
 
-msgid "Clear all"
-msgstr "Cancella tutto"
-
 msgid "Clear all data"
 msgstr ""
 
@@ -759,9 +724,6 @@ msgstr ""
 msgid "date time range"
 msgstr ""
 
-msgid "default"
-msgstr ""
-
 msgid "Default search"
 msgstr "Ricerca di default"
 
@@ -808,12 +770,6 @@ msgstr ""
 msgid "Depends on property"
 msgstr ""
 
-msgid "deprecated"
-msgstr "deprecato"
-
-msgid "deprecated: %s"
-msgstr "deprecato: %s"
-
 msgid "Did you mean %s?"
 msgstr ""
 
@@ -856,11 +812,6 @@ msgstr ""
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr "Vuoi istallare la seguente estensione?"
-
-msgid "Do you wish to install the following extension(s):\n"
-"%s?"
-msgstr "Vuoi installare le seguenti estensioni:\n"
-"%s?"
 
 msgid "Document templates (Staroffice)"
 msgstr ""
@@ -969,9 +920,6 @@ msgid "exp"
 msgstr ""
 
 msgid "Exponent"
-msgstr ""
-
-msgid "Exit"
 msgstr ""
 
 #, tao-public
@@ -1296,12 +1244,6 @@ msgstr "Lingua di interfaccia"
 msgid "Interface Mode"
 msgstr ""
 
-msgid "Invalid configuration: %s, opts.count excludes opts.array."
-msgstr "Configurazione non valida: %s, opts.count esclude opts.array."
-
-msgid "Invalid configuration: %s, opts.count excludes opts.narg."
-msgstr "Configurazione non valida: %s, opts.count esclude opts.narg."
-
 msgid "Invalid CSP header."
 msgstr ""
 
@@ -1389,9 +1331,6 @@ msgstr ""
 msgid "Last attempt before your account is locked."
 msgstr ""
 
-msgid "Last modified on"
-msgstr "Ultima modifica il"
-
 msgid "Last Name"
 msgstr "Cognome"
 
@@ -1451,9 +1390,6 @@ msgstr ""
 
 msgid "Loading task status ..."
 msgstr ""
-
-msgid "Location"
-msgstr "Posizione"
 
 msgid "locked by %s"
 msgstr ""
@@ -1546,9 +1482,6 @@ msgstr ""
 
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
-
-msgid "Metadata filters require indexed search."
-msgstr "I filtri dei metadati richiedono una ricerca indicizzata."
 
 msgid "Microsoft Excel"
 msgstr ""
@@ -1706,9 +1639,6 @@ msgstr ""
 msgid "No action specified"
 msgstr "Nessun azione specificata."
 
-msgid "No assets match your search."
-msgstr "Nessun asset corrisponde alla tua ricerca."
-
 msgid "No client translation bundles updated"
 msgstr ""
 
@@ -1765,9 +1695,6 @@ msgstr "Niente da elencare"
 
 #, tao-public
 msgid "Notifications"
-msgstr ""
-
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
@@ -1832,9 +1759,6 @@ msgstr ""
 
 msgid "Operated By "
 msgstr ""
-
-msgid "Options:"
-msgstr "Opzione:"
 
 msgid "or"
 msgstr ""
@@ -2167,9 +2091,6 @@ msgstr "Risorsa salvata"
 msgid "resources"
 msgstr ""
 
-msgid "Resources"
-msgstr "Risorse"
-
 msgid "Resources moved"
 msgstr ""
 
@@ -2184,9 +2105,6 @@ msgstr "Modalità di risposta"
 
 msgid "Restore sound"
 msgstr ""
-
-msgid "Retry"
-msgstr "Riprova"
 
 msgid "Return to sign in page"
 msgstr "Riaccedi alla pagina"
@@ -2246,26 +2164,11 @@ msgstr "Ricerca"
 msgid "Search %s"
 msgstr "Cerca %s"
 
-msgid "Search by name or label"
-msgstr "Cerca per nome o etichetta"
-
 msgid "Search by properties"
 msgstr ""
 
-msgid "Search is unavailable for this endpoint."
-msgstr "La ricerca non è disponibile per questo endpoint."
-
-msgid "Search results"
-msgstr "Risultati della ricerca"
-
 msgid "Search sub-classes"
 msgstr "Cerca sotto-classi"
-
-msgid "Searching"
-msgstr "Ricerca"
-
-msgid "Searching in:"
-msgstr "Ricerca in:"
 
 msgid "second"
 msgstr ""
@@ -2767,17 +2670,8 @@ msgstr "Impossibile rilasciare il blocco"
 msgid "Unable to remove the property."
 msgstr "Impossibile rimuovere la proprietà."
 
-msgid "Unable to resolve the current asset. You can still browse and select another file."
-msgstr "Impossibile risolvere l'attuale asset. Puoi ancora sfogliare e selezionare un altro file."
-
-msgid "Unable to load the required configuration. Refresh the page to try again."
-msgstr "Impossibile caricare la configurazione richiesta. Aggiorna la pagina per riprovare."
-
 msgid "Unable to save resource."
 msgstr ""
-
-msgid "Unable to search assets. Please try again."
-msgstr "Impossibile cercare gli asset. Per favore riprova."
 
 msgid "unable to search into notification."
 msgstr ""
