@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-10 14:24\n"
+"PO-Revision-Date: 2026-11-10 18:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -56,9 +56,6 @@ msgstr "%d 日"
 msgid "%d days"
 msgstr "%d日"
 
-msgid "%d test"
-msgstr "%d test"
-
 msgid "%h hour"
 msgstr "%h時間"
 
@@ -104,9 +101,6 @@ msgstr "%s が作成されました"
 msgid "%s extension(s) to install."
 msgstr "%s 拡張機能をインストール"
 
-msgid "%s filters applied"
-msgstr "%s フィルターが適用されました"
-
 msgid "%s has been deleted"
 msgstr "%s は削除されました"
 
@@ -137,9 +131,6 @@ msgstr "(空)"
 msgid "... reloading page."
 msgstr "...リロード中"
 
-msgid "1 filter applied"
-msgstr "1つのフィルターが適用されました"
-
 msgid "7-zip archive"
 msgstr "7-zipアーカイブ"
 
@@ -148,9 +139,6 @@ msgstr "<del>フィルタ</del>"
 
 msgid "<del>Options</del>"
 msgstr "<del>オプション</del>"
-
-msgid "<strong> %s </strong> has been completed."
-msgstr "<strong> %s </strong> が完了しました。"
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr "<strong> %s </strong> はバックグラウンド処理中です。"
@@ -241,9 +229,6 @@ msgstr "条件・基準を追加"
 msgid "Add file(s)"
 msgstr "ファイル追加"
 
-msgid "Add filter"
-msgstr "フィルターを追加"
-
 msgid "Add index"
 msgstr "インデックスを追加"
 
@@ -325,9 +310,6 @@ msgstr "クッキーの分析"
 msgid "and"
 msgstr "と"
 
-msgid "and its subfolders"
-msgstr "そしてそのサブフォルダーは"
-
 msgid "Ans"
 msgstr "Ans"
 
@@ -354,11 +336,6 @@ msgid "Are you sure to delete the versioned resource?\n"
 msgstr "バージョン管理リソースを削除してもよろしいですか？\n"
 "履歴も一緒に削除されます"
 
-msgid "Are you sure to delete the versioned resource?\n"
-"The history will be lost as well."
-msgstr "バージョン管理されたリソースを削除してもよろしいですか？\n"
-"履歴も削除されます。"
-
 msgid "Are you sure you want to delete it?"
 msgstr "削除してよろしいですか？"
 
@@ -374,12 +351,6 @@ msgstr "削除してもよろしいですか？"
 msgid "Argument check failed: %s"
 msgstr "引数のチェックに失敗しました: %s"
 
-msgid "Argument unexpected for: %s"
-msgstr "%sに対して予期しない引数"
-
-msgid "Argument: %s, Given: %s, Choices: %s"
-msgstr "引数: %s, 与える: %s, 選択肢: %s"
-
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr "引数 %s と %s は互いに排他的です"
 
@@ -388,9 +359,6 @@ msgstr "引数の区切り"
 
 msgid "array"
 msgstr "配列"
-
-msgid "Assets"
-msgstr "メディア"
 
 msgid "Assign"
 msgstr "割り当て"
@@ -572,9 +540,6 @@ msgid "Clear"
 msgstr "クリア"
 
 msgid "Clear All"
-msgstr "すべてクリア"
-
-msgid "Clear all"
 msgstr "すべてクリア"
 
 msgid "Clear all data"
@@ -760,9 +725,6 @@ msgstr "日付時間"
 msgid "date time range"
 msgstr "日付時間範囲"
 
-msgid "default"
-msgstr "デフォルト"
-
 msgid "Default search"
 msgstr "デフォルト検索"
 
@@ -809,12 +771,6 @@ msgstr "依存関係の URI パス"
 msgid "Depends on property"
 msgstr "プロパティに依存します"
 
-msgid "deprecated"
-msgstr "非推奨です"
-
-msgid "deprecated: %s"
-msgstr "非推奨: %s"
-
 msgid "Did you mean %s?"
 msgstr "%s のことですか？"
 
@@ -858,10 +814,6 @@ msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr "この拡張機能をインストールしますか:\n"
 "%s?"
-
-msgid "Do you wish to install the following extension(s):\n"
-"%s?"
-msgstr ""
 
 msgid "Document templates (Staroffice)"
 msgstr "ドキュメントテンプレート(Staroffice)"
@@ -971,9 +923,6 @@ msgstr "Exp"
 
 msgid "Exponent"
 msgstr "指数"
-
-msgid "Exit"
-msgstr "終了"
 
 #, tao-public
 msgid "Export"
@@ -1297,12 +1246,6 @@ msgstr "インタフェース言語"
 msgid "Interface Mode"
 msgstr "インターフェイスモード"
 
-msgid "Invalid configuration: %s, opts.count excludes opts.array."
-msgstr "無効な設定です: %s, opts.count はopts.array を除外します。"
-
-msgid "Invalid configuration: %s, opts.count excludes opts.narg."
-msgstr "無効な設定: %s, opts.count はopts.narg を除外します。"
-
 msgid "Invalid CSP header."
 msgstr "CSPヘッダーが無効です"
 
@@ -1390,9 +1333,6 @@ msgstr "言語"
 msgid "Last attempt before your account is locked."
 msgstr "あなたのアカウントがロックされる前の最終の受験です。"
 
-msgid "Last modified on"
-msgstr "最終更新日時"
-
 msgid "Last Name"
 msgstr "名前２"
 
@@ -1452,9 +1392,6 @@ msgstr "読込中"
 
 msgid "Loading task status ..."
 msgstr "読込中..."
-
-msgid "Location"
-msgstr "場所"
 
 msgid "locked by %s"
 msgstr "％sによってロックされています"
@@ -1547,9 +1484,6 @@ msgstr "記録"
 
 msgid "Metadata export is not available for the selected resource."
 msgstr "選択したリソースのメタデータのエクスポートはできません"
-
-msgid "Metadata filters require indexed search."
-msgstr "メタデータフィルタにはインデックス検索が必要です。"
 
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
@@ -1707,9 +1641,6 @@ msgstr "いいえ"
 msgid "No action specified"
 msgstr "指定された操作はありません"
 
-msgid "No assets match your search."
-msgstr "検索に一致するアセットはありません。"
-
 msgid "No client translation bundles updated"
 msgstr "クライアント翻訳バンドルは更新されません"
 
@@ -1771,9 +1702,6 @@ msgstr "通知"
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "通知ドライバは永続的ではありません。続的なデータベースストレージドライバを使用します"
 
-msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr "通知ドライバは永続的ではありません。永続的なデータベースストレージドライバを使用してください"
-
 msgid "Nth root"
 msgstr "N番目のルート"
 
@@ -1833,9 +1761,6 @@ msgstr "OpenDocument Text テンプレート"
 
 msgid "Operated By "
 msgstr "運営元"
-
-msgid "Options:"
-msgstr "オプション:"
 
 msgid "or"
 msgstr "｜"
@@ -2168,9 +2093,6 @@ msgstr "リソースは保存されました"
 msgid "resources"
 msgstr "リソース"
 
-msgid "Resources"
-msgstr "リソース"
-
 msgid "Resources moved"
 msgstr "リソースの移動"
 
@@ -2185,9 +2107,6 @@ msgstr "レスポンシブモード"
 
 msgid "Restore sound"
 msgstr "音声の復元"
-
-msgid "Retry"
-msgstr "再試行する"
 
 msgid "Return to sign in page"
 msgstr "ログインページに戻る"
@@ -2247,26 +2166,11 @@ msgstr "検索"
 msgid "Search %s"
 msgstr "%sを検索"
 
-msgid "Search by name or label"
-msgstr "名前またはラベルで検索"
-
 msgid "Search by properties"
 msgstr "プロパティで検索"
 
-msgid "Search is unavailable for this endpoint."
-msgstr "このエンドポイントでは検索は利用できません。"
-
-msgid "Search results"
-msgstr "検索結果"
-
 msgid "Search sub-classes"
 msgstr "サブクラスを検索"
-
-msgid "Searching"
-msgstr "検索中"
-
-msgid "Searching in:"
-msgstr "検索中:"
 
 msgid "second"
 msgstr "秒"
@@ -2768,17 +2672,8 @@ msgstr "ロックを解除することができません"
 msgid "Unable to remove the property."
 msgstr "プロパティを削除できません"
 
-msgid "Unable to resolve the current asset. You can still browse and select another file."
-msgstr "現在のアセットを解決できません。別のファイルを参照して選択できます。"
-
-msgid "Unable to load the required configuration. Refresh the page to try again."
-msgstr "必要な構成を読み込むことができません。ページを更新して再度お試し下さい。"
-
 msgid "Unable to save resource."
 msgstr "リソースを保存できません"
-
-msgid "Unable to search assets. Please try again."
-msgstr "アセットを検索できません。もう一度やり直してください。"
 
 msgid "unable to search into notification."
 msgstr "通知の検索ができません"
