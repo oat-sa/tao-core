@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-03-28 09:55\n"
+"PO-Revision-Date: 2026-11-10 14:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -56,6 +56,9 @@ msgstr "%d zi"
 msgid "%d days"
 msgstr "%d zile"
 
+msgid "%d test"
+msgstr "Test %d"
+
 msgid "%h hour"
 msgstr "%h oră"
 
@@ -101,6 +104,9 @@ msgstr "%s creat"
 msgid "%s extension(s) to install."
 msgstr "%s extensii de instalat."
 
+msgid "%s filters applied"
+msgstr "Filtre %s aplicate"
+
 msgid "%s has been deleted"
 msgstr "%s a fost șters"
 
@@ -131,6 +137,9 @@ msgstr "(golire)"
 msgid "... reloading page."
 msgstr "... reâncărcare pagină."
 
+msgid "1 filter applied"
+msgstr "1 filtru aplicat"
+
 msgid "7-zip archive"
 msgstr "7-ZIP arhivă"
 
@@ -139,6 +148,9 @@ msgstr "<del>Filtre</del>"
 
 msgid "<del>Options</del>"
 msgstr "<del>Opțiuni</del>"
+
+msgid "<strong> %s </strong> has been completed."
+msgstr "<strong> %s </strong> a fost finalizat."
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr "<strong> %s </strong> a fost mutat în fundal."
@@ -229,6 +241,9 @@ msgstr "adaugă un criteriu"
 msgid "Add file(s)"
 msgstr "Adaugă fișier(e)"
 
+msgid "Add filter"
+msgstr "Adaugă filtru"
+
 msgid "Add index"
 msgstr "Adaugă index"
 
@@ -310,6 +325,9 @@ msgstr "Cookie-uri analitice"
 msgid "and"
 msgstr "şi"
 
+msgid "and its subfolders"
+msgstr "și subdosarele sale"
+
 msgid "Ans"
 msgstr "Ans"
 
@@ -336,6 +354,11 @@ msgid "Are you sure to delete the versioned resource?\n"
 msgstr "Ești sigur că vrei să ștergi resursa versiune?\n"
 "Istoricul va fi pierdut de asemenea."
 
+msgid "Are you sure to delete the versioned resource?\n"
+"The history will be lost as well."
+msgstr "Ești sigur că vrei să ștergi resursa versiune?\n"
+"Istoricul va fi pierdut de asemenea."
+
 msgid "Are you sure you want to delete it?"
 msgstr "Sunteţi sigur că doriţi să-l ştergeţi?"
 
@@ -351,6 +374,12 @@ msgstr "Sunteţi sigur că doriţi să-l ştergeţi"
 msgid "Argument check failed: %s"
 msgstr "Verificarea argumentului a eșuat: %s"
 
+msgid "Argument unexpected for: %s"
+msgstr "Argument neașteptat pentru: %s"
+
+msgid "Argument: %s, Given: %s, Choices: %s"
+msgstr "Argument: %s, Given: %s, Alegeri: %s"
+
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr "Argumentele %s și %s se exclud reciproc"
 
@@ -359,6 +388,9 @@ msgstr "Separator de argumente"
 
 msgid "array"
 msgstr "matrice"
+
+msgid "Assets"
+msgstr "Active"
 
 msgid "Assign"
 msgstr "Atribuiți"
@@ -540,6 +572,9 @@ msgid "Clear"
 msgstr "Curăță"
 
 msgid "Clear All"
+msgstr "Șterge tot"
+
+msgid "Clear all"
 msgstr "Șterge tot"
 
 msgid "Clear all data"
@@ -725,6 +760,9 @@ msgstr "dată dată"
 msgid "date time range"
 msgstr "interval de timp"
 
+msgid "default"
+msgstr "implicit"
+
 msgid "Default search"
 msgstr "Căutare implicită"
 
@@ -771,6 +809,12 @@ msgstr "Cale URI de dependență"
 msgid "Depends on property"
 msgstr "Depinde de proprietate"
 
+msgid "deprecated"
+msgstr "învechit"
+
+msgid "deprecated: %s"
+msgstr "învechit: %s"
+
 msgid "Did you mean %s?"
 msgstr "Ai vrut să spui %s?"
 
@@ -809,6 +853,11 @@ msgstr "Dezactivat %s"
 
 msgid "Do you want to override \"%s\"?"
 msgstr "Vrei să suprascrii \"%s\"?"
+
+msgid "Do you wish to install the following extension(s):\n"
+"%s?"
+msgstr "Doriți să instalați următoarele extensii:\n"
+"%s?"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -923,6 +972,9 @@ msgstr "exp"
 
 msgid "Exponent"
 msgstr "Exponent"
+
+msgid "Exit"
+msgstr "Ieșire"
 
 #, tao-public
 msgid "Export"
@@ -1246,6 +1298,12 @@ msgstr "Limba interfeței"
 msgid "Interface Mode"
 msgstr "Mod Interfață"
 
+msgid "Invalid configuration: %s, opts.count excludes opts.array."
+msgstr "Configurare invalidă: %s, opts.count exclude opts.array."
+
+msgid "Invalid configuration: %s, opts.count excludes opts.narg."
+msgstr "Configurare invalidă: %s, opts.count exclude opts.narg."
+
 msgid "Invalid CSP header."
 msgstr "Header CSP invalid."
 
@@ -1333,6 +1391,9 @@ msgstr "Limba"
 msgid "Last attempt before your account is locked."
 msgstr "Ultima încercare înainte ca contul să fie blocat."
 
+msgid "Last modified on"
+msgstr "Ultima modificare la"
+
 msgid "Last Name"
 msgstr "Nume de familie"
 
@@ -1392,6 +1453,9 @@ msgstr "Starea de încărcare"
 
 msgid "Loading task status ..."
 msgstr "Se încarcă starea sarcinii..."
+
+msgid "Location"
+msgstr "Locaţie"
 
 msgid "locked by %s"
 msgstr "blocat de %s"
@@ -1484,6 +1548,9 @@ msgstr "Mesaje"
 
 msgid "Metadata export is not available for the selected resource."
 msgstr "Exportul de metadate nu este disponibil pentru resursa selectată."
+
+msgid "Metadata filters require indexed search."
+msgstr "Filtrele metadate necesită indexarea căutării."
 
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
@@ -1641,6 +1708,9 @@ msgstr "Nr"
 msgid "No action specified"
 msgstr "Nici o acţiune specificată"
 
+msgid "No assets match your search."
+msgstr "Niciun activ nu corespunde căutării tale."
+
 msgid "No client translation bundles updated"
 msgstr "Nici un pachet de traducere client actualizat"
 
@@ -1698,6 +1768,9 @@ msgstr "Nimic de listat!"
 #, tao-public
 msgid "Notifications"
 msgstr "Notificări"
+
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
+msgstr "șoferii notificărilor nu sunt persistenți. Utilizați un șofer persistent pentru stocarea bazei de date"
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr "șoferii notificărilor nu sunt persistenți. Utilizați un șofer persistent pentru stocarea bazei de date"
@@ -1761,6 +1834,9 @@ msgstr "Sabloane Text OpenDocument"
 
 msgid "Operated By "
 msgstr "Funcționat de "
+
+msgid "Options:"
+msgstr "Opțiuni:"
 
 msgid "or"
 msgstr "sau"
@@ -2093,6 +2169,9 @@ msgstr "Resursă salvată"
 msgid "resources"
 msgstr "resurse"
 
+msgid "Resources"
+msgstr "Resurse"
+
 msgid "Resources moved"
 msgstr "Resurse mutate"
 
@@ -2107,6 +2186,9 @@ msgstr "Mod Responsive"
 
 msgid "Restore sound"
 msgstr "Restabilire sunet"
+
+msgid "Retry"
+msgstr "Reîncercați"
 
 msgid "Return to sign in page"
 msgstr "Înapoi la pagina de autentificare"
@@ -2166,11 +2248,26 @@ msgstr "Căutare"
 msgid "Search %s"
 msgstr "Căutare %s"
 
+msgid "Search by name or label"
+msgstr "Căutare după nume sau etichetă"
+
 msgid "Search by properties"
 msgstr "Căutare după proprietăți"
 
+msgid "Search is unavailable for this endpoint."
+msgstr "Căutarea nu este disponibilă pentru acest punct final."
+
+msgid "Search results"
+msgstr "Rezultatele căutării"
+
 msgid "Search sub-classes"
 msgstr "Căutare sub-clase"
+
+msgid "Searching"
+msgstr "Căutare"
+
+msgid "Searching in:"
+msgstr "Căutare în:"
 
 msgid "second"
 msgstr "secundă"
@@ -2672,8 +2769,17 @@ msgstr "Imposibil de deblocat blocarea"
 msgid "Unable to remove the property."
 msgstr "Imposibil de eliminat proprietatea."
 
+msgid "Unable to resolve the current asset. You can still browse and select another file."
+msgstr "Imposibil de rezolvat activul curent. Încă puteţi naviga şi selecta un alt fişier."
+
+msgid "Unable to load the required configuration. Refresh the page to try again."
+msgstr "Nu s-a putut încărca configurația necesară. Reîmprospătați pagina pentru a încerca din nou."
+
 msgid "Unable to save resource."
 msgstr "Imposibil de salvat resursa."
+
+msgid "Unable to search assets. Please try again."
+msgstr "Imposibil de căutat activele. Vă rugăm să încercaţi din nou."
 
 msgid "unable to search into notification."
 msgstr "nu se poate căuta notificarea."
