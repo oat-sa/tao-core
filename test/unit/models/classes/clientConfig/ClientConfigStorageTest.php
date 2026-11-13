@@ -429,6 +429,7 @@ class ClientConfigStorageTest extends TestCase
                             'displayExitButtonTestSelection' => false,
                             'displayBackToTestSelectionButton' => false,
                             'ldbApiTimeout' => 10000,
+                            'minVersion' => null,
                         ],
                         'currentUser' => [
                             'id' => 'myUserId',

@@ -40,6 +40,7 @@ class LockDownBrowserClientConfigurationRetriever
         'displayExitButtonTestSelection' => false,
         'displayBackToTestSelectionButton' => false,
         'ldbApiTimeout' => 10000,
+        'minVersion' => null,
     ];
 
     private array $config;
@@ -76,6 +77,9 @@ class LockDownBrowserClientConfigurationRetriever
             $ldbApiTimeout = self::DEFAULT_CONFIG['ldbApiTimeout'];
         }
 
+        $minVersion = $this->config['minVersion'] ?? null;
+        $minVersion = is_string($minVersion) && $minVersion !== '' ? $minVersion : null;
+
         return new LockDownBrowserConfiguration(
             $interval > 0 ? $interval : null,
             (bool)($this->config['processCheckOnTestNavigation'] ?? true),
@@ -86,7 +90,8 @@ class LockDownBrowserClientConfigurationRetriever
             filter_var($this->config['displayExitButtonLogin'] ?? false, FILTER_VALIDATE_BOOLEAN),
             filter_var($this->config['displayExitButtonTestSelection'] ?? false, FILTER_VALIDATE_BOOLEAN),
             filter_var($this->config['displayBackToTestSelectionButton'] ?? false, FILTER_VALIDATE_BOOLEAN),
-            $ldbApiTimeout
+            $ldbApiTimeout,
+            $minVersion
         );
     }
 }
