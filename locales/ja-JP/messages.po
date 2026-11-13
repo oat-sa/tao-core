@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-09-04 11:21\n"
+"PO-Revision-Date: 2026-11-10 14:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -333,8 +333,8 @@ msgstr "アーカイブ"
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr "バージョン管理リソースを削除してもよろしいですか？\n"
-"履歴も一緒に削除されます"
+msgstr "バージョン管理されたリソースを削除してもよろしいですか？\n"
+"履歴も削除されます。"
 
 msgid "Are you sure you want to delete it?"
 msgstr "削除してよろしいですか？"
@@ -812,8 +812,7 @@ msgstr "\"%s\" を上書きしますか？"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr "この拡張機能をインストールしますか:\n"
-"%s?"
+msgstr ""
 
 msgid "Document templates (Staroffice)"
 msgstr "ドキュメントテンプレート(Staroffice)"
@@ -1700,7 +1699,7 @@ msgid "Notifications"
 msgstr "通知"
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr "通知ドライバは永続的ではありません。続的なデータベースストレージドライバを使用します"
+msgstr "通知ドライバは永続的ではありません。永続的なデータベースストレージドライバを使用してください"
 
 msgid "Nth root"
 msgstr "N番目のルート"
@@ -2993,3 +2992,96 @@ msgstr "TAOパスワード"
 msgid "ZIP archive"
 msgstr "ZIPアーカイブ"
 
+msgid "%d test"
+msgstr "%d test"
+
+msgid "%s filters applied"
+msgstr "%s フィルターが適用されました"
+
+msgid "1 filter applied"
+msgstr "1つのフィルターが適用されました"
+
+msgid "<strong> %s </strong> has been completed."
+msgstr "<strong> %s </strong> が完了しました。"
+
+msgid "Add filter"
+msgstr "フィルターを追加"
+
+msgid "and its subfolders"
+msgstr "そしてそのサブフォルダーは"
+
+msgid "Argument unexpected for: %s"
+msgstr "%sに対して予期しない引数"
+
+msgid "Argument: %s, Given: %s, Choices: %s"
+msgstr "引数: %s, 与える: %s, 選択肢: %s"
+
+msgid "Assets"
+msgstr "メディア"
+
+msgid "Clear all"
+msgstr "すべてクリア"
+
+msgid "default"
+msgstr "デフォルト"
+
+msgid "deprecated"
+msgstr "非推奨です"
+
+msgid "deprecated: %s"
+msgstr "非推奨: %s"
+
+msgid "Exit"
+msgstr "終了"
+
+#, tao-public
+msgid "Invalid configuration: %s, opts.count excludes opts.array."
+msgstr "無効な設定です: %s, opts.count はopts.array を除外します。"
+
+msgid "Invalid configuration: %s, opts.count excludes opts.narg."
+msgstr "無効な設定: %s, opts.count はopts.narg を除外します。"
+
+msgid "Last modified on"
+msgstr "最終更新日時"
+
+msgid "Location"
+msgstr "場所"
+
+msgid "Metadata filters require indexed search."
+msgstr "メタデータフィルタにはインデックス検索が必要です。"
+
+msgid "No assets match your search."
+msgstr "検索に一致するアセットはありません。"
+
+msgid "Options:"
+msgstr "オプション:"
+
+msgid "Resources"
+msgstr "リソース"
+
+msgid "Retry"
+msgstr "再試行する"
+
+msgid "Search by name or label"
+msgstr "名前またはラベルで検索"
+
+msgid "Search is unavailable for this endpoint."
+msgstr "このエンドポイントでは検索は利用できません。"
+
+msgid "Search results"
+msgstr "検索結果"
+
+msgid "Searching"
+msgstr "検索中"
+
+msgid "Searching in:"
+msgstr "検索中:"
+
+msgid "Unable to resolve the current asset. You can still browse and select another file."
+msgstr "現在のアセットを解決できません。別のファイルを参照して選択できます。"
+
+msgid "Unable to load the required configuration. Refresh the page to try again."
+msgstr "必要な構成を読み込むことができません。ページを更新して再度お試し下さい。"
+
+msgid "Unable to search assets. Please try again."
+msgstr "アセットを検索できません。もう一度やり直してください。"
