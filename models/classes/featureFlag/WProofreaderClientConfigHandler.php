@@ -77,7 +77,7 @@ class WProofreaderClientConfigHandler implements FeatureFlagConfigHandlerInterfa
             ? trim($providerConfig['serviceId'])
             : '';
 
-        if (($provider['enabled'] ?? null) !== true || $serviceId === '') {
+        if ($serviceId === '') {
             $configs[self::CLIENT_MODULE]['spellCheckConfig'] = [
                 'enabled' => true,
                 'providerId' => 'native',

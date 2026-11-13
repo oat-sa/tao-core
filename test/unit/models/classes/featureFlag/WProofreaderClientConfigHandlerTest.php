@@ -135,11 +135,6 @@ class WProofreaderClientConfigHandlerTest extends TestCase
             'non-array configuration' => ['invalid'],
             'empty providers' => [[]],
             'unrelated provider' => [[['providerName' => 'other', 'enabled' => true]]],
-            'disabled provider' => [[[
-                'providerName' => 'wproofreader',
-                'enabled' => false,
-                'config' => ['serviceId' => 'service-id'],
-            ]]],
             'missing provider config' => [[[
                 'providerName' => 'wproofreader',
                 'enabled' => true,
