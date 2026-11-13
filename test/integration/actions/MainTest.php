@@ -457,8 +457,12 @@ class MainTest extends TestCase
         $this->services[EntryPointService::SERVICE_ID] = $registry;
     }
 
-    private function perspective(string $id, string $extension, string $controller, bool $withSection = true): Perspective
-    {
+    private function perspective(
+        string $id,
+        string $extension,
+        string $controller,
+        bool $withSection = true
+    ): Perspective {
         $sections = $withSection ? sprintf(
             '<sections><section id="%s_section" url="%s/%s/index"><actions>'
             . '<action id="edit" url="%s/%s/edit"/></actions></section></sections>',
