@@ -55,6 +55,7 @@ class LockDownBrowserClientConfigurationRetrieverTest extends TestCase
         $this->assertSame($defaults['displayExitButtonTestSelection'], $config->displayExitButtonTestSelection);
         $this->assertSame($defaults['displayBackToTestSelectionButton'], $config->displayBackToTestSelectionButton);
         $this->assertSame($defaults['ldbApiTimeout'], $config->ldbApiTimeout);
+        $this->assertNull($config->minVersion);
     }
 
     public function testRetrieveAppliesEnvJsonConfiguration(): void
@@ -72,6 +73,7 @@ class LockDownBrowserClientConfigurationRetrieverTest extends TestCase
             'displayExitButtonTestSelection' => false,
             'displayBackToTestSelectionButton' => 'yes',
             'ldbApiTimeout' => 25000,
+            'minVersion' => '2.1.0',
         ]);
 
         $retriever = new LockDownBrowserClientConfigurationRetriever();
@@ -90,6 +92,7 @@ class LockDownBrowserClientConfigurationRetrieverTest extends TestCase
         $this->assertFalse($config->displayExitButtonTestSelection);
         $this->assertTrue($config->displayBackToTestSelectionButton);
         $this->assertSame(25000, $config->ldbApiTimeout);
+        $this->assertSame('2.1.0', $config->minVersion);
     }
 
     public function testRetrieveSimulateBreachFromEnvJson(): void
