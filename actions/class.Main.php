@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
  *                         (under the project TAO & TAO2);
@@ -30,6 +30,7 @@ use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
+use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\action\ActionBlackList;
@@ -72,7 +73,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->defaultData();
         $entries = [];
         foreach (EntryPointService::getRegistry()->getEntryPoints() as $entry) {
-            if (tao_models_classes_accessControl_AclProxy::hasAccessUrl($entry->getUrl())) {
+            if ($this->isAccessibleDestination($entry->getUrl())) {
                 $entries[] = $entry;
             }
         }
@@ -84,8 +85,13 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
                 $this->redirect($urlRouteService->getLoginUrl());
             } else {
+                $fallback = $this->getDefaultPageUrl();
+                if ($fallback !== null) {
+                    return $this->redirect($fallback);
+                }
+
                 common_session_SessionManager::endSession();
-                return $this->returnError(__('You currently have no access to the platform'), true, 403);
+                return $this->returnNoAccess();
             }
         } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
             // single entrypoint -> redirect
@@ -161,7 +167,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         if ($this->hasRequestParameter('redirect')) {
             $redirectUrl = $_REQUEST['redirect'];
 
-            if (substr($redirectUrl, 0, 1) == '/' || substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
+            if ($this->isLocalDestination($redirectUrl)) {
                 $params['redirect'] = $redirectUrl;
             }
         }
@@ -222,7 +228,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
                             if (
                                 $this->hasRequestParameter('redirect')
-                                && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])
+                                && $this->isAccessibleDestination($_REQUEST['redirect'])
                             ) {
                                 $this->redirect($_REQUEST['redirect']);
                             } else {
@@ -327,11 +333,22 @@ class tao_actions_Main extends tao_actions_CommonModule
         $structure = $this->getRequestParameter('structure');
 
         if ($this->hasRequestParameter('structure')) {
+            $section = $this->getRequestParameter('section');
+            if (!$this->isAccessiblePerspective($extension, $structure, $section)) {
+                return $this->redirectToDefaultPage();
+            }
+
             // structured mode
             // @todo stop using session to manage uri/classUri
             $this->removeSessionAttribute('uri');
             $this->removeSessionAttribute('classUri');
             $this->removeSessionAttribute('showNodeUri');
+
+            $sections = $this->getSections($extension, $structure);
+
+            if (empty($sections)) {
+                return $this->redirectToDefaultPage();
+            }
 
             TaoCe::setLastVisitedUrl(
                 _url(
@@ -345,24 +362,19 @@ class tao_actions_Main extends tao_actions_CommonModule
                 )
             );
 
-            $sections = $this->getSections($extension, $structure);
-
-            if (count($sections) > 0) {
-                $this->setData('sections', $sections);
-            } else {
-                $this->logWarning('no sections');
-                $this->redirect($this->getDefaultPageUrl());
-            }
+            $this->setData('sections', $sections);
         } else {
             //check if the user is a noob, otherwise redirect him to his last visited extension.
             $firstTime = TaoCe::isFirstTimeInTao();
             if ($firstTime == false) {
                 $lastVisited = TaoCe::getLastVisitedUrl();
 
-                if (!is_null($lastVisited)) {
-                    $this->redirect($lastVisited);
+                if ($this->isAccessibleDestination($lastVisited, false)) {
+                    return $this->redirect($lastVisited);
                 }
             }
+
+            return $this->redirectToDefaultPage();
         }
 
         $this->setData(
@@ -528,49 +540,32 @@ class tao_actions_Main extends tao_actions_CommonModule
         $sectionVisibilityFilter = $this->getSectionVisibilityFilter();
 
         if (!is_null($structure)) {
-            foreach ($structure->getChildren() as $section) {
-                $resolver = new ActionResolver($section->getUrl());
+            foreach ($this->getMenuElementChildren($structure) as $section) {
+                foreach ($section->getActions() as $action) {
+                    $sectionPath = $sectionVisibilityFilter->createSectionPath(
+                        [
+                            $section->getId(),
+                            $action->getId()
+                        ]
+                    );
 
-                if (!$sectionVisibilityFilter->isVisible($section->getId())) {
-                    continue;
-                }
+                    if (!$sectionVisibilityFilter->isVisible($sectionPath)) {
+                        $section->removeAction($action);
 
-                if (
-                    !$this->getSectionVisibilityByRoleFilter()->isVisible(
-                        $this->getSession()->getUserRoles(),
-                        $section->getId()
-                    )
-                ) {
-                    continue;
-                }
-
-                if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
-                    foreach ($section->getActions() as $action) {
-                        $sectionPath = $sectionVisibilityFilter->createSectionPath(
-                            [
-                                $section->getId(),
-                                $action->getId()
-                            ]
-                        );
-
-                        if (!$sectionVisibilityFilter->isVisible($sectionPath)) {
-                            $section->removeAction($action);
-
-                            continue;
-                        }
-
-                        $this->propagate($action);
-                        $resolver = new ActionResolver($action->getUrl());
-                        if (
-                            !FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction()) ||
-                            $this->getServiceLocator()->get(ActionBlackList::SERVICE_ID)->isDisabled($action->getId())
-                        ) {
-                            $section->removeAction($action);
-                        }
+                        continue;
                     }
 
-                    $sections[] = $section;
+                    $this->propagate($action);
+                    $resolver = new ActionResolver($action->getUrl());
+                    if (
+                        !FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction()) ||
+                        $this->getServiceLocator()->get(ActionBlackList::SERVICE_ID)->isDisabled($action->getId())
+                    ) {
+                        $section->removeAction($action);
+                    }
                 }
+
+                $sections[] = $section;
             }
         }
 
@@ -608,17 +603,124 @@ class tao_actions_Main extends tao_actions_CommonModule
         return $this->sectionVisibilityFilter;
     }
 
-    /**
-     * @throws Exception
-     */
-    private function getDefaultPageUrl(): string
+    private function getDefaultPageUrl(): ?string
     {
-        $firstItem = current(MenuService::getPerspectivesByGroup(Perspective::GROUP_DEFAULT));
-        if (!$firstItem instanceof Perspective) {
-            throw new Exception('Item should be instance of Perspective');
+        foreach (MenuService::getPerspectivesByGroup(Perspective::GROUP_DEFAULT) as $perspective) {
+            $url = _url('index', 'Main', 'tao', [
+                'structure' => $perspective->getId(),
+                'ext' => $perspective->getExtension(),
+            ]);
+            if ($this->isAccessibleDestination($url, false)) {
+                return $url;
+            }
         }
 
-        return $firstItem->getUrl();
+        return null;
+    }
+
+    private function redirectToDefaultPage()
+    {
+        $url = $this->getDefaultPageUrl();
+
+        return $url === null ? $this->returnNoAccess() : $this->redirect($url);
+    }
+
+    private function returnNoAccess()
+    {
+        $this->response = $this->getPsrResponse()->withStatus(403);
+
+        return $this->returnError(__('You currently have no access to the platform'), false, 403);
+    }
+
+    private function isLocalDestination($url): bool
+    {
+        if (!is_string($url) || $url === '' || preg_match('/[\x00-\x20\x7f\\\\]/', $url)) {
+            return false;
+        }
+
+        if (strpos($url, ROOT_URL) !== 0 && ($url[0] !== '/' || strpos($url, '//') === 0)) {
+            return false;
+        }
+
+        $path = parse_url($url, PHP_URL_PATH);
+        $rootPath = parse_url(ROOT_URL, PHP_URL_PATH) ?: '/';
+
+        return is_string($path)
+            && strpos($path, $rootPath) === 0
+            && !preg_match('~(?:^|/)\.{1,2}(?:/|$)|[\x00-\x20\x7f\\\\]~', rawurldecode($path));
+    }
+
+    private function isAccessibleDestination($url, bool $allowUnstructured = true): bool
+    {
+        if (!$this->isLocalDestination($url)) {
+            return false;
+        }
+
+        try {
+            $resolver = new ActionResolver($url);
+            $controller = $resolver->getController();
+            $action = $resolver->getAction();
+            if (
+                !method_exists($controller, $action)
+                || !AclProxy::hasAccess($this->getSession()->getUser(), $controller, $action, [])
+            ) {
+                return false;
+            }
+        } catch (ResolverException $e) {
+            return false;
+        }
+
+        if (strcasecmp($controller, self::class) !== 0) {
+            return true;
+        }
+
+        if (strcasecmp($action, 'index') !== 0) {
+            return $allowUnstructured;
+        }
+
+        parse_str(parse_url($url, PHP_URL_QUERY) ?? '', $parameters);
+        if (!array_key_exists('structure', $parameters)) {
+            // A remembered shell URL would redirect back to itself.
+            return $allowUnstructured && !isset($parameters['ext']) && !isset($parameters['section']);
+        }
+
+        return $this->isAccessiblePerspective(
+            $parameters['ext'] ?? null,
+            $parameters['structure'],
+            $parameters['section'] ?? null
+        );
+    }
+
+    private function isAccessiblePerspective($extension, $structure, $section = null): bool
+    {
+        if (
+            !is_string($extension) || $extension === ''
+            || !is_string($structure) || $structure === ''
+            || ($section !== null && (!is_string($section) || $section === ''))
+        ) {
+            return false;
+        }
+
+        $perspective = MenuService::getPerspective($extension, $structure);
+        if (
+            $perspective === null || $perspective->getExtension() !== $extension
+            || $perspective->getId() !== $structure || $this->isRestricted($perspective)
+        ) {
+            return false;
+        }
+
+        $children = $this->getMenuElementChildren($perspective);
+        if ($section === null) {
+            return !empty($children);
+        }
+
+        foreach ($children as $child) {
+            if ($child->getId() === $section) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function getSectionVisibilityByRoleFilter(): SectionVisibilityByRoleFilter
