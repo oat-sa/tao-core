@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-10 14:24\n"
+"PO-Revision-Date: 2026-11-17 08:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -57,7 +57,7 @@ msgid "%d days"
 msgstr "%d日"
 
 msgid "%d test"
-msgstr "%d test"
+msgstr "%d件のテスト"
 
 msgid "%h hour"
 msgstr "%h時間"
@@ -105,7 +105,7 @@ msgid "%s extension(s) to install."
 msgstr "%s 拡張機能をインストール"
 
 msgid "%s filters applied"
-msgstr "%s フィルターが適用されました"
+msgstr "%s件のフィルターを適用中"
 
 msgid "%s has been deleted"
 msgstr "%s は削除されました"
@@ -138,7 +138,7 @@ msgid "... reloading page."
 msgstr "...リロード中"
 
 msgid "1 filter applied"
-msgstr "1つのフィルターが適用されました"
+msgstr "1件のフィルターを適用中"
 
 msgid "7-zip archive"
 msgstr "7-zipアーカイブ"
@@ -242,7 +242,7 @@ msgid "Add file(s)"
 msgstr "ファイル追加"
 
 msgid "Add filter"
-msgstr "フィルターを追加"
+msgstr "フィルター追加"
 
 msgid "Add index"
 msgstr "インデックスを追加"
@@ -326,7 +326,7 @@ msgid "and"
 msgstr "と"
 
 msgid "and its subfolders"
-msgstr "そしてそのサブフォルダーは"
+msgstr "およびそのサブフォルダー"
 
 msgid "Ans"
 msgstr "Ans"
@@ -375,10 +375,10 @@ msgid "Argument check failed: %s"
 msgstr "引数のチェックに失敗しました: %s"
 
 msgid "Argument unexpected for: %s"
-msgstr "%sに対して予期しない引数"
+msgstr "予期しない引数です: %s"
 
 msgid "Argument: %s, Given: %s, Choices: %s"
-msgstr "引数: %s, 与える: %s, 選択肢: %s"
+msgstr "引数: %s、指定値: %s、選択肢: %s"
 
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr "引数 %s と %s は互いに排他的です"
@@ -810,7 +810,7 @@ msgid "Depends on property"
 msgstr "プロパティに依存します"
 
 msgid "deprecated"
-msgstr "非推奨です"
+msgstr "非推奨"
 
 msgid "deprecated: %s"
 msgstr "非推奨: %s"
@@ -861,7 +861,7 @@ msgstr "この拡張機能をインストールしますか:\n"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr ""
+msgstr "次の拡張機能をインストールしますか？: %s"
 
 msgid "Document templates (Staroffice)"
 msgstr "ドキュメントテンプレート(Staroffice)"
@@ -1298,10 +1298,10 @@ msgid "Interface Mode"
 msgstr "インターフェイスモード"
 
 msgid "Invalid configuration: %s, opts.count excludes opts.array."
-msgstr "無効な設定です: %s, opts.count はopts.array を除外します。"
+msgstr "無効な設定です: %s（opts.count と opts.array は併用できません）。"
 
 msgid "Invalid configuration: %s, opts.count excludes opts.narg."
-msgstr "無効な設定: %s, opts.count はopts.narg を除外します。"
+msgstr "無効な設定です: %s（opts.count と opts.narg は併用できません）。"
 
 msgid "Invalid CSP header."
 msgstr "CSPヘッダーが無効です"
@@ -1549,7 +1549,7 @@ msgid "Metadata export is not available for the selected resource."
 msgstr "選択したリソースのメタデータのエクスポートはできません"
 
 msgid "Metadata filters require indexed search."
-msgstr "メタデータフィルタにはインデックス検索が必要です。"
+msgstr "メタデータフィルターを使用するには、インデックス検索が有効である必要があります。"
 
 msgid "Microsoft Excel"
 msgstr "Microsoft Excel"
@@ -1772,7 +1772,7 @@ msgid "notifications drivers aren\\'t persistent. use a persistent database stor
 msgstr "通知ドライバは永続的ではありません。続的なデータベースストレージドライバを使用します"
 
 msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
-msgstr "通知ドライバは永続的ではありません。永続的なデータベースストレージドライバを使用してください"
+msgstr "通知ドライバーは永続化されていません。永続的なデータベースストレージドライバーを使用してください"
 
 msgid "Nth root"
 msgstr "N番目のルート"
@@ -2266,7 +2266,7 @@ msgid "Searching"
 msgstr "検索中"
 
 msgid "Searching in:"
-msgstr "検索中:"
+msgstr "検索対象:"
 
 msgid "second"
 msgstr "秒"
@@ -2772,13 +2772,13 @@ msgid "Unable to resolve the current asset. You can still browse and select anot
 msgstr "現在のアセットを解決できません。別のファイルを参照して選択できます。"
 
 msgid "Unable to load the required configuration. Refresh the page to try again."
-msgstr "必要な構成を読み込むことができません。ページを更新して再度お試し下さい。"
+msgstr "必要な構成を読み込むことができません。ページを更新して再度お試しください。"
 
 msgid "Unable to save resource."
 msgstr "リソースを保存できません"
 
 msgid "Unable to search assets. Please try again."
-msgstr "アセットを検索できません。もう一度やり直してください。"
+msgstr "アセットを検索できませんでした。もう一度お試しください。"
 
 msgid "unable to search into notification."
 msgstr "通知の検索ができません"
