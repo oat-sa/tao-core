@@ -98,6 +98,67 @@ define(['jquery', 'uri'], function ($, uri) {
     }
 
     /**
+     * Best-effort URI of the instance rendered in the section content area (properties form or authoring).
+     *
+     * @param {jQuery|null} $contentBlock
+     * @returns {String}
+     */
+    function readDisplayedInstanceUri($contentBlock) {
+        var $form;
+        var uriFromConfig;
+
+        if (!$contentBlock || !$contentBlock.length) {
+            return '';
+        }
+
+        $form = $contentBlock.find('.xhtml_form form').first();
+        if (!$form.length) {
+            $form = $contentBlock.find('form').first();
+        }
+        if ($form.length) {
+            return readContentInstanceUri($form);
+        }
+
+        if (!$contentBlock.find('#item-editor-scope').length) {
+            return '';
+        }
+
+        $contentBlock.find('script').each(function () {
+            var text = this.textContent || '';
+            var marker = "'taoQtiItem/controller/creator/index'";
+            var match;
+
+            if (text.indexOf(marker) === -1) {
+                return;
+            }
+
+            match = text.match(/"properties"\s*:\s*\{[\s\S]*?"uri"\s*:\s*"([^"\\]+)"/);
+            if (match) {
+                uriFromConfig = match[1];
+                return false;
+            }
+        });
+
+        return uriFromConfig || '';
+    }
+
+    /**
+     * Post-save refresh is scoped to re-selecting the instance that was saved.
+     *
+     * @param {Object} options
+     * @param {String} nodeUri
+     * @returns {Boolean}
+     */
+    function isPostSaveReselectOfSavedInstance(options, nodeUri) {
+        return !!(
+            options.postSaveRefresh &&
+            options.postSaveUri &&
+            nodeUri &&
+            options.postSaveUri === nodeUri
+        );
+    }
+
+    /**
      * @param {Object} options
      * @param {Object} options.nodeContext
      * @param {Object} options.selectInstanceAction
@@ -109,14 +170,49 @@ define(['jquery', 'uri'], function ($, uri) {
      */
     function shouldSkipTreeDrivenInstanceLoad(options) {
         var nodeUri = getInstanceUriFromNodeContext(options.nodeContext);
+        var displayedUri;
+        var selectInstanceId = options.selectInstanceAction && options.selectInstanceAction.id;
 
         if (
             options.postSaveRefresh &&
             options.postSaveUri &&
             nodeUri &&
-            options.postSaveUri === nodeUri
+            options.postSaveUri !== nodeUri
         ) {
-            return true;
+            return false;
+        }
+
+        if (isPostSaveReselectOfSavedInstance(options, nodeUri)) {
+            if (
+                selectInstanceId &&
+                options.activeContentActionId === selectInstanceId
+            ) {
+                return true;
+            }
+
+            if (contentShowsSameInstanceForm(
+                options.nodeContext,
+                options.selectInstanceAction,
+                options.$contentBlock
+            )) {
+                return true;
+            }
+
+            if (
+                options.selectInstanceAction &&
+                options.activeContentActionId &&
+                selectInstanceId &&
+                options.activeContentActionId !== selectInstanceId
+            ) {
+                displayedUri = readDisplayedInstanceUri(options.$contentBlock);
+                if (displayedUri) {
+                    return displayedUri === nodeUri;
+                }
+
+                return !options.$contentBlock || !options.$contentBlock.length;
+            }
+
+            return false;
         }
 
         if (contentShowsSameInstanceForm(
@@ -124,15 +220,6 @@ define(['jquery', 'uri'], function ($, uri) {
             options.selectInstanceAction,
             options.$contentBlock
         )) {
-            return true;
-        }
-
-        if (
-            options.postSaveRefresh &&
-            options.selectInstanceAction &&
-            options.activeContentActionId &&
-            options.activeContentActionId !== options.selectInstanceAction.id
-        ) {
             return true;
         }
 
@@ -144,6 +231,8 @@ define(['jquery', 'uri'], function ($, uri) {
         readContentInstanceUri: readContentInstanceUri,
         formActionMatchesLoadAction: formActionMatchesLoadAction,
         contentShowsSameInstanceForm: contentShowsSameInstanceForm,
+        readDisplayedInstanceUri: readDisplayedInstanceUri,
+        isPostSaveReselectOfSavedInstance: isPostSaveReselectOfSavedInstance,
         shouldSkipTreeDrivenInstanceLoad: shouldSkipTreeDrivenInstanceLoad
     };
 });

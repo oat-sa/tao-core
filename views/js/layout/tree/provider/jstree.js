@@ -521,6 +521,15 @@ define([
                             store('taotree').then(function(treeStore){
                                 treeStore.setItem(context.section, nodeId).then(function(){
                                     generisRouter.pushNodeState(location.href, uri.decode(nodeContext.uri));
+                                    var postSaveUri = $container.data('postSaveTreeRefreshUri');
+                                    if (
+                                        $container.data('postSaveTreeRefresh') &&
+                                        postSaveUri &&
+                                        nodeUri &&
+                                        postSaveUri !== nodeUri
+                                    ) {
+                                        clearPostSaveTreeRefreshFlag();
+                                    }
                                     var selectInstanceAction = options.actions && options.actions.selectInstance;
                                     if (shouldSkipTreeDrivenInstanceLoad(nodeContext, selectInstanceAction)) {
                                         clearPostSaveTreeRefreshFlag();
@@ -616,7 +625,10 @@ define([
                         if($container.is(':visible')){
                             if (node && node.uri) {
                                 $container.data('postSaveTreeRefresh', true);
-                                $container.data('postSaveTreeRefreshUri', node.uri);
+                                $container.data(
+                                    'postSaveTreeRefreshUri',
+                                    uri.decode(node.uri) || node.uri
+                                );
                             }
                             $container.trigger('refresh.taotree', [params]);
                         }
