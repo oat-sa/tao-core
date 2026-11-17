@@ -28,13 +28,14 @@ define(['jquery', 'uri', 'layout/tree/provider/jstreeInstanceLoadSkip'], functio
     QUnit.module('API');
 
     QUnit.test('module', function (assert) {
-        assert.expect(6);
+        assert.expect(7);
         assert.equal(typeof skip, 'object', 'exposes an object');
         assert.equal(typeof skip.getInstanceUriFromNodeContext, 'function', 'getInstanceUriFromNodeContext');
         assert.equal(typeof skip.contentShowsSameInstanceForm, 'function', 'contentShowsSameInstanceForm');
         assert.equal(typeof skip.shouldSkipTreeDrivenInstanceLoad, 'function', 'shouldSkipTreeDrivenInstanceLoad');
         assert.equal(typeof skip.readContentInstanceUri, 'function', 'readContentInstanceUri');
         assert.equal(typeof skip.formActionMatchesLoadAction, 'function', 'formActionMatchesLoadAction');
+        assert.equal(typeof skip.readDisplayedInstanceUri, 'function', 'readDisplayedInstanceUri');
     });
 
     QUnit.module('getInstanceUriFromNodeContext');
@@ -150,14 +151,71 @@ define(['jquery', 'uri', 'layout/tree/provider/jstreeInstanceLoadSkip'], functio
                 activeContentActionId: 'item-authoring',
                 $contentBlock: null
             }),
-            'authoring race guard'
+            'authoring race guard when displayed uri is unknown'
+        );
+    });
+
+    QUnit.test('skips post-save refresh when authoring shows the same item', function (assert) {
+        var otherUri = 'http://example.test/Ontologies/TAOItem.rdf#other';
+        var $block = $(
+            '<div class="content-block">' +
+                '<div id="item-editor-scope"></div>' +
+                '<script>' +
+                    "requirejs.config({ config: { 'taoQtiItem/controller/creator/index' : " +
+                    JSON.stringify({ properties: { uri: itemUri, label: 'Item', baseUrl: '/x' } }) +
+                    ' } });' +
+                '</script>' +
+            '</div>'
+        );
+
+        assert.ok(
+            skip.shouldSkipTreeDrivenInstanceLoad({
+                nodeContext: { id: itemUri },
+                selectInstanceAction: propertiesAction,
+                postSaveRefresh: true,
+                postSaveUri: itemUri,
+                activeContentActionId: 'item-authoring',
+                $contentBlock: $block
+            }),
+            'same item still open in authoring'
+        );
+
+        assert.notOk(
+            skip.shouldSkipTreeDrivenInstanceLoad({
+                nodeContext: { id: itemUri },
+                selectInstanceAction: propertiesAction,
+                postSaveRefresh: true,
+                postSaveUri: itemUri,
+                activeContentActionId: 'item-authoring',
+                $contentBlock: $(
+                    '<div class="content-block">' +
+                        '<div id="item-editor-scope"></div>' +
+                        '<script>' +
+                            "requirejs.config({ config: { 'taoQtiItem/controller/creator/index' : " +
+                            JSON.stringify({ properties: { uri: otherUri, label: 'Other', baseUrl: '/x' } }) +
+                            ' } });' +
+                        '</script>' +
+                    '</div>'
+                )
+            }),
+            'different item open in authoring'
         );
     });
 
     QUnit.test('does not skip navigation to another instance', function (assert) {
+        var otherUri = 'http://example.test/Ontologies/TAOItem.rdf#other';
+        var $blockForOther = $(
+            '<div class="content-block">' +
+                '<form action="/taoItems/Items/editItem">' +
+                    '<input type="hidden" id="id" />' +
+                '</form>' +
+            '</div>'
+        );
+        $blockForOther.find('#id').val(otherUri);
+
         assert.notOk(
             skip.shouldSkipTreeDrivenInstanceLoad({
-                nodeContext: { id: 'http://example.test/Ontologies/TAOItem.rdf#other' },
+                nodeContext: { id: otherUri },
                 selectInstanceAction: propertiesAction,
                 postSaveRefresh: true,
                 postSaveUri: itemUri,
@@ -165,6 +223,30 @@ define(['jquery', 'uri', 'layout/tree/provider/jstreeInstanceLoadSkip'], functio
                 $contentBlock: null
             }),
             'different node after save'
+        );
+
+        assert.notOk(
+            skip.shouldSkipTreeDrivenInstanceLoad({
+                nodeContext: { id: otherUri },
+                selectInstanceAction: propertiesAction,
+                postSaveRefresh: true,
+                postSaveUri: itemUri,
+                activeContentActionId: 'item-authoring',
+                $contentBlock: null
+            }),
+            'different node while authoring tab is active'
+        );
+
+        assert.notOk(
+            skip.shouldSkipTreeDrivenInstanceLoad({
+                nodeContext: { id: otherUri },
+                selectInstanceAction: propertiesAction,
+                postSaveRefresh: true,
+                postSaveUri: itemUri,
+                activeContentActionId: 'item-properties',
+                $contentBlock: $blockForOther
+            }),
+            'different node even when content already shows that instance form'
         );
     });
 
