@@ -33,10 +33,11 @@ define([
     'layout/actions',
     'layout/section',
     'layout/permissions',
+    'layout/tree/provider/jstreeInstanceLoadSkip',
     'ui/feedback',
     'uri',
     'jquery.tree'
-], function($, _, __, context, store, Promise, helpers, generisRouter, actionManager, sectionManager, permissionsManager, feedback, uri){
+], function($, _, __, context, store, Promise, helpers, generisRouter, actionManager, sectionManager, permissionsManager, instanceLoadSkip, feedback, uri){
     'use strict';
 
     var pageRange = 30;
@@ -822,102 +823,15 @@ define([
                 }
             }
 
-            /**
-             * @param {Object} nodeContext
-             * @returns {String}
-             */
-            function getInstanceUriFromNodeContext(nodeContext) {
-                return nodeContext.id || (nodeContext.uri ? uri.decode(nodeContext.uri) : '');
-            }
-
-            /**
-             * Instance edit forms expose the plain resource URI in #id (#uri is encoded).
-             *
-             * @param {Object} nodeContext
-             * @param {Object} selectInstanceAction
-             * @returns {Boolean}
-             */
-            function contentShowsSameInstanceForm(nodeContext, selectInstanceAction) {
-                var $contentBlock = getSectionContentBlock();
-                var $form;
-                var contentUri;
-                var nodeUri;
-                var formAction;
-                var actionUrl;
-                var $uriInput;
-
-                if (!$contentBlock) {
-                    return false;
-                }
-
-                $form = $contentBlock.find('.xhtml_form form').first();
-                if (!$form.length) {
-                    $form = $contentBlock.find('form').first();
-                }
-                if (!$form.length) {
-                    return false;
-                }
-
-                contentUri = $form.find('#id').val();
-                if (!contentUri) {
-                    $uriInput = $form.find('#uri');
-                    if ($uriInput.length) {
-                        contentUri = uri.decode($uriInput.val());
-                    }
-                }
-                nodeUri = getInstanceUriFromNodeContext(nodeContext);
-
-                if (!contentUri || !nodeUri || contentUri !== nodeUri) {
-                    return false;
-                }
-
-                if (!selectInstanceAction || !selectInstanceAction.url) {
-                    return true;
-                }
-
-                formAction = ($form.attr('action') || '').split('?')[0];
-                actionUrl = selectInstanceAction.url.split('?')[0];
-
-                return formAction.indexOf(actionUrl) !== -1 || actionUrl.indexOf(formAction) !== -1;
-            }
-
-            /**
-             * Avoid reloading the content panel after save when the tree re-selects the same instance,
-             * or when the user already switched to another content action (e.g. Authoring).
-             *
-             * @param {Object} nodeContext
-             * @param {Object} selectInstanceAction
-             * @returns {Boolean}
-             */
             function shouldSkipTreeDrivenInstanceLoad(nodeContext, selectInstanceAction) {
-                var postSaveRefresh = !!$container.data('postSaveTreeRefresh');
-                var postSaveUri = $container.data('postSaveTreeRefreshUri');
-                var nodeUri = getInstanceUriFromNodeContext(nodeContext);
-                var activeContentActionId = $('.content-action-bar .action.active').attr('id');
-
-                if (
-                    postSaveRefresh &&
-                    postSaveUri &&
-                    nodeUri &&
-                    postSaveUri === nodeUri
-                ) {
-                    return true;
-                }
-
-                if (contentShowsSameInstanceForm(nodeContext, selectInstanceAction)) {
-                    return true;
-                }
-
-                if (
-                    postSaveRefresh &&
-                    selectInstanceAction &&
-                    activeContentActionId &&
-                    activeContentActionId !== selectInstanceAction.id
-                ) {
-                    return true;
-                }
-
-                return false;
+                return instanceLoadSkip.shouldSkipTreeDrivenInstanceLoad({
+                    nodeContext: nodeContext,
+                    selectInstanceAction: selectInstanceAction,
+                    postSaveRefresh: !!$container.data('postSaveTreeRefresh'),
+                    postSaveUri: $container.data('postSaveTreeRefreshUri'),
+                    activeContentActionId: $('.content-action-bar .action.active').attr('id'),
+                    $contentBlock: getSectionContentBlock()
+                });
             }
 
             /**
