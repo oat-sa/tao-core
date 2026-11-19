@@ -101,7 +101,8 @@
             "oat\\tao\\install\\": "install"
         },
         "files": [
-            "includes/globalHelpers.php"
+            "includes/globalHelpers.php",
+            "compat/TaskOrchestrator/legacyClassAliases.php"
         ]
     }
 }
