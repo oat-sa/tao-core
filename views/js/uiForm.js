@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2015-2019 (original work) Open Assessment Technologies SA ;
  *
@@ -35,6 +35,7 @@
     'util/encode',
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
+    'tao/ckeditor/wproofreaderBootstrap',
     'ui/datetime/picker',
     'ui/dialog/confirm',
     'core/request',
@@ -52,6 +53,7 @@
     encode,
     ckeditor,
     ckConfigurator,
+    wproofreaderBootstrap,
     dateTimePicker,
     confirmDialog,
     request,
@@ -359,12 +361,17 @@
                     delete self.htmlEditors[propertyUri];
                 }
 
-                var editor = ckeditor.replace(this);
-                var configOptions = {
-                    resize_enabled: false,
-                    interactionsource: false,
-                    sourcedialog: false
-                };
+                wproofreaderBootstrap.setLanguage((context.base_authoring_lang || context.locale || '').replace('-', '_'));
+                var editor = ckeditor.replace(this, wproofreaderBootstrap.getCkeditorConfig());
+                wproofreaderBootstrap.start();
+                var configOptions = _.assign(
+                    {
+                        resize_enabled: false,
+                        interactionsource: false,
+                        sourcedialog: false
+                    },
+                    wproofreaderBootstrap.getCkeditorConfig()
+                );
 
                 var removePlugins = [];
 

@@ -1,0 +1,30 @@
+.modal-bg.config-retry-modal-bg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.45);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+.modal.config-retry-modal {
+    width: min(40rem, calc(100vw - 4rem));
+    background: #f3f1ef;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 0.2rem;
+}
+
+.config-retry-modal .message {
+    margin: 0 0 2.4rem;
+    font-size: 1.6rem;
+}
+
+.config-retry-modal .buttons {
+    text-align: center;
+}

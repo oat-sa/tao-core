@@ -36,6 +36,7 @@ use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\CookiePolicy\Service\CookiePolicyConfigurationRetriever;
+use oat\tao\model\browser\Service\LockDownBrowserClientConfigurationRetriever;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
@@ -68,6 +69,7 @@ class ClientConfigStorage
 
     private array $config = [];
     private CookiePolicyConfigurationRetriever $cookiePolicyConfigurationRetriever;
+    private LockDownBrowserClientConfigurationRetriever $lockDownBrowserClientConfigurationRetriever;
 
     public function __construct(
         TokenService $tokenService,
@@ -85,7 +87,8 @@ class ClientConfigStorage
         DateFormatterFactory $dateFormatterFactory,
         MenuService $menuService,
         CookiePolicyConfigurationRetriever $cookiePolicyConfigurationRetriever,
-        DefaultUrlService $defaultUrlService
+        DefaultUrlService $defaultUrlService,
+        LockDownBrowserClientConfigurationRetriever $lockDownBrowserClientConfigurationRetriever
     ) {
         $this->tokenService = $tokenService;
         $this->clientLibRegistry = $clientLibRegistry;
@@ -103,6 +106,7 @@ class ClientConfigStorage
         $this->menuService = $menuService;
         $this->cookiePolicyConfigurationRetriever = $cookiePolicyConfigurationRetriever;
         $this->defaultUrlService = $defaultUrlService;
+        $this->lockDownBrowserClientConfigurationRetriever = $lockDownBrowserClientConfigurationRetriever;
     }
 
     /**
@@ -185,6 +189,9 @@ class ClientConfigStorage
                         'bundle' => $this->modeHelper->isMode(tao_helpers_Mode::PRODUCTION),
                         'featureFlags' => $this->featureFlagRepository->list(),
                         'cookiePolicy' => $this->cookiePolicyConfigurationRetriever->retrieve()->jsonSerialize(),
+                        'lockDownBrowser' => $this->lockDownBrowserClientConfigurationRetriever
+                            ->retrieve()
+                            ->jsonSerialize(),
                         'currentUser' => $this->getUserData($currentSession),
                         'sessionRedirects' => $this->getSessionRedirects(),
                         'previewerExternalFeUrl' => $previewerExternalFeUrl,

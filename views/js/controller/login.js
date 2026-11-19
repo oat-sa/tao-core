@@ -30,8 +30,9 @@ define([
     'layout/version-warning',
     'ui/login/login',
     'util/locale',
-    'core/store'
-], function ($, _, __, module, context, loadingBar, versionWarning, loginComponent, locale, store) {
+    'core/store',
+    'tao/lockDownBrowser/lockDownBrowserService'
+], function ($, _, __, module, context, loadingBar, versionWarning, loginComponent, locale, store, lockDownBrowserModule) {
     'use strict';
 
     var _defaults = {
@@ -54,6 +55,19 @@ define([
         start: function start() {
             var conf = _.defaults({}, module.config(), _defaults);
             var login = loginComponent($('#login-box-inner-container'), conf);
+            const lockDownBrowserConfig = (context && context.lockDownBrowser) || {};
+            const lockDownBrowserService = lockDownBrowserModule.createLockDownBrowserService(lockDownBrowserConfig);
+
+            if (
+                lockDownBrowserConfig.displayExitButtonLogin === true &&
+                lockDownBrowserModule.isLockDownBrowserContext(lockDownBrowserService)
+            ) {
+                lockDownBrowserModule.mountExitMenu({
+                    onExitClick: function () {
+                        lockDownBrowserService.exitApplication();
+                    }
+                });
+            }
 
             login.on('init', function() {
                 loadingBar.start();

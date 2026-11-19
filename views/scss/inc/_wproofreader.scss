@@ -1,0 +1,194 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+ *
+ * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
+ */
+
+// The vendor stylesheet loads asynchronously; specificity must not depend on load order.
+html body .wsc-element.wsc-theme-gray {
+    font-family: var(--font-ui, #{$regularFont});
+    font-size: 14px;
+    color: $textColor;
+
+    &, * {
+        text-shadow: none;
+    }
+
+    &.wsc-contextmenu,
+    &.wsc-dialog,
+    .wsc-action-items__more-actions-list {
+        background: $uiGeneralContentBg;
+        border: 1px solid $uiGeneralContentBorder;
+        border-radius: 2px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+    }
+
+    .wsc-button,
+    .wsc-select,
+    .wsc-branding__text {
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.4;
+    }
+
+    .wsc-button {
+        color: $textColor !important;
+        border-radius: 2px !important;
+        box-shadow: none;
+
+        &:hover:not([aria-disabled="true"]) {
+            background-color: #e7eff4 !important;
+        }
+    }
+
+    .wsc--focusable:focus-visible,
+    .wsc-branding__link:focus-visible {
+        outline: 2px solid $info !important;
+        outline-offset: -2px;
+    }
+
+    .wsc-list,
+    .wsc-list__item {
+        list-style: none !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    .wsc-contextmenu__icon.wsc-icon-suggestion,
+    .wsc-contextmenu__icon.wsc-icon-undefined {
+        display: none;
+    }
+
+    .wsc-contextmenu__button--suggestion {
+        padding: 8px 12px;
+        min-height: 36px;
+    }
+
+    .wsc-contextmenu__button--type-spelling {
+        display: none !important;
+    }
+
+    &.wsc-contextmenu {
+        min-width: 200px;
+        border-color: #ccc;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .18);
+
+        .wsc-contextmenu__list {
+            padding: 4px 0;
+        }
+
+        .wsc-action-items-overlay {
+            padding: 0 8px;
+        }
+
+        .wsc-action-items {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            height: auto;
+            min-height: 40px;
+            padding: 4px 0;
+            border-color: #ccc;
+        }
+
+        .wsc-action-items__other-actions {
+            position: static;
+            display: flex;
+            align-items: center;
+        }
+
+        .wsc-action-items__first-action .wsc-button,
+        .wsc-action-items__other-actions > div > .wsc-button,
+        .wsc-action-items__list .wsc-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            height: 32px;
+            padding: 4px;
+            margin: 0 !important;
+            left: auto;
+            border: 0;
+            line-height: 24px !important;
+        }
+
+        .wsc-action-items__other-actions > div > .wsc-button {
+            justify-content: center;
+            width: 28px;
+        }
+
+        .wsc-action-items .wsc-button .wsc-icon {
+            position: static;
+            font-size: 20px !important;
+            color: #858585;
+        }
+
+        .wsc-action-items__list .wsc-button {
+            height: auto;
+            min-height: 32px;
+            padding: 6px 10px;
+        }
+
+        .wsc-branding {
+            padding: 0 12px;
+        }
+    }
+
+    .wsc-action-items,
+    .wsc-header-title__text,
+    .wsc-settings__setting-component {
+        border-color: $uiGeneralContentBorder;
+    }
+
+    .wsc-header-title {
+        background: #e7e7e7;
+        border-radius: 2px 2px 0 0;
+    }
+
+    .wsc-header-title__text {
+        font-size: 16px;
+        font-weight: 600;
+        color: $textColor;
+    }
+
+    .wsc-languages__title,
+    .wsc-about__title {
+        color: $textColor;
+        font-size: 14px;
+    }
+
+    .wsc-languages .wsc-select {
+        // Vendor language controls declare their typography with !important.
+        font-family: inherit !important;
+        font-size: 14px !important;
+        height: 34px !important;
+        min-height: 34px !important;
+        border: 1px solid #aaa;
+        border-radius: 2px;
+        box-shadow: none;
+
+        &:hover,
+        &:focus {
+            border-color: $info;
+        }
+    }
+
+    .wsc-branding__text,
+    .wsc-copyright__text {
+        font-size: 12px;
+        color: #666;
+    }
+}

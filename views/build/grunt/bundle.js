@@ -47,12 +47,14 @@ module.exports = function (grunt) {
                     bundles: [
                         {
                             name: 'vendor',
-                            vendor: true
+                            vendor: true,
+                            include: ['loader/configRetry']
                         },
                         {
                             name: 'vendor.es5',
                             vendor: true,
                             babel: true,
+                            include: ['loader/configRetry'],
                             targets: {
                                 ie: '11'
                             }
@@ -61,7 +63,9 @@ module.exports = function (grunt) {
                             name: 'login',
                             bootstrap: true,
                             babel: true,
-                            entryPoint: 'controller/login'
+                            entryPoint: 'controller/login',
+                            excludeNested: ['tao/lockDownBrowser/lockDownBrowserService'],
+                            dependencies: ['tao/loader/lockDownBrowser.min']
                         },
                         {
                             name: 'tao',
@@ -78,6 +82,11 @@ module.exports = function (grunt) {
                                 'generis.tree',
                                 'generis.tree.select'
                             ]
+                        },
+                        {
+                            name: 'lockDownBrowser',
+                            babel: true,
+                            include: ['lockDownBrowser/**/*']
                         }
                     ]
                 }

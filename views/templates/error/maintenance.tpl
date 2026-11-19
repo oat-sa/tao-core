@@ -25,6 +25,7 @@
             <p>This TAO instance is currently under maintenance and should be back shortly.<br>
                 We apologize for the inconvenience.</p>
         </div>
+        <?php \oat\tao\helpers\Template::inc('error/kiosked-exit.tpl', 'tao'); ?>
 
     </div>
 </div>

@@ -13,7 +13,7 @@ use oat\tao\model\theme\Theme;
     <?php /* main navigation bar */
     !common_session_SessionManager::isAnonymous()
         ? Template::inc('blocks/header-main-navi.tpl', 'tao')
-        : '';
+        : Template::inc('blocks/header-anonymous-navi.tpl', 'tao');
     ?>
 
 </header>

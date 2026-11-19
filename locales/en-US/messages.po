@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2026.01\n"
-"PO-Revision-Date: 2025-12-18T14:32:24\n"
+"PO-Revision-Date: 2026-11-12T14:32:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -958,6 +958,9 @@ msgid "exp"
 msgstr ""
 
 msgid "Exponent"
+msgstr ""
+
+msgid "Exit"
 msgstr ""
 
 #, tao-public
@@ -2754,6 +2757,9 @@ msgid "Unable to remove the property."
 msgstr ""
 
 msgid "Unable to resolve the current asset. You can still browse and select another file."
+msgstr ""
+
+msgid "Unable to load the required configuration. Refresh the page to try again."
 msgstr ""
 
 msgid "Unable to save resource."

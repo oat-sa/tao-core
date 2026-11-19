@@ -1,1 +1,1 @@
-{"Actions":"\u0641\u0639\u0627\u0644\u06cc\u062a\u200c\u0647\u0627"}
+{"translations":{"Actions":"\u0641\u0639\u0627\u0644\u06cc\u062a\u200c\u0647\u0627"},"pluralForms":"nplurals=2; plural=(n != 1);"}

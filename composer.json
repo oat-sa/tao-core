@@ -73,6 +73,7 @@
         "phpdocumentor/reflection-docblock": "^5.2",
         "pimple/pimple": "^3.0",
         "psr/http-message": "~1.0",
+        "sinergi/browser-detector": "^6.0.2",
         "slim/slim": "^4.0",
         "symfony/dotenv": "^6.4",
         "doctrine/migrations": "^3.7",

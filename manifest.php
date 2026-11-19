@@ -51,6 +51,7 @@ use oat\tao\model\IdentifierGenerator\ServiceProvider\IdentifierGeneratorService
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\infrastructure\ServiceProvider\InfrastructureServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
+use oat\tao\model\browser\ServiceProvider\BrowserServiceProvider;
 use oat\tao\model\listener\PropertyServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\model\menu\MenuServiceProvider;
@@ -74,6 +75,7 @@ use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\EnableFuriganaRubyPlugin;
+use oat\tao\scripts\install\SetWProofreaderConfig;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionAccessControl;
 use oat\tao\scripts\install\RegisterActionService;
@@ -121,6 +123,7 @@ return [
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
         'http://www.tao.lu/middleware/wfEngine.rdf',
+        'http://www.tao.lu/Ontologies/TAOLockDownBrowser.rdf',
     ],
     'install' => [
         'rdf' => [
@@ -136,6 +139,7 @@ return [
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
             __DIR__ . '/models/ontology/webhook.rdf',
             __DIR__ . '/models/ontology/userlocks.rdf',
+            __DIR__ . '/models/ontology/lockDownBrowser.rdf',
         ],
         'checks' => [
             ['type' => 'CheckPHPRuntime', 'value' => ['id' => 'tao_php_runtime', 'min' => '5.4']],
@@ -290,8 +294,9 @@ return [
             RegisterRtlLocales::class,
             RegisterSearchServices::class,
             EnableFuriganaRubyPlugin::class,
+            SetWProofreaderConfig::class,
             RegisterPortalTheme::class,
-            RegisterUniqueIdFeature::class
+            RegisterUniqueIdFeature::class,
         ],
     ],
     'update' => Updater::class,
@@ -380,9 +385,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2026.11 LTS',
+        'TAO_VERSION' => '2026.12',
         #TAO version label
-        'TAO_VERSION_NAME' => '2026.11 LTS',
+        'TAO_VERSION_NAME' => '2026.12',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -448,6 +453,7 @@ return [
         InfrastructureServiceProvider::class,
         SessionSourceServiceProvider::class,
         FrontendActionServiceProvider::class,
+        BrowserServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,

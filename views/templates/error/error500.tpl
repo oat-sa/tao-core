@@ -30,7 +30,8 @@
                     <?= __('It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:') ?>
                 </p>
                 <div class="error-page__form__action-bar">
-                    <a class="button" href="<?= ROOT_URL ?>"><?= __('go back to home page') ?></a>
+                    <a class="button" href="<?= ROOT_URL ?>" data-control="error-home"><?= __('go back to home page') ?></a>
+                    <?php \oat\tao\helpers\Template::inc('error/kiosked-exit.tpl', 'tao'); ?>
                 </div>
             </div>
         </div>
