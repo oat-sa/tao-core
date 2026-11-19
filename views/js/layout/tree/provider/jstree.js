@@ -33,10 +33,11 @@ define([
     'layout/actions',
     'layout/section',
     'layout/permissions',
+    'layout/tree/provider/jstreeInstanceLoadSkip',
     'ui/feedback',
     'uri',
     'jquery.tree'
-], function($, _, __, context, store, Promise, helpers, generisRouter, actionManager, sectionManager, permissionsManager, feedback, uri){
+], function($, _, __, context, store, Promise, helpers, generisRouter, actionManager, sectionManager, permissionsManager, instanceLoadSkip, feedback, uri){
     'use strict';
 
     var pageRange = 30;
@@ -520,7 +521,22 @@ define([
                             store('taotree').then(function(treeStore){
                                 treeStore.setItem(context.section, nodeId).then(function(){
                                     generisRouter.pushNodeState(location.href, uri.decode(nodeContext.uri));
-                                    executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
+                                    var postSaveUri = $container.data('postSaveTreeRefreshUri');
+                                    if (
+                                        $container.data('postSaveTreeRefresh') &&
+                                        postSaveUri &&
+                                        nodeUri &&
+                                        postSaveUri !== nodeUri
+                                    ) {
+                                        clearPostSaveTreeRefreshFlag();
+                                    }
+                                    var selectInstanceAction = options.actions && options.actions.selectInstance;
+                                    if (shouldSkipTreeDrivenInstanceLoad(nodeContext, selectInstanceAction)) {
+                                        clearPostSaveTreeRefreshFlag();
+                                    } else {
+                                        executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
+                                        clearPostSaveTreeRefreshFlag();
+                                    }
                                 });
                             });
                         }
@@ -607,6 +623,13 @@ define([
                         }
 
                         if($container.is(':visible')){
+                            if (node && node.uri) {
+                                $container.data('postSaveTreeRefresh', true);
+                                $container.data(
+                                    'postSaveTreeRefreshUri',
+                                    uri.decode(node.uri) || node.uri
+                                );
+                            }
                             $container.trigger('refresh.taotree', [params]);
                         }
                     });
@@ -788,6 +811,40 @@ define([
                 });
             }
 
+
+            /**
+             * @returns {jQuery|null}
+             */
+            function getSectionContentBlock() {
+                var currentSection = sectionManager.current();
+
+                if (!currentSection || !currentSection.panel) {
+                    return null;
+                }
+
+                var $contentBlock = $(currentSection.panel).find('.content-block').first();
+                return $contentBlock.length ? $contentBlock : null;
+            }
+
+            function clearPostSaveTreeRefreshFlag() {
+                if ($container.data('postSaveTreeRefresh')) {
+                    $container.removeData('postSaveTreeRefresh');
+                }
+                if ($container.data('postSaveTreeRefreshUri')) {
+                    $container.removeData('postSaveTreeRefreshUri');
+                }
+            }
+
+            function shouldSkipTreeDrivenInstanceLoad(nodeContext, selectInstanceAction) {
+                return instanceLoadSkip.shouldSkipTreeDrivenInstanceLoad({
+                    nodeContext: nodeContext,
+                    selectInstanceAction: selectInstanceAction,
+                    postSaveRefresh: !!$container.data('postSaveTreeRefresh'),
+                    postSaveUri: $container.data('postSaveTreeRefreshUri'),
+                    activeContentActionId: $('.content-action-bar .action.active').attr('id'),
+                    $contentBlock: getSectionContentBlock()
+                });
+            }
 
             /**
             * Function executes first found allowed action for tree node.
