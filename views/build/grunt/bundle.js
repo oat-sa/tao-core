@@ -1,21 +1,7 @@
-/*
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; under version 2
- * of the License (non-upgradable).
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * Copyright (c) 2014-2018 (original work) Open Assessment Technlogies SA
- *
- */
+// SPDX-FileCopyrightText: 2014-2026 Open Assessment Technologies S.A.
+// Copyright (C) 2014-2026 (original work) Open Assessment Technologies S.A.
+//
+// SPDX-License-Identifier: GPL-2.0-only
 
 /**
  * Main bundle configuration, as well as for the TAO extension
@@ -27,6 +13,7 @@ module.exports = function (grunt) {
 
     const root = grunt.option('root');
     const workDir = grunt.option('output');
+    const amd = require('../config/requirejs.build.json');
 
     grunt.config.merge({
         bundle: {
@@ -36,13 +23,17 @@ module.exports = function (grunt) {
                 rootPath: root,
                 getExtensionPath: extension => `${root}/${extension}/views/js`,
                 getExtensionCssPath: extension => `${root}/${extension}/views/css`,
-                amd: require('../config/requirejs.build.json'),
+                amd: {
+                    ...amd,
+                    exclude: [...amd.exclude, 'tao/ckeditor/wproofreaderBootstrap', 'tao/ckeditor/wproofreaderExclude']
+                },
                 workDir: workDir,
                 outputDir: 'loader'
             },
             tao: {
                 options: {
                     extension: 'tao',
+                    amd,
                     babelPreTransform: { enabled: true },
                     bundles: [
                         {
