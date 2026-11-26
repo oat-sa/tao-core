@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
  */
@@ -25,6 +25,7 @@ namespace oat\tao\model\user;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\user\UserTimezoneServiceInterface;
+use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\user\implementation\UserSettingsService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -59,5 +60,23 @@ class UserSettingsServiceProvider implements ContainerServiceProviderInterface
                     service(tao_models_classes_LanguageService::class),
                 ]
             );
+
+        $services
+            ->set(OpenMentionEligibleUsersProvider::class, OpenMentionEligibleUsersProvider::class)
+            ->public();
+
+        $services
+            ->alias(MentionEligibleUsersProviderInterface::class, OpenMentionEligibleUsersProvider::class)
+            ->public();
+
+        $services
+            ->set(CommentMentionUserSearchService::class, CommentMentionUserSearchService::class)
+            ->public()
+            ->args([
+                service(Ontology::SERVICE_ID),
+                service(PermissionChecker::class),
+                service(tao_models_classes_UserService::SERVICE_ID),
+                service(MentionEligibleUsersProviderInterface::class),
+            ]);
     }
 }
