@@ -27,7 +27,7 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use core_kernel_persistence_ResourceInterface;
 use core_kernel_persistence_smoothsql_SmoothRdfs;
-use core_kernel_persistence_starsql_StarModel;
+use core_kernel_persistence_smoothsql_SmoothModel;
 use Exception;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceDeleted;
@@ -260,7 +260,7 @@ class ResourceWatcherTest extends TestCase
         $this->resourceImpl->expects($this->once())->method('removePropertyValues');
         $this->resourceImpl->expects($this->once())->method('setPropertyValue');
 
-        $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
+        $ontologyMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
             ->method('getResourceImplementation')
@@ -309,7 +309,7 @@ class ResourceWatcherTest extends TestCase
         $this->resourceImpl->expects($this->once())->method('removePropertyValues');
         $this->resourceImpl->expects($this->once())->method('setPropertyValue');
 
-        $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
+        $ontologyMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
             ->method('getResourceImplementation')
@@ -358,7 +358,7 @@ class ResourceWatcherTest extends TestCase
         $this->resourceImpl->expects($this->once())->method('removePropertyValues');
         $this->resourceImpl->expects($this->once())->method('setPropertyValue');
 
-        $ontologyMock = $this->createMock(core_kernel_persistence_starsql_StarModel::class);
+        $ontologyMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothModel::class);
         $rdfsInterfaceMock = $this->createMock(core_kernel_persistence_smoothsql_SmoothRdfs::class);
         $rdfsInterfaceMock->expects($this->once())
             ->method('getResourceImplementation')

@@ -23,12 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\form\DataProvider;
 
-use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\generis\model\kernel\persistence\DataProvider\form\FormDTOProviderInterface;
-use oat\generis\model\kernel\persistence\starsql\DataProvider\form\FormDTOProvider;
-use oat\generis\model\kernel\persistence\starsql\LanguageProcessor;
-use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 use oat\tao\model\Language\Filter\LanguageAllowedFilter;
 use oat\tao\model\Language\Service\LanguageListElementSortService;
@@ -46,26 +41,7 @@ class FormDataProviderServiceProvider implements ContainerServiceProviderInterfa
     {
         $services = $configurator->services();
 
-        $services->set(FormDTOProviderInterface::class, FormDTOProvider::class)
-            ->public()
-            ->args(
-                [
-                    service(Ontology::SERVICE_ID),
-                    service(LanguageProcessor::class),
-                    service(UserLanguageServiceInterface::SERVICE_ID),
-                ]
-            );
-
-        $services->set(BulkFormDataProvider::class, BulkFormDataProvider::class)
-            ->public()
-            ->args(
-                [
-                    service(Ontology::SERVICE_ID),
-                    service(FormDTOProviderInterface::class),
-                ]
-            );
-
-        $services->set(OntologyFormDataProvider::class, OntologyFormDataProvider::class)
+        $services->set(FormDataProviderInterface::class, OntologyFormDataProvider::class)
             ->public()
             ->args(
                 [
@@ -73,16 +49,6 @@ class FormDataProviderServiceProvider implements ContainerServiceProviderInterfa
                     service(LanguageListElementSortService::class),
                     service(ValueCollectionService::class),
                     service(LanguageAllowedFilter::class),
-                ]
-            );
-
-        $services->set(ProxyFormDataProvider::class, ProxyFormDataProvider::class)
-            ->public()
-            ->args(
-                [
-                    service(Ontology::SERVICE_ID),
-                    service(BulkFormDataProvider::class),
-                    service(OntologyFormDataProvider::class),
                 ]
             );
     }

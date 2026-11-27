@@ -29,7 +29,6 @@ use oat\tao\helpers\form\ElementMapFactory;
 use oat\tao\helpers\form\elements\ElementValue;
 use oat\tao\model\ClassProperty\PropertyRestrictionGuard;
 use oat\tao\model\form\DataProvider\FormDataProviderInterface;
-use oat\tao\model\form\DataProvider\ProxyFormDataProvider;
 use core_kernel_classes_Property as Property;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use core_kernel_classes_Resource as Resource;
@@ -236,7 +235,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
     private function getFormDataProvider(): FormDataProviderInterface
     {
-        return $this->getServiceLocator()->getContainer()->get(ProxyFormDataProvider::class)->getProvider();
+        return $this->getServiceLocator()->getContainer()->get(FormDataProviderInterface::class);
     }
 
     private function isEmptyLabel($element): bool
