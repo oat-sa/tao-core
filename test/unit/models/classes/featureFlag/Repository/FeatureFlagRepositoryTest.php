@@ -233,7 +233,7 @@ class FeatureFlagRepositoryTest extends TestCase
         $this->cache
             ->expects($this->once())
             ->method('set')
-            ->willReturn(null);
+            ->willReturn(true);
 
         $this->ontology
             ->expects($this->once())
